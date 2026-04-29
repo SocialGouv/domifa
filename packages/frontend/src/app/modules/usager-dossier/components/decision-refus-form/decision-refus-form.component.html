@@ -13,12 +13,6 @@
   dialogId="decisionRefusModal"
 >
   <form [formGroup]="refusForm" (ngSubmit)="setDecisionRefus()">
-    <p>
-      Les champs suivis d'un
-      <span class="fr-text--bold fr-text-default--error">*</span> sont
-      obligatoires
-    </p>
-
     <div class="fr-grid-row fr-grid-row--gutters fr-mb-3w">
       <div class="fr-col-md-6">
         <dsfr-ext-datepicker
@@ -47,7 +41,6 @@
         >
           <label class="fr-label" for="motifRefusSelectModal">
             Pour quel motif ?
-            <span class="fr-text--bold fr-text-default--error">*</span>
           </label>
           <select
             class="fr-select"
@@ -87,7 +80,6 @@
         >
           <label class="fr-label" for="motifRefusAutreModal">
             Autre motif de refus (10 caractères minimum)
-            <span class="fr-text--bold fr-text-default--error">*</span>
           </label>
           <input
             type="text"
@@ -127,7 +119,6 @@
         >
           <label class="fr-label" for="orientationRefusSelectModal">
             Orientation proposée
-            <span class="fr-text--bold fr-text-default--error">*</span>
           </label>
           <select
             class="fr-select"
@@ -169,7 +160,7 @@
           "
         >
           <label class="fr-label" for="orientationRefusDetailsModal">
-            Précisez l'orientation choisie (5 caractères minimum) *
+            Précisez l'orientation choisie (5 caractères minimum)
           </label>
           <input
             type="text"
@@ -228,7 +219,7 @@
     <div class="fr-col-md-6">
       <dsfr-ext-datepicker
         formControlName="dateFin"
-        label="Date du refus *"
+        label="Date du refus"
         [min]="minDate"
         [max]="maxDateRefus"
         [required]="true"
@@ -251,7 +242,6 @@
       >
         <label class="fr-label" for="motifRefusSelect">
           Pour quel motif ?
-          <span class="fr-text--bold fr-text-default--error">*</span>
         </label>
         <select
           class="fr-select"
@@ -291,7 +281,6 @@
       >
         <label class="fr-label" for="motifRefusAutre">
           Autre motif de refus (10 caractères minimum)
-          <span class="fr-text--bold fr-text-default--error">*</span>
         </label>
         <input
           type="text"
@@ -331,7 +320,6 @@
       >
         <label class="fr-label" for="orientationRefusSelect">
           Orientation proposée
-          <span class="fr-text--bold fr-text-default--error">*</span>
         </label>
         <select
           class="fr-select"
@@ -374,7 +362,6 @@
       >
         <label class="fr-label" for="orientationRefusDetails">
           Précisez l'orientation choisie
-          <span class="fr-text--bold fr-text-default--error">*</span>
         </label>
         <input
           type="text"

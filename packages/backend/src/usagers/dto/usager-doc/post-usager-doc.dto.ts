@@ -1,5 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString, MaxLength, MinLength } from "class-validator";
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+} from "class-validator";
+import { Transform } from "class-transformer";
 import { StripTagsTransform, Trim } from "../../../_common/decorators";
 
 export class PostUsagerDocDto {
@@ -18,4 +26,14 @@ export class PostUsagerDocDto {
 
   @ApiProperty({ type: "string", format: "binary" })
   public file: any;
+
+  @ApiProperty({
+    type: Boolean,
+    required: false,
+    default: false,
+  })
+  @IsOptional()
+  @IsBoolean()
+  @Transform(({ value }) => value === "true" || value === true)
+  public shared?: boolean;
 }

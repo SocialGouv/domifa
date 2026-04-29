@@ -59,7 +59,6 @@
     </div>
   </div>
 
-  <p class="fr-text-default--error fr-mt-2w">Champs obligatoires *</p>
   <div class="fr-py-4w">
     <form [formGroup]="contactForm" (ngSubmit)="sendContactMessage()">
       <input formControlName="userId" name="userId" type="hidden" />
@@ -72,7 +71,7 @@
           (submitted || f.name.dirty) && f.name.errors
         "
       >
-        <label class="fr-label" for="name"> Votre nom * </label>
+        <label class="fr-label" for="name"> Votre nom </label>
         <input
           type="text"
           class="fr-input"
@@ -113,7 +112,7 @@
         "
       >
         <label class="fr-label" for="structureName">
-          Nom de votre structure *
+          Nom de votre structure
         </label>
         <input
           autocomplete="organization"
@@ -156,7 +155,7 @@
             "
           >
             <label class="fr-label" for="email">
-              Adresse email de contact *
+              Adresse email de contact
             </label>
             <p class="fr-hint-text">Format attendu : nom&#64;domaine.fr</p>
             <input
@@ -206,7 +205,7 @@
       >
         <label class="fr-label" for="subject">
           Objet de votre message: demande de support, partenariat, formation,
-          etc. *
+          etc.
         </label>
         <input
           type="text"
@@ -246,7 +245,7 @@
           (f.content.dirty || submitted) && f.content.errors
         "
       >
-        <label class="fr-label" for="content"> Votre message * </label>
+        <label class="fr-label" for="content"> Votre message </label>
         <textarea
           class="fr-input"
           formControlName="content"

@@ -12,11 +12,6 @@
   dialogId="decisionStandbyModal"
 >
   <form [formGroup]="addNoteForm" (ngSubmit)="submit()">
-    <p>
-      Les champs suivis d'un
-      <span class="fr-text--bold text-error">*</span> sont obligatoires
-    </p>
-
     <div
       class="fr-input-group"
       [class.fr-input-group--error]="
@@ -25,7 +20,7 @@
     >
       <label class="fr-label" for="message">
         Motif d'ajournement du dossier (Exemples: document manquant, dossier
-        incomplet, etc.) *
+        incomplet, etc.)
       </label>
       <textarea
         class="fr-input"
@@ -77,11 +72,6 @@
 </dsfr-modal>
 } @if (template === 'input') {
 <form [formGroup]="addNoteForm" (ngSubmit)="submit()">
-  <p>
-    Les champs suivis d'un
-    <span class="fr-text--bold text-error">*</span> sont obligatoires
-  </p>
-
   <div
     class="fr-input-group"
     [class.fr-input-group--error]="
@@ -90,7 +80,7 @@
   >
     <label class="fr-label" for="message-input">
       Motif d'ajournement du dossier (Exemples: document manquant, dossier
-      incomplet, etc.) *
+      incomplet, etc.)
     </label>
     <textarea
       class="fr-input"

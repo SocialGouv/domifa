@@ -46,15 +46,6 @@ export class DecouvrirDomifaComponent {
       current: false,
       detailBottom: "",
     },
-    {
-      heading: "Décembre 2025",
-      description:
-        "DomiFa est reconnu service numérique à impact national par la Direction interministérielle du numérique (DINUM). ",
-      actions: [],
-      headingLevel: "H3",
-      current: false,
-      detailBottom: "",
-    },
   ];
 
   constructor(

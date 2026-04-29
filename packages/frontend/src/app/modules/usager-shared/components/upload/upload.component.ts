@@ -22,6 +22,7 @@ import {
   validateUpload,
 } from "../../../../shared";
 import { UsagerFormModel } from "../../interfaces";
+import { UserStructure } from "@domifa/common";
 
 @Component({
   selector: "app-upload",
@@ -37,6 +38,7 @@ export class UploadComponent implements OnInit, OnDestroy {
 
   @Output() public readonly getUsagerDocs = new EventEmitter<void>();
   @Input({ required: true }) public usager!: UsagerFormModel;
+  @Input({ required: true }) public me!: UserStructure;
 
   private readonly subscription = new Subscription();
 
@@ -65,6 +67,7 @@ export class UploadComponent implements OnInit, OnDestroy {
           Validators.maxLength(100),
         ],
       ],
+      shared: [false],
     });
   }
 
@@ -95,6 +98,7 @@ export class UploadComponent implements OnInit, OnDestroy {
     const formData = new FormData();
     formData.append("file", this.uploadForm.controls.fileSource.value);
     formData.append("label", this.uploadForm.controls.label.value);
+    formData.append("shared", this.uploadForm.controls.shared.value);
     this.subscription.add(
       this.documentService.upload(formData, this.usager.ref).subscribe({
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -4,7 +4,7 @@
   (click)="openRadiationModal()"
   class="fr-btn fr-btn--secondary fr-ml-1w"
 >
-  <span class="fr-icon-pause-circle-fill" aria-hidden="true"></span>
+  <span class="fr-icon-close-line fr-mr-1w" aria-hidden="true"></span>
   Radier le domicilié
 </button>
 } @if (context === 'MANAGE') {
@@ -64,7 +64,7 @@
       <div class="fr-col-12 fr-col-md-6">
         <dsfr-ext-datepicker
           formControlName="dateFin"
-          label="Date de la radiation *"
+          label="Date de la radiation"
           [min]="minDate"
           [max]="maxDate"
           [required]="true"
@@ -87,7 +87,7 @@
           "
         >
           <label class="fr-label" for="motif">
-            Merci d'indiquer le motif *
+            Merci d'indiquer le motif
           </label>
           <select
             class="fr-select"
@@ -131,7 +131,7 @@
           "
         >
           <label class="fr-label" for="motifAutre">
-            Autre motif de radiation (10 caractères minimum) *
+            Autre motif de radiation (10 caractères minimum)
           </label>
           <input
             type="text"

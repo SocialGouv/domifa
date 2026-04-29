@@ -65,11 +65,6 @@
             [formGroup]="structureSmsForm"
             (ngSubmit)="submitStructureSmsForm()"
           >
-            <p class="fr-mt-2w">
-              Les champs suivis d'un
-              <span class="fr-text-default--error">*</span> sont obligatoires
-            </p>
-
             <div class="fr-toggle fr-mb-3w">
               <input
                 type="checkbox"
@@ -96,9 +91,7 @@
                     form.senderName.errors
                   "
                 >
-                  <label class="fr-label" for="senderName">
-                    Expéditeur *
-                  </label>
+                  <label class="fr-label" for="senderName"> Expéditeur </label>
                   <p class="fr-hint-text" id="sender-name-help">
                     Veuillez n'utiliser que des lettres (11 maximum)
                   </p>
@@ -146,7 +139,7 @@
                   "
                 >
                   <label class="fr-label" for="senderDetails">
-                    Signature du message *
+                    Signature du message
                   </label>
                   <p class="fr-hint-text" id="sender-details-help">
                     30 caractères maximum
@@ -192,7 +185,6 @@
               <legend class="fr-fieldset__legend">
                 Quel(s) jour(s) souhaitez-vous envoyer les SMS (2 jours par
                 semaine maximum)
-                <span class="fr-text-default--error">*</span>
               </legend>
 
               <div class="fr-fieldset__element fr-fieldset__element--inline">

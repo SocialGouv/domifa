@@ -14,7 +14,7 @@
         class="fr-input-group"
         [class.fr-input-group--error]="submitted && f.title.errors"
       >
-        <label for="title" class="fr-label">Titre * </label>
+        <label for="title" class="fr-label">Titre </label>
         <input
           id="title"
           type="text"
@@ -40,7 +40,7 @@
         class="fr-select-group"
         [class.fr-select-group--error]="submitted && f.type.errors"
       >
-        <label for="type" class="fr-label">Type d'information * </label>
+        <label for="type" class="fr-label">Type d'information </label>
         <select
           id="type"
           formControlName="type"
@@ -67,56 +67,6 @@
           Le type d'information est obligatoire
         </p>
       </div>
-
-      <div
-        class="fr-input-group"
-        [class.fr-input-group--error]="
-          (f.description.dirty || submitted) && f.description.errors
-        "
-      >
-        <label for="description" class="fr-label"
-          >Contenu de l'information
-        </label>
-
-        <dsfrx-editor
-          id="description"
-          formControlName="description"
-          [value]="f.description.value"
-          (onChange)="onEditorChange()"
-          [required]="true"
-          [hint]="null"
-          editorId="editor-description"
-          [toolbarOptions]="toolbarOptions"
-        ></dsfrx-editor>
-
-        <div
-          *ngIf="
-            tempMessageForm.get('description')?.invalid &&
-            (tempMessageForm.get('description')?.dirty ||
-              tempMessageForm.get('description')?.touched)
-          "
-        >
-          <p
-            class="fr-error-text"
-            *ngIf="tempMessageForm.get('description')?.errors?.['required']"
-          >
-            La description est requise.
-          </p>
-          <p
-            class="fr-error-text"
-            *ngIf="tempMessageForm.get('description')?.errors?.['minlength']"
-          >
-            La description doit contenir au moins 10 caractères.
-          </p>
-          <p
-            class="fr-error-text"
-            *ngIf="tempMessageForm.get('description')?.errors?.['invalidContent']"
-          >
-            Le contenu de la description n'est pas valide.
-          </p>
-        </div>
-      </div>
-
       <div class="fr-toggle">
         <input
           type="checkbox"
@@ -162,6 +112,54 @@
             "
             [messageSeverity]="'error'"
           ></dsfr-ext-datepicker>
+        </div>
+      </div>
+      <div
+        class="fr-input-group fr-my-3w"
+        [class.fr-input-group--error]="
+          (f.description.dirty || submitted) && f.description.errors
+        "
+      >
+        <label for="description" class="fr-label"
+          >Contenu de l'information
+        </label>
+
+        <dsfrx-editor
+          id="description"
+          formControlName="description"
+          [value]="f.description.value"
+          (onChange)="onEditorChange()"
+          [required]="true"
+          [hint]="null"
+          editorId="editor-description"
+          [toolbarOptions]="toolbarOptions"
+        ></dsfrx-editor>
+
+        <div
+          *ngIf="
+            tempMessageForm.get('description')?.invalid &&
+            (tempMessageForm.get('description')?.dirty ||
+              tempMessageForm.get('description')?.touched)
+          "
+        >
+          <p
+            class="fr-error-text"
+            *ngIf="tempMessageForm.get('description')?.errors?.['required']"
+          >
+            La description est requise.
+          </p>
+          <p
+            class="fr-error-text"
+            *ngIf="tempMessageForm.get('description')?.errors?.['minlength']"
+          >
+            La description doit contenir au moins 10 caractères.
+          </p>
+          <p
+            class="fr-error-text"
+            *ngIf="tempMessageForm.get('description')?.errors?.['invalidContent']"
+          >
+            Le contenu de la description n'est pas valide.
+          </p>
         </div>
       </div>
     </form>

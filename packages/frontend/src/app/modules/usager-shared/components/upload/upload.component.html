@@ -13,7 +13,7 @@
         class="fr-form-group required"
         [class.fr-form-group--error]="submitted && u.label.errors"
       >
-        <label class="fr-label" for="label"> Nom du document * </label>
+        <label class="fr-label" for="label"> Nom du document </label>
         <p id="label-hint" class="fr-hint-text">
           Exemple : Cerfa signé, impôts, carte identité, etc.
         </p>
@@ -50,7 +50,7 @@
         class="fr-form-group required"
         [class.fr-form-group--error]="submitted && u.fileSource.errors"
       >
-        <label class="fr-label" for="file"> Document à enregistrer * </label>
+        <label class="fr-label" for="file"> Document à enregistrer </label>
         <p id="file-hint" class="fr-hint-text">
           Formats autorisés : .pdf, .jpg, .png. Taille maximale : 6 Mo
         </p>
@@ -107,13 +107,17 @@
 
     <div
       class="fr-col-12 fr-col-md-12"
-      *ngIf="usager.options.portailUsagerEnabled"
+      *ngIf="
+        me.structure?.portailUsager?.enabledByStructure &&
+        usager.options.portailUsagerEnabled
+      "
     >
       <div class="fr-toggle">
         <input
           type="checkbox"
           class="fr-toggle__input"
           id="toggle-2"
+          formControlName="shared"
           aria-describedby="toggle-2-messages"
         />
         <label class="fr-toggle__label" for="toggle-2"

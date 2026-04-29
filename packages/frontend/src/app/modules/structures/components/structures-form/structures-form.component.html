@@ -117,8 +117,6 @@
         </p>
       </div>
 
-      <p class="fr-text-danger fr-my-3w">* champs obligatoires</p>
-
       <!-- Étape 1: Structure -->
       @if (structureRegisterInfos.etapeInscription === 0 && structureForm) {
       <form [formGroup]="structureForm" (ngSubmit)="submitStrucutre()">
@@ -150,7 +148,6 @@
               id="type-structure-choice-legend"
             >
               A quel type de structure appartenez-vous ?
-              <span class="fr-text-default--error">* </span>
             </legend>
 
             <div class="fr-fieldset__element fr-fieldset__element--inline">
@@ -218,7 +215,7 @@
                 class="fr-input-group fr-input-group--required"
               >
                 <label class="fr-label" for="nom">
-                  Raison sociale (nom de la structure) *
+                  Raison sociale (nom de la structure)
                 </label>
                 <input
                   type="text"
@@ -365,7 +362,7 @@
               class="fr-col-12 fr-col-md-6 fr-select-group fr-select-group--required"
             >
               <label class="fr-label" for="departement">
-                Préfecture ayant délivré l'agrément *
+                Préfecture ayant délivré l'agrément
               </label>
               <p class="empty-hint"></p>
 
@@ -417,9 +414,7 @@
                 "
                 class="fr-input-group fr-input-group--required"
               >
-                <label class="fr-label" for="agrement"
-                  >Numéro d'agrément *</label
-                >
+                <label class="fr-label" for="agrement">Numéro d'agrément</label>
                 <input
                   formControlName="agrement"
                   name="agrement"
@@ -471,6 +466,7 @@
                   id="capacite"
                   min="0"
                   type="number"
+                  required
                   [attr.aria-describedby]="
                     (submitted || f.capacite.dirty) && f.capacite.errors
                       ? 'capacite-errors'
@@ -505,7 +501,7 @@
               class="fr-col-12 fr-col-md-6 fr-select-group fr-select-group--required"
             >
               <label class="fr-label" for="organismeType">
-                Type d'organisme agréé *
+                Type d'organisme agréé
               </label>
               <select
                 id="organismeType"
@@ -563,6 +559,7 @@
                 id="reseau"
                 formControlName="reseau"
                 name="reseau"
+                required
                 [attr.aria-describedby]="
                   (submitted || f.reseau?.dirty) && f.reseau?.errors
                     ? 'reseau-type-errors'
@@ -709,7 +706,7 @@
                 "
                 class="fr-input-group fr-input-group--required"
               >
-                <label class="fr-label" for="responsable-nom">Nom *</label>
+                <label class="fr-label" for="responsable-nom">Nom</label>
                 <p class="empty-hint"></p>
 
                 <input
@@ -759,7 +756,7 @@
                 class="fr-input-group fr-input-group--required"
               >
                 <label class="fr-label" for="responsable-prenom">
-                  Prénom(s) *
+                  Prénom(s)
                 </label>
                 <p class="empty-hint"></p>
 
@@ -809,7 +806,7 @@
                 "
                 class="fr-input-group fr-input-group--required"
               >
-                <label class="fr-label" for="fonction">Fonction *</label>
+                <label class="fr-label" for="fonction">Fonction</label>
                 <p class="fr-hint-text">Ex : Directeur, Président, etc..</p>
                 <input
                   type="text"
@@ -880,7 +877,7 @@
                 class="fr-input-group fr-input-group--required"
               >
                 <label class="fr-label" for="adresse">
-                  Adresse de l'organisme domiciliataire *
+                  Adresse de l'organisme domiciliataire
                 </label>
                 <input
                   id="adresse"
@@ -946,7 +943,7 @@
                 "
                 class="fr-input-group fr-input-group--required"
               >
-                <label class="fr-label" for="codePostal">Code postal *</label>
+                <label class="fr-label" for="codePostal">Code postal</label>
                 <input
                   type="text"
                   class="fr-input"
@@ -990,7 +987,7 @@
                 "
                 class="fr-input-group fr-input-group--required"
               >
-                <label class="fr-label" for="ville">Ville *</label>
+                <label class="fr-label" for="ville">Ville</label>
                 <input
                   type="text"
                   class="fr-input"
@@ -1058,7 +1055,7 @@
                   class="fr-input-group fr-input-group--required"
                 >
                   <label class="fr-label" for="adresse2">
-                    Adresse de réception du courrier *
+                    Adresse de réception du courrier
                   </label>
                   <input
                     type="text"
@@ -1107,7 +1104,7 @@
                   class="fr-input-group fr-input-group--required"
                 >
                   <label class="fr-label" for="codePostal2">
-                    Code postal *
+                    Code postal
                   </label>
                   <input
                     type="text"
@@ -1158,7 +1155,7 @@
                   "
                   class="fr-input-group fr-input-group--required"
                 >
-                  <label class="fr-label" for="ville2">Ville *</label>
+                  <label class="fr-label" for="ville2">Ville</label>
                   <input
                     type="text"
                     class="fr-input"
@@ -1271,7 +1268,7 @@
                 "
                 class="fr-input-group fr-input-group--required"
               >
-                <label class="fr-label" for="email">E-mail *</label>
+                <label class="fr-label" for="email">E-mail</label>
                 <p class="fr-hint-text">format attendu : nom&#64;domaine.fr</p>
                 <input
                   type="email"
@@ -1338,7 +1335,7 @@
                 class="fr-col-12 fr-select-group fr-select-group--required"
               >
                 <label class="fr-label" for="source">
-                  Comment avez-vous entendu parler de DomiFa ? *
+                  Comment avez-vous entendu parler de DomiFa ?
                 </label>
                 <select
                   class="fr-select"
@@ -1390,7 +1387,7 @@
                   class="fr-input-group fr-input-group--required"
                 >
                   <label class="fr-label" for="sourceDetail">
-                    Précisez : *
+                    Précisez :
                   </label>
                   <input
                     type="text"
@@ -1427,7 +1424,7 @@
               >
                 <label class="fr-label" for="currentTool">
                   Comment gériez-vous la domiciliation avant la mise en place de
-                  DomiFa ? *
+                  DomiFa ?
                 </label>
                 <select
                   class="fr-select"
@@ -1480,7 +1477,7 @@
                 class="fr-col-6 fr-select-group fr-select-group--required"
               >
                 <label class="fr-label" for="marketTool">
-                  Quel outil du marché utilisez-vous ? *
+                  Quel outil du marché utilisez-vous ?
                 </label>
                 <select
                   class="fr-select"
@@ -1535,7 +1532,7 @@
                   class="fr-input-group fr-input-group--required"
                 >
                   <label class="fr-label" for="marketToolOther">
-                    Précisez l'outil : *
+                    Précisez l'outil :
                   </label>
                   <input
                     type="text"
@@ -1588,7 +1585,7 @@
                   class="fr-input-group fr-input-group--required"
                 >
                   <label class="fr-label" for="activeUsersCount">
-                    Nombre de domiciliés à date *
+                    Nombre de domiciliés à date
                   </label>
                   <input
                     formControlName="activeUsersCount"

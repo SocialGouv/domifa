@@ -1,7 +1,4 @@
 <h1 class="fr-h3">Se connecter avec mon compte</h1>
-<span class="fr-col-12 fr-col-md-12 fr-text-default--error">
-  * champs obligatoires
-</span>
 <form
   [formGroup]="loginForm"
   class="fr-display-flex fr-flex-column fr-gap-3w fr-pt-md-4w"
@@ -18,7 +15,7 @@
     "
     class="fr-input-group required"
   >
-    <label class="fr-label" for="email">Adresse email *</label>
+    <label class="fr-label" for="email">Adresse email</label>
     <p class="fr-hint-text">Format attendu : nom&#64;domaine.fr</p>
     <input
       type="email"
@@ -48,7 +45,7 @@
   >
     <div class="fr-password" id="passwordContainer">
       <label class="fr-password__label fr-label" for="password">
-        Mot de passe *
+        Mot de passe
       </label>
       <div class="fr-input-wrap">
         <input
