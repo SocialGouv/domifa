@@ -84,10 +84,15 @@ export class ManageStructureInformationFormComponent implements OnDestroy {
 
   public closeModal(): void {
     this.structureInformation = null;
+    this.submitted = false;
+    this.loading = false;
+    this.tempMessageForm?.reset();
     this.editorModal.close();
   }
 
   initForm(): void {
+    this.subscription.unsubscribe();
+    this.subscription = new Subscription();
     this.tempMessageForm = this.fb.group(
       {
         title: [this.structureInformation?.title ?? "", Validators.required],

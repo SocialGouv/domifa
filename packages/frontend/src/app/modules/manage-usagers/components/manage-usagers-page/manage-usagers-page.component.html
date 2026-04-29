@@ -217,7 +217,9 @@
     </div>
 
     <div class="fr-content">
-      <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--bottom">
+      <div
+        class="fr-grid-row fr-grid-row--gutters fr-grid-row--bottom d-print-none"
+      >
         <div class="fr-col-auto">
           <div class="fr-select-group">
             <label class="fr-label" for="searchStringField">
@@ -292,11 +294,23 @@
             aria-controls="filter-zone"
             (click)="showFilters = !showFilters"
           >
-            Filtrer @if (activeFilterCount > 0) {
-            <span class="fr-badge fr-badge--sm fr-badge--info fr-ml-1w">
-              {{ activeFilterCount }}
-            </span>
-            }
+            {{ showFilters ? "Masquer les filtres" : "Filtrer" }}
+          </button>
+        </div>
+
+        <div class="fr-col-auto">
+          <button
+            type="button"
+            class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-printer-line"
+            (click)="goToPrint()"
+            [disabled]="needToPrint"
+          >
+            @if (needToPrint) {
+            <span
+              class="fr-icon-refresh-line fr-icon--spin fr-mr-1w"
+              aria-hidden="true"
+            ></span>
+            Impression en cours... } @else { Imprimer }
           </button>
         </div>
       </div>

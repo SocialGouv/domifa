@@ -43,8 +43,13 @@
 
     @if (currentStep === 0) {
     <p>
-      💡 Explorer l'ensemble des fonctionnalités: documentation en ligne.<br />
-      💬 Une question ? Contactez l'équipe DomiFa via le formulaire de contact.
+      💡 Explorer l'ensemble des fonctionnalités :
+      <a href="javascript:void(0)" (click)="goToFaq()">documentation en ligne</a
+      >.<br />
+      💬 Une question ? Contactez l'équipe DomiFa via le
+      <a href="javascript:void(0)" (click)="goToContact()"
+        >formulaire de contact</a
+      >.
     </p>
 
     <p>👉🏽 Découvrir mes premières actions dans la page suivante.</p>
