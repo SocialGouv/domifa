@@ -596,7 +596,7 @@
             </div>
 
             <!-- DSP -->
-            <div class="fr-col-12">
+            <div class="fr-col-12" formGroupName="registrationData">
               <fieldset
                 id="dsp-fieldset"
                 class="fr-fieldset"
@@ -628,7 +628,7 @@
                       id="dsp-oui"
                       formControlName="dsp"
                       name="dsp"
-                      [ngValue]="true"
+                      [value]="true"
                       [attr.aria-invalid]="
                         (submitted || dsp?.dirty) && dsp?.errors ? true : false
                       "
@@ -649,7 +649,7 @@
                       id="dsp-non"
                       formControlName="dsp"
                       name="dsp"
-                      [ngValue]="false"
+                      [value]="false"
                       [attr.aria-invalid]="
                         (submitted || dsp?.dirty) && dsp?.errors ? true : false
                       "

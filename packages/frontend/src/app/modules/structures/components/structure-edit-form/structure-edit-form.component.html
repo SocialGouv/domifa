@@ -1205,12 +1205,15 @@
 
     <!-- DSP (conditionnel : asso uniquement) -->
     @if (f.structureType.value === 'asso') {
-    <div class="fr-grid-row fr-grid-row--gutters fr-mt-2w">
+    <div
+      formGroupName="registrationData"
+      class="fr-grid-row fr-grid-row--gutters fr-mt-2w"
+    >
       <div class="fr-col-12">
         <fieldset
           class="fr-fieldset"
           [class.fr-fieldset--error]="
-            (submitted || f.dsp?.dirty) && f.dsp?.errors
+            (submitted || reg.dsp?.dirty) && reg.dsp?.errors
           "
           aria-labelledby="dsp-legend dsp-messages"
         >
@@ -1230,7 +1233,7 @@
                 id="dsp-oui"
                 formControlName="dsp"
                 name="dsp"
-                [ngValue]="true"
+                [value]="true"
               />
               <label class="fr-label" for="dsp-oui">Oui</label>
             </div>
@@ -1243,14 +1246,14 @@
                 id="dsp-non"
                 formControlName="dsp"
                 name="dsp"
-                [ngValue]="false"
+                [value]="false"
               />
               <label class="fr-label" for="dsp-non">Non</label>
             </div>
           </div>
 
           <div class="fr-messages-group" id="dsp-messages" aria-live="polite">
-            @if ((submitted || f.dsp?.dirty) && f.dsp?.errors) {
+            @if ((submitted || reg.dsp?.dirty) && reg.dsp?.errors) {
             <p class="fr-message fr-message--error">Ce champ est requis</p>
             }
           </div>

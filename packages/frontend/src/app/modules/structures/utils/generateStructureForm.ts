@@ -44,10 +44,6 @@ export function createform(
       structure.structureType === "asso" ? [Validators.required] : [],
     ],
     capacite: [structure.capacite, [Validators.required]],
-    dsp: [
-      structure?.registrationData?.dsp ?? null,
-      structure.structureType === "asso" ? [Validators.required] : [],
-    ],
     complementAdresse: [structure.complementAdresse, []],
     departement: [structure.departement, []],
     email: [structure.email, [Validators.required, Validators.email]],
@@ -125,6 +121,10 @@ export function createform(
       ],
       marketTool: [structure.registrationData?.marketTool, []],
       marketToolOther: [structure.registrationData?.marketToolOther, []],
+      dsp: [
+        structure?.registrationData?.dsp ?? null,
+        structure.structureType === "asso" ? [Validators.required] : [],
+      ],
     }),
   };
 
@@ -158,18 +158,21 @@ export const setupFormSubscriptions = (
       form.get("agrement")?.setValidators(null);
       form.get("departement")?.setValidators(null);
       form.get("organismeType")?.setValidators(null);
-      form.get("dsp")?.setValidators(null);
+      form.get("registrationData")?.get("dsp")?.setValidators(null);
 
       if (value === "asso") {
         form.get("agrement")?.setValidators(Validators.required);
         form.get("departement")?.setValidators(Validators.required);
-        form.get("dsp")?.setValidators(Validators.required);
+        form
+          .get("registrationData")
+          ?.get("dsp")
+          ?.setValidators(Validators.required);
       }
 
       form.get("agrement")?.updateValueAndValidity();
       form.get("departement")?.updateValueAndValidity();
       form.get("organismeType")?.updateValueAndValidity();
-      form.get("dsp")?.updateValueAndValidity();
+      form.get("registrationData")?.get("dsp")?.updateValueAndValidity();
     })
   );
 

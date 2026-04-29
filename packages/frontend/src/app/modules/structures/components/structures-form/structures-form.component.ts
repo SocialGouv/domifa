@@ -107,7 +107,7 @@ export class StructuresFormComponent implements OnInit, OnDestroy {
   }
 
   public get dsp(): AbstractControl {
-    return this.structureForm.get("dsp");
+    return this.structureForm.get("registrationData")?.get("dsp");
   }
 
   public ngOnInit(): void {

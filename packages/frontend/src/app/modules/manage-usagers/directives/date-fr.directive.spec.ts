@@ -11,6 +11,7 @@ import { By } from "@angular/platform-browser";
 import { DateFrDirective } from "./date-fr.directive";
 
 @Component({
+  standalone: false,
   template: ` <input type="text" name="dateNaissance" dateFr /> `,
 })
 class TestHoverFocusComponent {
