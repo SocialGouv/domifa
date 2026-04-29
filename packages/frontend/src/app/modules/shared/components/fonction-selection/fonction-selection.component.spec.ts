@@ -13,6 +13,7 @@ import { By } from "@angular/platform-browser";
 import { Component, ViewChild } from "@angular/core";
 
 @Component({
+  standalone: false,
   template: `
     <form [formGroup]="parentForm">
       <app-fonction-selection
