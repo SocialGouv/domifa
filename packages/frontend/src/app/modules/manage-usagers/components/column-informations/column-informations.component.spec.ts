@@ -3,10 +3,13 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { ColumnInformationsComponent } from "./column-informations.component";
 import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks";
-import { APP_BASE_HREF } from "@angular/common";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { APP_BASE_HREF, registerLocaleData } from "@angular/common";
+import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID } from "@angular/core";
+import localeFr from "@angular/common/locales/fr";
 
 import { UsagerSharedModule } from "../../../usager-shared/usager-shared.module";
+
+registerLocaleData(localeFr);
 
 describe("ColumnInformationsComponent", () => {
   let component: ColumnInformationsComponent;
@@ -14,9 +17,11 @@ describe("ColumnInformationsComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ColumnInformationsComponent],
-      imports: [UsagerSharedModule],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      imports: [ColumnInformationsComponent, UsagerSharedModule],
+      providers: [
+        { provide: APP_BASE_HREF, useValue: "/" },
+        { provide: LOCALE_ID, useValue: "fr-FR" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 

@@ -52,7 +52,7 @@ describe("EtatCivilParentFormComponent", () => {
     const testForm: any = {
       ayantsDroits: [
         {
-          dateNaissance: { year: 2022, month: 8, day: 1 },
+          dateNaissance: "01/08/2022",
           lien: "ENFANT",
           nom: "AD NOM",
           prenom: "AD PRENOM",
@@ -61,11 +61,7 @@ describe("EtatCivilParentFormComponent", () => {
       ayantsDroitsExist: true,
       contactByPhone: true,
       customRef: null,
-      dateNaissance: {
-        day: 3,
-        month: 8,
-        year: 2022,
-      },
+      dateNaissance: "03/08/2022",
       email: "",
       langue: "ar",
       nom: "TEST",
@@ -75,13 +71,8 @@ describe("EtatCivilParentFormComponent", () => {
       surnom: "Chips",
       numeroDistribution: "TSA 1000",
       telephone: {
-        countryCode: "FR",
-        dialCode: "+33",
-        e164Number: "+33606060606",
-        internationalNumber: "+33 6 06 06 06 06",
-        nationalNumber: "06 06 06 06 06",
-        // eslint-disable-next-line id-denylist
-        number: "6 06 06 06 06",
+        countryCode: "fr",
+        numero: "0606060606",
       },
       villeNaissance: "Paris",
     };

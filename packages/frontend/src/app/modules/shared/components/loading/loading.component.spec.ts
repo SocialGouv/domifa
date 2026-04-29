@@ -13,8 +13,7 @@ describe("LoadingComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [LoadingComponent],
-      imports: [RouterModule.forRoot([])],
+      imports: [LoadingComponent, RouterModule.forRoot([])],
       providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

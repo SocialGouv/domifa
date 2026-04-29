@@ -16,7 +16,7 @@
     "importHelpers": true,
     "lib": ["es2021", "dom"],
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "outDir": "./dist/out-tsc",

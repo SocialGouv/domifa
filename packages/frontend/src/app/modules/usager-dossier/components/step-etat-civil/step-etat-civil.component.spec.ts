@@ -71,11 +71,7 @@ describe("StepEtatCivilComponent", () => {
     component.usagerForm.controls.nom.setValue("Test nom");
     component.usagerForm.controls.prenom.setValue("Test Prenom");
     component.usagerForm.controls.surnom.setValue("Test Surnom");
-    component.usagerForm.controls.dateNaissance.setValue({
-      year: 1991,
-      month: 12,
-      day: 12,
-    });
+    component.usagerForm.controls.dateNaissance.setValue("12/12/1991");
     component.usagerForm.controls.villeNaissance.setValue("Paris");
     expect(component.usagerForm.valid).toBeTruthy();
   });

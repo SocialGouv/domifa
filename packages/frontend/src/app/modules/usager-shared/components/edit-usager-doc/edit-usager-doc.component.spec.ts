@@ -4,6 +4,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { EditUsagerDocComponent } from "./edit-usager-doc.component";
 import { provideHttpClient } from "@angular/common/http";
 import { SharedModule } from "../../../shared/shared.module";
+import { FormsModule } from "@angular/forms";
 
 describe("EditUsagerDocComponent", () => {
   let component: EditUsagerDocComponent;
@@ -12,7 +13,7 @@ describe("EditUsagerDocComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [EditUsagerDocComponent],
-      imports: [SharedModule],
+      imports: [SharedModule, FormsModule],
       providers: [provideHttpClient()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
