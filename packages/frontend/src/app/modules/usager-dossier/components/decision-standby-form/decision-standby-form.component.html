@@ -58,13 +58,13 @@
     >
       <app-button
         [loading]="loading"
-        content="Confirmer l'ajournement"
+        label="Confirmer l'ajournement"
         icon="check"
         (action)="submit()"
       ></app-button>
       <app-button
         color="secondary"
-        content="Annuler"
+        label="Annuler"
         (action)="closeModal()"
       ></app-button>
     </div>
@@ -116,13 +116,13 @@
   >
     <app-button
       [loading]="loading"
-      content="Confirmer l'ajournement"
+      label="Confirmer l'ajournement"
       icon="check"
       (action)="submit()"
     ></app-button>
     <app-button
       color="secondary"
-      content="Annuler"
+      label="Annuler"
       (action)="closeModals.emit()"
     ></app-button>
   </div>

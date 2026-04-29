@@ -15,6 +15,7 @@ import { fadeIn } from "../../../../../shared";
   animations: [fadeIn],
   selector: "app-profil-historique-login-portail",
   templateUrl: "./profil-historique-login-portail.component.html",
+  styleUrls: ["./profil-historique-login-portail.component.scss"],
   standalone: false,
 })
 export class ProfilHistoriqueLoginPortailComponent

@@ -1,0 +1,9 @@
+@media print {
+  @page {
+    size: landscape;
+  }
+
+  :host ::ng-deep .fr-table .fr-checkbox-group {
+    display: none !important;
+  }
+}

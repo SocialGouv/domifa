@@ -22,7 +22,7 @@
           <app-button
             (action)="exportAccountsToExcel()"
             ariaLabel="Télécharger la liste des comptes"
-            content="Télécharger la liste des comptes"
+            label="Télécharger la liste des comptes"
             icon="download"
             color="primary"
             customClass="fr-mr-1w"
@@ -31,7 +31,7 @@
 
           <app-button
             ariaLabel="Générer tous les comptes"
-            content="Générer tous les comptes"
+            label="Générer tous les comptes"
             color="primary"
             customClass="fr-mr-1w"
             icon="plus"
@@ -60,7 +60,9 @@
         </div>
       </div>
       } @else { @if (searchResults.data.length > 0) {
-      <div class="fr-table fr-table--layout-fixed fr-table--no-caption">
+      <div
+        class="fr-table fr-table--sm fr-table--layout-fixed fr-table--no-caption"
+      >
         <div class="fr-table__wrapper">
           <div class="fr-table__container">
             <div class="fr-table__content">

@@ -123,6 +123,17 @@
         </div>
       </div>
 
+      <!-- Fonction -->
+      <div class="fr-col-12">
+        <app-fonction-selection
+          [parentFormGroup]="userForm"
+          [fonctionFormControl]="fonctionFormControl"
+          [fonctionDetailFormControl]="fonctionDetailFormControl"
+          [submitted]="submitted"
+          invalidFeedbackText="Le champs fonction est obligatoire"
+        />
+      </div>
+
       <div class="fr-col-12">
         <div
           class="fr-select-group"
@@ -157,17 +168,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Fonction -->
-      <div class="fr-col-12">
-        <app-fonction-selection
-          [parentFormGroup]="userForm"
-          [fonctionFormControl]="fonctionFormControl"
-          [fonctionDetailFormControl]="fonctionDetailFormControl"
-          [submitted]="submitted"
-          invalidFeedbackText="Le champs fonction est obligatoire"
-        />
-      </div>
     </div>
 
     <ng-template #modalFooterTemplate>
@@ -182,7 +182,7 @@
         <app-button
           type="submit"
           [loading]="loading"
-          content="Valider l'inscription"
+          label="Valider l'inscription"
           (action)="submitUser()"
         ></app-button>
       </div>
