@@ -29,7 +29,7 @@ export class ProfilHistoriqueNotesComponent extends BaseUsagerNotesComponent {
     this.params = {
       order: Order.DESC,
       page: 1,
-      take: 50,
+      take: 25,
     };
     this.getArchivedNotes = true;
   }

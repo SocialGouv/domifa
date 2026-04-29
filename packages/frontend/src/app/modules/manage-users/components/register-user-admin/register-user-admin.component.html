@@ -20,7 +20,7 @@
             (f.nom.dirty || submitted) && f.nom.errors
           "
         >
-          <label class="fr-label" for="nom"> Nom </label>
+          <label class="fr-label" for="nom"> Nom * </label>
           <input
             class="fr-input"
             [class.fr-input--error]="(f.nom.dirty || submitted) && f.nom.errors"
@@ -53,7 +53,7 @@
             (f.prenom.dirty || submitted) && f.prenom.errors
           "
         >
-          <label class="fr-label" for="prenom"> Prénom </label>
+          <label class="fr-label" for="prenom"> Prénom * </label>
           <input
             class="fr-input"
             [class.fr-input--error]="
@@ -96,7 +96,7 @@
             (f.email.dirty || submitted) && f.email.errors
           "
         >
-          <label class="fr-label" for="email"> Adresse email </label>
+          <label class="fr-label" for="email"> Adresse email * </label>
           <p class="fr-hint-text">Format attendu : nom&#64;domaine.fr</p>
           <input
             class="fr-input"
@@ -133,7 +133,7 @@
           class="fr-select-group"
           [class.fr-select-group--error]="submitted && f.role.errors"
         >
-          <label class="fr-label" for="role"> Accès </label>
+          <label class="fr-label" for="role"> Accès * </label>
           <select
             class="fr-select"
             [class.fr-select--error]="submitted && f.role.errors"

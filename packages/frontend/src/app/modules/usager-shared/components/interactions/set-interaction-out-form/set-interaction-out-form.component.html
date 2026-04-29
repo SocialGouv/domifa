@@ -203,24 +203,21 @@
     <div
       class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
     >
-      <button
+      <app-button
+        [loading]="loading"
         [disabled]="
-          (!interactionFormData.courrierOut.selected &&
-            !interactionFormData.recommandeOut.selected &&
-            !interactionFormData.colisOut.selected) ||
-          loading
+          !interactionFormData.courrierOut.selected &&
+          !interactionFormData.recommandeOut.selected &&
+          !interactionFormData.colisOut.selected
         "
-        type="button"
-        [attr.aria-busy]="loading"
-        class="fr-btn"
-        (click)="setInteractionForm()"
-      >
-        @if (loading) { Veuillez patienter... } @else { Confirmer la
-        distribution }
-      </button>
-      <button type="button" class="fr-btn fr-btn--secondary" (click)="close()">
-        Annuler
-      </button>
+        content="Confirmer la distribution"
+        (action)="setInteractionForm()"
+      ></app-button>
+      <app-button
+        color="secondary"
+        content="Annuler"
+        (action)="close()"
+      ></app-button>
     </div>
   </ng-template>
 </dsfr-modal>

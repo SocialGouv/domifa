@@ -71,7 +71,7 @@
                     (f.nom.dirty || submitted) && f.nom.errors
                 }"
               >
-                <label class="fr-label" for="nom"> Nom </label>
+                <label class="fr-label" for="nom"> Nom * </label>
                 <p class="fr-hint-text">
                   Précisez nom de naissance si nécessaire
                 </p>
@@ -112,7 +112,7 @@
                     (f.prenom.dirty || submitted) && f.prenom.errors
                 }"
               >
-                <label class="fr-label" for="prenom"> Prénom(s) </label>
+                <label class="fr-label" for="prenom"> Prénom(s) * </label>
                 <p class="fr-hint-text empty-hint"></p>
                 <input
                   type="text"
@@ -191,7 +191,7 @@
                 }"
               >
                 <label class="fr-label" for="villeNaissance">
-                  Ville de naissance
+                  Ville de naissance *
                 </label>
                 <p id="ville-description" class="fr-hint-text empty-hint">
                   Préciser le pays si à l'étranger
@@ -478,7 +478,7 @@
                           ayantsDroits.controls[i].get('nom')?.errors
                       }"
                     >
-                      <label class="fr-label" for="nom_{{ i }}"> Nom </label>
+                      <label class="fr-label" for="nom_{{ i }}"> Nom * </label>
                       <input
                         #adName
                         id="nom_{{ i }}"
@@ -534,7 +534,7 @@
                       }"
                     >
                       <label class="fr-label" for="ad_prenom_{{ i }}">
-                        Prénom
+                        Prénom *
                       </label>
                       <input
                         type="text"
@@ -606,7 +606,9 @@
                           ayantsDroits.controls[i].get('lien')?.errors
                       }"
                     >
-                      <label class="fr-label" for="lien_{{ i }}"> Lien </label>
+                      <label class="fr-label" for="lien_{{ i }}">
+                        Lien *
+                      </label>
                       <select
                         formControlName="lien"
                         name="lien"

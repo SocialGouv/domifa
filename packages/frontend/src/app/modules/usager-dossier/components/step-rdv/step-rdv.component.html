@@ -141,7 +141,7 @@
                       id="input-group-user"
                     >
                       <label class="fr-label" for="rdvUser">
-                        Avec quel collaborateur ?
+                        Avec quel collaborateur ? *
                       </label>
                       <select
                         class="fr-select"
@@ -184,7 +184,7 @@
                   <div class="fr-col-12 fr-col-md-4">
                     <dsfr-ext-datepicker
                       formControlName="jourRdv"
-                      label="Date du rendez-vous"
+                      label="Date du rendez-vous *"
                       [min]="minDateToday"
                       [max]="maxDateRdv"
                       [required]="true"
@@ -209,7 +209,7 @@
                       id="input-group-time"
                     >
                       <label class="fr-label" for="heureRdv">
-                        Heure du rendez-vous
+                        Heure du rendez-vous *
                       </label>
                       <input
                         type="time"

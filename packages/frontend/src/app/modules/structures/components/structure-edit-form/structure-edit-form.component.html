@@ -176,7 +176,7 @@
           class="fr-input-group fr-input-group--required"
         >
           <label class="fr-label" for="nom">
-            Raison sociale (nom de la structure)
+            Raison sociale (nom de la structure) *
           </label>
           <input
             type="text"
@@ -252,7 +252,7 @@
           "
         >
           <label class="fr-label" for="departement">
-            Préfecture ayant délivré l'agrément
+            Préfecture ayant délivré l'agrément *
           </label>
           <p class="empty-hint"></p>
           <select
@@ -299,7 +299,7 @@
             (submitted || f.agrement.dirty) && f.agrement.errors
           "
         >
-          <label class="fr-label" for="agrement">Numéro d'agrément</label>
+          <label class="fr-label" for="agrement">Numéro d'agrément *</label>
           <p class="fr-hint-text">Numéro donné par la préfecture</p>
           <input
             type="text"
@@ -377,7 +377,7 @@
           "
         >
           <label class="fr-label" for="organismeType">
-            Type d'organisme agréé
+            Type d'organisme agréé *
           </label>
           <select
             class="fr-select"
@@ -492,7 +492,7 @@
           "
           class="fr-input-group fr-input-group--required"
         >
-          <label class="fr-label" for="responsable-nom">Nom</label>
+          <label class="fr-label" for="responsable-nom">Nom *</label>
           <p class="empty-hint"></p>
 
           <input
@@ -540,7 +540,7 @@
           "
           class="fr-input-group fr-input-group--required"
         >
-          <label class="fr-label" for="responsable-prenom">Prénom(s)</label>
+          <label class="fr-label" for="responsable-prenom">Prénom(s) *</label>
           <p class="empty-hint"></p>
 
           <input
@@ -588,7 +588,7 @@
           "
           class="fr-input-group fr-input-group--required"
         >
-          <label class="fr-label" for="fonction">Fonction</label>
+          <label class="fr-label" for="fonction">Fonction *</label>
           <p class="fr-hint-text">Ex : Directeur, Président, etc..</p>
 
           <input
@@ -657,7 +657,7 @@
           "
         >
           <label class="fr-label" for="adresse">
-            Adresse de l'organisme domiciliataire
+            Adresse de l'organisme domiciliataire *
           </label>
           <input
             type="text"
@@ -715,7 +715,7 @@
             (f.codePostal.dirty || submitted) && f.codePostal.errors
           "
         >
-          <label class="fr-label" for="codePostal">Code postal</label>
+          <label class="fr-label" for="codePostal">Code postal *</label>
           <input
             type="text"
             class="fr-input"
@@ -756,7 +756,7 @@
             (f.ville.dirty || submitted) && f.ville.errors
           "
         >
-          <label class="fr-label" for="ville">Ville</label>
+          <label class="fr-label" for="ville">Ville *</label>
           <input
             type="text"
             class="fr-input"
@@ -815,7 +815,7 @@
             "
           >
             <label class="fr-label" for="adresse2">
-              Adresse de réception du courrier
+              Adresse de réception du courrier *
             </label>
             <input
               type="text"
@@ -861,7 +861,7 @@
               f.adresseCourrier.get('codePostal')?.errors
             "
           >
-            <label class="fr-label" for="codePostal2">Code postal</label>
+            <label class="fr-label" for="codePostal2">Code postal *</label>
             <input
               type="text"
               class="fr-input"
@@ -906,7 +906,7 @@
               f.adresseCourrier.get('ville')?.errors
             "
           >
-            <label class="fr-label" for="ville2">Ville</label>
+            <label class="fr-label" for="ville2">Ville *</label>
             <input
               type="text"
               class="fr-input"
@@ -981,7 +981,7 @@
           "
         >
           <label class="fr-label" for="email">
-            Adresse e-mail indiquée sur le Cerfa
+            Adresse e-mail indiquée sur le Cerfa *
           </label>
           <p class="fr-hint-text">Format attendu : nom&#64;domaine.fr</p>
           <input
@@ -1132,7 +1132,7 @@
           "
         >
           <label class="fr-label" for="source">
-            Comment avez-vous entendu parler de DomiFa&nbsp;?
+            Comment avez-vous entendu parler de DomiFa&nbsp;? *
           </label>
           <select
             class="fr-select"
@@ -1177,7 +1177,7 @@
             (submitted || reg.sourceDetail?.dirty) && reg.sourceDetail?.errors
           "
         >
-          <label class="fr-label" for="sourceDetail"> Précisez&nbsp;: </label>
+          <label class="fr-label" for="sourceDetail"> Précisez&nbsp;: * </label>
           <input
             type="text"
             class="fr-input"
@@ -1279,7 +1279,7 @@
         >
           <label class="fr-label" for="currentTool">
             Comment gériez-vous la domiciliation avant la mise en place de
-            DomiFa ?
+            DomiFa ? *
           </label>
           <select
             class="fr-select"
@@ -1326,7 +1326,7 @@
           "
         >
           <label class="fr-label" for="marketTool">
-            Quel outil du marché utilisez-vous&nbsp;?
+            Quel outil du marché utilisez-vous&nbsp;? *
           </label>
           <select
             class="fr-select"
@@ -1376,7 +1376,7 @@
           "
         >
           <label class="fr-label" for="marketToolOther">
-            Précisez l'outil&nbsp;:
+            Précisez l'outil&nbsp;: *
           </label>
           <input
             type="text"

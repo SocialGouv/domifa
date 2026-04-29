@@ -28,7 +28,7 @@ export class ProfilHistoriqueSmsComponent implements OnInit, OnDestroy {
   public loading: boolean;
 
   public params = new PageOptions({
-    take: 10,
+    take: 25,
   });
 
   public searchResults = new PageResults<MessageSms>();

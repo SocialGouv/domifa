@@ -29,7 +29,7 @@ export class ProfilHistoriqueLoginPortailComponent
   public loading: boolean;
 
   public params = new PageOptions({
-    take: 10,
+    take: 25,
   });
 
   public searchResults = new PageResults<UserUsagerLogin>();

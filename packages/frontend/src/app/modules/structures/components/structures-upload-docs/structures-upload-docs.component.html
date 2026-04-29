@@ -13,7 +13,7 @@
         [class.fr-select-group--error]="submitted && f.customDocType.errors"
       >
         <label class="fr-label" for="customDocType">
-          Type de document à enregistrer
+          Type de document à enregistrer *
         </label>
         <select
           id="customDocType"
@@ -61,7 +61,7 @@
         class="fr-input-group"
         [class.fr-input-group--error]="submitted && f.label.errors"
       >
-        <label class="fr-label" for="label"> Nom du document </label>
+        <label class="fr-label" for="label"> Nom du document * </label>
         <p class="fr-hint-text" id="label-description">
           Exemple: règlement intérieur, etc.
         </p>
@@ -99,7 +99,7 @@
         class="fr-upload-group"
         [class.fr-upload-group--error]="submitted && f.fileSource.errors"
       >
-        <label class="fr-label" for="file"> Document à enregistrer </label>
+        <label class="fr-label" for="file"> Document à enregistrer * </label>
         <p class="fr-hint-text" id="file-description">
           @if (isCustomDoc) { Seuls les fichiers Word au format .docx sont
           autorisés } @else { Formats autorisés pdf, docx, xlsx, odt, jpg ou png
