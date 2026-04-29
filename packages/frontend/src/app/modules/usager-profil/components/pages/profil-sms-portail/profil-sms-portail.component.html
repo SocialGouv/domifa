@@ -27,15 +27,13 @@
               Informations de contact
             </h2>
             <ng-container *ngIf="usager?.echeanceInfos?.isActif">
-              <button
-                type="submit"
-                class="fr-btn fr-btn--secondary"
+              <app-button
                 *ngIf="!editContactDetails"
-                (click)="openContactForm()"
-              >
-                <i class="fr-icon-edit-line" aria-hidden="true"></i>
-                Modifier les informations
-              </button>
+                color="secondary"
+                icon="edit"
+                content="Modifier les informations"
+                (action)="openContactForm()"
+              ></app-button>
               <button
                 type="button"
                 class="fr-btn fr-btn--secondary"

@@ -236,9 +236,10 @@
               <td class="clickable table-name td-name">
                 @if (usager?.pinnedNote) {
                 <span
-                  [tooltip]="'📌 Note épinglée : ' + usager.pinnedNote?.message"
+                  [tooltip]="'Note épinglée : ' + usager.pinnedNote?.message"
                   tabindex="0"
-                  class="ri-pushpin-line"
+                  class="fr-icon-message-2-fill fr-mr-1w fr-text-action-high--blue-france"
+                  aria-hidden="true"
                 ></span>
                 } @if (!usager.pinnedNote) {
                 <span class="fr-sr-only">Aucune note épinglée</span>

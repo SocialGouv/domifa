@@ -101,7 +101,9 @@
                 form.controls[i].get('nom')?.errors
               "
             >
-              <label class="fr-label" for="procuration_nom_{{ i }}">Nom</label>
+              <label class="fr-label" for="procuration_nom_{{ i }}"
+                >Nom *</label
+              >
               <input
                 #procurationName
                 type="text"
@@ -145,7 +147,7 @@
               "
             >
               <label class="fr-label" for="procuration_prenom_{{ i }}"
-                >Prénom du mandataire</label
+                >Prénom du mandataire *</label
               >
               <input
                 type="text"

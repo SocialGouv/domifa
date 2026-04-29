@@ -14,7 +14,7 @@
         class="fr-input-group"
         [class.fr-input-group--error]="submitted && f.title.errors"
       >
-        <label for="title" class="fr-label">Titre </label>
+        <label for="title" class="fr-label">Titre * </label>
         <input
           id="title"
           type="text"
@@ -40,7 +40,7 @@
         class="fr-select-group"
         [class.fr-select-group--error]="submitted && f.type.errors"
       >
-        <label for="type" class="fr-label">Type d'information </label>
+        <label for="type" class="fr-label">Type d'information * </label>
         <select
           id="type"
           formControlName="type"

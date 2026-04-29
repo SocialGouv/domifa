@@ -1,7 +1,7 @@
 <button
   [type]="type"
   [class]="buttonClasses"
-  [attr.aria-disabled]="loading || null"
+  [disabled]="disabled || loading"
   [attr.aria-busy]="loading || null"
   [attr.aria-label]="ariaLabel || null"
   [attr.title]="isIconOnly ? ariaLabel : null"

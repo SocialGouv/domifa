@@ -13,7 +13,7 @@
         class="fr-form-group required"
         [class.fr-form-group--error]="submitted && u.label.errors"
       >
-        <label class="fr-label" for="label"> Nom du document </label>
+        <label class="fr-label" for="label"> Nom du document * </label>
         <p id="label-hint" class="fr-hint-text">
           Exemple : Cerfa signé, impôts, carte identité, etc.
         </p>
@@ -50,7 +50,7 @@
         class="fr-form-group required"
         [class.fr-form-group--error]="submitted && u.fileSource.errors"
       >
-        <label class="fr-label" for="file"> Document à enregistrer </label>
+        <label class="fr-label" for="file"> Document à enregistrer * </label>
         <p id="file-hint" class="fr-hint-text">
           Formats autorisés : .pdf, .jpg, .png. Taille maximale : 6 Mo
         </p>

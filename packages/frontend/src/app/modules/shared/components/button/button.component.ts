@@ -39,6 +39,7 @@ export class ButtonComponent implements OnChanges {
   @Input() content = "";
   @Input() ariaLabel?: string;
   @Input() customClass = "";
+  @Input() disabled = false;
 
   @Output() readonly action = new EventEmitter<void>();
 
@@ -90,7 +91,7 @@ export class ButtonComponent implements OnChanges {
   }
 
   onClick(): void {
-    if (!this.loading) {
+    if (!this.loading && !this.disabled) {
       this.action.emit();
     }
   }

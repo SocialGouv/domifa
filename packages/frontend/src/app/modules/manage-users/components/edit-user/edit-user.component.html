@@ -118,7 +118,7 @@
                   (f.nom.dirty || submitted) && f.nom.errors
                 "
               >
-                <label class="fr-label" for="nom">Nom</label>
+                <label class="fr-label" for="nom">Nom *</label>
                 <p class="fr-hint-text empty-hint"></p>
                 <input
                   #userName
@@ -158,7 +158,7 @@
                   (submitted || f.prenom.dirty) && f.prenom.errors
                 "
               >
-                <label class="fr-label" for="prenom">Prénom</label>
+                <label class="fr-label" for="prenom">Prénom *</label>
                 <p class="fr-hint-text empty-hint"></p>
 
                 <input
@@ -199,7 +199,9 @@
                   (submitted || f.email.dirty) && f.email.errors
                 "
               >
-                <label class="fr-label" for="email">Votre adresse email</label>
+                <label class="fr-label" for="email"
+                  >Votre adresse email *</label
+                >
                 <p class="fr-hint-text">Format attendu : nom&#64;domaine.fr</p>
 
                 <input
@@ -299,7 +301,7 @@
             <div class="fr-col-md-4 fr-col-12">
               <div class="fr-password">
                 <label class="fr-label" for="oldPassword"
-                  >Ancien mot de passe</label
+                  >Ancien mot de passe *</label
                 >
                 <div class="fr-input-wrap">
                   <input

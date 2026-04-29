@@ -291,15 +291,13 @@
             </h3>
             <div class="fr-ml-auto d-print-none">
               @if (!editPJ) {
-              <button
-                type="submit"
-                class="fr-btn fr-btn--tertiary"
-                (click)="editPJ = true"
-              >
-                <i class="fr-icon-edit-line" aria-hidden="true"></i>
-                Modifier
-                <span class="fr-sr-only">les pièces jointes</span>
-              </button>
+              <app-button
+                color="tertiary"
+                icon="edit"
+                content="Modifier"
+                ariaLabel="Modifier les pièces jointes"
+                (action)="editPJ = true"
+              ></app-button>
               } @else {
               <button
                 type="button"

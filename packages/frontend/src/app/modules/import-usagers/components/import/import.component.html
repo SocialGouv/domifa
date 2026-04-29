@@ -108,12 +108,11 @@
                   required
                 />
                 @if (previewTable?.errorsCount === 0) {
-                <button
+                <app-button
                   type="submit"
-                  class="fr-btn fr-btn--icon-left fr-icon-check-line"
-                >
-                  Cliquez ici pour finaliser l'import
-                </button>
+                  icon="check"
+                  content="Cliquez ici pour finaliser l'import"
+                ></app-button>
                 }
               </div>
             </form>

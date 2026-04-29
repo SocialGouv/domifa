@@ -9,7 +9,9 @@
         "
         class="fr-select-group"
       >
-        <label class="fr-label" for="fonction">{{ label }}</label>
+        <label class="fr-label" for="fonction"
+          >{{ label }} <ng-container *ngIf="required">*</ng-container></label
+        >
         <select
           id="fonction"
           [(ngModel)]="fonction"
@@ -68,7 +70,7 @@
           class="fr-label"
           for="fonctionDetail"
           [class.fr-sr-only]="!displayLabel"
-          >Préciser la fonction occupée par l’utilisateur</label
+          >Préciser la fonction occupée par l’utilisateur *</label
         >
         <input
           [(ngModel)]="fonctionDetail"
