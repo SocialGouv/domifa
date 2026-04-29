@@ -7,7 +7,7 @@
 
 <div class="fr-background-contrast--blue-ecume" *ngIf="stats">
   <div class="fr-container">
-    <div class="fr-grid-row fr-grid-row--middle fr-grid-row--gutters">
+    <div class="fr-grid-row fr-grid-row--middle fr-gap-1w fr-grid-row--gutters">
       <div *ngIf="!regionId" class="fr-col-12 fr-col-md-7 fr-py-3w fr-py-md-5">
         <h1 class="fr-text-title--blue-france fr-mb-1w">
           Statistiques d'utilisation de DomiFa
@@ -53,162 +53,167 @@
       </a>
     </p>
 
-    <div class="fr-grid-row">
-      <div class="fr-background-alt--blue-ecume fr-col-12 fr-col-md-8 fr-p-3w">
-        <h3 class="fr-h4">Structures inscrites sur DomiFa</h3>
-        <div class="fr-grid-row fr-grid-row--gutters">
-          <div
-            class="fr-col-12 fr-col-md-4 fr-display-flex fr-gap-2w fr-justify-content-center"
-          >
-            <img
-              class="fr-responsive-img"
-              src="artwork/pictograms/buildings/companie.svg"
-              alt=""
-              aria-hidden="true"
-            />
-
-            <dl
-              class="fr-display-flex ps-0 fr-flex-column fr-align-items-center fr-py-3w"
+    <div class="fr-grid-row fr-grid-row--gutters">
+      <div class="fr-col-12 fr-col-md-8">
+        <div class="fr-background-alt--blue-ecume fr-p-3w h-100">
+          <h3 class="fr-h4">Structures inscrites sur DomiFa</h3>
+          <div class="fr-grid-row fr-grid-row--gutters">
+            <div
+              class="fr-col-12 fr-col-md-4 fr-display-flex fr-gap-2w fr-justify-content-center"
             >
-              <dd class="fr-h1 fr-mb-0 ps-0 fr-text-title--blue-france">
-                {{ stats?.structuresCount | formatBigNumber }}
-              </dd>
-              <dd>Structures</dd>
-            </dl>
+              <img
+                src="artwork/pictograms/buildings/companie.svg"
+                alt=""
+                aria-hidden="true"
+              />
+
+              <dl
+                class="fr-display-flex ps-0 fr-flex-column fr-align-items-center fr-py-3w"
+              >
+                <dd class="fr-h1 fr-mb-0 ps-0 fr-text-title--blue-france">
+                  {{ stats?.structuresCount | formatBigNumber }}
+                </dd>
+                <dd>Structures</dd>
+              </dl>
+            </div>
+            <hr />
+            <div class="fr-col-12 fr-col-md-7 fr-display-flex fr-flex-column">
+              <ul class="py-1">
+                <ul>
+                  <li
+                    class="fr-display-flex fr-justify-content-start fr-align-items-center fr-gap-2w"
+                    *ngFor="
+                      let structure of stats?.structuresCountByTypeMap
+                        | keyvalue
+                    "
+                  >
+                    <span
+                      class="fr-text--lead fr-mr-2w fr-mb-0 fr-text-title--blue-france fr-text--bold"
+                      >{{ structure.value | formatBigNumber }}</span
+                    >
+                    <span class="sub-stats-label">
+                      {{ STRUCTURE_TYPE_LABELS[structure.key] }}
+                    </span>
+                  </li>
+                </ul>
+              </ul>
+            </div>
           </div>
           <hr />
-          <div class="fr-col-12 fr-col-md-7 fr-display-flex fr-flex-column">
-            <ul class="py-1">
-              <ul>
-                <li
-                  class="fr-display-flex fr-justify-content-start fr-align-items-center fr-gap-2w"
-                  *ngFor="
-                    let structure of stats.structuresCountByTypeMap | keyvalue
-                  "
-                >
+          <div
+            class="fr-grid-row fr-display-flex fr-py-1w fr-justify-content-between border-top"
+          >
+            <div
+              class="fr-col-12 fr-col-md-2 fr-display-flex fr-flex-column fr-align-items-center fr-mb-4v fr-mt-md-0"
+            >
+              <div>
+                <img
+                  class="stat-picto-img"
+                  src="artwork/pictograms/digital/avatar.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+              </div>
+              <div class="fr-text--center">
+                <div class="fr-h3 fr-mb-0 fr-text-title--blue-france">
+                  {{ stats?.usersCount | formatBigNumber }}
+                </div>
+                <span>agents</span>
+              </div>
+            </div>
+
+            <div
+              class="fr-col-12 fr-col-md-3 fr-display-flex fr-flex-column fr-text--center fr-mb-4v fr-mt-md-0"
+            >
+              <div class="fr-text--center">
+                <img
+                  class="stat-picto-img"
+                  src="artwork/pictograms/digital/self-training.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+              </div>
+
+              <div class="fr-text--center">
+                <div class="fr-h3 fr-mb-0 fr-text-title--blue-france">
                   <span
-                    class="fr-text--lead fr-mr-2w fr-mb-0 fr-text-title--blue-france fr-text--bold"
-                    >{{ structure.value | formatBigNumber }}</span
-                  >
-                  <span class="sub-stats-label">
-                    {{ STRUCTURE_TYPE_LABELS[structure.key] }}
-                  </span>
-                </li>
-              </ul>
-            </ul>
-          </div>
-        </div>
-        <div
-          class="fr-grid-row fr-display-flex fr-py-1w fr-justify-content-between border-top"
-        >
-          <div
-            class="fr-col-12 fr-col-md-2 fr-display-flex fr-flex-column fr-align-items-center fr-mb-4v fr-mt-md-0"
-          >
-            <div>
-              <img
-                class="stat-picto-img"
-                src="artwork/pictograms/digital/avatar.svg"
-                alt=""
-                aria-hidden="true"
-              />
-            </div>
-            <div class="fr-text--center">
-              <div class="fr-h3 fr-mb-0 fr-text-title--blue-france">
-                {{ stats?.usersCount | formatBigNumber }}
+                    [countUp]="stats?.courrierInCount"
+                    [options]="countOptions"
+                  ></span>
+                </div>
+                <span> courriers enregistrés </span>
               </div>
-              <span>Agents</span>
             </div>
-          </div>
-
-          <div
-            class="fr-col-12 fr-col-md-3 fr-display-flex fr-flex-column fr-text--center fr-mb-4v fr-mt-md-0"
-          >
-            <div class="fr-text--center">
-              <img
-                class="stat-picto-img"
-                src="artwork/pictograms/digital/self-training.svg"
-                alt=""
-                aria-hidden="true"
-              />
+            <div
+              class="fr-col-12 fr-col-md-3 fr-display-flex fr-flex-column fr-text--center fr-mb-4v fr-mt-md-0"
+            >
+              <div>
+                <img
+                  class="stat-picto-img"
+                  src="artwork/pictograms/digital/mail-send.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+              </div>
+              <div class="fr-display-flex fr-flex-column fr-text--center">
+                <div class="fr-h3 fr-mb-0" aria-hidden="true">
+                  <span
+                    class="fr-mb-0 fr-text-title--blue-france"
+                    [countUp]="stats?.courrierOutCount"
+                    [options]="countOptions"
+                  ></span>
+                </div>
+                <span>courriers distribués</span>
+              </div>
             </div>
 
-            <div class="fr-text--center">
-              <div class="fr-h3 fr-mb-0 fr-text-title--blue-france">
-                <span
-                  [countUp]="stats?.courrierInCount"
-                  [options]="countOptions"
-                ></span>
+            <div
+              class="fr-col-12 fr-col-md-4 fr-display-flex fr-flex-column fr-text--center"
+            >
+              <div>
+                <img
+                  class="stat-picto-img"
+                  src="artwork/pictograms/system/success.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
               </div>
-              <span> courriers enregistrés </span>
-            </div>
-          </div>
-          <div
-            class="fr-col-12 fr-col-md-3 fr-display-flex fr-flex-column fr-text--center fr-mb-4v fr-mt-md-0"
-          >
-            <div>
-              <img
-                class="stat-picto-img"
-                src="artwork/pictograms/digital/mail-send.svg"
-                alt=""
-                aria-hidden="true"
-              />
-            </div>
-            <div class="fr-display-flex fr-flex-column fr-text--center">
-              <div class="fr-h3 fr-mb-0" aria-hidden="true">
-                <span
-                  class="fr-mb-0 fr-text-title--blue-france"
-                  [countUp]="stats.courrierOutCount"
-                  [options]="countOptions"
-                ></span>
+              <div>
+                <span class="fr-h3 fr-mb-0 fr-text-title--blue-france">
+                  {{ distributionRate }}%</span
+                >
               </div>
-              <span>courriers distribués</span>
+              <span>de taux d’acheminement</span>
             </div>
-          </div>
-
-          <div
-            class="fr-col-12 fr-col-md-4 fr-display-flex fr-flex-column fr-text--center"
-          >
-            <div>
-              <img
-                class="stat-picto-img"
-                src="artwork/pictograms/system/success.svg"
-                alt=""
-                aria-hidden="true"
-              />
-            </div>
-            <div>
-              <span class="fr-h3 fr-mb-0 fr-text-title--blue-france">
-                {{ distributionRate }}%</span
-              >
-            </div>
-            <span>de taux d’acheminement</span>
           </div>
         </div>
       </div>
-      <div class="fr-col-12 fr-col-md-4 fr-pl-3w">
-        <div
-          *ngIf="stats"
-          class="fr-background-alt--blue-ecume fr-display-flex fr-flex-column fr-gap-3w fr-p-3w w-100 fr-mt-2w fr-mt-md-0"
-        >
+      <div class="fr-col-12 fr-col-md-4">
+        <div class="fr-background-alt--blue-ecume fr-p-3w h-100">
           <div
-            class="fr-display-flex fr-flex-column fr-justify-content-start fr-gap-2w"
+            *ngIf="stats"
+            class="fr-display-flex fr-flex-column fr-gap-3w w-100"
           >
-            <h3 class="fr-h4">Domiciliés accompagnés sur DomiFa</h3>
-            <div class="fr-text--center">
-              <img
-                class="stat-picto-img--lg"
-                src="artwork/pictograms/buildings/house.svg"
-                alt=""
-                aria-hidden="true"
-              />
-            </div>
             <div
-              class="fr-display-flex fr-flex-column fr-align-self-center fr-text--center"
+              class="fr-display-flex fr-flex-column fr-justify-content-start fr-gap-2w"
             >
-              <span class="fr-h2 fr-mb-0 pb-0 fr-text-title--blue-france">
-                {{ stats.actifs | formatBigNumber }}</span
+              <h3 class="fr-h4">Domiciliés accompagnés sur DomiFa</h3>
+              <div class="fr-text--center">
+                <img
+                  class="stat-picto-img--lg"
+                  src="artwork/pictograms/buildings/house.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+              </div>
+              <div
+                class="fr-display-flex fr-flex-column fr-align-self-center fr-text--center"
               >
-              <span>Domiciliés</span>
+                <span class="fr-h2 fr-mb-0 pb-0 fr-text-title--blue-france">
+                  {{ stats?.actifs | formatBigNumber }}</span
+                >
+                <span>Domiciliés</span>
+              </div>
             </div>
           </div>
         </div>

@@ -11,7 +11,7 @@
   <!-- SECTION : Paramètres de la structure (Toggles DSFR)     -->
   <!-- ====================================================== -->
   <section>
-    <h2 class="fr-h3 fr-m-0">
+    <h2 class="fr-h3 fr-my-2w">
       <img
         src="artwork/pictograms/system/system.svg"
         aria-hidden="true"
@@ -89,7 +89,7 @@
   <!-- SECTION : Structure (Type + Nom)                        -->
   <!-- ====================================================== -->
   <section>
-    <h2 class="fr-h3 fr-m-0">
+    <h2 class="fr-h3 fr-my-2w">
       <img
         src="artwork/pictograms/buildings/companie.svg"
         aria-hidden="true"
@@ -231,7 +231,7 @@
   <!-- ====================================================== -->
   @if (f.structureType.value === 'asso') {
   <section class="fr-py-4w fr-px-2w fr-background-alt--grey">
-    <h2 class="fr-h3 fr-m-0">
+    <h2 class="fr-h3 fr-my-2w">
       <img
         src="artwork/pictograms/buildings/companie.svg"
         aria-hidden="true"
@@ -637,7 +637,7 @@
   <!-- SECTION : Adresse                                       -->
   <!-- ====================================================== -->
   <section>
-    <h2 class="fr-h3 fr-m-0">
+    <h2 class="fr-h3 fr-my-2w">
       <img src="artwork/pictograms/map/map-pin.svg" aria-hidden="true" alt="" />
       Adresse
     </h2>
@@ -948,7 +948,7 @@
   <!-- SECTION : Contact (téléphone + email)                   -->
   <!-- ====================================================== -->
   <section>
-    <h2 class="fr-h3 fr-m-0">
+    <h2 class="fr-h3 fr-my-2w">
       <img
         src="artwork/pictograms/digital/mail-send.svg"
         aria-hidden="true"
@@ -1012,11 +1012,8 @@
 
   <hr />
 
-  <!-- ====================================================== -->
-  <!-- SECTION : Informations administratives (SIRET)          -->
-  <!-- ====================================================== -->
   <section>
-    <h2 class="fr-h3 fr-m-0">
+    <h2 class="fr-h3 fr-my-2w">
       <img
         src="artwork/pictograms/document/document.svg"
         aria-hidden="true"
@@ -1106,7 +1103,7 @@
   <!-- SECTION : Informations sur l'activité                   -->
   <!-- ====================================================== -->
   <section>
-    <h2 class="fr-h3 fr-m-0">
+    <h2 class="fr-h3 fr-my-2w">
       <img
         src="artwork/pictograms/system/information.svg"
         aria-hidden="true"
@@ -1233,7 +1230,7 @@
                 id="dsp-oui"
                 formControlName="dsp"
                 name="dsp"
-                [value]="true"
+                [ngValue]="true"
               />
               <label class="fr-label" for="dsp-oui">Oui</label>
             </div>
@@ -1246,7 +1243,7 @@
                 id="dsp-non"
                 formControlName="dsp"
                 name="dsp"
-                [value]="false"
+                [ngValue]="false"
               />
               <label class="fr-label" for="dsp-non">Non</label>
             </div>
@@ -1418,7 +1415,7 @@
     <app-button
       type="submit"
       [loading]="loading"
-      content="Enregistrer les modifications"
+      label="Enregistrer les modifications"
     ></app-button>
   </div>
 </form>

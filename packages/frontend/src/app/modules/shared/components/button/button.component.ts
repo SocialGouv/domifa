@@ -13,6 +13,7 @@ type ButtonIcon =
   | "trash"
   | "close"
   | "check"
+  | "add"
   | "edit"
   | "arrow-right"
   | "calendar"
@@ -37,7 +38,7 @@ export class ButtonComponent implements OnChanges {
   @Input() color: ButtonColor = "primary";
   @Input() icon?: ButtonIcon;
   @Input() loadingText = "Veuillez patienter";
-  @Input() content = "";
+  @Input() label = "";
   @Input() ariaLabel?: string;
   @Input() customClass = "";
   @Input() disabled = false;
@@ -62,10 +63,11 @@ export class ButtonComponent implements OnChanges {
     settings: "settings-line",
     user: "user-line",
     phone: "phone-line",
+    add: "add-line",
   };
 
   ngOnChanges(): void {
-    this.isIconOnly = !!this.icon && !this.content;
+    this.isIconOnly = !!this.icon && !this.label;
 
     const classes = ["fr-btn"];
 
@@ -77,7 +79,7 @@ export class ButtonComponent implements OnChanges {
 
     if (this.icon && !this.loading) {
       const iconClass = `fr-icon-${this.iconMap[this.icon]}`;
-      if (this.content) {
+      if (this.label) {
         classes.push("fr-btn--icon-left", iconClass);
       } else {
         classes.push(iconClass);

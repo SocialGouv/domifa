@@ -197,13 +197,13 @@
       >
         <app-button
           [loading]="loading"
-          content="Confirmer le refus"
+          label="Confirmer le refus"
           icon="check"
           (action)="setDecisionRefus()"
         ></app-button>
         <app-button
           color="secondary"
-          content="Annuler"
+          label="Annuler"
           customClass="d-print-none"
           (action)="closeModal()"
         ></app-button>
@@ -398,13 +398,13 @@
     >
       <app-button
         [loading]="loading"
-        content="Confirmer le refus"
+        label="Confirmer le refus"
         icon="check"
         (action)="setDecisionRefus()"
       ></app-button>
       <app-button
         color="secondary"
-        content="Annuler"
+        label="Annuler"
         customClass="d-print-none"
         (action)="closeModals.emit()"
       ></app-button>

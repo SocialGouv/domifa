@@ -628,7 +628,7 @@
                       id="dsp-oui"
                       formControlName="dsp"
                       name="dsp"
-                      [value]="true"
+                      [ngValue]="true"
                       [attr.aria-invalid]="
                         (submitted || dsp?.dirty) && dsp?.errors ? true : false
                       "
@@ -649,7 +649,7 @@
                       id="dsp-non"
                       formControlName="dsp"
                       name="dsp"
-                      [value]="false"
+                      [ngValue]="false"
                       [attr.aria-invalid]="
                         (submitted || dsp?.dirty) && dsp?.errors ? true : false
                       "
@@ -1686,7 +1686,7 @@
             <app-button
               type="submit"
               [loading]="loading"
-              content="Continuer"
+              label="Continuer"
             ></app-button>
           </div>
         </section>

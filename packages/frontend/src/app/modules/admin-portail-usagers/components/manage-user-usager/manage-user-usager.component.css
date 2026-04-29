@@ -1,0 +1,14 @@
+.fr-table__content td,
+.fr-table__content th {
+  padding: 0.25rem 0.5rem !important;
+}
+
+.fr-table__content table tbody td {
+  max-width: 180px;
+}
+
+.fr-table__content table tbody th,
+.fr-table__content table thead th[role="columnheader"],
+.fr-table__content .fr-cell--fixed {
+  width: 50px !important;
+}

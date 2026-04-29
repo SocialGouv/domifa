@@ -11,8 +11,8 @@
   <span class="fr-spinner fr-spinner--sm" aria-hidden="true"></span>
   <span role="status">{{ loadingText }}</span>
   } @else if (isIconOnly) {
-  <span class="fr-sr-only">{{ ariaLabel || content }}</span>
+  <span class="fr-sr-only">{{ ariaLabel || label }}</span>
   } @else {
-  {{ content }}
+  {{ label }}
   }
 </button>
