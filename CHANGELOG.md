@@ -1,3 +1,10 @@
+## [2.236.4](https://github.com/SocialGouv/domifa/compare/v2.236.3...v2.236.4) (2026-04-30)
+
+
+### Bug Fixes
+
+* **frontend:** fix upload field ([a1f5316](https://github.com/SocialGouv/domifa/commit/a1f5316f8aeeb05a98f5cc691fb61be3e7141e05))
+
 ## [2.236.3](https://github.com/SocialGouv/domifa/compare/v2.236.2...v2.236.3) (2026-04-29)
 
 
