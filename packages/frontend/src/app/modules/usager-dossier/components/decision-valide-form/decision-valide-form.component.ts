@@ -323,6 +323,10 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
   }
 
   private checkDuplicatesRef(value: string): void {
+    if (!value?.trim()) {
+      this.duplicates = [];
+      return;
+    }
     this.subscription.add(
       this.usagerDecisionService
         .isDuplicateCustomRef(this.usager.ref, value)

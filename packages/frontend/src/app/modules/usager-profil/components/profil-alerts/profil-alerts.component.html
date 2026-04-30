@@ -12,10 +12,7 @@
     par {{ usager.pinnedNote.createdBy?.userName }}
   </p>
 </div>
-}
-
-<!-- Alerte personne radiée -->
-@if (usager.decision.statut === 'RADIE') {
+} @if (usager.decision.statut === 'RADIE') {
 <div class="fr-alert fr-alert--error fr-my-1w">
   <p>
     Cette personne a été radiée le
@@ -23,10 +20,7 @@
     {{ usager.decision.motifString }}
   </p>
 </div>
-}
-
-<!-- Alerte demande refusée -->
-@if (usager.decision.statut === 'REFUS') {
+} @if (usager.decision.statut === 'REFUS') {
 <div class="fr-alert fr-alert--error fr-my-1w">
   <p>
     <strong
@@ -37,10 +31,7 @@
     {{ usager.decision.motifString }}
   </p>
 </div>
-}
-
-<!-- Alerte instruction en cours -->
-@if (usager.decision.statut === 'INSTRUCTION' && me?.role !== 'facteur' &&
+} @if (usager.decision.statut === 'INSTRUCTION' && me?.role !== 'facteur' &&
 me?.role !== 'agent') {
 <div [class]="'fr-alert ' + getAlertClass()">
   <p>
@@ -92,11 +83,8 @@ me?.role !== 'agent') {
     </a>
   </p>
 </div>
-}
-
-<!-- Alerte échéance proche -->
-@if (usager.echeanceInfos.dayBeforeEnd > 0 && usager.echeanceInfos.dayBeforeEnd
-< 60) {
+} @if (usager.echeanceInfos.dayBeforeEnd > 0 &&
+usager.echeanceInfos.dayBeforeEnd < 60) {
 <div
   class="fr-my-1w fr-alert"
   [class.fr-alert--error]="usager.echeanceInfos.dayBeforeEnd <= 15"
@@ -109,10 +97,7 @@ me?.role !== 'agent') {
     </strong>
   </p>
 </div>
-}
-
-<!-- Alerte échéance expirée -->
-@if (usager.echeanceInfos.dayBeforeEnd < 0) {
+} @if (usager.echeanceInfos.dayBeforeEnd < 0) {
 <div class="fr-my-1w fr-alert fr-alert--error fr-my-1w">
   <p>
     Domiciliation expirée depuis le
@@ -122,16 +107,13 @@ me?.role !== 'agent') {
 </div>
 }
 
-<!-- COURRIERS -->
 <div class="fr-col-12">
-  <!-- NPAI -->
   @if (usager.options.npai.actif) {
   <div class="fr-alert fr-alert--error fr-my-1w">
     <p>N'habite plus à l'adresse indiquée, pli non distribuable</p>
   </div>
-  } @if (usager.options.transfert.actif) {
-  <!-- TRANSFERT -->
-  @if (usager.options.transfert.isExpired) {
+  } @if (usager.options.transfert.actif) { @if
+  (usager.options.transfert.isExpired) {
   <div class="fr-alert fr-alert--error fr-my-1w">
     <p>
       <strong>Attention : </strong> le transfert de courrier était valable

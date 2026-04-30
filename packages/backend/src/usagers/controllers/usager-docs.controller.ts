@@ -98,12 +98,10 @@ export class UsagerDocsController {
     @Res() res: Response
   ) {
     if (
-      (postData?.shared && !user.structure.portailUsager?.enabledByStructure) ||
+      !user.structure.portailUsager?.enabledByStructure ||
       !currentUsager.options?.portailUsagerEnabled
     ) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "PORTAIL_NOT_ENABLED" });
+      postData.shared = false;
     }
 
     const encryptionContext = crypto.randomUUID();
@@ -171,16 +169,14 @@ export class UsagerDocsController {
     @CurrentUsager() currentUsager: Usager,
     @Res() res: Response
   ) {
-    if (updatedDoc.shared && usagerDoc.shared !== updatedDoc.shared) {
-      if (
-        !user.structure.portailUsager?.enabledByStructure ||
-        !currentUsager.options?.portailUsagerEnabled
-      ) {
-        return res
-          .status(HttpStatus.BAD_REQUEST)
-          .json({ message: "PORTAIL_NOT_ENABLED" });
-      }
+    if (
+      !user.structure.portailUsager?.enabledByStructure ||
+      !currentUsager.options?.portailUsagerEnabled
+    ) {
+      usagerDoc.shared = false;
+    }
 
+    if (usagerDoc.shared) {
       await this.appLogsService.create({
         userId: user.id,
         usagerRef: currentUsager.ref,
