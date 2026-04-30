@@ -66,6 +66,7 @@ const structureDto: StructureDto = {
     marketTool: "ADILEOS",
     marketToolOther: null,
   },
+  noSiret: false,
 };
 
 const res = {

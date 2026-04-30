@@ -14,6 +14,7 @@ import { SharedModule } from "../../../shared/shared.module";
 import { StoreModule } from "@ngrx/store";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
+import { DsfrDatePickerComponent } from "@edugouvfr/ngx-dsfr-ext";
 
 describe("StuctureStatsComponent", () => {
   let component: StuctureStatsComponent;
@@ -27,6 +28,7 @@ describe("StuctureStatsComponent", () => {
         HttpClientTestingModule,
         FormsModule,
         SharedModule,
+        DsfrDatePickerComponent,
         RouterModule.forRoot([]),
         StoreModule.forRoot({ app: _usagerReducer }),
         ...MATOMO_INJECTORS,
