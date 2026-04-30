@@ -1,5 +1,32 @@
 [
   {
+    "date": "2026-04-30",
+    "description": "🚀 Adoption du design de l'État, partage de documents Mon DomiFa et corrections",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "👨‍🎨 Une nouvelle interface",
+        "message": [
+          "Dans le cadre de l'amélioration continue des services publics en ligne, notre site adopte le design de l'État afin de renforcer sa lisibilité et son accessibilité.",
+          "Cette évolution est sans impact sur vos démarches, vos accès et vos données."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "📤 Partage de documents via Mon DomiFa",
+        "message": [
+          "Partagez des documents directement avec les domiciliés inscrits sur Mon DomiFa !",
+          "Les bénéficiaires peuvent consulter et télécharger ces documents depuis leur espace personnel, en toute autonomie."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "📎 Upload de documents",
+        "message": ["Correction du bug qui empêchait l'upload des documents."]
+      }
+    ]
+  },
+  {
     "date": "2025-10-21",
     "description": "📋 Amélioration de l'accès aux Cerfas et protection contre la stigmatisation",
     "content": [
