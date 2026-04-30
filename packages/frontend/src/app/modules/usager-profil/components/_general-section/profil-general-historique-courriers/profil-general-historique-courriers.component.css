@@ -50,11 +50,11 @@ span[class*="fr-icon-"] {
 [class*="fr-fi-"]::before,
 [class*="fr-fi-"]::after,
 [class*="ri-"]::before {
-  --icon-size: 1.65rem;
+  --icon-size: 1.4rem;
   color: var(--text-active-blue-france) !important;
   margin-right: 0.5rem !important;
   vertical-align: bottom !important;
   display: inline-block !important;
-  height: 1.65rem;
-  font-size: 1.65rem;
+  height: 1.4rem;
+  font-size: 1.4rem;
 }

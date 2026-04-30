@@ -9,6 +9,6 @@ module.exports = {
     "^environments/(.*)$": "<rootDir>/src/environments/$1",
   },
   transformIgnorePatterns: [
-    String.raw`node_modules/(?!.*\.mjs$|uuid|@edugouvfr/ngx-dsfr|intl-tel-input|google-libphonenumber|@angular/common/locales)`,
+    String.raw`node_modules/(?!.*(\.mjs$|uuid|@edugouvfr/ngx-dsfr|intl-tel-input|google-libphonenumber|@angular/common/locales))`,
   ],
 };

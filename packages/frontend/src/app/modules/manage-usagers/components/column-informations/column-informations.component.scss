@@ -1,0 +1,10 @@
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.2rem;
+  max-width: 200px;
+}
+
+button {
+  white-space: nowrap;
+}
