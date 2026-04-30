@@ -27,12 +27,12 @@
   border: 1px solid rgba(65, 100, 245, 0.4);
   box-sizing: border-box;
   margin: 0 0.2rem;
-  padding: 0rem 0.35rem;
+  padding: 0rem 0.3rem;
   position: relative;
   background-color: var(--background-default-grey);
 
   span {
-    font-size: 1.65rem;
+    font-size: 1.4rem;
   }
 
   [class^="fr-icon-"]::before,
@@ -44,8 +44,8 @@
   [class*="fr-fi-"]::before,
   [class*="ri-"]::before,
   [class*="fr-fi-"]::after {
-    --icon-size: 1.65rem;
-    height: 1.65rem;
+    --icon-size: 1.4rem;
+    height: 1.4rem;
   }
 }
 

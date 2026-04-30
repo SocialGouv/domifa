@@ -1,6 +1,15 @@
+:host {
+  text-align: left !important;
+}
+
 .download-docs-menu {
   position: relative;
   display: inline-block;
+
+  > button.fr-btn {
+    padding: 0.25rem 0.5rem;
+    min-height: 0;
+  }
 }
 
 .fr-nav__btn,
@@ -14,7 +23,6 @@
   background: var(--background-default-grey);
   box-shadow: 0 6px 18px rgb(0 0 18 / 16%);
   min-width: 420px;
-  max-width: 100%;
   text-align: left;
   padding: 0.2rem 0;
 
