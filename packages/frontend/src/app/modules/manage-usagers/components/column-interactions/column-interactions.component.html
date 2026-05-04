@@ -1,5 +1,5 @@
 @if(usager) { @if (template === 'small-buttons' ) { @if
-(usager?.echeanceInfos?.isActif) {
+(usager?.decisionDeadline?.isActive) {
 <div class="interaction-buttons">
   <button
     type="button"
@@ -26,8 +26,8 @@
     <span class="fr-icon-phone-line" aria-hidden="true"></span>
   </button>
 </div>
-} } @if (template === 'big-buttons' ) { @if (usager?.echeanceInfos?.isActif ||
-(usager.decision.statut === 'RADIE' && !usager.options.npai.actif)) {
+} } @if (template === 'big-buttons' ) { @if (usager?.decisionDeadline?.isActive
+|| (usager.decision.statut === 'RADIE' && !usager.options.npai.actif)) {
 <div class="interaction-buttons">
   <button
     type="button"

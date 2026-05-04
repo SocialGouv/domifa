@@ -4,5 +4,4 @@ export * from "./dossier";
 export * from "./entretien";
 export * from "./form";
 export * from "./HISTORY_ACTIONS.const";
-export * from "./UsagerEcheanceInfos.type";
 export * from "./UsagerLight.type";

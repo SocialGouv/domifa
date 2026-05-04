@@ -16,7 +16,7 @@
           Modèles de document de la structure
         </h2>
 
-        @if (usager?.echeanceInfos?.isActif || usager.decision.statut ===
+        @if (usager?.decisionDeadline?.isActive || usager.decision.statut ===
         'REFUS') {
         <div>
           @if (usager.decision.statut !== 'REFUS') {

@@ -72,6 +72,7 @@ export class PlanSiteComponent implements OnInit {
         { label: "Déclaration d’accessibilité", path: "/accessibilite" },
         { label: "Conditions d’utilisation de DomiFa", path: "/cgu" },
         { label: "Nos partenaires", path: "/partenaires" },
+        { label: "Témoignages", path: "/temoignages" },
         { label: "Nouveautés", path: "/news" },
         { label: "Consulter les statistiques de DomiFa", path: "/stats" },
         { label: "Notre impact", path: "/stats/impact" },

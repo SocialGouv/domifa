@@ -1,7 +1,11 @@
 <div *ngIf="usagerProfile" class="w-100 fr-background-contrast--blue-ecume">
-  <div class="fr-container row d-flex flex-row justify-content-between">
-    <div class="col-12 col-md-8 col-sm-8 py-3 py-md-5 d-flex flex-column gap-1">
-      <h1 class="fr-text-title--blue-france mb-1">
+  <div
+    class="fr-container fr-grid-row fr-display-flex fr-flex-row fr-justify-content-between"
+  >
+    <div
+      class="fr-col-12 fr-col-md-8 fr-col-sm-8 fr-py-2w fr-py-md-6w fr-display-flex fr-flex-column fr-gap-1"
+    >
+      <h1 class="fr-text-title--blue-france fr-mb-1v">
         Bonjour {{ usagerProfile.usager.prenom }}
         {{ usagerProfile.usager.nom | uppercase }}
       </h1>
@@ -9,49 +13,44 @@
         Bienvenue dans votre espace de suivi de courrier
       </p>
     </div>
-    <div class="col-2 py-2 d-none d-sm-block">
+    <div class="fr-col-2 fr-py-1w d-sm-block">
       <img class="fr-responsive-img" src="/assets/images/home.svg" alt="" />
     </div>
   </div>
 </div>
-<div class="mt-4">
-  <ng-container *ngIf="usagerProfile">
-    <div class="fr-container">
-      <div class="row" data-masonry='{"percentPosition": true }'>
-        <div class="col-12 col-md-6 mb-4">
-          <app-section-courriers
-            [usager]="usagerProfile.usager"
-          ></app-section-courriers>
-        </div>
-        <div class="col-12 col-md-6 mb-4">
-          <app-structure-information
-            [structureInformation]="structureInformation"
-          ></app-structure-information>
-        </div>
-        <div class="col-12 col-md-6 mb-0">
-          <app-section-infos
-            [usager]="usagerProfile.usager"
-          ></app-section-infos>
-        </div>
 
-        <div class="col-12 col-md-6 mb-4">
-          <app-section-docs [usager]="usagerProfile.usager"></app-section-docs>
-        </div>
-        <div class="col-12 mt-2">
-          <app-section-options
-            [usager]="usagerProfile.usager"
-          ></app-section-options>
-        </div>
+<ng-container *ngIf="usagerProfile">
+  <div class="fr-container fr-mt-3w">
+    <div class="fr-grid-row fr-grid-row--gutters">
+      <div class="fr-col-12 fr-col-md-6 fr-mb-3w">
+        <app-section-courriers
+          [usager]="usagerProfile.usager"
+        ></app-section-courriers>
+      </div>
+      <div class="fr-col-12 fr-col-md-6 fr-mb-3w">
+        <app-structure-information
+          [structureInformation]="structureInformation"
+        ></app-structure-information>
+      </div>
+      <div class="fr-col-12 fr-col-md-6 fr-mb-0">
+        <app-section-infos [usager]="usagerProfile.usager"></app-section-infos>
+      </div>
+
+      <div class="fr-col-12 fr-col-md-6 fr-mb-3w">
+        <app-section-docs [usager]="usagerProfile.usager"></app-section-docs>
+      </div>
+      <div class="fr-col-12 fr-mt-1w">
+        <app-section-options
+          [usager]="usagerProfile.usager"
+        ></app-section-options>
       </div>
     </div>
-    <div class="row">
-      <div class="col-12 py-4 fr-border-default--blue-france">
-        <div class="fr-container">
-          <app-section-links
-            [usager]="usagerProfile.usager"
-          ></app-section-links>
-        </div>
+  </div>
+  <div class="fr-grid-row">
+    <div class="fr-col-12 fr-py-3w fr-border-default--blue-france">
+      <div class="fr-container">
+        <app-section-links [usager]="usagerProfile.usager"></app-section-links>
       </div>
     </div>
-  </ng-container>
-</div>
+  </div>
+</ng-container>

@@ -68,7 +68,9 @@
               <span class="label">Échéance</span>
             </div>
             <div class="fr-col-6 fr-my-1w">
-              {{ usager?.echeanceInfos?.dateToDisplay | date : "dd MMMM yyyy" }}
+              {{
+                usager?.decisionDeadline?.dateToDisplay | date : "dd MMMM yyyy"
+              }}
             </div>
             <div class="fr-col-6 fr-my-1w">
               <span class="label">Dernier passage</span>
@@ -172,9 +174,9 @@
             </p>
           </div>
 
-          @if ( usager?.echeanceInfos?.isActif || (usager.decision.statut ===
-          'RADIE' && !usager.options.npai.actif) ) { @if
-          (usager?.echeanceInfos?.isActif) {
+          @if ( usager?.decisionDeadline?.isActive || (usager.decision.statut
+          === 'RADIE' && !usager.options.npai.actif) ) { @if
+          (usager?.decisionDeadline?.isActive) {
           <div class="fr-display-flex fr-align-items-center">
             <app-button
               customClass="fr-mr-1w"

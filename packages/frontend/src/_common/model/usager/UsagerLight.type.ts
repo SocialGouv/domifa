@@ -29,7 +29,7 @@ export type UsagerLight = AppEntity &
     | "langue"
     | "contactByPhone"
     | "import"
-    | "echeanceInfos"
+    | "decisionDeadline"
     | "rdvInfo"
     | "pinnedNote"
     | "datePremiereDom"

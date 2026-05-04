@@ -39,18 +39,18 @@ describe("setUsagerInformation", () => {
   describe("statusInfo", () => {
     it("Should complete 'statusInfo' for 'VALIDE': dateToDisplay is 'dateFin'", () => {
       const result = setUsagerInformation({ ...USAGER_VALIDE_MOCK });
-      expect(result.echeanceInfos.isActif).toEqual(true);
-      expect(result.echeanceInfos.color).toEqual("bg-danger");
-      expect(result.echeanceInfos.dateToDisplay).toEqual(
+      expect(result.decisionDeadline.isActive).toEqual(true);
+      expect(result.decisionDeadline.color).toEqual("bg-danger");
+      expect(result.decisionDeadline.dateToDisplay).toEqual(
         USAGER_VALIDE_MOCK.decision.dateFin
       );
     });
 
     it("Should complete 'statusInfo' for 'REFUS': dateToDisplay is 'dateDebut'", () => {
       const result = setUsagerInformation({ ...USAGER_REFUS_MOCK });
-      expect(result.echeanceInfos.isActif).toEqual(false);
-      expect(result.echeanceInfos.color).toEqual("d-none");
-      expect(result.echeanceInfos.dateToDisplay).toEqual(
+      expect(result.decisionDeadline.isActive).toEqual(false);
+      expect(result.decisionDeadline.color).toEqual("d-none");
+      expect(result.decisionDeadline.dateToDisplay).toEqual(
         USAGER_REFUS_MOCK.decision.dateDebut
       );
     });

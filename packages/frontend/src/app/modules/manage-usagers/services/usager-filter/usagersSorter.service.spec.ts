@@ -167,10 +167,10 @@ describe("usagersSorter", () => {
 
   describe("sortBy avec valeurs nulles/manquantes", () => {
     const usagersWithNulls = [
-      { ...baseUsagers[0], echeanceInfos: { dateToDisplay: "2024-01-01" } },
-      { ...baseUsagers[1], echeanceInfos: null },
-      { ...baseUsagers[2], echeanceInfos: { dateToDisplay: "2024-02-01" } },
-    ] as UsagerLight[];
+      { ...baseUsagers[0], decisionDeadline: { dateToDisplay: "2024-01-01" } },
+      { ...baseUsagers[1], decisionDeadline: null },
+      { ...baseUsagers[2], decisionDeadline: { dateToDisplay: "2024-02-01" } },
+    ] as unknown as UsagerLight[];
 
     it("devrait placer les valeurs nulles en premier en tri ascendant", () => {
       const result = usagersSorter.sortBy(usagersWithNulls, {
@@ -178,7 +178,7 @@ describe("usagersSorter", () => {
         sortValue: "asc",
       });
 
-      expect(result.map((u) => u.echeanceInfos?.dateToDisplay)).toEqual([
+      expect(result.map((u) => u.decisionDeadline?.dateToDisplay)).toEqual([
         undefined,
         "2024-01-01",
         "2024-02-01",
@@ -191,7 +191,7 @@ describe("usagersSorter", () => {
         sortValue: "desc",
       });
 
-      expect(result.map((u) => u.echeanceInfos?.dateToDisplay)).toEqual([
+      expect(result.map((u) => u.decisionDeadline?.dateToDisplay)).toEqual([
         "2024-02-01",
         "2024-01-01",
         undefined,

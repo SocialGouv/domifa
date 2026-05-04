@@ -4,16 +4,16 @@
       usager.decision.statut === 'INSTRUCTION' &&
       usager.typeDom === 'RENOUVELLEMENT'
     "
-    class="my-2 px-3"
+    class="fr-my-1w fr-px-2w"
   >
     <div class="fr-alert fr-alert--warning">
       <p>Demande de renouvellement actuellement en cours</p>
     </div>
   </div>
 
-  <div class="my-2" *ngIf="!usager.lastInteraction.enAttente">
-    <h2 class="fr-text-title--blue-france mb-2">Votre courrier</h2>
-    <div class="border-top border-1 border-grey pt-3 mb-2">
+  <div class="fr-my-1w" *ngIf="!usager.lastInteraction.enAttente">
+    <h2 class="fr-text-title--blue-france fr-mb-1w">Votre courrier</h2>
+    <div class="border-top border-1 border-grey fr-pt-2w fr-mb-1w">
       <div class="fr-callout fr-callout--empty">
         <h2 class="fr-callout__title">Vous n’avez pas de nouveau courrier</h2>
         <p class="fr-callout__text">
@@ -26,23 +26,23 @@
 
   <div
     *ngIf="usager.lastInteraction.enAttente"
-    class="fr-text-title--blue-france my-2"
+    class="fr-text-title--blue-france fr-my-1w"
   >
-    <h2 class="fr-text-title--blue-france mb-2">
+    <h2 class="fr-text-title--blue-france fr-mb-1w">
       Vous avez du courrier à retirer !
     </h2>
 
-    <div class="border-top border-1 border-grey pt-3 mb-2">
-      <div class="d-flex align-items-top">
-        <div class="d-flex flex-column gap-2">
+    <div class="border-top border-1 border-grey fr-pt-2w fr-mb-1w">
+      <div class="fr-display-flex align-items-top">
+        <div class="fr-display-flex fr-flex-column fr-gap-2">
           <ng-container *ngIf="usager.lastInteraction.courrierIn > 0">
-            <div class="d-flex gap-2">
+            <div class="fr-display-flex fr-gap-2">
               <span
-                class="fr-icon-mail-open-line align-self-start fr-mt-1-5v"
+                class="fr-icon-mail-open-line fr-align-self-start fr-mt-1-5v"
               ></span>
-              <div class="d-flex flex-column gap-1">
+              <div class="fr-display-flex fr-flex-column fr-gap-1">
                 <div>
-                  <h3 class="fr-h3 mb-0 fr-text-title--blue-france">
+                  <h3 class="fr-h3 fr-mb-0 fr-text-title--blue-france">
                     {{ usager.lastInteraction.courrierIn }}
                     <span class="fr-text--lead">
                       courrier<ng-container
@@ -53,11 +53,11 @@
                   </h3>
                 </div>
                 <div
-                  class="d-flex flex-column ms-2 gap-1 ps-3 fr-border-left-blue-france"
+                  class="fr-display-flex fr-flex-column fr-ml-1w fr-gap-1 fr-pl-2w fr-border-left-blue-france"
                   *ngIf="pendingInteractions.courrierIn"
                 >
                   <div
-                    class="d-flex gap-1 flex-column"
+                    class="fr-display-flex fr-gap-1 fr-flex-column"
                     *ngFor="
                       let interaction of groupedPendingInteractions?.courrierIn
                         | keyvalue
@@ -70,13 +70,13 @@
                     <ng-container *ngIf="interaction.value.comments">
                       <div
                         *ngFor="let comment of interaction.value.comments"
-                        class="d-flex align-items-start fr-text--xs gap-1 fr-tag fr-tag--sm"
+                        class="fr-display-flex fr-align-items-start fr-text--xs fr-gap-1 fr-tag fr-tag--sm"
                       >
                         <small
                           aria-hidden="true"
                           class="fr-icon-message-3-line"
                         ></small>
-                        <span class="visually-hidden">
+                        <span class="fr-sr-only">
                           Commentaires sur les courriers
                         </span>
                         <span [innerHTML]="comment | nl2br"></span>
@@ -88,19 +88,19 @@
             </div>
           </ng-container>
           <ng-container *ngIf="usager.lastInteraction.colisIn > 0">
-            <div class="d-flex gap-2">
+            <div class="fr-display-flex fr-gap-2">
               <span
-                class="fr-icon-archive-line align-self-start fr-mt-1-5v"
+                class="fr-icon-archive-line fr-align-self-start fr-mt-1-5v"
               ></span>
-              <div class="d-flex flex-column gap-1">
+              <div class="fr-display-flex fr-flex-column fr-gap-1">
                 <div>
-                  <h3 class="mb-0 fr-text-title--blue-france">
+                  <h3 class="fr-mb-0 fr-text-title--blue-france">
                     {{ usager.lastInteraction.colisIn }}
                     <span class="fr-text--lead">colis</span>
                   </h3>
                 </div>
                 <div
-                  class="d-flex flex-column ms-2 gap-1 ps-3 fr-border-left-blue-france"
+                  class="fr-display-flex fr-flex-column fr-ml-1w fr-gap-1 fr-pl-2w fr-border-left-blue-france"
                   *ngIf="pendingInteractions.colisIn"
                 >
                   <div
@@ -116,13 +116,13 @@
                     <ng-container *ngIf="interaction.value.comments">
                       <div
                         *ngFor="let comment of interaction.value.comments"
-                        class="d-flex align-items-start fr-text--xs gap-1 fr-tag fr-tag--sm"
+                        class="fr-display-flex fr-align-items-start fr-text--xs fr-gap-1 fr-tag fr-tag--sm"
                       >
                         <small
                           aria-hidden="true"
                           class="fr-icon-message-3-line"
                         ></small>
-                        <span class="visually-hidden"
+                        <span class="fr-sr-only"
                           >Commentaires sur les colis
                         </span>
                         <span [innerHTML]="comment | nl2br"></span>
@@ -135,20 +135,20 @@
           </ng-container>
 
           <ng-container *ngIf="usager.lastInteraction.recommandeIn > 0">
-            <div class="d-flex gap-2">
+            <div class="fr-display-flex fr-gap-2">
               <span
-                class="fr-icon-mail-star-line align-self-start fr-mt-1-5v"
+                class="fr-icon-mail-star-line fr-align-self-start fr-mt-1-5v"
               ></span>
-              <div class="d-flex flex-column gap-1">
+              <div class="fr-display-flex fr-flex-column fr-gap-1">
                 <div>
-                  <h3 class="mb-0 fr-text-title--blue-france">
+                  <h3 class="fr-mb-0 fr-text-title--blue-france">
                     {{ usager.lastInteraction.recommandeIn }}
                     <span class="fr-text--lead"> avis de passage</span>
                   </h3>
                 </div>
                 <ng-container *ngIf="pendingInteractions.recommandeIn">
                   <div
-                    class="d-flex flex-column ms-2 gap-1 ps-3 fr-border-left-blue-france"
+                    class="fr-display-flex fr-flex-column fr-ml-1w fr-gap-1 fr-pl-2w fr-border-left-blue-france"
                     *ngFor="
                       let interaction of groupedPendingInteractions?.recommandeIn
                         | keyvalue
@@ -161,13 +161,13 @@
                     <ng-container *ngIf="interaction.value.comments">
                       <div
                         *ngFor="let comment of interaction.value.comments"
-                        class="d-flex align-items-start fr-text--xs gap-1 fr-tag fr-tag--sm"
+                        class="fr-display-flex fr-align-items-start fr-text--xs fr-gap-1 fr-tag fr-tag--sm"
                       >
                         <small
                           aria-hidden="true"
                           class="fr-icon-message-3-line"
                         ></small>
-                        <span class="visually-hidden"
+                        <span class="fr-sr-only"
                           >Commentaires sur les avis de passage</span
                         >
                         <span [innerHTML]="comment | nl2br"></span>
@@ -182,11 +182,11 @@
       </div>
     </div>
   </div>
-  <div class="text-center">
+  <div class="fr-text--center">
     <a
       routerLink="/account/historique"
       ariaCurrentWhenActive="page"
-      class="fr-btn fr-btn--md fr-btn--secondary gap-1 mt-4 mb-2"
+      class="fr-btn fr-btn--md fr-btn--secondary fr-gap-1 fr-mt-3w fr-mb-1w"
     >
       <span aria-hidden="true" class="fr-icon-time-line"></span>
       Consultez le détail des interactions

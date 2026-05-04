@@ -1,11 +1,11 @@
-<div class="content py-3">
-  <div class="container">
-    <div class="page-content p-3">
-      <h1 class="title">Plan du site de Mon DomiFa</h1>
-      <div class="row">
+<div class="fr-py-2w">
+  <div class="fr-container">
+    <div class="fr-p-2w">
+      <h1>Plan du site de Mon DomiFa</h1>
+      <div class="fr-grid-row fr-grid-row--gutters">
         <ng-container *ngFor="let linkSection of sitemapLinks">
-          <div class="col-md-4 col-12 my-3">
-            <h2 class="my-3">
+          <div class="fr-col-12 fr-col-md-4 fr-my-2w">
+            <h2 class="fr-my-2w">
               {{ linkSection.section }}
             </h2>
             <ul>
@@ -15,8 +15,8 @@
             </ul>
           </div>
         </ng-container>
-        <div class="col-md-4 col-12 my-3">
-          <h2 class="my-3">Nos partenaires</h2>
+        <div class="fr-col-12 fr-col-md-4 fr-my-2w">
+          <h2 class="fr-my-2w">Nos partenaires</h2>
           <ul>
             <li *ngFor="let link of partnerLinks">
               <a
@@ -24,6 +24,7 @@
                 class="fr-link"
                 [href]="link.path"
                 target="_blank"
+                [title]="link.label + ' - Nouvelle fenêtre'"
                 >{{ link.label }}
               </a>
             </li>

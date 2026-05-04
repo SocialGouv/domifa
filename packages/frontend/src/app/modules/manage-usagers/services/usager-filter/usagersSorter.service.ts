@@ -26,7 +26,7 @@ function sortBy(
     if (sortKey === "RDV" && usager?.rdv?.dateRdv) {
       sortAttributes.push(new Date(usager?.rdv?.dateRdv));
     } else if (sortKey === "ECHEANCE") {
-      sortAttributes.push(usager?.echeanceInfos?.dateToDisplay ?? null);
+      sortAttributes.push(usager?.decisionDeadline?.dateToDisplay ?? null);
     } else if (sortKey === "PASSAGE") {
       sortAttributes.push(usager?.lastInteraction?.dateInteraction);
     }

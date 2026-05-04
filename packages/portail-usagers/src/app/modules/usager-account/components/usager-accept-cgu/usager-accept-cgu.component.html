@@ -1,4 +1,4 @@
-<div class="container my-5" *ngIf="usagerProfile">
+<div class="fr-container fr-my-6w" *ngIf="usagerProfile">
   <section class="content section-content">
     <h1>Veuillez lire et accepter les CGU</h1>
     <p>
@@ -15,7 +15,7 @@
           type="checkbox"
           formControlName="readTerms"
           name="readTerms"
-          class="form-check-input me-2"
+          class="form-check-input fr-mr-1w"
           [ngClass]="{
             'is-invalid': submitted && f.readTerms.errors
           }"
@@ -41,7 +41,7 @@
           type="checkbox"
           formControlName="acceptTerms"
           name="acceptTerms"
-          class="form-check-input me-2"
+          class="form-check-input fr-mr-1w"
           [ngClass]="{
             'is-invalid': submitted && f.acceptTerms.errors
           }"
@@ -62,7 +62,7 @@
           Vous devez accepter les CGU afin de poursuivre l'inscription
         </p>
       </div>
-      <div class="text-center">
+      <div class="fr-text--center">
         <button
           class="btn btn-lg btn-outline-primary"
           type="button"
@@ -71,7 +71,7 @@
           Se déconnecter
         </button>
         <button
-          class="btn btn-lg btn-primary ms-2"
+          class="btn btn-lg btn-primary fr-ml-1w"
           type="submit"
           (click)="submitAcceptTerms()"
           [disabled]="loading"

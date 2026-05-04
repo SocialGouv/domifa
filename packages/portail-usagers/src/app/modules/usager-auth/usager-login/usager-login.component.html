@@ -1,24 +1,24 @@
 <div class="login-page" *ngIf="!usagerProfile">
-  <section class="d-flex flex-row gap-0">
-    <div class="fr-background-alt--grey flex-grow-1 d-none d-sm-flex">
+  <section class="fr-display-flex fr-flex-row gap-0">
+    <div class="fr-background-alt--grey fr-flex-grow-1 d-sm-flex">
       <!-- clearfix -->
     </div>
-    <div class="fr-container d-flex flex-row flex-shrink-0 p-0">
+    <div class="fr-container fr-display-flex fr-flex-row flex-shrink-0 fr-p-0">
       <div
-        class="col-12 col-md-6 col-sm-6 d-flex flex-column align-items-left ps-3 pe-3 fr-background-alt--grey"
+        class="fr-col-12 fr-col-md-6 fr-col-sm-6 fr-display-flex fr-flex-column align-items-left fr-pl-2w fr-pr-2w fr-background-alt--grey"
       >
         <form
           [attr.aria-describedby]="
             displayLoginError ? 'authentification-error' : null
           "
-          class="column d-flex flex-column gap-2 pt-4 pt-md-5 pb-4 pb-md-5"
+          class="column fr-display-flex fr-flex-column fr-gap-2 fr-pt-3w fr-pt-md-6w fr-pb-3w fr-pb-md-6w"
           [formGroup]="loginForm"
           (ngSubmit)="doLogin()"
         >
-          <h1 class="align-self-start">Connexion à Mon Domifa</h1>
+          <h1 class="fr-align-self-start">Connexion à Mon Domifa</h1>
           <div
             [class.fr-input-group--error]="f.login.dirty && f.login.errors"
-            class="fr-input-group required mb-0"
+            class="fr-input-group required fr-mb-0"
           >
             <label class="fr-label" for="login">Votre identifiant</label>
             <input
@@ -85,7 +85,7 @@
                   />
                 </div>
                 <ul
-                  class="fr-messages-group ms-0 ps-0"
+                  class="fr-messages-group fr-ml-0 fr-pl-0"
                   id="newPassword-input--messages"
                   aria-live="polite"
                   aria-atomic="true"
@@ -102,7 +102,7 @@
                         !f.newPassword.errors?.hasNumber
                     }"
                   >
-                    <span class="visually-hidden"
+                    <span class="fr-sr-only"
                       >Règle
                       {{
                         !f.newPassword.errors?.required &&
@@ -125,7 +125,7 @@
                         !f.newPassword.errors?.hasCapitalCase
                     }"
                   >
-                    <span class="visually-hidden"
+                    <span class="fr-sr-only"
                       >Règle
                       {{
                         !f.newPassword.errors?.required &&
@@ -148,7 +148,7 @@
                         !f.newPassword.errors?.hasLowerCase
                     }"
                   >
-                    <span class="visually-hidden"
+                    <span class="fr-sr-only"
                       >Règle
                       {{
                         !f.newPassword.errors?.required &&
@@ -171,7 +171,7 @@
                         !f.newPassword.errors?.hasSpecialCharacter
                     }"
                   >
-                    <span class="visually-hidden"
+                    <span class="fr-sr-only"
                       >Règle
                       {{
                         !f.newPassword.errors?.required &&
@@ -197,7 +197,7 @@
                         !f.newPassword.errors?.maxlength
                     }"
                   >
-                    <span class="visually-hidden"
+                    <span class="fr-sr-only"
                       >Règle
                       {{
                         !f.newPassword.errors?.required &&
@@ -331,7 +331,7 @@
             <!-- Accept terms start -->
             <div
               [class.fr-checkbox-group--error]="f.acceptTerms.errors"
-              class="fr-checkbox-group required mb-5"
+              class="fr-checkbox-group required fr-mb-6w"
             >
               <input
                 #acceptTerms
@@ -452,11 +452,11 @@
           </ng-container>
           <div
             role="alert"
-            class="fr-alert fr-alert--info mb-3"
+            class="fr-alert fr-alert--info fr-mb-2w"
             *ngIf="displayPasswordIndication"
           >
             <span class="fr-alert__title">Mot de passe oublié</span>
-            <p class="my-2" id="pwd-infos">
+            <p class="fr-my-1w" id="pwd-infos">
               Vous avez peut-être bloqué votre compte en faisant plus de 3
               tentatives de connexion avec un mauvais mot de passe.
               <br />
@@ -486,14 +486,14 @@
           <div
             id="authentification-error"
             aria-live="polite"
-            class="fr-alert fr-alert--error mb-3"
+            class="fr-alert fr-alert--error fr-mb-2w"
             role="alert"
             *ngIf="displayLoginError"
           >
             <span class="fr-alert__title">
               Le couple identifiant et mot de passe saisi est invalide.
             </span>
-            <p class="my-2" id="pwd-infos">
+            <p class="fr-my-1w" id="pwd-infos">
               Veuillez vérifier les chiffres, majuscules et caractères spéciaux.
               <br />
             </p>
@@ -506,14 +506,18 @@
             buttonSize="MD"
             [disabled]="loading"
             buttonId="loginBtn"
-            customClass="d-flex flex-column w-100"
+            customClass="fr-display-flex fr-flex-column w-100"
           ></dsfr-button>
         </form>
       </div>
-      <div class="col-12 col-md-6 col-sm-6 d-flex d-none d-sm-flex p-4">
+      <div
+        class="fr-col-12 fr-col-md-6 fr-col-sm-6 fr-display-flex d-sm-flex fr-p-3w"
+      >
         <div class="content-container">
-          <div class="row d-flex gap-1 align-self-start align-content-center">
-            <div class="col-12 col-md-6 col-sm-6">
+          <div
+            class="fr-grid-row fr-display-flex fr-gap-1 fr-align-self-start align-content-center"
+          >
+            <div class="fr-col-12 fr-col-md-6 fr-col-sm-6">
               <img class="img-fluid" src="assets/images/logo-dsfr.svg" alt="" />
             </div>
             <h2>Mon DomiFa facilite votre domiciliation</h2>
@@ -522,7 +526,7 @@
               vous avez du courrier.
             </p>
             <div
-              class="col-12 col-md-12 col-sm-12 justify-content-center d-flex"
+              class="fr-col-12 fr-col-md-12 fr-col-sm-12 fr-justify-content-center fr-display-flex"
             >
               <img
                 aria-hidden="true"
@@ -535,7 +539,7 @@
         </div>
       </div>
     </div>
-    <div class="d-flex flex-grow-1 d-none d-sm-flex"></div>
+    <div class="fr-display-flex fr-flex-grow-1 d-sm-flex"></div>
   </section>
   <hr aria-hidden="true" />
   <section class="fr-container">

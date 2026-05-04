@@ -1,6 +1,8 @@
-<h2 class="fr-text-title--blue-france mb-2">Documents disponibles</h2>
+<h2 class="fr-text-title--blue-france fr-mb-1w">Documents disponibles</h2>
 
-<div class="border-top pt-3 border-1 border-grey d-flex flex-column gap-2">
+<div
+  class="border-top fr-pt-2w border-1 border-grey fr-display-flex fr-flex-column fr-gap-2"
+>
   <div *ngIf="!docs?.length">
     <div class="fr-callout fr-callout--empty">
       Vous n'avez aucun document disponible
@@ -22,8 +24,10 @@
               [attr.aria-label]="'Télécharger le document ' + doc.label"
               (click)="downloadDoc(doc)"
             >
-              <h3 class="fr-h5 mb-0" *ngIf="!doc.loading">{{ doc.label }}</h3>
-              <h3 class="d-flex gap-1" *ngIf="doc.loading">
+              <h3 class="fr-h5 fr-mb-0" *ngIf="!doc.loading">
+                {{ doc.label }}
+              </h3>
+              <h3 class="fr-display-flex fr-gap-1" *ngIf="doc.loading">
                 {{ doc.label }} - Téléchargement en cours
                 <dsfr-ext-spinner typeLoader="quarter"></dsfr-ext-spinner>
               </h3>

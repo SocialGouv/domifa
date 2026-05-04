@@ -1,84 +1,79 @@
 import { addDays, subDays } from "date-fns";
 import { USAGER_VALIDE_MOCK } from "../../../mocks";
-import { getEcheanceInfo } from "../getEcheanceInfo";
+import { getDecisionDeadline } from "../getDecisionDeadline";
 import { Usager } from "../../interfaces";
 
-describe("[getEcheanceInfo] Affichage des infos de l'échéance ", () => {
+describe("[getDecisionDeadline] Display the decision deadline info", () => {
   beforeAll(() => {
-    // Date de référence : 12 Février 2020
-
     jest.useFakeTimers();
     jest.setSystemTime(new Date("2020-04-30T00:00:00.000Z"));
   });
 
-  it("Domicilié Actif", () => {
+  it("Active usager", () => {
     const usager = USAGER_VALIDE_MOCK;
 
-    // On part d'aujourd'hui, on réduit les jours pour vérifier l'affichage
-    // dateFin: new Date("2020-04-30"),
     const dateFinForTest = new Date();
 
+    // Ending today: NOT overdue, still active until D+1
     usager.decision.dateFin = new Date();
-    // Domiciliation terminée aujourd'hui
-    expect(getEcheanceInfo(usager)).toEqual({
-      isActif: true,
+    expect(getDecisionDeadline(usager)).toEqual({
+      isActive: true,
       color: "bg-danger",
       dateToDisplay: new Date("2020-04-30T00:00:00.000Z"),
-      dayBeforeEnd: 0,
+      daysBeforeEnd: 0,
     });
 
-    // Domiciliation terminée 15 jours avant
-
+    // Ended 15 days ago
     usager.decision.dateFin = subDays(dateFinForTest, 15);
-    expect(getEcheanceInfo(usager)).toEqual({
-      isActif: true,
+    expect(getDecisionDeadline(usager)).toEqual({
+      isActive: true,
       color: "bg-danger",
       dateToDisplay: new Date("2020-04-15T00:00:00.000Z"),
-      dayBeforeEnd: -15,
+      daysBeforeEnd: -15,
     });
 
-    // Domiciliation bientôt terminée
+    // Ending in 25 days
     usager.decision.dateFin = addDays(dateFinForTest, 25);
-    expect(getEcheanceInfo(usager)).toEqual({
-      isActif: true,
+    expect(getDecisionDeadline(usager)).toEqual({
+      isActive: true,
       color: "bg-warning",
       dateToDisplay: new Date("2020-05-25T00:00:00.000Z"),
-      dayBeforeEnd: 25,
+      daysBeforeEnd: 25,
     });
 
-    // Domiciliation bientôt terminée
+    // Ending in 65 days
     usager.decision.dateFin = addDays(dateFinForTest, 65);
-    expect(getEcheanceInfo(usager)).toEqual({
-      isActif: true,
+    expect(getDecisionDeadline(usager)).toEqual({
+      isActive: true,
       color: "d-none",
       dateToDisplay: new Date("2020-07-04T00:00:00.000Z"),
-      dayBeforeEnd: 65,
+      daysBeforeEnd: 65,
     });
   });
 
-  it("Renouvellements", () => {
+  it("Renewals", () => {
     const usager = USAGER_VALIDE_MOCK;
 
     usager.decision.statut = "ATTENTE_DECISION";
-    expect(getEcheanceInfo(usager).isActif).toEqual(true);
+    expect(getDecisionDeadline(usager).isActive).toEqual(true);
 
     usager.decision.statut = "INSTRUCTION";
-    expect(getEcheanceInfo(usager).isActif).toEqual(true);
+    expect(getDecisionDeadline(usager).isActive).toEqual(true);
   });
 
   it("Instruction & Decision", () => {
     const usager = USAGER_VALIDE_MOCK;
     usager.typeDom = "PREMIERE_DOM";
     usager.decision.statut = "ATTENTE_DECISION";
-    expect(getEcheanceInfo(usager).isActif).toEqual(false);
-    expect(getEcheanceInfo(usager).color).toEqual("d-none");
+    expect(getDecisionDeadline(usager).isActive).toEqual(false);
+    expect(getDecisionDeadline(usager).color).toEqual("d-none");
 
     usager.decision.statut = "INSTRUCTION";
-    expect(getEcheanceInfo(usager).isActif).toEqual(false);
-    expect(getEcheanceInfo(usager).color).toEqual("d-none");
+    expect(getDecisionDeadline(usager).isActive).toEqual(false);
+    expect(getDecisionDeadline(usager).color).toEqual("d-none");
   });
 
-  it("Autres status : refus radiés", () => {
+  it("Other statuses: refus, radies", () => {
     const usager = USAGER_VALIDE_MOCK;
     usager.decision.dateFin = new Date();
 
@@ -86,31 +81,31 @@ describe("[getEcheanceInfo] Affichage des infos de l'échéance ", () => {
     usager.decision.dateDebut = new Date("2020-02-02T00:00:00.000Z");
     usager.decision.dateFin = new Date("2020-02-02T00:00:00.000Z");
 
-    expect(getEcheanceInfo(usager)).toEqual({
-      isActif: false,
+    expect(getDecisionDeadline(usager)).toEqual({
+      isActive: false,
       dateToDisplay: new Date("2020-02-02T00:00:00.000Z"),
-      dayBeforeEnd: 365,
+      daysBeforeEnd: 365,
       color: "d-none",
     });
 
     usager.decision.statut = "RADIE";
 
-    expect(getEcheanceInfo(usager)).toEqual({
-      isActif: false,
+    expect(getDecisionDeadline(usager)).toEqual({
+      isActive: false,
       dateToDisplay: new Date("2020-02-02T00:00:00.000Z"),
-      dayBeforeEnd: 365,
+      daysBeforeEnd: 365,
       color: "d-none",
     });
 
     expect(
-      getEcheanceInfo({
+      getDecisionDeadline({
         historique: usager.historique,
         typeDom: usager.typeDom,
       } as unknown as Usager)
     ).toEqual({
-      isActif: false,
+      isActive: false,
       dateToDisplay: null,
-      dayBeforeEnd: 365,
+      daysBeforeEnd: 365,
       color: "d-none",
     });
   });

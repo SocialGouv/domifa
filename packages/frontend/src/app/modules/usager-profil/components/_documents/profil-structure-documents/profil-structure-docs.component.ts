@@ -119,7 +119,7 @@ export class ProfilStructureDocsComponent implements OnInit, OnDestroy {
             );
           }
 
-          if (!this.usager.echeanceInfos.isActif) {
+          if (!this.usager.decisionDeadline.isActive) {
             this.docs = this.docs.filter(
               (doc) =>
                 doc.customDocType !==

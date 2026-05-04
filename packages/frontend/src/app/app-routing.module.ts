@@ -11,6 +11,7 @@ import { HomeComponent } from "./modules/general/components/home/home.component"
 import { NewsComponent } from "./modules/general/components/news/news.component";
 import { PlanSiteComponent } from "./modules/general/components/plan-site/plan-site.component";
 import { PartenairesComponent } from "./modules/general/components/static-pages/partenaires/partenaires.component";
+import { TemoignagesComponent } from "./modules/general/components/static-pages/temoignages/temoignages.component";
 import { RgaaComponent } from "./modules/general/components/static-pages/rgaa/rgaa.component";
 import { AuthGuard } from "./guards";
 import { LandingPagePortailComponent } from "./modules/general/components/static-pages/landing-page-portail/landing-page-portail.component";
@@ -48,6 +49,7 @@ export const routes: Routes = [
   { component: CguComponent, path: "cgu" },
 
   { component: PartenairesComponent, path: "partenaires" },
+  { component: TemoignagesComponent, path: "temoignages" },
   { component: PlanSiteComponent, path: "plan-site" },
   { component: LandingPagePortailComponent, path: "portail-mon-domifa" },
   {

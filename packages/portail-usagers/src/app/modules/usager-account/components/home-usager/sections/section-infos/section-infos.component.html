@@ -1,142 +1,115 @@
-<div *ngIf="usager">
-  <h2 class="fr-text-title--blue-france mb-2">Votre domiciliation</h2>
-  <div class="border-top border-grey pt-3">
+@let currentUsager = usager(); @let deadline = decisionDeadline(); @let rdv =
+rdvInfo();
+
+<div>
+  <h2 class="fr-text-title--blue-france fr-mb-1w">Votre domiciliation</h2>
+  <div class="border-top border-grey fr-pt-2w">
+    @if (showRendezVousReminder() || showWaitingForDecision()) {
     <div
       [ngClass]="{
-        'fr-icon-calendar-check-line': showRendezVousReminder,
-        'fr-icon-chat-history-line': showWaitingForDecision
+        'fr-icon-calendar-check-line': showRendezVousReminder(),
+        'fr-icon-chat-history-line': showWaitingForDecision()
       }"
-      *ngIf="showRendezVousReminder || showWaitingForDecision"
       class="fr-callout fr-callout--blue-cumulus"
     >
-      <ng-container *ngIf="showRendezVousReminder">
-        <h3 class="fr-callout__title">Rappel de rendez-vous</h3>
-        <p class="fr-callout__text">
-          Vous avez rendez vous le {{ rdvInfo.content }}
-        </p>
-      </ng-container>
-      <ng-container *ngIf="showWaitingForDecision">
-        <p class="fr-callout__text">
-          Votre demande de renouvellement est actuellement en attente d'une
-          décision
-        </p>
-      </ng-container>
+      @if (showRendezVousReminder()) {
+      <h3 class="fr-callout__title">Rappel de rendez-vous</h3>
+      <p class="fr-callout__text">Vous avez rendez vous le {{ rdv.content }}</p>
+      } @if (showWaitingForDecision()) {
+      <p class="fr-callout__text">
+        Votre demande de renouvellement est actuellement en attente d'une
+        décision
+      </p>
+      }
     </div>
+    } @if (showApproachingExpiry() || showExpirationMessage()) {
     <div
-      *ngIf="showApproachingExpiry || showExpirationMessage"
       class="fr-callout"
       [ngClass]="{
-        'fr-icon-warning-line': showApproachingExpiry,
-        'fr-icon-error-line': showExpirationMessage,
-        'fr-callout--pink-tuile': echeanceInfo.dayBeforeEnd <= 15,
-        'fr-callout--yellow-tournesol': echeanceInfo.dayBeforeEnd > 15
+        'fr-icon-warning-line': showApproachingExpiry(),
+        'fr-icon-error-line': showExpirationMessage(),
+        'fr-callout--pink-tuile': deadline.daysBeforeEnd <= 15,
+        'fr-callout--yellow-tournesol': deadline.daysBeforeEnd > 15
       }"
     >
-      <ng-container *ngIf="showApproachingExpiry">
-        <p class="fr-callout__text">
-          <span>
-            Attention, votre domiciliation expire le
-            <strong>
-              {{ echeanceInfo.dateToDisplay | date : "fullDate" }}
-            </strong>
-          </span>
-        </p>
-      </ng-container>
-      <ng-container *ngIf="showExpirationMessage">
-        <p class="fr-callout__text">
-          Domiciliation expirée depuis le
-          {{ echeanceInfo.dateToDisplay | date : "fullDate" }}, il y a
-          {{ echeanceInfo.dayBeforeEnd * -1 }} jours
-        </p>
-      </ng-container>
-    </div>
-    <div
-      class="fr-alert"
-      [ngClass]="{
-        'fr-alert--error': echeanceInfo.dayBeforeEnd <= 15,
-        'fr-alert--warning': echeanceInfo.dayBeforeEnd > 15
-      }"
-      *ngIf="
-        usager.decision.statut !== 'ATTENTE_DECISION' &&
-        echeanceInfo.dayBeforeEnd > 0 &&
-        echeanceInfo.dayBeforeEnd < 60
-      "
-    >
-      <p>
-        Attention, votre domiciliation expire le
-        <strong>
-          {{ echeanceInfo.dateToDisplay | date : "fullDate" }}
-        </strong>
+      @if (showApproachingExpiry()) {
+      <p class="fr-callout__text">
+        <span>
+          Attention, votre domiciliation expire le
+          <strong>
+            {{ deadline.dateToDisplay | date : "fullDate" }}
+          </strong>
+        </span>
       </p>
-    </div>
-    <div
-      class="fr-alert fr-alert--error"
-      *ngIf="
-        usager.decision.statut !== 'ATTENTE_DECISION' &&
-        echeanceInfo.dayBeforeEnd < 0
-      "
-    >
-      <p>
+      } @if (showExpirationMessage()) {
+      <p class="fr-callout__text">
         Domiciliation expirée depuis le
-        {{ echeanceInfo.dateToDisplay | date : "fullDate" }}, il y a
-        {{ echeanceInfo.dayBeforeEnd * -1 }} jours
+        {{ deadline.dateToDisplay | date : "fullDate" }}, il y a
+        {{ deadline.daysBeforeEnd * -1 }} jours
       </p>
+      }
     </div>
+    }
 
     <div
-      class="d-flex fr-text-title--blue-france border-bottom border-grey pb-1 mb-2 align-items-top"
+      class="fr-display-flex fr-text-title--blue-france border-bottom border-grey fr-pb-1v fr-mb-1w align-items-top"
     >
       <div>
         <h3 class="fr-text-title--blue-france fr-icon-file-line">
           Votre dossier
         </h3>
 
-        <dl class="ms-0 ps-0">
-          <div class="d-flex gap-2 align-items-center">
-            <dt class="font-medium">Statut :</dt>
-            <dd
+        <ul class="fr-raw-list" aria-label="Informations sur votre dossier">
+          <li class="fr-display-flex fr-gap-2 fr-align-items-center fr-my-1w">
+            <span class="font-medium">Statut :</span>
+            <span
               [ngClass]="{
-                'fr-badge--success': usager.decision.statut === 'VALIDE',
-                'fr-badge--error': usager.decision.statut === 'REFUS'
+                'fr-badge--success': currentUsager.decision.statut === 'VALIDE',
+                'fr-badge--error': currentUsager.decision.statut === 'REFUS'
               }"
               class="fr-badge fr-badge--sm fr-badge--no-icon"
             >
-              {{ USAGER_DECISION_STATUT_LABELS[usager.decision.statut] }}
-            </dd>
-          </div>
-          <div class="d-flex gap-2 align-items-center">
-            <dt class="my-2">Échéance :</dt>
-            <dd>{{ echeanceInfo.dateToDisplay | date : "fullDate" }}</dd>
-          </div>
-          <div class="d-flex gap-2 align-items-center">
-            <dt class="my-2">Dernier passage :</dt>
-            <dd>
-              {{ usager.lastInteraction.dateInteraction | date : "fullDate" }}
-            </dd>
-          </div>
-        </dl>
+              {{ USAGER_DECISION_STATUT_LABELS[currentUsager.decision.statut] }}
+            </span>
+          </li>
+          <li class="fr-display-flex fr-gap-2 fr-align-items-center fr-my-1w">
+            <span class="font-medium">Échéance :</span>
+            <span>{{ deadline.dateToDisplay | date : "fullDate" }}</span>
+          </li>
+          <li class="fr-display-flex fr-gap-2 fr-align-items-center fr-my-1w">
+            <span class="font-medium">Dernier passage :</span>
+            <span>
+              {{
+                currentUsager.lastInteraction.dateInteraction
+                  | date : "fullDate"
+              }}
+            </span>
+          </li>
+        </ul>
       </div>
     </div>
 
-    <div class="mt-2 d-flex align-items-top fr-text-title--blue-france">
+    <div
+      class="fr-mt-1w fr-display-flex align-items-top fr-text-title--blue-france"
+    >
       <div>
-        <h3 class="fr-text-title--blue-france fr-icon-person-mail-icon">
-          Vos informations
-        </h3>
-        <dl class="ms-0 ps-0">
-          <div class="d-flex gap-2 align-items-center">
-            <dt>Nom Prénom :</dt>
-            <dd>{{ usager.prenom }} {{ usager.nom }}</dd>
-          </div>
-          <div class="d-flex gap-2 align-items-center">
-            <dt>Téléphone :</dt>
-            <dd>{{ usager.telephone | formatInternationalPhoneNumber }}</dd>
-          </div>
-          <div class="d-flex gap-2 align-items-center">
-            <dt>E-mail :</dt>
-            <dd>{{ usager.email || "Email non renseigné" }}</dd>
-          </div>
-        </dl>
+        <h3 class="fr-text-title--blue-france">Vos informations</h3>
+        <ul class="fr-raw-list" aria-label="Vos informations personnelles">
+          <li class="fr-display-flex fr-gap-2 fr-align-items-center fr-my-1w">
+            <span class="font-medium">Nom Prénom :</span>
+            <span>{{ currentUsager.prenom }} {{ currentUsager.nom }}</span>
+          </li>
+          <li class="fr-display-flex fr-gap-2 fr-align-items-center fr-my-1w">
+            <span class="font-medium">Téléphone :</span>
+            <span>{{
+              currentUsager.telephone | formatInternationalPhoneNumber
+            }}</span>
+          </li>
+          <li class="fr-display-flex fr-gap-2 fr-align-items-center fr-my-1w">
+            <span class="font-medium">E-mail :</span>
+            <span>{{ currentUsager.email || "Email non renseigné" }}</span>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
