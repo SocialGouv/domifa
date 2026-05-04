@@ -4,7 +4,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { EditUsagerDocComponent } from "./edit-usager-doc.component";
 import { provideHttpClient } from "@angular/common/http";
 import { SharedModule } from "../../../shared/shared.module";
-import { FormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from "@angular/forms";
+import { UserStructure } from "@domifa/common";
 
 describe("EditUsagerDocComponent", () => {
   let component: EditUsagerDocComponent;
@@ -13,7 +14,7 @@ describe("EditUsagerDocComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [EditUsagerDocComponent],
-      imports: [SharedModule, FormsModule],
+      imports: [SharedModule, ReactiveFormsModule],
       providers: [provideHttpClient()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -33,6 +34,11 @@ describe("EditUsagerDocComponent", () => {
       structureId: 0,
       usagerRef: 1,
     };
+    component.usager = {
+      ref: 1,
+      options: { portailUsagerEnabled: false },
+    } as never;
+    component.me = {} as UserStructure;
     fixture.detectChanges();
   });
 
