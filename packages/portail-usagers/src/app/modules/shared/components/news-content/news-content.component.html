@@ -1,37 +1,37 @@
-<div class="d-flex flex-column gap-4" *ngIf="news">
+<div class="fr-display-flex fr-flex-column fr-gap-4" *ngIf="news">
   <div
     [ngClass]="{
       'fr-card fr-enlarge-link': !isModal
     }"
-    class="pb-4"
+    class="fr-pb-3w"
     *ngFor="let news of news"
   >
-    <div class="fr-card__header pt-3 ps-3">
-      <div class="row d-flex pb-2">
+    <div class="fr-card__header fr-pt-2w fr-pl-2w">
+      <div class="fr-grid-row fr-display-flex fr-pb-1w">
         <div
-          class="d-flex flex-row gap-2 align-items-baseline fr-text-title--blue-france"
+          class="fr-display-flex fr-flex-row fr-gap-2 align-items-baseline fr-text-title--blue-france"
         >
-          <span class="visually-hidden">Date de publication</span>
+          <span class="fr-sr-only">Date de publication</span>
           <span aria-hidden="true" class="fr-icon-calendar-event-fill"></span>
-          <h2 class="fr-h3 fr-text-title--blue-france mb-1">
+          <h2 class="fr-h3 fr-text-title--blue-france fr-mb-1v">
             {{ news.date | date : "d MMMM y" }}
           </h2>
         </div>
         <h3
-          class="fr-h4 fr-text-title--blue-france mb-1"
+          class="fr-h4 fr-text-title--blue-france fr-mb-1v"
           *ngIf="news.description"
         >
           {{ news.description }}
         </h3>
       </div>
     </div>
-    <div class="fr-card__body ps-0">
+    <div class="fr-card__body fr-pl-0">
       <div
-        class="fr-card__content p-0 ms-3 me-3"
+        class="fr-card__content fr-p-0 fr-ml-2w fr-mr-2w"
         *ngFor="let content of news.content"
       >
-        <hr class="pb-2" />
-        <div class="d-flex">
+        <hr class="fr-pb-1w" />
+        <div class="fr-display-flex">
           <h3 class="fr-h4 fr-card__title">
             <span
               [class.fr-badge--info]="content.type === 'new'"
@@ -46,7 +46,7 @@
           </h3>
         </div>
 
-        <ul class="fr-card__desc ps-4 fr-text-title--blue-france">
+        <ul class="fr-card__desc fr-pl-3w fr-text-title--blue-france">
           <li
             [innerHTML]="message | nl2br"
             *ngFor="let message of content.message"

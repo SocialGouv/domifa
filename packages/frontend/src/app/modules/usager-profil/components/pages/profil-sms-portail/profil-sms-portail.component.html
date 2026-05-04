@@ -26,7 +26,7 @@
               <i class="fr-icon-at-line" aria-hidden="true"></i>
               Informations de contact
             </h2>
-            <ng-container *ngIf="usager?.echeanceInfos?.isActif">
+            <ng-container *ngIf="usager?.decisionDeadline?.isActive">
               <app-button
                 *ngIf="!editContactDetails"
                 color="secondary"

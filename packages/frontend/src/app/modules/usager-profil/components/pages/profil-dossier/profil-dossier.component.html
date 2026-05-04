@@ -20,7 +20,7 @@
               État civil
             </h2>
             <ng-container
-              *ngIf="usager?.echeanceInfos?.isActif && displayDeleteButton"
+              *ngIf="usager?.decisionDeadline?.isActive && displayDeleteButton"
               class="d-print-none"
             >
               @if (!editInfos) {
@@ -69,7 +69,7 @@
               Informations de contact
             </h2>
             <ng-container
-              *ngIf="usager?.echeanceInfos?.isActif && displayDeleteButton"
+              *ngIf="usager?.decisionDeadline?.isActive && displayDeleteButton"
             >
               <app-button
                 *ngIf="!editContactDetails"
@@ -116,7 +116,7 @@
               Entretien social
             </h2>
             <ng-container
-              *ngIf="usager?.echeanceInfos?.isActif && displayDeleteButton"
+              *ngIf="usager?.decisionDeadline?.isActive && displayDeleteButton"
               class="d-print-none"
             >
               <app-button

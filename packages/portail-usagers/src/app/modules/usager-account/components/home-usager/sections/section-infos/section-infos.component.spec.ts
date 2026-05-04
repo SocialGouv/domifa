@@ -21,7 +21,7 @@ describe("SectionInfosComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SectionInfosComponent);
     component = fixture.componentInstance;
-    component.usager = DEFAULT_USAGER;
+    fixture.componentRef.setInput("usager", DEFAULT_USAGER);
     fixture.detectChanges();
   });
 

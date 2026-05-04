@@ -11,6 +11,7 @@ import {
 } from "../types";
 import { type UsagerAyantDroit } from "./UsagerAyantDroit.interface";
 import { type UsagerDecision } from "./UsagerDecision.interface";
+import { type DecisionDeadline } from "./DecisionDeadline.interface";
 import { type UsagerEntretien } from "./UsagerEntretien.interface";
 import { type UsagerLastInteraction } from "./UsagerLastInteraction.interface";
 import { UsagerRdvInfo } from "./rdv";
@@ -59,7 +60,7 @@ export interface Usager extends AppEntity {
 
   nbNotes?: number;
   statusInfos?: any;
-  echeanceInfos?: any;
+  decisionDeadline?: DecisionDeadline | null;
   rdvInfo?: UsagerRdvInfo;
   migrated?: boolean;
 }

@@ -68,9 +68,16 @@ export class AppComponent implements OnInit {
   public checkNews(): void {
     const lastNews = localStorage.getItem("NEWS_MON_DOMIFA");
 
-    this.pendingNews = lastNews
-      ? new Date(lastNews) < new Date(DOMIFA_NEWS[0].date)
-      : true;
+    if (!lastNews) {
+      localStorage.setItem(
+        "NEWS_MON_DOMIFA",
+        new Date(DOMIFA_NEWS[0].date).toISOString(),
+      );
+      this.pendingNews = false;
+      return;
+    }
+
+    this.pendingNews = new Date(lastNews) < new Date(DOMIFA_NEWS[0].date);
 
     if (this.pendingNews) {
       this.news = [DOMIFA_NEWS[0]];

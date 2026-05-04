@@ -1,16 +1,16 @@
-<div class="my-2">
+<div class="fr-my-1w">
   <h2 class="fr-text-title--blue-france fr-mb-2v">
     {{ structureInformation.length > 1 ? "Messages" : "Message" }} de votre
     structure
   </h2>
 
-  <div class="border-top border-grey pt-3">
+  <div class="border-top border-grey fr-pt-2w">
     <div *ngIf="!structureInformation?.length">
       <div class="fr-callout fr-callout--empty">
         Vous n’avez aucun message de votre structure
       </div>
     </div>
-    <div class="py-1">
+    <div class="fr-py-1w">
       <ng-container
         *ngFor="let information of structureInformation; let i = index"
       >

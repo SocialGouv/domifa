@@ -29,6 +29,8 @@ fileignoreconfig:
   checksum: eb5830a53f6558916812a8c3628d7ffed713dc4d0842eee7580dccbae28bd607
 - filename: packages/frontend/src/app/modules/general/components/static-pages/politique/politique.component.html
   checksum: 5a51711775b228a5086ca5f40eac5f971a09d9a6837b115f0cb81db16938b8e2
+- filename: packages/frontend/src/app/modules/general/components/static-pages/temoignages/temoignages.component.html
+  checksum: e323d7607ded08dd46ce54930974aafe455cac260b74a0ea7dd5549bd5f87a1b
 - filename: packages/frontend/src/assets/images/discover/partenaire-fabrique.svg
   checksum: 57fe56d87f88e2640091654f554b10d1b10b971b65967a4ae28b6133259fe3b1
 - filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.spec.ts

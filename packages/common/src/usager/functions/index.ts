@@ -1,5 +1,5 @@
 // @index('./*.ts', f => `export * from '${f.path}'`)
 export * from "./generateMotifLabel.service";
-export * from "./getEcheanceInfo";
+export * from "./getDecisionDeadline";
 export * from "./getPersonFullName";
 export * from "./getRdvInfo.service";

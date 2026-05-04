@@ -4,7 +4,7 @@ import {
   USAGER_DECISION_STATUT_COLORS,
   getRdvInfo,
   UsagerOptions,
-  getEcheanceInfo,
+  getDecisionDeadline,
 } from "@domifa/common";
 import { Decision, Rdv } from "../../modules/usager-shared/interfaces";
 import { countStandByInteractions } from "../../modules/usager-shared/utils";
@@ -27,7 +27,7 @@ export const setUsagerInformation = (usager: Usager): any => {
         : null,
     },
     phoneNumber: formatInternationalPhoneNumber(usager?.telephone as Telephone),
-    echeanceInfos: getEcheanceInfo(usager),
+    decisionDeadline: getDecisionDeadline(usager),
     rdvInfo: getRdvInfo({
       rdv: usager.rdv,
       etapeDemande: usager.etapeDemande,

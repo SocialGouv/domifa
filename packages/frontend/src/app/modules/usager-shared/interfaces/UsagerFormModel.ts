@@ -1,6 +1,6 @@
 import { Iso2 } from "intl-tel-input/data";
 import { Entretien, Rdv, Decision } from ".";
-import { UsagerEcheanceInfos, Telephone } from "../../../../_common/model";
+import { Telephone } from "../../../../_common/model";
 
 import { countStandByInteractions } from "../utils";
 import {
@@ -17,8 +17,9 @@ import {
   Usager,
   UsagerDecisionStatut,
   UsagerOptions,
-  getEcheanceInfo,
+  getDecisionDeadline,
   getPersonFullName,
+  DecisionDeadline,
 } from "@domifa/common";
 import { formatInternationalPhoneNumber } from "../../../shared/phone/formatInternationalPhoneNumber";
 
@@ -58,7 +59,7 @@ export class UsagerFormModel implements Usager {
 
   public options: UsagerOptions;
 
-  public echeanceInfos: UsagerEcheanceInfos;
+  public decisionDeadline: DecisionDeadline;
   public rdvInfo: UsagerRdvInfo;
 
   public statusInfo: {
@@ -153,7 +154,8 @@ export class UsagerFormModel implements Usager {
       color: USAGER_DECISION_STATUT_COLORS[this.decision.statut],
     };
 
-    this.echeanceInfos = getEcheanceInfo(usager);
+    this.decisionDeadline =
+      usager?.decisionDeadline ?? getDecisionDeadline(usager);
     this.rdvInfo = getRdvInfo({
       rdv: this.rdv,
       etapeDemande: this.etapeDemande,

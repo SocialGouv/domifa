@@ -1,6 +1,10 @@
 <div class="w-100 fr-background-contrast--blue-ecume">
-  <div class="fr-container row d-flex flex-row justify-content-between">
-    <div class="col-12 col-md-8 col-sm-8 py-3 py-md-5 d-flex flex-column gap-1">
+  <div
+    class="fr-container fr-grid-row fr-display-flex fr-flex-row fr-justify-content-between"
+  >
+    <div
+      class="fr-col-12 fr-col-sm-8 fr-col-md-8 fr-py-2w fr-py-md-6w fr-display-flex fr-flex-column fr-gap-1"
+    >
       <h1 class="fr-text-title--blue-france">Nouveautés sur Mon DomiFa</h1>
       <p class="fr-text--lead fr-text-title--blue-france">
         Cette page recense toutes les nouveautés et améliorations de l’outil
@@ -8,13 +12,13 @@
         dernières évolutions.
       </p>
     </div>
-    <div class="col-2 py-2 d-none d-md-block d-sm-block">
+    <div class="fr-col-2 fr-py-1w fr-unhidden-sm">
       <img class="fr-responsive-img" src="/assets/images/news.svg" alt="" />
     </div>
   </div>
 </div>
 <div class="fr-background-alt--grey">
-  <div class="fr-container py-3">
+  <div class="fr-container fr-py-2w">
     <app-news-content [news]="DOMIFA_NEWS"> </app-news-content>
   </div>
 </div>

@@ -304,17 +304,17 @@
                 tabindex="0"
                 (click)="goToProfil(usager)"
               >
-                @if (usager?.echeanceInfos?.isActif) {
+                @if (usager?.decisionDeadline?.isActive) {
                 <span
-                  [class]="'statut-signal ' + usager?.echeanceInfos?.color"
+                  [class]="'statut-signal ' + usager?.decisionDeadline?.color"
                 ></span>
-                @if (usager?.echeanceInfos?.color === 'bg-danger') {
+                @if (usager?.decisionDeadline?.color === 'bg-danger') {
                 <span class="fr-sr-only">Moins de 2 mois</span>
-                } @if (usager?.echeanceInfos?.color !== 'bg-danger') {
+                } @if (usager?.decisionDeadline?.color !== 'bg-danger') {
                 <span class="fr-sr-only">Moins de 2 semaines ou dépassée</span>
-                } } @if (usager?.echeanceInfos?.dateToDisplay) {
+                } } @if (usager?.decisionDeadline?.dateToDisplay) {
                 <span
-                  >{{ usager.echeanceInfos?.dateToDisplay | date : "dd/MM/yy"
+                  >{{ usager.decisionDeadline?.dateToDisplay | date : "dd/MM/yy"
                   }}</span
                 >
                 }
