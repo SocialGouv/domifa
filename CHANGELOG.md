@@ -1,3 +1,16 @@
+# [2.237.0](https://github.com/SocialGouv/domifa/compare/v2.236.5...v2.237.0) (2026-05-05)
+
+
+### Bug Fixes
+
+* **frontend:** fix unit test ([6e43373](https://github.com/SocialGouv/domifa/commit/6e43373fc5d61a30feb6e465528a010bc14cb48f))
+
+
+### Features
+
+* **backend:** add detail network ([fb8f7d7](https://github.com/SocialGouv/domifa/commit/fb8f7d72740679fb87893b5242fc1451a0904470))
+* **frontend:** add testimony page ([b31e412](https://github.com/SocialGouv/domifa/commit/b31e4126f75371db179d2ce1247d6d1180ebd1ec))
+
 ## [2.236.5](https://github.com/SocialGouv/domifa/compare/v2.236.4...v2.236.5) (2026-04-30)
 
 
