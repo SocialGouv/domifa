@@ -220,6 +220,7 @@ export class StructuresAuthService {
         "acceptTerms",
         "timeZone",
         "reseau",
+        "reseauDetail",
         "registrationData",
         "siret",
         "noSiret",

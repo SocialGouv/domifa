@@ -54,6 +54,7 @@ export interface Structure extends AppEntity {
   latitude: number;
   longitude: number;
   reseau?: string | null;
+  reseauDetail?: string | null;
   domicilieSegment?: DomiciliesSegmentEnum | null;
   populationSegment?: PopulationSegmentEnum | null;
   registrationData?: StructureRegistrationData | null;

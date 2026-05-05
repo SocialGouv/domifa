@@ -202,11 +202,24 @@ export class StructureDto {
     type: String,
     required: true,
   })
+  @ValidateIf((o) => o.structureType === "asso")
   @IsNotEmpty()
   @IsString()
   @Trim()
   @MaxLength(100)
   public reseau!: string;
+
+  @ApiProperty({
+    type: String,
+    required: false,
+    nullable: true,
+  })
+  @ValidateIf((o) => o.structureType === "asso" && o.reseau === "Autre réseau")
+  @IsNotEmpty()
+  @IsString()
+  @Trim()
+  @MaxLength(100)
+  public reseauDetail?: string | null;
 
   @Transform(({ value }) => cleanSiret(value))
   @ValidateIf((o) => o.noSiret !== true)

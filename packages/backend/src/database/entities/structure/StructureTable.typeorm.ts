@@ -150,6 +150,9 @@ export class StructureTable
   reseau: string;
 
   @Column({ type: "text", nullable: true })
+  reseauDetail: string | null;
+
+  @Column({ type: "text", nullable: true })
   siret: string;
 
   @Column({ type: "boolean", nullable: true, default: null })

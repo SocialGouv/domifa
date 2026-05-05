@@ -550,10 +550,10 @@
               [class.fr-select-group--error]="
                 (submitted || f.reseau?.dirty) && f.reseau?.errors
               "
-              class="fr-col-12 fr-select-group"
+              class="fr-col-12 fr-col-md-6 fr-select-group"
             >
               <label class="fr-label" for="reseau">
-                Précisez votre réseau
+                À quel réseau appartenez-vous&nbsp;?
               </label>
               <select
                 id="reseau"
@@ -594,6 +594,54 @@
               </ul>
               }
             </div>
+
+            @if (f.reseau?.value === 'Autre réseau') {
+            <div
+              [class.fr-input-group--error]="
+                (submitted || f.reseauDetail?.dirty) && f.reseauDetail?.errors
+              "
+              class="fr-col-12 fr-col-md-6 fr-input-group"
+            >
+              <label class="fr-label" for="reseauDetail">
+                Précisez le nom du réseau&nbsp;:
+              </label>
+              <input
+                type="text"
+                id="reseauDetail"
+                formControlName="reseauDetail"
+                name="reseauDetail"
+                maxlength="100"
+                class="fr-input"
+                [class.fr-input--error]="
+                  (submitted || f.reseauDetail?.dirty) && f.reseauDetail?.errors
+                "
+                [attr.aria-describedby]="
+                  (submitted || f.reseauDetail?.dirty) && f.reseauDetail?.errors
+                    ? 'reseau-detail-errors'
+                    : null
+                "
+                [attr.aria-invalid]="
+                  (submitted || f.reseauDetail?.dirty) && f.reseauDetail?.errors
+                    ? true
+                    : null
+                "
+                required
+              />
+              @if ((submitted || f.reseauDetail?.dirty) &&
+              f.reseauDetail?.errors) {
+              <ul
+                class="fr-messages-group__list fr-pl-0"
+                id="reseau-detail-errors"
+                role="alert"
+                aria-live="polite"
+              >
+                <li class="fr-message fr-message--error fr-mt-0">
+                  Veuillez préciser le nom du réseau
+                </li>
+              </ul>
+              }
+            </div>
+            }
 
             <!-- DSP -->
             <div class="fr-col-12" formGroupName="registrationData">

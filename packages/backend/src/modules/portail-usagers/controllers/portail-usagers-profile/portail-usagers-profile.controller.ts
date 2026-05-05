@@ -138,6 +138,7 @@ export class PortailUsagersProfileController {
       uuid: docUuid,
       shared: true,
       structureId: currentUser.structure.id,
+      usagerUUID: currentUser.usager.uuid,
     });
 
     if (

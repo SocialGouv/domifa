@@ -96,7 +96,17 @@
               </div>
               <div class="fr-col d-flex flex-column gap-1">
                 <span class="fw-bold"> Réseau </span>
-                <span> {{ structure.reseau ?? "Non renseigné" }} </span>
+                <span>
+                  {{ structure.reseau ?? "Non renseigné"
+                  }}<ng-container
+                    *ngIf="
+                      structure.reseau === 'Autre réseau' &&
+                      structure.reseauDetail
+                    "
+                  >
+                    — {{ structure.reseauDetail }}</ng-container
+                  >
+                </span>
               </div>
               <div class="fr-col"></div>
             </div>

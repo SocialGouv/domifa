@@ -2,14 +2,13 @@
   <div *ngIf="!success">
     <div>
       <div class="fr-display-flex fr-gap-1w fr-align-items-end fr-my-1w">
-        <!-- create custom class for picto width-->
-        <img
-          style="width: 3rem"
-          src="artwork/pictograms/digital/avatar.svg"
-          aria-hidden="true"
-          alt=""
-        />
-        <h2 class="">Création de votre compte administrateur</h2>
+        <h2>
+          <img
+            src="artwork/pictograms/digital/avatar.svg"
+            aria-hidden="true"
+            alt=""
+          />Création de votre compte administrateur
+        </h2>
       </div>
       <p class="fr-mb-0">
         <span class="fr-text--bold">Attention</span>, les informations que vous
@@ -152,12 +151,8 @@
             "
             class="fr-input-group"
           >
-            <label class="fr-label" for="email"
-              >E-mail
-              <p class="fr-hint-text">
-                format attendu : nom&#64;domaine.fr
-              </p></label
-            >
+            <label class="fr-label" for="email">E-mail </label>
+            <p class="fr-hint-text">format attendu : nom&#64;domaine.fr</p>
             <input
               type="email"
               class="fr-input"
