@@ -43,9 +43,15 @@ export function createform(
       structure.agrement,
       structure.structureType === "asso" ? [Validators.required] : [],
     ],
-    capacite: [structure.capacite, [Validators.required]],
+    capacite: [
+      structure.capacite,
+      structure.structureType === "asso" ? [Validators.required] : [],
+    ],
     complementAdresse: [structure.complementAdresse, []],
-    departement: [structure.departement, []],
+    departement: [
+      structure.departement,
+      structure.structureType === "asso" ? [Validators.required] : [],
+    ],
     email: [structure.email, [Validators.required, Validators.email]],
     nom: [
       structure.nom,
@@ -97,10 +103,22 @@ export function createform(
       ],
     }),
     structureType: [structure.structureType, [Validators.required]],
-    organismeType: [structure.organismeType, []],
+    organismeType: [
+      structure.organismeType,
+      structure.structureType === "asso" ? [Validators.required] : [],
+    ],
     ville: [structure.ville, [Validators.required, Validators.maxLength(255)]],
     acceptCgu: [null, []],
-    reseau: [structure.reseau, [Validators.required]],
+    reseau: [
+      structure.reseau,
+      structure.structureType === "asso" ? [Validators.required] : [],
+    ],
+    reseauDetail: [
+      structure.reseauDetail,
+      structure.structureType === "asso" && structure.reseau === "Autre réseau"
+        ? [Validators.required, Validators.maxLength(100)]
+        : [Validators.maxLength(100)],
+    ],
     siret: [
       structure?.siret,
       structure?.noSiret
@@ -149,30 +167,61 @@ export const initEditionForm = (
   return createform(structure, formBuilder, FormContext.EDITION);
 };
 
+const updateReseauDetailValidator = (form: FormGroup): void => {
+  const isAsso = form.get("structureType")?.value === "asso";
+  const isAutreReseau = form.get("reseau")?.value === "Autre réseau";
+  const control = form.get("reseauDetail");
+  if (isAsso && isAutreReseau) {
+    control?.setValidators([Validators.required, Validators.maxLength(100)]);
+  } else {
+    control?.setValidators([Validators.maxLength(100)]);
+  }
+  control?.updateValueAndValidity({ emitEvent: false });
+};
+
 export const setupFormSubscriptions = (
   form: FormGroup,
   subscription: Subscription
 ): void => {
   subscription.add(
     form.get("structureType")?.valueChanges.subscribe((value) => {
-      form.get("agrement")?.setValidators(null);
-      form.get("departement")?.setValidators(null);
-      form.get("organismeType")?.setValidators(null);
+      const assoOnlyFields = [
+        "agrement",
+        "departement",
+        "organismeType",
+        "capacite",
+        "reseau",
+      ];
+
+      assoOnlyFields.forEach((name) => form.get(name)?.setValidators(null));
       form.get("registrationData")?.get("dsp")?.setValidators(null);
 
       if (value === "asso") {
-        form.get("agrement")?.setValidators(Validators.required);
-        form.get("departement")?.setValidators(Validators.required);
+        assoOnlyFields.forEach((name) =>
+          form.get(name)?.setValidators(Validators.required)
+        );
         form
           .get("registrationData")
           ?.get("dsp")
           ?.setValidators(Validators.required);
+      } else {
+        form.get("reseauDetail")?.setValue(null);
       }
 
-      form.get("agrement")?.updateValueAndValidity();
-      form.get("departement")?.updateValueAndValidity();
-      form.get("organismeType")?.updateValueAndValidity();
+      assoOnlyFields.forEach((name) =>
+        form.get(name)?.updateValueAndValidity()
+      );
       form.get("registrationData")?.get("dsp")?.updateValueAndValidity();
+      updateReseauDetailValidator(form);
+    })
+  );
+
+  subscription.add(
+    form.get("reseau")?.valueChanges.subscribe(() => {
+      if (form.get("reseau")?.value !== "Autre réseau") {
+        form.get("reseauDetail")?.setValue(null);
+      }
+      updateReseauDetailValidator(form);
     })
   );
 

@@ -19,6 +19,7 @@ export const STRUCTURE_DTO_KEYS = [
   "timeZone",
   "organismeType",
   "reseau",
+  "reseauDetail",
   "siret",
   "noSiret",
   "registrationData",

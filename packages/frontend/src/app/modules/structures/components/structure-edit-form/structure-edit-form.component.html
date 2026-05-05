@@ -460,6 +460,51 @@
           </div>
         </div>
       </div>
+
+      @if (f.reseau?.value === 'Autre réseau') {
+      <div class="fr-col-12 fr-col-md-6">
+        <div
+          class="fr-input-group"
+          [class.fr-input-group--error]="
+            (submitted || f.reseauDetail?.dirty) && f.reseauDetail?.errors
+          "
+        >
+          <label class="fr-label" for="reseauDetail">
+            Précisez le nom du réseau&nbsp;:
+          </label>
+          <input
+            type="text"
+            class="fr-input"
+            [class.fr-input--error]="
+              (submitted || f.reseauDetail?.dirty) && f.reseauDetail?.errors
+            "
+            id="reseauDetail"
+            formControlName="reseauDetail"
+            name="reseauDetail"
+            maxlength="100"
+            aria-describedby="reseauDetail-messages"
+            [attr.aria-invalid]="
+              (submitted || f.reseauDetail?.dirty) && f.reseauDetail?.errors
+                ? true
+                : null
+            "
+            required
+          />
+          <div
+            class="fr-messages-group"
+            id="reseauDetail-messages"
+            aria-live="polite"
+          >
+            @if ((submitted || f.reseauDetail?.dirty) && f.reseauDetail?.errors)
+            {
+            <p class="fr-message fr-message--error">
+              Veuillez préciser le nom du réseau
+            </p>
+            }
+          </div>
+        </div>
+      </div>
+      }
     </div>
   </section>
   }
