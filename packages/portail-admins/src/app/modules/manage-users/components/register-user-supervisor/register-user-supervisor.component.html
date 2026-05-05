@@ -1,11 +1,11 @@
 <div>
   <form #form *ngIf="userForm" [formGroup]="userForm" (ngSubmit)="submitUser()">
-    <div class="row">
+    <div class="fr-grid-row">
       <div
         [class.fr-input-group--error]="
           (f.nom.dirty || submitted) && f.nom.errors ? true : false
         "
-        class="col-md-12 fr-input-group required mb-3"
+        class="fr-col-md-12 fr-input-group required mb-3"
       >
         <label class="fr-label mb-0" for="nom">Nom</label>
         <input
@@ -44,7 +44,7 @@
         [class.fr-input-group--error]="
           (f.prenom.dirty || submitted) && f.prenom.errors ? true : false
         "
-        class="col-md-12 fr-input-group mb-3 required"
+        class="fr-col-md-12 fr-input-group mb-3 required"
       >
         <label class="fr-label mb-0" for="prenom">Prénom</label>
         <input
@@ -84,7 +84,7 @@
         [class.fr-input-group--error]="
           (f.email.dirty || submitted) && f.email.errors ? true : false
         "
-        class="col-md-12 mb-3 fr-input-group required"
+        class="fr-col-md-12 mb-3 fr-input-group required"
       >
         <label class="fr-label mb-0" for="email">Adresse email</label>
         <input
@@ -131,7 +131,7 @@
       </div>
       <div
         [class.fr-input-group--error]="submitted && f.role.errors"
-        class="col-md-12 mb-3 fr-input-group required"
+        class="fr-col-md-12 mb-3 fr-input-group required"
       >
         <label class="fr-label mb-0" for="role">Rôle du superviseur</label>
         <select
@@ -168,7 +168,7 @@
       </div>
 
       <div
-        class="col-md-12 mb-3 fr-input-group required"
+        class="fr-col-md-12 mb-3 fr-input-group required"
         *ngIf="showTerritories"
       >
         <label for="territories" class="fr-label mb-0">

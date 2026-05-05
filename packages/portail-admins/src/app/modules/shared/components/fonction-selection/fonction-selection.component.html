@@ -1,11 +1,11 @@
-<div class="row mb-5">
+<div class="fr-grid-row mb-5">
   <div
     [class.fr-input-group--error]="
       fonctionFormControl &&
       (submitted || fonctionFormControl?.dirty) &&
       fonctionFormControl.errors
     "
-    class="col-6 fr-input-group col-md-6"
+    class="fr-col-6 fr-input-group fr-col-md-6"
   >
     <ng-container>
       <label class="fr-label" for="fonction">{{ label }}</label>
@@ -50,8 +50,8 @@
     >
   </div>
 
-  <div class="col-6 fr-input-group required col-md-6">
-    <div class="col-12" *ngIf="fonction === USER_FONCTION.AUTRE">
+  <div class="fr-col-6 fr-input-group required fr-col-md-6">
+    <div class="fr-col-12" *ngIf="fonction === USER_FONCTION.AUTRE">
       <label
         class="fr-label"
         for="fonctionDetail"

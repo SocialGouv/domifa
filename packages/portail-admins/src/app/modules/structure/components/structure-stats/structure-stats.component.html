@@ -1,5 +1,5 @@
-<div class="row mt-2 gap-2 align-items-end" *ngIf="structure">
-  <div class="fr-select-group col-7 mb-0">
+<div class="fr-grid-row mt-2 gap-2 fr-align-items-end" *ngIf="structure">
+  <div class="fr-select-group fr-col-7 mb-0">
     <label class="fr-label mb-0" for="year"> Selectionner un année </label>
     <select
       [disabled]="loading || structure.statut === 'REFUS'"

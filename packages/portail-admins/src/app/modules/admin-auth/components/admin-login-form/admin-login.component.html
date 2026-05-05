@@ -1,7 +1,7 @@
-<h1 class="align-self-start fr-h3">DomiFa - Accès Institutionnel</h1>
+<h1 class="fr-align-self-start fr-h3">DomiFa - Accès Institutionnel</h1>
 <form
   [formGroup]="loginForm"
-  class="column d-flex flex-column gap-3 pt-4 pt-md-5 pb-4 pb-md-5"
+  class="column fr-display-flex fr-flex-column gap-3 pt-4 pt-md-5 pb-4 pb-md-5"
   (ngSubmit)="login()"
 >
   <div>
@@ -77,7 +77,11 @@
     </a>
   </div>
   <div class="form-group my-2 text-center">
-    <button id="loginBtn" type="submit" class="fr-btn d-flex flex-column w-100">
+    <button
+      id="loginBtn"
+      type="submit"
+      class="fr-btn fr-display-flex fr-flex-column w-100"
+    >
       <span *ngIf="!loading">Se connecter </span>
       <span *ngIf="loading"
         ><fa-icon
