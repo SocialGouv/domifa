@@ -1,6 +1,6 @@
 <div class="fr-background-alt--blue-cumulus pt-4">
-  <div class="row">
-    <div class="fr-container col-md-12 col-12">
+  <div class="fr-grid-row">
+    <div class="fr-container fr-col-md-12 fr-col-12">
       <h1 class="fr-text-title--blue-france">
         Outil de pilotage de la domiciliation {{ titleLabel }}
       </h1>
@@ -8,8 +8,8 @@
   </div>
 </div>
 <div class="pt-5">
-  <div class="fr-container d-flex row gap-0 mt-2">
-    <div class="fr-select-group col-12 col-md">
+  <div class="fr-container fr-display-flex fr-grid-row gap-0 mt-2">
+    <div class="fr-select-group fr-col-12 col-md">
       <label class="fr-label" for="year"> Année </label>
       <select
         [disabled]="loading"
@@ -24,7 +24,7 @@
         </option>
       </select>
     </div>
-    <div class="fr-select-group col-12 col-md">
+    <div class="fr-select-group fr-col-12 col-md">
       <label class="fr-label" for="region"> Région </label>
       <select
         [disabled]="loading"
@@ -47,7 +47,7 @@
 
     <div
       *ngIf="user.role !== 'department'"
-      class="fr-select-group col-12 col-md"
+      class="fr-select-group fr-col-12 col-md"
     >
       <label class="fr-label" for="departement"> Département </label>
       <select
@@ -69,7 +69,7 @@
       </select>
     </div>
 
-    <div class="fr-select-group col-12 col-md">
+    <div class="fr-select-group fr-col-12 col-md">
       <label class="fr-label" for="structureType"> Type de structure </label>
       <select
         class="fr-select"
@@ -89,7 +89,7 @@
       </select>
     </div>
 
-    <div class="fr-select-group col-12 col-md">
+    <div class="fr-select-group fr-col-12 col-md">
       <label class="fr-label" for="structure"> Choisir une structure </label>
       <select
         class="fr-select"
@@ -107,7 +107,7 @@
       </select>
     </div>
   </div>
-  <div class="fr-container row gap-2 justify-content-end">
+  <div class="fr-container fr-grid-row gap-2 fr-justify-content-end">
     <button
       type="button"
       class="fr-btn fr-icon-refresh-line fr-btn--icon-right fr-btn--secondary"

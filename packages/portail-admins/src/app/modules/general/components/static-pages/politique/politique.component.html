@@ -1,4 +1,4 @@
-<div class="container">
+<div class="fr-container">
   <h1>Politique de confidentialité - DomiFa</h1>
   <h2>Qui est responsable de DomiFa ?</h2>
   <p>
@@ -142,16 +142,16 @@
   >
     <ng-template #tableBodyTemplate let-row>
       <tr>
-        <td>{{ row.sousTraitant }}</td>
-        <td>{{ row.paysDestinataire }}</td>
-        <td>{{ row.traitementRealise }}</td>
+        <td>{{ fr - grid - row.sousTraitant }}</td>
+        <td>{{ fr - grid - row.paysDestinataire }}</td>
+        <td>{{ fr - grid - row.traitementRealise }}</td>
         <td>
           <a
-            href="{{ row.garanties }}"
+            href="{{ fr - grid - row.garanties }}"
             target="_blank"
-            title="{{ row.sousTraitant }} - nouvelle fenêtre"
+            title="{{ fr - grid - row.sousTraitant }} - nouvelle fenêtre"
           >
-            {{ row.garanties }}
+            {{ fr - grid - row.garanties }}
           </a>
         </td>
       </tr>
