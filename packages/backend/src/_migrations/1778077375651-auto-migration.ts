@@ -1,23 +1,26 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { domifaConfig } from "../config";
 
 export class AutoMigration1778077375651 implements MigrationInterface {
   name = "AutoMigration1778077375651";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `ALTER TABLE "app_log" ADD "userStructureId" integer`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "app_log" ADD "userSupervisorId" integer`
-    );
-    await queryRunner.query(`ALTER TABLE "app_log" ADD "userType" text`);
-    await queryRunner.query(`ALTER TABLE "app_log" ADD "usagerUuid" uuid`);
-    await queryRunner.query(
-      `CREATE INDEX "IDX_9cf79ee5a07df3bb533048b302" ON "app_log" ("userType") `
-    );
-    await queryRunner.query(
-      `CREATE INDEX "IDX_241b8f7b6b81faf9e763450a04" ON "app_log" ("usagerUuid") `
-    );
+    if (domifaConfig().envId === "prod" || domifaConfig().envId === "preprod") {
+      await queryRunner.query(
+        `ALTER TABLE "app_log" ADD "userStructureId" integer`
+      );
+      await queryRunner.query(
+        `ALTER TABLE "app_log" ADD "userSupervisorId" integer`
+      );
+      await queryRunner.query(`ALTER TABLE "app_log" ADD "userType" text`);
+      await queryRunner.query(`ALTER TABLE "app_log" ADD "usagerUuid" uuid`);
+      await queryRunner.query(
+        `CREATE INDEX "IDX_9cf79ee5a07df3bb533048b302" ON "app_log" ("userType") `
+      );
+      await queryRunner.query(
+        `CREATE INDEX "IDX_241b8f7b6b81faf9e763450a04" ON "app_log" ("usagerUuid") `
+      );
+    }
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
