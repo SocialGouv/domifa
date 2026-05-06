@@ -1,3 +1,18 @@
+# [2.238.0](https://github.com/SocialGouv/domifa/compare/v2.237.0...v2.238.0) (2026-05-06)
+
+
+### Bug Fixes
+
+* **admin:** delete bootstrap ([dbc638c](https://github.com/SocialGouv/domifa/commit/dbc638ce8e297920049b875bc473f359496b8d9d))
+* **backend:** add role & migration ([5a7e077](https://github.com/SocialGouv/domifa/commit/5a7e077a25c22fc05ac1be3123a8911ebc4a0f54))
+* **backend:** fix filters ([ccf2b29](https://github.com/SocialGouv/domifa/commit/ccf2b295e8a10ae738212d8a140db5758ea573b2))
+* **backend:** fix packages upgrade ([a4a6ac2](https://github.com/SocialGouv/domifa/commit/a4a6ac2242d23148f612123e9312d1071735c13f))
+
+
+### Features
+
+* **metabase:** refactor to get stats ([81a0863](https://github.com/SocialGouv/domifa/commit/81a08639850479e7e0cdd37e6707f80961d7dd85))
+
 # [2.237.0](https://github.com/SocialGouv/domifa/compare/v2.236.5...v2.237.0) (2026-05-05)
 
 
