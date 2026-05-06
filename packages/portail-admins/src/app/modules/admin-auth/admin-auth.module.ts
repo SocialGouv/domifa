@@ -1,7 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { SharedModule } from "../shared/shared.module";
 import { AdminAuthRoutingModule } from "./admin-auth-routing.module";
 import { AdminLoginComponent } from "./components/admin-login-form/admin-login.component";
@@ -25,7 +24,6 @@ import { LoginContainerComponent } from "./components/login-container/login-cont
     CommonModule,
     AdminAuthRoutingModule,
     FormsModule,
-    FontAwesomeModule,
     SharedModule,
     ReactiveFormsModule,
   ],

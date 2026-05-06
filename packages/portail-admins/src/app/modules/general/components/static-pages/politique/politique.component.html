@@ -142,16 +142,16 @@
   >
     <ng-template #tableBodyTemplate let-row>
       <tr>
-        <td>{{ fr - grid - row.sousTraitant }}</td>
-        <td>{{ fr - grid - row.paysDestinataire }}</td>
-        <td>{{ fr - grid - row.traitementRealise }}</td>
+        <td>{{ row.sousTraitant }}</td>
+        <td>{{ row.paysDestinataire }}</td>
+        <td>{{ row.traitementRealise }}</td>
         <td>
           <a
-            href="{{ fr - grid - row.garanties }}"
+            href="{{ row.garanties }}"
             target="_blank"
-            title="{{ fr - grid - row.sousTraitant }} - nouvelle fenêtre"
+            title="{{ row.sousTraitant }} - nouvelle fenêtre"
           >
-            {{ fr - grid - row.garanties }}
+            {{ row.garanties }}
           </a>
         </td>
       </tr>

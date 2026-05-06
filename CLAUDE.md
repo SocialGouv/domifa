@@ -7,17 +7,17 @@ Application de gestion de la domiciliation pour les personnes sans domicile stab
 ```
 packages/
   backend/          # API NestJS (TypeScript, TypeORM, PostgreSQL + PostGIS)
-  frontend/         # App Angular 18 - interface structures
-  portail-usagers/  # App Angular 18 - portail bénéficiaires
+  frontend/         # App Angular 19 - interface structures (DSFR)
+  portail-usagers/  # App Angular 18 - portail bénéficiaires (DSFR)
   portail-admins/   # App Angular 18 - admin (DSFR)
   common/           # Types et utilitaires partagés
 ```
 
 ## Stack technique
 
-- **Node** >= 24, **pnpm** 10.x, **Lerna** 8.x (independent versioning)
+- **Node** >= 22, **pnpm** 10.x, **Lerna** 8.x (independent versioning)
 - **Backend** : NestJS 11, TypeORM 0.3, PostgreSQL 15 (PostGIS), Passport JWT, Pino, Swagger
-- **Frontends** : Angular 18, RxJS, NgRx, Bootstrap (frontend/portail-usagers), DSFR (portail-admins)
+- **Frontends** : Angular 19 (frontend) / Angular 18 (portail-usagers, portail-admins), RxJS, NgRx (frontend), DSFR (toutes les apps)
 - **Tests** : Jest (backend + frontends), Supertest (backend HTTP)
 - **CI/CD** : GitHub Actions, semantic-release, Docker multi-stage, Kubernetes (Kontinuous)
 

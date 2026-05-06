@@ -13,8 +13,6 @@ import {
 } from "@domifa/common";
 import { ManageUsersService } from "../../services/manage-users.service";
 import { AdminAuthService } from "../../../admin-auth/services/admin-auth.service";
-import { faEdit } from "@fortawesome/free-regular-svg-icons";
-import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { subMonths } from "date-fns";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
@@ -49,8 +47,6 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
   @ViewChild("updateUserModal")
   public updateUserModal!: DsfrModalComponent;
 
-  public readonly faEdit = faEdit;
-  public readonly faUserPlus = faUserPlus;
   public twoMonthsAgo = subMonths(new Date(), 2);
 
   constructor(

@@ -12,8 +12,6 @@ import { filter } from "rxjs";
 import { AdminAuthService } from "./modules/admin-auth/services/admin-auth.service";
 import { LIENS_PARTENAIRES } from "./modules/general/components/static-pages/plan-site/LIENS_PARTENAIRES.const";
 import { PortailAdminUser } from "@domifa/common";
-import { faChartBar } from "@fortawesome/free-regular-svg-icons";
-import { faList, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { DsfrHeaderMenuItem, DsfrLink } from "@edugouvfr/ngx-dsfr";
 
 @Component({
@@ -24,9 +22,6 @@ import { DsfrHeaderMenuItem, DsfrLink } from "@edugouvfr/ngx-dsfr";
 export class AppComponent implements OnInit {
   public adminProfile: PortailAdminUser | null;
   public readonly partnerLinks = LIENS_PARTENAIRES;
-  public faChartBar = faChartBar;
-  public faUsers = faUsers;
-  public faList = faList;
   public currentUrl = "";
   public skipLinks: DsfrLink[] = [];
   public headerToolsLinks: DsfrLink[] = [];

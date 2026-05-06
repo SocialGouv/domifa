@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
 import { SharedModule } from "../shared/shared.module";
 import { UsersComponent } from "./components/users/users.component";
@@ -28,7 +27,6 @@ import { DisplayLastLoginComponent } from "../shared/components/display-last-log
     FormsModule,
     FormatInternationalPhoneNumberPipe,
     SharedModule,
-    FontAwesomeModule,
     TableHeadSortComponent,
     SortArrayPipe,
     ClipboardModule,

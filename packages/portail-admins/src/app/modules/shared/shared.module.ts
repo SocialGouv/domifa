@@ -1,11 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import {
-  FaIconLibrary,
-  FontAwesomeModule,
-} from "@fortawesome/angular-fontawesome";
 import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
-import { FA_ICONS } from "./constants/FA_ICONS.const";
+import { ButtonComponent } from "./components/button/button.component";
 
 import { AdminStructuresApiClient } from "./services";
 import { AdminStructuresExportComponent } from "./components/admin-structures-export";
@@ -38,6 +34,7 @@ import {
     UcFirstPipe,
     FormatBigNumberPipe,
     CustomToastrComponent,
+    ButtonComponent,
     AdminStructuresExportComponent,
     FonctionSelectionComponent,
   ],
@@ -47,9 +44,9 @@ import {
     UcFirstPipe,
     FormatPhoneNumberPipe,
     FormatBigNumberPipe,
-    FontAwesomeModule,
     AdminStructuresExportComponent,
     CustomToastrComponent,
+    ButtonComponent,
     FonctionSelectionComponent,
     FonctionFormatPipe,
     DsfrSkiplinksModule,
@@ -63,7 +60,6 @@ import {
   ],
   imports: [
     CommonModule,
-    FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
     FonctionFormatPipe,
@@ -78,8 +74,4 @@ import {
   ],
   providers: [AdminStructuresApiClient],
 })
-export class SharedModule {
-  constructor(library: FaIconLibrary) {
-    library.addIcons(...FA_ICONS);
-  }
-}
+export class SharedModule {}

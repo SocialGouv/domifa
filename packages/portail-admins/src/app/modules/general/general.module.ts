@@ -5,7 +5,6 @@ import {
   NO_ERRORS_SCHEMA,
 } from "@angular/core";
 import { RouterModule } from "@angular/router";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { SharedModule } from "../shared/shared.module";
 import { NotFoundComponent } from "./components/not-found/not-found.component";
 import { PlanSiteComponent } from "./components/static-pages/plan-site/plan-site.component";
@@ -29,7 +28,6 @@ import { DsfrDataTableModule } from "@edugouvfr/ngx-dsfr";
   exports: [NotFoundComponent],
   imports: [
     CommonModule,
-    FontAwesomeModule,
     RouterModule.forChild([]),
     SharedModule,
     DsfrDataTableModule,

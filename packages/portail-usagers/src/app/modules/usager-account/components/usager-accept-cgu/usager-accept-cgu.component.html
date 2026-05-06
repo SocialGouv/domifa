@@ -78,15 +78,7 @@
           [attr.aria-busy]="loading"
         >
           <span *ngIf="!loading"> Enregistrer </span>
-          <span *ngIf="loading"
-            ><fa-icon
-              [icon]="['fas', 'circle-notch']"
-              aria-hidden="true"
-              animation="spin"
-            >
-            </fa-icon>
-            Enregistrement en cours...</span
-          >
+          <span *ngIf="loading"> Enregistrement en cours...</span>
         </button>
       </div>
     </form>

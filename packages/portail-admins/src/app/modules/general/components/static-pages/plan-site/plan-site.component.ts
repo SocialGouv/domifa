@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import { LIENS_PARTENAIRES } from "./LIENS_PARTENAIRES.const";
 import { AdminAuthService } from "../../../../admin-auth/services/admin-auth.service";
 import { Subscription } from "rxjs";
@@ -12,7 +11,6 @@ import { PortailAdminUser } from "@domifa/common";
   styleUrls: ["./plan-site.component.css"],
 })
 export class PlanSiteComponent implements OnInit, OnDestroy {
-  public faExternalLinkAlt = faExternalLinkAlt;
   public siteMapLinksLogged: {
     section: string;
     links: {

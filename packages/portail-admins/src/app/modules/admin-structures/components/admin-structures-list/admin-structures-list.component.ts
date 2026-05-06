@@ -22,7 +22,6 @@ import {
 } from "rxjs";
 
 import { fadeInOut } from "../../../shared/constants";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import {
   StructureFilterCriteria,
   StructureFilterCriteriaSortEnum,
@@ -59,7 +58,6 @@ export class AdminStructuresListComponent
   public filters = new StructureFilterCriteria();
   public showFilters = false;
   public pageSize = 100;
-  public readonly faSpinner = faSpinner;
   public filters$: BehaviorSubject<StructureFilterCriteria> =
     new BehaviorSubject(this.filters);
 

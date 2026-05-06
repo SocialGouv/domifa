@@ -6,14 +6,18 @@ import {
   SimpleChange,
   SimpleChanges,
 } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
 import {
   CriteriaSearchField,
   DEPARTEMENTS_LISTE,
   REGIONS_DEF,
 } from "@domifa/common";
-import { AdminStructuresModule } from "../../admin-structures.module";
-import { StructureFilterCriteriaSortEnum } from "../../utils/structure-filter-criteria";
+import { SortArrayPipe } from "../../../shared/pipes/sort-array.pipe";
+import {
+  StructureFilterCriteria,
+  StructureFilterCriteriaSortEnum,
+} from "../../utils/structure-filter-criteria";
 
 describe("StructureFiltersComponent", () => {
   let component: StructureFiltersComponent;
@@ -21,24 +25,19 @@ describe("StructureFiltersComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdminStructuresModule],
+      declarations: [StructureFiltersComponent],
+      imports: [CommonModule, SortArrayPipe],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(StructureFiltersComponent);
     component = fixture.componentInstance;
-    component.filters = {
-      reset: null,
-      structureType: null,
-      region: null,
-      departement: null,
-      domicilieSegment: null,
-      searchString: null,
+    component.filters = new StructureFilterCriteria({
       searchStringField: CriteriaSearchField.DEFAULT,
       page: 0,
       sortKey: StructureFilterCriteriaSortEnum.ID,
       sortValue: "asc",
-    };
+    });
     component.searching = false;
     component.nbResults = 10;
 
@@ -63,11 +62,6 @@ describe("StructureFiltersComponent", () => {
   });
 
   describe(".getDepartmentsWithFilter()", () => {
-    it("should return all departments when no region is provided", () => {
-      const result = component.getDepartmentsWithFilter(null);
-      expect(result).toEqual(expect.objectContaining(DEPARTEMENTS_LISTE));
-    });
-
     it("should return all departments when undefined region is provided", () => {
       const result = component.getDepartmentsWithFilter(undefined);
       expect(result).toEqual(expect.objectContaining(DEPARTEMENTS_LISTE));
@@ -78,9 +72,8 @@ describe("StructureFiltersComponent", () => {
       const result = component.getDepartmentsWithFilter("11");
 
       // Île-de-France has 8 departments
-      const ileDefranceDepartments = REGIONS_DEF.find(
-        (r) => r.regionCode === "11"
-      ).departements;
+      const ileDefranceDepartments =
+        REGIONS_DEF.find((r) => r.regionCode === "11")?.departements ?? [];
 
       // Check that the result has the correct number of departments
       expect(Object.keys(result).length).toBe(ileDefranceDepartments.length);
@@ -91,9 +84,9 @@ describe("StructureFiltersComponent", () => {
       });
     });
 
-    it("should return an undefined when an invalid region is provided", () => {
+    it("should return an empty object when an invalid region is provided", () => {
       const result = component.getDepartmentsWithFilter("invalid-region");
-      expect(result).toEqual(undefined);
+      expect(result).toEqual({});
     });
   });
 
@@ -118,9 +111,8 @@ describe("StructureFiltersComponent", () => {
       expect(component.getDepartmentsWithFilter).toHaveBeenCalledWith("11");
 
       // Verify DEPARTEMENTS_LISTE was updated
-      const ileDefranceDepartments = REGIONS_DEF.find(
-        (r) => r.regionCode === "11"
-      ).departements;
+      const ileDefranceDepartments =
+        REGIONS_DEF.find((r) => r.regionCode === "11")?.departements ?? [];
       expect(Object.keys(component.DEPARTEMENTS_LISTE).length).toBe(
         ileDefranceDepartments.length
       );

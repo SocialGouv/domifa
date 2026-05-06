@@ -7,24 +7,13 @@
     class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left"
   >
     <div>
-      <button
+      <app-button
         type="submit"
-        class="fr-btn"
-        (click)="deleteUser()"
-        [disabled]="loading"
-        [attr.aria-busy]="loading"
-      >
-        <span *ngIf="!loading">Confirmer la suppression</span>
-        <span *ngIf="loading">
-          <fa-icon
-            [icon]="['fas', 'circle-notch']"
-            aria-hidden="true"
-            animation="spin"
-          >
-          </fa-icon>
-          Veuillez patientez...
-        </span>
-      </button>
+        label="Confirmer la suppression"
+        loadingText="Veuillez patienter..."
+        [loading]="loading"
+        (action)="deleteUser()"
+      ></app-button>
     </div>
     <div>
       <button

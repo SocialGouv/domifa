@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { TableHeadSortComponent } from "./table-head-sort.component";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NgIf, NgClass } from "@angular/common";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 describe("TableHeadSortComponent", () => {
   let component: TableHeadSortComponent;
@@ -11,7 +10,7 @@ describe("TableHeadSortComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NgIf, NgClass, FontAwesomeModule],
+      imports: [NgIf, NgClass],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
 
