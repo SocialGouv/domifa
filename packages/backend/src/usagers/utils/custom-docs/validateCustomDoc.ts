@@ -9,6 +9,8 @@ export async function validateDocTemplate(
 ): Promise<{ isValid: boolean; error?: string }> {
   try {
     const zip = new PizZip(content);
+    zip.remove("docProps/custom.xml");
+
     const iModule = new InspectModule();
 
     const doc = new Docxtemplater(zip, {
@@ -20,12 +22,14 @@ export async function validateDocTemplate(
     doc.render({});
 
     const tags = iModule.getAllTags();
+    console.log("tags", tags);
     if (!validateCustomDocKeys(Object.keys(tags))) {
       return { isValid: false, error: "UNKNOWN_KEY" };
     }
 
     return { isValid: true };
   } catch (error) {
+    console.log(error);
     let errorDetails = {};
 
     if (error.properties) {

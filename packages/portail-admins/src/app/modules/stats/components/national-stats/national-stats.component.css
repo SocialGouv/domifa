@@ -1,9 +1,3 @@
-.iframe--preloading {
-  visibility: hidden;
-  position: absolute;
-  left: -9999px;
-}
-
 .cross:hover {
   background-color: white;
   color: var(--bs-primary);

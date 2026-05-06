@@ -33,7 +33,7 @@ import { StructureDocDto } from "../dto/structure-doc.dto";
 
 import { structureDocRepository, StructureDocTable } from "../../../database";
 import { FILES_SIZE_LIMIT } from "../../../util/file-manager";
-import { join } from "path";
+import { join } from "node:path";
 import { FileManagerService } from "../../../util/file-manager/file-manager.service";
 import { validateDocTemplate } from "../../../usagers/utils/custom-docs";
 import { StructureDocTypesAvailable } from "@domifa/common";
@@ -105,7 +105,7 @@ export class StructureDocController {
   ) {
     if (structureDocDto.custom === true) {
       const templateValidation = await validateDocTemplate(file.buffer);
-
+      console.log("templateValidation", templateValidation);
       if (!templateValidation.isValid) {
         return res.status(HttpStatus.BAD_REQUEST).json({
           message: templateValidation.error,

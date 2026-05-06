@@ -1,3 +1,4 @@
+import { differenceInCalendarDays } from "date-fns";
 import { UsagerLight } from "../../../../../../_common/model";
 import { UsagersFilterCriteria } from "../../../classes/UsagersFilterCriteria";
 import { USAGER_DEADLINES } from "../../../constants/USAGER_DEADLINES.const";
@@ -19,21 +20,24 @@ function check({
     return false;
   }
 
-  const today = new Date();
   const dateFin = new Date(usager.decision.dateFin);
+  // Day-level comparison aligned with getDecisionDeadline thresholds.
+  const daysBeforeEnd = differenceInCalendarDays(dateFin, new Date());
 
   if (echeance === "EXCEEDED") {
-    return dateFin < today;
+    return daysBeforeEnd < 0;
   }
 
-  const deadline = USAGER_DEADLINES[echeance].value;
+  if (echeance === "NEXT_TWO_WEEKS") {
+    return daysBeforeEnd >= 0 && daysBeforeEnd < 16;
+  }
 
-  if (echeance.startsWith("NEXT_")) {
-    return dateFin >= today && dateFin < deadline;
+  if (echeance === "NEXT_TWO_MONTHS") {
+    return daysBeforeEnd >= 0 && daysBeforeEnd < 61;
   }
 
   if (echeance.startsWith("PREVIOUS_")) {
-    return dateFin < deadline;
+    return dateFin < USAGER_DEADLINES[echeance].value;
   }
 
   return false;
