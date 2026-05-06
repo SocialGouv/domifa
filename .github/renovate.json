@@ -6,11 +6,7 @@
   "masterIssueAutoclose": true,
   "packageRules": [
     {
-      "packageNames": [
-        "@fortawesome/angular-fontawesome",
-        "bootstrap",
-        "typescript"
-      ],
+      "packageNames": ["typescript"],
       "enabled": false
     }
   ]

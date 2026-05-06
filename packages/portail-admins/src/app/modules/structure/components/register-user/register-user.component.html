@@ -114,23 +114,12 @@
           </button>
         </li>
         <li>
-          <button
-            class="fr-btn"
+          <app-button
             type="submit"
-            [disabled]="loading"
-            [attr.aria-busy]="loading"
-          >
-            <span *ngIf="loading">
-              <fa-icon
-                [icon]="['fas', 'circle-notch']"
-                aria-hidden="true"
-                animation="spin"
-              >
-              </fa-icon>
-              Veuillez patienter...
-            </span>
-            <span *ngIf="!loading">Ajouter l'utilisateur</span>
-          </button>
+            label="Ajouter l'utilisateur"
+            loadingText="Veuillez patienter..."
+            [loading]="loading"
+          ></app-button>
         </li>
       </ul>
     </div>

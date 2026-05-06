@@ -1,10 +1,10 @@
 <div class="step_form fr-my-5w" *ngIf="structure">
   <div class="text-center">
     <div *ngIf="successEnable">
-      <fa-icon
-        class="fa-4x text-success"
-        [icon]="['fas', 'check-circle']"
-      ></fa-icon>
+      <span
+        class="fr-icon-checkbox-circle-line fr-text-default--success"
+        aria-hidden="true"
+      ></span>
       <br />
       <br />
       <h3 class="text-success">Nouvelle structure enregistrée</h3>
@@ -14,7 +14,10 @@
     </div>
 
     <div *ngIf="successDelete">
-      <fa-icon class="fa-4x text-success" [icon]="['fas', 'trash']"></fa-icon>
+      <span
+        class="fr-icon-delete-bin-line fr-text-default--success"
+        aria-hidden="true"
+      ></span>
       <br />
       <br />
       <h3 class="text-success">Structure supprimée avec succès</h3>
@@ -22,10 +25,10 @@
     </div>
 
     <div *ngIf="confirmDelete">
-      <fa-icon
-        class="text-warning fa-4x"
-        [icon]="['fas', 'exclamation-triangle']"
-      ></fa-icon>
+      <span
+        class="fr-icon-warning-line fr-text-default--warning"
+        aria-hidden="true"
+      ></span>
 
       <h4 class="text-warning">
         Vous souhaitez supprimer définitivement la structure suivante :
@@ -64,25 +67,14 @@
             placeholder="Entrez le nom de la structure"
           />
           <br />
-          <button
-            class="btn btn-danger"
+          <app-button
             type="submit"
-            [disabled]="loading"
-            [attr.aria-busy]="loading"
-            (click)="confirm()"
-          >
-            <span *ngIf="!loading">Confirmer la suppression</span>
-
-            <span *ngIf="loading"
-              ><fa-icon
-                [icon]="['fas', 'circle-notch']"
-                animation="spin"
-                aria-hidden="true"
-              >
-              </fa-icon>
-              Suppression en cours...</span
-            >
-          </button>
+            label="Confirmer la suppression"
+            loadingText="Suppression en cours..."
+            customClass="btn btn-danger"
+            [loading]="loading"
+            (action)="confirm()"
+          ></app-button>
           <br />
           <b class="text-danger">Cette action est irreversible</b>
           <br />
@@ -91,7 +83,10 @@
     </div>
 
     <div *ngIf="error">
-      <fa-icon class="fa-4x text-danger" [icon]="['fas', 'times']"></fa-icon>
+      <span
+        class="fr-icon-close-circle-line fr-text-default--error"
+        aria-hidden="true"
+      ></span>
       <br />
       <h3 class="text-danger">La structure n'a pas pu être validée</h3>
       <p class="text-center">Merci de vérifier le lien reçu par email.</p>

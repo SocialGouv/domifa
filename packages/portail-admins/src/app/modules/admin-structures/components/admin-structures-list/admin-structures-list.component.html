@@ -75,15 +75,10 @@
         aria-label="Chargement des données..."
         class="text-center content-overlay d-print-none"
       >
-        <div>
-          <fa-icon
-            [icon]="faSpinner"
-            class="spinner"
-            animation="spin"
-            aria-hidden="true"
-          ></fa-icon>
-          <b>Chargement des données...</b>
-        </div>
+        <dsfr-ext-spinner
+          typeLoader="quarter"
+          label="Chargement des données..."
+        ></dsfr-ext-spinner>
       </div>
 
       <app-admin-structures-table

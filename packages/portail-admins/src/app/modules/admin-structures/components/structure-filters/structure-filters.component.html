@@ -106,15 +106,10 @@
     <button
       type="button"
       [disabled]="searching"
-      class="fr-btn fr-btn--tertiary-no-outline"
+      class="fr-btn fr-btn--tertiary-no-outline fr-icon-close-line fr-btn--icon-right"
       (click)="updateFilters.emit({ element: 'reset', value: null })"
     >
       Réinitialiser les filtres
-      <fa-icon
-        aria-hidden="true"
-        [icon]="['fas', 'times']"
-        class="cross"
-      ></fa-icon>
     </button>
   </div>
 </div>

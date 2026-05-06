@@ -4,7 +4,6 @@ import { Subscription } from "rxjs";
 import { CustomToast } from "../../types/CustomToast.type";
 
 import { CustomToastClass } from "../../types";
-import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { fadeInOut } from "../../constants";
 import { CustomToastService } from "../../services";
 
@@ -18,7 +17,7 @@ export class CustomToastrComponent implements OnInit, OnDestroy {
   public toast: CustomToast;
   public customToastSubscription: Subscription = new Subscription();
 
-  public toastIcons: { [key in CustomToastClass]: IconName } = {
+  public toastIcons: { [key in CustomToastClass]: string } = {
     success: "check-circle",
     warning: "exclamation-circle",
     error: "times-circle",
@@ -26,7 +25,7 @@ export class CustomToastrComponent implements OnInit, OnDestroy {
     "": "info-circle",
   };
 
-  public icon: IconName;
+  public icon: string;
 
   constructor(public readonly customToastService: CustomToastService) {
     this.toast = {

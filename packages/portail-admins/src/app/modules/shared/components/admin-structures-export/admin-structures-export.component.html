@@ -1,24 +1,8 @@
-<button
-  (click)="exportDashboard()"
-  [disabled]="exportLoading"
+<app-button
   type="button"
-  class="fr-btn"
->
-  <span *ngIf="!exportLoading">
-    <fa-icon
-      [icon]="['fas', 'download']"
-      aria-hidden="true"
-      class="fr-me-2w"
-    ></fa-icon>
-    Exporter les structures
-  </span>
-  <span *ngIf="exportLoading">
-    <fa-icon
-      [icon]="['fas', 'circle-notch']"
-      aria-hidden="true"
-      animation="spin"
-    >
-    </fa-icon>
-    Export en cours, veuillez patienter...
-  </span>
-</button>
+  icon="download"
+  label="Exporter les structures"
+  loadingText="Export en cours, veuillez patienter..."
+  [loading]="exportLoading"
+  (action)="exportDashboard()"
+></app-button>

@@ -53,7 +53,6 @@
     "@swimlane/ngx-charts": "^20.5.0",
     "angular-user-idle": "^4.0.0",
     "blurhash": "2.0.5",
-    "bootstrap": "^5.3.7",
     "color-convert": "2.0.1",
     "color-name": "^1.1.4",
     "color-parse": "1.4.2",

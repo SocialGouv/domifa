@@ -22,24 +22,16 @@
     class="fr-grid-row fr-grid-row--gutters fr-justify-content-center fr-mt-3w"
   >
     <div class="fr-col-12 fr-col-md-auto">
-      <button
-        (click)="getMetabaseUrl()"
-        [disabled]="loading || structure.statut === 'REFUS'"
-        [attr.aria-busy]="loading"
+      <app-button
         type="button"
-        class="fr-btn fr-icon-refresh-line fr-btn--icon-right fr-btn--secondary"
-      >
-        <span *ngIf="loading">
-          <fa-icon
-            [icon]="['fas', 'circle-notch']"
-            aria-hidden="true"
-            animation="spin"
-          >
-          </fa-icon>
-          Veuillez patienter...
-        </span>
-        <span *ngIf="!loading">Rafraîchir les données</span>
-      </button>
+        color="secondary"
+        icon="refresh"
+        label="Rafraîchir les données"
+        loadingText="Veuillez patienter..."
+        [loading]="loading"
+        [disabled]="structure.statut === 'REFUS'"
+        (action)="getMetabaseUrl()"
+      ></app-button>
     </div>
     <div class="fr-col-12 fr-col-md-auto">
       <button

@@ -1,7 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { SharedModule } from "src/app/modules/shared/shared.module";
 import { AdminStructuresRoutingModule } from "./admin-structures-routing.module";
@@ -14,7 +13,10 @@ import { SortArrayPipe } from "../shared/pipes/sort-array.pipe";
 import { StructureFiltersComponent } from "./components/structure-filters/structure-filters.component";
 import { StructureConfirmComponent } from "./components/structure-confirm/structure-confirm.component";
 
-import { DsfrDropdownMenuComponent } from "@edugouvfr/ngx-dsfr-ext";
+import {
+  DsfrDropdownMenuComponent,
+  DsfrSpinnerComponent,
+} from "@edugouvfr/ngx-dsfr-ext";
 import { DsfrButtonComponent, DsfrModalModule } from "@edugouvfr/ngx-dsfr";
 import { StructureFormRefuseComponent } from "./components/structure-form-refuse/structure-form-refuse.component";
 import { AdminStructureContainerComponent } from "../structure/components/admin-structure-container/admin-structure-container.component";
@@ -33,13 +35,13 @@ import { DisplayLastLoginComponent } from "../shared/components/display-last-log
     CommonModule,
     AdminStructuresRoutingModule,
     SharedModule,
-    FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
     TableHeadSortComponent,
     SortArrayPipe,
     DsfrModalModule,
     DsfrDropdownMenuComponent,
+    DsfrSpinnerComponent,
     DsfrButtonComponent,
     StructureFormRefuseComponent,
     RegisterUserComponent,
