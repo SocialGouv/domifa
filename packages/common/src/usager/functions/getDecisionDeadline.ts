@@ -54,9 +54,9 @@ export const getDecisionDeadline = (
     );
   }
 
-  if (deadline.daysBeforeEnd < 15) {
+  if (deadline.daysBeforeEnd < 16) {
     deadline.color = "bg-danger";
-  } else if (deadline.daysBeforeEnd < 60) {
+  } else if (deadline.daysBeforeEnd < 61) {
     deadline.color = "bg-warning";
   }
 

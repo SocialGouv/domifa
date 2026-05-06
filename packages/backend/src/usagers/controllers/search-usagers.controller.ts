@@ -190,26 +190,20 @@ export class SearchUsagersController {
     }
 
     if (search?.echeance) {
-      const deadlines = getUsagerDeadlines();
-      const now = new Date();
-      const deadline = deadlines[search.echeance];
-
       if (search.echeance === "EXCEEDED") {
-        query.andWhere(`(decision->>'dateDecision')::timestamp < :now`, {
-          now,
-        });
-      } else if (search.echeance.startsWith("NEXT_")) {
+        query.andWhere(`(decision->>'dateDecision')::date < CURRENT_DATE`);
+      } else if (search.echeance === "NEXT_TWO_WEEKS") {
         query.andWhere(
-          `(decision->>'dateDecision')::timestamp <= :deadline AND (decision->>'dateDecision')::timestamp > :now`,
-          {
-            deadline: deadline.value,
-            now,
-          }
+          `(decision->>'dateDecision')::date BETWEEN CURRENT_DATE AND CURRENT_DATE + 15`
         );
-      } else if (search?.echeance.startsWith("PREVIOUS_")) {
+      } else if (search.echeance === "NEXT_TWO_MONTHS") {
+        query.andWhere(
+          `(decision->>'dateDecision')::date BETWEEN CURRENT_DATE AND CURRENT_DATE + 60`
+        );
+      } else if (search.echeance.startsWith("PREVIOUS_")) {
+        const deadline = getUsagerDeadlines()[search.echeance];
         query.andWhere(`(decision->>'dateDecision')::timestamp < :deadline`, {
           deadline: deadline.value,
-          now,
         });
       }
     }

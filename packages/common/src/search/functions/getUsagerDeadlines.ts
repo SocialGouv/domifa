@@ -1,13 +1,7 @@
-import {
-  subMonths,
-  addMonths,
-  subYears,
-  addWeeks,
-  endOfDay,
-  subDays,
-} from "date-fns";
+import { subMonths, subYears, addDays, endOfDay, subDays } from "date-fns";
 import { TimingsConfig, Timings } from "../types/Timings.type";
 
+// dateFin is included in the domiciliation: the deadline is only overdue at D+1.
 export function getUsagerDeadlines(refDate: Date = new Date()): TimingsConfig {
   return {
     PREVIOUS_TWO_MONTHS: {
@@ -28,15 +22,15 @@ export function getUsagerDeadlines(refDate: Date = new Date()): TimingsConfig {
     },
     NEXT_TWO_MONTHS: {
       label: "Dans moins de 2 mois",
-      value: endOfDay(addMonths(refDate, 2)),
+      value: endOfDay(addDays(refDate, 60)),
     },
     NEXT_TWO_WEEKS: {
       label: "Dans moins de 2 semaines",
-      value: endOfDay(addWeeks(refDate, 2)),
+      value: endOfDay(addDays(refDate, 15)),
     },
     EXCEEDED: {
       label: "Échéance dépassée",
-      value: endOfDay(refDate),
+      value: subDays(endOfDay(refDate), 1),
     },
   };
 }

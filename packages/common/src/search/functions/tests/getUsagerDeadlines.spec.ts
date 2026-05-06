@@ -37,11 +37,11 @@ describe("Check deadlines", () => {
         },
         NEXT_TWO_WEEKS: {
           label: "Dans moins de 2 semaines",
-          value: new Date("2025-01-13T22:59:59.999Z"),
+          value: new Date("2025-01-14T22:59:59.999Z"),
         },
         EXCEEDED: {
           label: "Échéance dépassée",
-          value: new Date("2024-12-30T22:59:59.999Z"),
+          value: new Date("2024-12-29T22:59:59.999Z"),
         },
       });
     });
@@ -49,7 +49,7 @@ describe("Check deadlines", () => {
     it("should use current date when no reference date is provided", () => {
       const result = getUsagerDeadlines();
       expect(result.EXCEEDED.value).toEqual(
-        new Date("2024-12-30T22:59:59.999Z")
+        new Date("2024-12-29T22:59:59.999Z")
       );
     });
   });
@@ -66,7 +66,7 @@ describe("Check deadlines", () => {
         },
         NEXT_TWO_WEEKS: {
           label: "Dans moins de 2 semaines",
-          value: new Date("2025-01-13T22:59:59.999Z"),
+          value: new Date("2025-01-14T22:59:59.999Z"),
         },
       });
     });
@@ -81,7 +81,7 @@ describe("Check deadlines", () => {
       const result = extractDeadlines(keys);
 
       expect(result.EXCEEDED.value).toEqual(
-        new Date("2024-12-30T22:59:59.999Z")
+        new Date("2024-12-29T22:59:59.999Z")
       );
     });
 
