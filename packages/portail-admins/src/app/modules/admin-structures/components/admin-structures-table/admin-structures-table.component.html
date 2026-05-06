@@ -66,11 +66,11 @@
                 scope="col"
                 (click)="sort.emit({
           element: 'sortKey',
-          value: 'createdAt',
+          value: 'registrationDate',
         })"
               >
                 <app-table-head-sort
-                  sortKey="createdAt"
+                  sortKey="registrationDate"
                   [sortValue]="filters.sortValue"
                   [currentKey]="filters.sortKey"
                   columnName="Inscrite le"
@@ -120,9 +120,10 @@
                 </app-table-head-sort>
               </th>
               <th
+                scope="col"
                 (click)="sort.emit({
           element: 'sortKey',
-          value: 'usagers',
+          value: 'actifs',
         })"
               >
                 <app-table-head-sort
@@ -137,7 +138,7 @@
                 scope="col"
                 (click)="sort.emit({
           element: 'sortKey',
-          value: 'actifs',
+          value: 'lastLogin',
         })"
               >
                 <app-table-head-sort
@@ -152,7 +153,7 @@
                 scope="col"
                 (click)="sort.emit({
           element: 'sortKey',
-          value: 'lastLogin',
+          value: 'regionName',
         })"
               >
                 <app-table-head-sort
@@ -167,11 +168,11 @@
                 scope="col"
                 (click)="sort.emit({
           element: 'sortKey',
-          value: 'departementName',
+          value: 'departmentName',
         })"
               >
                 <app-table-head-sort
-                  sortKey="departementName"
+                  sortKey="departmentName"
                   [sortValue]="filters.sortValue"
                   [currentKey]="filters.sortKey"
                   columnName="Département"
@@ -190,7 +191,7 @@
                 trackBy: idTrackBy
               "
             >
-              <td class="fw-bold">{{ structure.id }}</td>
+              <td class="fr-text--bold">{{ structure.id }}</td>
               <td>
                 <a [routerLink]="['/structure', structure.id]">{{
                   structure.nom

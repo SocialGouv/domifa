@@ -7,6 +7,7 @@ import { TableHeadSortComponent } from "../shared/components/table-head-sort/tab
 import { SortArrayPipe } from "../shared/pipes/sort-array.pipe";
 import { SharedModule } from "../shared/shared.module";
 import { StatsRoutingModule } from "./stats-routing.module";
+import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 
 @NgModule({
   declarations: [NationalStatsComponent],
@@ -18,6 +19,7 @@ import { StatsRoutingModule } from "./stats-routing.module";
     StatsRoutingModule,
     TableHeadSortComponent,
     SortArrayPipe,
+    DsfrSpinnerComponent,
   ],
 })
 export class StatsModule {}

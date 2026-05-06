@@ -1,5 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
+import {
+  buildStructureActorFields,
+  buildUsagerFields,
+} from "../../modules/app-logs/app-logs.helpers";
 import { UserStructureAuthenticated } from "../../_common/model";
 import { Telephone, Usager } from "@domifa/common";
 import isEqual from "lodash.isequal";
@@ -8,12 +12,12 @@ import { LogAction } from "../../modules/app-logs/types";
 
 export type UsagerForLogs = Pick<
   Usager,
-  "ref" | "structureId" | "telephone" | "email"
+  "ref" | "uuid" | "structureId" | "telephone" | "email"
 >;
 
 export type UserForLogs = Pick<
   UserStructureAuthenticated,
-  "structureId" | "nom" | "id" | "prenom"
+  "structureId" | "nom" | "id" | "prenom" | "role"
 >;
 
 @Injectable()
@@ -91,8 +95,8 @@ export class UsagersLogsService {
     user: UserForLogs
   ): Promise<void> {
     await this.appLogsService.create({
-      userId: user.id,
-      usagerRef: usager.ref,
+      ...buildStructureActorFields(user),
+      ...buildUsagerFields(usager),
       structureId: user.structureId,
       action,
       context: {

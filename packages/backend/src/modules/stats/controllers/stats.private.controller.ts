@@ -29,6 +29,7 @@ import {
 import { structureStatsExporter } from "../../../excel/export-structure-stats";
 import { expressResponseExcelRenderer } from "../../../util";
 import { AppLogsService } from "../../app-logs/app-logs.service";
+import { buildStructureActorFields } from "../../app-logs/app-logs.helpers";
 import { StructureStatsReportingDto, StatsDto } from "../dto";
 import { structureStatsInPeriodGenerator } from "../services";
 
@@ -100,7 +101,7 @@ export class StatsPrivateController {
   ) {
     statsDto.structureId = user.structureId;
     await this.appLogsService.create({
-      userId: user.id,
+      ...buildStructureActorFields(user),
       structureId: user.structureId,
       action: "GET_STATS",
     });
@@ -117,7 +118,7 @@ export class StatsPrivateController {
     statsDto.structureId = user.structureId;
 
     await this.appLogsService.create({
-      userId: user.id,
+      ...buildStructureActorFields(user),
       structureId: user.structureId,
       action: "EXPORT_STATS",
     });

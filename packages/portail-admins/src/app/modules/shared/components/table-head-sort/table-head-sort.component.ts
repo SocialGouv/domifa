@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { NgClass } from "@angular/common";
 import { TableHeadSortIconComponent } from "../table-head-sort-icon/table-head-sort-icon.component";
 import { SortValues } from "@domifa/common";
 
@@ -9,7 +8,7 @@ import { SortValues } from "@domifa/common";
   templateUrl: "./table-head-sort.component.html",
   styleUrls: ["./table-head-sort.component.scss"],
   standalone: true,
-  imports: [TableHeadSortIconComponent, NgClass],
+  imports: [TableHeadSortIconComponent],
 })
 export class TableHeadSortComponent {
   @Input() public columnName!: string;

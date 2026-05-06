@@ -1,4 +1,4 @@
-<div class="fr-background-alt--blue-cumulus pt-4">
+<div class="head-page fr-pt-4w">
   <div class="fr-grid-row">
     <div class="fr-container fr-col-md-12 fr-col-12">
       <h1 class="fr-text-title--blue-france">
@@ -7,9 +7,11 @@
     </div>
   </div>
 </div>
-<div class="pt-5">
-  <div class="fr-container fr-display-flex fr-grid-row gap-0 mt-2">
-    <div class="fr-select-group fr-col-12 col-md">
+<div class="fr-container fr-pt-5w">
+  <div
+    class="fr-grid-row fr-grid-row--gutters fr-justify-content-center fr-mt-2w"
+  >
+    <div class="fr-select-group fr-col-12 fr-col-md-2">
       <label class="fr-label" for="year"> Année </label>
       <select
         [disabled]="loading"
@@ -24,7 +26,7 @@
         </option>
       </select>
     </div>
-    <div class="fr-select-group fr-col-12 col-md">
+    <div class="fr-select-group fr-col-12 fr-col-md-2">
       <label class="fr-label" for="region"> Région </label>
       <select
         [disabled]="loading"
@@ -47,7 +49,7 @@
 
     <div
       *ngIf="user.role !== 'department'"
-      class="fr-select-group fr-col-12 col-md"
+      class="fr-select-group fr-col-12 fr-col-md-2"
     >
       <label class="fr-label" for="departement"> Département </label>
       <select
@@ -69,7 +71,7 @@
       </select>
     </div>
 
-    <div class="fr-select-group fr-col-12 col-md">
+    <div class="fr-select-group fr-col-12 fr-col-md-2">
       <label class="fr-label" for="structureType"> Type de structure </label>
       <select
         class="fr-select"
@@ -89,7 +91,7 @@
       </select>
     </div>
 
-    <div class="fr-select-group fr-col-12 col-md">
+    <div class="fr-select-group fr-col-12 fr-col-md-2">
       <label class="fr-label" for="structure"> Choisir une structure </label>
       <select
         class="fr-select"
@@ -107,7 +109,8 @@
       </select>
     </div>
   </div>
-  <div class="fr-container fr-grid-row gap-2 fr-justify-content-end">
+
+  <div class="fr-grid-row fr-justify-content-center fr-mt-3w">
     <button
       type="button"
       class="fr-btn fr-icon-refresh-line fr-btn--icon-right fr-btn--secondary"
@@ -115,30 +118,43 @@
       [disabled]="loading"
       [attr.aria-busy]="loading"
     >
-      <span *ngIf="loading"> Veuillez patienter... </span>
-      <span *ngIf="!loading"> Consulter les données</span>
+      <span *ngIf="loading">Veuillez patienter...</span>
+      <span *ngIf="!loading">Consulter les données</span>
     </button>
+  </div>
 
+  <div
+    *ngIf="metabaseParams?.structureId"
+    class="fr-grid-row fr-justify-content-center fr-mt-2w"
+  >
     <button
-      *ngIf="metabaseParams?.structureId"
       type="button"
       class="fr-btn fr-icon-download-line fr-btn--icon-right fr-btn--secondary"
       (click)="export()"
       [disabled]="loading"
       [attr.aria-busy]="loading"
     >
-      <span *ngIf="loading"> Veuillez patienter... </span>
-
+      <span *ngIf="loading">Veuillez patienter...</span>
       <span *ngIf="!loading">
-        Télécharger le rapport de la structure (Excel)</span
-      >
+        Télécharger le rapport de la structure (Excel)
+      </span>
     </button>
   </div>
 
-  <div class="fr-container" *ngIf="iframeUrl">
+  <div class="fr-mt-4w">
+    <dsfr-ext-spinner
+      *ngIf="loading"
+      typeLoader="quarter"
+      [overlay]="true"
+      label="Veuillez patienter"
+    ></dsfr-ext-spinner>
+
     <iframe
+      *ngIf="iframeUrl"
       title="Rapports d'activité"
       [src]="iframeUrl"
+      [class.iframe--preloading]="loading"
+      (load)="onIframeLoad()"
       width="100%"
       height="4000"
     ></iframe>

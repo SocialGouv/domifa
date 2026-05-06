@@ -1,56 +1,69 @@
-<div class="fr-grid-row mt-2 gap-2 fr-align-items-end" *ngIf="structure">
-  <div class="fr-select-group fr-col-7 mb-0">
-    <label class="fr-label mb-0" for="year"> Selectionner un année </label>
-    <select
-      [disabled]="loading || structure.statut === 'REFUS'"
-      id="year"
-      class="fr-select"
-      [(ngModel)]="metabaseParams.year"
-      (ngModelChange)="getMetabaseUrl()"
-      name="year"
-    >
-      <option [value]="null"></option>
-      <option *ngFor="let year of years" [value]="year">
-        {{ year }}
-      </option>
-    </select>
-  </div>
-  <button
-    (click)="getMetabaseUrl()"
-    [disabled]="loading || structure.statut === 'REFUS'"
-    [attr.aria-busy]="loading"
-    type="button"
-    class="fr-btn fr-icon-refresh-line fr-btn--icon-right fr-btn--secondary"
-  >
-    <span *ngIf="loading">
-      <fa-icon
-        [icon]="['fas', 'circle-notch']"
-        aria-hidden="true"
-        animation="spin"
+<div class="fr-container fr-mt-2w" *ngIf="structure">
+  <div class="fr-grid-row fr-justify-content-center">
+    <div class="fr-select-group fr-col-12 fr-col-md-4 fr-mb-0w">
+      <label class="fr-label fr-mb-0w" for="year">
+        Selectionner un année
+      </label>
+      <select
+        [disabled]="loading || structure.statut === 'REFUS'"
+        id="year"
+        class="fr-select"
+        [(ngModel)]="metabaseParams.year"
+        name="year"
       >
-      </fa-icon>
-      Veuillez patienter...
-    </span>
-    <span *ngIf="!loading">Rafraîchir les données </span>
-  </button>
-  <button
-    (click)="export()"
-    [disabled]="loading || structure.statut === 'REFUS'"
-    [attr.aria-busy]="loading"
-    type="button"
-    class="fr-btn fr-icon-download-line fr-btn--icon-right fr-btn--secondary"
+        <option [value]="null"></option>
+        <option *ngFor="let year of years" [value]="year">
+          {{ year }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div
+    class="fr-grid-row fr-grid-row--gutters fr-justify-content-center fr-mt-3w"
   >
-    <span *ngIf="loading"> Veuillez patienter... </span>
-    <span *ngIf="!loading">Exporter le rapport </span>
-  </button>
+    <div class="fr-col-12 fr-col-md-auto">
+      <button
+        (click)="getMetabaseUrl()"
+        [disabled]="loading || structure.statut === 'REFUS'"
+        [attr.aria-busy]="loading"
+        type="button"
+        class="fr-btn fr-icon-refresh-line fr-btn--icon-right fr-btn--secondary"
+      >
+        <span *ngIf="loading">
+          <fa-icon
+            [icon]="['fas', 'circle-notch']"
+            aria-hidden="true"
+            animation="spin"
+          >
+          </fa-icon>
+          Veuillez patienter...
+        </span>
+        <span *ngIf="!loading">Rafraîchir les données</span>
+      </button>
+    </div>
+    <div class="fr-col-12 fr-col-md-auto">
+      <button
+        (click)="export()"
+        [disabled]="loading || structure.statut === 'REFUS'"
+        [attr.aria-busy]="loading"
+        type="button"
+        class="fr-btn fr-icon-download-line fr-btn--icon-right fr-btn--secondary"
+      >
+        <span *ngIf="loading">Veuillez patienter...</span>
+        <span *ngIf="!loading">Exporter le rapport</span>
+      </button>
+    </div>
+  </div>
 </div>
-<div *ngIf="structure.statut === 'REFUS'" class="fr-callout mt-5">
+<div *ngIf="structure.statut === 'REFUS'" class="fr-callout fr-mt-5w">
   <p class="fr-callout--text">Statistiques indisponible</p>
 </div>
 <div *ngIf="iframeUrl && structure.statut !== 'REFUS'">
   <iframe
     title="Rapports d'activité"
     [src]="iframeUrl"
+    [class.iframe--preloading]="loading"
+    (load)="onIframeLoad()"
     width="100%"
     height="4000"
   ></iframe>

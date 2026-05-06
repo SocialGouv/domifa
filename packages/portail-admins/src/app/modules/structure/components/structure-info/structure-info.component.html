@@ -1,5 +1,5 @@
-<div class="border-bottom border-grey pb-2">
-  <div class="fr-grid-row mt-3" *ngIf="structure">
+<div class="fr-pb-2w">
+  <div class="fr-mt-3w" *ngIf="structure">
     <div
       *ngIf="
         structure.statut === 'REFUS' && structure?.decision?.motif !== null
@@ -25,17 +25,17 @@
     </div>
 
     <!-- Structure numbers -->
-    <div class="fr-grid-row ps-0 fr-align-items-center mb-5">
+    <div class="fr-grid-row fr-align-items-center fr-mb-5w">
       <div class="fr-col-12 fr-col-sm-8 fr-display-flex">
-        <span class="px-3 border-end border-grey text-center">
+        <span class="fr-px-3w border-end border-grey text-center">
           {{ cachedStructure?.users ?? "" }} <br />
           Comptes
         </span>
-        <span class="px-3 border-end border-grey text-center">
+        <span class="fr-px-3w border-end border-grey text-center">
           {{ cachedStructure?.usagers ?? "" }} <br />
           Dossiers
         </span>
-        <span class="px-3 text-center">
+        <span class="fr-px-3w text-center">
           {{ cachedStructure?.actifs ?? "" }} <br />
           Actifs
         </span>
@@ -43,11 +43,11 @@
       <div
         class="fr-col-12 fr-col-sm-4 fr-display-flex gap-2 fr-justify-content-end"
       >
-        <span class="px-3 border-end border-grey">
+        <span class="fr-px-3w border-end border-grey">
           Inscrite le <br />
           {{ cachedStructure.registrationDate | date : "dd/MM/yyyy" }}
         </span>
-        <span class="ps-3">
+        <span class="fr-ps-3w">
           Dernière connexion <br />
           <app-display-last-login
             [lastLogin]="cachedStructure.lastLogin"
@@ -55,197 +55,185 @@
         </span>
       </div>
     </div>
-    <div class="fr-grid-row ps-0">
+
+    <div class="fr-grid-row">
       <div class="fr-col-12 fr-col-sm-8 fr-display-flex fr-flex-column gap-3">
         <!-- Responsable -->
-        <div class="fr-grid-row p-0 border-bottom border-grey mx-2">
-          <div class="fr-display-flex fr-grid-row gap-0">
-            <div class="fr-display-flex gap-1">
-              <span class="fr-icon-user-line fr-text-title--blue-france"></span>
-              <h2 class="m-0 fr-h6">Responsable</h2>
+        <section class="fr-mx-2w fr-pb-3w">
+          <h2 class="fr-h3 fr-mb-2w">
+            <span class="fr-icon-user-line"></span>
+            Responsable
+          </h2>
+          <div class="fr-grid-row fr-grid-row--gutters">
+            <div class="fr-col fr-display-flex fr-flex-column gap-1">
+              <span class="fr-text--bold">Nom</span>
+              <span>
+                {{ structure.responsable.nom | uppercase }}
+                {{ structure.responsable.prenom }}
+              </span>
             </div>
-            <div class="fr-display-flex fr-justify-content-start py-3">
-              <div class="fr-col fr-display-flex fr-flex-column gap-1">
-                <span class="fw-bold"> Nom </span>
-                <span>
-                  {{ structure.responsable.nom | uppercase }}
-                  {{ structure.responsable.prenom }}
-                </span>
-              </div>
-              <div class="fr-col fr-display-flex fr-flex-column gap-1">
-                <span class="fw-bold"> Fonction </span>
-                <span> {{ structure.responsable.fonction }} </span>
-              </div>
-              <div class="fr-col"></div>
+            <div class="fr-col fr-display-flex fr-flex-column gap-1">
+              <span class="fr-text--bold">Fonction</span>
+              <span>{{ structure.responsable.fonction }}</span>
             </div>
+            <div class="fr-col"></div>
           </div>
-        </div>
+        </section>
+
+        <hr class="fr-mx-2w fr-pb-0w" />
+
         <!-- Informations -->
-        <div class="fr-grid-row ps-0 border-bottom border-grey mx-2">
-          <div class="fr-display-flex fr-grid-row gap-0">
-            <div class="fr-display-flex gap-1">
-              <span class="fr-icon-info-line fr-text-title--blue-france"></span>
-              <span class="m-0 fr-h6">Informations</span>
+        <section class="fr-mx-2w fr-pb-3w">
+          <h2 class="fr-h3 fr-mb-2w">
+            <span class="fr-icon-info-line"></span>
+            Informations
+          </h2>
+          <div class="fr-grid-row fr-grid-row--gutters">
+            <div class="fr-col fr-display-flex fr-flex-column gap-1">
+              <span class="fr-text--bold">Type d'organisme</span>
+              <span *ngIf="structure.structureType">
+                {{ STRUCTURE_TYPE_LABELS[structure.structureType] }}
+              </span>
+              <span *ngIf="!structure.structureType">Non renseigné</span>
             </div>
-
-            <div class="fr-display-flex fr-justify-content-start py-3">
-              <div class="fr-col fr-display-flex fr-flex-column gap-1">
-                <span class="fw-bold"> Type d'organisme </span>
-                <span *ngIf="structure.structureType">
-                  {{ STRUCTURE_TYPE_LABELS[structure.structureType] }}
-                </span>
-                <span *ngIf="!structure.structureType"> Non renseigné </span>
-              </div>
-              <div class="fr-col fr-display-flex fr-flex-column gap-1">
-                <span class="fw-bold"> Réseau </span>
-                <span>
-                  {{ structure.reseau ?? "Non renseigné"
-                  }}<ng-container
-                    *ngIf="
-                      structure.reseau === 'Autre réseau' &&
-                      structure.reseauDetail
-                    "
-                  >
-                    — {{ structure.reseauDetail }}</ng-container
-                  >
-                </span>
-              </div>
-              <div class="fr-col"></div>
-            </div>
-          </div>
-        </div>
-        <!-- SMS & Mon Domifa-->
-        <div class="fr-grid-row ps-0 border-bottom border-grey mx-2">
-          <div class="fr-display-flex fr-grid-row gap-0">
-            <div class="fr-display-flex gap-1">
-              <span
-                class="fr-icon-smartphone-line fr-text-title--blue-france"
-              ></span>
-              <h2 class="m-0 fr-h6">SMS & Mon Domifa</h2>
-            </div>
-
-            <div class="fr-display-flex fr-justify-content-start py-3">
-              <div class="fr-col fr-display-flex fr-flex-column gap-1">
-                <span class="fw-bold"> SMS </span>
-                <span
-                  class="fr-badge"
-                  [class.fr-badge--success]="structure.sms.enabledByStructure"
-                  [class.fr-badge--error]="!structure.sms.enabledByStructure"
-                >
-                  {{ structure.sms.enabledByStructure ? "Oui" : "Non" }}
-                </span>
-              </div>
-              <div class="fr-col fr-display-flex fr-flex-column gap-1">
-                <span class="fw-bold"> Jours de réceptions des SMS </span>
-                <span> {{ smsDays }} </span>
-              </div>
-              <div class="fr-col fr-display-flex fr-flex-column gap-1">
-                <span class="fw-bold"> Mon Domifa </span>
-                <span
-                  class="fr-badge"
-                  [class.fr-badge--success]="
-                    structure.portailUsager.enabledByStructure
-                  "
-                  [class.fr-badge--error]="
-                    !structure.portailUsager.enabledByStructure
+            <div class="fr-col fr-display-flex fr-flex-column gap-1">
+              <span class="fr-text--bold">Réseau</span>
+              <span>
+                {{ structure.reseau ?? "Non renseigné"
+                }}<ng-container
+                  *ngIf="
+                    structure.reseau === 'Autre réseau' &&
+                    structure.reseauDetail
                   "
                 >
-                  {{
-                    structure.portailUsager.enabledByStructure ? "Oui" : "Non"
-                  }}
-                </span>
-              </div>
+                  — {{ structure.reseauDetail }}</ng-container
+                >
+              </span>
             </div>
+            <div class="fr-col"></div>
           </div>
-        </div>
-        <!-- Données d'enregistrement-->
-        <div class="fr-grid-row ps-0 mx-2">
-          <div class="fr-display-flex fr-grid-row gap-0">
-            <div class="fr-display-flex gap-1">
-              <span
-                class="fr-icon-pulse-line fr-text-title--blue-france"
-              ></span>
-              <h2 class="m-0 fr-h6">Données d'enregistrement</h2>
-            </div>
+        </section>
 
-            <div class="fr-display-flex fr-justify-content-start py-3">
-              <div class="fr-col fr-display-flex fr-flex-column">
-                <span class="fw-bold"> SIRET </span>
-                <span *ngIf="structure?.siret">
-                  {{ structure.siret }}
-                </span>
-                <span *ngIf="!structure?.siret && structure?.noSiret">
-                  Pas de SIRET
-                </span>
-                <span *ngIf="!structure?.siret && !structure?.noSiret">
-                  SIRET non renseigné
-                </span>
-              </div>
-              <div class="fr-col fr-display-flex fr-flex-column gap-1">
-                <span class="fw-bold"> Source de découverte </span>
-                <span> {{ sourceLabel }}</span>
-              </div>
-              <div class="fr-col fr-display-flex fr-flex-column">
-                <span class="fw-bold"> Nombre d'usagers actifs </span>
-                <span>
-                  {{
-                    structure?.registrationData?.activeUsersCount ??
-                      "Non renseigné"
-                  }}
-                </span>
-              </div>
+        <hr class="fr-mx-2w fr-pb-0w" />
+
+        <!-- SMS & Mon Domifa -->
+        <section class="fr-mx-2w fr-pb-3w">
+          <h2 class="fr-h3 fr-mb-2w">
+            <span class="fr-icon-smartphone-line"></span>
+            SMS & Mon Domifa
+          </h2>
+          <div class="fr-grid-row fr-grid-row--gutters">
+            <div class="fr-col fr-display-flex fr-flex-column gap-1">
+              <span class="fr-text--bold">SMS</span>
+              <span
+                class="fr-badge"
+                [class.fr-badge--success]="structure.sms.enabledByStructure"
+                [class.fr-badge--error]="!structure.sms.enabledByStructure"
+              >
+                {{ structure.sms.enabledByStructure ? "Oui" : "Non" }}
+              </span>
             </div>
-            <div class="fr-col fr-display-flex fr-justify-content-between">
-              <div class="fr-col fr-display-flex fr-flex-column gap-1">
-                <span class="fw-bold"> Délégation du service public </span>
-                <span>
-                  {{ structure?.registrationData?.dsp ? "Oui" : "Non" }}
-                </span>
-              </div>
-              <div class="fr-col fr-display-flex fr-flex-column gap-1">
-                <span class="fw-bold"> Outil actuel </span>
-                <span>
-                  {{ currentToolLabel }}
-                </span>
-              </div>
-              <div class="fr-col fr-display-flex fr-flex-column gap-1">
-                <span class="fw-bold"> Outil du marché </span>
-                <span>
-                  {{ marketToolLabel }}
-                </span>
-              </div>
+            <div class="fr-col fr-display-flex fr-flex-column gap-1">
+              <span class="fr-text--bold">Jours de réceptions des SMS</span>
+              <span>{{ smsDays }}</span>
+            </div>
+            <div class="fr-col fr-display-flex fr-flex-column gap-1">
+              <span class="fr-text--bold">Mon Domifa</span>
+              <span
+                class="fr-badge"
+                [class.fr-badge--success]="
+                  structure.portailUsager.enabledByStructure
+                "
+                [class.fr-badge--error]="
+                  !structure.portailUsager.enabledByStructure
+                "
+              >
+                {{ structure.portailUsager.enabledByStructure ? "Oui" : "Non" }}
+              </span>
             </div>
           </div>
-        </div>
+        </section>
+
+        <hr class="fr-mx-2w fr-pb-0w" />
+
+        <!-- Données d'enregistrement -->
+        <section class="fr-mx-2w fr-pb-3w">
+          <h2 class="fr-h3 fr-mb-2w">
+            <span class="fr-icon-pulse-line"></span>
+            Données d'enregistrement
+          </h2>
+          <div class="fr-grid-row fr-grid-row--gutters fr-mb-3w">
+            <div class="fr-col fr-display-flex fr-flex-column gap-1">
+              <span class="fr-text--bold">SIRET</span>
+              <span *ngIf="structure?.siret">{{ structure.siret }}</span>
+              <span *ngIf="!structure?.siret && structure?.noSiret">
+                Pas de SIRET
+              </span>
+              <span *ngIf="!structure?.siret && !structure?.noSiret">
+                SIRET non renseigné
+              </span>
+            </div>
+            <div class="fr-col fr-display-flex fr-flex-column gap-1">
+              <span class="fr-text--bold">Source de découverte</span>
+              <span>{{ sourceLabel }}</span>
+            </div>
+            <div class="fr-col fr-display-flex fr-flex-column gap-1">
+              <span class="fr-text--bold">Nombre d'usagers actifs</span>
+              <span>
+                {{
+                  structure?.registrationData?.activeUsersCount ??
+                    "Non renseigné"
+                }}
+              </span>
+            </div>
+          </div>
+          <div class="fr-grid-row fr-grid-row--gutters">
+            <div class="fr-col fr-display-flex fr-flex-column gap-1">
+              <span class="fr-text--bold">Délégation du service public</span>
+              <span>
+                {{ structure?.registrationData?.dsp ? "Oui" : "Non" }}
+              </span>
+            </div>
+            <div class="fr-col fr-display-flex fr-flex-column gap-1">
+              <span class="fr-text--bold">Outil actuel</span>
+              <span>{{ currentToolLabel }}</span>
+            </div>
+            <div class="fr-col fr-display-flex fr-flex-column gap-1">
+              <span class="fr-text--bold">Outil du marché</span>
+              <span>{{ marketToolLabel }}</span>
+            </div>
+          </div>
+        </section>
       </div>
-      <div
-        class="fr-col-4 gap-3 d-md-flex d-sm-flex fr-flex-column fr-text-title--blue-france fr-background-contrast--blue-cumulus p-3"
+
+      <!-- Contact -->
+      <aside
+        class="fr-col-4 fr-display-flex fr-flex-column gap-3 fr-text-title--blue-france fr-background-contrast--blue-cumulus fr-p-3w"
       >
         <img width="80" src="assets/images/contact.svg" alt="" />
-        <h2 class="fr-text-title--blue-france m-0">Contact</h2>
-        <div class="fr-display-flex fr-flex-column">
-          <span class="fw-bold">Adresse</span>
-          <span> {{ structure.adresse }}</span>
-        </div>
-        <div class="fr-display-flex fr-flex-column">
-          <span class="fw-bold">Ville</span>
-          <span> {{ structure.codePostal }} {{ structure.ville }}</span>
-        </div>
-        <div class="fr-display-flex fr-flex-column">
-          <span class="fw-bold">Email</span>
-          <span> {{ structure.email }} </span>
-        </div>
-        <div class="fr-display-flex fr-flex-column">
-          <span class="fw-bold">Téléphone</span>
-          <span>
-            {{ structure.telephone | formatInternationalPhoneNumber }}
-          </span>
-        </div>
-      </div>
+        <h2 class="fr-text-title--blue-france fr-m-0w">Contact</h2>
+        <p>
+          <span class="fr-text--bold">Adresse</span><br />
+          {{ structure.adresse }}
+        </p>
+        <p>
+          <span class="fr-text--bold">Ville</span><br />
+          {{ structure.codePostal }} {{ structure.ville }}
+        </p>
+        <p>
+          <span class="fr-text--bold">Email</span><br />
+          {{ structure.email }}
+        </p>
+        <p>
+          <span class="fr-text--bold">Téléphone</span><br />
+          {{ structure.telephone | formatInternationalPhoneNumber }}
+        </p>
+      </aside>
     </div>
   </div>
 </div>
-<div class="fr-grid-row fr-container fr-justify-content-end my-4">
+<hr />
+<div class="fr-grid-row fr-container fr-justify-content-end fr-my-4w">
   <button
     *ngIf="cachedStructure.statut !== 'SUPPRIME'"
     (click)="structureToDelete = cachedStructure"

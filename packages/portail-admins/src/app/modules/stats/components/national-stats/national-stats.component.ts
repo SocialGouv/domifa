@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   DomSanitizer,
   SafeResourceUrl,
@@ -27,7 +27,7 @@ import { AdminAuthService } from "../../../admin-auth/services/admin-auth.servic
   templateUrl: "./national-stats.component.html",
   styleUrls: ["./national-stats.component.css"],
 })
-export class NationalStatsComponent implements OnInit {
+export class NationalStatsComponent implements OnInit, OnDestroy {
   public years: number[] = [];
 
   public regionTable: RegionsLabels = {};
@@ -49,7 +49,7 @@ export class NationalStatsComponent implements OnInit {
   public lastUpdate: Date | null = null;
   public user: PortailAdminUser | null;
   constructor(
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private readonly statsService: StatsService,
     private readonly toastService: CustomToastService,
     private readonly titleService: Title,
@@ -77,13 +77,15 @@ export class NationalStatsComponent implements OnInit {
         )
         .subscribe()
     );
-    this.loading = true;
-    this.getMetabaseUrl();
 
     this.user = this.adminAuthService.currentUserValue;
 
     this.generateTablesByRole();
     this.titleLabel = this.getTitleLabel(this.user);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   public setCurrentStructure() {
@@ -114,6 +116,7 @@ export class NationalStatsComponent implements OnInit {
 
   public getMetabaseUrl() {
     this.loading = true;
+    this.iframeUrl = null;
     this.subscription.add(
       this.statsService.getMetabaseUrl(this.metabaseParams).subscribe({
         next: (response: { url: string }) => {
@@ -127,10 +130,6 @@ export class NationalStatsComponent implements OnInit {
           this.iframeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
             response.url
           );
-          setTimeout(() => {
-            this.loading = false;
-            this.toastService.success("Chargement des statistiques en cours");
-          }, 2000);
         },
         error: () => {
           this.loading = false;
@@ -138,6 +137,14 @@ export class NationalStatsComponent implements OnInit {
         },
       })
     );
+  }
+
+  public onIframeLoad(): void {
+    if (!this.loading) {
+      return;
+    }
+    this.loading = false;
+    this.toastService.success("Chargement des statistiques terminé");
   }
 
   public deleteFilter(key: keyof MetabaseParams) {
@@ -164,10 +171,6 @@ export class NationalStatsComponent implements OnInit {
         next: (response: Array<StructureListForStats>) => {
           this.structures = response;
           this.loading = false;
-
-          this.toastService.success(
-            "La liste des structures a été mise à jour"
-          );
         },
         error: () => {
           this.loading = false;

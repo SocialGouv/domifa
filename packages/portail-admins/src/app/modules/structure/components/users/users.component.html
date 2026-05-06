@@ -2,7 +2,9 @@
   <div
     class="fr-container fr-col-12 fr-display-flex fr-justify-content-between fr-align-items-center"
   >
-    <span class="fr-h3 mb-0"> {{ users.length }} Utilisateurs enregistrés</span>
+    <span class="fr-h3 fr-mb-0w">
+      {{ users.length }} Utilisateurs enregistrés</span
+    >
     <div>
       <button
         *ngIf="structure.statut !== 'SUPPRIME'"
@@ -17,7 +19,7 @@
 </div>
 
 <div>
-  <div *ngIf="!searching && users.length === 0" class="fr-callout mt-5">
+  <div *ngIf="!searching && users.length === 0" class="fr-callout fr-mt-5w">
     <p class="fr-callout--text">Aucun utilisateur dans la structure</p>
   </div>
 
@@ -34,7 +36,7 @@
               Liste des utilisateurs enregistrés
             </caption>
             <thead>
-              <tr class="p-2">
+              <tr class="fr-p-2w">
                 <th scope="col" class="border-right border-1">
                   <app-table-head-sort
                     sortKey="id"
@@ -110,8 +112,8 @@
                 "
                 [attr.aria-rowindex]="i + 1"
               >
-                <td class="fw-bold">{{ user.id }}</td>
-                <td class="fw-bold">{{ user.nom }} {{ user.prenom }}</td>
+                <td class="fr-text--bold">{{ user.id }}</td>
+                <td class="fr-text--bold">{{ user.nom }} {{ user.prenom }}</td>
 
                 <td>{{ user.email }}</td>
                 <td>{{ user.createdAt | date : "d MMMM y" }}</td>
@@ -257,7 +259,7 @@
   >
     <p>
       Êtes-vous sûr de vouloir {{ confirmModalContext?.actionText ?? "" }}:
-      <span class="fw-bold">
+      <span class="fr-text--bold">
         {{ userForModal?.email }}
       </span>
       ?
@@ -292,7 +294,7 @@
     [autoCloseOnAction]="false"
     [size]="userForModal?.eventsHistory.length ? 'LG' : 'MD'"
   >
-    <div class="mt-2">
+    <div class="fr-mt-2w">
       <div
         *ngIf="userForModal?.remainingBackoffMinutes"
         class="fr-alert fr-alert--error"

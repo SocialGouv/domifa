@@ -26,6 +26,10 @@ import { PageOptionsDto } from "../../../../usagers/dto";
 import { appLogger, cleanPath } from "../../../../util";
 import { FileManagerService } from "../../../../util/file-manager/file-manager.service";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
+import {
+  buildPortailUsagerActorFields,
+  buildUsagerFields,
+} from "../../../app-logs/app-logs.helpers";
 import { Response } from "express";
 import { join } from "node:path";
 
@@ -148,8 +152,8 @@ export class PortailUsagersProfileController {
       doc?.encryptionVersion !== 0
     ) {
       await this.appLogsService.create({
-        userId: currentUser.user.id,
-        usagerRef: currentUser.usager.ref,
+        ...buildPortailUsagerActorFields(currentUser.user.id),
+        ...buildUsagerFields(currentUser.usager),
         structureId: currentUser.structure.id,
         action: "MON_DOMIFA_DOWNLOAD_DOC_TRY",
       });
@@ -161,8 +165,8 @@ export class PortailUsagersProfileController {
     }
 
     await this.appLogsService.create({
-      userId: currentUser.user.id,
-      usagerRef: currentUser.usager.ref,
+      ...buildPortailUsagerActorFields(currentUser.user.id),
+      ...buildUsagerFields(currentUser.usager),
       structureId: currentUser.structure.id,
       action: "MON_DOMIFA_DOWNLOAD_DOC",
     });

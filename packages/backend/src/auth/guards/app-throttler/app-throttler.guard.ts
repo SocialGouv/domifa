@@ -5,6 +5,7 @@ import { appLogsRepository, AppLogTable } from "../../../database";
 import { domifaConfig } from "../../../config";
 import { ThrottleBlockedLogContext } from "./app-throttler.types";
 import { extractJwtUser } from "./app-throttler.utils";
+import { ANONYMOUS_ACTOR_FIELDS } from "../../../modules/app-logs/app-logs.helpers";
 
 const SKIP_THROTTLE_ENVS = ["test"];
 
@@ -53,6 +54,7 @@ export class AppThrottlerGuard extends ThrottlerGuard {
         .catch(() => undefined);
     } else {
       const log = new AppLogTable({
+        ...ANONYMOUS_ACTOR_FIELDS,
         action: "THROTTLE_BLOCKED",
         context: logContext,
       });

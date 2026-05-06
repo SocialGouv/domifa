@@ -1,95 +1,107 @@
 <div class="d-print-none">
   <div
-    class="fr-display-flex fr-align-items-center me-2 text-md-start text-center my-4"
+    class="fr-grid-row fr-grid-row--gutters fr-grid-row--bottom text-md-start text-center fr-my-4w"
   >
-    <div class="fr-select-group d-inline-block my-1 me-2">
-      <label class="fr-label" for="select-type-structure">
-        Type de structures
-      </label>
-      <select
-        class="fr-select"
-        id="select-type-structure"
-        [disabled]="searching"
-        (change)="onStructureTypeChange($event)"
-      >
-        <option value="" selected disabled hidden>Sélectionner un type</option>
-        <option
-          *ngFor="let type of structureTypeOptions | keyvalue"
-          [value]="type.key"
+    <div class="fr-col-12 fr-col-md-3">
+      <div class="fr-select-group">
+        <label class="fr-label" for="select-type-structure">
+          Type de structures
+        </label>
+        <select
+          class="fr-select"
+          id="select-type-structure"
+          [disabled]="searching"
+          (change)="onStructureTypeChange($event)"
         >
-          {{ type.value }}
-        </option>
-      </select>
+          <option value="" selected disabled hidden>
+            Sélectionner un type
+          </option>
+          <option
+            *ngFor="let type of structureTypeOptions | keyvalue"
+            [value]="type.key"
+          >
+            {{ type.value }}
+          </option>
+        </select>
+      </div>
     </div>
 
-    <div class="fr-select-group d-inline-block my-1 me-2">
-      <label class="fr-label" for="select-region"> Région </label>
-      <select
-        class="fr-select"
-        id="select-region"
-        [disabled]="searching"
-        (change)="onRegionChange($event)"
-      >
-        <option value="" selected disabled hidden>
-          Sélectionner une région
-        </option>
-        <option
-          *ngFor="
-            let region of REGIONS_LISTE | keyvalue | sortArray : 'value' : 'asc'
-          "
-          [value]="region.key"
+    <div class="fr-col-12 fr-col-md-3">
+      <div class="fr-select-group">
+        <label class="fr-label" for="select-region"> Région </label>
+        <select
+          class="fr-select"
+          id="select-region"
+          [disabled]="searching"
+          (change)="onRegionChange($event)"
         >
-          {{ region.value }}
-        </option>
-      </select>
+          <option value="" selected disabled hidden>
+            Sélectionner une région
+          </option>
+          <option
+            *ngFor="
+              let region of REGIONS_LISTE
+                | keyvalue
+                | sortArray : 'value' : 'asc'
+            "
+            [value]="region.key"
+          >
+            {{ region.value }}
+          </option>
+        </select>
+      </div>
     </div>
 
-    <div class="fr-select-group d-inline-block my-1 me-2">
-      <label class="fr-label" for="select-departement"> Département </label>
-      <select
-        class="fr-select"
-        id="select-departement"
-        [disabled]="searching"
-        (change)="onDepartementChange($event)"
-      >
-        <option value="" selected disabled hidden>
-          Sélectionner un département
-        </option>
-        <option
-          *ngFor="let departement of DEPARTEMENTS_LISTE | keyvalue"
-          [value]="departement.key"
+    <div class="fr-col-12 fr-col-md-3">
+      <div class="fr-select-group">
+        <label class="fr-label" for="select-departement"> Département </label>
+        <select
+          class="fr-select"
+          id="select-departement"
+          [disabled]="searching"
+          (change)="onDepartementChange($event)"
         >
-          {{ departement.value }}
-        </option>
-      </select>
+          <option value="" selected disabled hidden>
+            Sélectionner un département
+          </option>
+          <option
+            *ngFor="let departement of DEPARTEMENTS_LISTE | keyvalue"
+            [value]="departement.key"
+          >
+            {{ departement.value }}
+          </option>
+        </select>
+      </div>
     </div>
 
-    <div class="fr-select-group d-inline-block my-1 me-2">
-      <label class="fr-label" for="select-nombre-domicilies">
-        Nombre de domiciliés
-      </label>
-      <select
-        class="fr-select"
-        id="select-nombre-domicilies"
-        [disabled]="searching"
-        (change)="onDomicilieSegmentChange($event)"
-      >
-        <option value="" selected disabled hidden>
-          Sélectionner un segment
-        </option>
-        <option
-          *ngFor="let segment of segmentUsagersOptions | keyvalue"
-          [value]="segment.value"
+    <div class="fr-col-12 fr-col-md-3">
+      <div class="fr-select-group">
+        <label class="fr-label" for="select-nombre-domicilies">
+          Nombre de domiciliés
+        </label>
+        <select
+          class="fr-select"
+          id="select-nombre-domicilies"
+          [disabled]="searching"
+          (change)="onDomicilieSegmentChange($event)"
         >
-          {{ segment.value }}
-        </option>
-      </select>
+          <option value="" selected disabled hidden>
+            Sélectionner un segment
+          </option>
+          <option
+            *ngFor="let segment of segmentUsagersOptions | keyvalue"
+            [value]="segment.value"
+          >
+            {{ segment.value }}
+          </option>
+        </select>
+      </div>
     </div>
   </div>
 
   <div
     *ngIf="this.nbResults === 0"
-    class="d-inline-block mt-1 mb-1 dropdown-toggle--selected"
+    class="d-inline-block fr-mt-1w fr-mb-1w dropdown-toggle--selected"
   >
     <button
       type="button"

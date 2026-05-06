@@ -181,6 +181,14 @@ a.fr-link:has(img):hover {
   background-color: var(--background-default-grey-hover);
 }
 
+// Borders
+.border-bottom {
+  border-bottom: 1px solid;
+}
+.border-grey {
+  border-color: var(--border-default-grey);
+}
+
 // Spinner animation
 .fr-icon-spin {
   animation: spin 1s linear infinite;

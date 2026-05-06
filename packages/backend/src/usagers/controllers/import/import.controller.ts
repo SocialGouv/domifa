@@ -50,6 +50,7 @@ import {
 } from "@domifa/common";
 import { ImportCreatorService } from "./step3-create";
 import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
+import { buildStructureActorFields } from "../../../modules/app-logs/app-logs.helpers";
 import {
   FailedUsagerImportLogContext,
   SuccessfulUsagerImportLogContext,
@@ -226,10 +227,9 @@ export class ImportController {
           .slice(0, 50),
       };
       await this.appLogsService.create<FailedUsagerImportLogContext>({
+        ...buildStructureActorFields(user),
         action: "IMPORT_USAGERS_FAILED",
-        userId: user.id,
         structureId: user.structureId,
-        role: user.role,
         context: {
           nombreActifs: previewUsagersRow.length,
           nombreErreurs: importErrors.length,
@@ -256,9 +256,8 @@ export class ImportController {
       };
 
       await this.appLogsService.create<SuccessfulUsagerImportLogContext>({
+        ...buildStructureActorFields(user),
         action: "IMPORT_USAGERS_PREVIEW",
-        userId: user.id,
-        role: user.role,
         structureId: user.structureId,
         context: {
           nombreActifs: previewUsagersRow.length,
@@ -315,9 +314,8 @@ export class ImportController {
     documentType: ImportDocumentType
   ) {
     await this.appLogsService.create({
-      role: user.role,
+      ...buildStructureActorFields(user),
       structureId: user.structureId,
-      userId: user.id,
       action:
         documentType === ImportDocumentType.GUIDE
           ? "IMPORT_DOWNLOAD_GUIDE"

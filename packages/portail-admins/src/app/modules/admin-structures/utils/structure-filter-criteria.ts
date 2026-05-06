@@ -9,14 +9,14 @@ export enum StructureFilterCriteriaSortEnum {
   ID = "id",
   NOM = "nom",
   TYPE = "structureType",
-  CREATED_AT = "createdAt",
+  REGISTRATION_DATE = "registrationDate",
   IMPORT_AT = "importDate",
   USERS = "users",
   USAGERS = "usagers",
   ACTIFS = "actifs",
   LAST_LOGIN = "lastLogin",
   REGION = "regionName",
-  DEPARTEMENT = "departementName",
+  DEPARTEMENT = "departmentName",
 }
 
 export class StructureFilterCriteria extends Search {

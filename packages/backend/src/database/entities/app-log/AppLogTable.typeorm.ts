@@ -1,8 +1,12 @@
-import { Column, Entity } from "typeorm";
+import { Column, Entity, Index } from "typeorm";
 
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import { UserStructureRole, UserSupervisorRole } from "@domifa/common";
-import { AppLog, LogAction } from "../../../modules/app-logs/types";
+import {
+  AppLog,
+  AppLogActorType,
+  LogAction,
+} from "../../../modules/app-logs/types";
 
 @Entity({ name: "app_log" })
 export class AppLogTable
@@ -13,7 +17,21 @@ export class AppLogTable
   public userId?: number;
 
   @Column({ type: "integer", nullable: true })
+  public userStructureId?: number;
+
+  @Column({ type: "integer", nullable: true })
+  public userSupervisorId?: number;
+
+  @Index()
+  @Column({ type: "text", nullable: true })
+  public userType?: AppLogActorType;
+
+  @Column({ type: "integer", nullable: true })
   public usagerRef: number;
+
+  @Index()
+  @Column({ type: "uuid", nullable: true })
+  public usagerUuid?: string;
 
   @Column({ type: "integer", nullable: true })
   public structureId: number;

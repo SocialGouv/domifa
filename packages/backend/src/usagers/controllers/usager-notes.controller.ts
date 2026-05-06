@@ -34,6 +34,10 @@ import {
   usagerNotesRepository,
   usagerRepository,
 } from "../../database";
+import {
+  buildStructureActorFields,
+  buildUsagerFields,
+} from "../../modules/app-logs/app-logs.helpers";
 import { CurrentUsagerNote } from "../../auth/decorators/current-usager-note.decorator";
 import { AppUserGuard, UsagerNoteAccessGuard } from "../../auth/guards";
 
@@ -134,8 +138,8 @@ export class UsagerNotesController {
 
     await appLogsRepository.save(
       new AppLogTable({
-        userId: currentUser._userId,
-        usagerRef: currentUsager.ref,
+        ...buildStructureActorFields(currentUser),
+        ...buildUsagerFields(currentUsager),
         structureId: currentUser.structureId,
         action: "DELETE_NOTE",
       })

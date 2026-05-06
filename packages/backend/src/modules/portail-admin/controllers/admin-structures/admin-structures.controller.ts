@@ -36,6 +36,7 @@ import {
   UserStructure,
 } from "@domifa/common";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
+import { buildSupervisorActorFields } from "../../../app-logs/app-logs.helpers";
 import { UpdateStructureDecisionStatutDto } from "../../dto";
 import { UserStructureWithSecurity } from "../../types";
 import { format } from "date-fns";
@@ -64,7 +65,7 @@ export class AdminStructuresController {
     @Res() response: ExpressResponse
   ) {
     await this.appLogsService.create({
-      userId: user.id,
+      ...buildSupervisorActorFields(user),
       action: "EXPORT_DOMIFA",
     });
 
@@ -202,7 +203,7 @@ export class AdminStructuresController {
         updateStatusDto.statut
       );
       await this.appLogsService.create({
-        userId: user.id,
+        ...buildSupervisorActorFields(user),
         action: config.logAction,
       });
 
