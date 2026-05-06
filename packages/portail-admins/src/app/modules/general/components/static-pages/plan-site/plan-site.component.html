@@ -4,7 +4,7 @@
   <div class="fr-grid-row" *ngIf="adminProfile">
     <ng-container *ngFor="let linkSection of siteMapLinksLogged">
       <div class="fr-col-md-4 fr-col-12">
-        <h2 class="my-3">
+        <h2 class="fr-my-3w">
           {{ linkSection.section }}
         </h2>
         <ul>
@@ -17,8 +17,8 @@
   </div>
   <div class="fr-grid-row">
     <ng-container *ngFor="let linkSection of sitemapLinks">
-      <div class="fr-col-md-4 fr-col-12 my-3">
-        <h2 class="my-3">
+      <div class="fr-col-md-4 fr-col-12 fr-my-3w">
+        <h2 class="fr-my-3w">
           {{ linkSection.section }}
         </h2>
         <ul>
@@ -28,8 +28,8 @@
         </ul>
       </div>
     </ng-container>
-    <div class="fr-col-md-4 fr-col-12 my-3">
-      <h2 class="my-3">Nos partenaires</h2>
+    <div class="fr-col-md-4 fr-col-12 fr-my-3w">
+      <h2 class="fr-my-3w">Nos partenaires</h2>
       <ul>
         <li *ngFor="let link of partnerLinks">
           <a [href]="link.path" target="_blank" rel="noopener external"

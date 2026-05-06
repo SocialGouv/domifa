@@ -5,9 +5,9 @@
         [class.fr-input-group--error]="
           (f.nom.dirty || submitted) && f.nom.errors ? true : false
         "
-        class="fr-col-md-12 fr-input-group required mb-3"
+        class="fr-col-md-12 fr-input-group required fr-mb-3w"
       >
-        <label class="fr-label mb-0" for="nom">Nom</label>
+        <label class="fr-label fr-mb-0w" for="nom">Nom</label>
         <input
           type="text"
           class="fr-input"
@@ -44,9 +44,9 @@
         [class.fr-input-group--error]="
           (f.prenom.dirty || submitted) && f.prenom.errors ? true : false
         "
-        class="fr-col-md-12 fr-input-group mb-3 required"
+        class="fr-col-md-12 fr-input-group fr-mb-3w required"
       >
-        <label class="fr-label mb-0" for="prenom">Prénom</label>
+        <label class="fr-label fr-mb-0w" for="prenom">Prénom</label>
         <input
           type="text"
           class="fr-input"
@@ -84,9 +84,9 @@
         [class.fr-input-group--error]="
           (f.email.dirty || submitted) && f.email.errors ? true : false
         "
-        class="fr-col-md-12 mb-3 fr-input-group required"
+        class="fr-col-md-12 fr-mb-3w fr-input-group required"
       >
-        <label class="fr-label mb-0" for="email">Adresse email</label>
+        <label class="fr-label fr-mb-0w" for="email">Adresse email</label>
         <input
           type="email"
           class="fr-input"
@@ -131,9 +131,9 @@
       </div>
       <div
         [class.fr-input-group--error]="submitted && f.role.errors"
-        class="fr-col-md-12 mb-3 fr-input-group required"
+        class="fr-col-md-12 fr-mb-3w fr-input-group required"
       >
-        <label class="fr-label mb-0" for="role">Rôle du superviseur</label>
+        <label class="fr-label fr-mb-0w" for="role">Rôle du superviseur</label>
         <select
           id="role"
           formControlName="role"
@@ -168,10 +168,10 @@
       </div>
 
       <div
-        class="fr-col-md-12 mb-3 fr-input-group required"
+        class="fr-col-md-12 fr-mb-3w fr-input-group required"
         *ngIf="showTerritories"
       >
-        <label for="territories" class="fr-label mb-0">
+        <label for="territories" class="fr-label fr-mb-0w">
           {{
             selectedRole === "department"
               ? "Département d'action"

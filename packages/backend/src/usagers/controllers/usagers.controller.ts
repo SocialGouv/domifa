@@ -48,6 +48,10 @@ import {
 } from "../dto";
 import { UsagersService } from "../services";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
+import {
+  buildStructureActorFields,
+  buildUsagerFields,
+} from "../../modules/app-logs/app-logs.helpers";
 
 import { join } from "path";
 import { ExpressResponse } from "../../util/express";
@@ -334,15 +338,13 @@ export class UsagersController {
 
     // Ajout d'un log
     await this.appLogsService.create({
-      userId: user.id,
-      usagerRef: usager.ref,
+      ...buildStructureActorFields(user),
+      ...buildUsagerFields(usager),
       structureId: user.structureId,
       action: "USAGERS_DELETE",
       context: {
         user: anonymizeFullName(user),
         usagerNom: anonymizeFullName(usager),
-        usagerRef: usager.ref,
-        uuid: usager.uuid,
       },
     });
 

@@ -17,6 +17,7 @@ import {
 
 import { UserStructure, StructureCommon } from "@domifa/common";
 import { LogAction } from "../../modules/app-logs/types";
+import { buildStructureActorFields } from "../../modules/app-logs/app-logs.helpers";
 
 export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
   "uuid",
@@ -40,6 +41,7 @@ interface ReactivationEvent {
   type: ReactivationType;
   userId: number;
   structureId: number;
+  role: UserStructureAuthenticated["role"];
   inactivityDays: number;
   lastLoginBefore: Date | null;
 }
@@ -125,6 +127,7 @@ export class StructuresAuthService {
         type,
         userId: authUser.id,
         structureId: authUser.structureId,
+        role: authUser.role,
         inactivityDays,
         lastLoginBefore: lastLogin,
       };
@@ -157,9 +160,8 @@ export class StructuresAuthService {
     );
 
     await appLogsRepository.save({
+      ...buildStructureActorFields({ id: event.userId, role: event.role }),
       structureId: event.structureId,
-      userId: event.userId,
-      usagerRef: null,
       action: action as LogAction,
       context,
     });

@@ -27,9 +27,9 @@ import { FilterOutput } from "../admin-structures-list/admin-structures-list.com
   templateUrl: "./structure-filters.component.html",
 })
 export class StructureFiltersComponent implements OnChanges {
-  @Input({ required: true }) public filters: StructureFilterCriteria;
-  @Input({ required: true }) public searching: boolean;
-  @Input({ required: true }) public nbResults: number;
+  @Input({ required: true }) public filters!: StructureFilterCriteria;
+  @Input({ required: true }) public searching!: boolean;
+  @Input({ required: true }) public nbResults!: number;
 
   @Output() public readonly updateFilters = new EventEmitter<FilterOutput>();
 
@@ -60,12 +60,14 @@ export class StructureFiltersComponent implements OnChanges {
     if (!region) {
       return { ...DEPARTEMENTS_LISTE };
     }
-    return REGIONS_DEF.find(
-      (r: RegionDef) => r.regionCode === region
-    )?.departements.reduce<RegionsLabels>((acc, dep) => {
-      acc[dep.departmentCode] = dep.departmentName;
-      return acc;
-    }, {});
+    return (
+      REGIONS_DEF.find(
+        (r: RegionDef) => r.regionCode === region
+      )?.departements.reduce<RegionsLabels>((acc, dep) => {
+        acc[dep.departmentCode] = dep.departmentName;
+        return acc;
+      }, {}) ?? {}
+    );
   };
 
   public onStructureTypeChange(event: Event): void {

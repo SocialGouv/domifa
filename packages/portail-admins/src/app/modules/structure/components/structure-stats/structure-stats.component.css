@@ -1,0 +1,5 @@
+.iframe--preloading {
+  visibility: hidden;
+  position: absolute;
+  left: -9999px;
+}

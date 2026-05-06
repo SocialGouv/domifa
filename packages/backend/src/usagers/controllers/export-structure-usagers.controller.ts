@@ -28,6 +28,7 @@ import {
 } from "../utils/xlsx-structure-usagers-renderer";
 import * as XLSX from "xlsx";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
+import { buildStructureActorFields } from "../../modules/app-logs/app-logs.helpers";
 import { domifaConfig } from "../../config";
 
 import { UsagersFilterCriteriaStatut } from "@domifa/common";
@@ -89,7 +90,7 @@ export class ExportStructureUsagersController {
 
     try {
       await this.appLogsService.create({
-        userId: user.id,
+        ...buildStructureActorFields(user),
         structureId: user.structureId,
         action: "EXPORT_USAGERS",
       });

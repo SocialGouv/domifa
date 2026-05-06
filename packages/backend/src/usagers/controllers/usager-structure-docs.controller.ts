@@ -34,6 +34,10 @@ import {
 } from "../utils/custom-docs";
 
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
+import {
+  buildStructureActorFields,
+  buildUsagerFields,
+} from "../../modules/app-logs/app-logs.helpers";
 import { join } from "path";
 import { appLogger, cleanPath } from "../../util";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
@@ -193,8 +197,8 @@ export class UsagerStructureDocsController {
 
     if (docType === "acces_espace_domicilie") {
       await this.appLogsService.create({
-        userId: user.id,
-        usagerRef: usager.ref,
+        ...buildStructureActorFields(user),
+        ...buildUsagerFields(usager),
         structureId: user.structureId,
         action: "DOWNLOAD_PASSWORD_PORTAIL",
       });

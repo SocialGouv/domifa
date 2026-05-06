@@ -37,6 +37,10 @@ import {
 } from "../../util/file-manager/FileManager";
 import { UserStructureAuthenticated } from "../../_common/model";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
+import {
+  buildStructureActorFields,
+  buildUsagerFields,
+} from "../../modules/app-logs/app-logs.helpers";
 import { PatchUsagerDocDto, PostUsagerDocDto } from "../dto";
 
 import crypto from "node:crypto";
@@ -142,8 +146,8 @@ export class UsagerDocsController {
     }
 
     await this.appLogsService.create({
-      userId: user.id,
-      usagerRef,
+      ...buildStructureActorFields(user),
+      ...buildUsagerFields(currentUsager),
       structureId: user.structureId,
       action: "USAGERS_DOCS_UPLOAD",
     });
@@ -178,8 +182,8 @@ export class UsagerDocsController {
 
     if (usagerDoc.shared) {
       await this.appLogsService.create({
-        userId: user.id,
-        usagerRef: currentUsager.ref,
+        ...buildStructureActorFields(user),
+        ...buildUsagerFields(currentUsager),
         structureId: user.structureId,
         action: "USAGERS_DOCS_SHARED",
       });
@@ -187,8 +191,8 @@ export class UsagerDocsController {
 
     if (usagerDoc.label !== updatedDoc.label) {
       await this.appLogsService.create({
-        userId: user.id,
-        usagerRef: currentUsager.ref,
+        ...buildStructureActorFields(user),
+        ...buildUsagerFields(currentUsager),
         structureId: user.structureId,
         action: "USAGERS_DOCS_RENAME",
       });
@@ -235,8 +239,8 @@ export class UsagerDocsController {
     });
 
     await this.appLogsService.create({
-      userId: user.id,
-      usagerRef,
+      ...buildStructureActorFields(user),
+      ...buildUsagerFields(currentUsager),
       structureId: user.structureId,
       action: "USAGERS_DOCS_DELETE",
     });
@@ -336,8 +340,8 @@ export class UsagerDocsController {
     }
 
     await this.appLogsService.create({
-      userId: user.id,
-      usagerRef,
+      ...buildStructureActorFields(user),
+      ...buildUsagerFields(currentUsager),
       structureId: user.structureId,
       action: "USAGERS_DOCS_DOWNLOAD",
     });

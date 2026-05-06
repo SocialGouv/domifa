@@ -42,6 +42,10 @@ import {
   UpdatePortailUsagerOptionsDto,
 } from "../../dto";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
+import {
+  buildStructureActorFields,
+  buildUsagerFields,
+} from "../../../app-logs/app-logs.helpers";
 import { userUsagerCreator } from "../../services";
 import { PageOptionsDto } from "../../../../usagers/dto";
 import { format } from "date-fns";
@@ -93,8 +97,7 @@ export class PortailUsagersManagerController {
           : "DISABLE_PORTAIL_BY_STRUCTURE";
 
         await this.appLogsService.create({
-          userId: user._userId,
-          usagerRef: null,
+          ...buildStructureActorFields(user),
           structureId: user.structureId,
           action,
         });
@@ -236,7 +239,7 @@ export class PortailUsagersManagerController {
       }
 
       await this.appLogsService.create({
-        userId: user.id,
+        ...buildStructureActorFields(user),
         structureId: user.structureId,
         action: "MON_DOMIFA_CREATE_PORTAIL_ACCOUNT_BULK",
         context: {
@@ -303,8 +306,8 @@ export class PortailUsagersManagerController {
             await userUsagerCreator.resetUserUsagerPassword(usager);
 
           await this.appLogsService.create({
-            userId: user.id,
-            usagerRef: usager.ref,
+            ...buildStructureActorFields(user),
+            ...buildUsagerFields(usager),
             structureId: user.structureId,
             action: "RESET_PASSWORD_PORTAIL",
           });

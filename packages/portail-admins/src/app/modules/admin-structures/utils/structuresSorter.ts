@@ -34,9 +34,7 @@ function sortBy(
     let value = structure[sortKey as keyof StructureAdmin];
 
     if (
-      ["nom", "structureType", "regionName", "departementName"].includes(
-        sortKey
-      )
+      ["nom", "structureType", "regionName", "departmentName"].includes(sortKey)
     ) {
       value = normalizeString(value as string);
     }

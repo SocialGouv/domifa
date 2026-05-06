@@ -6,6 +6,7 @@ import { BrevoSenderService } from "./brevo-sender/brevo-sender.service";
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 import { domifaConfig } from "../../../config";
 import { appLogger } from "../../../util";
+import { SYSTEM_ACTOR_FIELDS } from "../../app-logs/app-logs.helpers";
 
 @Injectable()
 export class BrevoSyncCronService {
@@ -112,6 +113,7 @@ export class BrevoSyncCronService {
   ): Promise<void> {
     await appLogsRepository.save(
       appLogsRepository.create({
+        ...SYSTEM_ACTOR_FIELDS,
         action: "BREVO_SYNC",
         context: {
           totalUsers,
@@ -128,6 +130,7 @@ export class BrevoSyncCronService {
 
     await appLogsRepository.save(
       appLogsRepository.create({
+        ...SYSTEM_ACTOR_FIELDS,
         action: "BREVO_SYNC",
         context: {
           error: error instanceof Error ? error.message : "Unknown error",

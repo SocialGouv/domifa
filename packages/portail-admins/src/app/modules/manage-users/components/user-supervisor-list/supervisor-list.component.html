@@ -1,4 +1,4 @@
-<div class="fr-background-alt--blue-cumulus pt-4">
+<div class="head-page fr-pt-4w">
   <div class="fr-grid-row">
     <div class="fr-container fr-col-md-12 fr-col-12">
       <h1 class="fr-text-title--blue-france">Gestion des utilisateurs Admin</h1>
@@ -6,12 +6,14 @@
   </div>
 </div>
 
-<div *ngIf="me.role === 'super-admin-domifa'" class="pt-4">
+<div *ngIf="me.role === 'super-admin-domifa'" class="fr-pt-4w">
   <div class="fr-grid-row">
     <div
       class="fr-container fr-col-12 fr-display-flex fr-justify-content-between fr-align-items-center"
     >
-      <h2 class="fr-h5 mb-0">{{ users.length }} Utilisateurs enregistrés</h2>
+      <h2 class="fr-h5 fr-mb-0w">
+        {{ users.length }} Utilisateurs enregistrés
+      </h2>
       <div>
         <button
           type="button"
@@ -95,7 +97,7 @@
                 "
                 [attr.aria-rowindex]="i + 1"
               >
-                <td class="fw-bold">{{ user | fullName }}</td>
+                <td class="fr-text--bold">{{ user | fullName }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.createdAt | date : "d MMMM y" }}</td>
 

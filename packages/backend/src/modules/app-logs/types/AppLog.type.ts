@@ -5,9 +5,20 @@ import {
 } from "@domifa/common";
 import { LogAction } from "./LogAction.type";
 
+export type AppLogActorType =
+  | "user_structure"
+  | "user_supervisor"
+  | "usager"
+  | "system"
+  | "anonymous";
+
 export type AppLog<T = any> = AppEntity & {
   userId?: number;
+  userStructureId?: number;
+  userSupervisorId?: number;
+  userType?: AppLogActorType;
   usagerRef?: number;
+  usagerUuid?: string;
   structureId?: number;
   action: LogAction;
   context?: T;

@@ -33,34 +33,28 @@ export class StructureStatsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loading = true;
     this.subscription.add(
       this.activatedRoute.parent.data.subscribe((data) => {
         this.structure = data.structure;
         this.titleService.setTitle("Stats de " + this.structure.nom);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         this.metabaseParams.structureId = this.structure.id.toString() as any;
-        this.getMetabaseUrl();
         for (let year = 2021; year <= new Date().getFullYear(); year++) {
           this.years.push(year);
         }
-        this.loading = false;
       })
     );
   }
 
   public getMetabaseUrl() {
     this.loading = true;
+    this.iframeUrl = null;
     this.subscription.add(
       this.statsService.getMetabaseUrl(this.metabaseParams).subscribe({
         next: (response: { url: string }) => {
           this.iframeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
             response.url
           );
-          setTimeout(() => {
-            this.loading = false;
-            this.toastService.success("Chargement des statistiques en cours");
-          }, 2000);
         },
         error: () => {
           this.loading = false;
@@ -68,6 +62,14 @@ export class StructureStatsComponent implements OnInit {
         },
       })
     );
+  }
+
+  public onIframeLoad(): void {
+    if (!this.loading) {
+      return;
+    }
+    this.loading = false;
+    this.toastService.success("Chargement des statistiques terminé");
   }
 
   public export(): void {

@@ -29,6 +29,7 @@ import { StructureDto, StructureEditSmsDto } from "../dto";
 import { StructureHardResetService } from "../services/structureHardReset.service";
 import { StructuresService } from "../services/structures.service";
 import { AppLogsService } from "../../app-logs/app-logs.service";
+import { buildStructureActorFields } from "../../app-logs/app-logs.helpers";
 
 import { ParseHardResetTokenPipe } from "../../../_common/decorators";
 
@@ -100,11 +101,10 @@ export class StructuresController {
     const logs = logDiff(oldStructure, structureDto, STRUCTURE_DTO_KEYS);
     try {
       await appLogsRepository.insert({
-        userId: user.id,
+        ...buildStructureActorFields(user),
         structureId: user.structureId,
         action: "STRUCTURE_UPDATE",
         context: logs,
-        role: user.role,
       });
     } catch (error) {
       console.error("Failed to create audit log:", error);
@@ -148,7 +148,7 @@ export class StructuresController {
     const before = { ...user.structure.sms };
 
     await this.appLogsService.create({
-      userId: user._userId,
+      ...buildStructureActorFields(user),
       structureId: user.structureId,
       action: "SMS_SETTINGS_UPDATE",
       context: {

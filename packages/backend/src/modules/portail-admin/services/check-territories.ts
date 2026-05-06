@@ -1,6 +1,12 @@
 import { REGIONS_DEF } from "@domifa/common";
 import { UserAdminAuthenticated } from "../../../_common/model";
 import { MetabaseStatsDto } from "../dto";
+
+export type ResolvedTerritoryFilter = {
+  region: string[];
+  department: string[];
+};
+
 const findRegionForDepartment = (departmentCode: string): string | null => {
   for (const region of REGIONS_DEF) {
     if (
@@ -12,55 +18,56 @@ const findRegionForDepartment = (departmentCode: string): string | null => {
   return null;
 };
 
-export const checkTerritories = (
+// Returns the authoritative territory filter to apply (server forces user.territories
+// for region/department roles), or null when the request is unauthorized.
+export const resolveTerritoryFilter = (
   user: UserAdminAuthenticated,
-  metabaseDto: MetabaseStatsDto
-): boolean => {
+  dto: MetabaseStatsDto
+): ResolvedTerritoryFilter | null => {
   if (user.role === "national" || user.role === "super-admin-domifa") {
-    return true;
+    return {
+      region: dto.region ? [dto.region] : [],
+      department: dto.department ? [dto.department] : [],
+    };
   }
 
-  if (!user.territories || !user.territories.length) {
-    return false;
+  if (!user.territories?.length) {
+    return null;
+  }
+
+  const territories = user.territories.flat();
+
+  if (user.role === "region") {
+    if (dto.department) {
+      const deptRegion = findRegionForDepartment(dto.department);
+      if (!deptRegion || !territories.includes(deptRegion)) {
+        return null;
+      }
+      return { region: [], department: [dto.department] };
+    }
+    if (dto.region) {
+      if (!territories.includes(dto.region)) {
+        return null;
+      }
+      return { region: [dto.region], department: [] };
+    }
+    return { region: territories, department: [] };
   }
 
   if (user.role === "department") {
-    const authorizedDepartments = user.territories.flat();
-
-    if (metabaseDto.department) {
-      return authorizedDepartments.includes(metabaseDto.department);
-    }
-
-    if (metabaseDto.region) {
-      const regionDepartments =
-        REGIONS_DEF.find((region) => region.regionCode === metabaseDto.region)
-          ?.departements || [];
-
-      return regionDepartments.some((dept) =>
-        authorizedDepartments.includes(dept.departmentCode)
-      );
-    }
-
-    return true;
-  }
-
-  if (user.role === "region") {
-    const authorizedRegions = user.territories.flat();
-
-    if (metabaseDto.region) {
-      return authorizedRegions.includes(metabaseDto.region);
-    }
-
-    if (metabaseDto.department) {
-      const departmentRegion = findRegionForDepartment(metabaseDto.department);
-      if (!departmentRegion) {
-        return false;
+    if (dto.department) {
+      if (!territories.includes(dto.department)) {
+        return null;
       }
-      return authorizedRegions.includes(departmentRegion);
+      return { region: [], department: [dto.department] };
     }
-
-    return true;
+    return { region: [], department: territories };
   }
 
-  return false;
+  return null;
 };
+
+export const checkTerritories = (
+  user: UserAdminAuthenticated,
+  dto: MetabaseStatsDto
+): boolean => resolveTerritoryFilter(user, dto) !== null;

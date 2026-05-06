@@ -1,4 +1,5 @@
 import { AppLogsService } from "./../../../../modules/app-logs/app-logs.service";
+import { buildStructureActorFields } from "./../../../../modules/app-logs/app-logs.helpers";
 import { ImportProcessTracker } from "../ImportProcessTracker.type";
 import { UsagersImportUsager } from "../step2-validate-row";
 import { usagersImportBuilder } from "./usagersImportBuilder.service";
@@ -42,10 +43,9 @@ export class ImportCreatorService {
     ).length;
 
     await this.appLogsService.create<SuccessfulUsagerImportLogContext>({
+      ...buildStructureActorFields(user),
       action: "IMPORT_USAGERS_SUCCESS",
-      userId: user.id,
       structureId: user.structureId,
-      role: user.role,
       context: {
         nombreActifs: nombreUsagersActifs,
         nombreTotal: usagers.length,

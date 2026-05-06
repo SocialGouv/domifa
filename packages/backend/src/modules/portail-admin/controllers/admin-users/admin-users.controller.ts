@@ -23,6 +23,7 @@ import { appLogger, ExpressResponse } from "../../../../util";
 import { UsersController } from "../../../users/controllers/users.controller";
 
 import { AppLogsService } from "../../../app-logs/app-logs.service";
+import { buildSupervisorActorFields } from "../../../app-logs/app-logs.helpers";
 import { UserSupervisor } from "@domifa/common";
 import {
   userStructureRepository,
@@ -67,7 +68,7 @@ export class AdminUsersController {
       this.brevoSenderService
     );
     await this.appLogsService.create({
-      userId: user.id,
+      ...buildSupervisorActorFields(user),
       action: "ADMIN_CREATE_USER_STRUCTURE",
     });
     return await userController.registerUser(user, res, registerUserDto);
@@ -98,7 +99,7 @@ export class AdminUsersController {
         }
       );
       await this.appLogsService.create<AdminUserRoleChangeLogContext>({
-        userId: user.id,
+        ...buildSupervisorActorFields(user),
         action: "ADMIN_ELEVATE_ROLE_USER_SUPERVISOR",
       });
 
@@ -147,8 +148,8 @@ export class AdminUsersController {
     });
 
     await this.appLogsService.create<UserSupervisorCrudLogContext>({
+      ...buildSupervisorActorFields(user),
       action: "ADMIN_USER_CREATE",
-      userId: user.id,
       context: {
         userId: newUser.id,
         role: registerUserDto.role,
@@ -185,7 +186,7 @@ export class AdminUsersController {
     @Param("uuid", new ParseUUIDPipe()) uuid: string
   ): Promise<ExpressResponse> {
     await this.appLogsService.create({
-      userId: user.id,
+      ...buildSupervisorActorFields(user),
       action: "ADMIN_PATCH_USER_SUPERVISOR",
     });
 
@@ -202,8 +203,8 @@ export class AdminUsersController {
 
     if (userExist.role !== patchUserDto.role) {
       await this.appLogsService.create<AdminUserRoleChangeLogContext>({
+        ...buildSupervisorActorFields(user),
         action: "ADMIN_USER_ROLE_CHANGE",
-        userId: user.id,
         context: {
           userId: userExist.id,
           newRole: patchUserDto.role,
@@ -221,7 +222,7 @@ export class AdminUsersController {
     @Param("uuid", new ParseUUIDPipe()) uuid: string
   ): Promise<ExpressResponse> {
     await this.appLogsService.create({
-      userId: user.id,
+      ...buildSupervisorActorFields(user),
       action: "ADMIN_DELETE_USER_SUPERVISOR",
     });
 
@@ -236,8 +237,8 @@ export class AdminUsersController {
     }
     await userSupervisorRepository.delete({ uuid });
     await this.appLogsService.create<UserSupervisorCrudLogContext>({
+      ...buildSupervisorActorFields(user),
       action: "ADMIN_USER_DELETE",
-      userId: user.id,
       context: {
         userId: userExist.id,
         role: userExist.role,
