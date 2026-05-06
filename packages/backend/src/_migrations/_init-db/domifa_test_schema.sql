@@ -11,7 +11,11 @@ CREATE TABLE public.app_log (
     action text NOT NULL,
     role text,
     "createdBy" text,
-    context json
+    context json,
+    "userStructureId" integer,
+    "userSupervisorId" integer,
+    "userType" text,
+    "usagerUuid" uuid
 );
 CREATE TABLE public.contact_support (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
@@ -627,6 +631,7 @@ CREATE INDEX "IDX_0d31ec098c9d4e0507712b7f77" ON public.user_usager USING btree 
 CREATE INDEX "IDX_10d285ee14ee48a53c427207f9" ON public.structure_stats_reporting USING btree ("structureId");
 CREATE INDEX "IDX_17cd35c9fdcd9ab82015a46b22" ON public.structure_information USING btree ("structureId");
 CREATE INDEX "IDX_1953f5ad67157bada8774f7e24" ON public.interactions USING btree ("structureId");
+CREATE INDEX "IDX_241b8f7b6b81faf9e763450a04" ON public.app_log USING btree ("usagerUuid");
 CREATE INDEX "IDX_30c4985e1148ec42ad6122f0ff" ON public.structure USING btree ("structureType");
 CREATE INDEX "IDX_3cb5af09bf7cd68d7070dbc896" ON public.usager_options_history USING btree ("usagerUUID");
 CREATE INDEX "IDX_3ff6384b58d9d6c5e66104a3e0" ON public.message_sms USING btree ("usagerRef");
@@ -649,6 +654,7 @@ CREATE INDEX "IDX_85ac9012f78c974fb73a5352df" ON public.usager_history_states US
 CREATE INDEX "IDX_90ac7986e769d602d218075215" ON public.structure USING btree (id);
 CREATE INDEX "IDX_94c17da6c8fc82ac679eefd3ec" ON public.user_supervisor_security USING btree ("userId");
 CREATE INDEX "IDX_9beb1346c63a45ba7c15db9ee7" ON public.usager_history_states USING btree ("historyBeginDate");
+CREATE INDEX "IDX_9cf79ee5a07df3bb533048b302" ON public.app_log USING btree ("userType");
 CREATE INDEX "IDX_a44d882d224e368efdee8eb8c8" ON public.usager USING btree ("structureId");
 CREATE INDEX "IDX_a52dec7d55b4a81a0af0136148" ON public.user_structure USING btree ("structureId");
 CREATE INDEX "IDX_aa19c17fc79f4e4a648643096f" ON public.usager_entretien USING btree ("usagerUUID");
