@@ -2,6 +2,7 @@ import { Column, Entity, Generated, Index } from "typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 import {
   UserFonction,
+  UserStatus,
   UserSupervisor,
   UserSupervisorRole,
 } from "@domifa/common";
@@ -39,8 +40,8 @@ export class UserSupervisorTable
   @Column({ type: "timestamptz", nullable: true })
   passwordLastUpdate: Date;
 
-  @Column({ type: "boolean", default: true })
-  verified: boolean;
+  @Column({ type: "varchar", default: "ACTIVE" })
+  status: UserStatus;
 
   @Column({ type: "timestamptz", nullable: true })
   acceptTerms: Date;

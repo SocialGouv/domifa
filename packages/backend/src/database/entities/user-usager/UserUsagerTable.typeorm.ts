@@ -8,7 +8,12 @@ import {
   OneToOne,
 } from "typeorm";
 import { StructureTable, UsagerTable } from "..";
-import { UserUsager, UserStructureResume, PasswordType } from "@domifa/common";
+import {
+  UserUsager,
+  UserStructureResume,
+  PasswordType,
+  UserStatus,
+} from "@domifa/common";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
@@ -65,6 +70,9 @@ export class UserUsagerTable
 
   @Column({ type: "text", default: true })
   passwordType: PasswordType;
+
+  @Column({ type: "varchar", default: "ACTIVE" })
+  status: UserStatus;
 
   public constructor(entity?: Partial<UserUsagerTable>) {
     super(entity);

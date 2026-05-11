@@ -9,7 +9,7 @@ export const USER_STRUCTURE_AUTH: UserStructureAuthenticated = {
   email: "admin@test.com",
   role: "simple",
   structureId: 1,
-  verified: true,
+  status: "ACTIVE",
   createdAt: new Date(),
   lastLogin: new Date(),
   fonction: UserFonction.PRESIDENT,

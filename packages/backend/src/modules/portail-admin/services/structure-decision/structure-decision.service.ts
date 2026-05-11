@@ -179,7 +179,7 @@ export class StructureDecisionService {
         id: adminId,
         structureId,
       },
-      { verified: true }
+      { status: "ACTIVE" }
     );
   }
 

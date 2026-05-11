@@ -12,7 +12,7 @@ export type UserStructurePublic = Pick<
   | "role"
   | "fonction"
   | "fonctionDetail"
-  | "verified"
+  | "status"
   | "structureId"
   | "acceptTerms"
   | "lastLogin"

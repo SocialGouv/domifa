@@ -37,6 +37,16 @@ export class StructureService {
     });
   }
 
+  public unblockUser(
+    structureId: number,
+    userId: number
+  ): Observable<{ statut: string }> {
+    return this.http.patch<{ statut: string }>(
+      `${BASE_URL}/structure/${structureId}/users/${userId}/unblock`,
+      {}
+    );
+  }
+
   public getMetabaseUrl(params: MetabaseParams): Observable<{ url: string }> {
     return this.http.post<{ url: string }>(
       `${BASE_URL}/metabase-stats`,

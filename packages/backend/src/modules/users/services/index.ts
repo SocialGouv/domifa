@@ -8,3 +8,4 @@ export * from "./userSecurityPasswordChecker.service";
 export * from "./userSecurityPasswordUpdater.service";
 export * from "./userSecurityResetPasswordInitiator.service";
 export * from "./userSecurityResetPasswordUpdater.service";
+export * from "./userStatusManager.service";

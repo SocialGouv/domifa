@@ -31,7 +31,7 @@ async function createUserWithPassword(
   createdUser.structureId = structureId;
   createdUser.acceptTerms = firstAccount ? new Date() : null;
   createdUser.role = role;
-  createdUser.verified = false;
+  createdUser.status = "PENDING";
   createdUser.password = await passwordGenerator.generatePasswordHash({
     password: createdUser.password,
   });
@@ -56,7 +56,7 @@ async function createUserWithTmpToken(
 ): Promise<{ user: UserStructureTable; userSecurity: UserSecurity }> {
   const createdUser = new UserStructureTable(userDto);
 
-  createdUser.verified = true;
+  createdUser.status = "ACTIVE";
   createdUser.password = await passwordGenerator.generateRandomPasswordHash();
 
   const user = await userStructureRepository.save(createdUser);

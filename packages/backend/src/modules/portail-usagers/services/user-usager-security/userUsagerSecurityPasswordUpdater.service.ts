@@ -27,8 +27,9 @@ async function updatePassword({
   });
 
   if (
-    userSecurityEventHistoryManager.isAccountLockedForOperation({
+    await userSecurityEventHistoryManager.isAccountLockedForOperation({
       operation: "change-password",
+      userProfile: "usager",
       ...userSecurity,
     })
   ) {

@@ -27,7 +27,7 @@ function renderWorksheet({
     { key: "role" },
     { key: "structureId" },
     { key: "structureName" },
-    { key: "verified" },
+    { key: "status" },
   ];
 
   worksheetRendered.configureColumn(columns);
@@ -55,7 +55,12 @@ function buildRows(users: UsersForAdminList[]): XlRowModel[] {
             : user.role,
         structureId: user.structureId,
         structureName: user.structureName,
-        verified: user.verified ? "Vérifié" : "Non vérifié",
+        status: {
+          ACTIVE: "Actif",
+          BLOCKED: "Bloqué",
+          PENDING: "En attente",
+          TEMPORARILY_BLOCKED: "Blocage temporaire",
+        }[user.status],
       },
     };
     return row;

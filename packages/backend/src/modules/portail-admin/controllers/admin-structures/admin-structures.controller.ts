@@ -40,7 +40,7 @@ import { buildSupervisorActorFields } from "../../../app-logs/app-logs.helpers";
 import { UpdateStructureDecisionStatutDto } from "../../dto";
 import { UserStructureWithSecurity } from "../../types";
 import { format } from "date-fns";
-import { getBackoffTime } from "../../../users/services";
+import { userSecurityEventHistoryManager } from "../../../users/services";
 import { CurrentSupervisor } from "../../../../auth/decorators/current-supervisor.decorator";
 import { StructureDecisionEmailService } from "../../services/structure-decision-email/structure-decision-email.service";
 import { StructureDecisionService } from "../../services/structure-decision/structure-decision.service";
@@ -125,7 +125,7 @@ export class AdminStructuresController {
         user_structure.prenom,
         user_structure.email,
         user_structure.role,
-        user_structure.verified,
+        user_structure.status,
         user_structure."lastLogin",
         user_structure."createdAt",
         user_structure.uuid,
@@ -141,8 +141,10 @@ export class AdminStructuresController {
       [structure.id]
     );
     return usersStructure.map((user) => ({
-      remainingBackoffMinutes: getBackoffTime(user.eventsHistory),
       ...user,
+      remainingBackoffMinutes:
+        userSecurityEventHistoryManager.getBackoffTime(user.eventsHistory) ??
+        null,
     }));
   }
 
@@ -218,6 +220,25 @@ export class AdminStructuresController {
         message: "INTERNAL_SERVER_ERROR",
       });
     }
+  }
+
+  @Patch("structure/:structureId/users/:userId/unblock")
+  @UseGuards(StructureAccessGuard)
+  public async unblockStructureUser(
+    @CurrentSupervisor() user: UserAdminAuthenticated,
+    @Param("structureId", new ParseIntPipe()) structureId: number,
+    @Param("userId", new ParseIntPipe()) userId: number,
+    @Res() res: ExpressResponse
+  ): Promise<ExpressResponse> {
+    await this.adminStructuresService.unblockStructureUser(userId, structureId);
+
+    await this.appLogsService.create({
+      ...buildSupervisorActorFields(user),
+      action: "UNBLOCK_USER",
+      context: { userId },
+    });
+
+    return res.status(HttpStatus.OK).json({ status: "ACTIVE" });
   }
 
   private async handleStatutSpecificActions(

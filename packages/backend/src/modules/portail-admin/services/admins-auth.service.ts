@@ -36,7 +36,7 @@ export class AdminsAuthService {
         nom: user.nom,
         role: user.role,
         prenom: user.prenom,
-        verified: user.verified,
+        status: user.status,
         lastLogin: user.lastLogin,
       },
     };

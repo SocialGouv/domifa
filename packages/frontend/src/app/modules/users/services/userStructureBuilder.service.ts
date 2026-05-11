@@ -17,7 +17,7 @@ function buildUserStructure(item?: Partial<UserStructure>): UserStructure {
     prenom: item?.prenom ?? null,
     role: item?.role ?? null,
     structureId: item?.structureId ?? null,
-    verified: item?.verified ?? false,
+    status: item?.status ?? "ACTIVE",
     domifaVersion: item?.domifaVersion ?? "1",
     structure: item?.structure
       ? new StructureCommonWeb(item.structure)

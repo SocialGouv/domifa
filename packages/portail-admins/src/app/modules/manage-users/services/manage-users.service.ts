@@ -4,7 +4,6 @@ import { ApiMessage, UserSupervisor } from "@domifa/common";
 import { BehaviorSubject, Observable, map } from "rxjs";
 
 import { environment } from "../../../../environments/environment";
-import { differenceInCalendarDays } from "date-fns";
 
 @Injectable({
   providedIn: "root",
@@ -19,9 +18,6 @@ export class ManageUsersService {
       users.map((user) => ({
         ...user,
         lastLogin: user?.lastLogin ? new Date(user.lastLogin) : null,
-        verified: user.lastLogin
-          ? differenceInCalendarDays(new Date(), new Date(user.lastLogin)) < 60
-          : false,
       }))
     )
   );

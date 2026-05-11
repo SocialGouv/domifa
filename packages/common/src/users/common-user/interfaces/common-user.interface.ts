@@ -1,5 +1,6 @@
 import { UserFonction } from "../../../users/user-structure";
 import { AppEntity } from "../../../_core";
+import { UserStatus } from "../types/UserStatus.type";
 
 export interface CommonUser extends AppEntity {
   id: number;
@@ -13,7 +14,7 @@ export interface CommonUser extends AppEntity {
   password: string;
   lastLogin: Date | null;
   passwordLastUpdate: Date;
-  verified: boolean;
+  status: UserStatus;
   acceptTerms: Date | null;
 
   // Frontend seulement

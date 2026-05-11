@@ -5,7 +5,7 @@ describe("userStructureBuilder", () => {
     expect(userStructureBuilder.buildUserStructure()).toBeDefined();
     const u = userStructureBuilder.buildUserStructure({});
     expect(u).toBeDefined();
-    expect(u.verified).toBeFalsy();
+    expect(u.status).toEqual("ACTIVE");
     expect(u.access_token).toBeUndefined();
   });
   it("userStructureBuilder.buildUserStructure remove password", () => {

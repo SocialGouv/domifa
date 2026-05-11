@@ -8,6 +8,7 @@ import { userUsagerSecurityPasswordUpdater } from "./userUsagerSecurityPasswordU
 import {
   logUserSecurityEvent,
   userSecurityEventHistoryManager,
+  userStatusManager,
 } from "../../../users/services";
 
 export const userUsagerSecurityPasswordChecker = {
@@ -31,6 +32,7 @@ async function checkPassword({
       password: true,
       salt: true,
       id: true,
+      status: true,
     },
   });
 
@@ -43,8 +45,9 @@ async function checkPassword({
   });
 
   if (
-    userSecurityEventHistoryManager.isAccountLockedForOperation({
+    await userSecurityEventHistoryManager.isAccountLockedForOperation({
       operation: "login",
+      userProfile: "usager",
       ...userSecurity,
     })
   ) {
@@ -64,6 +67,17 @@ async function checkPassword({
       eventType: "login-error",
     });
     throw new Error("WRONG_CREDENTIALS 9"); // don't give the real cause
+  }
+
+  if (user.status === "BLOCKED") {
+    throw new Error("ACCOUNT_BLOCKED");
+  }
+
+  if (user.status === "TEMPORARILY_BLOCKED") {
+    await userStatusManager.clearTemporaryBlock({
+      userProfile: "usager",
+      userId: user.id,
+    });
   }
 
   await logUserSecurityEvent({

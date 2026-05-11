@@ -10,9 +10,9 @@ fileignoreconfig:
 - filename: _docs/dev/0.run-local-env.md
   checksum: 855b6f29ace746c86597d36382dbe7e40f771137734e3bf5eb53c948d6592a74
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
-  checksum: f6e35be32579c7a13ed58db688c20a68521d89ece97171647cc2a3c58ac5cec5
+  checksum: 1ebde061e52fd69ed9ee613d269b5a2b708fc959de89b022526e112c1efb09bc
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
-  checksum: 0f73652f32a4d79243ee555a5dd6e5ca2186c87a3d0622a564328492e580a03c
+  checksum: 3a81dc1516a98ef170ead05d9dbfe540690eae1f39298cc42f1c85b1e6438545
 - filename: package.json
   checksum: 9f1a88fbfc8cd4e19d5e8ef253d5ddbf174bdfd6ff252ee26df4e9b370294646
 - filename: packages/backend/package.json
