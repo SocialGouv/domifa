@@ -1,3 +1,11 @@
+## [2.238.1](https://github.com/SocialGouv/domifa/compare/v2.238.0...v2.238.1) (2026-05-11)
+
+
+### Bug Fixes
+
+* **frontend:** add news ([39dc89a](https://github.com/SocialGouv/domifa/commit/39dc89a4a8522c410957d1a25d58b9f864fcd77d))
+* **frontend:** add tooltip in manage ([70b8ee5](https://github.com/SocialGouv/domifa/commit/70b8ee58cc71225c599f2b05b589a055bd72e85e))
+
 # [2.238.0](https://github.com/SocialGouv/domifa/compare/v2.237.0...v2.238.0) (2026-05-06)
 
 
