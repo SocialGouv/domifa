@@ -3,6 +3,7 @@ import {
   Component,
   Input,
   OnChanges,
+  SimpleChanges,
 } from "@angular/core";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { DisplayAyantsDroitsComponent } from "../../../usager-shared/components/display-ayants-droits/display-ayants-droits.component";
@@ -28,7 +29,8 @@ export class ColumnInformationsComponent implements OnChanges {
 
   private readonly datePipe = new DatePipe("fr-FR");
 
-  ngOnChanges(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes["usager"]) return;
     this.procurationTooltip = this.usager.options.procurations
       .map((p) => {
         if (!p.isExpired) {

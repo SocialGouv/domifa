@@ -68,12 +68,7 @@
       ' courriers de ' +
       usager.fullName
     "
-    [title]="
-      'Distribuer ' +
-      usager.standByInteractions +
-      ' courriers de ' +
-      usager.fullName
-    "
+    [tooltip]="distributionTooltip"
     (click)="openInteractionOutModal()"
   >
     <span class="fr-icon-mail-open-line" aria-hidden="true"></span>

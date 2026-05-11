@@ -6,14 +6,6 @@
       class="fr-justify-content-between fr-align-items-center fr-display-flex"
     >
       <h1 class="fr-h3 fr-m-0 text-start">Domiciliés</h1>
-      <!-- <p aria-live="polite" class="fr-mb-0 fr-text--sm">
-          @if (nbResults) {
-          <span class="fr-text--bold">{{ nbResults }}</span>
-          @if ( filters.statut === UsagersFilterCriteriaStatut.RADIE &&
-          usagersRadiesTotalCount !== usagersRadiesLoadedCount ) { premiers }
-          résultats } @else { Aucun résultat }
-        </p> -->
-
       <div class="fr-text--right">
         <a
           *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"

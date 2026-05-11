@@ -1,10 +1,11 @@
-import { Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 import { SortValues } from "@domifa/common";
 
 @Component({
   standalone: true,
   selector: "app-table-head-sort-icon",
   templateUrl: "./table-head-sort-icon.component.html",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableHeadSortIconComponent {
   public readonly SORT_ORDER_LABEL = {
