@@ -1,5 +1,43 @@
 [
   {
+    "date": "2026-05-11",
+    "description": "Témoignages utilisateurs et corrections de filtres et téléversements de fichier",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "Témoignages utilisateurs",
+        "message": [
+          "🎥 Découvrez les retours d’expérience de structures utilisatrices à travers des interviews vidéos et des témoignages écrits.",
+          "Ces contenus sont disponibles dans l’onglet 'Témoignages' de la navigation principale de la plateforme DomiFa."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Filtres - date d’échéance",
+        "message": [
+          "⌛ Correction du filtre de date d’échéance.",
+          "Les dossiers des usagers dont la date est dépassée remontent désormais dans les filtres à partir de J+1, et non plus le jour J."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Téléversement de fichiers",
+        "message": [
+          "📤 Correction du bug sur le téléversement des fichiers Docs avec des extensions et des macros.",
+          "Ces fichiers peuvent désormais être à nouveau téléversés correctement sur la plateforme."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "Détail des courriers à distribuer",
+        "message": [
+          "L'affichage du détail des courriers à distribuer est de nouveau disponible dans la liste des domiciliés.",
+          "Survolez le bouton \"Distribuer\" pour voir le détail."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2026-04-30",
     "description": "🚀 Adoption du design de l'État, partage de documents Mon DomiFa et corrections",
     "content": [
