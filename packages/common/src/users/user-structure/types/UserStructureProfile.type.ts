@@ -11,5 +11,5 @@ export type UserStructureProfile = Pick<
   | "createdAt"
   | "lastLogin"
   | "structureId"
-  | "verified"
+  | "status"
 >;

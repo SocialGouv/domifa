@@ -31,7 +31,7 @@ describe("AdminUsersController", () => {
     email: "user@test.com",
     role: "simple",
     structureId: 1,
-    verified: true,
+    status: "ACTIVE",
     createdAt: new Date(),
     updatedAt: new Date(),
   };

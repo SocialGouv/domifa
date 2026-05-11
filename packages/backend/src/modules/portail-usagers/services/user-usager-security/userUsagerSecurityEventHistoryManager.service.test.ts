@@ -2,46 +2,67 @@ import { UserSecurityEvent } from "../../../../_common/model";
 import {
   SECURITY_HISTORY_MAX_EVENTS_ATTEMPT,
   userSecurityEventHistoryManager,
+  userStatusManager,
 } from "../../../users/services";
 
-describe("userSecurityEventHistoryManager", () => {
-  it("findOneByTokenAttribute returns matching user", async () => {
+describe("userUsagerSecurityEventHistoryManager", () => {
+  beforeEach(() => {
+    jest
+      .spyOn(userStatusManager, "markUserAsTemporarilyBlocked")
+      .mockResolvedValue(undefined);
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it("triggers TEMPORARILY_BLOCKED for the usager profile after enough recent errors", async () => {
     let eventsHistory: UserSecurityEvent[] = [];
 
     expect(
-      userSecurityEventHistoryManager.isAccountLockedForOperation({
+      await userSecurityEventHistoryManager.isAccountLockedForOperation({
         eventsHistory,
         userId: 1,
         operation: "login",
+        userProfile: "usager",
       })
     ).toBeFalsy();
 
     for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1; i++) {
-      // log many login errors
       eventsHistory = userSecurityEventHistoryManager.updateEventHistory({
         eventType: "login-error",
         eventsHistory,
       });
     }
-    // account still not locked
     expect(
-      userSecurityEventHistoryManager.isAccountLockedForOperation({
+      await userSecurityEventHistoryManager.isAccountLockedForOperation({
         eventsHistory,
         userId: 1,
         operation: "login",
+        userProfile: "usager",
       })
     ).toBeFalsy();
-    // log last error to lock account
+    expect(
+      userStatusManager.markUserAsTemporarilyBlocked
+    ).not.toHaveBeenCalled();
+
     eventsHistory = userSecurityEventHistoryManager.updateEventHistory({
       eventType: "login-error",
       eventsHistory,
     });
     expect(
-      userSecurityEventHistoryManager.isAccountLockedForOperation({
+      await userSecurityEventHistoryManager.isAccountLockedForOperation({
         eventsHistory,
         userId: 1,
         operation: "login",
+        userProfile: "usager",
       })
     ).toBeTruthy();
+    expect(userStatusManager.markUserAsTemporarilyBlocked).toHaveBeenCalledWith(
+      {
+        userProfile: "usager",
+        userId: 1,
+      }
+    );
   });
 });

@@ -75,7 +75,7 @@
                 </th>
                 <th scope="col" class="border-right border-1">
                   <app-table-head-sort
-                    sortKey="verified"
+                    sortKey="status"
                     [(sortValue)]="sortValue"
                     [(currentKey)]="currentKey"
                     columnName="Statut"
@@ -121,11 +121,22 @@
                   <span
                     class="fr-badge"
                     [ngClass]="{
-                      'fr-badge--success': user.verified,
-                      'fr-badge--error': !user.verified
+                      'fr-badge--success': user.status === 'ACTIVE',
+                      'fr-badge--error': user.status === 'BLOCKED',
+                      'fr-badge--warning':
+                        user.status === 'PENDING' ||
+                        user.status === 'TEMPORARILY_BLOCKED'
                     }"
                   >
-                    {{ user.verified ? "Activé" : "Non activé" }}</span
+                    {{
+                      user.status === "ACTIVE"
+                        ? "Actif"
+                        : user.status === "BLOCKED"
+                        ? "Bloqué"
+                        : user.status === "TEMPORARILY_BLOCKED"
+                        ? "Blocage temporaire"
+                        : "En attente"
+                    }}</span
                   >
                 </td>
                 <td>
@@ -296,17 +307,29 @@
   >
     <div class="fr-mt-2w">
       <div
-        *ngIf="userForModal?.remainingBackoffMinutes"
+        *ngIf="userForModal?.status === 'BLOCKED'"
         class="fr-alert fr-alert--error"
       >
         <p>
+          Le compte est bloqué. Cliquez sur « Débloquer » pour le réactiver.
+        </p>
+      </div>
+      <div
+        *ngIf="
+          userForModal?.status === 'TEMPORARILY_BLOCKED' &&
+          userForModal?.remainingBackoffMinutes
+        "
+        class="fr-alert fr-alert--warning"
+      >
+        <p>
           L'utilisateur est temporairement bloqué pendant encore
-          {{ userForModal.remainingBackoffMinutes }} minutes
+          {{ userForModal.remainingBackoffMinutes }} minutes.
         </p>
       </div>
       <div
         *ngIf="
           !userForModal?.eventsHistory.length &&
+          userForModal?.status !== 'BLOCKED' &&
           !userForModal?.remainingBackoffMinutes
         "
         class="fr-alert fr-alert--info"
@@ -360,6 +383,14 @@
         iconPosition="left"
         groupMarkup="div"
       >
+        <dsfr-button
+          *ngIf="
+            userForModal?.status === 'BLOCKED' ||
+            userForModal?.status === 'TEMPORARILY_BLOCKED'
+          "
+          (click)="unblockUser(userForModal)"
+          label="Débloquer"
+        ></dsfr-button>
         <dsfr-button
           (click)="confirmModalContext = null; informationModal.close()"
           label="Fermer"

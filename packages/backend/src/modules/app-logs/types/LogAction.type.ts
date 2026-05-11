@@ -69,4 +69,5 @@ export type LogAction =
   | "ENABLE_PORTAIL_BY_STRUCTURE"
   | "DISABLE_PORTAIL_BY_STRUCTURE"
   // Sécurité
-  | "THROTTLE_BLOCKED";
+  | "THROTTLE_BLOCKED"
+  | "UNBLOCK_USER";

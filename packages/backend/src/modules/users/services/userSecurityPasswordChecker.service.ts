@@ -8,6 +8,7 @@ import {
   getUserSecurityRepository,
 } from "./get-user-repository.service";
 import { logUserSecurityEvent } from "./logUserSecurityEvent.service";
+import { userStatusManager } from "./userStatusManager.service";
 
 export const userSecurityPasswordChecker = {
   checkPassword,
@@ -37,8 +38,9 @@ async function checkPassword<T extends UserStructure | UserSupervisor>({
   }
 
   if (
-    userSecurityEventHistoryManager.isAccountLockedForOperation({
+    await userSecurityEventHistoryManager.isAccountLockedForOperation({
       operation: "login",
+      userProfile,
       ...userSecurity,
     })
   ) {
@@ -60,8 +62,22 @@ async function checkPassword<T extends UserStructure | UserSupervisor>({
     throw new Error("WRONG_CREDENTIALS 3"); // don't give the real cause
   }
 
-  if (!user.verified) {
+  if (user.status === "BLOCKED") {
+    throw new Error("ACCOUNT_BLOCKED");
+  }
+
+  if (user.status === "PENDING") {
     throw new Error("ACCOUNT_NOT_ACTIVATED");
+  }
+
+  // Backoff already passed (throttler check above). If the persisted status
+  // is still TEMPORARILY_BLOCKED, clear it now that the user successfully
+  // authenticated outside the lockout window.
+  if (user.status === "TEMPORARILY_BLOCKED") {
+    await userStatusManager.clearTemporaryBlock({
+      userProfile,
+      userId: user.id,
+    });
   }
 
   await logUserSecurityEvent({

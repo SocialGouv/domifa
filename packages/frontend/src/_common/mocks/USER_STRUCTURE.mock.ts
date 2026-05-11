@@ -16,7 +16,7 @@ export const USER_STRUCTURE_MOCK: UserStructure = {
   prenom: "TEST",
   lastLogin: new Date(),
   passwordLastUpdate: new Date(),
-  verified: true,
+  status: "ACTIVE",
   role: "admin" as UserStructureRole,
   structure: { ...STRUCTURE_MOCK },
   structureId: 100,

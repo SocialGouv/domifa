@@ -10,7 +10,7 @@ export type UserSupervisorPublic = Pick<
   | "nom"
   | "prenom"
   | "role"
-  | "verified"
+  | "status"
   | "acceptTerms"
   | "lastLogin"
 >;

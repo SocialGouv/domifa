@@ -29,8 +29,9 @@ async function updatePassword({
   });
 
   if (
-    userSecurityEventHistoryManager.isAccountLockedForOperation({
+    await userSecurityEventHistoryManager.isAccountLockedForOperation({
       operation: "change-password",
+      userProfile,
       ...userSecurity,
     })
   ) {
@@ -67,8 +68,14 @@ async function updatePassword({
     {
       password: hash,
       passwordLastUpdate: new Date(),
-      verified: true, // Suite à une création de compte, le mot de passe est réinitialisé, on valide le compte
     }
+  );
+
+  // Activate the account if it was in PENDING state (initial password set after creation).
+  // BLOCKED accounts stay BLOCKED — only an admin unblock can lift it.
+  await repository.update(
+    { id: userId, status: "PENDING" },
+    { status: "ACTIVE" }
   );
 
   await logUserSecurityEvent({

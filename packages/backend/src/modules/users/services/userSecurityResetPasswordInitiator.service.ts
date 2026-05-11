@@ -60,7 +60,7 @@ async function generateResetPasswordToken({
   });
 
   if (
-    userSecurityEventHistoryManager.isAccountLockedForOperation({
+    await userSecurityEventHistoryManager.isAccountLockedForOperation({
       operation: "reset-password-request",
       ...userSecurity,
       userProfile,

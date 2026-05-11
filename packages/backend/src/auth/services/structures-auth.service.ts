@@ -25,7 +25,7 @@ export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
   "prenom",
   "nom",
   "email",
-  "verified",
+  "status",
   "structureId",
   "lastLogin",
   "acceptTerms",

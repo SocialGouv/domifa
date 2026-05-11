@@ -40,7 +40,7 @@ describe("userStructureCreator", () => {
     expect(userSecurity).toBeDefined();
     expect(userSecurity.temporaryTokens).toBeNull();
     expect(user.role).toEqual(role);
-    expect(user.verified).toBeFalsy();
+    expect(user.status).toEqual("PENDING");
     expect(user.structureId).toEqual(structureId);
     expect(userSecurity.userId).toEqual(user.id);
     expect(
@@ -74,7 +74,7 @@ describe("userStructureCreator", () => {
     expect(user.passwordLastUpdate).toBeDefined();
     expect(userSecurity).toBeDefined();
     expect(user.role).toEqual(role);
-    expect(user.verified).toBeTruthy(); // user is auto-verified here
+    expect(user.status).toEqual("ACTIVE");
     expect(user.structureId).toEqual(structureId);
     expect(userSecurity.userId).toEqual(user.id);
     expect(userSecurity.temporaryTokens).toBeDefined();

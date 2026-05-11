@@ -49,8 +49,7 @@ export interface ConfirmModalContext {
 }
 
 type UserWithSecurityViewModel = UserStructure & {
-  remainingBackoffMinutes?: number;
-} & {
+  remainingBackoffMinutes?: number | null;
   temporaryTokens: {
     type?: string;
     token?: string;
@@ -176,6 +175,22 @@ export class UsersComponent implements OnInit, OnDestroy {
       })
     );
     this.confirmModal.close();
+  }
+
+  public unblockUser(user: UserWithSecurityViewModel): void {
+    this.subscription.add(
+      this.structureService.unblockUser(this.structureId, user.id).subscribe({
+        next: () => {
+          this.reloadUsersSubject$.next();
+          this.toastService.success("L'utilisateur a été débloqué");
+          this.userForModal = null;
+          this.informationModal?.close();
+        },
+        error: () => {
+          this.toastService.error("Erreur lors du déblocage de l'utilisateur");
+        },
+      })
+    );
   }
 
   public generateResetPasswordLink(user: UserStructureWithSecurity): string {

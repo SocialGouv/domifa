@@ -11,6 +11,6 @@ export const USER_SUPERVISOR_MOCK: UserSupervisor = {
   prenom: "TEST",
   lastLogin: new Date(),
   passwordLastUpdate: new Date(),
-  verified: true,
+  status: "ACTIVE",
   role: "super-admin-domifa",
 };

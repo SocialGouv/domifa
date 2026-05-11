@@ -12,9 +12,11 @@ import {
   UserUsagerAuthenticated,
 } from "../../_common/model";
 import { UserSupervisorAuthenticated } from "../../_common/model/users/user-supervisor";
-import { expiredTokenRepositiory } from "../../database";
+import { expiredTokenRepositiory, ExpiredTokenTable } from "../../database";
+
 import { addLogContext, appLogger } from "../../util";
 import { authChecker } from "../services";
+import { userStatusManager } from "../../modules/users/services";
 
 @Injectable()
 export class AppUserGuard implements CanActivate {
@@ -133,6 +135,30 @@ export class AppUserGuard implements CanActivate {
       if (isBlacklisted) {
         appLogger.error(`[authChecker] expired token`, {
           context: { userProfile: user, user: user?._userId },
+        });
+        return false;
+      }
+
+      const status = await userStatusManager.getUserStatusFromDb({
+        userProfile: user._userProfile,
+        userId: user._userId,
+      });
+      if (status === "BLOCKED") {
+        // Lazy revocation: blacklist this token so the next attempt is rejected
+        // by the cheap expired_token check without a status lookup.
+        await expiredTokenRepositiory.save(
+          new ExpiredTokenTable({
+            token: request.headers.authorization,
+            userId: user._userId,
+            userProfile: user._userProfile,
+            structureId:
+              user._userProfile === "structure"
+                ? (user as UserStructureAuthenticated).structureId
+                : null,
+          })
+        );
+        appLogger.error(`[authChecker] account blocked, token blacklisted`, {
+          context: { userProfile: user._userProfile, user: user?._userId },
         });
         return false;
       }

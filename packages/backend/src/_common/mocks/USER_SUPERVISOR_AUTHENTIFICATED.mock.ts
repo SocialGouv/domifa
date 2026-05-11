@@ -7,7 +7,7 @@ export const USER_SUPERVISOR_AUTH: UserSupervisorAuthenticated = {
   prenom: "Test",
   email: "admin@test.com",
   role: "national",
-  verified: true,
+  status: "ACTIVE",
   createdAt: new Date(),
   lastLogin: new Date(),
   acceptTerms: new Date(),

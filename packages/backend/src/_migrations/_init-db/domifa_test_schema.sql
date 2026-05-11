@@ -429,9 +429,9 @@ CREATE TABLE public.user_structure (
     "structureId" integer NOT NULL,
     mails jsonb DEFAULT '{"guide": false, "import": false}'::jsonb NOT NULL,
     "passwordLastUpdate" timestamp with time zone,
-    verified boolean DEFAULT true NOT NULL,
     "acceptTerms" timestamp with time zone,
-    "fonctionDetail" character varying(255)
+    "fonctionDetail" character varying(255),
+    status character varying DEFAULT 'ACTIVE'::character varying NOT NULL
 );
 CREATE SEQUENCE public.user_structure_id_seq
     START WITH 1
@@ -463,10 +463,10 @@ CREATE TABLE public.user_supervisor (
     password text NOT NULL,
     prenom text NOT NULL,
     "passwordLastUpdate" timestamp with time zone,
-    verified boolean DEFAULT true NOT NULL,
     "acceptTerms" timestamp with time zone,
     territories jsonb DEFAULT '[]'::jsonb NOT NULL,
-    role text NOT NULL
+    role text NOT NULL,
+    status character varying DEFAULT 'ACTIVE'::character varying NOT NULL
 );
 CREATE SEQUENCE public.user_supervisor_id_seq
     AS integer
@@ -501,7 +501,8 @@ CREATE TABLE public.user_usager (
     "lastPasswordResetDate" timestamp with time zone,
     "lastPasswordResetStructureUser" jsonb,
     "acceptTerms" timestamp with time zone,
-    "passwordType" text DEFAULT true NOT NULL
+    "passwordType" text DEFAULT true NOT NULL,
+    status character varying DEFAULT 'ACTIVE'::character varying NOT NULL
 );
 CREATE SEQUENCE public.user_usager_id_seq
     AS integer

@@ -16,7 +16,7 @@ export class AdminSuperivorUsersService {
   ): Promise<{ user: UserSupervisorTable; userSecurity: UserSecurity }> {
     const createdUser = new UserSupervisorTable(userDto);
 
-    createdUser.verified = true;
+    createdUser.status = "ACTIVE";
     createdUser.password = await passwordGenerator.generateRandomPasswordHash();
 
     const user = await userSupervisorRepository.save(createdUser);

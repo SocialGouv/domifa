@@ -1,4 +1,5 @@
 import { type AppEntity } from "../../_core";
+import { type UserStatus } from "../common-user/types/UserStatus.type";
 import { type UserStructureResume } from "../user-structure";
 import { PasswordType } from "./PasswordType.type";
 
@@ -15,4 +16,5 @@ export interface UserUsager extends AppEntity {
   lastPasswordResetStructureUser: UserStructureResume;
   acceptTerms: Date | null;
   passwordType: PasswordType;
+  status: UserStatus;
 }

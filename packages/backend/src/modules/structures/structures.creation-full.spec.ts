@@ -178,7 +178,7 @@ describe("Stuctures creation full", () => {
     expect(user.fonctionDetail).toEqual(userDto.fonctionDetail);
     expect(user.structureId).toEqual(structure.id);
     expect(user.email).toEqual(userDto.email);
-    expect(user.verified).toBeFalsy();
+    expect(user.status).toEqual("PENDING");
 
     localCache.structureId = structure.id;
     localCache.uuid = structure.uuid;
@@ -207,7 +207,7 @@ describe("Stuctures creation full", () => {
     });
 
     expect(userConfirmed).toBeDefined();
-    expect(userConfirmed.verified).toBeTruthy();
+    expect(userConfirmed.status).toEqual("ACTIVE");
   });
 
   it("delete structure", async () => {

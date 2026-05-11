@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 
 import {
   userStructureRepository,
+  userStructureSecurityRepository,
   structureRepository,
 } from "../../../database";
 import { UsersForAdminList } from "../types";
@@ -9,6 +10,22 @@ import { StructureAdmin } from "@domifa/common";
 
 @Injectable()
 export class AdminStructuresService {
+  public async unblockStructureUser(
+    userId: number,
+    structureId: number
+  ): Promise<void> {
+    await userStructureRepository.update(
+      { id: userId, structureId },
+      { status: "ACTIVE" }
+    );
+    // Reset recent error history so the throttler does not immediately
+    // re-block the account.
+    await userStructureSecurityRepository.update(
+      { userId },
+      { eventsHistory: [] }
+    );
+  }
+
   public async getAdminStructuresListData(): Promise<StructureAdmin[]> {
     return await structureRepository
       .createQueryBuilder("structure")
@@ -36,7 +53,7 @@ export class AdminStructuresService {
         "user_structure.nom AS nom",
         "prenom",
         "role",
-        "user_structure.verified as verified",
+        "user_structure.status as status",
         `"structureId"`,
         `structure.nom AS "structureName"`,
       ])

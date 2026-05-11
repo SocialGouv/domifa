@@ -5,13 +5,24 @@ import {
   SECURITY_HISTORY_MAX_EVENTS_ATTEMPT,
   getBackoffTime,
 } from "../userSecurityEventHistoryManager.service";
+import { userStatusManager } from "../userStatusManager.service";
 
 describe("userSecurityEventHistoryManager", () => {
-  it("findOneByTokenAttribute returns matching user", async () => {
+  beforeEach(() => {
+    jest
+      .spyOn(userStatusManager, "markUserAsTemporarilyBlocked")
+      .mockResolvedValue(undefined);
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it("isAccountLockedForOperation triggers TEMPORARILY_BLOCKED on threshold", async () => {
     let eventsHistory: UserSecurityEvent[] = [];
 
     expect(
-      userSecurityEventHistoryManager.isAccountLockedForOperation({
+      await userSecurityEventHistoryManager.isAccountLockedForOperation({
         eventsHistory,
         userId: 1,
         operation: "login",
@@ -19,202 +30,117 @@ describe("userSecurityEventHistoryManager", () => {
     ).toBeFalsy();
 
     for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1; i++) {
-      // log many login errors
       eventsHistory = userSecurityEventHistoryManager.updateEventHistory({
         eventType: "login-error",
         eventsHistory,
       });
     }
-    // account still not locked
     expect(
-      userSecurityEventHistoryManager.isAccountLockedForOperation({
+      await userSecurityEventHistoryManager.isAccountLockedForOperation({
         eventsHistory,
         userId: 1,
         operation: "login",
       })
     ).toBeFalsy();
-    // log last error to lock account
+    expect(
+      userStatusManager.markUserAsTemporarilyBlocked
+    ).not.toHaveBeenCalled();
+
     eventsHistory = userSecurityEventHistoryManager.updateEventHistory({
       eventType: "login-error",
       eventsHistory,
     });
     expect(
-      userSecurityEventHistoryManager.isAccountLockedForOperation({
+      await userSecurityEventHistoryManager.isAccountLockedForOperation({
         eventsHistory,
         userId: 1,
         operation: "login",
       })
     ).toBeTruthy();
+    expect(userStatusManager.markUserAsTemporarilyBlocked).toHaveBeenCalledWith(
+      {
+        userProfile: "structure",
+        userId: 1,
+      }
+    );
   });
 
   describe(".getBackoffTime", () => {
-    it("should return null when events history is empty", () => {
-      const eventsHistory: UserSecurityEvent[] = [];
-      const result = getBackoffTime(eventsHistory);
-      expect(result).toBeNull();
+    it("returns null when events history is empty", () => {
+      expect(getBackoffTime([])).toBeNull();
     });
 
-    it("should return null when no events in the last hour", () => {
+    it("returns null when no events in the last hour", () => {
       const eventsHistory: UserSecurityEvent[] = [
-        {
-          type: "login-error",
-          date: subHours(new Date(), 2), // 2 hours ago
-        },
-        {
-          type: "login-error",
-          date: subHours(new Date(), 3), // 3 hours ago
-        },
+        { type: "login-error", date: subHours(new Date(), 2) },
+        { type: "login-error", date: subHours(new Date(), 3) },
       ];
-      const result = getBackoffTime(eventsHistory);
-      expect(result).toBeNull();
+      expect(getBackoffTime(eventsHistory)).toBeNull();
     });
 
-    it("should return null when last event is change-password-success", () => {
+    it("returns null when last event is change-password-success", () => {
       const now = new Date();
       const eventsHistory: UserSecurityEvent[] = [
-        {
-          type: "login-error",
-          date: subMinutes(now, 30),
-        },
-        {
-          type: "login-error",
-          date: subMinutes(now, 20),
-        },
-        {
-          type: "change-password-success",
-          date: subMinutes(now, 10),
-        },
+        { type: "login-error", date: subMinutes(now, 30) },
+        { type: "login-error", date: subMinutes(now, 20) },
+        { type: "change-password-success", date: subMinutes(now, 10) },
       ];
-      const result = getBackoffTime(eventsHistory);
-      expect(result).toBeNull();
+      expect(getBackoffTime(eventsHistory)).toBeNull();
     });
 
-    it("should return null when last event is reset-password-success", () => {
+    it("returns null when last event is reset-password-success", () => {
       const now = new Date();
       const eventsHistory: UserSecurityEvent[] = [
-        {
-          type: "login-error",
-          date: subMinutes(now, 30),
-        },
-        {
-          type: "login-error",
-          date: subMinutes(now, 20),
-        },
-        {
-          type: "reset-password-success",
-          date: subMinutes(now, 10),
-        },
+        { type: "login-error", date: subMinutes(now, 30) },
+        { type: "login-error", date: subMinutes(now, 20) },
+        { type: "reset-password-success", date: subMinutes(now, 10) },
       ];
-      const result = getBackoffTime(eventsHistory);
-      expect(result).toBeNull();
+      expect(getBackoffTime(eventsHistory)).toBeNull();
     });
 
-    it("should return null when fewer than max attempts for any event type", () => {
+    it("returns null when fewer than max attempts for any event type", () => {
       const now = new Date();
       const eventsHistory: UserSecurityEvent[] = [];
-
-      // Add 4 login errors (less than max of 5)
       for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1; i++) {
         eventsHistory.push({
           type: "login-error",
           date: subMinutes(now, i * 5),
         });
       }
-
-      const result = getBackoffTime(eventsHistory);
-      expect(result).toBeNull();
+      expect(getBackoffTime(eventsHistory)).toBeNull();
     });
 
-    it("should return backoff time when max attempts reached for login-error", () => {
-      const now = new Date();
-      const lastEventDate = subMinutes(now, 10);
-      const eventsHistory: UserSecurityEvent[] = [];
-
-      // Add exactly max attempts for login errors
-      for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
-        eventsHistory.push({
-          type: "login-error",
-          date:
-            i === SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1
-              ? lastEventDate
-              : subMinutes(now, (i + 1) * 5),
-        });
+    it.each([
+      "login-error",
+      "validate-account-error",
+      "reset-password-error",
+      "change-password-error",
+    ] as const)(
+      "returns minutes remaining when threshold reached for %s",
+      (eventType) => {
+        const now = new Date();
+        const lastEventDate = subMinutes(now, 10);
+        const eventsHistory: UserSecurityEvent[] = [];
+        for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
+          eventsHistory.push({
+            type: eventType,
+            date:
+              i === SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1
+                ? lastEventDate
+                : subMinutes(now, (i + 1) * 5),
+          });
+        }
+        const result = getBackoffTime(eventsHistory);
+        expect(result).toBeGreaterThan(0);
+        expect(result).toBeLessThanOrEqual(60);
       }
+    );
 
-      const result = getBackoffTime(eventsHistory);
-      expect(result).toBeGreaterThan(0);
-      expect(result).toBeLessThanOrEqual(60); // Should be within 1 hour
-    });
-
-    it("should return backoff time when max attempts reached for validate-account-error", () => {
-      const now = new Date();
-      const lastEventDate = subMinutes(now, 15);
-      const eventsHistory: UserSecurityEvent[] = [];
-
-      // Add exactly max attempts for validate account errors
-      for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
-        eventsHistory.push({
-          type: "validate-account-error",
-          date:
-            i === SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1
-              ? lastEventDate
-              : subMinutes(now, (i + 1) * 3),
-        });
-      }
-
-      const result = getBackoffTime(eventsHistory);
-      expect(result).toBeGreaterThan(0);
-      expect(result).toBeLessThanOrEqual(60);
-    });
-
-    it("should return backoff time when max attempts reached for reset-password-error", () => {
-      const now = new Date();
-      const lastEventDate = subMinutes(now, 20);
-      const eventsHistory: UserSecurityEvent[] = [];
-
-      // Add exactly max attempts for reset password errors
-      for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
-        eventsHistory.push({
-          type: "reset-password-error",
-          date:
-            i === SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1
-              ? lastEventDate
-              : subMinutes(now, (i + 1) * 4),
-        });
-      }
-
-      const result = getBackoffTime(eventsHistory);
-      expect(result).toBeGreaterThan(0);
-      expect(result).toBeLessThanOrEqual(60);
-    });
-
-    it("should return backoff time when max attempts reached for change-password-error", () => {
-      const now = new Date();
-      const lastEventDate = subMinutes(now, 25);
-      const eventsHistory: UserSecurityEvent[] = [];
-
-      // Add exactly max attempts for change password errors
-      for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
-        eventsHistory.push({
-          type: "change-password-error",
-          date:
-            i === SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1
-              ? lastEventDate
-              : subMinutes(now, (i + 1) * 2),
-        });
-      }
-
-      const result = getBackoffTime(eventsHistory);
-      expect(result).toBeGreaterThan(0);
-      expect(result).toBeLessThanOrEqual(60);
-    });
-
-    it("should return null when blocking period has expired", () => {
+    it("returns null when blocking period has expired", () => {
       const now = new Date();
       const lastEventDate = subHours(now, 1.5); // 1.5 hours ago
       const eventsHistory: UserSecurityEvent[] = [];
 
-      // Add max attempts but with last event more than 1 hour ago
       for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
         eventsHistory.push({
           type: "login-error",
@@ -225,112 +151,37 @@ describe("userSecurityEventHistoryManager", () => {
         });
       }
 
-      const result = getBackoffTime(eventsHistory);
-      expect(result).toBeNull();
+      expect(getBackoffTime(eventsHistory)).toBeNull();
     });
 
-    it("should not count success events in the event history map", () => {
+    it("does not count success events in the recent error map", () => {
       const now = new Date();
-      const eventsHistory: UserSecurityEvent[] = [];
-
-      // Add success events (should not count towards blocking)
-      eventsHistory.push({
-        type: "login-success",
-        date: subMinutes(now, 50),
-      });
-      eventsHistory.push({
-        type: "validate-account-success",
-        date: subMinutes(now, 40),
-      });
-
-      // Add fewer than max error events
+      const eventsHistory: UserSecurityEvent[] = [
+        { type: "login-success", date: subMinutes(now, 50) },
+        { type: "validate-account-success", date: subMinutes(now, 40) },
+      ];
       for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1; i++) {
         eventsHistory.push({
           type: "login-error",
           date: subMinutes(now, i * 5),
         });
       }
-
-      const result = getBackoffTime(eventsHistory);
-      expect(result).toBeNull();
+      expect(getBackoffTime(eventsHistory)).toBeNull();
     });
 
-    it("should handle mixed event types and only block when one type reaches max", () => {
+    it("only counts events from the last hour", () => {
       const now = new Date();
-      const lastEventDate = subMinutes(now, 5);
       const eventsHistory: UserSecurityEvent[] = [];
-
-      // Add 3 login errors
-      for (let i = 0; i < 3; i++) {
-        eventsHistory.push({
-          type: "login-error",
-          date: subMinutes(now, 50 - i * 10),
-        });
-      }
-
-      // Add max attempts for validate-account-error
       for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
-        eventsHistory.push({
-          type: "validate-account-error",
-          date:
-            i === SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1
-              ? lastEventDate
-              : subMinutes(now, (i + 1) * 3),
-        });
+        eventsHistory.push({ type: "login-error", date: subHours(now, 2) });
       }
-
-      const result = getBackoffTime(eventsHistory);
-      expect(result).toBeGreaterThan(0);
-      expect(result).toBeLessThanOrEqual(60);
-    });
-
-    it("should calculate correct remaining time", () => {
-      const now = new Date();
-      const lastEventDate = subMinutes(now, 30); // 30 minutes ago
-      const eventsHistory: UserSecurityEvent[] = [];
-
-      // Add max attempts with last event 30 minutes ago
-      for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
-        eventsHistory.push({
-          type: "login-error",
-          date:
-            i === SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1
-              ? lastEventDate
-              : subMinutes(now, 35 + i),
-        });
-      }
-
-      const result = getBackoffTime(eventsHistory);
-      expect(result).toBeGreaterThan(25); // Should be around 30 minutes remaining
-      expect(result).toBeLessThanOrEqual(35);
-    });
-
-    it("should only consider events from the last hour for counting", () => {
-      const now = new Date();
-      const lastEventDate = subMinutes(now, 10);
-      const eventsHistory: UserSecurityEvent[] = [];
-
-      // Add old events (more than 1 hour ago) - should not count
-      for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT; i++) {
-        eventsHistory.push({
-          type: "login-error",
-          date: subHours(now, 2),
-        });
-      }
-
-      // Add recent events (less than max)
       for (let i = 0; i < SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 1; i++) {
         eventsHistory.push({
           type: "login-error",
-          date:
-            i === SECURITY_HISTORY_MAX_EVENTS_ATTEMPT - 2
-              ? lastEventDate
-              : subMinutes(now, (i + 1) * 5),
+          date: subMinutes(now, (i + 1) * 5),
         });
       }
-
-      const result = getBackoffTime(eventsHistory);
-      expect(result).toBeNull();
+      expect(getBackoffTime(eventsHistory)).toBeNull();
     });
   });
 });

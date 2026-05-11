@@ -8,6 +8,7 @@ import {
   UserProfile,
   UserSecurityLogError,
 } from "../../../_common/model";
+import { userStatusManager } from "./userStatusManager.service";
 
 export const SECURITY_HISTORY_MAX_EVENTS_ATTEMPT = 5;
 
@@ -102,7 +103,7 @@ export function getBackoffTime(
   return null;
 }
 
-export function isAccountLockedForOperation({
+async function isAccountLockedForOperation({
   operation,
   eventsHistory,
   userId,
@@ -112,10 +113,16 @@ export function isAccountLockedForOperation({
   eventsHistory: UserSecurityEvent[];
   userId: number;
   userProfile?: UserProfile;
-}): boolean {
+}): Promise<boolean> {
   const backoffTime = getBackoffTime(eventsHistory);
   if (backoffTime !== null) {
     logOperationError({ operation, userId, userProfile });
+    // Soft lock: persist TEMPORARILY_BLOCKED so admin tools and guards can see it.
+    // Does not overwrite a definitive BLOCKED state (see markUserAsTemporarilyBlocked).
+    await userStatusManager.markUserAsTemporarilyBlocked({
+      userProfile,
+      userId,
+    });
     return true;
   }
   return false;

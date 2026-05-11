@@ -28,8 +28,9 @@ async function checkResetPasswordToken({
   });
 
   if (
-    userSecurityEventHistoryManager.isAccountLockedForOperation({
+    await userSecurityEventHistoryManager.isAccountLockedForOperation({
       operation: "reset-password-confirm",
+      userProfile,
       ...userSecurity,
     })
   ) {
@@ -74,8 +75,9 @@ async function confirmResetPassword({
   });
 
   if (
-    userSecurityEventHistoryManager.isAccountLockedForOperation({
+    await userSecurityEventHistoryManager.isAccountLockedForOperation({
       operation: "reset-password-confirm",
+      userProfile,
       ...userSecurity,
     })
   ) {

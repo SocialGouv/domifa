@@ -25,7 +25,7 @@ export const userStructureRepository = myDataSource
           email: true,
           createdAt: true,
           lastLogin: true,
-          verified: true,
+          status: true,
         },
         order: {
           nom: "ASC",
@@ -40,7 +40,7 @@ export const userStructureRepository = myDataSource
     }): Promise<UserStructureProfile[]> {
       return this.findBy({
         structureId,
-        verified: true,
+        status: "ACTIVE",
         role: In(roles),
       });
     },

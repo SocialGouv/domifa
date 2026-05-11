@@ -9,8 +9,6 @@ export type UserStructure = CommonUser & {
   lastLogin: Date | null;
   passwordLastUpdate: Date;
 
-  verified: boolean;
-
   role: UserStructureRole | null; // security profile
 
   mails: UserStructureMails;
