@@ -3,10 +3,13 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   Output,
+  SimpleChanges,
 } from "@angular/core";
 import { Subscription } from "rxjs";
+import { DsfrTooltipDirective } from "@edugouvfr/ngx-dsfr";
 
 import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
@@ -19,9 +22,9 @@ import { InteractionInForApi } from "../../../usager-shared/interfaces/interacti
   templateUrl: "./column-interactions.component.html",
   styleUrls: ["./column-interactions.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [DsfrTooltipDirective],
 })
-export class ColumnInteractionsComponent implements OnDestroy {
+export class ColumnInteractionsComponent implements OnChanges, OnDestroy {
   @Output()
   public updateInteractions = new EventEmitter<void>();
 
@@ -43,7 +46,29 @@ export class ColumnInteractionsComponent implements OnDestroy {
   @Input()
   public usager!: UsagerFormModel;
 
+  public distributionTooltip = "";
+
   private readonly subscription = new Subscription();
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (!changes["usager"]) return;
+    if (!this.usager?.lastInteraction?.enAttente) {
+      this.distributionTooltip = "";
+      return;
+    }
+    const { courrierIn, recommandeIn, colisIn } = this.usager.lastInteraction;
+    const lines: string[] = ["<strong>Distribuer les courriers</strong>"];
+    if (courrierIn > 0) {
+      lines.push(`<strong>${courrierIn}</strong> courriers`);
+    }
+    if (recommandeIn > 0) {
+      lines.push(`<strong>${recommandeIn}</strong> avis de passage`);
+    }
+    if (colisIn > 0) {
+      lines.push(`<strong>${colisIn}</strong> colis`);
+    }
+    this.distributionTooltip = lines.join("<br>");
+  }
 
   constructor(
     private readonly interactionService: InteractionService,
