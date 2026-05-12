@@ -26,7 +26,7 @@ export function generateOtpEmailHtml(params: { code: string }): string {
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
                 <tr>
                   <td width="50%" valign="middle" style="text-align: left;">
-                    <img src="https://domifa.fabrique.social.gouv.fr/assets/images/republique-francaise-logo.png" alt="R&eacute;publique Fran&ccedil;aise" width="120" style="display: block; width: 120px; height: auto;"/>
+                    <img src="https://domifa.fabrique.social.gouv.fr/assets/images/logo-ministere.jpg" alt="Minist&egrave;re du Travail, de la Sant&eacute;, des Solidarit&eacute;s et des Familles" width="100" style="display: block; width: 100px; height: auto;"/>
                   </td>
                   <td width="50%" valign="middle" style="text-align: right;">
                     <img src="https://domifa.fabrique.social.gouv.fr/assets/images/logo.png" alt="DomiFa" width="140" style="display: block; width: 140px; height: auto; margin-left: auto;"/>
@@ -41,10 +41,13 @@ export function generateOtpEmailHtml(params: { code: string }): string {
             <td style="padding: 0 15px;">
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #e3e3fd; border-radius: 4px;">
                 <tr>
-                  <td style="padding: 25px 20px;">
+                  <td width="60%" valign="middle" style="padding: 25px 20px;">
                     <h1 style="margin: 0; color: #000091; font-family: Arial, Helvetica, sans-serif; font-size: 24px; font-weight: bold; line-height: 1.3;">
                       Votre code de connexion
                     </h1>
+                  </td>
+                  <td width="40%" valign="middle" style="padding: 10px 15px; text-align: right;">
+                    <img src="https://domifa.fabrique.social.gouv.fr/assets/images/login/login-container.svg" alt="" width="180" style="display: inline-block; width: 180px; max-width: 100%; height: auto;"/>
                   </td>
                 </tr>
               </table>
