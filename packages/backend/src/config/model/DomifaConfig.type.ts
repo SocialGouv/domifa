@@ -101,6 +101,12 @@ export type DomifaConfig = {
     user: string; // DOMIFA_SMTP_USER
     pass: string; // DOMIFA_SMTP_PASS
     from: string; // DOMIFA_SMTP_FROM
+    timeoutMs: number; // DOMIFA_SMTP_TIMEOUT_MS
+  };
+  otp: {
+    // Server-side secret used to HMAC OTP codes before storage. When empty,
+    // codes are hashed with plain SHA-256 (acceptable in dev, weaker in prod).
+    pepper: string; // DOMIFA_OTP_PEPPER
   };
   metabase: {
     url: string;

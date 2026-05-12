@@ -25,6 +25,7 @@ function buildConfig(overrides: Record<string, unknown> = {}) {
       user: "user",
       pass: "pass",
       from: "noreply@test.com",
+      timeoutMs: 10_000,
     },
     ...overrides,
   };
@@ -68,7 +69,14 @@ describe("OtpEmailService", () => {
       buildConfig({
         envId: "dev",
         email: { emailsEnabled: true },
-        smtp: { host: "", port: 587, user: "", pass: "", from: "" },
+        smtp: {
+          host: "",
+          port: 587,
+          user: "",
+          pass: "",
+          from: "",
+          timeoutMs: 10_000,
+        },
       })
     );
 
@@ -83,7 +91,14 @@ describe("OtpEmailService", () => {
       buildConfig({
         envId: "prod",
         email: { emailsEnabled: true },
-        smtp: { host: "", port: 587, user: "", pass: "", from: "" },
+        smtp: {
+          host: "",
+          port: 587,
+          user: "",
+          pass: "",
+          from: "",
+          timeoutMs: 10_000,
+        },
       })
     );
 

@@ -31,11 +31,31 @@ export const otpRepository = myDataSource.getRepository(OtpTable).extend({
       .getCount();
   },
 
-  async incrementAttempts(uuid: string): Promise<void> {
-    await this.createQueryBuilder()
-      .update(OtpTable)
-      .set({ attempts: () => "attempts + 1" })
-      .where("uuid = :uuid", { uuid })
-      .execute();
+  // Atomic increment of the latest eligible (non-used, non-expired,
+  // attempts < max) pending OTP for the given email, in a single SQL
+  // statement. Avoids the check-then-update race on `attempts`.
+  // Returns the updated row, or null if no eligible OTP exists.
+  async incrementLatestPendingAttempts(
+    email: string,
+    maxAttempts: number
+  ): Promise<OtpTable | null> {
+    const result = await this.query(
+      `UPDATE "otp"
+       SET "attempts" = "otp"."attempts" + 1,
+           "updatedAt" = NOW()
+       FROM (
+         SELECT "uuid" FROM "otp"
+         WHERE "email" = $1
+           AND "used" = false
+           AND "expiresAt" > $2
+           AND "attempts" < $3
+         ORDER BY "createdAt" DESC
+         LIMIT 1
+       ) sub
+       WHERE "otp"."uuid" = sub."uuid"
+       RETURNING "otp".*`,
+      [email, new Date(), maxAttempts]
+    );
+    return (result?.[0] as OtpTable) ?? null;
   },
 });

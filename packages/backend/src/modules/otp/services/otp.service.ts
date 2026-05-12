@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable, Logger } from "@nestjs/common";
-import { createHash, randomInt } from "node:crypto";
+import { createHash, createHmac, randomInt } from "node:crypto";
+import { domifaConfig } from "../../../config";
 import { otpRepository } from "../../../database";
 import { GenerateOtpDto } from "../dto/generate-otp.dto";
 import { VerifyOtpDto } from "../dto/verify-otp.dto";
@@ -19,17 +20,31 @@ export interface OtpGenerationResult {
 
 export interface OtpVerificationResult {
   valid: boolean;
-  reason?: "expired" | "invalid" | "max-attempts";
 }
 
 @Injectable()
 export class OtpService {
   private readonly logger = new Logger("OtpService");
+  private pepperWarned = false;
 
   constructor(private readonly otpEmailService: OtpEmailService) {}
 
+  // HMAC-SHA256 with a server-side pepper, falling back to plain SHA-256
+  // when no pepper is configured (dev/test). The pepper makes a DB dump
+  // unusable for rainbow-table attacks (10^6 codes precomputed in <1s).
   private hashCode(code: string): string {
-    return createHash("sha256").update(code).digest("hex");
+    const { pepper } = domifaConfig().otp;
+    const { envId } = domifaConfig();
+    if (!pepper) {
+      if (!this.pepperWarned && (envId === "prod" || envId === "preprod")) {
+        this.logger.warn(
+          "DOMIFA_OTP_PEPPER not configured: OTP codes are hashed with plain SHA-256, which is vulnerable to rainbow-table attacks on a DB dump. Configure DOMIFA_OTP_PEPPER via sealed-secrets."
+        );
+        this.pepperWarned = true;
+      }
+      return createHash("sha256").update(code).digest("hex");
+    }
+    return createHmac("sha256", pepper).update(code).digest("hex");
   }
 
   private normalizeEmail(email: string): string {
@@ -80,58 +95,35 @@ export class OtpService {
     const hashedCode = this.hashCode(code);
     const emailLog = redactEmail(email);
 
+    // Good-code path: atomic claim (single UPDATE), single-use guaranteed.
     const claimed = await otpRepository.claimValidOtp(
       email,
       hashedCode,
       OTP_MAX_ATTEMPTS
     );
-
     if (claimed) {
       this.logger.log(`OTP verifie avec succes pour ${emailLog}`);
       return { valid: true };
     }
 
-    const now = new Date();
-    const pendingOtp = await otpRepository
-      .createQueryBuilder("otp")
-      .where("otp.email = :email", { email })
-      .andWhere("otp.used = false")
-      .andWhere("otp.expiresAt > :now", { now })
-      .orderBy("otp.createdAt", "DESC")
-      .getOne();
-
-    if (!pendingOtp) {
-      const lastExpired = await otpRepository
-        .createQueryBuilder("otp")
-        .where("otp.email = :email", { email })
-        .andWhere("otp.used = false")
-        .orderBy("otp.createdAt", "DESC")
-        .getOne();
-
-      if (lastExpired) {
-        this.logger.debug(`OTP verification echouee pour ${emailLog}: expire`);
-        return { valid: false, reason: "expired" };
-      }
-
-      this.logger.debug(
-        `OTP verification echouee pour ${emailLog}: aucun OTP trouve`
-      );
-      return { valid: false, reason: "invalid" };
-    }
-
-    if (pendingOtp.attempts >= OTP_MAX_ATTEMPTS) {
-      this.logger.warn(
-        `OTP verification echouee pour ${emailLog}: max tentatives atteint`
-      );
-      return { valid: false, reason: "max-attempts" };
-    }
-
-    await otpRepository.incrementAttempts(pendingOtp.uuid);
-    this.logger.debug(
-      `OTP verification echouee pour ${emailLog}: code invalide (tentative ${
-        pendingOtp.attempts + 1
-      }/${OTP_MAX_ATTEMPTS})`
+    // Bad-code path: atomically increment attempts on the latest eligible
+    // pending OTP (no race vs parallel verifications).
+    const incremented = await otpRepository.incrementLatestPendingAttempts(
+      email,
+      OTP_MAX_ATTEMPTS
     );
-    return { valid: false, reason: "invalid" };
+    if (incremented) {
+      this.logger.debug(
+        `OTP verification echouee pour ${emailLog}: code invalide (tentative ${incremented.attempts}/${OTP_MAX_ATTEMPTS})`
+      );
+    } else {
+      this.logger.debug(
+        `OTP verification echouee pour ${emailLog}: pas d'OTP eligible`
+      );
+    }
+    // Unified response: the cause (none / expired / max-attempts / wrong code)
+    // is intentionally hidden to avoid leaking whether an email recently
+    // requested an OTP. Distinction stays in server logs.
+    return { valid: false };
   }
 }

@@ -16,7 +16,7 @@ export class OtpEmailService {
 
   private getTransporter(): Transporter {
     if (!this.transporter) {
-      const { host, port, user, pass } = domifaConfig().smtp;
+      const { host, port, user, pass, timeoutMs } = domifaConfig().smtp;
       if (!host) {
         throw new InternalServerErrorException(
           "SMTP host non configure (DOMIFA_SMTP_HOST manquant)"
@@ -30,6 +30,9 @@ export class OtpEmailService {
           user,
           pass,
         },
+        connectionTimeout: timeoutMs,
+        greetingTimeout: timeoutMs,
+        socketTimeout: timeoutMs,
       });
     }
     return this.transporter;

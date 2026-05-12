@@ -74,4 +74,7 @@ export type DomifaEnv = {
   DOMIFA_SMTP_USER: string;
   DOMIFA_SMTP_PASS: string;
   DOMIFA_SMTP_FROM: string;
+  DOMIFA_SMTP_TIMEOUT_MS: string;
+  // OTP
+  DOMIFA_OTP_PEPPER: string;
 };

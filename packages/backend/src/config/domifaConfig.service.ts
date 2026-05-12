@@ -352,26 +352,11 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         required: false,
       }),
     },
-    smtp: {
-      host: configParser.parseString(x, "DOMIFA_SMTP_HOST", {
+    smtp: parseSmtpConfig(x),
+    otp: {
+      pepper: configParser.parseString(x, "DOMIFA_OTP_PEPPER", {
         required: false,
         defaultValue: "",
-      }),
-      port: configParser.parseInteger(x, "DOMIFA_SMTP_PORT", {
-        required: false,
-        defaultValue: 587,
-      }),
-      user: configParser.parseString(x, "DOMIFA_SMTP_USER", {
-        required: false,
-        defaultValue: "",
-      }),
-      pass: configParser.parseString(x, "DOMIFA_SMTP_PASS", {
-        required: false,
-        defaultValue: "",
-      }),
-      from: configParser.parseString(x, "DOMIFA_SMTP_FROM", {
-        required: false,
-        defaultValue: "ne-pas-repondre@domifa.fabrique.social.gouv.fr",
       }),
     },
     metabase: {
@@ -384,6 +369,43 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
     },
   };
   return config;
+}
+
+function parseSmtpConfig(x: Partial<DomifaEnv>): DomifaConfig["smtp"] {
+  const host = configParser.parseString(x, "DOMIFA_SMTP_HOST", {
+    required: false,
+    defaultValue: "",
+  });
+  const user = configParser.parseString(x, "DOMIFA_SMTP_USER", {
+    required: false,
+    defaultValue: "",
+  });
+  const pass = configParser.parseString(x, "DOMIFA_SMTP_PASS", {
+    required: false,
+    defaultValue: "",
+  });
+  if (host && (!user || !pass)) {
+    throw new Error(
+      "Invalid SMTP config: DOMIFA_SMTP_HOST is set but DOMIFA_SMTP_USER or DOMIFA_SMTP_PASS is missing"
+    );
+  }
+  return {
+    host,
+    port: configParser.parseInteger(x, "DOMIFA_SMTP_PORT", {
+      required: false,
+      defaultValue: 587,
+    }),
+    user,
+    pass,
+    from: configParser.parseString(x, "DOMIFA_SMTP_FROM", {
+      required: false,
+      defaultValue: "ne-pas-repondre@domifa.fabrique.social.gouv.fr",
+    }),
+    timeoutMs: configParser.parseInteger(x, "DOMIFA_SMTP_TIMEOUT_MS", {
+      required: false,
+      defaultValue: 10_000,
+    }),
+  };
 }
 
 function parseSecurityConfig(x: Partial<DomifaEnv>): DomifaConfigSecurity {
