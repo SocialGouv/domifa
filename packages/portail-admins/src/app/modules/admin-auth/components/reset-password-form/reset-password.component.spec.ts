@@ -4,7 +4,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ResetPasswordComponent } from "./reset-password.component";
 import { RouterModule } from "@angular/router";
+import { StoreModule } from "@ngrx/store";
 import { provideHttpClient } from "@angular/common/http";
+import { structuresFeature, usersFeature } from "src/app/modules/shared/store";
 
 describe("ResetPasswordComponent", () => {
   let component: ResetPasswordComponent;
@@ -13,7 +15,15 @@ describe("ResetPasswordComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ResetPasswordComponent],
-      imports: [ReactiveFormsModule, FormsModule, RouterModule.forRoot([])],
+      imports: [
+        ReactiveFormsModule,
+        FormsModule,
+        RouterModule.forRoot([]),
+        StoreModule.forRoot({
+          [structuresFeature.name]: structuresFeature.reducer,
+          [usersFeature.name]: usersFeature.reducer,
+        }),
+      ],
       providers: [
         provideHttpClient(),
         { provide: APP_BASE_HREF, useValue: "/" },
