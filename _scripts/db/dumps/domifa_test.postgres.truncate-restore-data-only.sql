@@ -5,50 +5,19 @@
 -- Pour générer les truncates:
 -- SELECT 'TRUNCATE TABLE public.' ||  tablename || ' RESTART IDENTITY CASCADE;' FROM pg_tables WHERE tableowner='domifa_user' and tablename not like 'pg_%' and tablename not like 'sql_%' and tablename <> 'migrations';
 
- TRUNCATE TABLE public.addr RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.addrfeat RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.app_log RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.bg RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.contact_support RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.county RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.county_lookup RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.countysub_lookup RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.cousub RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.direction_lookup RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.edges RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.expired_token RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.faces RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.featnames RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.geocode_settings RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.geocode_settings_default RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.interactions RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.layer RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.loader_lookuptables RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.loader_platform RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.loader_variables RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.message_sms RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.monitor_batch_process RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.open_data_cities RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.open_data_places RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.otp RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.pagc_gaz RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.pagc_lex RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.pagc_rules RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.place RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.place_lookup RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.public_stats_cache RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.secondary_unit_lookup RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.state RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.state_lookup RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.street_type_lookup RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.structure RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.structure_doc RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.structure_information RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.structure_stats_reporting RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.tabblock RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.tabblock20 RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.topology RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.tract RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.typeorm_metadata RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.usager RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.usager_docs RESTART IDENTITY CASCADE;
@@ -63,19 +32,13 @@
  TRUNCATE TABLE public.user_usager RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.user_usager_login RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.user_usager_security RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.zcta5 RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.zip_lookup RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.zip_lookup_all RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.zip_lookup_base RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.zip_state RESTART IDENTITY CASCADE;
- TRUNCATE TABLE public.zip_state_loc RESTART IDENTITY CASCADE;
 
 --
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 15.13 (Debian 15.13-1.pgdg110+1)
--- Dumped by pg_dump version 15.13 (Debian 15.13-1.pgdg110+1)
+-- Dumped from database version 15.13
+-- Dumped by pg_dump version 15.13
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -210,14 +173,6 @@ COPY public.open_data_places (uuid, "createdAt", "updatedAt", version, nom, adre
 b6057207-6d69-4ffa-a5b3-f95e91196b96	2021-02-01 17:12:30.658+01	2025-11-06 20:34:50.282+01	5	Structure de Test d'import	rue de l import		Nantes	44000	44	52	47.2139730	-1.5369230	domifa	domifa	test.import@yopmail.com	asso	4	\N	\N	\N	0	\N	\N	\N	\N	\N	Autre réseau	< 10 domiciliés	44109	\N	\N
 986154a7-49a7-44b3-b562-4aa5c2d077c4	2021-01-26 08:51:53.846+01	2025-11-06 20:34:50.282+01	5	Organisme agréé de Test	1 rue du test de l organise agree		Nantes	44000	44	52	47.2181930	-1.5613680	domifa	domifa	structure@yopmail.com	asso	3	\N	\N	\N	0	\N	\N	\N	\N	\N	Autre réseau	< 10 domiciliés	44109	\N	\N
 2b5ccf0c-41b1-4f34-b6a7-e0b28ff9d548	2021-01-26 08:51:53.846+01	2025-11-06 20:34:50.282+01	5	CCAS de Test	1 rue de l ocean		Asnieres sur seine	92600	92	11	48.9037590	2.2837460	domifa	domifa	ccas.test@yopmail.com	ccas	1	\N	\N	\N	4	\N	\N	\N	\N	\N	\N	< 10 domiciliés	92004	\N	\N
-\.
-
-
---
--- Data for Name: otp; Type: TABLE DATA; Schema: public; Owner: -
---
-
-COPY public.otp (uuid, "createdAt", "updatedAt", version, email, code, "expiresAt", attempts, used, purpose) FROM stdin;
 \.
 
 
@@ -520,54 +475,6 @@ fadd55b6-ca41-48d4-bd56-238b1a3c6f7b	2021-11-30 14:50:26.290488+01	2023-11-20 16
 
 
 --
--- Data for Name: geocode_settings; Type: TABLE DATA; Schema: tiger; Owner: -
---
-
-COPY tiger.geocode_settings (name, setting, unit, category, short_desc) FROM stdin;
-\.
-
-
---
--- Data for Name: pagc_gaz; Type: TABLE DATA; Schema: tiger; Owner: -
---
-
-COPY tiger.pagc_gaz (id, seq, word, stdword, token, is_custom) FROM stdin;
-\.
-
-
---
--- Data for Name: pagc_lex; Type: TABLE DATA; Schema: tiger; Owner: -
---
-
-COPY tiger.pagc_lex (id, seq, word, stdword, token, is_custom) FROM stdin;
-\.
-
-
---
--- Data for Name: pagc_rules; Type: TABLE DATA; Schema: tiger; Owner: -
---
-
-COPY tiger.pagc_rules (id, rule, is_custom) FROM stdin;
-\.
-
-
---
--- Data for Name: topology; Type: TABLE DATA; Schema: topology; Owner: -
---
-
-COPY topology.topology (id, name, srid, "precision", hasz) FROM stdin;
-\.
-
-
---
--- Data for Name: layer; Type: TABLE DATA; Schema: topology; Owner: -
---
-
-COPY topology.layer (topology_id, layer_id, schema_name, table_name, feature_column, feature_type, level, child_id) FROM stdin;
-\.
-
-
---
 -- Name: structure_doc_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
@@ -607,13 +514,6 @@ SELECT pg_catalog.setval('public.user_supervisor_id_seq', 1, true);
 --
 
 SELECT pg_catalog.setval('public.user_usager_id_seq', 2, true);
-
-
---
--- Name: topology_id_seq; Type: SEQUENCE SET; Schema: topology; Owner: -
---
-
-SELECT pg_catalog.setval('topology.topology_id_seq', 1, false);
 
 
 --
