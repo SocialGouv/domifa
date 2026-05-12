@@ -1,3 +1,11 @@
+## [2.239.1](https://github.com/SocialGouv/domifa/compare/v2.239.0...v2.239.1) (2026-05-12)
+
+
+### Bug Fixes
+
+* **backend:** add unit tests for block ([bc6056f](https://github.com/SocialGouv/domifa/commit/bc6056fdecaf154a9ce7ec9959644bb41c83a348))
+* **backend:** add user-agent block for session ([6cfa8a7](https://github.com/SocialGouv/domifa/commit/6cfa8a796a7cf8577eba3d0dde72dec466fdac8b))
+
 # [2.239.0](https://github.com/SocialGouv/domifa/compare/v2.238.1...v2.239.0) (2026-05-12)
 
 
