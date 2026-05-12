@@ -134,6 +134,11 @@ const transporter = nodemailer.createTransport({
   port,
   secure: port === 465,
   auth: { user, pass },
+  connectionTimeout: 10_000,
+  greetingTimeout: 10_000,
+  socketTimeout: 15_000,
+  logger: true,
+  debug: true,
 });
 
 const to = "test@surikat.pro";
