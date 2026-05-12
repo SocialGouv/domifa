@@ -12,8 +12,8 @@ describe("ColumnInteractionsComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ColumnInteractionsComponent],
       imports: [
+        ColumnInteractionsComponent,
         HttpClientTestingModule,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],

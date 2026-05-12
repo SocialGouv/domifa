@@ -1,77 +1,68 @@
+import { HttpStatus } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import { AdminUsersController } from "./admin-users.controller";
-import { HttpStatus } from "@nestjs/common";
 import { AdminSuperivorUsersService } from "../../services/admin-superivor-users/admin-superivor-users.service";
-import { ElevateUserRoleDto } from "../../dto/elevate-user-role.dto";
-import { userStructureRepository } from "../../../../database";
-import { EntityNotFoundError } from "typeorm";
-import { USER_SUPERVISOR_AUTH } from "../../../../_common/mocks/USER_SUPERVISOR_AUTHENTIFICATED.mock";
+import { AdminStructuresService } from "../../services/admin-structures.service";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
 import { BrevoSenderService } from "../../../mails/services/brevo-sender/brevo-sender.service";
-
-// Mock the repository
-jest.mock("../../../../database", () => ({
-  userStructureRepository: {
-    findOneByOrFail: jest.fn(),
-    update: jest.fn(),
-  },
-}));
+import { ElevateUserRoleDto } from "../../dto/elevate-user-role.dto";
+import { USER_SUPERVISOR_AUTH } from "../../../../_common/mocks/USER_SUPERVISOR_AUTHENTIFICATED.mock";
+import { TESTS_USERS_STRUCTURE } from "../../../../_tests";
+import { AppTestHelper } from "../../../../util/test";
+import { userStructureRepository } from "../../../../database";
 
 describe("AdminUsersController", () => {
   let controller: AdminUsersController;
-  let mockUserStructureRepository: jest.Mocked<typeof userStructureRepository>;
 
-  const mockCurrentUser = USER_SUPERVISOR_AUTH;
-
-  const mockUserToElevate = {
-    id: 2,
-    uuid: "user-uuid-456",
-    nom: "User",
-    prenom: "Simple",
-    email: "user@test.com",
-    role: "simple",
-    structureId: 1,
-    status: "ACTIVE",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  };
+  const currentUser = USER_SUPERVISOR_AUTH;
+  const simpleUser =
+    TESTS_USERS_STRUCTURE.BY_EMAIL["s1-instructeur@yopmail.com"];
+  const adminUser =
+    TESTS_USERS_STRUCTURE.BY_EMAIL["preprod.domifa@fabrique.social.gouv.fr"];
 
   const mockResponse = {
     status: jest.fn().mockReturnThis(),
     send: jest.fn().mockReturnThis(),
   };
 
-  beforeEach(async () => {
-    jest.clearAllMocks();
+  beforeAll(async () => {
+    await AppTestHelper.bootstrapTestConnection();
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AdminUsersController],
       providers: [
         {
           provide: AppLogsService,
-          useValue: {
-            create: jest.fn().mockResolvedValue({}),
-          },
+          useValue: { create: jest.fn().mockResolvedValue({}) },
         },
         {
           provide: AdminSuperivorUsersService,
-          useValue: {
-            createUserWithTmpToken: jest.fn(),
-          },
+          useValue: { createUserWithTmpToken: jest.fn() },
+        },
+        {
+          provide: AdminStructuresService,
+          useValue: { getUsersForAdmin: jest.fn() },
         },
         {
           provide: BrevoSenderService,
           useValue: {
             sendEmailWithTemplate: jest.fn().mockResolvedValue({}),
+            sendUserActivationEmail: jest.fn().mockResolvedValue({}),
           },
         },
       ],
     }).compile();
 
     controller = module.get<AdminUsersController>(AdminUsersController);
-    mockUserStructureRepository = userStructureRepository as jest.Mocked<
-      typeof userStructureRepository
-    >;
+  });
+
+  afterAll(async () => {
+    await AppTestHelper.tearDownTestConnection();
+  });
+
+  beforeEach(() => {
+    mockResponse.status.mockClear();
+    mockResponse.send.mockClear();
   });
 
   it("should be defined", () => {
@@ -79,123 +70,81 @@ describe("AdminUsersController", () => {
   });
 
   describe("elevateUserRoleToAdmin", () => {
-    it("should successfully elevate user role to admin", async () => {
-      // Arrange
-      const elevateRoleDto: ElevateUserRoleDto = {
-        uuid: "user-uuid-456",
-      };
+    it("should successfully elevate a non-admin user to admin", async () => {
+      const elevateRoleDto: ElevateUserRoleDto = { uuid: simpleUser.uuid };
 
-      mockUserStructureRepository.findOneByOrFail.mockResolvedValue(
-        mockUserToElevate as any
-      );
-      mockUserStructureRepository.update.mockResolvedValue({} as any);
+      const before = await userStructureRepository.findOneBy({
+        uuid: simpleUser.uuid,
+      });
+      expect(before.role).toEqual("simple");
 
-      // Act
       await controller.elevateUserRoleToAdmin(
-        mockCurrentUser,
+        currentUser,
         mockResponse as any,
         elevateRoleDto
       );
 
-      // Assert
-      expect(mockUserStructureRepository.findOneByOrFail).toHaveBeenCalledWith({
-        uuid: "user-uuid-456",
+      const after = await userStructureRepository.findOneBy({
+        uuid: simpleUser.uuid,
       });
-      expect(mockUserStructureRepository.update).toHaveBeenCalledWith(
-        { uuid: "user-uuid-456" },
-        { role: "admin" }
-      );
+      expect(after.role).toEqual("admin");
 
       expect(mockResponse.status).toHaveBeenCalledWith(HttpStatus.OK);
-      expect(mockResponse.send).toHaveBeenCalledWith({
-        message: "OK",
-      });
+      expect(mockResponse.send).toHaveBeenCalledWith({ message: "OK" });
+
+      // restore original role
+      await userStructureRepository.update(
+        { uuid: simpleUser.uuid },
+        { role: simpleUser.role }
+      );
     });
 
     it("should return BAD_REQUEST when user is not found", async () => {
-      // Arrange
       const elevateRoleDto: ElevateUserRoleDto = {
-        uuid: "non-existent-uuid",
+        uuid: "00000000-0000-0000-0000-000000000000",
       };
 
-      mockUserStructureRepository.findOneByOrFail.mockRejectedValue(
-        new EntityNotFoundError("UserStructureTable", {})
-      );
-
-      // Act
       await controller.elevateUserRoleToAdmin(
-        mockCurrentUser,
+        currentUser,
         mockResponse as any,
         elevateRoleDto
       );
 
-      // Assert
-      expect(mockUserStructureRepository.findOneByOrFail).toHaveBeenCalledWith({
-        uuid: "non-existent-uuid",
-      });
-      expect(mockUserStructureRepository.update).not.toHaveBeenCalled();
       expect(mockResponse.status).toHaveBeenCalledWith(HttpStatus.BAD_REQUEST);
       expect(mockResponse.send).toHaveBeenCalledWith({
         message: "UNABLE_TO_ELEVATE_USER_ROLE",
       });
     });
 
-    it("should return BAD_REQUEST when database update fails", async () => {
-      // Arrange
-      const elevateRoleDto: ElevateUserRoleDto = {
-        uuid: "user-uuid-456",
-      };
+    it("should return BAD_REQUEST when user is already admin", async () => {
+      const elevateRoleDto: ElevateUserRoleDto = { uuid: adminUser.uuid };
 
-      mockUserStructureRepository.findOneByOrFail.mockResolvedValue(
-        mockUserToElevate as any
-      );
-      mockUserStructureRepository.update.mockRejectedValue(
-        new Error("Database error")
-      );
-
-      // Act
       await controller.elevateUserRoleToAdmin(
-        mockCurrentUser,
+        currentUser,
         mockResponse as any,
         elevateRoleDto
       );
 
-      // Assert
-      expect(mockUserStructureRepository.findOneByOrFail).toHaveBeenCalledWith({
-        uuid: "user-uuid-456",
+      const target = await userStructureRepository.findOneBy({
+        uuid: adminUser.uuid,
       });
-      expect(mockUserStructureRepository.update).toHaveBeenCalledWith(
-        { uuid: "user-uuid-456" },
-        { role: "admin" }
-      );
+      expect(target.role).toEqual("admin");
+
       expect(mockResponse.status).toHaveBeenCalledWith(HttpStatus.BAD_REQUEST);
       expect(mockResponse.send).toHaveBeenCalledWith({
         message: "UNABLE_TO_ELEVATE_USER_ROLE",
       });
     });
 
-    it("should handle invalid UUID format", async () => {
-      // Arrange
-      const elevateRoleDto: ElevateUserRoleDto = {
-        uuid: "invalid-uuid",
-      };
+    it("should return BAD_REQUEST when uuid format is invalid", async () => {
+      const elevateRoleDto: ElevateUserRoleDto = { uuid: "invalid-uuid" };
 
-      mockUserStructureRepository.findOneByOrFail.mockRejectedValue(
-        new Error("Invalid UUID format")
-      );
-
-      // Act
       await controller.elevateUserRoleToAdmin(
-        mockCurrentUser,
+        currentUser,
         mockResponse as any,
         elevateRoleDto
       );
 
-      // Assert
-      expect(mockUserStructureRepository.findOneByOrFail).toHaveBeenCalledWith({
-        uuid: "invalid-uuid",
-      });
-      expect(mockUserStructureRepository.update).not.toHaveBeenCalled();
       expect(mockResponse.status).toHaveBeenCalledWith(HttpStatus.BAD_REQUEST);
       expect(mockResponse.send).toHaveBeenCalledWith({
         message: "UNABLE_TO_ELEVATE_USER_ROLE",
