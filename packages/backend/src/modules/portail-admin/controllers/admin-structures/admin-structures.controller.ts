@@ -127,6 +127,7 @@ export class AdminStructuresController {
         user_structure.role,
         user_structure.status,
         user_structure."lastLogin",
+        user_structure."passwordLastUpdate",
         user_structure."createdAt",
         user_structure.uuid,
         user_structure.fonction,
@@ -239,6 +240,25 @@ export class AdminStructuresController {
     });
 
     return res.status(HttpStatus.OK).json({ status: "ACTIVE" });
+  }
+
+  @Patch("structure/:structureId/users/:userId/block")
+  @UseGuards(StructureAccessGuard)
+  public async blockStructureUser(
+    @CurrentSupervisor() user: UserAdminAuthenticated,
+    @Param("structureId", new ParseIntPipe()) structureId: number,
+    @Param("userId", new ParseIntPipe()) userId: number,
+    @Res() res: ExpressResponse
+  ): Promise<ExpressResponse> {
+    await this.adminStructuresService.blockStructureUser(userId, structureId);
+
+    await this.appLogsService.create({
+      ...buildSupervisorActorFields(user),
+      action: "BLOCK_USER",
+      context: { userId },
+    });
+
+    return res.status(HttpStatus.OK).json({ status: "BLOCKED" });
   }
 
   private async handleStatutSpecificActions(

@@ -1,4 +1,3 @@
-import { ActivatedRoute } from "@angular/router";
 import {
   AfterViewInit,
   Component,
@@ -8,6 +7,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
+import { Store } from "@ngrx/store";
 import {
   BehaviorSubject,
   combineLatest,
@@ -16,7 +16,7 @@ import {
   fromEvent,
   map,
   merge,
-  ReplaySubject,
+  Observable,
   Subscription,
   tap,
 } from "rxjs";
@@ -33,7 +33,11 @@ import {
   StructureAdmin,
 } from "@domifa/common";
 import { structuresFilter, structuresSorter } from "../../utils";
-import { appStore } from "../../../shared/store/appStore.service";
+import {
+  selectAllStructures,
+  selectIsStructuresLoading,
+  StructuresActions,
+} from "../../../shared/store/structures";
 
 export type FilterOutput = {
   element: keyof StructureFilterCriteria;
@@ -49,7 +53,8 @@ export type FilterOutput = {
 export class AdminStructuresListComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
-  public allstructures$ = new ReplaySubject<StructureAdmin[]>(1);
+  public readonly allStructures$: Observable<StructureAdmin[]>;
+  public readonly loading$: Observable<boolean>;
   public structures: StructureAdmin[] = [];
   public filteredStructures: StructureAdmin[] = [];
   private readonly subscription = new Subscription();
@@ -69,10 +74,12 @@ export class AdminStructuresListComponent
 
   constructor(
     private readonly titleService: Title,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly store: Store
   ) {
     this.titleService.setTitle("Liste des structures");
     this.filters.sortKey = StructureFilterCriteriaSortEnum.ID;
+    this.allStructures$ = this.store.select(selectAllStructures);
+    this.loading$ = this.store.select(selectIsStructuresLoading);
   }
 
   ngAfterViewInit() {
@@ -83,22 +90,12 @@ export class AdminStructuresListComponent
 
   public ngOnInit(): void {
     this.initFiltersFromStorage();
-    this.subscription.add(
-      this.activatedRoute.data.subscribe((data) => {
-        this.structures = data.structureList ?? [];
-        this.totalStructures = this.structures.length;
-        this.allstructures$.next(this.structures);
-      })
-    );
-    this.subscription.add(
-      appStore.subscribe(() => {
-        const state = appStore.getState();
-        const structures = state?.structureListData;
 
-        if (structures) {
-          this.totalStructures = structures.length;
-          this.allstructures$.next(structures);
-        }
+    this.store.dispatch(StructuresActions.load());
+
+    this.subscription.add(
+      this.loading$.subscribe((loading) => {
+        this.searching = loading;
       })
     );
 
@@ -132,8 +129,9 @@ export class AdminStructuresListComponent
     this.subscription.add(searchEvents$.subscribe());
 
     this.subscription.add(
-      combineLatest([this.allstructures$, this.filters$]).subscribe(
+      combineLatest([this.allStructures$, this.filters$]).subscribe(
         ([allstructures, filters]) => {
+          this.totalStructures = allstructures.length;
           this.structures = allstructures;
           this.filters = filters;
           this.setFilters();

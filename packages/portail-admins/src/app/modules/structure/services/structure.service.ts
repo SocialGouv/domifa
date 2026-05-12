@@ -40,9 +40,19 @@ export class StructureService {
   public unblockUser(
     structureId: number,
     userId: number
-  ): Observable<{ statut: string }> {
-    return this.http.patch<{ statut: string }>(
+  ): Observable<{ status: string }> {
+    return this.http.patch<{ status: string }>(
       `${BASE_URL}/structure/${structureId}/users/${userId}/unblock`,
+      {}
+    );
+  }
+
+  public blockUser(
+    structureId: number,
+    userId: number
+  ): Observable<{ status: string }> {
+    return this.http.patch<{ status: string }>(
+      `${BASE_URL}/structure/${structureId}/users/${userId}/block`,
       {}
     );
   }

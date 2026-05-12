@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router, RouterStateSnapshot } from "@angular/router";
+import { Store } from "@ngrx/store";
 
 import {
   BehaviorSubject,
@@ -13,7 +14,7 @@ import {
 import { environment } from "../../../../environments/environment";
 
 import { CustomToastService } from "../../shared/services/custom-toast.service";
-import { appStore } from "../../shared/store/appStore.service";
+import { resetAppState } from "../../shared/store";
 import { PortailAdminAuthLoginForm } from "../types";
 import { getCurrentScope } from "@sentry/angular";
 import {
@@ -36,7 +37,8 @@ export class AdminAuthService {
   constructor(
     private readonly http: HttpClient,
     private readonly router: Router,
-    private readonly toastr: CustomToastService
+    private readonly toastr: CustomToastService,
+    private readonly store: Store
   ) {
     const storedUser = window.sessionStorage.getItem(USER_KEY);
     const initialUser = storedUser ? JSON.parse(storedUser) : null;
@@ -79,7 +81,7 @@ export class AdminAuthService {
     if (sessionExpired) {
       this.toastr.warning("Votre session a expiré, merci de vous reconnecter");
     }
-    appStore.dispatch({ type: "reset" });
+    this.store.dispatch(resetAppState());
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.removeItem(USER_KEY);
     this.currentAdminSubject.next(null);

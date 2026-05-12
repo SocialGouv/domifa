@@ -76,7 +76,7 @@ export class UsersController {
   public async getUsers(
     @CurrentUser() user: UserStructureAuthenticated
   ): Promise<UserStructureProfile[]> {
-    const users = await userStructureRepository.getVerifiedUsersByStructureId(
+    const users = await userStructureRepository.getUsersByStructureId(
       user.structureId
     );
     if (

@@ -67,6 +67,11 @@ export class AppComponent implements OnInit {
               routerLink: "/manage-users",
             },
             {
+              linkId: "manage-structure-users",
+              label: "Gérer les utilisateurs",
+              routerLink: "/manage-structure-users",
+            },
+            {
               linkId: "stats",
               label: "Statistiques de la domiciliation",
               routerLink: "/stats",

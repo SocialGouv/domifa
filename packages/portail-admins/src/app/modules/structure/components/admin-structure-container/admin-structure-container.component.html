@@ -1,82 +1,96 @@
 <div class="fr-content-container">
   <div class="fr-container">
-    <div class="fr-py-3w" id="subnav">
-      <div class="fr-grid-row">
-        <a routerLink="/structure" class="fr-link w-auto"
-          ><span class="fr-icon-arrow-left-s-line"></span>Retour<span
-            class="visually-hidden"
+    <div
+      *ngIf="loading"
+      role="alert"
+      aria-busy="true"
+      aria-label="Chargement de la structure..."
+      class="text-center fr-py-6w"
+    >
+      <dsfr-ext-spinner
+        typeLoader="quarter"
+        label="Chargement de la structure..."
+      ></dsfr-ext-spinner>
+    </div>
+    <ng-container *ngIf="!loading && structure">
+      <div class="fr-py-3w" id="subnav">
+        <div class="fr-grid-row">
+          <a routerLink="/structure" class="fr-link w-auto"
+            ><span class="fr-icon-arrow-left-s-line"></span>Retour<span
+              class="visually-hidden"
+            >
+              à la liste des structures</span
+            >
+          </a>
+        </div>
+        <div class="fr-grid-row fr-pt-2w">
+          <h1
+            [class]="
+              structure.statut === 'SUPPRIME'
+                ? 'fr-text-title--grey fr-p-0w fr-m-0w'
+                : 'fr-text-title--blue-france fr-p-0w fr-m-0w'
+            "
           >
-            à la liste des structures</span
-          >
-        </a>
+            {{ structure.id }} - {{ structure.nom }}
+            <ng-container *ngIf="structure.statut === 'SUPPRIME'">
+              (supprimée)</ng-container
+            >
+            <ng-container *ngIf="structure.statut === 'REFUS'">
+              (refusée)</ng-container
+            >
+          </h1>
+        </div>
       </div>
-      <div class="fr-grid-row fr-pt-2w">
-        <h1
-          [class]="
-            structure.statut === 'SUPPRIME'
-              ? 'fr-text-title--grey fr-p-0w fr-m-0w'
-              : 'fr-text-title--blue-france fr-p-0w fr-m-0w'
-          "
+      <div class="fr-tabs">
+        <ul
+          class="fr-tabs__list"
+          role="tablist"
+          aria-label="Onglets de la structures"
         >
-          {{ structure.id }} - {{ structure.nom }}
-          <ng-container *ngIf="structure.statut === 'SUPPRIME'">
-            (supprimée)</ng-container
-          >
-          <ng-container *ngIf="structure.statut === 'REFUS'">
-            (refusée)</ng-container
-          >
-        </h1>
+          <li role="presentation">
+            <a
+              type="button"
+              class="fr-tabs__tab"
+              role="link"
+              routerLink="/structure/{{ structure.id }}"
+              [attr.aria-selected]="activeTab === 'infos'"
+            >
+              Informations
+            </a>
+          </li>
+          <li role="presentation">
+            <a
+              type="button"
+              id="storybook-tab-1"
+              class="fr-tabs__tab"
+              role="link"
+              [attr.aria-selected]="activeTab === 'users'"
+              aria-controls="storybook-tab-1-panel"
+              [routerLink]="'users'"
+            >
+              Utilisateurs
+            </a>
+          </li>
+          <li role="presentation">
+            <a
+              type="button"
+              id="storybook-tab-2"
+              class="fr-tabs__tab"
+              tabindex="-1"
+              role="link"
+              [attr.aria-selected]="activeTab === 'stats'"
+              aria-controls="storybook-tab-2-panel"
+              [routerLink]="'stats'"
+            >
+              Statistiques
+            </a>
+          </li>
+        </ul>
       </div>
-    </div>
-    <div class="fr-tabs">
-      <ul
-        class="fr-tabs__list"
-        role="tablist"
-        aria-label="Onglets de la structures"
-      >
-        <li role="presentation">
-          <a
-            type="button"
-            class="fr-tabs__tab"
-            role="link"
-            routerLink="/structure/{{ structure.id }}"
-            [attr.aria-selected]="activeTab === 'infos'"
-          >
-            Informations
-          </a>
-        </li>
-        <li role="presentation">
-          <a
-            type="button"
-            id="storybook-tab-1"
-            class="fr-tabs__tab"
-            role="link"
-            [attr.aria-selected]="activeTab === 'users'"
-            aria-controls="storybook-tab-1-panel"
-            [routerLink]="'users'"
-          >
-            Utilisateurs
-          </a>
-        </li>
-        <li role="presentation">
-          <a
-            type="button"
-            id="storybook-tab-2"
-            class="fr-tabs__tab"
-            tabindex="-1"
-            role="link"
-            [attr.aria-selected]="activeTab === 'stats'"
-            aria-controls="storybook-tab-2-panel"
-            [routerLink]="'stats'"
-          >
-            Statistiques
-          </a>
-        </li>
-      </ul>
-    </div>
 
-    <div class="fr-content">
-      <router-outlet> </router-outlet>
-    </div>
+      <div class="fr-content">
+        <router-outlet> </router-outlet>
+      </div>
+    </ng-container>
   </div>
 </div>

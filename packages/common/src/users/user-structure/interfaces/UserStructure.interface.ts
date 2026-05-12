@@ -7,7 +7,7 @@ export type UserStructure = CommonUser & {
   structureId: number | null;
 
   lastLogin: Date | null;
-  passwordLastUpdate: Date;
+  passwordLastUpdate: Date | null;
 
   role: UserStructureRole | null; // security profile
 

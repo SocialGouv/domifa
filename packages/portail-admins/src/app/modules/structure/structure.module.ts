@@ -1,9 +1,8 @@
-import { NgModule } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
+import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 import { SharedModule } from "../shared/shared.module";
 import { UsersComponent } from "./components/users/users.component";
-import { SortArrayPipe } from "../shared/pipes/sort-array.pipe";
 import { StructureInfoComponent } from "./components/structure-info/structure-info.component";
 import { FormatInternationalPhoneNumberPipe } from "../../shared/utils/formatInternationalPhoneNumber.pipe";
 import { StructureStatsComponent } from "./components/structure-stats/structure-stats.component";
@@ -13,12 +12,12 @@ import { StructureRoutingModule } from "./structure-routing.module";
 import { DsfrTooltipDirective } from "@edugouvfr/ngx-dsfr";
 import { RegisterUserComponent } from "./components/register-user/register-user.component";
 import { DisplayLastLoginComponent } from "../shared/components/display-last-login/display-last-login.component";
+import { UsersTableComponent } from "../shared/components/users-table/users-table.component";
 
 @NgModule({
   declarations: [
     UsersComponent,
     StructureInfoComponent,
-    UsersComponent,
     StructureStatsComponent,
   ],
   imports: [
@@ -27,12 +26,13 @@ import { DisplayLastLoginComponent } from "../shared/components/display-last-log
     FormsModule,
     FormatInternationalPhoneNumberPipe,
     SharedModule,
-    TableHeadSortComponent,
-    SortArrayPipe,
     ClipboardModule,
     DsfrTooltipDirective,
     RegisterUserComponent,
     DisplayLastLoginComponent,
+    UsersTableComponent,
+    DsfrSpinnerComponent,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class StructureModule {}

@@ -27,6 +27,15 @@ import { environment } from "../environments/environment";
 import pkg from "../../package.json";
 import { MATOMO_INJECTORS } from "./shared";
 import { AdminAuthService } from "./modules/admin-auth/services/admin-auth.service";
+import { provideStore } from "@ngrx/store";
+import { provideEffects } from "@ngrx/effects";
+import { provideStoreDevtools } from "@ngrx/store-devtools";
+import {
+  structuresFeature,
+  StructuresEffects,
+  usersFeature,
+  UsersEffects,
+} from "./modules/shared/store";
 
 const disableAnimations =
   !("animate" in document.documentElement) ||
@@ -58,6 +67,16 @@ registerLocaleData(localeFr, "fr");
   ],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),
+    provideStore({
+      [structuresFeature.name]: structuresFeature.reducer,
+      [usersFeature.name]: usersFeature.reducer,
+    }),
+    provideEffects([StructuresEffects, UsersEffects]),
+    provideStoreDevtools({
+      maxAge: 25,
+      logOnly: environment.production,
+      autoPause: true,
+    }),
     { provide: LOCALE_ID, useValue: "fr" },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {

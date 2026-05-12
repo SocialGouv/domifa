@@ -1,8 +1,6 @@
-<span class="fr-badge" [ngClass]="badgeClass">
+<span class="fr-badge fr-badge--sm" [ngClass]="badgeClass">
   <ng-container *ngIf="showNeverUsed">Jamais connecté</ng-container>
   <ng-container *ngIf="showLastLoginDate || showInactive2Months">
     {{ lastLoginFormatted }}
   </ng-container>
 </span>
-<span *ngIf="showInactive2Months"><br />(+ de 2 mois)</span>
-<span *ngIf="showInactiveOneYear"><br />(+ d'un an)</span>
