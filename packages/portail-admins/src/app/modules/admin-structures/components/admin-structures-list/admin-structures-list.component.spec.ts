@@ -19,7 +19,9 @@ import { uneStructureAdminMock } from "../../../../mocks/STRUCTURE_MOCK.mock";
 import { AdminStructuresModule } from "../../admin-structures.module";
 import { AdminStructuresListComponent } from "./admin-structures-list.component";
 import { provideHttpClient } from "@angular/common/http";
+import { provideMockStore } from "@ngrx/store/testing";
 import { structuresFilter, structuresSorter } from "../../utils";
+import { structuresFeature } from "../../../shared/store/structures";
 
 describe("AdminStructuresListComponent", () => {
   let component: AdminStructuresListComponent;
@@ -54,6 +56,16 @@ describe("AdminStructuresListComponent", () => {
       ],
       providers: [
         provideHttpClient(),
+        provideMockStore({
+          initialState: {
+            [structuresFeature.name]: {
+              list: mockApiStructures,
+              loading: false,
+              loaded: true,
+              error: null,
+            },
+          },
+        }),
         { provide: APP_BASE_HREF, useValue: "/" },
         {
           provide: ActivatedRoute,

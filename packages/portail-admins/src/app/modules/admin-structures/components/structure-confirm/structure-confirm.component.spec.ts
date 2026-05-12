@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import { provideMockStore } from "@ngrx/store/testing";
 import { SharedModule } from "../../../shared/shared.module";
 
 import { provideHttpClient } from "@angular/common/http";
@@ -24,6 +25,7 @@ describe("StructureConfirmComponent", () => {
       ],
       providers: [
         provideHttpClient(),
+        provideMockStore({}),
         { provide: APP_BASE_HREF, useValue: "/" },
         {
           provide: ActivatedRoute,

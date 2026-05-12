@@ -9,6 +9,7 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from "@angular/common/http";
+import { provideMockStore } from "@ngrx/store/testing";
 
 describe("SupervisorListComponent", () => {
   let component: SupervisorListComponent;
@@ -20,6 +21,7 @@ describe("SupervisorListComponent", () => {
       imports: [RouterModule.forRoot([]), ReactiveFormsModule, FormsModule],
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
+        provideMockStore({}),
         { provide: APP_BASE_HREF, useValue: "/" },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],

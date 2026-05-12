@@ -9,6 +9,7 @@ import { STRUCTURE_MOCK } from "../../../../mocks/STRUCTURE_MOCK.mock";
 import { SharedModule } from "../../../shared/shared.module";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { provideHttpClient } from "@angular/common/http";
+import { provideMockStore } from "@ngrx/store/testing";
 import { of } from "rxjs";
 
 describe("StructureStatsComponent", () => {
@@ -27,6 +28,7 @@ describe("StructureStatsComponent", () => {
       ],
       providers: [
         provideHttpClient(),
+        provideMockStore({}),
         StructureService,
         {
           provide: ActivatedRoute,
