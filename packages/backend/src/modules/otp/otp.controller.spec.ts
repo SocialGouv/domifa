@@ -8,9 +8,6 @@ import supertest from "supertest";
 import { OtpController } from "./otp.controller";
 import { OtpService } from "./services/otp.service";
 
-// Bypass the global throttler in tests (rate-limit behavior is unit-tested
-// in otp.service.spec.ts via OTP_RATE_LIMIT_*; here we exercise the HTTP
-// wiring: routing, ValidationPipe, DTO transforms, and response shape).
 class NoopThrottlerGuard {
   canActivate() {
     return true;
@@ -28,11 +25,7 @@ describe("OtpController (HTTP)", () => {
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        // ThrottlerModule must be importable since @Throttle() decorators
-        // reference its metadata, but the guard is replaced by a no-op.
-        ThrottlerModule.forRoot([{ ttl: 60_000, limit: 100 }]),
-      ],
+      imports: [ThrottlerModule.forRoot([{ ttl: 60_000, limit: 100 }])],
       controllers: [OtpController],
       providers: [
         { provide: OtpService, useValue: otpService },

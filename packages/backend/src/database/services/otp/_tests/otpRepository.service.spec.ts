@@ -1,8 +1,6 @@
 import { AppTestHelper } from "../../../../util/test";
 import { otpRepository } from "../otpRepository.service";
 
-// Suite-scoped email domain. All rows are confined to it so cleanup is
-// surgical and parallel suites cannot interfere.
 const TEST_DOMAIN = "test-otp-repo.local";
 const email = (slug: string) => `${slug}@${TEST_DOMAIN}`;
 
@@ -41,7 +39,6 @@ describe("otpRepository (DB)", () => {
         expiresAt: new Date(now + 60_000),
         purpose: null,
       });
-      // Move the second row back in time so it falls outside the window.
       await otpRepository
         .createQueryBuilder()
         .update()
@@ -71,7 +68,6 @@ describe("otpRepository (DB)", () => {
       expect(claimed).not.toBeNull();
       expect(claimed!.used).toBe(true);
 
-      // A second claim on the same hash must fail (single-use).
       expect(await otpRepository.claimValidOtp(e, "hashed-OK", 5)).toBeNull();
     });
 
@@ -134,8 +130,6 @@ describe("otpRepository (DB)", () => {
         expiresAt: new Date(now + 60_000),
         purpose: null,
       });
-      // Force unambiguous ordering on createdAt so the test is not flaky
-      // when two saves land in the same millisecond.
       await otpRepository
         .createQueryBuilder()
         .update()

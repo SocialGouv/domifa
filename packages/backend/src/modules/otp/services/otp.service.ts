@@ -29,9 +29,6 @@ export class OtpService {
 
   constructor(private readonly otpEmailService: OtpEmailService) {}
 
-  // HMAC-SHA256 with a server-side pepper, falling back to plain SHA-256
-  // when no pepper is configured (dev/test). The pepper makes a DB dump
-  // unusable for rainbow-table attacks (10^6 codes precomputed in <1s).
   private hashCode(code: string): string {
     const { pepper } = domifaConfig().otp;
     const { envId } = domifaConfig();
@@ -95,7 +92,6 @@ export class OtpService {
     const hashedCode = this.hashCode(code);
     const emailLog = redactEmail(email);
 
-    // Good-code path: atomic claim (single UPDATE), single-use guaranteed.
     const claimed = await otpRepository.claimValidOtp(
       email,
       hashedCode,
@@ -106,8 +102,6 @@ export class OtpService {
       return { valid: true };
     }
 
-    // Bad-code path: atomically increment attempts on the latest eligible
-    // pending OTP (no race vs parallel verifications).
     const incremented = await otpRepository.incrementLatestPendingAttempts(
       email,
       OTP_MAX_ATTEMPTS
@@ -121,9 +115,6 @@ export class OtpService {
         `OTP verification echouee pour ${emailLog}: pas d'OTP eligible`
       );
     }
-    // Unified response: the cause (none / expired / max-attempts / wrong code)
-    // is intentionally hidden to avoid leaking whether an email recently
-    // requested an OTP. Distinction stays in server logs.
     return { valid: false };
   }
 }

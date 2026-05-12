@@ -31,16 +31,10 @@ export const otpRepository = myDataSource.getRepository(OtpTable).extend({
       .getCount();
   },
 
-  // Atomic increment of the latest eligible (non-used, non-expired,
-  // attempts < max) pending OTP for the given email, in a single SQL
-  // statement. Avoids the check-then-update race on `attempts`.
-  // Returns the updated row, or null if no eligible OTP exists.
   async incrementLatestPendingAttempts(
     email: string,
     maxAttempts: number
   ): Promise<OtpTable | null> {
-    // TypeORM's raw query returns [rows, rowCount] for UPDATE statements,
-    // not just rows (see TypeORM PostgresQueryRunner.query()).
     const result = (await this.query(
       `UPDATE "otp"
        SET "attempts" = "otp"."attempts" + 1,
