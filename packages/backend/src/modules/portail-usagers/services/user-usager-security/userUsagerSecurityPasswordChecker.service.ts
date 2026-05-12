@@ -103,6 +103,12 @@ async function checkPassword({
         passwordLastUpdate: new Date(),
       }
     );
+    // Activate the account on first password personalization.
+    // BLOCKED accounts already threw above; this filter keeps us defensive.
+    await userUsagerRepository.update(
+      { id: user.id, status: "PENDING" },
+      { status: "ACTIVE" }
+    );
   } else {
     await userUsagerRepository.update(
       {

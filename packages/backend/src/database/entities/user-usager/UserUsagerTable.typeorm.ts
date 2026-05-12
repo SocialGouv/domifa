@@ -71,7 +71,7 @@ export class UserUsagerTable
   @Column({ type: "text", default: true })
   passwordType: PasswordType;
 
-  @Column({ type: "varchar", default: "ACTIVE" })
+  @Column({ type: "varchar", default: "PENDING" })
   status: UserStatus;
 
   public constructor(entity?: Partial<UserUsagerTable>) {

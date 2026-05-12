@@ -5,9 +5,12 @@ import {
   userStructureSecurityRepository,
   structureRepository,
 } from "../../../database";
-import { UsersForAdminList } from "../types";
-import { StructureAdmin } from "@domifa/common";
-import { userSecurityEventHistoryManager } from "../../users/services";
+
+import { StructureAdmin, UsersForAdminList } from "@domifa/common";
+import {
+  logUserSecurityEvent,
+  userSecurityEventHistoryManager,
+} from "../../users/services";
 import { UserSecurityEvent } from "../../../_common/model/users/user-security/UserSecurityEvent.interface";
 
 @Injectable()
@@ -20,12 +23,18 @@ export class AdminStructuresService {
       { id: userId, structureId },
       { status: "ACTIVE" }
     );
-    // Reset recent error history so the throttler does not immediately
-    // re-block the account.
-    await userStructureSecurityRepository.update(
-      { userId },
-      { eventsHistory: [] }
-    );
+    // Log the unblock as a fresh event with clearAllEvents so the throttler
+    // does not immediately re-block the account on the next login attempt.
+    const userSecurity = await userStructureSecurityRepository.findOneByOrFail({
+      userId,
+    });
+    await logUserSecurityEvent({
+      userProfile: "structure",
+      userId,
+      userSecurity,
+      eventType: "account-unblocked",
+      clearAllEvents: true,
+    });
   }
 
   public async blockStructureUser(

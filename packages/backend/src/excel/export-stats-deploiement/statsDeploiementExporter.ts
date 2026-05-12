@@ -1,13 +1,12 @@
 import { Workbook } from "exceljs";
-import { join } from "path";
+import { join } from "node:path";
 
 import { appLogger } from "../../util";
 import {
   exportListeStructuresWorksheetRenderer,
   exportListeUsersWorksheetRenderer,
 } from "./worksheet-renderer";
-import { UsersForAdminList } from "../../modules/portail-admin/types";
-import { StructureAdmin } from "@domifa/common";
+import { StructureAdmin, UsersForAdminList } from "@domifa/common";
 
 export const statsDeploiementExporter = {
   generateExcelDocument,

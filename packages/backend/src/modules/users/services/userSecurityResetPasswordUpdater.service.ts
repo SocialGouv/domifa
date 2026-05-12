@@ -113,6 +113,13 @@ async function confirmResetPassword({
     }
   );
 
+  // Activate the account if it was in PENDING state (initial password set after creation).
+  // BLOCKED accounts stay BLOCKED — only an admin unblock can lift it.
+  await repository.update(
+    { id: userId, status: "PENDING" },
+    { status: "ACTIVE" }
+  );
+
   const user = await repository.findOneBy({
     id: userId,
   });

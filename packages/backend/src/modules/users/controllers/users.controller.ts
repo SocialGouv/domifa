@@ -84,13 +84,15 @@ export class UsersController {
       user.role === "agent" ||
       user.role === "simple"
     ) {
-      return users.map((user) => {
-        return {
-          id: user.id,
-          nom: user.nom,
-          prenom: user.prenom,
-        };
-      }) as UserStructureProfile[];
+      return users
+        .filter((user) => user.status === "ACTIVE")
+        .map((user) => {
+          return {
+            id: user.id,
+            nom: user.nom,
+            prenom: user.prenom,
+          };
+        }) as UserStructureProfile[];
     }
     return users;
   }
