@@ -3,7 +3,12 @@ import {
   UserStructureRole,
   UserSupervisorRole,
 } from "@domifa/common";
-import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { getCurrentScope } from "@sentry/nestjs";
 import {
@@ -138,7 +143,9 @@ export class AppUserGuard implements CanActivate {
         appLogger.error(`[authChecker] expired token`, {
           context: { userProfile: user, user: user?._userId },
         });
-        return false;
+        // 401 so the frontend clears the session on the next request from a
+        // blacklisted token (account auto-blocked, manual logout, etc.).
+        throw new UnauthorizedException("TOKEN_EXPIRED");
       }
 
       const status = await userStatusManager.getUserStatusFromDb({
@@ -187,7 +194,9 @@ export class AppUserGuard implements CanActivate {
             context: { userProfile: user._userProfile, user: user?._userId },
           }
         );
-        return false;
+        // 401 (not 403) so the frontend's auth interceptor clears the session
+        // and redirects to login, instead of just showing a "forbidden" page.
+        throw new UnauthorizedException("ACCOUNT_NOT_ACTIVE");
       }
 
       if (user._userProfile === "usager") {
