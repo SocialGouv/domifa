@@ -1,3 +1,21 @@
+# [2.239.0](https://github.com/SocialGouv/domifa/compare/v2.238.1...v2.239.0) (2026-05-12)
+
+
+### Bug Fixes
+
+* **admin:** fix unit tests ([03ab15c](https://github.com/SocialGouv/domifa/commit/03ab15c062d8cf48fe9179127c68784db563f466))
+* **admin:** fix unit tests ([4b4d2e3](https://github.com/SocialGouv/domifa/commit/4b4d2e3d7a78edee32de7ea02e4cfb66bdc632e5))
+* **backend:** fix unblock user ([08d3851](https://github.com/SocialGouv/domifa/commit/08d385161e5470fcb8021a97b447a666b40644cb))
+* **backend:** fix unit tests ([91fc97b](https://github.com/SocialGouv/domifa/commit/91fc97bec928cb33d08327137b3ad9e37a0f26b1))
+* **backend:** fix unit tests ([8f2d5f9](https://github.com/SocialGouv/domifa/commit/8f2d5f95eaa8be1b376e3ebdcb4d13df7b7b1ed7))
+
+
+### Features
+
+* **admin:** add list of users ([e74e9e9](https://github.com/SocialGouv/domifa/commit/e74e9e99960ad908d1760b16e1de04f47d195b0a))
+* **backend:** add bot blocking ([3dfc13a](https://github.com/SocialGouv/domifa/commit/3dfc13adb9906ebc28efd9856b80d319286802aa))
+* **backend:** add status to block accounts ([c6a336b](https://github.com/SocialGouv/domifa/commit/c6a336b0619a182360f78a9a98d45588501b73d6))
+
 ## [2.238.1](https://github.com/SocialGouv/domifa/compare/v2.238.0...v2.238.1) (2026-05-11)
 
 
