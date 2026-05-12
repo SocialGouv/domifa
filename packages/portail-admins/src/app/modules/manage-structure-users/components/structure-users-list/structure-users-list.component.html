@@ -19,122 +19,111 @@
 </div>
 
 <div class="fr-container fr-pt-2w">
-  <ng-container *ngIf="loading$ | async; else loaded">
-    <div
-      role="alert"
-      aria-busy="true"
-      aria-label="Chargement des utilisateurs..."
-      class="text-center fr-py-6w"
-    >
-      <dsfr-ext-spinner
-        typeLoader="quarter"
-        label="Chargement des utilisateurs..."
-      ></dsfr-ext-spinner>
-    </div>
-  </ng-container>
+  <dsfr-ext-spinner
+    *ngIf="loading$ | async"
+    typeLoader="quarter"
+    label="Chargement des utilisateurs..."
+    [overlay]="true"
+  ></dsfr-ext-spinner>
 
-  <ng-template #loaded>
-    <app-users-table
-      tableId="structure-users-table"
-      caption="Liste des utilisateurs des structures"
-      [users]="users"
-      [showStructure]="true"
-    >
-      <ng-template #actionsCell let-user>
-        <dsfrx-dropdownmenu
-          [ariaLabelMenu]="'Actions pour ' + user.email"
-          [labelMenu]="'Actions'"
-          [closeOnAction]="true"
-          [size]="'SM'"
-          appendTo="body"
-        >
-          <ng-template #contentTemplate>
-            <!-- Reinitialisation mot de passe -->
+  <app-users-table
+    tableId="structure-users-table"
+    caption="Liste des utilisateurs des structures"
+    [users]="users"
+    [showStructure]="true"
+  >
+    <ng-template #actionsCell let-user>
+      <dsfrx-dropdownmenu
+        [ariaLabelMenu]="'Actions pour ' + user.email"
+        [labelMenu]="'Actions'"
+        [closeOnAction]="true"
+        [size]="'SM'"
+        appendTo="body"
+      >
+        <ng-template #contentTemplate>
+          <!-- Reinitialisation mot de passe -->
+          <dsfrx-dropdownmenu-item
+            (selectItem)="
+              openConfirmationModal(user, MODAL_ACTION.REINIT_USER_PASSWORD)
+            "
+          >
+            <button
+              type="button"
+              class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+              (click)="
+                openConfirmationModal(user, MODAL_ACTION.REINIT_USER_PASSWORD)
+              "
+            >
+              <i class="fr-icon-settings-5-fill" aria-hidden="true"></i>
+              Réinitialiser mot de passe
+            </button>
+          </dsfrx-dropdownmenu-item>
+
+          <!-- Copier lien mot de passe -->
+          <ng-container
+            *ngIf="user?.temporaryTokens?.type === 'reset-password'"
+          >
+            <dsfrx-dropdownmenu-item>
+              <button
+                type="button"
+                class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+                (click)="getLink(user)"
+              >
+                <i class="fr-icon-links-line" aria-hidden="true"></i>
+                Copier le lien !
+              </button>
+            </dsfrx-dropdownmenu-item>
+          </ng-container>
+
+          <!-- Promouvoir utilisateur -->
+          <ng-container *ngIf="user.role !== 'admin'">
             <dsfrx-dropdownmenu-item
               (selectItem)="
-                openConfirmationModal(user, MODAL_ACTION.REINIT_USER_PASSWORD)
+                openConfirmationModal(user, MODAL_ACTION.PROMOTE_USER)
               "
             >
               <button
                 type="button"
                 class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
-                (click)="
-                  openConfirmationModal(user, MODAL_ACTION.REINIT_USER_PASSWORD)
-                "
+                (click)="openConfirmationModal(user, MODAL_ACTION.PROMOTE_USER)"
               >
-                <i class="fr-icon-settings-5-fill" aria-hidden="true"></i>
-                Réinitialiser mot de passe
+                <i class="fr-icon-arrow-up-fill" aria-hidden="true"></i>
+                Promouvoir en administrateur
               </button>
             </dsfrx-dropdownmenu-item>
+          </ng-container>
 
-            <!-- Copier lien mot de passe -->
-            <ng-container
-              *ngIf="user?.temporaryTokens?.type === 'reset-password'"
-            >
-              <dsfrx-dropdownmenu-item>
-                <button
-                  type="button"
-                  class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
-                  (click)="getLink(user)"
-                >
-                  <i class="fr-icon-links-line" aria-hidden="true"></i>
-                  Copier le lien !
-                </button>
-              </dsfrx-dropdownmenu-item>
-            </ng-container>
-
-            <!-- Promouvoir utilisateur -->
-            <ng-container *ngIf="user.role !== 'admin'">
-              <dsfrx-dropdownmenu-item
-                (selectItem)="
-                  openConfirmationModal(user, MODAL_ACTION.PROMOTE_USER)
-                "
-              >
-                <button
-                  type="button"
-                  class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
-                  (click)="
-                    openConfirmationModal(user, MODAL_ACTION.PROMOTE_USER)
-                  "
-                >
-                  <i class="fr-icon-arrow-up-fill" aria-hidden="true"></i>
-                  Promouvoir en administrateur
-                </button>
-              </dsfrx-dropdownmenu-item>
-            </ng-container>
-
-            <!-- Bloquer utilisateur -->
-            <ng-container
-              *ngIf="user.status === 'ACTIVE' || user.status === 'PENDING'"
-            >
-              <dsfrx-dropdownmenu-item (selectItem)="openBlockModal(user)">
-                <button
-                  type="button"
-                  class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
-                  (click)="openBlockModal(user)"
-                >
-                  <i class="fr-icon-lock-fill" aria-hidden="true"></i>
-                  Bloquer l'utilisateur
-                </button>
-              </dsfrx-dropdownmenu-item>
-            </ng-container>
-
-            <!-- Activité utilisateur -->
-            <dsfrx-dropdownmenu-item>
+          <!-- Bloquer utilisateur -->
+          <ng-container
+            *ngIf="user.status === 'ACTIVE' || user.status === 'PENDING'"
+          >
+            <dsfrx-dropdownmenu-item (selectItem)="openBlockModal(user)">
               <button
                 type="button"
                 class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
-                (click)="openInformationModal(user)"
+                (click)="openBlockModal(user)"
               >
-                <i class="fr-icon-user-heart-fill" aria-hidden="true"></i>
-                Afficher l'activité de l'utilisateur
+                <i class="fr-icon-lock-fill" aria-hidden="true"></i>
+                Bloquer l'utilisateur
               </button>
             </dsfrx-dropdownmenu-item>
-          </ng-template>
-        </dsfrx-dropdownmenu>
-      </ng-template>
-    </app-users-table>
-  </ng-template>
+          </ng-container>
+
+          <!-- Activité utilisateur -->
+          <dsfrx-dropdownmenu-item>
+            <button
+              type="button"
+              class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+              (click)="openInformationModal(user)"
+            >
+              <i class="fr-icon-user-heart-fill" aria-hidden="true"></i>
+              Afficher l'activité de l'utilisateur
+            </button>
+          </dsfrx-dropdownmenu-item>
+        </ng-template>
+      </dsfrx-dropdownmenu>
+    </ng-template>
+  </app-users-table>
 </div>
 
 <dsfr-modal
