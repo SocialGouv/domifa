@@ -95,6 +95,13 @@ export type DomifaConfig = {
     dataInclusionUrl: string;
     dataInclusionToken: string;
   };
+  smtp: {
+    host: string; // DOMIFA_SMTP_HOST
+    port: number; // DOMIFA_SMTP_PORT
+    user: string; // DOMIFA_SMTP_USER
+    pass: string; // DOMIFA_SMTP_PASS
+    from: string; // DOMIFA_SMTP_FROM
+  };
   metabase: {
     url: string;
     token: string;

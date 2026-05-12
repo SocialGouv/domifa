@@ -352,6 +352,28 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         required: false,
       }),
     },
+    smtp: {
+      host: configParser.parseString(x, "DOMIFA_SMTP_HOST", {
+        required: false,
+        defaultValue: "",
+      }),
+      port: configParser.parseInteger(x, "DOMIFA_SMTP_PORT", {
+        required: false,
+        defaultValue: 587,
+      }),
+      user: configParser.parseString(x, "DOMIFA_SMTP_USER", {
+        required: false,
+        defaultValue: "",
+      }),
+      pass: configParser.parseString(x, "DOMIFA_SMTP_PASS", {
+        required: false,
+        defaultValue: "",
+      }),
+      from: configParser.parseString(x, "DOMIFA_SMTP_FROM", {
+        required: false,
+        defaultValue: "ne-pas-repondre@domifa.fabrique.social.gouv.fr",
+      }),
+    },
     metabase: {
       token: configParser.parseString(x, "METABASE_TOKEN", {
         required: true,
