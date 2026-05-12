@@ -11,7 +11,12 @@ import {
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
-import { ExpressRequest, ExpressResponse } from "../../../../util/express";
+import {
+  ExpressRequest,
+  ExpressResponse,
+  getClientIp,
+  getClientUserAgent,
+} from "../../../../util/express";
 import { UserAdminAuthenticated, UserProfile } from "../../../../_common/model";
 import { StructureAdminLoginDto } from "../../../users/dto/structure-admin-login.dto";
 import { AdminsAuthService } from "../../services/admins-auth.service";
@@ -25,6 +30,7 @@ import {
   CurrentUser,
 } from "../../../../auth/decorators";
 import { AppUserGuard } from "../../../../auth/guards";
+import { SessionFingerprintService } from "../../../../auth/services/session-fingerprint.service";
 import { portailAdminProfilBuilder } from "../../services/portail-admin-profil-builder.service";
 import {
   ExpiredTokenTable,
@@ -35,11 +41,15 @@ const userProfile: UserProfile = "supervisor";
 @Controller("portail-admins/auth")
 @ApiTags("auth")
 export class PortailAdminLoginController {
-  constructor(private readonly adminsAuthService: AdminsAuthService) {}
+  constructor(
+    private readonly adminsAuthService: AdminsAuthService,
+    private readonly sessionFingerprintService: SessionFingerprintService
+  ) {}
 
   @Post("login")
   @HttpCode(HttpStatus.OK)
   public async loginUser(
+    @Req() req: ExpressRequest,
     @Res() res: ExpressResponse,
     @Body() loginDto: StructureAdminLoginDto
   ) {
@@ -51,7 +61,10 @@ export class PortailAdminLoginController {
           userProfile,
         });
 
-      const accessToken = this.adminsAuthService.login(user);
+      const accessToken = await this.adminsAuthService.login(user, {
+        ipAddress: getClientIp(req),
+        userAgent: getClientUserAgent(req),
+      });
       return res.status(HttpStatus.OK).json(accessToken);
     } catch (err) {
       return res
@@ -75,6 +88,13 @@ export class PortailAdminLoginController {
       userProfile: user._userProfile,
     });
     await expiredTokenRepositiory.save(tokenToBlacklist);
+
+    await this.sessionFingerprintService.closeActiveSession(
+      "supervisor",
+      user.id,
+      "MANUAL_LOGOUT"
+    );
+
     return true;
   }
 

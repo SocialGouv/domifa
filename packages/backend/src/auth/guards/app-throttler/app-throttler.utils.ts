@@ -5,6 +5,7 @@ import { domifaConfig } from "../../../config";
 import { UserStructureJwtPayload } from "../../../_common/model/jwt/user-structure-jwt-payload.interface";
 import { UserSupervisorJwtPayload } from "../../../_common/model/jwt/user-supervisor-jwt-payload.interface";
 import { UserUsagerJwtPayload } from "../../../_common/model/jwt/user-usager-jwt-payload.interface";
+import { getClientUserAgent } from "../../../util/express/clientRequest.helper";
 import {
   RequestBlockReason,
   ThrottleBlockedJwtUser,
@@ -80,8 +81,8 @@ export function getBlockReason(
   request: Request,
   allowedOrigins: Set<string>
 ): RequestBlockReason | null {
-  const userAgent = request.headers["user-agent"];
-  if (!userAgent || userAgent.trim() === "") {
+  const userAgent = getClientUserAgent(request);
+  if (userAgent.trim() === "") {
     return "missing_ua";
   }
   if (isbot(userAgent)) {

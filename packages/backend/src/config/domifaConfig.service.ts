@@ -378,5 +378,15 @@ function parseSecurityConfig(x: Partial<DomifaEnv>): DomifaConfigSecurity {
         defaultValue: "",
       }
     ),
+    sessionDurationDays: configParser.parseInteger(x, "SESSION_DURATION_DAYS", {
+      defaultValue: 7,
+    }),
+    sessionPurgeAfterDays: configParser.parseInteger(
+      x,
+      "SESSION_PURGE_AFTER_DAYS",
+      {
+        defaultValue: 365,
+      }
+    ),
   };
 }

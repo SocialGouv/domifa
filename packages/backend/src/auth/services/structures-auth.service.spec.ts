@@ -3,6 +3,7 @@ import { PassportModule } from "@nestjs/passport";
 import { StructuresModule } from "../../modules/structures/structure.module";
 import { UsersModule } from "../../modules/users/users.module";
 import { AppTestContext, AppTestHelper } from "../../util/test";
+import { SessionFingerprintService } from "./session-fingerprint.service";
 import { StructuresAuthService } from "./structures-auth.service";
 
 describe("StructuresAuthService", () => {
@@ -21,7 +22,7 @@ describe("StructuresAuthService", () => {
         UsersModule,
         StructuresModule,
       ],
-      providers: [StructuresAuthService],
+      providers: [StructuresAuthService, SessionFingerprintService],
     });
     service = context.module.get<StructuresAuthService>(StructuresAuthService);
   });

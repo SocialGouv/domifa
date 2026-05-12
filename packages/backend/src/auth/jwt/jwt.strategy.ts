@@ -1,7 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
+import { Request } from "express";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { domifaConfig } from "../../config";
+import {
+  getClientIp,
+  getClientUserAgent,
+} from "../../util/express/clientRequest.helper";
 import {
   CURRENT_JWT_PAYLOAD_VERSION,
   UserAdminAuthenticated,
@@ -12,6 +17,7 @@ import {
   UserUsagerJwtPayload,
 } from "../../_common/model";
 import { UsagersAuthService } from "../../modules/portail-usagers/services";
+import { SessionFingerprintService } from "../services/session-fingerprint.service";
 import { StructuresAuthService } from "../services/structures-auth.service";
 import { AdminsAuthService } from "../../modules/portail-admin/services/admins-auth.service";
 
@@ -20,15 +26,20 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private readonly structureAuthService: StructuresAuthService,
     private readonly usagersAuthService: UsagersAuthService,
-    private readonly adminsAuthService: AdminsAuthService
+    private readonly adminsAuthService: AdminsAuthService,
+    private readonly sessionFingerprintService: SessionFingerprintService
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: domifaConfig().security.jwtSecret,
+      // Forward the raw request to `validate` so we can read the client IP
+      // and User-Agent for the session fingerprint check.
+      passReqToCallback: true,
     });
   }
 
   public async validate(
+    req: Request,
     payload:
       | UserStructureJwtPayload
       | UserUsagerJwtPayload
@@ -45,13 +56,51 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     if (payload?._userProfile === "supervisor") {
-      return await this.adminsAuthService.validateUserAdmin(
-        payload as UserSupervisorJwtPayload
+      const supervisorPayload = payload as UserSupervisorJwtPayload;
+      // fingerprintHash is mandatory for structure/supervisor tokens.
+      // Pre-feature JWTs lack the claim and are forced into a re-login.
+      if (!supervisorPayload.fingerprintHash) {
+        return false;
+      }
+      const authUser = await this.adminsAuthService.validateUserAdmin(
+        supervisorPayload
       );
+
+      if (authUser) {
+        await this.sessionFingerprintService.verifySessionFromJwt(
+          "supervisor",
+          authUser.id,
+          authUser.uuid,
+          supervisorPayload.fingerprintHash,
+          getClientIp(req),
+          getClientUserAgent(req)
+        );
+      }
+
+      return authUser;
     } else if (payload?._userProfile === "structure") {
-      return await this.structureAuthService.validateUserStructure(
-        payload as UserStructureJwtPayload
+      const structurePayload = payload as UserStructureJwtPayload;
+      if (!structurePayload.fingerprintHash) {
+        return false;
+      }
+      const authUser = await this.structureAuthService.validateUserStructure(
+        structurePayload
       );
+
+      // v1 observation: session fingerprint is logged on mismatch but never
+      // blocks. The presence check above is what forces old tokens to expire.
+      if (authUser) {
+        await this.sessionFingerprintService.verifySessionFromJwt(
+          "structure",
+          authUser.id,
+          authUser.uuid,
+          structurePayload.fingerprintHash,
+          getClientIp(req),
+          getClientUserAgent(req)
+        );
+      }
+
+      return authUser;
     } else if (payload?._userProfile === "usager") {
       return await this.usagersAuthService.validateUserUsager(
         payload as UserUsagerJwtPayload

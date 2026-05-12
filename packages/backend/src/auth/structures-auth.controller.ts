@@ -14,11 +14,17 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 
 import { StructureLoginDto } from "../modules/users/dto";
-import { ExpressRequest, ExpressResponse } from "../util/express";
+import {
+  ExpressRequest,
+  ExpressResponse,
+  getClientIp,
+  getClientUserAgent,
+} from "../util/express";
 import { UserProfile, UserStructureAuthenticated } from "../_common/model";
 import { AllowUserProfiles } from "./decorators/AllowUserProfiles.decorator";
 import { CurrentUser } from "./decorators/current-user.decorator";
 import { AppUserGuard } from "./guards/AppUserGuard.guard";
+import { SessionFingerprintService } from "./services/session-fingerprint.service";
 import { StructuresAuthService } from "./services/structures-auth.service";
 import { ExpiredTokenTable, expiredTokenRepositiory } from "../database";
 import { domifaConfig } from "../config";
@@ -32,11 +38,15 @@ const userProfile: UserProfile = "structure";
 @Controller("structures/auth")
 @ApiTags("auth")
 export class StructuresAuthController {
-  constructor(private readonly structuresAuthService: StructuresAuthService) {}
+  constructor(
+    private readonly structuresAuthService: StructuresAuthService,
+    private readonly sessionFingerprintService: SessionFingerprintService
+  ) {}
 
   @Post("login")
   @HttpCode(HttpStatus.OK)
   public async loginUser(
+    @Req() req: ExpressRequest,
     @Res() res: ExpressResponse,
     @Body() loginDto: StructureLoginDto
   ) {
@@ -48,7 +58,10 @@ export class StructuresAuthController {
           userProfile,
         });
 
-      const accessToken = this.structuresAuthService.login(user);
+      const accessToken = await this.structuresAuthService.login(user, {
+        ipAddress: getClientIp(req),
+        userAgent: getClientUserAgent(req),
+      });
 
       return res.status(HttpStatus.OK).json(accessToken);
     } catch (err) {
@@ -83,6 +96,16 @@ export class StructuresAuthController {
       userProfile: user._userProfile,
     });
     await expiredTokenRepositiory.save(tokenToBlacklist);
+
+    // Close the active session if one exists. v1 has at most one active
+    // entry per user (enforced by the service); we never throw if it's
+    // already closed.
+    await this.sessionFingerprintService.closeActiveSession(
+      "structure",
+      user.id,
+      "MANUAL_LOGOUT"
+    );
+
     return true;
   }
 

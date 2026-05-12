@@ -8,6 +8,8 @@ export type DomifaEnv = {
   DOMIFA_BACKEND_URL: string;
   DOMIFA_SECURITY_JWT_SECRET: string;
   DOMIFA_INTERNAL_USER_AGENT: string;
+  SESSION_DURATION_DAYS: string;
+  SESSION_PURGE_AFTER_DAYS: string;
 
   // S3
   S3_BUCKET_ACCESS_KEY: string;
