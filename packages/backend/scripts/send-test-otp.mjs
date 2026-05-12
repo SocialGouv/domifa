@@ -1,7 +1,40 @@
-export function generateOtpEmailHtml(params: { code: string }): string {
-  const { code } = params;
+#!/usr/bin/env node
+import { randomInt } from "node:crypto";
+import { readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import nodemailer from "nodemailer";
 
-  return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const envPath = resolve(__dirname, "../../../.env");
+const envText = readFileSync(envPath, "utf8");
+const env = Object.fromEntries(
+  envText
+    .split("\n")
+    .filter((l) => l.trim() && !l.trim().startsWith("#"))
+    .map((l) => {
+      const idx = l.indexOf("=");
+      return [l.slice(0, idx).trim(), l.slice(idx + 1).trim()];
+    })
+);
+
+const user = env.DOMIFA_SMTP_USER;
+const pass = env.DOMIFA_SMTP_PASS_DEV;
+
+if (!user || !pass) {
+  console.error("Missing DOMIFA_SMTP_USER or DOMIFA_SMTP_PASS_DEV in .env");
+  process.exit(1);
+}
+
+const host = process.env.DOMIFA_SMTP_HOST ?? "smtp.tipimail.com";
+const port = Number(process.env.DOMIFA_SMTP_PORT ?? 587);
+const from =
+  process.env.DOMIFA_SMTP_FROM ??
+  "ne-pas-repondre@domifa.fabrique.social.gouv.fr";
+
+const code = randomInt(100000, 999999).toString();
+
+const html = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -19,8 +52,6 @@ export function generateOtpEmailHtml(params: { code: string }): string {
     <tr>
       <td align="center">
         <table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" style="max-width: 600px; width: 100%;">
-
-          <!-- Header logos -->
           <tr>
             <td style="padding: 20px 15px 10px 15px;">
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -35,8 +66,6 @@ export function generateOtpEmailHtml(params: { code: string }): string {
               </table>
             </td>
           </tr>
-
-          <!-- Blue banner -->
           <tr>
             <td style="padding: 0 15px;">
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #e3e3fd; border-radius: 4px;">
@@ -50,111 +79,76 @@ export function generateOtpEmailHtml(params: { code: string }): string {
               </table>
             </td>
           </tr>
-
-          <!-- Body content -->
           <tr>
             <td style="padding: 25px 15px 0 15px;">
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
-
-                <!-- Greeting -->
                 <tr>
-                  <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.5; color: #000000; padding-bottom: 15px;">
-                    Bonjour,
-                  </td>
+                  <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.5; color: #000000; padding-bottom: 15px;">Bonjour,</td>
                 </tr>
-
-                <!-- Intro text -->
                 <tr>
                   <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.5; color: #000000; padding-bottom: 20px;">
                     Nous vous partageons votre code de s&eacute;curit&eacute; pour vous connecter sur DomiFa :
                   </td>
                 </tr>
-
-                <!-- OTP Code -->
                 <tr>
                   <td align="center" style="padding: 15px 0 20px 0;">
-                    <div style="font-family: Arial, Helvetica, sans-serif; font-size: 36px; font-weight: bold; color: #000091; letter-spacing: 6px; text-align: center;">
-                      ${code}
-                    </div>
+                    <div style="font-family: Arial, Helvetica, sans-serif; font-size: 36px; font-weight: bold; color: #000091; letter-spacing: 6px; text-align: center;">${code}</div>
                   </td>
                 </tr>
-
-                <!-- Validity -->
                 <tr>
                   <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.5; color: #000000; padding-bottom: 15px;">
                     Ce code est valable seulement <strong>10 minutes</strong>. Au-del&agrave; de ce d&eacute;lai, vous devrez demander un nouveau code.
                   </td>
                 </tr>
-
-                <!-- Security warning -->
                 <tr>
                   <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.5; color: #000000; padding-bottom: 15px;">
                     Ce code est strictement personnel et ne doit jamais &ecirc;tre communiqu&eacute;. Nous ne demandons jamais de code par t&eacute;l&eacute;phone.
                   </td>
                 </tr>
-
-                <!-- If you initiated -->
                 <tr>
-                  <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.5; color: #000000; padding-bottom: 10px;">
-                    &#9989; Si vous &ecirc;tes &agrave; l'origine de cette connexion ne tenez pas compte de ce message.
-                  </td>
+                  <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.5; color: #000000; padding-bottom: 5px;">Bien cordialement,</td>
                 </tr>
-
-                <!-- If you didn't initiate -->
-                <tr>
-                  <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.5; color: #000000; padding-bottom: 15px;">
-                    &#10060; Si vous n'&ecirc;tes pas &agrave; l'origine de cette demande, renouvelez votre mot de passe.
-                  </td>
-                </tr>
-
-                <!-- Attention block -->
-                <tr>
-                  <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.5; color: #000000; padding-bottom: 15px;">
-                    <strong>Attention :</strong> En cas de signalement d'une connexion dont vous n'&ecirc;tes pas &agrave; l'origine, l'acc&egrave;s &agrave; votre espace personnel sera temporairement suspendu pour des raisons de s&eacute;curit&eacute;.
-                  </td>
-                </tr>
-
-                <!-- Auto-generated notice -->
-                <tr>
-                  <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.5; color: #000000; padding-bottom: 20px;">
-                    Cet email vous est envoy&eacute; automatiquement. Merci de ne pas utiliser la fonction "r&eacute;pondre &agrave; l'exp&eacute;diteur".
-                  </td>
-                </tr>
-
-                <!-- Closing -->
-                <tr>
-                  <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.5; color: #000000; padding-bottom: 5px;">
-                    Bien cordialement,
-                  </td>
-                </tr>
-
               </table>
             </td>
           </tr>
-
-          <!-- Footer -->
           <tr>
             <td style="padding: 20px 15px 30px 15px;">
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
                 <tr>
                   <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.5; color: #000000;">
-                    &Agrave; tr&egrave;s bient&ocirc;t,<br/>
-                    L'&eacute;quipe DomiFa
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-top: 15px;">
-                    <img src="https://domifa.fabrique.social.gouv.fr/assets/images/logo.png" alt="DomiFa" width="142" style="display: block; width: 142px; height: auto;"/>
+                    &Agrave; tr&egrave;s bient&ocirc;t,<br/>L'&eacute;quipe DomiFa
                   </td>
                 </tr>
               </table>
             </td>
           </tr>
-
         </table>
       </td>
     </tr>
   </table>
 </body>
 </html>`;
+
+const transporter = nodemailer.createTransport({
+  host,
+  port,
+  secure: port === 465,
+  auth: { user, pass },
+});
+
+const to = "test@surikat.pro";
+console.log(`Sending OTP to ${to} via ${host}:${port} as ${from}`);
+
+try {
+  const result = await transporter.sendMail({
+    from,
+    to,
+    subject: "Votre code de connexion DomiFa",
+    html,
+  });
+  console.log(`OK — messageId: ${result.messageId}`);
+  console.log(`Generated code (DO NOT LOG IN PROD): ${code}`);
+} catch (err) {
+  console.error("FAILED:", err.message);
+  process.exit(1);
 }

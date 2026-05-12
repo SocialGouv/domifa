@@ -18,7 +18,14 @@ export interface OtpGenerationResult {
 
 export interface OtpVerificationResult {
   valid: boolean;
-  reason?: "expired" | "invalid" | "max-attempts" | "already-used";
+  reason?: "expired" | "invalid" | "max-attempts";
+}
+
+function redactEmail(email: string): string {
+  const [local, domain] = email.split("@");
+  if (!domain) return "***";
+  const visible = local.slice(0, 1);
+  return `${visible}***@${domain}`;
 }
 
 @Injectable()
@@ -31,8 +38,14 @@ export class OtpService {
     return createHash("sha256").update(code).digest("hex");
   }
 
+  private normalizeEmail(email: string): string {
+    return email.trim().toLowerCase();
+  }
+
   async generateAndSend(dto: GenerateOtpDto): Promise<OtpGenerationResult> {
-    const { email, purpose } = dto;
+    const email = this.normalizeEmail(dto.email);
+    const { purpose } = dto;
+    const emailLog = redactEmail(email);
 
     const recentCount = await otpRepository.countRecentByEmail(
       email,
@@ -57,7 +70,7 @@ export class OtpService {
     });
 
     this.logger.log(
-      `OTP genere pour ${email} (purpose: ${
+      `OTP genere pour ${emailLog} (purpose: ${
         purpose ?? "none"
       }, expire: ${expiresAt.toISOString()})`
     );
@@ -68,8 +81,10 @@ export class OtpService {
   }
 
   async verify(dto: VerifyOtpDto): Promise<OtpVerificationResult> {
-    const { email, code } = dto;
+    const email = this.normalizeEmail(dto.email);
+    const { code } = dto;
     const hashedCode = this.hashCode(code);
+    const emailLog = redactEmail(email);
 
     const validOtp = await otpRepository.findValidOtp(
       email,
@@ -80,7 +95,7 @@ export class OtpService {
     if (validOtp) {
       validOtp.used = true;
       await otpRepository.save(validOtp);
-      this.logger.log(`OTP verifie avec succes pour ${email}`);
+      this.logger.log(`OTP verifie avec succes pour ${emailLog}`);
       return { valid: true };
     }
 
@@ -92,27 +107,27 @@ export class OtpService {
       .getOne();
 
     if (!pendingOtp) {
-      this.logger.warn(
-        `OTP verification echouee pour ${email}: aucun OTP trouve`
+      this.logger.debug(
+        `OTP verification echouee pour ${emailLog}: aucun OTP trouve`
       );
       return { valid: false, reason: "invalid" };
     }
 
     if (pendingOtp.expiresAt < new Date()) {
-      this.logger.warn(`OTP verification echouee pour ${email}: expire`);
+      this.logger.debug(`OTP verification echouee pour ${emailLog}: expire`);
       return { valid: false, reason: "expired" };
     }
 
     if (pendingOtp.attempts >= OTP_MAX_ATTEMPTS) {
       this.logger.warn(
-        `OTP verification echouee pour ${email}: max tentatives atteint`
+        `OTP verification echouee pour ${emailLog}: max tentatives atteint`
       );
       return { valid: false, reason: "max-attempts" };
     }
 
     await otpRepository.incrementAttempts(pendingOtp.uuid);
-    this.logger.warn(
-      `OTP verification echouee pour ${email}: code invalide (tentative ${
+    this.logger.debug(
+      `OTP verification echouee pour ${emailLog}: code invalide (tentative ${
         pendingOtp.attempts + 1
       }/${OTP_MAX_ATTEMPTS})`
     );

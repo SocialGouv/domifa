@@ -2,8 +2,8 @@ import { Column, Entity, Index } from "typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 
 @Entity({ name: "otp" })
+@Index("IDX_otp_email_used_expires", ["email", "used", "expiresAt"])
 export class OtpTable extends AppTypeormTable<OtpTable> {
-  @Index()
   @Column({ type: "text" })
   email: string;
 

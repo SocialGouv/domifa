@@ -22,13 +22,17 @@ export class AddOtpTable1778582320185 implements MigrationInterface {
         )`
       );
       await queryRunner.query(
-        `CREATE INDEX "IDX_otp_email" ON "otp" ("email")`
+        `CREATE INDEX "IDX_otp_email_used_expires" ON "otp" ("email", "used", "expiresAt")`
       );
     }
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`DROP INDEX "public"."IDX_otp_email"`);
-    await queryRunner.query(`DROP TABLE "otp"`);
+    if (domifaConfig().envId === "prod" || domifaConfig().envId === "preprod") {
+      await queryRunner.query(
+        `DROP INDEX "public"."IDX_otp_email_used_expires"`
+      );
+      await queryRunner.query(`DROP TABLE "otp"`);
+    }
   }
 }

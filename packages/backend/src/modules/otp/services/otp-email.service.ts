@@ -1,8 +1,18 @@
-import { Injectable, Logger } from "@nestjs/common";
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from "@nestjs/common";
 import * as nodemailer from "nodemailer";
 import { Transporter } from "nodemailer";
 import { domifaConfig } from "../../../config";
 import { generateOtpEmailHtml } from "../templates/otp-email.template";
+
+function redactEmail(email: string): string {
+  const [local, domain] = email.split("@");
+  if (!domain) return "***";
+  return `${local.slice(0, 1)}***@${domain}`;
+}
 
 @Injectable()
 export class OtpEmailService {
@@ -25,16 +35,13 @@ export class OtpEmailService {
     return this.transporter;
   }
 
-  async sendOtpEmail(
-    email: string,
-    code: string,
-    userName?: string
-  ): Promise<void> {
+  async sendOtpEmail(email: string, code: string): Promise<void> {
     const config = domifaConfig();
+    const emailLog = redactEmail(email);
 
     if (!config.email.emailsEnabled || config.envId === "test") {
       this.logger.log(
-        `[EMAILS DISABLED] OTP email non envoye - To: ${email}, Raison: ${
+        `[EMAILS DISABLED] OTP email non envoye - To: ${emailLog}, Raison: ${
           config.email.emailsEnabled ? "envId=test" : "emailsEnabled=false"
         }`
       );
@@ -42,9 +49,14 @@ export class OtpEmailService {
     }
 
     if (!config.smtp.host) {
-      this.logger.warn(
-        `[SMTP NOT CONFIGURED] OTP email non envoye - DOMIFA_SMTP_HOST non defini`
-      );
+      const msg = `[SMTP NOT CONFIGURED] DOMIFA_SMTP_HOST non defini - envoi OTP impossible (envId=${config.envId})`;
+      if (config.envId === "prod" || config.envId === "preprod") {
+        this.logger.error(msg);
+        throw new InternalServerErrorException(
+          "Service d'envoi d'email indisponible. Veuillez reessayer plus tard."
+        );
+      }
+      this.logger.warn(msg);
       return;
     }
 
@@ -52,8 +64,9 @@ export class OtpEmailService {
       config.envId === "prod"
         ? email
         : config.email.emailAddressRedirectAllTo || email;
+    const recipientLog = redactEmail(recipient);
 
-    const html = generateOtpEmailHtml({ code, userName });
+    const html = generateOtpEmailHtml({ code });
 
     try {
       const result = await this.getTransporter().sendMail({
@@ -63,11 +76,11 @@ export class OtpEmailService {
         html,
       });
       this.logger.log(
-        `OTP email envoye a ${recipient} (original: ${email}), messageId: ${result.messageId}`
+        `OTP email envoye a ${recipientLog} (original: ${emailLog}), messageId: ${result.messageId}`
       );
     } catch (error) {
       this.logger.error(
-        `Erreur lors de l'envoi de l'email OTP a ${recipient}`,
+        `Erreur lors de l'envoi de l'email OTP a ${recipientLog}`,
         error
       );
       throw error;

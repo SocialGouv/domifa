@@ -145,6 +145,18 @@ CREATE TABLE public.open_data_places (
     "populationSegment" text,
     siret text
 );
+CREATE TABLE public.otp (
+    uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
+    "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
+    version integer DEFAULT 1 NOT NULL,
+    email text NOT NULL,
+    code text NOT NULL,
+    "expiresAt" timestamp with time zone NOT NULL,
+    attempts integer DEFAULT 0 NOT NULL,
+    used boolean DEFAULT false NOT NULL,
+    purpose text
+);
 CREATE TABLE public.public_stats_cache (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
@@ -591,6 +603,8 @@ ALTER TABLE ONLY public.usager_docs
     ADD CONSTRAINT "PK_e7bb21f7a22254259ca123c5caa" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.monitor_batch_process
     ADD CONSTRAINT "PK_f00131d757d1ddf39e70901e372" PRIMARY KEY (uuid);
+ALTER TABLE ONLY public.otp
+    ADD CONSTRAINT "PK_otp" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.open_data_cities
     ADD CONSTRAINT "PK_f20d1eb20573a7f2922c8a5f9a8" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.open_data_places
@@ -691,6 +705,7 @@ CREATE INDEX "IDX_e8b75cd4ebe81d288a6ff7d411" ON public.usager_notes USING btree
 CREATE INDEX "IDX_eba1b8ef0f72cb0dd499730714" ON public.user_supervisor USING btree (id);
 CREATE INDEX "IDX_ef9fade8e5a6dac06ef5031986" ON public.interactions USING btree (type);
 CREATE INDEX "IDX_f072e2874bd87ecb6da2fbd66e" ON public.usager USING btree (nom_prenom_surnom_ref);
+CREATE INDEX "IDX_otp_email_used_expires" ON public.otp USING btree (email, used, "expiresAt");
 CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON public.interactions USING btree ("usagerUUID");
 CREATE INDEX "IDX_fa4dea9a1ff8deb8fcf47c451e" ON public.structure USING btree (departement);
 CREATE INDEX idx_interactions_date ON public.interactions USING btree ("structureId", "usagerUUID", "dateInteraction");
