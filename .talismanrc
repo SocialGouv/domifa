@@ -54,7 +54,7 @@ fileignoreconfig:
 - filename: packages/portail-usagers/src/app/modules/general/components/_static/politique/politique.component.ts
   checksum: dfdbbe1892cf17b22d28f529914eb5df3a07063d5e3071e59c36c907020260d3
 - filename: pnpm-lock.yaml
-  checksum: d6095c6fee728779a64f90f7b7df0787995e23f57a5699afdd82691ec7ce1a4d
+  checksum: 5fd8b6f7aad5875de5e9b1fcfe58d5ce8a807bea3f5ccbcad0398e5a38aa77d0
 allowed_patterns:
 - uses:\s*[\w\-\.]+/[\w\-\.]+@[a-fA-F0-9]{40}
 - uses:\s*[\w\-\.]+/[\w\-\.]+/[\w\-\./]*@[a-fA-F0-9]{40}

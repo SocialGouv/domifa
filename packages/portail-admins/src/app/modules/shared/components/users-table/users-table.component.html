@@ -1,0 +1,230 @@
+<div *ngIf="showSearch" class="fr-mb-2w">
+  <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--bottom">
+    <div class="fr-col-12 fr-col-md-8">
+      <div class="fr-search-bar" role="search">
+        <label class="fr-label" [attr.for]="tableId + '-search'">
+          Rechercher
+        </label>
+        <input
+          class="fr-input"
+          [attr.id]="tableId + '-search'"
+          type="search"
+          name="search"
+          [placeholder]="searchPlaceholder"
+          [(ngModel)]="searchTerm"
+        />
+        <button
+          *ngIf="searchTerm"
+          type="button"
+          class="fr-btn"
+          title="Effacer la recherche"
+          (click)="clearSearch()"
+        >
+          Effacer
+        </button>
+      </div>
+    </div>
+    <div class="fr-col-12 fr-col-md-4">
+      <div class="fr-select-group fr-mb-0w">
+        <label class="fr-label" [attr.for]="tableId + '-status-filter'">
+          Filtrer par statut
+        </label>
+        <select
+          class="fr-select"
+          [attr.id]="tableId + '-status-filter'"
+          name="status-filter"
+          [(ngModel)]="statusFilter"
+        >
+          <option
+            *ngFor="let option of STATUS_OPTIONS"
+            [ngValue]="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <p
+    *ngIf="hasActiveFilters"
+    class="fr-text--sm fr-text-mention--grey fr-mt-1w fr-mb-0w"
+  >
+    {{ filteredUsers.length }} résultat(s) sur {{ users.length }}
+    <button
+      type="button"
+      class="fr-btn fr-btn--tertiary-no-outline fr-btn--sm fr-ml-1w"
+      (click)="clearSearch(); clearStatusFilter()"
+    >
+      Réinitialiser les filtres
+    </button>
+  </p>
+</div>
+
+<div class="fr-table fr-table--no-outer-border" [id]="tableId + '-container'">
+  <div class="fr-table__wrapper">
+    <div class="fr-table__container">
+      <div class="fr-table__content">
+        <table [id]="tableId" [attr.aria-rowcount]="users.length">
+          <caption class="visually-hidden">
+            {{
+              caption
+            }}
+          </caption>
+          <thead>
+            <tr>
+              <th *ngIf="showId" scope="col">
+                <app-table-head-sort
+                  sortKey="id"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="ID"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="nom"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Nom prénom"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="email"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Email"
+                >
+                </app-table-head-sort>
+              </th>
+              <th *ngIf="showStructure" scope="col">
+                <app-table-head-sort
+                  sortKey="structureName"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Structure"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="role"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Rôle"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="status"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Statut"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="createdAt"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Date d'inscription"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="lastLogin"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Dernière connexion"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="passwordLastUpdate"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  columnName="Mot de passe mis à jour"
+                >
+                </app-table-head-sort>
+              </th>
+              <th *ngIf="actionsTemplate" scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let user of filteredUsers | sortArray : currentKey : sortValue;
+                let i = index;
+                trackBy: userTrackBy
+              "
+              [attr.aria-rowindex]="i + 1"
+            >
+              <td *ngIf="showId" class="fr-text--bold">{{ user.id }}</td>
+              <td class="fr-text--bold">{{ user | fullName }}</td>
+              <td>{{ user.email }}</td>
+              <td *ngIf="showStructure">
+                <a
+                  *ngIf="user.structureId"
+                  [routerLink]="['/structure', user.structureId]"
+                  class="fr-link"
+                >
+                  {{ user.structureName }}
+                </a>
+              </td>
+              <td>
+                {{
+                  user.role
+                    ? USER_STRUCTURE_ROLES_LABELS[user.role]
+                    : "Non défini"
+                }}
+              </td>
+              <td>
+                <span
+                  class="fr-badge fr-badge--sm fr-badge--no-icon"
+                  [ngClass]="USER_STATUS_BADGE_CLASS[user.status]"
+                >
+                  {{ USER_STATUS_LABELS[user.status] }}
+                </span>
+              </td>
+              <td>{{ user.createdAt | date : "d MMMM y" }}</td>
+              <td>
+                <app-display-last-login
+                  [lastLogin]="user.lastLogin"
+                ></app-display-last-login>
+              </td>
+              <td>
+                <ng-container
+                  *ngIf="user.passwordLastUpdate; else neverUpdated"
+                >
+                  {{ user.passwordLastUpdate | date : "d MMMM y" }}
+                </ng-container>
+                <ng-template #neverUpdated>
+                  <span class="fr-badge fr-badge--sm fr-badge--no-icon">
+                    Jamais
+                  </span>
+                </ng-template>
+              </td>
+              <td *ngIf="actionsTemplate">
+                <ng-container
+                  *ngTemplateOutlet="
+                    actionsTemplate;
+                    context: { $implicit: user }
+                  "
+                ></ng-container>
+              </td>
+            </tr>
+            <tr *ngIf="filteredUsers.length === 0">
+              <td [attr.colspan]="columnsCount">Aucun utilisateur trouvé.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

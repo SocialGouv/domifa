@@ -24,7 +24,7 @@ import { UsersController } from "../../../users/controllers/users.controller";
 
 import { AppLogsService } from "../../../app-logs/app-logs.service";
 import { buildSupervisorActorFields } from "../../../app-logs/app-logs.helpers";
-import { UserSupervisor } from "@domifa/common";
+import { UserSupervisor, UsersForAdminList } from "@domifa/common";
 import {
   userStructureRepository,
   userSupervisorRepository,
@@ -34,6 +34,7 @@ import {
   RegisterUserStructureAdminDto,
   RegisterUserSupervisorDto,
 } from "../../dto";
+import { AdminStructuresService } from "../../services";
 import { AdminSuperivorUsersService } from "../../services/admin-superivor-users/admin-superivor-users.service";
 import { PatchUserSupervisorDto } from "../../dto/patch-user-supervisor.dto";
 import { ElevateUserRoleDto } from "../../dto/elevate-user-role.dto";
@@ -54,6 +55,7 @@ export class AdminUsersController {
   constructor(
     private readonly appLogsService: AppLogsService,
     private readonly adminSuperivorUsersService: AdminSuperivorUsersService,
+    private readonly adminStructuresService: AdminStructuresService,
     private readonly brevoSenderService: BrevoSenderService
   ) {}
 
@@ -157,6 +159,15 @@ export class AdminUsersController {
     });
 
     return res.status(HttpStatus.OK).json({ message: "OK" });
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: "Liste des utilisateurs des structures (vue super-admin)",
+  })
+  @Get("structure-users")
+  public async getStructureUsers(): Promise<UsersForAdminList[]> {
+    return this.adminStructuresService.getUsersForAdmin();
   }
 
   @ApiBearerAuth()

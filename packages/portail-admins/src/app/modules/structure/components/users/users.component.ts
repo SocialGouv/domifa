@@ -1,15 +1,14 @@
 import { ActivatedRoute } from "@angular/router";
+import { Store } from "@ngrx/store";
 import {
   USER_FONCTION_LABELS,
   UserFonction,
-  SortValues,
   UserStructure,
-  USER_STRUCTURE_ROLES_LABELS,
   StructureAdmin,
 } from "@domifa/common";
 
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { filter, map, Subject, Subscription, switchMap } from "rxjs";
+import { filter, map, Subject, Subscription, switchMap, take } from "rxjs";
 import { StructureService } from "../../services/structure.service";
 import { environment } from "../../../../../environments/environment";
 import { subMonths } from "date-fns";
@@ -18,7 +17,7 @@ import { Clipboard } from "@angular/cdk/clipboard";
 import { UserStructureEventHistoryLabels } from "../../../admin-auth/types/event-history";
 import { UserSecurityEventType } from "../../../shared/types/UserSecurityEvent.type";
 import { UserStructureWithSecurity } from "../../../admin-auth/types/UserStructureWithSecurity.type";
-import { structuresCache } from "../../../shared/store";
+import { selectStructureById } from "../../../shared/store/structures";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
 export enum MODAL_ACTION {
@@ -70,8 +69,6 @@ type UserWithSecurityViewModel = UserStructure & {
 })
 export class UsersComponent implements OnInit, OnDestroy {
   public users: UserWithSecurityViewModel[] = [];
-  public sortValue: SortValues = "asc";
-  public currentKey = "id";
   public twoMonthsAgo = subMonths(new Date(), 2);
   public readonly reloadUsersSubject$ = new Subject<void>();
   public readonly frontendUrl = environment.frontendUrl;
@@ -79,7 +76,6 @@ export class UsersComponent implements OnInit, OnDestroy {
   public readonly _USER_FONCTION_LABELS = USER_FONCTION_LABELS;
   public readonly USER_ACTIVITY_LABELS = UserStructureEventHistoryLabels;
   public readonly MODAL_ACTION = MODAL_ACTION;
-  public readonly USER_ROLES_LABELS = USER_STRUCTURE_ROLES_LABELS;
   public structureId: number;
   public structure?: StructureAdmin;
   private readonly subscription = new Subscription();
@@ -90,13 +86,18 @@ export class UsersComponent implements OnInit, OnDestroy {
   public informationModal!: DsfrModalComponent;
   @ViewChild("addUserModal")
   public addUserModal!: DsfrModalComponent;
+  @ViewChild("blockModal")
+  public blockModal!: DsfrModalComponent;
   public confirmModalContext?: ConfirmModalContext;
   public userForModal?: UserWithSecurityViewModel;
+  public userToBlock?: UserWithSecurityViewModel;
+  public blockConfirmationInput = "";
   constructor(
     private readonly structureService: StructureService,
     private readonly toastService: CustomToastService,
     private readonly clipboard: Clipboard,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly store: Store
   ) {}
 
   ngOnInit(): void {
@@ -104,7 +105,12 @@ export class UsersComponent implements OnInit, OnDestroy {
       this.activatedRoute.parent.snapshot.params.structureId
     );
 
-    this.structure = structuresCache.getStructureById(this.structureId);
+    this.store
+      .select(selectStructureById(this.structureId))
+      .pipe(take(1))
+      .subscribe((structure) => {
+        this.structure = structure;
+      });
     this.loadUsers();
 
     // Subscribe to reloadUsers subject to reload the list when triggered
@@ -141,6 +147,50 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   public openAddUserModal(): void {
     this.addUserModal.open();
+  }
+
+  public openBlockModal(user: UserWithSecurityViewModel): void {
+    this.userToBlock = user;
+    this.blockConfirmationInput = "";
+    this.blockModal.open();
+  }
+
+  public cancelBlock(): void {
+    this.userToBlock = null;
+    this.blockConfirmationInput = "";
+    this.blockModal.close();
+  }
+
+  public confirmBlock(): void {
+    if (!this.userToBlock || !this.isBlockNameConfirmed) return;
+
+    const targetId = this.userToBlock.id;
+    this.subscription.add(
+      this.structureService.blockUser(this.structureId, targetId).subscribe({
+        next: () => {
+          this.toastService.success("L'utilisateur a été bloqué");
+          this.userToBlock = null;
+          this.blockConfirmationInput = "";
+          this.blockModal.close();
+          this.reloadUsersSubject$.next();
+        },
+        error: () => {
+          this.toastService.error("Erreur lors du blocage de l'utilisateur");
+        },
+      })
+    );
+  }
+
+  public get expectedBlockName(): string {
+    if (!this.userToBlock) return "";
+    return `${this.userToBlock.nom} ${this.userToBlock.prenom}`.trim();
+  }
+
+  public get isBlockNameConfirmed(): boolean {
+    return (
+      this.blockConfirmationInput.trim().toLowerCase() ===
+      this.expectedBlockName.toLowerCase()
+    );
   }
 
   public setConfirmModalContext(
@@ -290,6 +340,9 @@ const mapUserStructureToViewModel = (
 ): UserWithSecurityViewModel => ({
   ...user,
   lastLogin: user?.lastLogin ? new Date(user.lastLogin) : null,
+  passwordLastUpdate: user?.passwordLastUpdate
+    ? new Date(user.passwordLastUpdate)
+    : null,
   eventsHistory: user.eventsHistory
     .map((eventHistory) => ({
       ...eventHistory,

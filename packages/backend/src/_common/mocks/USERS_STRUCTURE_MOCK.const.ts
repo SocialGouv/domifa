@@ -1,6 +1,6 @@
 import { UserStructureProfile } from "@domifa/common";
 
-export const VERIFIED_USERS_STRUCTURE: Pick<
+export const USERS_STRUCTURE_MOCK: Pick<
   UserStructureProfile,
   "id" | "nom" | "prenom"
 >[] = [

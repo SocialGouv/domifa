@@ -32,8 +32,6 @@ import {
   DsfrButtonsGroupModule,
   DsfrModalComponent,
 } from "@edugouvfr/ngx-dsfr";
-import { structuresCache } from "../../../shared/store";
-
 @Component({
   selector: "app-structure-form-delete",
   standalone: true,
@@ -171,11 +169,10 @@ export class StructureFormDeleteComponent
       this.adminStructuresApiClient
         .setDecisionStructure(this.structure.id, "SUPPRIME", motif)
         .subscribe({
-          next: (structure) => {
+          next: () => {
             this.loading = false;
             this.deleteSuccess.emit();
             this.closeModal();
-            structuresCache.updateStructure(structure);
           },
           error: (error) => {
             this.loading = false;

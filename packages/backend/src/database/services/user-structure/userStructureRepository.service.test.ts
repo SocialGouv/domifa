@@ -36,12 +36,11 @@ describe("userStructureRepository", () => {
     // be sure the count is ok
     expect(countTotal).toEqual(TESTS_USERS_STRUCTURE.ALL.length);
   });
-  it("findVerifiedStructureUsersByRoles returns matching users", async () => {
-    const users =
-      await userStructureRepository.findVerifiedStructureUsersByRoles({
-        structureId: 1,
-        roles: ["admin", "simple", "responsable"],
-      });
+  it("findStructureUsersByRoles returns matching users", async () => {
+    const users = await userStructureRepository.findStructureUsersByRoles({
+      structureId: 1,
+      roles: ["admin", "simple", "responsable"],
+    });
     expect(users).toBeDefined();
 
     // be sure the count is ok

@@ -6,9 +6,10 @@ import { SharedModule } from "../../../shared/shared.module";
 import { CommonModule } from "@angular/common";
 import { STRUCTURE_MOCK } from "../../../../mocks/STRUCTURE_MOCK.mock";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
-import { appStore } from "../../../shared/store/appStore.service";
-import { of } from "rxjs";
+import { provideMockStore } from "@ngrx/store/testing";
 import { StructureAdmin } from "@domifa/common";
+
+import { structuresFeature } from "../../../shared/store/structures";
 
 describe("AdminStructureContainerComponent", () => {
   let component: AdminStructureContainerComponent;
@@ -19,18 +20,27 @@ describe("AdminStructureContainerComponent", () => {
       declarations: [AdminStructureContainerComponent],
       imports: [CommonModule, SharedModule, RouterModule.forChild([])],
       providers: [
+        provideMockStore({
+          initialState: {
+            [structuresFeature.name]: {
+              list: [STRUCTURE_MOCK as unknown as StructureAdmin],
+              loading: false,
+              loaded: true,
+              error: null,
+            },
+          },
+        }),
         {
           provide: ActivatedRoute,
           useValue: {
-            data: of({ structure: STRUCTURE_MOCK }),
+            snapshot: {
+              params: { structureId: STRUCTURE_MOCK.id },
+            },
           },
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
-    jest.spyOn(appStore, "getState").mockReturnValue({
-      structureListData: [STRUCTURE_MOCK as unknown as StructureAdmin],
-    });
     fixture = TestBed.createComponent(AdminStructureContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

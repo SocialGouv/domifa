@@ -97,7 +97,7 @@ export class ExportStructureUsagersController {
 
       const workbook = XLSX.utils.book_new();
 
-      const users = await userStructureRepository.getVerifiedUsersByStructureId(
+      const users = await userStructureRepository.getUsersByStructureId(
         user.structureId
       );
       const { firstSheetHeaders, secondSheetHeaders } =

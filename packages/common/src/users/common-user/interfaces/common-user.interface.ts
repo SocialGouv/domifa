@@ -13,7 +13,7 @@ export interface CommonUser extends AppEntity {
   fonctionDetail?: string | null;
   password: string;
   lastLogin: Date | null;
-  passwordLastUpdate: Date;
+  passwordLastUpdate: Date | null;
   status: UserStatus;
   acceptTerms: Date | null;
 

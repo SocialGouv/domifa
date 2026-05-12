@@ -7,7 +7,7 @@ import { UserStructureBrevo } from "../../../modules/mails/types/UserStructureBr
 export const userStructureRepository = myDataSource
   .getRepository(UserStructureTable)
   .extend({
-    getVerifiedUsersByStructureId(
+    getUsersByStructureId(
       structureId: number
     ): Promise<UserStructureProfile[]> {
       return userStructureRepository.find({
@@ -32,7 +32,7 @@ export const userStructureRepository = myDataSource
         },
       });
     },
-    findVerifiedStructureUsersByRoles({
+    findStructureUsersByRoles({
       structureId,
       roles,
     }: Pick<UserStructureTable, "structureId"> & {

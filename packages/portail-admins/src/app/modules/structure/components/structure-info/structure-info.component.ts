@@ -1,65 +1,76 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { Store } from "@ngrx/store";
+import { Subscription } from "rxjs";
+
 import {
   CURRENT_TOOL_OPTIONS,
   MARKET_TOOLS_OPTIONS,
   MOTIFS_REFUS_STRUCTURE_LABELS,
   MOTIFS_SUPPRESSION_STRUCTURE_LABELS,
   SOURCES_OPTIONS,
+  Structure,
+  StructureAdmin,
   STRUCTURE_ORGANISME_TYPE_LABELS,
   STRUCTURE_TYPE_LABELS,
-  StructureAdmin,
-  StructureCommon,
 } from "@domifa/common";
-import { structuresCache } from "../../../shared/store";
-import { ActivatedRoute } from "@angular/router";
-import { appStore } from "../../../shared/store/appStore.service";
+
+import { selectStructureById } from "../../../shared/store/structures";
+
 @Component({
   selector: "app-structure-info",
   templateUrl: "./structure-info.component.html",
   styleUrl: "./structure-info.component.css",
 })
-export class StructureInfoComponent implements OnInit {
-  public structure: StructureCommon;
-  public cachedStructure: StructureAdmin;
+export class StructureInfoComponent implements OnInit, OnDestroy {
+  public structure?: Structure;
+  public cachedStructure?: StructureAdmin;
   public readonly STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
   public readonly STRUCTURE_ORGANISME_TYPE_LABELS =
     STRUCTURE_ORGANISME_TYPE_LABELS;
-
   public readonly MOTIFS_SUPPRESSION_STRUCTURE_LABELS =
     MOTIFS_SUPPRESSION_STRUCTURE_LABELS;
-
   public readonly MOTIFS_REFUS_STRUCTURE_LABELS = MOTIFS_REFUS_STRUCTURE_LABELS;
   public smsDays = "";
-  public sourceLabel: string = "";
-  public currentToolLabel: string = "";
-  public marketToolLabel: string = "";
+  public sourceLabel = "";
+  public currentToolLabel = "";
+  public marketToolLabel = "";
   public structureToDelete?: StructureAdmin;
 
-  constructor(private readonly route: ActivatedRoute) {}
+  private readonly subscription = new Subscription();
+
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly store: Store
+  ) {}
 
   ngOnInit() {
-    this.structure = this.route.snapshot.data.structure;
-    this.cachedStructure = structuresCache.getStructureById(this.structure.id);
+    const structureId = parseInt(
+      this.route.parent?.snapshot.params["structureId"],
+      10
+    );
 
-    appStore.subscribe(() => {
-      const state = appStore.getState();
-      const structures = state?.structureListData;
+    this.subscription.add(
+      this.store.select(selectStructureById(structureId)).subscribe({
+        next: (structure) => {
+          if (!structure) return;
+          this.structure = structure as unknown as Structure;
+          this.cachedStructure = structure;
+          this.smsDays = this.getSelectedDaysForSms();
+          this.initializeLabels();
+        },
+      })
+    );
+  }
 
-      if (structures) {
-        this.cachedStructure = structures.find(
-          (structure) => structure.id === this.structure?.id
-        );
-      }
-    });
-    this.smsDays = this.getSelectedDaysForSms();
-    this.initializeLabels();
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   getSelectedDaysForSms(): string {
-    if (!this.structure.sms.schedule) return "Aucun jour sélectionné";
+    if (!this.structure?.sms?.schedule) return "Aucun jour sélectionné";
 
-    const daysInFrench = {
+    const daysInFrench: Record<string, string> = {
       monday: "Lundi",
       tuesday: "Mardi",
       wednesday: "Mercredi",
@@ -68,8 +79,8 @@ export class StructureInfoComponent implements OnInit {
     };
 
     const selectedDays = Object.entries(this.structure.sms.schedule)
-      .filter(([_, value]) => value === true)
-      .map(([key, _]) => daysInFrench[key]);
+      .filter(([, value]) => value === true)
+      .map(([key]) => daysInFrench[key]);
 
     return selectedDays.length > 0
       ? selectedDays.join(", ")
@@ -101,7 +112,6 @@ export class StructureInfoComponent implements OnInit {
     if (!this.structure?.registrationData?.currentTool) {
       this.currentToolLabel = "Non renseigné";
     } else {
-      // Current tool label
       const currentToolOption = CURRENT_TOOL_OPTIONS.find(
         (opt) => opt.value === this.structure.registrationData.currentTool
       );
@@ -113,8 +123,6 @@ export class StructureInfoComponent implements OnInit {
     if (!this.structure?.registrationData?.marketTool) {
       this.marketToolLabel = "Non renseigné";
     } else {
-      // Market tool label avec détail si "autre"
-
       const marketToolOption = MARKET_TOOLS_OPTIONS.find(
         (opt) => opt.value === this.structure.registrationData.marketTool
       );

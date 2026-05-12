@@ -23,240 +23,105 @@
     <p class="fr-callout--text">Aucun utilisateur dans la structure</p>
   </div>
 
-  <div
+  <app-users-table
     *ngIf="users.length > 0"
-    class="fr-table fr-table--no-outer-border"
-    id="table-0-component"
+    tableId="structure-users-table"
+    caption="Liste des utilisateurs enregistrés"
+    [users]="users"
+    [showId]="true"
+    initialSortKey="id"
   >
-    <div class="fr-table__wrapper">
-      <div class="fr-table__container">
-        <div class="fr-table__content">
-          <table id="table-0" [attr.aria-rowcount]="users.length">
-            <caption class="visually-hidden">
-              Liste des utilisateurs enregistrés
-            </caption>
-            <thead>
-              <tr class="fr-p-2w">
-                <th scope="col" class="border-right border-1">
-                  <app-table-head-sort
-                    sortKey="id"
-                    [(sortValue)]="sortValue"
-                    [(currentKey)]="currentKey"
-                    columnName="ID"
-                  >
-                  </app-table-head-sort>
-                </th>
-                <th scope="col" class="border-right border-1">
-                  <app-table-head-sort
-                    sortKey="nom"
-                    [(sortValue)]="sortValue"
-                    [(currentKey)]="currentKey"
-                    columnName="Nom prénom"
-                  >
-                  </app-table-head-sort>
-                </th>
-                <th scope="col" class="border-right border-1">
-                  <app-table-head-sort
-                    sortKey="email"
-                    [(sortValue)]="sortValue"
-                    [(currentKey)]="currentKey"
-                    columnName="Email"
-                  >
-                  </app-table-head-sort>
-                </th>
-                <th scope="col" class="border-right border-1">
-                  <app-table-head-sort
-                    sortKey="createdAt"
-                    [(sortValue)]="sortValue"
-                    [(currentKey)]="currentKey"
-                    columnName="Date d'inscription"
-                  >
-                  </app-table-head-sort>
-                </th>
-                <th scope="col" class="border-right border-1">
-                  <app-table-head-sort
-                    sortKey="status"
-                    [(sortValue)]="sortValue"
-                    [(currentKey)]="currentKey"
-                    columnName="Statut"
-                  >
-                  </app-table-head-sort>
-                </th>
-                <th scope="col" class="border-right border-1">
-                  <app-table-head-sort
-                    sortKey="lastLogin"
-                    [(sortValue)]="sortValue"
-                    [(currentKey)]="currentKey"
-                    columnName="Dernière connexion"
-                  >
-                  </app-table-head-sort>
-                </th>
-                <th scope="col" class="border-right border-1">
-                  <app-table-head-sort
-                    sortKey="role"
-                    [(sortValue)]="sortValue"
-                    [(currentKey)]="currentKey"
-                    columnName="Rôle"
-                  >
-                  </app-table-head-sort>
-                </th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                class="border-top border-1"
-                *ngFor="
-                  let user of users | sortArray : currentKey : sortValue;
-                  let i = index
-                "
-                [attr.aria-rowindex]="i + 1"
+    <ng-template #actionsCell let-user>
+      <dsfrx-dropdownmenu
+        *ngIf="structure.statut !== 'SUPPRIME'"
+        [ariaLabelMenu]="'Administrer la structure ' + structure.id"
+        [labelMenu]="'Actions'"
+        [closeOnAction]="true"
+        [size]="'SM'"
+        appendTo="body"
+      >
+        <ng-template #contentTemplate>
+          <!-- Reinitialisation mot de passe -->
+          <dsfrx-dropdownmenu-item
+            (selectItem)="
+              openConfirmationModal(user, MODAL_ACTION.REINIT_USER_PASSWORD)
+            "
+          >
+            <button
+              type="button"
+              class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+              (click)="
+                openConfirmationModal(user, MODAL_ACTION.REINIT_USER_PASSWORD)
+              "
+            >
+              <i class="fr-icon-settings-5-fill" aria-hidden="true"></i>
+              Réinitialiser mot de passe
+            </button>
+          </dsfrx-dropdownmenu-item>
+          <!-- Copier lien mot de passe  -->
+          <ng-container
+            *ngIf="user?.temporaryTokens?.type === 'reset-password'"
+          >
+            <dsfrx-dropdownmenu-item>
+              <button
+                type="button"
+                class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+                (click)="getLink(user)"
               >
-                <td class="fr-text--bold">{{ user.id }}</td>
-                <td class="fr-text--bold">{{ user.nom }} {{ user.prenom }}</td>
+                <i class="fr-icon-links-line" aria-hidden="true"></i>
+                Copier le lien !
+              </button>
+            </dsfrx-dropdownmenu-item>
+          </ng-container>
+          <!-- Promouvoir utilisateur  -->
+          <ng-container *ngIf="user.role !== 'admin'">
+            <dsfrx-dropdownmenu-item
+              (selectItem)="
+                openConfirmationModal(user, MODAL_ACTION.PROMOTE_USER)
+              "
+            >
+              <button
+                type="button"
+                class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+                (click)="openConfirmationModal(user, MODAL_ACTION.PROMOTE_USER)"
+              >
+                <i class="fr-icon-arrow-up-fill" aria-hidden="true"></i>
+                Promouvoir en administrateur
+              </button>
+            </dsfrx-dropdownmenu-item>
+          </ng-container>
 
-                <td>{{ user.email }}</td>
-                <td>{{ user.createdAt | date : "d MMMM y" }}</td>
-                <td>
-                  <span
-                    class="fr-badge"
-                    [ngClass]="{
-                      'fr-badge--success': user.status === 'ACTIVE',
-                      'fr-badge--error': user.status === 'BLOCKED',
-                      'fr-badge--warning':
-                        user.status === 'PENDING' ||
-                        user.status === 'TEMPORARILY_BLOCKED'
-                    }"
-                  >
-                    {{
-                      user.status === "ACTIVE"
-                        ? "Actif"
-                        : user.status === "BLOCKED"
-                        ? "Bloqué"
-                        : user.status === "TEMPORARILY_BLOCKED"
-                        ? "Blocage temporaire"
-                        : "En attente"
-                    }}</span
-                  >
-                </td>
-                <td>
-                  <app-display-last-login
-                    [lastLogin]="user?.lastLogin"
-                  ></app-display-last-login>
-                </td>
-                <td>
-                  {{ USER_ROLES_LABELS[user.role] }}
-                </td>
-                <td>
-                  <dsfrx-dropdownmenu
-                    *ngIf="structure.statut !== 'SUPPRIME'"
-                    [ariaLabelMenu]="'Administrer la structure ' + structure.id"
-                    [labelMenu]="'Actions'"
-                    [closeOnAction]="true"
-                    [size]="'SM'"
-                    appendTo="body"
-                  >
-                    <ng-template #contentTemplate>
-                      <!-- Reinitialisation mot de passe -->
-                      <dsfrx-dropdownmenu-item
-                        (selectItem)="
-                          openConfirmationModal(
-                            user,
-                            MODAL_ACTION.REINIT_USER_PASSWORD
-                          )
-                        "
-                      >
-                        <button
-                          type="button"
-                          class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
-                          (click)="
-                            openConfirmationModal(
-                              user,
-                              MODAL_ACTION.REINIT_USER_PASSWORD
-                            )
-                          "
-                        >
-                          <i
-                            class="fr-icon-settings-5-fill"
-                            aria-hidden="true"
-                          ></i>
-                          Réinitialiser mot de passe
-                        </button>
-                      </dsfrx-dropdownmenu-item>
-                      <!-- Copier lien mot de passe  -->
-                      <ng-container
-                        *ngIf="user?.temporaryTokens?.type === 'reset-password'"
-                      >
-                        <dsfrx-dropdownmenu-item>
-                          <button
-                            type="button"
-                            class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
-                            (click)="getLink(user)"
-                          >
-                            <i
-                              class="fr-icon-links-line"
-                              aria-hidden="true"
-                            ></i>
-                            Copier le lien !
-                          </button>
-                        </dsfrx-dropdownmenu-item>
-                      </ng-container>
-                      <!-- Promouvoir utilisateur  -->
+          <!-- Bloquer utilisateur -->
+          <ng-container
+            *ngIf="user.status === 'ACTIVE' || user.status === 'PENDING'"
+          >
+            <dsfrx-dropdownmenu-item (selectItem)="openBlockModal(user)">
+              <button
+                type="button"
+                class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+                (click)="openBlockModal(user)"
+              >
+                <i class="fr-icon-lock-fill" aria-hidden="true"></i>
+                Bloquer l'utilisateur
+              </button>
+            </dsfrx-dropdownmenu-item>
+          </ng-container>
 
-                      <ng-container *ngIf="user.role !== 'admin'">
-                        <dsfrx-dropdownmenu-item
-                          (selectItem)="
-                            openConfirmationModal(
-                              user,
-                              MODAL_ACTION.PROMOTE_USER
-                            )
-                          "
-                        >
-                          <button
-                            type="button"
-                            class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
-                            (click)="
-                              openConfirmationModal(
-                                user,
-                                MODAL_ACTION.PROMOTE_USER
-                              )
-                            "
-                          >
-                            <i
-                              class="fr-icon-arrow-up-fill"
-                              aria-hidden="true"
-                            ></i>
-                            Promouvoir en administrateur
-                          </button>
-                        </dsfrx-dropdownmenu-item>
-                      </ng-container>
-
-                      <!-- Activité utilisateur -->
-                      <ng-container>
-                        <dsfrx-dropdownmenu-item>
-                          <button
-                            type="button"
-                            class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
-                            (click)="openInformationModal(user)"
-                          >
-                            <i
-                              class="fr-icon-user-heart-fill"
-                              aria-hidden="true"
-                            ></i>
-                            Afficher l'activité de l'utilisateur
-                          </button>
-                        </dsfrx-dropdownmenu-item>
-                      </ng-container>
-                    </ng-template>
-                  </dsfrx-dropdownmenu>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
+          <!-- Activité utilisateur -->
+          <dsfrx-dropdownmenu-item>
+            <button
+              type="button"
+              class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+              (click)="openInformationModal(user)"
+            >
+              <i class="fr-icon-user-heart-fill" aria-hidden="true"></i>
+              Afficher l'activité de l'utilisateur
+            </button>
+          </dsfrx-dropdownmenu-item>
+        </ng-template>
+      </dsfrx-dropdownmenu>
+    </ng-template>
+  </app-users-table>
 
   <dsfr-modal
     class="text-start"
@@ -417,4 +282,64 @@
     (getUsers)="addUserModal.close(); reloadUsersSubject$.next()"
     [currentStructure]="structure"
   ></app-register-user>
+</dsfr-modal>
+
+<dsfr-modal
+  class="text-start"
+  icon="fr-icon-lock-fill"
+  #blockModal
+  dialogId="blockStructureUserModal"
+  titleModal="Bloquer l'utilisateur"
+  [concealingBackdrop]="false"
+  [autoCloseOnAction]="false"
+  size="MD"
+>
+  <div class="fr-mt-2w">
+    <div class="fr-alert fr-alert--warning fr-mb-2w">
+      <p>
+        Cette action va bloquer l'accès de
+        <span class="fr-text--bold">{{ userToBlock?.email }}</span> à
+        l'application. Pour confirmer, recopiez son nom et prénom ci-dessous.
+      </p>
+    </div>
+
+    <p class="fr-text--bold fr-mb-1w">Nom et prénom à recopier :</p>
+    <p class="fr-text--bold fr-text-title--blue-france fr-mb-2w">
+      {{ expectedBlockName }}
+    </p>
+
+    <div class="fr-input-group">
+      <label class="fr-label" for="block-structure-confirm-input">
+        Recopiez ici le nom et prénom
+      </label>
+      <input
+        class="fr-input"
+        type="text"
+        id="block-structure-confirm-input"
+        name="block-structure-confirm-input"
+        autocomplete="off"
+        [(ngModel)]="blockConfirmationInput"
+        placeholder="Nom Prénom"
+      />
+    </div>
+  </div>
+  <ng-template #modalFooterTemplate>
+    <dsfr-buttons-group
+      inline="LG"
+      alignment="reverse"
+      iconPosition="left"
+      groupMarkup="div"
+    >
+      <dsfr-button
+        (click)="confirmBlock()"
+        label="Bloquer l'utilisateur"
+        [disabled]="!isBlockNameConfirmed"
+      ></dsfr-button>
+      <dsfr-button
+        (click)="cancelBlock()"
+        label="Annuler"
+        variant="secondary"
+      ></dsfr-button>
+    </dsfr-buttons-group>
+  </ng-template>
 </dsfr-modal>

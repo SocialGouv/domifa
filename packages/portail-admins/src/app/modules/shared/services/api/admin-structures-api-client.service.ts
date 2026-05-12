@@ -1,10 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { filter, Observable, startWith, tap } from "rxjs";
+import { Store } from "@ngrx/store";
+import { Observable, tap } from "rxjs";
 
 import { environment } from "src/environments/environment";
-
-import { structuresCache } from "../../store/structuresCache.service";
 
 import {
   ApiMessage,
@@ -15,15 +14,15 @@ import {
   StructureDecisionSuppressionMotif,
 } from "@domifa/common";
 import { UserNewAdmin } from "../../../admin-structures/types";
+import { StructuresActions } from "../../store/structures";
 
 const BASE_URL = `${environment.apiUrl}admin/structures`;
 @Injectable()
 export class AdminStructuresApiClient {
-  public http: HttpClient;
-
-  constructor(http: HttpClient) {
-    this.http = http;
-  }
+  constructor(
+    private readonly http: HttpClient,
+    private readonly store: Store
+  ) {}
 
   public deleteSendInitialMail(structureUuid: string) {
     return this.http.put(
@@ -79,19 +78,15 @@ export class AdminStructuresApiClient {
       })
       .pipe(
         tap((updatedStructure: StructureAdmin) => {
-          structuresCache.updateStructure(updatedStructure);
+          this.store.dispatch(
+            StructuresActions.updateOne({ structure: updatedStructure })
+          );
         })
       );
   }
 
   public getAdminStructureListData(): Observable<StructureAdmin[]> {
-    return this.http.get<StructureAdmin[]>(BASE_URL).pipe(
-      tap((data: StructureAdmin[]) => {
-        structuresCache.setStructureListData(data);
-      }),
-      startWith(structuresCache.getStructureListData()),
-      filter((x) => !!x)
-    );
+    return this.http.get<StructureAdmin[]>(BASE_URL);
   }
 
   public exportDashboard() {

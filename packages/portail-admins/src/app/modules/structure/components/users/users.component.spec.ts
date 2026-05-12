@@ -3,14 +3,15 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { UsersComponent } from "./users.component";
 import { CommonModule } from "@angular/common";
 import { ActivatedRoute, RouterModule } from "@angular/router";
-import { TableHeadSortComponent } from "../../../shared/components/table-head-sort/table-head-sort.component";
-import { SortArrayPipe } from "../../../shared/pipes/sort-array.pipe";
+import { provideMockStore } from "@ngrx/store/testing";
+import { UsersTableComponent } from "../../../shared/components/users-table/users-table.component";
 import { StructureService } from "../../services/structure.service";
 import { STRUCTURE_MOCK } from "../../../../mocks/STRUCTURE_MOCK.mock";
 import { CustomToastService } from "../../../shared/services";
 import { provideHttpClient } from "@angular/common/http";
-import { structuresCache } from "../../../shared/store";
 import { StructureAdmin } from "@domifa/common";
+
+import { structuresFeature } from "../../../shared/store/structures";
 
 describe("UsersComponent", () => {
   let component: UsersComponent;
@@ -19,16 +20,21 @@ describe("UsersComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [UsersComponent],
-      imports: [
-        CommonModule,
-        TableHeadSortComponent,
-        SortArrayPipe,
-        RouterModule.forRoot([]),
-      ],
+      imports: [CommonModule, UsersTableComponent, RouterModule.forRoot([])],
       providers: [
         provideHttpClient(),
         StructureService,
         CustomToastService,
+        provideMockStore({
+          initialState: {
+            [structuresFeature.name]: {
+              list: [STRUCTURE_MOCK as unknown as StructureAdmin],
+              loading: false,
+              loaded: true,
+              error: null,
+            },
+          },
+        }),
         {
           provide: ActivatedRoute,
           useValue: {
@@ -43,10 +49,6 @@ describe("UsersComponent", () => {
         },
       ],
     }).compileComponents();
-
-    jest
-      .spyOn(structuresCache, "getStructureById")
-      .mockReturnValue(STRUCTURE_MOCK as unknown as StructureAdmin);
 
     fixture = TestBed.createComponent(UsersComponent);
     component = fixture.componentInstance;
