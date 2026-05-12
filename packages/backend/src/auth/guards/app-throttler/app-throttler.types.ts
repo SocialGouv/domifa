@@ -1,5 +1,3 @@
-import { ThrottlerLimitDetail } from "@nestjs/throttler";
-
 export interface ThrottleBlockedJwtUser {
   userId: number;
   userProfile: string;
@@ -8,10 +6,25 @@ export interface ThrottleBlockedJwtUser {
   role?: string;
 }
 
-export interface ThrottleBlockedLogContext extends ThrottlerLimitDetail {
+export type RequestBlockReason = "missing_ua" | "bot_ua" | "invalid_origin";
+
+export interface ThrottleBlockedLogContext {
+  // Request-level fields (always populated)
   ip: string | undefined;
   userAgent: string | undefined;
   method: string;
   url: string;
   jwtUser?: ThrottleBlockedJwtUser;
+
+  // Throttle fields (populated only on THROTTLE_BLOCKED)
+  tracker?: string;
+  key?: string;
+  ttl?: number;
+  limit?: number;
+  totalHits?: number;
+
+  // Request-block fields (populated only on REQUEST_BLOCKED)
+  reason?: RequestBlockReason;
+  origin?: string;
+  referer?: string;
 }
