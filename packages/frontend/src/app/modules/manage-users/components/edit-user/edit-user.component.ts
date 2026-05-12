@@ -16,7 +16,7 @@ import {
 import { Title } from "@angular/platform-browser";
 import { Observable, of, Subject, Subscription } from "rxjs";
 
-import { EmailValidator, NoWhiteSpaceValidator } from "../../../../shared";
+import { NoWhiteSpaceValidator } from "../../../../shared";
 import { AuthService, CustomToastService } from "../../../shared/services";
 import { USER_FONCTION_LABELS, UserStructure } from "@domifa/common";
 import { format } from "date-fns";
@@ -105,7 +105,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
     this.editUser = true;
 
     this.userForm = this.formBuilder.group({
-      email: [this.me?.email, [Validators.required, EmailValidator]],
       nom: [
         this.me?.nom,
         [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],

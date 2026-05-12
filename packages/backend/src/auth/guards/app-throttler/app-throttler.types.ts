@@ -27,4 +27,7 @@ export interface ThrottleBlockedLogContext {
   reason?: RequestBlockReason;
   origin?: string;
   referer?: string;
+  // Number of dedup'd attempts aggregated under a single log row.
+  // Summed across rows over the auto-block window to decide on locking the account.
+  attempts?: number;
 }

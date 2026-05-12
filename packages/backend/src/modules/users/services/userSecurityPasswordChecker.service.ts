@@ -1,4 +1,4 @@
-import { UserStructure, UserSupervisor } from "@domifa/common";
+import { UserStatus, UserStructure, UserSupervisor } from "@domifa/common";
 
 import { passwordGenerator } from "../../../util";
 import { userSecurityEventHistoryManager } from "./userSecurityEventHistoryManager.service";
@@ -9,6 +9,8 @@ import {
 } from "./get-user-repository.service";
 import { logUserSecurityEvent } from "./logUserSecurityEvent.service";
 import { userStatusManager } from "./userStatusManager.service";
+import { appLogsRepository, AppLogTable } from "../../../database";
+import { SYSTEM_ACTOR_FIELDS } from "../../app-logs/app-logs.helpers";
 
 export const userSecurityPasswordChecker = {
   checkPassword,
@@ -62,22 +64,29 @@ async function checkPassword<T extends UserStructure | UserSupervisor>({
     throw new Error("WRONG_CREDENTIALS 3"); // don't give the real cause
   }
 
-  if (user.status === "BLOCKED") {
-    throw new Error("ACCOUNT_BLOCKED");
-  }
+  // Whitelist: only ACTIVE accounts can authenticate. Re-fetch the status
+  // because isAccountLockedForOperation may have cleared TEMPORARILY_BLOCKED
+  // when the backoff window expired.
+  const currentStatus = await userStatusManager.getUserStatusFromDb({
+    userProfile,
+    userId: user.id,
+  });
 
-  if (user.status === "PENDING") {
-    throw new Error("ACCOUNT_NOT_ACTIVATED");
-  }
-
-  // Backoff already passed (throttler check above). If the persisted status
-  // is still TEMPORARILY_BLOCKED, clear it now that the user successfully
-  // authenticated outside the lockout window.
-  if (user.status === "TEMPORARILY_BLOCKED") {
-    await userStatusManager.clearTemporaryBlock({
+  if (currentStatus !== "ACTIVE") {
+    await logAccessDeniedOnLogin({
       userProfile,
       userId: user.id,
+      status: currentStatus,
     });
+    if (currentStatus === "BLOCKED") {
+      throw new Error("ACCOUNT_BLOCKED");
+    }
+    if (currentStatus === "PENDING") {
+      throw new Error("ACCOUNT_NOT_ACTIVATED");
+    }
+    // TEMPORARILY_BLOCKED and any other non-ACTIVE state fall through to a
+    // vague error so we don't leak account state to attackers.
+    throw new Error("ACCOUNT_NOT_ACTIVE");
   }
 
   await logUserSecurityEvent({
@@ -92,4 +101,29 @@ async function checkPassword<T extends UserStructure | UserSupervisor>({
   return repository.findOneBy({
     id: user.id,
   }) as unknown as T;
+}
+
+async function logAccessDeniedOnLogin({
+  userProfile,
+  userId,
+  status,
+}: {
+  userProfile: UserProfile;
+  userId: number;
+  status: UserStatus | null;
+}): Promise<void> {
+  await appLogsRepository
+    .save(
+      new AppLogTable({
+        ...SYSTEM_ACTOR_FIELDS,
+        action: "ACCESS_DENIED_NON_ACTIVE",
+        context: {
+          triggeredBy: "userSecurityPasswordChecker",
+          status,
+          userProfile,
+          userId,
+        },
+      })
+    )
+    .catch(() => undefined);
 }

@@ -17,6 +17,8 @@ import { expiredTokenRepositiory, ExpiredTokenTable } from "../../database";
 import { addLogContext, appLogger } from "../../util";
 import { authChecker } from "../services";
 import { userStatusManager } from "../../modules/users/services";
+import { appLogsRepository, AppLogTable } from "../../database";
+import { SYSTEM_ACTOR_FIELDS } from "../../modules/app-logs/app-logs.helpers";
 
 @Injectable()
 export class AppUserGuard implements CanActivate {
@@ -143,7 +145,10 @@ export class AppUserGuard implements CanActivate {
         userProfile: user._userProfile,
         userId: user._userId,
       });
-      if (status === "BLOCKED") {
+      // Whitelist approach: only ACTIVE accounts pass. PENDING (not yet
+      // activated), TEMPORARILY_BLOCKED (security backoff) and BLOCKED
+      // (definitive) are all rejected.
+      if (status !== "ACTIVE") {
         // Lazy revocation: blacklist this token so the next attempt is rejected
         // by the cheap expired_token check without a status lookup.
         await expiredTokenRepositiory.save(
@@ -157,9 +162,31 @@ export class AppUserGuard implements CanActivate {
                 : null,
           })
         );
-        appLogger.error(`[authChecker] account blocked, token blacklisted`, {
-          context: { userProfile: user._userProfile, user: user?._userId },
-        });
+
+        await appLogsRepository
+          .save(
+            new AppLogTable({
+              ...SYSTEM_ACTOR_FIELDS,
+              action: "ACCESS_DENIED_NON_ACTIVE",
+              context: {
+                triggeredBy: "AppUserGuard",
+                status,
+                userProfile: user._userProfile,
+                userId: user._userId,
+                method: request.method,
+                url: request.url,
+                ip: request.ip,
+              },
+            })
+          )
+          .catch(() => undefined);
+
+        appLogger.error(
+          `[authChecker] account not active (status=${status}), token blacklisted`,
+          {
+            context: { userProfile: user._userProfile, user: user?._userId },
+          }
+        );
         return false;
       }
 

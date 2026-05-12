@@ -2,7 +2,6 @@ import { UserFonction } from "@domifa/common";
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams } from "class-transformer";
 import {
-  IsEmail,
   IsIn,
   IsNotEmpty,
   IsString,
@@ -63,8 +62,4 @@ export class UserEditDto {
     return null;
   })
   public readonly fonctionDetail: string | null;
-
-  @IsNotEmpty()
-  @IsEmail()
-  public readonly email!: string;
 }

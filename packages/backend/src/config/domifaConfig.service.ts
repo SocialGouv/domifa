@@ -370,5 +370,13 @@ function parseSecurityConfig(x: Partial<DomifaEnv>): DomifaConfigSecurity {
       configParser.parseString(x, "DOMIFA_SECURITY_FILES_MAIN_SECRET")
     ),
     jwtSecret: configParser.parseString(x, "DOMIFA_SECURITY_JWT_SECRET"),
+    internalUserAgent: configParser.parseString(
+      x,
+      "DOMIFA_INTERNAL_USER_AGENT",
+      {
+        required: false,
+        defaultValue: "",
+      }
+    ),
   };
 }
