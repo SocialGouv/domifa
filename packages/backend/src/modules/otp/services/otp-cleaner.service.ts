@@ -32,7 +32,7 @@ export class OtpCleaner {
       expiresAt: LessThanOrEqual(limitDate),
     });
 
-    appLogger.warn(
+    appLogger.info(
       `[CRON] [purgeExpiredOtpsCron] Purged ${
         result.affected ?? 0
       } expired OTPs`

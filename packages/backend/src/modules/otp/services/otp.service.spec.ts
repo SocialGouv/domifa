@@ -5,7 +5,7 @@ import { OtpEmailService } from "./otp-email.service";
 
 const mockCountRecentByEmail = jest.fn();
 const mockSave = jest.fn();
-const mockFindValidOtp = jest.fn();
+const mockClaimValidOtp = jest.fn();
 const mockIncrementAttempts = jest.fn();
 const mockCreateQueryBuilder = jest.fn();
 
@@ -14,12 +14,21 @@ jest.mock("../../../database", () => ({
     return {
       countRecentByEmail: mockCountRecentByEmail,
       save: mockSave,
-      findValidOtp: mockFindValidOtp,
+      claimValidOtp: mockClaimValidOtp,
       incrementAttempts: mockIncrementAttempts,
       createQueryBuilder: mockCreateQueryBuilder,
     };
   },
 }));
+
+function buildQueryBuilder(getOneResult: unknown) {
+  return {
+    where: jest.fn().mockReturnThis(),
+    andWhere: jest.fn().mockReturnThis(),
+    orderBy: jest.fn().mockReturnThis(),
+    getOne: jest.fn().mockResolvedValue(getOneResult),
+  };
+}
 
 describe("OtpService", () => {
   let service: OtpService;
@@ -95,15 +104,13 @@ describe("OtpService", () => {
   });
 
   describe("verify", () => {
-    it("should return valid when OTP matches", async () => {
-      const mockOtp = {
+    it("should return valid when claimValidOtp returns a row (atomic claim)", async () => {
+      mockClaimValidOtp.mockResolvedValue({
         uuid: "test-uuid",
         email: "test@example.com",
-        used: false,
+        used: true,
         attempts: 0,
-      };
-      mockFindValidOtp.mockResolvedValue(mockOtp);
-      mockSave.mockResolvedValue({});
+      });
 
       const result = await service.verify({
         email: "test@example.com",
@@ -111,20 +118,21 @@ describe("OtpService", () => {
       });
 
       expect(result.valid).toBe(true);
-      expect(mockOtp.used).toBe(true);
-      expect(mockSave).toHaveBeenCalledWith(mockOtp);
+      expect(mockClaimValidOtp).toHaveBeenCalledWith(
+        "test@example.com",
+        expect.any(String),
+        5
+      );
+      expect(mockSave).not.toHaveBeenCalled();
     });
 
-    it("should return invalid when no OTP found", async () => {
-      mockFindValidOtp.mockResolvedValue(null);
-
-      const mockQueryBuilder = {
-        where: jest.fn().mockReturnThis(),
-        andWhere: jest.fn().mockReturnThis(),
-        orderBy: jest.fn().mockReturnThis(),
-        getOne: jest.fn().mockResolvedValue(null),
-      };
-      mockCreateQueryBuilder.mockReturnValue(mockQueryBuilder);
+    it("should return invalid when no OTP found at all", async () => {
+      mockClaimValidOtp.mockResolvedValue(null);
+      // 1st QB call: pending non-expired -> null
+      // 2nd QB call: any pending (expired or not) -> null
+      mockCreateQueryBuilder
+        .mockReturnValueOnce(buildQueryBuilder(null))
+        .mockReturnValueOnce(buildQueryBuilder(null));
 
       const result = await service.verify({
         email: "test@example.com",
@@ -133,23 +141,23 @@ describe("OtpService", () => {
 
       expect(result.valid).toBe(false);
       expect(result.reason).toBe("invalid");
+      expect(mockIncrementAttempts).not.toHaveBeenCalled();
     });
 
-    it("should return expired when OTP has expired", async () => {
-      mockFindValidOtp.mockResolvedValue(null);
-
-      const mockQueryBuilder = {
-        where: jest.fn().mockReturnThis(),
-        andWhere: jest.fn().mockReturnThis(),
-        orderBy: jest.fn().mockReturnThis(),
-        getOne: jest.fn().mockResolvedValue({
-          uuid: "test-uuid",
-          expiresAt: new Date(Date.now() - 60000),
-          attempts: 0,
-          used: false,
-        }),
-      };
-      mockCreateQueryBuilder.mockReturnValue(mockQueryBuilder);
+    it("should return expired when only an expired pending OTP exists", async () => {
+      mockClaimValidOtp.mockResolvedValue(null);
+      // 1st QB call: pending non-expired -> null
+      // 2nd QB call: any pending -> expired row
+      mockCreateQueryBuilder
+        .mockReturnValueOnce(buildQueryBuilder(null))
+        .mockReturnValueOnce(
+          buildQueryBuilder({
+            uuid: "test-uuid",
+            expiresAt: new Date(Date.now() - 60_000),
+            attempts: 0,
+            used: false,
+          })
+        );
 
       const result = await service.verify({
         email: "test@example.com",
@@ -158,23 +166,19 @@ describe("OtpService", () => {
 
       expect(result.valid).toBe(false);
       expect(result.reason).toBe("expired");
+      expect(mockIncrementAttempts).not.toHaveBeenCalled();
     });
 
-    it("should return max-attempts when attempts exceeded", async () => {
-      mockFindValidOtp.mockResolvedValue(null);
-
-      const mockQueryBuilder = {
-        where: jest.fn().mockReturnThis(),
-        andWhere: jest.fn().mockReturnThis(),
-        orderBy: jest.fn().mockReturnThis(),
-        getOne: jest.fn().mockResolvedValue({
+    it("should return max-attempts when pending OTP has reached the limit", async () => {
+      mockClaimValidOtp.mockResolvedValue(null);
+      mockCreateQueryBuilder.mockReturnValueOnce(
+        buildQueryBuilder({
           uuid: "test-uuid",
-          expiresAt: new Date(Date.now() + 60000),
+          expiresAt: new Date(Date.now() + 60_000),
           attempts: 5,
           used: false,
-        }),
-      };
-      mockCreateQueryBuilder.mockReturnValue(mockQueryBuilder);
+        })
+      );
 
       const result = await service.verify({
         email: "test@example.com",
@@ -183,23 +187,19 @@ describe("OtpService", () => {
 
       expect(result.valid).toBe(false);
       expect(result.reason).toBe("max-attempts");
+      expect(mockIncrementAttempts).not.toHaveBeenCalled();
     });
 
     it("should increment attempts on invalid code", async () => {
-      mockFindValidOtp.mockResolvedValue(null);
-
-      const mockQueryBuilder = {
-        where: jest.fn().mockReturnThis(),
-        andWhere: jest.fn().mockReturnThis(),
-        orderBy: jest.fn().mockReturnThis(),
-        getOne: jest.fn().mockResolvedValue({
+      mockClaimValidOtp.mockResolvedValue(null);
+      mockCreateQueryBuilder.mockReturnValueOnce(
+        buildQueryBuilder({
           uuid: "test-uuid",
-          expiresAt: new Date(Date.now() + 60000),
+          expiresAt: new Date(Date.now() + 60_000),
           attempts: 2,
           used: false,
-        }),
-      };
-      mockCreateQueryBuilder.mockReturnValue(mockQueryBuilder);
+        })
+      );
 
       const result = await service.verify({
         email: "test@example.com",

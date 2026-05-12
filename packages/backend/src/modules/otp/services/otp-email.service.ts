@@ -6,13 +6,8 @@ import {
 import * as nodemailer from "nodemailer";
 import { Transporter } from "nodemailer";
 import { domifaConfig } from "../../../config";
+import { redactEmail } from "../otp.utils";
 import { generateOtpEmailHtml } from "../templates/otp-email.template";
-
-function redactEmail(email: string): string {
-  const [local, domain] = email.split("@");
-  if (!domain) return "***";
-  return `${local.slice(0, 1)}***@${domain}`;
-}
 
 @Injectable()
 export class OtpEmailService {
@@ -22,6 +17,11 @@ export class OtpEmailService {
   private getTransporter(): Transporter {
     if (!this.transporter) {
       const { host, port, user, pass } = domifaConfig().smtp;
+      if (!host) {
+        throw new InternalServerErrorException(
+          "SMTP host non configure (DOMIFA_SMTP_HOST manquant)"
+        );
+      }
       this.transporter = nodemailer.createTransport({
         host,
         port,
@@ -79,9 +79,9 @@ export class OtpEmailService {
         `OTP email envoye a ${recipientLog} (original: ${emailLog}), messageId: ${result.messageId}`
       );
     } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
       this.logger.error(
-        `Erreur lors de l'envoi de l'email OTP a ${recipientLog}`,
-        error
+        `Erreur lors de l'envoi de l'email OTP a ${recipientLog}: ${message}`
       );
       throw error;
     }

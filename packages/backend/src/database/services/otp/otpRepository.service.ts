@@ -2,18 +2,22 @@ import { myDataSource } from "..";
 import { OtpTable } from "../../entities/otp/OtpTable.typeorm";
 
 export const otpRepository = myDataSource.getRepository(OtpTable).extend({
-  async findValidOtp(
+  async claimValidOtp(
     email: string,
     hashedCode: string,
     maxAttempts: number
   ): Promise<OtpTable | null> {
-    return this.createQueryBuilder("otp")
-      .where("otp.email = :email", { email })
-      .andWhere("otp.code = :hashedCode", { hashedCode })
-      .andWhere("otp.expiresAt > :now", { now: new Date() })
-      .andWhere("otp.used = false")
-      .andWhere("otp.attempts < :maxAttempts", { maxAttempts })
-      .getOne();
+    const result = await this.createQueryBuilder()
+      .update(OtpTable)
+      .set({ used: true })
+      .where("email = :email", { email })
+      .andWhere("code = :hashedCode", { hashedCode })
+      .andWhere(`"expiresAt" > :now`, { now: new Date() })
+      .andWhere("used = false")
+      .andWhere("attempts < :maxAttempts", { maxAttempts })
+      .returning("*")
+      .execute();
+    return (result.raw?.[0] as OtpTable) ?? null;
   },
 
   async countRecentByEmail(

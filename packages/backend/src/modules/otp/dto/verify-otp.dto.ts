@@ -1,11 +1,14 @@
-import { IsEmail, IsNotEmpty, IsString, Length } from "class-validator";
+import { IsEmail, IsNotEmpty, IsString, Matches } from "class-validator";
+import { LowerCaseTransform, Trim } from "../../../_common/decorators";
 
 export class VerifyOtpDto {
-  @IsEmail()
   @IsNotEmpty()
+  @IsEmail()
+  @LowerCaseTransform()
   email: string;
 
+  @Trim()
   @IsString()
-  @Length(6, 6)
+  @Matches(/^\d{6}$/, { message: "code doit contenir exactement 6 chiffres" })
   code: string;
 }
