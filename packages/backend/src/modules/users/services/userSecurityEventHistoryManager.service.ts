@@ -125,6 +125,11 @@ async function isAccountLockedForOperation({
     });
     return true;
   }
+  // Backoff window expired — auto-clear the soft flag if it lingered, so the
+  // strict "only ACTIVE" check downstream sees the real state.
+  await userStatusManager
+    .clearTemporaryBlock({ userProfile, userId })
+    .catch(() => undefined);
   return false;
 }
 

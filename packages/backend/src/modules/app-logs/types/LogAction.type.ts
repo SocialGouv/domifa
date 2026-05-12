@@ -72,4 +72,5 @@ export type LogAction =
   | "THROTTLE_BLOCKED"
   | "REQUEST_BLOCKED"
   | "UNBLOCK_USER"
-  | "BLOCK_USER";
+  | "BLOCK_USER"
+  | "ACCESS_DENIED_NON_ACTIVE";

@@ -2,11 +2,11 @@ fileignoreconfig:
 - filename: .anonymizer/yarn.lock
   checksum: adf574ab2b9fc5e21891b802504438b9f7738c8854047dbc7ca628cd3994ef5f
 - filename: .kontinuous/env/dev/templates/backend.sealed-secret.yaml
-  checksum: 95ff0cbbc593c0114e61094b63e8d09cc447787e3132505a12d6b7c884a4874f
+  checksum: 4805800a1e4be90d199cc0bcf512e0138040515bb1a9ccdaea15f066978c7ba0
 - filename: .kontinuous/env/preprod/templates/backend.sealed-secret.yaml
-  checksum: 8ca1b4f0cf3ba96d032037a72f3913a34cf9abd70ae9683119d891200a917dbb
+  checksum: 22db3acb83b93eeee41b5c22ad62701c57915601ab192aa85f4204b845dd5589
 - filename: .kontinuous/env/prod/templates/backend.sealed-secret.yaml
-  checksum: 71bc83a5d97fbbf44be8c580323c215a3de6beb8a5ffda9268fbcc3b48feb48b
+  checksum: 4ded7ab370682c827b7414b75bd4015508d9459792b05817aa95eb0cf7f8744f
 - filename: _docs/dev/0.run-local-env.md
   checksum: 855b6f29ace746c86597d36382dbe7e40f771137734e3bf5eb53c948d6592a74
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql

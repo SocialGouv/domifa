@@ -10,30 +10,54 @@ import { appLogsRepository, AppLogTable } from "../../../database";
 import { domifaConfig } from "../../../config";
 import {
   RequestBlockReason,
+  ThrottleBlockedJwtUser,
   ThrottleBlockedLogContext,
 } from "./app-throttler.types";
 import {
   extractJwtUser,
   getAllowedOrigins,
   getBlockReason,
-  isHealthzRoute,
+  isBypassedRoute,
+  sanitizeForLog,
 } from "./app-throttler.utils";
-import { ANONYMOUS_ACTOR_FIELDS } from "../../../modules/app-logs/app-logs.helpers";
+import {
+  ANONYMOUS_ACTOR_FIELDS,
+  SYSTEM_ACTOR_FIELDS,
+} from "../../../modules/app-logs/app-logs.helpers";
+import { userStatusManager } from "../../../modules/users/services";
 
 const SKIP_THROTTLE_ENVS = ["test"];
 const REQUEST_BLOCK_DEDUP_TTL_MS = 5 * 60 * 1000;
+
+const AUTO_BLOCK_REASONS: ReadonlySet<RequestBlockReason> = new Set([
+  "bot_ua",
+  "missing_ua",
+]);
+const AUTO_BLOCK_PROFILES: ReadonlySet<string> = new Set([
+  "structure",
+  "supervisor",
+]);
 
 @Injectable()
 export class AppThrottlerGuard extends ThrottlerGuard {
   private readonly logger = new Logger("AppThrottlerGuard");
   private readonly activeBlocks = new Map<string, string>();
   private readonly allowedOrigins = getAllowedOrigins();
+  private readonly internalUserAgent =
+    domifaConfig().security.internalUserAgent;
 
   override async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
 
-    // Bypass machine-to-machine probes (k8s liveness/readiness).
-    if (isHealthzRoute(request.url)) {
+    // Bypass machine-to-machine probes (k8s liveness/readiness) and the
+    // cached public stats endpoint (no auth, no PII).
+    if (isBypassedRoute(request.url)) {
+      return true;
+    }
+
+    // Bypass internal probes (e.g. fabnum blackbox monitoring). Skips the
+    // whole throttler — bot filter AND rate limits — so polling is silent.
+    if (this.isInternalProbe(request.headers["user-agent"])) {
       return true;
     }
 
@@ -68,10 +92,10 @@ export class AppThrottlerGuard extends ThrottlerGuard {
 
     const logContext: ThrottleBlockedLogContext = {
       ...throttlerLimitDetail,
-      ip: request.ip,
-      userAgent: request.headers["user-agent"],
-      method: request.method,
-      url: request.url,
+      ip: sanitizeForLog(request.ip),
+      userAgent: sanitizeForLog(request.headers["user-agent"]),
+      method: sanitizeForLog(request.method) ?? "",
+      url: sanitizeForLog(request.url) ?? "",
       jwtUser: extractJwtUser(request.headers["authorization"]),
     };
 
@@ -103,52 +127,130 @@ export class AppThrottlerGuard extends ThrottlerGuard {
     return super.throwThrottlingException(context, throttlerLimitDetail);
   }
 
+  private isInternalProbe(userAgent: string | string[] | undefined): boolean {
+    if (!this.internalUserAgent) {
+      return false;
+    }
+    if (typeof userAgent !== "string") {
+      return false;
+    }
+    return userAgent === this.internalUserAgent;
+  }
+
   private async logRequestBlock(
     request: Request,
     reason: RequestBlockReason
   ): Promise<void> {
-    // Distinct key namespace from throttler keys (which look like
-    // "<tracker>-<route>"); same Map reused to keep one source of truth.
-    const dedupKey = `request-block:${reason}:${request.ip ?? "unknown"}`;
+    const jwtUser = extractJwtUser(request.headers["authorization"]);
 
-    const origin = request.headers["origin"];
-    const referer = request.headers["referer"];
+    // Per-user dedup when authenticated so the attempts counter accumulates
+    // for that account regardless of source IP. Anonymous traffic still
+    // dedup'd per IP.
+    const dedupKey = jwtUser?.userId
+      ? `request-block:${reason}:user:${jwtUser.userProfile}:${jwtUser.userId}`
+      : `request-block:${reason}:ip:${request.ip ?? "unknown"}`;
 
-    const logContext: ThrottleBlockedLogContext = {
-      ip: request.ip,
-      userAgent: request.headers["user-agent"],
-      method: request.method,
-      url: request.url,
-      jwtUser: extractJwtUser(request.headers["authorization"]),
+    const baseContext: ThrottleBlockedLogContext = {
+      ip: sanitizeForLog(request.ip),
+      userAgent: sanitizeForLog(request.headers["user-agent"]),
+      method: sanitizeForLog(request.method) ?? "",
+      url: sanitizeForLog(request.url) ?? "",
+      jwtUser,
       reason,
-      origin: typeof origin === "string" ? origin : undefined,
-      referer: typeof referer === "string" ? referer : undefined,
+      origin: sanitizeForLog(request.headers["origin"]),
+      referer: sanitizeForLog(request.headers["referer"]),
     };
 
     const existingLogUuid = this.activeBlocks.get(dedupKey);
 
     if (existingLogUuid) {
+      // Atomic increment of the attempts counter alongside the context refresh.
+      // context is stored as json (not jsonb), so cast both ways.
       await appLogsRepository
-        .update(existingLogUuid, { context: logContext as any })
+        .query(
+          `UPDATE app_log
+           SET context = jsonb_set(
+             $2::jsonb,
+             '{attempts}',
+             to_jsonb(COALESCE((context->>'attempts')::int, 1) + 1)
+           )::json
+           WHERE uuid = $1`,
+          [existingLogUuid, JSON.stringify(baseContext)]
+        )
         .catch(() => undefined);
+    } else {
+      const log = new AppLogTable({
+        ...ANONYMOUS_ACTOR_FIELDS,
+        action: "REQUEST_BLOCKED",
+        context: { ...baseContext, attempts: 1 },
+      });
+
+      const saved = await appLogsRepository.save(log).catch(() => undefined);
+
+      if (saved?.uuid) {
+        this.activeBlocks.set(dedupKey, saved.uuid);
+
+        const timeout = setTimeout(() => {
+          this.activeBlocks.delete(dedupKey);
+        }, REQUEST_BLOCK_DEDUP_TTL_MS);
+        timeout.unref();
+      }
+    }
+
+    await this.maybeAutoBlockUser(reason, jwtUser);
+  }
+
+  private async maybeAutoBlockUser(
+    reason: RequestBlockReason,
+    jwtUser: ThrottleBlockedJwtUser | undefined
+  ): Promise<void> {
+    if (!jwtUser?.userId) {
+      return;
+    }
+    if (!AUTO_BLOCK_REASONS.has(reason)) {
+      return;
+    }
+    if (!AUTO_BLOCK_PROFILES.has(jwtUser.userProfile)) {
       return;
     }
 
-    const log = new AppLogTable({
-      ...ANONYMOUS_ACTOR_FIELDS,
-      action: "REQUEST_BLOCKED",
-      context: logContext,
-    });
+    const userProfile = jwtUser.userProfile as "structure" | "supervisor";
 
-    const saved = await appLogsRepository.save(log).catch(() => undefined);
-
-    if (saved?.uuid) {
-      this.activeBlocks.set(dedupKey, saved.uuid);
-
-      const timeout = setTimeout(() => {
-        this.activeBlocks.delete(dedupKey);
-      }, REQUEST_BLOCK_DEDUP_TTL_MS);
-      timeout.unref();
+    // Avoid duplicate BLOCK_USER logs once the account is already locked.
+    const currentStatus = await userStatusManager
+      .getUserStatusFromDb({ userProfile, userId: jwtUser.userId })
+      .catch(() => null);
+    if (currentStatus === "BLOCKED") {
+      return;
     }
+
+    await userStatusManager
+      .markUserAsBlocked({ userProfile, userId: jwtUser.userId })
+      .catch(() => undefined);
+
+    await appLogsRepository
+      .save(
+        new AppLogTable({
+          ...SYSTEM_ACTOR_FIELDS,
+          action: "BLOCK_USER",
+          context: {
+            autoBlocked: true,
+            triggeredBy: "AppThrottlerGuard",
+            reason,
+            blockedUser: {
+              userId: jwtUser.userId,
+              userProfile,
+              structureId: jwtUser.structureId,
+              email: jwtUser.email,
+              role: jwtUser.role,
+            },
+          },
+        })
+      )
+      .catch(() => undefined);
+
+    this.logger.warn(
+      `[AUTO_BLOCK] ${userProfile} user ${jwtUser.userId} blocked (reason=${reason})`
+    );
   }
 }

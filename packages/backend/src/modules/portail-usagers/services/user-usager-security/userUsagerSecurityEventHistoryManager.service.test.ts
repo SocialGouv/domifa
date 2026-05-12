@@ -10,6 +10,9 @@ describe("userUsagerSecurityEventHistoryManager", () => {
     jest
       .spyOn(userStatusManager, "markUserAsTemporarilyBlocked")
       .mockResolvedValue(undefined);
+    jest
+      .spyOn(userStatusManager, "clearTemporaryBlock")
+      .mockResolvedValue(undefined);
   });
 
   afterEach(() => {

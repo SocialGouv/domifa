@@ -10,15 +10,43 @@ import {
   ThrottleBlockedJwtUser,
 } from "./app-throttler.types";
 
-const HEALTHZ_PREFIX = "/healthz";
+const MAX_LOG_FIELD_LENGTH = 512;
 
-export function isHealthzRoute(url: string): boolean {
-  if (!url) return false;
-  // Match "/healthz", "/healthz/", "/healthz?..." but not e.g. "/healthz-foo"
-  if (url === HEALTHZ_PREFIX) return true;
-  return (
-    url.startsWith(`${HEALTHZ_PREFIX}/`) || url.startsWith(`${HEALTHZ_PREFIX}?`)
-  );
+// Defense in depth — TypeORM already parameterizes queries, but request-
+// controlled strings can still pollute logs (newlines, control chars, huge
+// payloads). Cap length and strip ASCII control characters before storing.
+export function sanitizeForLog(value: unknown): string | undefined {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+  // eslint-disable-next-line no-control-regex
+  const cleaned = value.replace(/[\x00-\x1F\x7F]/g, "");
+  if (cleaned.length === 0) {
+    return undefined;
+  }
+  return cleaned.length > MAX_LOG_FIELD_LENGTH
+    ? cleaned.slice(0, MAX_LOG_FIELD_LENGTH)
+    : cleaned;
+}
+
+// Routes that bypass the whole throttler (bot filter + rate limit).
+// - /healthz : k8s liveness/readiness probes
+// - /stats/public-stats : cached public dashboard, no auth, no PII
+const BYPASS_PREFIXES = ["/healthz", "/stats/public-stats"];
+
+function matchesPrefix(url: string, prefix: string): boolean {
+  if (url === prefix) {
+    return true;
+  }
+  // Match "/prefix/...", "/prefix?..." but not e.g. "/prefix-foo"
+  return url.startsWith(`${prefix}/`) || url.startsWith(`${prefix}?`);
+}
+
+export function isBypassedRoute(url: string): boolean {
+  if (!url) {
+    return false;
+  }
+  return BYPASS_PREFIXES.some((prefix) => matchesPrefix(url, prefix));
 }
 
 function stripTrailingSlash(url: string): string {
@@ -37,7 +65,9 @@ export function getAllowedOrigins(): Set<string> {
 function extractOriginFromReferer(
   referer: string | string[] | undefined
 ): string | null {
-  if (!referer || Array.isArray(referer)) return null;
+  if (!referer || Array.isArray(referer)) {
+    return null;
+  }
   try {
     const parsed = new URL(referer);
     return `${parsed.protocol}//${parsed.host}`;
@@ -87,6 +117,13 @@ function decodeJwtPayload(token: string): AnyJwtPayload | null {
   }
 }
 
+function sanitizeId(value: unknown): number | undefined {
+  if (typeof value !== "number" || !Number.isInteger(value) || value < 0) {
+    return undefined;
+  }
+  return value;
+}
+
 export function extractJwtUser(
   authHeader: string | undefined
 ): ThrottleBlockedJwtUser | undefined {
@@ -100,24 +137,32 @@ export function extractJwtUser(
     return undefined;
   }
 
+  // Signature is not verified here (this runs before the auth guard), so all
+  // string fields are attacker-controlled. Sanitize before they hit any log.
+  const userId = sanitizeId(payload._userId);
+  const userProfile = sanitizeForLog(payload._userProfile);
+  if (userId === undefined || userProfile === undefined) {
+    return undefined;
+  }
+
   const base: ThrottleBlockedJwtUser = {
-    userId: payload._userId,
-    userProfile: payload._userProfile,
+    userId,
+    userProfile,
   };
 
   if (payload._userProfile === "structure") {
     const p = payload as UserStructureJwtPayload;
     return {
       ...base,
-      email: p.email,
-      structureId: p.structureId,
-      role: p.role,
+      email: sanitizeForLog(p.email),
+      structureId: sanitizeId(p.structureId),
+      role: sanitizeForLog(p.role),
     };
   }
 
   if (payload._userProfile === "usager") {
     const p = payload as UserUsagerJwtPayload;
-    return { ...base, structureId: p.structureId };
+    return { ...base, structureId: sanitizeId(p.structureId) };
   }
 
   return base;

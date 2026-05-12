@@ -162,4 +162,18 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
       expect(res.status).toBe(200);
     });
   });
+
+  describe("bypasses internal probes", () => {
+    it("allows the configured internal UA even with no Origin", async () => {
+      const internalUa = domifaConfig().security.internalUserAgent;
+      if (!internalUa) {
+        // Env not configured for this test run — nothing to assert.
+        return;
+      }
+      const res = await supertest(context.app.getHttpServer())
+        .get("/test-bot-guard/ping")
+        .set("User-Agent", internalUa);
+      expect(res.status).toBe(200);
+    });
+  });
 });
