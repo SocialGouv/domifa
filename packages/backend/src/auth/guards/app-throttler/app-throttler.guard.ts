@@ -25,6 +25,7 @@ import {
   SYSTEM_ACTOR_FIELDS,
 } from "../../../modules/app-logs/app-logs.helpers";
 import { userStatusManager } from "../../../modules/users/services";
+import { getClientIp } from "../../../util/express/clientRequest.helper";
 
 const SKIP_THROTTLE_ENVS = ["test"];
 const REQUEST_BLOCK_DEDUP_TTL_MS = 5 * 60 * 1000;
@@ -78,10 +79,22 @@ export class AppThrottlerGuard extends ThrottlerGuard {
     }
 
     this.logger.debug(
-      `[THROTTLE] envId="${envId}" ip="${request.ip}" x-forwarded-for="${request.headers["x-forwarded-for"]}" x-real-ip="${request.headers["x-real-ip"]}" ${request.method} ${request.url}`
+      `[THROTTLE] envId="${envId}" ip="${getClientIp(
+        request
+      )}" x-forwarded-for="${request.headers["x-forwarded-for"]}" x-real-ip="${
+        request.headers["x-real-ip"]
+      }" ${request.method} ${request.url}`
     );
 
     return super.canActivate(context);
+  }
+
+  // Rate-limit key derived from the same source of truth used for
+  // logging/session fingerprinting (X-Real-IP first, then req.ip).
+  protected override async getTracker(
+    req: Record<string, any>
+  ): Promise<string> {
+    return getClientIp(req as Request);
   }
 
   protected override async throwThrottlingException(
@@ -142,20 +155,21 @@ export class AppThrottlerGuard extends ThrottlerGuard {
     reason: RequestBlockReason
   ): Promise<void> {
     const jwtUser = extractJwtUser(request.headers["authorization"]);
+    const clientIp = getClientIp(request);
 
     // Per-user dedup when authenticated so the attempts counter accumulates
     // for that account regardless of source IP. Anonymous traffic still
     // dedup'd per IP.
     const dedupKey = jwtUser?.userId
       ? `request-block:${reason}:user:${jwtUser.userProfile}:${jwtUser.userId}`
-      : `request-block:${reason}:ip:${request.ip ?? "unknown"}`;
+      : `request-block:${reason}:ip:${clientIp ?? "unknown"}`;
 
     const baseContext: ThrottleBlockedLogContext = {
-      ip: sanitizeForLog(request.ip),
+      ip: sanitizeForLog(clientIp),
       userAgent: sanitizeForLog(request.headers["user-agent"]),
       method: sanitizeForLog(request.method) ?? "",
       url: sanitizeForLog(request.url) ?? "",
-      jwtUser,
+      jwtUser: extractJwtUser(request.headers["authorization"]),
       reason,
       origin: sanitizeForLog(request.headers["origin"]),
       referer: sanitizeForLog(request.headers["referer"]),

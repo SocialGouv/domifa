@@ -18,6 +18,7 @@ import {
 import { UserStructure, StructureCommon } from "@domifa/common";
 import { LogAction } from "../../modules/app-logs/types";
 import { buildStructureActorFields } from "../../modules/app-logs/app-logs.helpers";
+import { SessionFingerprintService } from "./session-fingerprint.service";
 
 export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
   "uuid",
@@ -48,9 +49,26 @@ interface ReactivationEvent {
 
 @Injectable()
 export class StructuresAuthService {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly sessionFingerprintService: SessionFingerprintService
+  ) {}
 
-  public login(user: UserStructure) {
+  public async login(
+    user: UserStructure,
+    request: { ipAddress: string; userAgent: string }
+  ) {
+    // Reuse the user's active session if any (v1 has no 2FA gate yet, so a
+    // returning user keeps the same session and fingerprint).
+    const session = await this.sessionFingerprintService.getOrCreateSession(
+      "structure",
+      user.id,
+      user.uuid,
+      request.ipAddress,
+      request.userAgent,
+      user.structureId
+    );
+
     const payload: UserStructureJwtPayload = {
       _jwtPayloadVersion: CURRENT_JWT_PAYLOAD_VERSION,
       _userId: user.id,
@@ -67,6 +85,7 @@ export class StructuresAuthService {
       acceptTerms: user.acceptTerms,
       structureId: user.structureId,
       domifaVersion: domifaConfig().version.toString(),
+      fingerprintHash: session.fingerprintHash,
     };
     return {
       access_token: this.jwtService.sign(payload),

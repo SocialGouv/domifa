@@ -5,6 +5,8 @@ import { domifaConfig } from "../config";
 import { AdminsAuthService } from "../modules/portail-admin/services/admins-auth.service";
 import { UsagersAuthService } from "../modules/portail-usagers/services/usagers-auth.service";
 import { JwtStrategy } from "./jwt/jwt.strategy";
+import { SessionCleanerService } from "./services/session-cleaner.service";
+import { SessionFingerprintService } from "./services/session-fingerprint.service";
 import { StructuresAuthService } from "./services/structures-auth.service";
 import { StructuresAuthController } from "./structures-auth.controller";
 
@@ -15,6 +17,7 @@ import { StructuresAuthController } from "./structures-auth.controller";
     StructuresAuthService,
     AdminsAuthService,
     UsagersAuthService,
+    SessionFingerprintService,
   ],
   imports: [
     PassportModule.register({
@@ -34,6 +37,8 @@ import { StructuresAuthController } from "./structures-auth.controller";
     StructuresAuthService,
     AdminsAuthService,
     UsagersAuthService,
+    SessionFingerprintService,
+    SessionCleanerService,
   ],
 })
 export class AuthModule {}

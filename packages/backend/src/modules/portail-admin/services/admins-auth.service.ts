@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
+import { SessionFingerprintService } from "../../../auth/services/session-fingerprint.service";
 import { userStructureRepository } from "../../../database";
 
 import {
@@ -16,9 +17,23 @@ import {
 
 @Injectable()
 export class AdminsAuthService {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly sessionFingerprintService: SessionFingerprintService
+  ) {}
 
-  public login(user: UserSupervisor) {
+  public async login(
+    user: UserSupervisor,
+    request: { ipAddress: string; userAgent: string }
+  ) {
+    const session = await this.sessionFingerprintService.getOrCreateSession(
+      "supervisor",
+      user.id,
+      user.uuid,
+      request.ipAddress,
+      request.userAgent
+    );
+
     const payload: UserSupervisorJwtPayload = {
       _jwtPayloadVersion: CURRENT_JWT_PAYLOAD_VERSION,
       _userId: user.id,
@@ -26,6 +41,7 @@ export class AdminsAuthService {
       lastLogin: user.lastLogin,
       id: user.id,
       userId: user.id,
+      fingerprintHash: session.fingerprintHash,
     };
 
     const response: PortailAdminAuthApiResponse = {

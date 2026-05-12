@@ -7,6 +7,8 @@ export type DomifaConfigSecurity = {
   // Exact User-Agent string used by internal probes (e.g. blackbox monitoring)
   // that should bypass the throttler entirely. Empty disables the bypass.
   internalUserAgent: string; // DOMIFA_INTERNAL_USER_AGENT
+  sessionDurationDays: number; // SESSION_DURATION_DAYS
+  sessionPurgeAfterDays: number; // SESSION_PURGE_AFTER_DAYS
 };
 
 export type DomifaConfig = {

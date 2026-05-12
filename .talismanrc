@@ -27,8 +27,10 @@ fileignoreconfig:
   checksum: 3762d1281d4109a0f57e6f100d49340db6528a17b4b9421d02cf0349b93fc3a0
 - filename: packages/backend/src/_migrations/1778077375651-auto-migration.ts
   checksum: 84a6888ebf8396e91f958169db5c28bf65a9cd6f0fb4f51e181013390ec8fbc6
+- filename: packages/backend/src/_migrations/1778628193503-auto-migration.ts
+  checksum: 4fc3814342a5e699f901acc15fb236fd00904069f5397bcaf9eca160b6e65dbf
 - filename: packages/backend/src/_migrations/_init-db/domifa_test_schema.sql
-  checksum: 66934c3264eab024b1b5b653ea9759da51ae892afe147562e1ecef39bb9d4ee6
+  checksum: 20023e26692f1e5456e22d9c11e27bb6fb03d0757430a6caa17fe754f566ad4b
 - filename: packages/frontend/src/app/modules/general/components/static-pages/politique/politique.component.html
   checksum: 5a51711775b228a5086ca5f40eac5f971a09d9a6837b115f0cb81db16938b8e2
 - filename: packages/frontend/src/app/modules/general/components/static-pages/temoignages/temoignages.component.html

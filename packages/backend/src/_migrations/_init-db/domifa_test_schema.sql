@@ -431,7 +431,7 @@ CREATE TABLE public.user_structure (
     "passwordLastUpdate" timestamp with time zone,
     "acceptTerms" timestamp with time zone,
     "fonctionDetail" character varying(255),
-    status character varying DEFAULT 'ACTIVE'::character varying NOT NULL
+    status character varying DEFAULT 'PENDING'::character varying NOT NULL
 );
 CREATE SEQUENCE public.user_structure_id_seq
     START WITH 1
@@ -448,7 +448,10 @@ CREATE TABLE public.user_structure_security (
     "userId" integer NOT NULL,
     "temporaryTokens" jsonb,
     "eventsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL,
-    "structureId" integer
+    "structureId" integer,
+    "fingerprintHash" text,
+    "currentSession" jsonb,
+    "sessionsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL
 );
 CREATE TABLE public.user_supervisor (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
@@ -466,7 +469,7 @@ CREATE TABLE public.user_supervisor (
     "acceptTerms" timestamp with time zone,
     territories jsonb DEFAULT '[]'::jsonb NOT NULL,
     role text NOT NULL,
-    status character varying DEFAULT 'ACTIVE'::character varying NOT NULL
+    status character varying DEFAULT 'PENDING'::character varying NOT NULL
 );
 CREATE SEQUENCE public.user_supervisor_id_seq
     AS integer
@@ -483,7 +486,10 @@ CREATE TABLE public.user_supervisor_security (
     version integer NOT NULL,
     "userId" integer NOT NULL,
     "temporaryTokens" jsonb,
-    "eventsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL
+    "eventsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL,
+    "fingerprintHash" text,
+    "currentSession" jsonb,
+    "sessionsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL
 );
 CREATE TABLE public.user_usager (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
@@ -502,7 +508,7 @@ CREATE TABLE public.user_usager (
     "lastPasswordResetStructureUser" jsonb,
     "acceptTerms" timestamp with time zone,
     "passwordType" text DEFAULT true NOT NULL,
-    status character varying DEFAULT 'ACTIVE'::character varying NOT NULL
+    status character varying DEFAULT 'PENDING'::character varying NOT NULL
 );
 CREATE SEQUENCE public.user_usager_id_seq
     AS integer
@@ -528,7 +534,10 @@ CREATE TABLE public.user_usager_security (
     "userId" integer NOT NULL,
     "structureId" integer NOT NULL,
     "eventsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL,
-    "temporaryTokens" jsonb
+    "temporaryTokens" jsonb,
+    "fingerprintHash" text,
+    "currentSession" jsonb,
+    "sessionsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL
 );
 ALTER TABLE ONLY public.structure ALTER COLUMN id SET DEFAULT nextval('public.structure_id_seq'::regclass);
 ALTER TABLE ONLY public.structure_doc ALTER COLUMN id SET DEFAULT nextval('public.structure_doc_id_seq'::regclass);
@@ -632,6 +641,7 @@ CREATE INDEX "IDX_0d31ec098c9d4e0507712b7f77" ON public.user_usager USING btree 
 CREATE INDEX "IDX_10d285ee14ee48a53c427207f9" ON public.structure_stats_reporting USING btree ("structureId");
 CREATE INDEX "IDX_17cd35c9fdcd9ab82015a46b22" ON public.structure_information USING btree ("structureId");
 CREATE INDEX "IDX_1953f5ad67157bada8774f7e24" ON public.interactions USING btree ("structureId");
+CREATE INDEX "IDX_1e6bd6ecf3ffebfc8df03507ed" ON public.user_usager_security USING btree ("fingerprintHash");
 CREATE INDEX "IDX_241b8f7b6b81faf9e763450a04" ON public.app_log USING btree ("usagerUuid");
 CREATE INDEX "IDX_30c4985e1148ec42ad6122f0ff" ON public.structure USING btree ("structureType");
 CREATE INDEX "IDX_3cb5af09bf7cd68d7070dbc896" ON public.usager_options_history USING btree ("usagerUUID");
@@ -639,6 +649,7 @@ CREATE INDEX "IDX_3ff6384b58d9d6c5e66104a3e0" ON public.message_sms USING btree 
 CREATE INDEX "IDX_4252acc4e242ad123a5d7b0625" ON public.expired_token USING btree ("structureId");
 CREATE INDEX "IDX_495b59d0dd15e43b262f2da890" ON public.interactions USING btree ("interactionOutUUID");
 CREATE INDEX "IDX_4a2ef430c9c7a9b4a66db96ec7" ON public.interactions USING btree ("dateInteraction");
+CREATE INDEX "IDX_4cc53946a17ae327fa3c66d1d2" ON public.user_supervisor_security USING btree ("fingerprintHash");
 CREATE INDEX "IDX_547d83b925177cadc602bc7e22" ON public.user_usager USING btree (id);
 CREATE INDEX "IDX_57be1bdd772eb3fea1e201317e" ON public.user_structure_security USING btree ("structureId");
 CREATE INDEX "IDX_5d06e43196df8e4b02ceb16bc9" ON public.usager_notes USING btree (id);
@@ -654,6 +665,7 @@ CREATE INDEX "IDX_7fd081c7b024fd7837e6d1923c" ON public.message_sms USING btree 
 CREATE INDEX "IDX_85ac9012f78c974fb73a5352df" ON public.usager_history_states USING btree ("structureId");
 CREATE INDEX "IDX_90ac7986e769d602d218075215" ON public.structure USING btree (id);
 CREATE INDEX "IDX_94c17da6c8fc82ac679eefd3ec" ON public.user_supervisor_security USING btree ("userId");
+CREATE INDEX "IDX_94e6ad00ef549a73fe820195fd" ON public.user_structure_security USING btree ("fingerprintHash");
 CREATE INDEX "IDX_9beb1346c63a45ba7c15db9ee7" ON public.usager_history_states USING btree ("historyBeginDate");
 CREATE INDEX "IDX_9cf79ee5a07df3bb533048b302" ON public.app_log USING btree ("userType");
 CREATE INDEX "IDX_a44d882d224e368efdee8eb8c8" ON public.usager USING btree ("structureId");
