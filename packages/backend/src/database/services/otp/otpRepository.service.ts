@@ -39,7 +39,9 @@ export const otpRepository = myDataSource.getRepository(OtpTable).extend({
     email: string,
     maxAttempts: number
   ): Promise<OtpTable | null> {
-    const result = await this.query(
+    // TypeORM's raw query returns [rows, rowCount] for UPDATE statements,
+    // not just rows (see TypeORM PostgresQueryRunner.query()).
+    const result = (await this.query(
       `UPDATE "otp"
        SET "attempts" = "otp"."attempts" + 1,
            "updatedAt" = NOW()
@@ -55,7 +57,8 @@ export const otpRepository = myDataSource.getRepository(OtpTable).extend({
        WHERE "otp"."uuid" = sub."uuid"
        RETURNING "otp".*`,
       [email, new Date(), maxAttempts]
-    );
-    return (result?.[0] as OtpTable) ?? null;
+    )) as [OtpTable[], number];
+    const rows = result?.[0];
+    return rows?.[0] ?? null;
   },
 });
