@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { APP_BASE_HREF } from "@angular/common";
 import { provideHttpClient } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { provideMockStore } from "@ngrx/store/testing";
 import { AdminStructuresApiClient } from "../../../shared/services/api";
 import { RegisterUserComponent } from "./register-user.component";
 
@@ -15,6 +16,7 @@ describe("RegisterUserComponent", () => {
       imports: [RegisterUserComponent],
       providers: [
         provideHttpClient(),
+        provideMockStore({}),
         { provide: APP_BASE_HREF, useValue: "/" },
         AdminStructuresApiClient,
       ],

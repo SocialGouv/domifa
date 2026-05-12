@@ -4,6 +4,7 @@ import { StructureFormRefuseComponent } from "./structure-form-refuse.component"
 import { APP_BASE_HREF } from "@angular/common";
 import { provideHttpClient } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { provideMockStore } from "@ngrx/store/testing";
 import { AdminStructuresApiClient } from "../../../shared/services";
 
 describe("StructureFormRefuseComponent", () => {
@@ -15,6 +16,7 @@ describe("StructureFormRefuseComponent", () => {
       imports: [StructureFormRefuseComponent],
       providers: [
         provideHttpClient(),
+        provideMockStore({}),
         { provide: APP_BASE_HREF, useValue: "/" },
         AdminStructuresApiClient,
       ],
