@@ -16,6 +16,7 @@ describe("ColumnInteractionsComponent", () => {
         ColumnInteractionsComponent,
         HttpClientTestingModule,
         StoreModule.forRoot({ app: _usagerReducer }),
+        ColumnInteractionsComponent,
       ],
     }).compileComponents();
 
