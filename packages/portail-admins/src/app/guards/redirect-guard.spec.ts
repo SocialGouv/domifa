@@ -2,9 +2,11 @@ import { APP_BASE_HREF } from "@angular/common";
 import { inject, TestBed } from "@angular/core/testing";
 import { Router } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import { StoreModule } from "@ngrx/store";
 import { AdminAuthService } from "../modules/admin-auth/services/admin-auth.service";
 import { RoleRedirectGuard } from "./redirect-guard";
 import { provideHttpClient } from "@angular/common/http";
+import { structuresFeature, usersFeature } from "src/app/modules/shared/store";
 
 describe("RoleRedirectGuard", () => {
   let guard: RoleRedirectGuard;
@@ -13,7 +15,13 @@ describe("RoleRedirectGuard", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterModule],
+      imports: [
+        RouterModule,
+        StoreModule.forRoot({
+          [structuresFeature.name]: structuresFeature.reducer,
+          [usersFeature.name]: usersFeature.reducer,
+        }),
+      ],
       providers: [
         provideHttpClient(),
         RoleRedirectGuard,

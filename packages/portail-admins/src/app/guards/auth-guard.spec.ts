@@ -6,10 +6,12 @@ import {
   RouterStateSnapshot,
 } from "@angular/router";
 import { RouterModule } from "@angular/router";
+import { StoreModule } from "@ngrx/store";
 import { AdminAuthService } from "../modules/admin-auth/services/admin-auth.service";
 import { AuthGuard } from "./auth-guard";
 import { CustomToastService } from "../modules/shared/services";
 import { provideHttpClient } from "@angular/common/http";
+import { structuresFeature, usersFeature } from "src/app/modules/shared/store";
 
 describe("AuthGuard", () => {
   let authGuard: AuthGuard;
@@ -19,7 +21,13 @@ describe("AuthGuard", () => {
   let toastService: CustomToastService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterModule],
+      imports: [
+        RouterModule,
+        StoreModule.forRoot({
+          [structuresFeature.name]: structuresFeature.reducer,
+          [usersFeature.name]: usersFeature.reducer,
+        }),
+      ],
       providers: [
         provideHttpClient(),
         AuthGuard,
