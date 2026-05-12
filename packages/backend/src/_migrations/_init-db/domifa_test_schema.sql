@@ -1,4 +1,7 @@
+CREATE EXTENSION IF NOT EXISTS fuzzystrmatch WITH SCHEMA public;
 CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
+CREATE EXTENSION IF NOT EXISTS postgis_tiger_geocoder WITH SCHEMA tiger;
+CREATE EXTENSION IF NOT EXISTS postgis_topology WITH SCHEMA topology;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 CREATE TABLE public.app_log (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
@@ -11,11 +14,7 @@ CREATE TABLE public.app_log (
     action text NOT NULL,
     role text,
     "createdBy" text,
-    context json,
-    "userStructureId" integer,
-    "userSupervisorId" integer,
-    "userType" text,
-    "usagerUuid" uuid
+    context json
 );
 CREATE TABLE public.contact_support (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
@@ -142,8 +141,7 @@ CREATE TABLE public.open_data_places (
     reseau text,
     "domicilieSegment" text,
     "cityCode" text,
-    "populationSegment" text,
-    siret text
+    "populationSegment" text
 );
 CREATE TABLE public.otp (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
@@ -207,9 +205,7 @@ CREATE TABLE public.structure (
     "registrationData" jsonb,
     siret text,
     statut text DEFAULT 'EN_ATTENTE'::text NOT NULL,
-    decision jsonb NOT NULL,
-    "noSiret" boolean,
-    "reseauDetail" text
+    decision jsonb NOT NULL
 );
 CREATE TABLE public.structure_doc (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
@@ -603,14 +599,14 @@ ALTER TABLE ONLY public.usager_docs
     ADD CONSTRAINT "PK_e7bb21f7a22254259ca123c5caa" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.monitor_batch_process
     ADD CONSTRAINT "PK_f00131d757d1ddf39e70901e372" PRIMARY KEY (uuid);
-ALTER TABLE ONLY public.otp
-    ADD CONSTRAINT "PK_otp" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.open_data_cities
     ADD CONSTRAINT "PK_f20d1eb20573a7f2922c8a5f9a8" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.open_data_places
     ADD CONSTRAINT "PK_f80b64cfb42753deacd8bf6d78d" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.user_supervisor
     ADD CONSTRAINT "PK_fd859b169ff3833fed4b4769aa4" PRIMARY KEY (uuid);
+ALTER TABLE ONLY public.otp
+    ADD CONSTRAINT "PK_otp" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.user_usager
     ADD CONSTRAINT "UQ_07ddbb376616a6bf4ffdbb2b6d7" UNIQUE ("usagerUUID");
 ALTER TABLE ONLY public.user_structure
@@ -681,7 +677,6 @@ CREATE INDEX "IDX_90ac7986e769d602d218075215" ON public.structure USING btree (i
 CREATE INDEX "IDX_94c17da6c8fc82ac679eefd3ec" ON public.user_supervisor_security USING btree ("userId");
 CREATE INDEX "IDX_94e6ad00ef549a73fe820195fd" ON public.user_structure_security USING btree ("fingerprintHash");
 CREATE INDEX "IDX_9beb1346c63a45ba7c15db9ee7" ON public.usager_history_states USING btree ("historyBeginDate");
-CREATE INDEX "IDX_9cf79ee5a07df3bb533048b302" ON public.app_log USING btree ("userType");
 CREATE INDEX "IDX_a44d882d224e368efdee8eb8c8" ON public.usager USING btree ("structureId");
 CREATE INDEX "IDX_a52dec7d55b4a81a0af0136148" ON public.user_structure USING btree ("structureId");
 CREATE INDEX "IDX_aa19c17fc79f4e4a648643096f" ON public.usager_entretien USING btree ("usagerUUID");
@@ -705,9 +700,9 @@ CREATE INDEX "IDX_e8b75cd4ebe81d288a6ff7d411" ON public.usager_notes USING btree
 CREATE INDEX "IDX_eba1b8ef0f72cb0dd499730714" ON public.user_supervisor USING btree (id);
 CREATE INDEX "IDX_ef9fade8e5a6dac06ef5031986" ON public.interactions USING btree (type);
 CREATE INDEX "IDX_f072e2874bd87ecb6da2fbd66e" ON public.usager USING btree (nom_prenom_surnom_ref);
-CREATE INDEX "IDX_otp_email_used_expires" ON public.otp USING btree (email, used, "expiresAt");
 CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON public.interactions USING btree ("usagerUUID");
 CREATE INDEX "IDX_fa4dea9a1ff8deb8fcf47c451e" ON public.structure USING btree (departement);
+CREATE INDEX "IDX_otp_email_used_expires" ON public.otp USING btree (email, used, "expiresAt");
 CREATE INDEX idx_interactions_date ON public.interactions USING btree ("structureId", "usagerUUID", "dateInteraction");
 CREATE INDEX idx_interactions_type ON public.interactions USING btree ("structureId", "usagerUUID", type);
 CREATE INDEX idx_stats_range ON public.usager_history_states USING btree ("historyBeginDate", "historyEndDate", "isActive");
