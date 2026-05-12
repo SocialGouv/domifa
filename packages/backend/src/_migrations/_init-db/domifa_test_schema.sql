@@ -1,7 +1,4 @@
-CREATE EXTENSION IF NOT EXISTS fuzzystrmatch WITH SCHEMA public;
 CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
-CREATE EXTENSION IF NOT EXISTS postgis_tiger_geocoder WITH SCHEMA tiger;
-CREATE EXTENSION IF NOT EXISTS postgis_topology WITH SCHEMA topology;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 CREATE TABLE public.app_log (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
