@@ -73,7 +73,7 @@ export class UsagerStructureDocsController {
       uuid: structureDocUuid,
     });
 
-    const users = await userStructureRepository.getUsersByStructureId(
+    const users = await userStructureRepository.getActiveUsersByStructureId(
       user.structureId
     );
 
@@ -149,7 +149,7 @@ export class UsagerStructureDocsController {
 
     let content: Buffer;
 
-    const users = await userStructureRepository.getUsersByStructureId(
+    const users = await userStructureRepository.getActiveUsersByStructureId(
       user.structureId
     );
 

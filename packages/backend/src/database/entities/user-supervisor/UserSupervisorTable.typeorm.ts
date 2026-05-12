@@ -40,7 +40,7 @@ export class UserSupervisorTable
   @Column({ type: "timestamptz", nullable: true })
   passwordLastUpdate: Date;
 
-  @Column({ type: "varchar", default: "ACTIVE" })
+  @Column({ type: "varchar", default: "PENDING" })
   status: UserStatus;
 
   @Column({ type: "timestamptz", nullable: true })

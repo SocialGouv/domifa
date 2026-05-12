@@ -1,12 +1,43 @@
-import { In } from "typeorm";
+import { FindOptionsSelect, In } from "typeorm";
 import { UserStructureTable } from "../../entities";
 import { myDataSource } from "../_postgres";
 import { UserStructureRole, UserStructureProfile } from "@domifa/common";
 import { UserStructureBrevo } from "../../../modules/mails/types/UserStructureBrevo.type";
 
+const PUBLIC_FIELDS_FOR_USER_STRUCTURE: FindOptionsSelect<UserStructureTable> =
+  {
+    uuid: true,
+    id: true,
+    role: true,
+    fonction: true,
+    fonctionDetail: true,
+    nom: true,
+    prenom: true,
+    email: true,
+    createdAt: true,
+    lastLogin: true,
+    status: true,
+  };
+
 export const userStructureRepository = myDataSource
   .getRepository(UserStructureTable)
   .extend({
+    getActiveUsersByStructureId(
+      structureId: number
+    ): Promise<UserStructureProfile[]> {
+      return userStructureRepository.find({
+        where: {
+          structureId,
+          status: "ACTIVE",
+        },
+        select: {
+          ...PUBLIC_FIELDS_FOR_USER_STRUCTURE,
+        },
+        order: {
+          nom: "ASC",
+        },
+      });
+    },
     getUsersByStructureId(
       structureId: number
     ): Promise<UserStructureProfile[]> {
@@ -15,17 +46,7 @@ export const userStructureRepository = myDataSource
           structureId,
         },
         select: {
-          uuid: true,
-          id: true,
-          role: true,
-          fonction: true,
-          fonctionDetail: true,
-          nom: true,
-          prenom: true,
-          email: true,
-          createdAt: true,
-          lastLogin: true,
-          status: true,
+          ...PUBLIC_FIELDS_FOR_USER_STRUCTURE,
         },
         order: {
           nom: "ASC",

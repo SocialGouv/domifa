@@ -1,4 +1,5 @@
 export type UserSecurityEventType =
+  | "account-unblocked"
   | "change-password-error"
   | "change-password-success"
   | "login-error"

@@ -1,6 +1,6 @@
 import { Column, Workbook } from "exceljs";
 import { WorksheetRenderer, xlRenderer, XlRowModel } from "../../xlLib";
-import { UsersForAdminList } from "../../../modules/portail-admin/types";
+import { UsersForAdminList } from "@domifa/common";
 
 export const exportListeUsersWorksheetRenderer = {
   renderWorksheet,
