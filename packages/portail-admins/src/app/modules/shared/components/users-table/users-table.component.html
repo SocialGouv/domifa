@@ -12,6 +12,7 @@
           name="search"
           [placeholder]="searchPlaceholder"
           [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchChange()"
         />
         <button
           *ngIf="searchTerm"
@@ -34,6 +35,7 @@
           [attr.id]="tableId + '-status-filter'"
           name="status-filter"
           [(ngModel)]="statusFilter"
+          (ngModelChange)="onStatusFilterChange()"
         >
           <option
             *ngFor="let option of STATUS_OPTIONS"
@@ -53,7 +55,7 @@
     <button
       type="button"
       class="fr-btn fr-btn--tertiary-no-outline fr-btn--sm fr-ml-1w"
-      (click)="clearSearch(); clearStatusFilter()"
+      (click)="clearAllFilters()"
     >
       Réinitialiser les filtres
     </button>
@@ -64,7 +66,7 @@
   <div class="fr-table__wrapper">
     <div class="fr-table__container">
       <div class="fr-table__content">
-        <table [id]="tableId" [attr.aria-rowcount]="users.length">
+        <table [id]="tableId" [attr.aria-rowcount]="filteredUsers.length">
           <caption class="visually-hidden">
             {{
               caption
@@ -77,6 +79,7 @@
                   sortKey="id"
                   [(sortValue)]="sortValue"
                   [(currentKey)]="currentKey"
+                  (sortArray)="onSortChange()"
                   columnName="ID"
                 >
                 </app-table-head-sort>
@@ -86,6 +89,7 @@
                   sortKey="nom"
                   [(sortValue)]="sortValue"
                   [(currentKey)]="currentKey"
+                  (sortArray)="onSortChange()"
                   columnName="Nom prénom"
                 >
                 </app-table-head-sort>
@@ -95,6 +99,7 @@
                   sortKey="email"
                   [(sortValue)]="sortValue"
                   [(currentKey)]="currentKey"
+                  (sortArray)="onSortChange()"
                   columnName="Email"
                 >
                 </app-table-head-sort>
@@ -104,6 +109,7 @@
                   sortKey="structureName"
                   [(sortValue)]="sortValue"
                   [(currentKey)]="currentKey"
+                  (sortArray)="onSortChange()"
                   columnName="Structure"
                 >
                 </app-table-head-sort>
@@ -113,6 +119,7 @@
                   sortKey="role"
                   [(sortValue)]="sortValue"
                   [(currentKey)]="currentKey"
+                  (sortArray)="onSortChange()"
                   columnName="Rôle"
                 >
                 </app-table-head-sort>
@@ -122,6 +129,7 @@
                   sortKey="status"
                   [(sortValue)]="sortValue"
                   [(currentKey)]="currentKey"
+                  (sortArray)="onSortChange()"
                   columnName="Statut"
                 >
                 </app-table-head-sort>
@@ -131,6 +139,7 @@
                   sortKey="createdAt"
                   [(sortValue)]="sortValue"
                   [(currentKey)]="currentKey"
+                  (sortArray)="onSortChange()"
                   columnName="Date d'inscription"
                 >
                 </app-table-head-sort>
@@ -140,6 +149,7 @@
                   sortKey="lastLogin"
                   [(sortValue)]="sortValue"
                   [(currentKey)]="currentKey"
+                  (sortArray)="onSortChange()"
                   columnName="Dernière connexion"
                 >
                 </app-table-head-sort>
@@ -149,6 +159,7 @@
                   sortKey="passwordLastUpdate"
                   [(sortValue)]="sortValue"
                   [(currentKey)]="currentKey"
+                  (sortArray)="onSortChange()"
                   columnName="Mot de passe mis à jour"
                 >
                 </app-table-head-sort>
@@ -159,11 +170,11 @@
           <tbody>
             <tr
               *ngFor="
-                let user of filteredUsers | sortArray : currentKey : sortValue;
+                let user of displayedUsers;
                 let i = index;
                 trackBy: userTrackBy
               "
-              [attr.aria-rowindex]="i + 1"
+              [attr.aria-rowindex]="(currentPage - 1) * pageSize + i + 1"
             >
               <td *ngIf="showId" class="fr-text--bold">{{ user.id }}</td>
               <td class="fr-text--bold">{{ user | fullName }}</td>
@@ -227,4 +238,16 @@
       </div>
     </div>
   </div>
+</div>
+
+<div
+  *ngIf="totalPages > 1"
+  class="fr-mt-2w fr-display-flex fr-justify-content-center"
+>
+  <dsfr-pagination
+    [pageCount]="totalPages"
+    [currentPage]="currentPage"
+    (pageSelect)="onPageSelect($event)"
+    ariaLabel="Pagination de la liste des utilisateurs"
+  ></dsfr-pagination>
 </div>

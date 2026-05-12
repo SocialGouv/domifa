@@ -11,6 +11,7 @@ describe("SessionCleanerService", () => {
   let snapshot: {
     currentSession: CurrentUserSession | null;
     sessionsHistory: HistoricalUserSession[];
+    fingerprintHash: string | null;
   } | null = null;
 
   beforeAll(async () => {
@@ -25,6 +26,7 @@ describe("SessionCleanerService", () => {
       ? {
           currentSession: row.currentSession ?? null,
           sessionsHistory: row.sessionsHistory ?? [],
+          fingerprintHash: row.fingerprintHash ?? null,
         }
       : null;
   });
@@ -56,7 +58,11 @@ describe("SessionCleanerService", () => {
 
     await userStructureSecurityRepository.update(
       { userId: testUser.id },
-      { currentSession: expired, sessionsHistory: [] }
+      {
+        currentSession: expired,
+        sessionsHistory: [],
+        fingerprintHash: expired.fingerprintHash,
+      }
     );
 
     await cleaner.cleanupExpiredSessions();
@@ -86,7 +92,11 @@ describe("SessionCleanerService", () => {
 
     await userStructureSecurityRepository.update(
       { userId: testUser.id },
-      { currentSession: fresh, sessionsHistory: [] }
+      {
+        currentSession: fresh,
+        sessionsHistory: [],
+        fingerprintHash: fresh.fingerprintHash,
+      }
     );
 
     await cleaner.cleanupExpiredSessions();

@@ -67,25 +67,17 @@
           (updateFilters)="updateFilters($event)"
         ></app-structure-filters>
       </div>
-      <div
+      <dsfr-ext-spinner
         *ngIf="searching"
-        @fadeInOut
-        role="alert"
-        aria-busy="true"
-        aria-label="Chargement des données..."
-        class="text-center content-overlay d-print-none"
-      >
-        <dsfr-ext-spinner
-          typeLoader="quarter"
-          label="Chargement des données..."
-        ></dsfr-ext-spinner>
-      </div>
+        typeLoader="quarter"
+        label="Chargement des données..."
+        [overlay]="true"
+      ></dsfr-ext-spinner>
 
       <app-admin-structures-table
-        *ngIf="this.structures && !searching"
+        *ngIf="this.structures"
         [structures]="this.structures"
         [filters]="this.filters"
-        @fadeInOut
         (sort)="updateFilters($event)"
       ></app-admin-structures-table>
 

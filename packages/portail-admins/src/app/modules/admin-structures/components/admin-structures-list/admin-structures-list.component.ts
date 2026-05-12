@@ -21,7 +21,6 @@ import {
   tap,
 } from "rxjs";
 
-import { fadeInOut } from "../../../shared/constants";
 import {
   StructureFilterCriteria,
   StructureFilterCriteriaSortEnum,
@@ -46,7 +45,6 @@ export type FilterOutput = {
 };
 
 @Component({
-  animations: [fadeInOut],
   selector: "app-admin-structures-list",
   templateUrl: "./admin-structures-list.component.html",
 })
