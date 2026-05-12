@@ -103,6 +103,40 @@ describe("OtpService", () => {
       expect(savedOtp.code).toBe(expected);
     });
 
+    it("should warn once when pepper is missing in prod/preprod", async () => {
+      mockDomifaConfig.mockReturnValue(
+        buildConfig({ envId: "prod", otp: { pepper: "" } })
+      );
+      mockCountRecentByEmail.mockResolvedValue(0);
+      mockSave.mockResolvedValue({});
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      const warnSpy = jest
+        .spyOn(service["logger"], "warn")
+        .mockImplementation(() => {});
+
+      await service.generateAndSend({ email: "a@example.com" });
+      await service.generateAndSend({ email: "b@example.com" });
+
+      expect(warnSpy).toHaveBeenCalledTimes(1);
+      expect(warnSpy.mock.calls[0][0]).toContain("DOMIFA_OTP_PEPPER");
+    });
+
+    it("should not warn when pepper is missing in dev/test", async () => {
+      mockDomifaConfig.mockReturnValue(
+        buildConfig({ envId: "dev", otp: { pepper: "" } })
+      );
+      mockCountRecentByEmail.mockResolvedValue(0);
+      mockSave.mockResolvedValue({});
+      const warnSpy = jest
+        .spyOn(service["logger"], "warn")
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        .mockImplementation(() => {});
+
+      await service.generateAndSend({ email: "a@example.com" });
+
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
     it("should reject when rate limit exceeded", async () => {
       mockCountRecentByEmail.mockResolvedValue(3);
 

@@ -130,6 +130,28 @@ describe("OtpEmailService", () => {
     expect(args.html).toContain("246890");
   });
 
+  it("should log and re-throw when sendMail rejects", async () => {
+    mockConfig.mockReturnValue(
+      buildConfig({
+        envId: "prod",
+        email: { emailsEnabled: true, emailAddressRedirectAllTo: "" },
+      })
+    );
+    mockSendMail.mockRejectedValue(new Error("SMTP boom"));
+    const errSpy = jest
+      .spyOn(service["logger"], "error")
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      .mockImplementation(() => {});
+
+    await expect(
+      service.sendOtpEmail("real@example.com", "123456")
+    ).rejects.toThrow("SMTP boom");
+    expect(errSpy).toHaveBeenCalledTimes(1);
+    expect(errSpy.mock.calls[0][0]).toContain("SMTP boom");
+    // Original recipient must be redacted, not leaked in the error log.
+    expect(errSpy.mock.calls[0][0]).not.toContain("real@example.com");
+  });
+
   it("should redirect to test address in non-prod when configured", async () => {
     mockConfig.mockReturnValue(
       buildConfig({
