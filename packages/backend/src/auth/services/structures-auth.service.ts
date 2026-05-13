@@ -58,9 +58,9 @@ export class StructuresAuthService {
     user: UserStructure,
     request: { ipAddress: string; userAgent: string }
   ) {
-    // Reuse the user's active session if any (v1 has no 2FA gate yet, so a
-    // returning user keeps the same session and fingerprint).
-    const session = await this.sessionFingerprintService.getOrCreateSession(
+    // Rotate the session on every login: any prior active session is moved
+    // to history and a new one (with a fresh salt + fingerprint) is created.
+    const session = await this.sessionFingerprintService.startNewSession(
       "structure",
       user.id,
       user.uuid,

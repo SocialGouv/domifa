@@ -48,9 +48,11 @@ export class SessionFingerprintService {
       .digest("hex");
   }
 
-  // Reuse the user's active session if any, otherwise create a new one.
-  // Phase 2 (post-2FA) will replace this with a 2FA-gated creation flow.
-  public async getOrCreateSession(
+  // Every login starts a fresh session. Any prior active session is closed
+  // and pushed to history with reason `REPLACED`. The new JWT carries the
+  // new fingerprint hash, so the previous device's JWT (still holding the
+  // old hash) will mismatch on subsequent verifications.
+  public async startNewSession(
     profile: SessionProfile,
     userId: number,
     userUUID: string,
@@ -65,27 +67,24 @@ export class SessionFingerprintService {
     );
 
     if (row.currentSession) {
-      // Same user, active session already, but logging in from a different
-      // context (IP and/or UA). v1: log only, reuse the existing session.
-      // Phase 3 will likely treat this as a re-auth trigger.
-      const ipChanged = row.currentSession.ipAddress !== ipAddress;
-      const userAgentChanged = row.currentSession.userAgent !== userAgent;
-      if (ipChanged || userAgentChanged) {
-        appLogger.warn({
-          event: "session_login_context_changed",
-          profile,
-          userId,
-          structureId: row.structureId ?? null,
-          sessionUuid: row.currentSession.uuid,
-          oldIp: row.currentSession.ipAddress,
-          newIp: ipAddress,
-          ipChanged,
-          oldUserAgent: row.currentSession.userAgent,
-          newUserAgent: userAgent,
-          userAgentChanged,
-        });
-      }
-      return row.currentSession;
+      const previous = row.currentSession;
+      const closed: HistoricalUserSession = {
+        ...previous,
+        closedAt: new Date().toISOString(),
+        closedReason: "REPLACED",
+      };
+      appLogger.info({
+        event: "session_replaced_on_login",
+        profile,
+        userId,
+        structureId: row.structureId ?? null,
+        previousSessionUuid: previous.uuid,
+        ipChanged: previous.ipAddress !== ipAddress,
+        userAgentChanged: previous.userAgent !== userAgent,
+      });
+      // Most recent first to keep lookups cheap in the array.
+      row.sessionsHistory = [closed, ...row.sessionsHistory];
+      row.currentSession = null;
     }
 
     const now = new Date();
@@ -125,8 +124,11 @@ export class SessionFingerprintService {
     return row?.currentSession ?? null;
   }
 
-  // v1 observation: never throws. Logs on mismatch and bumps lastVerifiedAt.
-  // Phase 2 will switch to a throwing variant once log analysis is done.
+  // Returns true if the JWT's fingerprint matches the active session.
+  // Returns false (and logs) on any condition that should force the caller
+  // to log out: no security row, no active session, or a hash mismatch.
+  // A mismatch typically means the session was replaced by a login from
+  // another device — the old JWT must be rejected.
   public async verifySessionFromJwt(
     profile: SessionProfile,
     userId: number,
@@ -134,7 +136,7 @@ export class SessionFingerprintService {
     jwtFingerprintHash: string,
     currentIp: string,
     currentUserAgent: string
-  ): Promise<void> {
+  ): Promise<boolean> {
     const row = await this.loadSecurityRow(profile, userId);
     if (!row) {
       appLogger.warn({
@@ -142,7 +144,7 @@ export class SessionFingerprintService {
         profile,
         userId,
       });
-      return;
+      return false;
     }
 
     const session = row.currentSession;
@@ -152,7 +154,7 @@ export class SessionFingerprintService {
         profile,
         userId,
       });
-      return;
+      return false;
     }
 
     const calculatedHash = this.computeFingerprint(
@@ -179,6 +181,7 @@ export class SessionFingerprintService {
         expectedHashPrefix: jwtFingerprintHash.substring(0, 8),
         actualHashPrefix: calculatedHash.substring(0, 8),
       });
+      return false;
     }
 
     row.currentSession = {
@@ -186,6 +189,7 @@ export class SessionFingerprintService {
       lastVerifiedAt: new Date().toISOString(),
     };
     await this.persistRow(profile, row);
+    return true;
   }
 
   public async closeActiveSession(
@@ -194,7 +198,7 @@ export class SessionFingerprintService {
     reason: SessionClosedReason
   ): Promise<void> {
     const row = await this.loadSecurityRow(profile, userId);
-    if (!row || !row.currentSession) {
+    if (!row?.currentSession) {
       return;
     }
 

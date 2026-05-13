@@ -26,7 +26,7 @@ export class AdminsAuthService {
     user: UserSupervisor,
     request: { ipAddress: string; userAgent: string }
   ) {
-    const session = await this.sessionFingerprintService.getOrCreateSession(
+    const session = await this.sessionFingerprintService.startNewSession(
       "supervisor",
       user.id,
       user.uuid,
