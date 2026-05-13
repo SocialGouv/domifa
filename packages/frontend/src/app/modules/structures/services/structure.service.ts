@@ -85,12 +85,8 @@ export class StructureService {
       .pipe(map((response) => new StructureCommonWeb(response)));
   }
 
-  public hardReset() {
-    return this.http.get(`${this.endPoint}/hard-reset`);
-  }
-
-  public hardResetConfirm(token: string) {
-    return this.http.get(`${this.endPoint}/hard-reset-confirm/${token}`);
+  public hardResetConfirm() {
+    return this.http.post(`${this.endPoint}/hard-reset-confirm`, {});
   }
 
   public export(statut: UsagersFilterCriteriaStatut): Observable<Blob> {

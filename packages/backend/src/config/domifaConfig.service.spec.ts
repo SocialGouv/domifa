@@ -10,6 +10,7 @@ describe("loadConfig", () => {
       POSTGRES_DATABASE: "value POSTGRES_DATABASE",
       POSTGRES_SSL: false,
       DOMIFA_SECURITY_JWT_SECRET: "******************",
+      DOMIFA_OTP_SECRET: "test-otp-secret",
     };
     const env = loadEnvWithPreset({ defaultEnv });
 
@@ -48,6 +49,7 @@ describe("loadConfig", () => {
       POSTGRES_DATABASE: "value POSTGRES_DATABASE",
       POSTGRES_SSL: false,
       DOMIFA_SECURITY_JWT_SECRET: "******************",
+      DOMIFA_OTP_SECRET: "test-otp-secret",
     };
     const env = loadEnvWithPreset({ defaultEnv });
     const config = loadConfig(env);
@@ -86,6 +88,7 @@ describe("loadConfig", () => {
       POSTGRES_DATABASE: "value POSTGRES_DATABASE",
       POSTGRES_SSL: false,
       DOMIFA_SECURITY_JWT_SECRET: "******************",
+      DOMIFA_OTP_SECRET: "test-otp-secret",
       DOMIFA_FRONTEND_URL: "https://domifa.xxx",
       DOMIFA_PORTAIL_USAGERS_URL: "https://mon-domifa.xxx",
       DOMIFA_PORTAIL_ADMINS_URL: "https://admin.domifa.xxx",
