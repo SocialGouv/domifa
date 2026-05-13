@@ -85,7 +85,7 @@ export class OtpService {
       fingerprintHash: context.fingerprintHash,
       url: context.url,
       userType: context.userType,
-      userUuid: context.userUuid ?? null,
+      userUuid: context.userUuid,
     });
 
     this.logger.log(

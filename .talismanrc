@@ -6,7 +6,7 @@ fileignoreconfig:
 - filename: .kontinuous/env/preprod/templates/backend.sealed-secret.yaml
   checksum: ea966b6cbb1994ecb009c12912d034d2ece8632be0b503eac310b368ff80a357
 - filename: .kontinuous/env/prod/templates/backend.sealed-secret.yaml
-  checksum: e32b358108230a84ef7fe8e3d3220b360e867975eaad5cb098811fed055fb6d4
+  checksum: 5205a6aa11256a5de11dd54ad0cba1d9b115c4e4fa60006a91365b15463f5254
 - filename: \_docs/dev/0.run-local-env.md
   checksum: 855b6f29ace746c86597d36382dbe7e40f771137734e3bf5eb53c948d6592a74
 - filename: \_scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
@@ -60,7 +60,7 @@ fileignoreconfig:
 - filename: packages/portail-usagers/src/app/modules/general/components/\_static/politique/politique.component.ts
   checksum: dfdbbe1892cf17b22d28f529914eb5df3a07063d5e3071e59c36c907020260d3
 - filename: pnpm-lock.yaml
-  checksum: 21f57b8993c175806337dae8eb4379913536a27de1d677049ba98a9719267ac5
+  checksum: 91dfa87ee3b5657ebac0c7c02577c47ba32d4f443eaf8e587299318dd94b03d6
 allowed_patterns:
 - uses:\s\*[\w\-\.]+/[\w\-\.]+@[a-fA-F0-9]{40}
 - uses:\s*[\w\-\.]+/[\w\-\.]+/[\w\-\./]*@[a-fA-F0-9]{40}

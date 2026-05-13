@@ -1,25 +1,23 @@
 import { Request } from "express";
-import { isIP } from "node:net";
+import validator from "validator";
 
 const IP_MAX_LEN = 45; // IPv6 textual form max length
 const UA_MAX_LEN = 512; // real UAs rarely exceed ~250 chars
 // eslint-disable-next-line no-control-regex
 const CONTROL_CHARS = /[\x00-\x1F\x7F]/g;
-// Printable ASCII only — what every real-world browser UA is made of. Rejects
-// non-ASCII Unicode (homoglyph tricks, multi-byte injection, base64-of-binary
-// payloads that slipped past the control-char filter).
-// eslint-disable-next-line no-control-regex
-const PRINTABLE_ASCII = /^[\x20-\x7E]*$/;
 const IPV6_MAPPED_PREFIX = "::ffff:";
 
-// Traefik (and most edge proxies) set X-Real-IP to the actual client IP.
-// `req.ip` only works correctly if Express `trust proxy` matches the proxy
-// chain length, which can be brittle on K8s + Traefik with multiple hops.
-// Preferring X-Real-IP first sidesteps that and falls back to req.ip otherwise.
+// Traefik (the only ingress in our K8s setup) sets X-Real-IP to the actual
+// client IP. We prefer it over Express's `req.ip` because the `trust proxy`
+// chain length is brittle on K8s with multiple proxy hops.
 //
-// Hardened against header-borne attacks: rejects multi-valued headers, strips
-// control characters, caps length, and validates the result as a real IP via
-// node:net (rejects base64 blobs, SQL fragments, anything that isn't an IP).
+// Hardened against header-borne attacks:
+//  - rejects multi-valued (array) headers (smuggling ambiguity)
+//  - strips ASCII control characters
+//  - caps length to IPv6's textual max
+//  - canonicalizes IPv4-mapped IPv6 ("::ffff:1.2.3.4" → "1.2.3.4")
+//  - validates via validator.isIP (rejects base64 blobs, SQL fragments, anything
+//    that isn't a real IP)
 // Returns "" on failure rather than propagating attacker-controlled garbage
 // into fingerprint hashes or logs.
 export function getClientIp(req: Request): string {
@@ -28,9 +26,6 @@ export function getClientIp(req: Request): string {
 
 function pickIpCandidate(req: Request): string {
   const xRealIp = req.headers["x-real-ip"];
-  // A multi-value (array) header is suspicious — refuse rather than pick one
-  // arbitrarily, which would be a smuggling-style ambiguity. Only accept a
-  // single string.
   if (typeof xRealIp === "string" && xRealIp.length > 0) {
     return xRealIp;
   }
@@ -38,16 +33,20 @@ function pickIpCandidate(req: Request): string {
 }
 
 function normalizeIp(raw: string): string {
-  // Bound input length before any further processing to avoid unbounded work.
-  if (!raw || raw.length > IP_MAX_LEN * 2) return "";
+  if (!raw || raw.length > IP_MAX_LEN * 2) {
+    return "";
+  }
   const cleaned = raw.replace(CONTROL_CHARS, "").trim();
-  if (cleaned.length === 0 || cleaned.length > IP_MAX_LEN) return "";
-  // Canonicalize IPv4-mapped IPv6 ("::ffff:1.2.3.4") to plain IPv4 so the
-  // fingerprint stays stable across networks that report either form.
+  if (cleaned.length === 0 || cleaned.length > IP_MAX_LEN) {
+    return "";
+  }
   const unmapped = cleaned.startsWith(IPV6_MAPPED_PREFIX)
     ? cleaned.slice(IPV6_MAPPED_PREFIX.length)
     : cleaned;
-  return isIP(unmapped) === 0 ? "" : unmapped;
+  if (!validator.isIP(unmapped)) {
+    return "";
+  }
+  return unmapped;
 }
 
 // User-Agent is opaque text but we cap, clean, and shape-check it because:
@@ -55,13 +54,23 @@ function normalizeIp(raw: string): string {
 // - Control chars could poison non-JSON log sinks
 // - Real UAs rarely exceed a few hundred characters; anything bigger is
 //   either fuzzing or an attempt to bloat the DB row.
-// - Real UAs are pure printable ASCII; non-ASCII content is rejected to
-//   block Unicode-based injection / homoglyph fingerprint evasion.
+// - Real UAs are pure printable ASCII; non-ASCII is rejected to block
+//   Unicode-based injection / homoglyph fingerprint evasion.
+//
+// Note: no upstream lib defines "UA shape" (the RFC grammar is free-form
+// `*OCTET`). The custom check below is the minimum hygiene that proxies like
+// nginx/Traefik also apply at parse time.
 export function getClientUserAgent(req: Request): string {
   const raw = req.headers["user-agent"];
-  if (typeof raw !== "string") return "";
+  if (typeof raw !== "string") {
+    return "";
+  }
   const cleaned = raw.replace(CONTROL_CHARS, "").trim();
-  if (cleaned.length === 0 || cleaned.length > UA_MAX_LEN) return "";
-  if (!PRINTABLE_ASCII.test(cleaned)) return "";
+  if (!validator.isLength(cleaned, { min: 1, max: UA_MAX_LEN })) {
+    return "";
+  }
+  if (!validator.isAscii(cleaned)) {
+    return "";
+  }
   return cleaned;
 }

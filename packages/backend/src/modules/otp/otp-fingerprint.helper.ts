@@ -15,11 +15,10 @@ export function computeOtpFingerprint(
   user: AuthenticatedOtpUser,
   purpose: OtpPurpose
 ): string {
-  const userKey = user.uuid ?? user.email;
   const ip = getClientIp(req);
   const userAgent = getClientUserAgent(req);
 
   return createHash("sha256")
-    .update(`${userKey}|${ip}|${userAgent}|${purpose}`)
+    .update(`${user.uuid}|${ip}|${userAgent}|${purpose}`)
     .digest("hex");
 }

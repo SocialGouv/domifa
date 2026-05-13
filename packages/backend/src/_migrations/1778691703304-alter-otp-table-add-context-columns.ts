@@ -17,10 +17,13 @@ export class AlterOtpTableAddContextColumns1778691703304
         `ALTER TABLE "otp" ADD "fingerprintHash" text NOT NULL`
       );
       await queryRunner.query(`ALTER TABLE "otp" ADD "url" text NOT NULL`);
-      await queryRunner.query(`ALTER TABLE "otp" ADD "userUuid" uuid`);
+      await queryRunner.query(`ALTER TABLE "otp" ADD "userUuid" uuid NOT NULL`);
       await queryRunner.query(`ALTER TABLE "otp" ADD "userType" text NOT NULL`);
       await queryRunner.query(
         `ALTER TABLE "otp" ADD "resendCount" integer NOT NULL DEFAULT '0'`
+      );
+      await queryRunner.query(
+        `ALTER TABLE "otp" ADD "usedAt" TIMESTAMP WITH TIME ZONE`
       );
       await queryRunner.query(
         `ALTER TABLE "otp" ALTER COLUMN "purpose" SET NOT NULL`
@@ -43,6 +46,7 @@ export class AlterOtpTableAddContextColumns1778691703304
       await queryRunner.query(
         `ALTER TABLE "otp" ALTER COLUMN "purpose" DROP NOT NULL`
       );
+      await queryRunner.query(`ALTER TABLE "otp" DROP COLUMN "usedAt"`);
       await queryRunner.query(`ALTER TABLE "otp" DROP COLUMN "resendCount"`);
       await queryRunner.query(`ALTER TABLE "otp" DROP COLUMN "userType"`);
       await queryRunner.query(`ALTER TABLE "otp" DROP COLUMN "userUuid"`);

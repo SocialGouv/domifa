@@ -30,12 +30,15 @@ export class OtpTable extends AppTypeormTable<OtpTable> {
   @Column({ type: "text" })
   url: string;
 
-  @Column({ type: "uuid", nullable: true })
-  userUuid: string | null;
+  @Column({ type: "uuid" })
+  userUuid: string;
 
   @Column({ type: "text" })
   userType: UserProfile;
 
   @Column({ type: "integer", default: 0 })
   resendCount: number;
+
+  @Column({ type: "timestamptz", nullable: true })
+  usedAt: Date | null;
 }

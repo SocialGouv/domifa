@@ -7,6 +7,7 @@ import {
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { Request } from "express";
+import validator from "validator";
 
 import { OTP_PURPOSE_METADATA_KEY } from "../decorators/require-otp.decorator";
 import { OTP_CODE_HEADER } from "../otp.constants";
@@ -68,7 +69,7 @@ export class OtpGuard implements CanActivate {
 
   private buildContext(req: Request, purpose: OtpPurpose): OtpRequestContext {
     const user = req.user as AuthenticatedOtpUser | undefined;
-    if (!user?.email || !user._userProfile) {
+    if (!user?.email || !user._userProfile || !user.uuid) {
       throw otpError("OTP_UNAUTHENTICATED", HttpStatus.UNAUTHORIZED);
     }
 
@@ -78,20 +79,27 @@ export class OtpGuard implements CanActivate {
       purpose,
       email: user.email,
       userType: user._userProfile,
-      userUuid: user.uuid ?? null,
+      userUuid: user.uuid,
     };
   }
 }
 
 function readOtpCode(req: Request): string | null {
   const raw = req.headers[OTP_CODE_HEADER];
-  if (typeof raw !== "string") return null;
+  if (typeof raw !== "string") {
+    return null;
+  }
   const trimmed = raw.trim();
-  // 6-digit codes only — anything else is malformed or hostile (binary
-  // payload, base64 blob, oversized fuzz). Treat as "no code provided" so
-  // the request is asked to retry instead of burning an attempt against the
-  // stored HMAC.
-  return /^\d{6}$/.test(trimmed) ? trimmed : null;
+  // 6-digit numeric codes only. Anything else (binary payload, base64 blob,
+  // oversized fuzz) is treated as "no code provided" so the request hits the
+  // requestOtp branch instead of burning an attempt against the stored HMAC.
+  if (!validator.isLength(trimmed, { min: 6, max: 6 })) {
+    return null;
+  }
+  if (!validator.isNumeric(trimmed, { no_symbols: true })) {
+    return null;
+  }
+  return trimmed;
 }
 
 function normalizeUrl(req: Request): string {
