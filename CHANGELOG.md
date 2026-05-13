@@ -1,3 +1,16 @@
+# [2.240.0](https://github.com/SocialGouv/domifa/compare/v2.239.1...v2.240.0) (2026-05-13)
+
+
+### Bug Fixes
+
+* **backend:** add fingerprint test ([e499d29](https://github.com/SocialGouv/domifa/commit/e499d2925cecaed2eb9ab8e5d21f7653df7bfaf2))
+
+
+### Features
+
+* **backend:** add fingerprint in sessions ([db8644f](https://github.com/SocialGouv/domifa/commit/db8644f118c932d471ad7f183901b7a737e35538))
+* **backend:** force one session ([9c980a9](https://github.com/SocialGouv/domifa/commit/9c980a949695898d07f0983bf35bb948b0bfe1a7))
+
 ## [2.239.1](https://github.com/SocialGouv/domifa/compare/v2.239.0...v2.239.1) (2026-05-12)
 
 
