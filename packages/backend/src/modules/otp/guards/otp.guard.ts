@@ -73,9 +73,11 @@ export class OtpGuard implements CanActivate {
       throw otpError("OTP_UNAUTHENTICATED", HttpStatus.UNAUTHORIZED);
     }
 
+    const url = normalizeUrl(req);
+
     return {
-      fingerprintHash: computeOtpFingerprint(req, user, purpose),
-      url: normalizeUrl(req),
+      fingerprintHash: computeOtpFingerprint(user, purpose, url),
+      url,
       purpose,
       email: user.email,
       userType: user._userProfile,

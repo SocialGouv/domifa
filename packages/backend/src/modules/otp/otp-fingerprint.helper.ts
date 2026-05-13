@@ -1,24 +1,18 @@
 import { createHash } from "node:crypto";
-import { Request } from "express";
 
-import {
-  getClientIp,
-  getClientUserAgent,
-} from "../../util/express/clientRequest.helper";
 import { AuthenticatedOtpUser, OtpPurpose } from "./otp.types";
 
-// Stable hash of (user, client, purpose) used to scope OTP entries.
-// Unrelated to the session fingerprint carried by the JWT — that one is
-// for token-binding and stays a session/auth concern.
+// Stable hash scoping OTP entries to (user, purpose, url). IP and User-Agent
+// are intentionally NOT included: they're already enforced by the session
+// fingerprint check on the JWT (jwt.strategy.ts), so adding them here only
+// breaks legit users whose network flaps (mobile data ↔ wifi) without buying
+// any extra defense against a stolen-JWT scenario.
 export function computeOtpFingerprint(
-  req: Request,
   user: AuthenticatedOtpUser,
-  purpose: OtpPurpose
+  purpose: OtpPurpose,
+  url: string
 ): string {
-  const ip = getClientIp(req);
-  const userAgent = getClientUserAgent(req);
-
   return createHash("sha256")
-    .update(`${user.uuid}|${ip}|${userAgent}|${purpose}`)
+    .update(`${user.uuid}|${purpose}|${url}`)
     .digest("hex");
 }
