@@ -155,7 +155,13 @@ CREATE TABLE public.otp (
     "expiresAt" timestamp with time zone NOT NULL,
     attempts integer DEFAULT 0 NOT NULL,
     used boolean DEFAULT false NOT NULL,
-    purpose text
+    purpose text NOT NULL,
+    "fingerprintHash" text NOT NULL,
+    url text NOT NULL,
+    "userUuid" uuid NOT NULL,
+    "userType" text NOT NULL,
+    "resendCount" integer DEFAULT 0 NOT NULL,
+    "usedAt" timestamp with time zone
 );
 CREATE TABLE public.public_stats_cache (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
@@ -707,7 +713,7 @@ CREATE INDEX "IDX_ef9fade8e5a6dac06ef5031986" ON public.interactions USING btree
 CREATE INDEX "IDX_f072e2874bd87ecb6da2fbd66e" ON public.usager USING btree (nom_prenom_surnom_ref);
 CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON public.interactions USING btree ("usagerUUID");
 CREATE INDEX "IDX_fa4dea9a1ff8deb8fcf47c451e" ON public.structure USING btree (departement);
-CREATE INDEX "IDX_otp_email_used_expires" ON public.otp USING btree (email, used, "expiresAt");
+CREATE INDEX "IDX_otp_fingerprintHash" ON public.otp USING btree ("fingerprintHash");
 CREATE INDEX idx_interactions_date ON public.interactions USING btree ("structureId", "usagerUUID", "dateInteraction");
 CREATE INDEX idx_interactions_type ON public.interactions USING btree ("structureId", "usagerUUID", type);
 CREATE INDEX idx_stats_range ON public.usager_history_states USING btree ("historyBeginDate", "historyEndDate", "isActive");
