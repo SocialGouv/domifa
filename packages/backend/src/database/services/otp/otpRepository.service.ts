@@ -1,38 +1,63 @@
 import { myDataSource } from "..";
+import { UserProfile } from "../../../_common/model";
+import { OtpPurpose } from "../../../modules/otp/otp.types";
 import { OtpTable } from "../../entities/otp/OtpTable.typeorm";
 
+export interface OtpKey {
+  fingerprintHash: string;
+  url: string;
+  purpose: OtpPurpose;
+}
+
+export interface NewOtpInput extends OtpKey {
+  email: string;
+  code: string;
+  expiresAt: Date;
+  userType: UserProfile;
+  userUuid?: string | null;
+}
+
 export const otpRepository = myDataSource.getRepository(OtpTable).extend({
-  async claimValidOtp(
-    email: string,
-    hashedCode: string,
+  async findActiveByFingerprint(
+    fingerprintHash: string,
+    maxAttempts: number,
+    userUuid?: string | null
+  ): Promise<OtpTable | null> {
+    const qb = this.createQueryBuilder("otp")
+      .where("otp.fingerprintHash = :fingerprintHash", { fingerprintHash })
+      .andWhere("otp.used = false")
+      .andWhere(`otp."expiresAt" > :now`, { now: new Date() })
+      .andWhere("otp.attempts < :maxAttempts", { maxAttempts });
+    if (userUuid) {
+      qb.andWhere(`otp."userUuid" = :userUuid`, { userUuid });
+    }
+    return qb.orderBy(`otp."createdAt"`, "DESC").limit(1).getOne();
+  },
+
+  async claimByKey(
+    key: OtpKey,
+    code: string,
     maxAttempts: number
   ): Promise<OtpTable | null> {
     const result = await this.createQueryBuilder()
       .update(OtpTable)
       .set({ used: true })
-      .where("email = :email", { email })
-      .andWhere("code = :hashedCode", { hashedCode })
+      .where(`"fingerprintHash" = :fingerprintHash`, {
+        fingerprintHash: key.fingerprintHash,
+      })
+      .andWhere(`"url" = :url`, { url: key.url })
+      .andWhere(`"purpose" = :purpose`, { purpose: key.purpose })
+      .andWhere(`"code" = :code`, { code })
       .andWhere(`"expiresAt" > :now`, { now: new Date() })
-      .andWhere("used = false")
-      .andWhere("attempts < :maxAttempts", { maxAttempts })
+      .andWhere(`"used" = false`)
+      .andWhere(`"attempts" < :maxAttempts`, { maxAttempts })
       .returning("*")
       .execute();
     return (result.raw?.[0] as OtpTable) ?? null;
   },
 
-  async countRecentByEmail(
-    email: string,
-    windowMinutes: number
-  ): Promise<number> {
-    const since = new Date(Date.now() - windowMinutes * 60 * 1000);
-    return this.createQueryBuilder("otp")
-      .where("otp.email = :email", { email })
-      .andWhere("otp.createdAt > :since", { since })
-      .getCount();
-  },
-
-  async incrementLatestPendingAttempts(
-    email: string,
+  async incrementPendingAttempts(
+    key: OtpKey,
     maxAttempts: number
   ): Promise<OtpTable | null> {
     const result = (await this.query(
@@ -41,18 +66,52 @@ export const otpRepository = myDataSource.getRepository(OtpTable).extend({
            "updatedAt" = NOW()
        FROM (
          SELECT "uuid" FROM "otp"
-         WHERE "email" = $1
+         WHERE "fingerprintHash" = $1
+           AND "url" = $2
+           AND "purpose" = $3
            AND "used" = false
-           AND "expiresAt" > $2
-           AND "attempts" < $3
+           AND "expiresAt" > $4
+           AND "attempts" < $5
          ORDER BY "createdAt" DESC
          LIMIT 1
        ) sub
        WHERE "otp"."uuid" = sub."uuid"
        RETURNING "otp".*`,
-      [email, new Date(), maxAttempts]
+      [key.fingerprintHash, key.url, key.purpose, new Date(), maxAttempts]
     )) as [OtpTable[], number];
     const rows = result?.[0];
     return rows?.[0] ?? null;
+  },
+
+  async findRecentBlocked(
+    key: OtpKey,
+    maxAttempts: number,
+    blockDurationMs: number
+  ): Promise<OtpTable | null> {
+    const since = new Date(Date.now() - blockDurationMs);
+    return this.createQueryBuilder("otp")
+      .where("otp.fingerprintHash = :fingerprintHash", {
+        fingerprintHash: key.fingerprintHash,
+      })
+      .andWhere("otp.url = :url", { url: key.url })
+      .andWhere("otp.purpose = :purpose", { purpose: key.purpose })
+      .andWhere("otp.attempts >= :maxAttempts", { maxAttempts })
+      .andWhere(`otp."updatedAt" > :since`, { since })
+      .orderBy(`otp."updatedAt"`, "DESC")
+      .limit(1)
+      .getOne();
+  },
+
+  async createOtp(input: NewOtpInput): Promise<OtpTable> {
+    return this.save({
+      email: input.email,
+      code: input.code,
+      expiresAt: input.expiresAt,
+      purpose: input.purpose,
+      fingerprintHash: input.fingerprintHash,
+      url: input.url,
+      userType: input.userType,
+      userUuid: input.userUuid ?? null,
+    });
   },
 });

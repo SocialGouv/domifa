@@ -1,8 +1,9 @@
 import { Column, Entity, Index } from "typeorm";
+import { UserProfile } from "../../../_common/model";
+import { OtpPurpose } from "../../../modules/otp/otp.types";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 
 @Entity({ name: "otp" })
-@Index("IDX_otp_email_used_expires", ["email", "used", "expiresAt"])
 export class OtpTable extends AppTypeormTable<OtpTable> {
   @Column({ type: "text" })
   email: string;
@@ -19,6 +20,22 @@ export class OtpTable extends AppTypeormTable<OtpTable> {
   @Column({ type: "boolean", default: false })
   used: boolean;
 
-  @Column({ type: "text", nullable: true })
-  purpose: string;
+  @Column({ type: "text" })
+  purpose: OtpPurpose;
+
+  @Index()
+  @Column({ type: "text" })
+  fingerprintHash: string;
+
+  @Column({ type: "text" })
+  url: string;
+
+  @Column({ type: "uuid", nullable: true })
+  userUuid: string | null;
+
+  @Column({ type: "text" })
+  userType: UserProfile;
+
+  @Column({ type: "integer", default: 0 })
+  resendCount: number;
 }

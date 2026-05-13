@@ -105,8 +105,21 @@ function redactAuthorizationHeader(req: SerializedRequest): SerializedRequest {
   return req;
 }
 
+// Hex/UUID-ish only, capped at 64 chars. The id ends up in log lines and
+// downstream tracing; an attacker-controlled header could otherwise carry
+// control chars (CRLF injection in non-JSON sinks) or oversize payloads.
+const REQUEST_ID_PATTERN = /^[a-zA-Z0-9-]{1,64}$/;
+
+function readRequestId(req: RequestWithId): string {
+  const raw = req.headers["X-Request-Id"];
+  if (typeof raw === "string" && REQUEST_ID_PATTERN.test(raw)) {
+    return raw;
+  }
+  return randomUUID();
+}
+
 function httpLogger(req: RequestWithId, res: Response, next: NextFunction) {
-  req.id = req.headers["X-Request-Id"] || randomUUID();
+  req.id = readRequestId(req);
   const startTime = Date.now();
 
   const requestLogger = rootLogger.child({

@@ -19,6 +19,7 @@ import { InteractionsService } from "./modules/interactions/services";
 import { SmsModule } from "./modules/sms/sms.module";
 import { OpenDataPlacesModule } from "./modules/open-data/open-data-places.module";
 import { OtpModule } from "./modules/otp/otp.module";
+import { SecurityMonitoringModule } from "./modules/security-monitoring/security-monitoring.module";
 import { UsersModule } from "./modules/users/users.module";
 import { HealthModule } from "./modules/health/health.module";
 import { StatsModule } from "./modules/stats/stats.module";
@@ -83,6 +84,7 @@ appModuleLogger.log(
     ContactSupportModule,
     OpenDataPlacesModule,
     OtpModule,
+    SecurityMonitoringModule,
   ],
   providers: [
     FileManagerService,

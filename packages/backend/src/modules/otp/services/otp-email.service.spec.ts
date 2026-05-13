@@ -4,8 +4,12 @@ import { OtpEmailService } from "./otp-email.service";
 import { generateOtpEmailHtml } from "../templates/otp-email.template";
 
 const mockSendMail = jest.fn();
+const mockVerify = jest.fn();
 jest.mock("nodemailer", () => ({
-  createTransport: jest.fn(() => ({ sendMail: mockSendMail })),
+  createTransport: jest.fn(() => ({
+    sendMail: mockSendMail,
+    verify: mockVerify,
+  })),
 }));
 
 const mockConfig = jest.fn();
@@ -36,6 +40,8 @@ describe("OtpEmailService", () => {
 
   beforeEach(async () => {
     mockSendMail.mockReset();
+    mockVerify.mockReset();
+    mockVerify.mockResolvedValue(true);
     mockConfig.mockReset();
     mockConfig.mockReturnValue(buildConfig());
 
@@ -64,7 +70,7 @@ describe("OtpEmailService", () => {
     expect(mockSendMail).not.toHaveBeenCalled();
   });
 
-  it("should silently skip in dev when SMTP host is missing", async () => {
+  it("should throw in dev when SMTP host is missing", async () => {
     mockConfig.mockReturnValue(
       buildConfig({
         envId: "dev",
@@ -82,7 +88,7 @@ describe("OtpEmailService", () => {
 
     await expect(
       service.sendOtpEmail("test@example.com", "123456")
-    ).resolves.toBeUndefined();
+    ).rejects.toBeInstanceOf(InternalServerErrorException);
     expect(mockSendMail).not.toHaveBeenCalled();
   });
 
@@ -150,6 +156,66 @@ describe("OtpEmailService", () => {
     expect(errSpy.mock.calls[0][0]).toContain("SMTP boom");
     // Original recipient must be redacted, not leaked in the error log.
     expect(errSpy.mock.calls[0][0]).not.toContain("real@example.com");
+  });
+
+  describe("onModuleInit", () => {
+    it("should skip verify when emailsEnabled is false", async () => {
+      mockConfig.mockReturnValue(
+        buildConfig({ envId: "dev", email: { emailsEnabled: false } })
+      );
+
+      await service.onModuleInit();
+
+      expect(mockVerify).not.toHaveBeenCalled();
+    });
+
+    it("should skip verify when envId is test", async () => {
+      mockConfig.mockReturnValue(buildConfig({ envId: "test" }));
+
+      await service.onModuleInit();
+
+      expect(mockVerify).not.toHaveBeenCalled();
+    });
+
+    it("should log error and not crash when SMTP config is incomplete", async () => {
+      mockConfig.mockReturnValue(
+        buildConfig({
+          envId: "dev",
+          email: { emailsEnabled: true },
+          smtp: {
+            host: "",
+            port: 587,
+            user: "",
+            pass: "",
+            from: "",
+            timeoutMs: 10_000,
+          },
+        })
+      );
+      const errSpy = jest
+        .spyOn(service["logger"], "error")
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        .mockImplementation(() => {});
+
+      await expect(service.onModuleInit()).resolves.toBeUndefined();
+      expect(mockVerify).not.toHaveBeenCalled();
+      expect(errSpy.mock.calls[0][0]).toContain("SMTP config incomplete");
+    });
+
+    it("should call verify and not crash when verify rejects", async () => {
+      mockConfig.mockReturnValue(
+        buildConfig({ envId: "dev", email: { emailsEnabled: true } })
+      );
+      mockVerify.mockRejectedValue(new Error("SMTP unreachable"));
+      const errSpy = jest
+        .spyOn(service["logger"], "error")
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        .mockImplementation(() => {});
+
+      await expect(service.onModuleInit()).resolves.toBeUndefined();
+      expect(mockVerify).toHaveBeenCalledTimes(1);
+      expect(errSpy.mock.calls[0][0]).toContain("SMTP verify failed");
+    });
   });
 
   it("should redirect to test address in non-prod when configured", async () => {

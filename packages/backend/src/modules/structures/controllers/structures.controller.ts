@@ -3,8 +3,8 @@ import {
   Controller,
   Get,
   HttpStatus,
-  Param,
   Patch,
+  Post,
   Res,
   UseGuards,
 } from "@nestjs/common";
@@ -23,17 +23,15 @@ import {
   usagerHistoryStatesRepository,
   usagerRepository,
 } from "../../../database";
+import { OtpGuard } from "../../otp/guards/otp.guard";
+import { RequireOtp } from "../../otp/decorators/require-otp.decorator";
 import { ExpressResponse } from "../../../util/express";
 import { UserStructureAuthenticated } from "../../../_common/model";
 import { StructureDto, StructureEditSmsDto } from "../dto";
-import { StructureHardResetService } from "../services/structureHardReset.service";
 import { StructuresService } from "../services/structures.service";
 import { AppLogsService } from "../../app-logs/app-logs.service";
 import { buildStructureActorFields } from "../../app-logs/app-logs.helpers";
 
-import { ParseHardResetTokenPipe } from "../../../_common/decorators";
-
-import { faker } from "@faker-js/faker";
 import { AppUserGuard } from "../../../auth/guards";
 import {
   ALL_USER_STRUCTURE_ROLES,
@@ -48,7 +46,6 @@ import { cleanPath, logDiff } from "../../../util";
 import { join } from "path";
 import { FindOptionsSelect } from "typeorm";
 import { STRUCTURE_DTO_KEYS } from "../constants/STRUCTURE_DTO_KEYS.const";
-import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
 
 // Usage
 @Controller("structures")
@@ -59,11 +56,9 @@ import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-send
 @ApiBearerAuth()
 export class StructuresController {
   constructor(
-    private readonly structureHardResetService: StructureHardResetService,
     private readonly structureService: StructuresService,
     private readonly appLogsService: AppLogsService,
-    private readonly fileManagerService: FileManagerService,
-    private readonly brevoSenderService: BrevoSenderService
+    private readonly fileManagerService: FileManagerService
   ) {}
 
   @Patch()
@@ -179,93 +174,18 @@ export class StructuresController {
   }
 
   @ApiBearerAuth()
-  @Get("hard-reset")
-  public async hardReset(
+  @Post("hard-reset-confirm")
+  @UseGuards(OtpGuard)
+  @RequireOtp("RESET_USAGERS")
+  public async hardResetConfirm(
     @Res() res: ExpressResponse,
     @CurrentUser() user: UserStructureAuthenticated
   ) {
-    const expireAt = new Date();
-    expireAt.setDate(expireAt.getDate() + 1);
-
-    const token = faker.string.alphanumeric(7).toUpperCase();
-
-    const hardResetToken = { token, expireAt, userId: user.id };
-    const structure = await this.structureHardResetService.hardReset(
-      user.structureId,
-      hardResetToken
-    );
-
-    if (structure) {
-      const params = {
-        confirmationCode: hardResetToken.token,
-        prenom: user.prenom,
-      };
-
-      try {
-        await this.brevoSenderService.sendEmailWithTemplate({
-          templateId: domifaConfig().brevo.templates.structureHardReset,
-          params,
-          to: [
-            {
-              email: user.email,
-              name: `${user.prenom} ${user.nom}`,
-            },
-          ],
-        });
-
-        return res.status(HttpStatus.OK).json({ message: "OK" });
-      } catch (error) {
-        console.log(error);
-        return res
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: "HARD_RESET_ERROR" });
-      }
-    }
-    return res
-      .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .json({ message: "HARD_RESET_ERROR" });
-  }
-
-  @ApiBearerAuth()
-  @Get("hard-reset-confirm/:token")
-  public async hardResetConfirm(
-    @Res() res: ExpressResponse,
-    @CurrentUser() user: UserStructureAuthenticated,
-    @Param("token", new ParseHardResetTokenPipe()) token: string
-  ) {
-    const structure = await structureRepository.checkHardResetToken({
-      userId: user.id,
-      token,
-    });
-
-    if (!structure) {
-      return res
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "HARD_RESET_INCORRECT_TOKEN" });
-    }
-
-    const now = new Date();
-
-    if (structure.hardReset.expireAt && structure.hardReset.expireAt < now) {
-      return res
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "HARD_RESET_EXPIRED_TOKEN" });
-    }
-
-    await usagerDocsRepository.delete({
-      structureId: structure.id,
-    });
-
-    await usagerRepository.delete({
-      structureId: structure.id,
-    });
-
-    await messageSmsRepository.delete({
-      structureId: structure.id,
-    });
-
+    await usagerDocsRepository.delete({ structureId: user.structureId });
+    await usagerRepository.delete({ structureId: user.structureId });
+    await messageSmsRepository.delete({ structureId: user.structureId });
     await usagerHistoryStatesRepository.delete({
-      structureId: structure.id,
+      structureId: user.structureId,
     });
 
     const key = `${join(
@@ -275,8 +195,6 @@ export class StructuresController {
     )}/`;
 
     await this.fileManagerService.deleteAllUnderStructure(key);
-
-    await this.structureHardResetService.hardResetClean(structure.id);
 
     return res.status(HttpStatus.OK).json({ message: "success" });
   }

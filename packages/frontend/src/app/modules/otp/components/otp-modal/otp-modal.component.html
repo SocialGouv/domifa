@@ -1,0 +1,50 @@
+<dsfr-modal
+  class="fr-text--left"
+  #otpModal
+  [titleModal]="'Confirmation par code'"
+  [modalSize]="'MD'"
+  dialogId="otpModal"
+>
+  <p>Un code de vérification à 6 chiffres vous a été envoyé par email.</p>
+
+  <form (ngSubmit)="submit()">
+    <div
+      class="fr-input-group"
+      [class.fr-input-group--error]="
+        (submitted && codeControl.errors) || errorCode
+      "
+    >
+      <label class="fr-label" for="otp-code-input"
+        >Saisissez le code reçu</label
+      >
+      <input
+        type="text"
+        inputmode="numeric"
+        autocomplete="one-time-code"
+        class="fr-input"
+        id="otp-code-input"
+        maxlength="6"
+        minlength="6"
+        pattern="\d{6}"
+        [formControl]="codeControl"
+        [class.fr-input--error]="(submitted && codeControl.errors) || errorCode"
+      />
+      @if (errorMessage) {
+      <p class="fr-error-text">{{ errorMessage }}</p>
+      } @else if (submitted && codeControl.errors) {
+      <p class="fr-error-text">Le code doit comporter exactement 6 chiffres.</p>
+      }
+    </div>
+  </form>
+
+  <ng-template #modalFooterTemplate>
+    <div
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
+    >
+      <button class="fr-btn" type="button" (click)="submit()">Valider</button>
+      <button class="fr-btn fr-btn--secondary" type="button" (click)="cancel()">
+        Annuler
+      </button>
+    </div>
+  </ng-template>
+</dsfr-modal>

@@ -41,6 +41,8 @@ import localeFr from "@angular/common/locales/fr";
 import { provideUserIdleConfig } from "angular-user-idle";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { LoadingComponent } from "./modules/shared/components/loading/loading.component";
+import { OtpModalComponent } from "./modules/otp/components/otp-modal/otp-modal.component";
+import { OtpInterceptor } from "./modules/otp/interceptors/otp.interceptor";
 
 const disableAnimations =
   !("animate" in document.documentElement) ||
@@ -73,6 +75,7 @@ registerLocaleData(localeFr, "fr");
     SharedModule,
     MATOMO_INJECTORS,
     DsfrModalComponent,
+    OtpModalComponent,
   ],
   providers: [
     AuthService,
@@ -81,11 +84,16 @@ registerLocaleData(localeFr, "fr");
     provideUserIdleConfig({ idle: 3600, timeout: 60, ping: 20 }),
     { provide: LOCALE_ID, useValue: "fr" },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    // OtpInterceptor must come AFTER ServerErrorInterceptor so it sits closer
+    // to the backend in the chain. Angular runs error catchers innermost-first,
+    // so OTP gets first crack at 401/429 and only non-OTP errors fall through
+    // to ServerErrorInterceptor (which logs out on any 401).
     {
+      provide: HTTP_INTERCEPTORS,
       useClass: ServerErrorInterceptor,
       multi: true,
-      provide: HTTP_INTERCEPTORS,
     },
+    { provide: HTTP_INTERCEPTORS, useClass: OtpInterceptor, multi: true },
     {
       provide: ErrorHandler,
       useValue: createErrorHandler({
