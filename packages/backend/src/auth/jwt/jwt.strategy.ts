@@ -67,7 +67,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       );
 
       if (authUser) {
-        await this.sessionFingerprintService.verifySessionFromJwt(
+        const ok = await this.sessionFingerprintService.verifySessionFromJwt(
           "supervisor",
           authUser.id,
           authUser.uuid,
@@ -75,6 +75,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
           getClientIp(req),
           getClientUserAgent(req)
         );
+        if (!ok) {
+          return false;
+        }
       }
 
       return authUser;
@@ -87,10 +90,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         structurePayload
       );
 
-      // v1 observation: session fingerprint is logged on mismatch but never
-      // blocks. The presence check above is what forces old tokens to expire.
+      // Force logout if the session fingerprint no longer matches — typically
+      // because a newer login replaced the active session on another device.
       if (authUser) {
-        await this.sessionFingerprintService.verifySessionFromJwt(
+        const ok = await this.sessionFingerprintService.verifySessionFromJwt(
           "structure",
           authUser.id,
           authUser.uuid,
@@ -98,6 +101,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
           getClientIp(req),
           getClientUserAgent(req)
         );
+        if (!ok) {
+          return false;
+        }
       }
 
       return authUser;

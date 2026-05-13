@@ -70,9 +70,9 @@ describe("SessionFingerprintService", () => {
     });
   });
 
-  describe("getOrCreateSession (structure)", () => {
+  describe("startNewSession (structure)", () => {
     it("creates the active session with a fresh salt", async () => {
-      const session = await service.getOrCreateSession(
+      const session = await service.startNewSession(
         "structure",
         testUser.id,
         testUser.uuid,
@@ -97,8 +97,8 @@ describe("SessionFingerprintService", () => {
       expect(row?.currentSession?.salt).toEqual(session.salt);
     });
 
-    it("reuses the active session on a second call", async () => {
-      const first = await service.getOrCreateSession(
+    it("rotates the active session on a second call and pushes the previous one to history with REPLACED", async () => {
+      const first = await service.startNewSession(
         "structure",
         testUser.id,
         testUser.uuid,
@@ -106,7 +106,7 @@ describe("SessionFingerprintService", () => {
         "Mozilla/5.0",
         testUser.structureId
       );
-      const second = await service.getOrCreateSession(
+      const second = await service.startNewSession(
         "structure",
         testUser.id,
         testUser.uuid,
@@ -114,14 +114,60 @@ describe("SessionFingerprintService", () => {
         "Other-UA",
         testUser.structureId
       );
-      expect(second.uuid).toEqual(first.uuid);
-      expect(second.fingerprintHash).toEqual(first.fingerprintHash);
+      expect(second.uuid).not.toEqual(first.uuid);
+      expect(second.salt).not.toEqual(first.salt);
+      expect(second.fingerprintHash).not.toEqual(first.fingerprintHash);
+      expect(second.fingerprintHash).toEqual(
+        service.computeFingerprint(
+          testUser.uuid,
+          "10.0.0.2",
+          "Other-UA",
+          second.salt
+        )
+      );
+
+      const row = await userStructureSecurityRepository.findOne({
+        where: { userId: testUser.id },
+      });
+      expect(row?.currentSession?.uuid).toEqual(second.uuid);
+      const replaced = (row?.sessionsHistory ?? []).find(
+        (s) => s.uuid === first.uuid
+      );
+      expect(replaced?.closedReason).toEqual("REPLACED");
+      expect(replaced?.closedAt).toBeDefined();
     });
   });
 
-  describe("verifySessionFromJwt (v1 observation)", () => {
-    it("never throws on mismatch and updates lastVerifiedAt", async () => {
-      const session = await service.getOrCreateSession(
+  describe("verifySessionFromJwt", () => {
+    it("returns true and bumps lastVerifiedAt when the hash matches", async () => {
+      const session = await service.startNewSession(
+        "structure",
+        testUser.id,
+        testUser.uuid,
+        "10.0.0.1",
+        "Mozilla/5.0",
+        testUser.structureId
+      );
+
+      await expect(
+        service.verifySessionFromJwt(
+          "structure",
+          testUser.id,
+          testUser.uuid,
+          session.fingerprintHash,
+          "10.0.0.1",
+          "Mozilla/5.0"
+        )
+      ).resolves.toBe(true);
+
+      const reloaded = await userStructureSecurityRepository.findOne({
+        where: { userId: testUser.id },
+      });
+      expect(reloaded?.currentSession?.lastVerifiedAt).not.toBeNull();
+    });
+
+    it("returns false when the IP/UA produce a different hash (replaced session)", async () => {
+      const session = await service.startNewSession(
         "structure",
         testUser.id,
         testUser.uuid,
@@ -139,15 +185,10 @@ describe("SessionFingerprintService", () => {
           "10.0.0.99", // different IP
           "Other-UA" // different UA
         )
-      ).resolves.toBeUndefined();
-
-      const reloaded = await userStructureSecurityRepository.findOne({
-        where: { userId: testUser.id },
-      });
-      expect(reloaded?.currentSession?.lastVerifiedAt).not.toBeNull();
+      ).resolves.toBe(false);
     });
 
-    it("never throws when no active session exists", async () => {
+    it("returns false when no active session exists", async () => {
       await userStructureSecurityRepository.update(
         { userId: testUser.id },
         { currentSession: null }
@@ -162,13 +203,13 @@ describe("SessionFingerprintService", () => {
           "10.0.0.1",
           "Mozilla/5.0"
         )
-      ).resolves.toBeUndefined();
+      ).resolves.toBe(false);
     });
   });
 
   describe("closeActiveSession", () => {
     it("moves the active session into history with the given reason", async () => {
-      const session = await service.getOrCreateSession(
+      const session = await service.startNewSession(
         "structure",
         testUser.id,
         testUser.uuid,

@@ -1,6 +1,7 @@
 // Closing reasons. Persisted on each historical session entry.
-// REPLACED / IP_MISMATCH / UA_MISMATCH / ADMIN_REVOKED are reserved for
-// phase 2 (post-2FA, blocking mode) and not produced by the v1 flow.
+// REPLACED is emitted when a new login rotates the active session.
+// IP_MISMATCH / UA_MISMATCH / ADMIN_REVOKED are reserved for phase 3
+// (post-2FA, blocking mode) and not produced by the current flow.
 export type SessionClosedReason =
   | "EXPIRED"
   | "REPLACED"
