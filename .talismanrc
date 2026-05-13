@@ -1,5 +1,4 @@
 fileignoreconfig:
-
 - filename: .anonymizer/yarn.lock
   checksum: adf574ab2b9fc5e21891b802504438b9f7738c8854047dbc7ca628cd3994ef5f
 - filename: .kontinuous/env/dev/templates/backend.sealed-secret.yaml
@@ -32,6 +31,10 @@ fileignoreconfig:
   checksum: 4fc3814342a5e699f901acc15fb236fd00904069f5397bcaf9eca160b6e65dbf
 - filename: packages/backend/src/\_migrations/\_init-db/domifa_test_schema.sql
   checksum: 20023e26692f1e5456e22d9c11e27bb6fb03d0757430a6caa17fe754f566ad4b
+- filename: packages/backend/src/_migrations/1778582320186-add-otp-table.ts
+  checksum: e5b5fc05e6b97eb3901154fb8eb698d50c5084442bea7316bdc947755b34b282
+- filename: packages/backend/src/_migrations/_init-db/domifa_test_schema.sql
+  checksum: 993e12a16a4aec3c77d1026d64c3d782faf33ae409077ccd51a80579f67fa678
 - filename: packages/frontend/src/app/modules/general/components/static-pages/politique/politique.component.html
   checksum: 5a51711775b228a5086ca5f40eac5f971a09d9a6837b115f0cb81db16938b8e2
 - filename: packages/frontend/src/app/modules/general/components/static-pages/temoignages/temoignages.component.html
@@ -58,8 +61,8 @@ fileignoreconfig:
   checksum: dfdbbe1892cf17b22d28f529914eb5df3a07063d5e3071e59c36c907020260d3
 - filename: pnpm-lock.yaml
   checksum: 21f57b8993c175806337dae8eb4379913536a27de1d677049ba98a9719267ac5
-  allowed_patterns:
+allowed_patterns:
 - uses:\s\*[\w\-\.]+/[\w\-\.]+@[a-fA-F0-9]{40}
 - uses:\s*[\w\-\.]+/[\w\-\.]+/[\w\-\./]*@[a-fA-F0-9]{40}
-  threshold: medium
-  version: "1.0"
+threshold: medium
+version: "1.0"

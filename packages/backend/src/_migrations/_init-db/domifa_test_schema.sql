@@ -149,7 +149,7 @@ CREATE TABLE public.otp (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
     "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
-    version integer DEFAULT 1 NOT NULL,
+    version integer NOT NULL,
     email text NOT NULL,
     code text NOT NULL,
     "expiresAt" timestamp with time zone NOT NULL,
@@ -605,12 +605,12 @@ ALTER TABLE ONLY public.monitor_batch_process
     ADD CONSTRAINT "PK_f00131d757d1ddf39e70901e372" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.open_data_cities
     ADD CONSTRAINT "PK_f20d1eb20573a7f2922c8a5f9a8" PRIMARY KEY (uuid);
+ALTER TABLE ONLY public.otp
+    ADD CONSTRAINT "PK_f63f78c8d648a9c53057079b0af" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.open_data_places
     ADD CONSTRAINT "PK_f80b64cfb42753deacd8bf6d78d" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.user_supervisor
     ADD CONSTRAINT "PK_fd859b169ff3833fed4b4769aa4" PRIMARY KEY (uuid);
-ALTER TABLE ONLY public.otp
-    ADD CONSTRAINT "PK_otp" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.user_usager
     ADD CONSTRAINT "UQ_07ddbb376616a6bf4ffdbb2b6d7" UNIQUE ("usagerUUID");
 ALTER TABLE ONLY public.user_structure
