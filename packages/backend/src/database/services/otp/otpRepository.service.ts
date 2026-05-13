@@ -14,24 +14,24 @@ export interface NewOtpInput extends OtpKey {
   code: string;
   expiresAt: Date;
   userType: UserProfile;
-  userUuid?: string | null;
+  userUuid: string;
 }
 
 export const otpRepository = myDataSource.getRepository(OtpTable).extend({
   async findActiveByFingerprint(
     fingerprintHash: string,
     maxAttempts: number,
-    userUuid?: string | null
+    userUuid: string
   ): Promise<OtpTable | null> {
-    const qb = this.createQueryBuilder("otp")
+    return this.createQueryBuilder("otp")
       .where("otp.fingerprintHash = :fingerprintHash", { fingerprintHash })
       .andWhere("otp.used = false")
       .andWhere(`otp."expiresAt" > :now`, { now: new Date() })
-      .andWhere("otp.attempts < :maxAttempts", { maxAttempts });
-    if (userUuid) {
-      qb.andWhere(`otp."userUuid" = :userUuid`, { userUuid });
-    }
-    return qb.orderBy(`otp."createdAt"`, "DESC").limit(1).getOne();
+      .andWhere("otp.attempts < :maxAttempts", { maxAttempts })
+      .andWhere(`otp."userUuid" = :userUuid`, { userUuid })
+      .orderBy(`otp."createdAt"`, "DESC")
+      .limit(1)
+      .getOne();
   },
 
   async claimByKey(
@@ -41,7 +41,7 @@ export const otpRepository = myDataSource.getRepository(OtpTable).extend({
   ): Promise<OtpTable | null> {
     const result = await this.createQueryBuilder()
       .update(OtpTable)
-      .set({ used: true })
+      .set({ used: true, usedAt: () => "NOW()" })
       .where(`"fingerprintHash" = :fingerprintHash`, {
         fingerprintHash: key.fingerprintHash,
       })
@@ -111,7 +111,7 @@ export const otpRepository = myDataSource.getRepository(OtpTable).extend({
       fingerprintHash: input.fingerprintHash,
       url: input.url,
       userType: input.userType,
-      userUuid: input.userUuid ?? null,
+      userUuid: input.userUuid,
     });
   },
 });

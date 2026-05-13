@@ -5,6 +5,7 @@ import { randomUUID } from "node:crypto";
 import { NextFunction, Request, Response } from "express";
 import { AsyncLocalStorage } from "node:async_hooks";
 import { INestApplication, LoggerService } from "@nestjs/common";
+import validator from "validator";
 import {
   addBreadcrumb,
   captureException,
@@ -105,17 +106,22 @@ function redactAuthorizationHeader(req: SerializedRequest): SerializedRequest {
   return req;
 }
 
-// Hex/UUID-ish only, capped at 64 chars. The id ends up in log lines and
+// Alphanumeric + hyphen, capped at 64 chars. The id ends up in log lines and
 // downstream tracing; an attacker-controlled header could otherwise carry
-// control chars (CRLF injection in non-JSON sinks) or oversize payloads.
-const REQUEST_ID_PATTERN = /^[a-zA-Z0-9-]{1,64}$/;
-
+// control chars (CRLF injection in non-JSON sinks), oversize payloads, or
+// SQL-style payloads like CHAR(0x...) chained through log aggregators.
 function readRequestId(req: RequestWithId): string {
   const raw = req.headers["X-Request-Id"];
-  if (typeof raw === "string" && REQUEST_ID_PATTERN.test(raw)) {
-    return raw;
+  if (typeof raw !== "string") {
+    return randomUUID();
   }
-  return randomUUID();
+  if (!validator.isLength(raw, { min: 1, max: 64 })) {
+    return randomUUID();
+  }
+  if (!validator.matches(raw, /^[a-zA-Z0-9-]+$/)) {
+    return randomUUID();
+  }
+  return raw;
 }
 
 function httpLogger(req: RequestWithId, res: Response, next: NextFunction) {

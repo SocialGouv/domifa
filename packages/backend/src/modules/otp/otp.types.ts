@@ -10,7 +10,7 @@ export const OTP_PURPOSES = [
 export type OtpPurpose = (typeof OTP_PURPOSES)[number];
 
 export interface AuthenticatedOtpUser {
-  uuid?: string;
+  uuid: string;
   email: string;
   _userProfile: UserProfile;
 }
@@ -21,5 +21,5 @@ export interface OtpRequestContext {
   purpose: OtpPurpose;
   email: string;
   userType: UserProfile;
-  userUuid?: string | null;
+  userUuid: string;
 }

@@ -65,7 +65,7 @@ export type DomifaEnv = {
   DATA_INCLUSION_TOKEN: string;
   METABASE_TOKEN: string;
   METABASE_URL: string;
-  // SMTP (Tipimail)
+  // SMTP
   DOMIFA_SMTP_HOST: string;
   DOMIFA_SMTP_PORT: string;
   DOMIFA_SMTP_USER: string;
