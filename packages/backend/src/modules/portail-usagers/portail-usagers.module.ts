@@ -11,6 +11,7 @@ import { AppLogsService } from "../app-logs/app-logs.service";
 import { StructureInformationController } from "./controllers/structure-information/structure-information.controller";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
 import { AppLogsModule } from "../app-logs/app-logs.module";
+import { OtpModule } from "../otp/otp.module";
 
 @Module({
   controllers: [
@@ -27,6 +28,7 @@ import { AppLogsModule } from "../app-logs/app-logs.module";
     forwardRef(() => AuthModule),
     forwardRef(() => AppLogsModule),
     forwardRef(() => InteractionsModule),
+    forwardRef(() => OtpModule),
   ],
 })
 export class PortailUsagersModule {}
