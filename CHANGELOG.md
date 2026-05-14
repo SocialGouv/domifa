@@ -1,3 +1,10 @@
+## [2.241.3](https://github.com/SocialGouv/domifa/compare/v2.241.2...v2.241.3) (2026-05-14)
+
+
+### Bug Fixes
+
+* **backend:** add otp mail template for some purposes ([1c1f0d4](https://github.com/SocialGouv/domifa/commit/1c1f0d497bb1fd760250703f7b834a218ebaece1))
+
 ## [2.241.2](https://github.com/SocialGouv/domifa/compare/v2.241.1...v2.241.2) (2026-05-14)
 
 
