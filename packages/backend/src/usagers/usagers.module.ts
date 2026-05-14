@@ -18,6 +18,7 @@ import { UsagerOptionsController } from "./controllers/usager-options.controller
 import { UsagersService } from "./services/usagers.service";
 import { UsagerOptionsHistoryService } from "./services/usagerOptionsHistory.service";
 import { AppLogsModule } from "../modules/app-logs/app-logs.module";
+import { OtpModule } from "../modules/otp/otp.module";
 import { UsagerHistoryStateService } from "./services/usagerHistoryState.service";
 import { ImportCreatorService } from "./controllers/import/step3-create";
 import { FileManagerService } from "../util/file-manager/file-manager.service";
@@ -54,6 +55,7 @@ import { AppointmentInvitationService } from "./services";
     forwardRef(() => UsersModule),
     forwardRef(() => InteractionsModule),
     forwardRef(() => AppLogsModule),
+    forwardRef(() => OtpModule),
   ],
   providers: [
     UsagersService,

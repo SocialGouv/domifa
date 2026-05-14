@@ -46,6 +46,8 @@ import {
   buildStructureActorFields,
   buildUsagerFields,
 } from "../../../app-logs/app-logs.helpers";
+import { OtpGuard } from "../../../otp/guards/otp.guard";
+import { RequireOtp } from "../../../otp/decorators/require-otp.decorator";
 import { userUsagerCreator } from "../../services";
 import { PageOptionsDto } from "../../../../usagers/dto";
 import { format } from "date-fns";
@@ -123,6 +125,8 @@ export class PortailUsagersManagerController {
   }
 
   @Get("export/all-accounts")
+  @UseGuards(OtpGuard)
+  @RequireOtp("EXPORT")
   public async exportAccountsToExcel(
     @Res() res: Response,
     @CurrentUser() currentUser: UserStructureAuthenticated

@@ -29,6 +29,8 @@ import {
 import * as XLSX from "xlsx";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
 import { buildStructureActorFields } from "../../modules/app-logs/app-logs.helpers";
+import { OtpGuard } from "../../modules/otp/guards/otp.guard";
+import { RequireOtp } from "../../modules/otp/decorators/require-otp.decorator";
 import { domifaConfig } from "../../config";
 
 import { UsagersFilterCriteriaStatut } from "@domifa/common";
@@ -79,6 +81,8 @@ export class ExportStructureUsagersController {
   ) {}
 
   @Get(":statut")
+  @UseGuards(OtpGuard)
+  @RequireOtp("EXPORT")
   public async export(
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response,
