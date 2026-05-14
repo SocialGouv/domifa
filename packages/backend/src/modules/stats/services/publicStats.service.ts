@@ -12,7 +12,6 @@ import { Cron, CronExpression } from "@nestjs/schedule";
 import { SentryCron } from "@sentry/nestjs";
 
 import { startOfMonth, subYears, subMonths } from "date-fns";
-import { In } from "typeorm";
 import { domifaConfig } from "../../../config";
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 import {
@@ -23,10 +22,8 @@ import {
   PublicStatsCache,
   PublicStatsCacheTable,
   interactionRepository,
-  InteractionsTable,
 } from "../../../database";
 import { appLogger } from "../../../util";
-import { StructuresService } from "../../structures/services";
 
 @Injectable()
 export class PublicStatsService implements OnModuleInit {
@@ -34,8 +31,6 @@ export class PublicStatsService implements OnModuleInit {
     string,
     Promise<PublicStats>
   >();
-
-  constructor(private readonly structuresService: StructuresService) {}
 
   async onModuleInit() {
     if (domifaConfig().envId === "local" && isCronEnabled()) {
@@ -120,22 +115,19 @@ export class PublicStatsService implements OnModuleInit {
     previousValue?: PublicStatsCache
   ): Promise<PublicStats> {
     const publicStats = new PublicStats();
-    let structures: number[] | undefined;
 
     if (regionId) {
-      structures = await this.structuresService.findStructuresInRegion(
-        regionId
-      );
+      publicStats.structuresCount = await structureRepository.count({
+        where: { region: regionId, statut: "VALIDE" },
+      });
 
-      // Si aucune structure dans la région, tous les indicateurs sont à zero
-      if (!structures.length) {
+      // Aucune structure dans la région → tous les indicateurs à zéro.
+      if (publicStats.structuresCount === 0) {
         return this.saveStats(key, publicStats, previousValue);
       }
 
       publicStats.structuresCountByRegion =
         await this.getStructuresCountByDepartement(regionId);
-
-      publicStats.structuresCount = structures.length;
 
       publicStats.usersCount =
         await userStructureRepository.countUsersByRegionId({ regionId });
@@ -153,19 +145,19 @@ export class PublicStatsService implements OnModuleInit {
     }
 
     publicStats.usagersCount = await usagerRepository.countTotalUsagers(
-      structures
+      regionId
     );
 
     publicStats.actifs = (await usagerRepository.countTotalActifs()).actifs;
 
     publicStats.courrierInCount = await this.totalInteractions(
       "courrierIn",
-      structures
+      regionId
     );
 
     publicStats.courrierOutCount = await this.totalInteractions(
       "courrierOut",
-      structures
+      regionId
     );
 
     publicStats.structuresCountByTypeMap =
@@ -206,38 +198,40 @@ export class PublicStatsService implements OnModuleInit {
       count: number;
     }[]
   > {
-    return await structureRepository.countBy({
-      where: { statut: "VALIDE" },
-      countBy: "region",
-      order: {
-        count: "DESC",
-        countBy: "ASC",
-      },
-    });
+    const rows = await structureRepository
+      .createQueryBuilder("s")
+      .select(`s."region"`, "region")
+      .addSelect("COUNT(s.id)", "count")
+      .where("s.statut = :statut", { statut: "VALIDE" })
+      .groupBy(`s."region"`)
+      .orderBy("count", "DESC")
+      .addOrderBy(`s."region"`, "ASC")
+      .getRawMany<{ region: string; count: string }>();
+
+    return rows.map(({ region, count }) => ({
+      region,
+      count: parseInt(count, 10),
+    }));
   }
+
   private async getStructuresCountByDepartement(
     regionId: string
   ): Promise<StatsByLocality> {
-    const structures = await structureRepository.countBy({
-      countBy: "departement",
-      countByAlias: "departement",
-      where: {
-        region: regionId,
-        statut: "VALIDE",
-      },
-      order: {
-        count: "DESC",
-        countBy: "ASC",
-      },
-    });
+    const rows = await structureRepository
+      .createQueryBuilder("s")
+      .select(`s."departement"`, "departement")
+      .addSelect("COUNT(s.id)", "count")
+      .where("s.region = :regionId", { regionId })
+      .andWhere("s.statut = :statut", { statut: "VALIDE" })
+      .groupBy(`s."departement"`)
+      .orderBy("count", "DESC")
+      .addOrderBy(`s."departement"`, "ASC")
+      .getRawMany<{ departement: string; count: string }>();
 
-    return structures.reduce(
-      (acc: StatsByLocality, value: { departement: string; count: number }) => {
-        acc.push({ region: value.departement, count: value.count });
-        return acc;
-      },
-      []
-    );
+    return rows.map(({ departement, count }) => ({
+      region: departement,
+      count: parseInt(count, 10),
+    }));
   }
 
   private async getStructuresCountByTypeMap(region?: string): Promise<{
@@ -271,25 +265,27 @@ export class PublicStatsService implements OnModuleInit {
 
   public async totalInteractions(
     interactionType: InteractionType,
-    structuresId?: number[]
+    regionId?: string
   ): Promise<number> {
     if (interactionType === "appel" || interactionType === "visite") {
       return interactionRepository.count({
-        where: {
-          type: interactionType,
-        },
+        where: { type: interactionType },
       });
     }
 
-    const whereCondition: Partial<InteractionsTable> = {
-      type: interactionType,
-    };
+    const qb = interactionRepository
+      .createQueryBuilder("i")
+      .select(`COALESCE(SUM(i."nbCourrier"), 0)`, "total")
+      .where("i.type = :type", { type: interactionType });
 
-    if (structuresId) {
-      whereCondition.structureId = In(structuresId) as any;
+    if (regionId) {
+      qb.innerJoin("structure", "s", `s.id = i."structureId"`)
+        .andWhere("s.region = :regionId", { regionId })
+        .andWhere("s.statut = :statut", { statut: "VALIDE" });
     }
 
-    return (await interactionRepository.sum("nbCourrier", whereCondition)) ?? 0;
+    const result = await qb.getRawOne<{ total: string }>();
+    return parseInt(result?.total ?? "0", 10);
   }
 
   public async countUsagersByMonth(regionId?: string) {

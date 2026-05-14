@@ -1,17 +1,11 @@
 import { Structure, StructureAdmin } from "@domifa/common";
 
 import { StructureTable } from "../../entities";
-import { joinSelectFields, myDataSource, pgRepository } from "../_postgres";
-
-const baseRepository = pgRepository.get<StructureTable, Structure>(
-  StructureTable
-);
+import { joinSelectFields, myDataSource } from "../_postgres";
 
 export const structureRepository = myDataSource
   .getRepository<Structure>(StructureTable)
   .extend({
-    countBy: baseRepository.countBy,
-
     async checkHardResetToken({
       userId,
       token,

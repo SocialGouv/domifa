@@ -33,13 +33,4 @@ export class StructuresService {
       take: 40,
     });
   }
-
-  public async findStructuresInRegion(regionId?: string): Promise<number[]> {
-    const structures: Structure[] = await structureRepository.find({
-      where: { region: regionId, statut: "VALIDE" },
-      select: { id: true },
-    });
-
-    return structures.map((structure: Structure) => structure.id);
-  }
 }
