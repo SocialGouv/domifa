@@ -1,3 +1,13 @@
+## [2.241.1](https://github.com/SocialGouv/domifa/compare/v2.241.0...v2.241.1) (2026-05-14)
+
+
+### Bug Fixes
+
+* **backend:** add OTP for some endpoints ([1bd6692](https://github.com/SocialGouv/domifa/commit/1bd66927f662df33ffb7c1245a56d4b261c670b6))
+* **backend:** add OTP for some endpoints ([b911628](https://github.com/SocialGouv/domifa/commit/b911628627c345aefc2b2b05ff4b4a7b95bc5d01))
+* **backend:** fix unit test ([0cd66be](https://github.com/SocialGouv/domifa/commit/0cd66be42080605f2b5a7a2ec876c5bc76724c61))
+* **frontend:** upgrade inlt-tel & unit tests ([2517b2c](https://github.com/SocialGouv/domifa/commit/2517b2c8edb225c0cb71dd431511c2316df7792f))
+
 # [2.241.0](https://github.com/SocialGouv/domifa/compare/v2.240.0...v2.241.0) (2026-05-14)
 
 
