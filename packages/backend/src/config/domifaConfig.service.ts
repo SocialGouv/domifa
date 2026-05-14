@@ -343,33 +343,20 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
 }
 
 function parseSmtpConfig(x: Partial<DomifaEnv>): DomifaConfig["smtp"] {
-  const host = configParser.parseString(x, "DOMIFA_SMTP_HOST", {
-    required: true,
-    defaultValue: "",
-  });
-  const user = configParser.parseString(x, "DOMIFA_SMTP_USER", {
-    required: true,
-    defaultValue: "",
-  });
-  const pass = configParser.parseString(x, "DOMIFA_SMTP_PASS", {
-    required: true,
-    defaultValue: "",
-  });
-  if (host && (!user || !pass)) {
-    throw new Error(
-      "Invalid SMTP config: DOMIFA_SMTP_HOST is set but DOMIFA_SMTP_USER or DOMIFA_SMTP_PASS is missing"
-    );
-  }
+  // SMTP host/user/pass must be present at boot — fail fast on misconfig.
+  // Tests and local envs without emails should still set these to placeholders
+  // (e.g. mailtrap). The live verify() ping is intentionally NOT run at boot:
+  // a transient network blip would crash the whole API.
   return {
-    host,
+    host: configParser.parseString(x, "DOMIFA_SMTP_HOST"),
+    user: configParser.parseString(x, "DOMIFA_SMTP_USER"),
+    pass: configParser.parseString(x, "DOMIFA_SMTP_PASS"),
     port: configParser.parseInteger(x, "DOMIFA_SMTP_PORT", {
       required: false,
       defaultValue: 587,
     }),
-    user,
-    pass,
     from: configParser.parseString(x, "DOMIFA_SMTP_FROM", {
-      required: true,
+      required: false,
       defaultValue: "ne-pas-repondre@domifa.fabrique.social.gouv.fr",
     }),
     timeoutMs: configParser.parseInteger(x, "DOMIFA_SMTP_TIMEOUT_MS", {

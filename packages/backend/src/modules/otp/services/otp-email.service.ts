@@ -16,9 +16,11 @@ export class OtpEmailService implements OnModuleInit {
   private readonly logger = new Logger("OtpEmailService");
   private transporter: Transporter | null = null;
 
-  // SMTP is the only delivery channel for OTPs: a silent misconfiguration
-  // would let the OTP request "succeed" while the user never receives a code.
-  // We surface it at boot (clear log) and also throw at send time.
+  // Config presence is already enforced by parseSmtpConfig at config load
+  // (HOST/USER/PASS are required env vars). We log the SMTP target at boot
+  // for ops visibility but skip transporter.verify() — a live SMTP ping at
+  // startup would make the whole API susceptible to transient network blips.
+  // Send-time errors are surfaced cleanly by sendOtpEmail's try/catch.
   async onModuleInit(): Promise<void> {
     const config = domifaConfig();
 
@@ -29,23 +31,9 @@ export class OtpEmailService implements OnModuleInit {
       return;
     }
 
-    const missing = listMissingSmtpKeys();
-    if (missing.length > 0) {
-      this.logger.error(
-        `SMTP config incomplete at boot — missing: ${missing.join(", ")}`
-      );
-      return;
-    }
-
-    try {
-      await this.getTransporter().verify();
-      this.logger.log(
-        `SMTP verified at boot (host=${config.smtp.host}, port=${config.smtp.port})`
-      );
-    } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      this.logger.error(`SMTP verify failed at boot: ${message}`);
-    }
+    this.logger.log(
+      `SMTP configured (host=${config.smtp.host}, port=${config.smtp.port}, user=${config.smtp.user})`
+    );
   }
 
   async sendOtpEmail(email: string, code: string): Promise<void> {

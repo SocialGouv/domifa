@@ -159,7 +159,7 @@ describe("OtpEmailService", () => {
   });
 
   describe("onModuleInit", () => {
-    it("should skip verify when emailsEnabled is false", async () => {
+    it("should skip when emailsEnabled is false", async () => {
       mockConfig.mockReturnValue(
         buildConfig({ envId: "dev", email: { emailsEnabled: false } })
       );
@@ -169,7 +169,7 @@ describe("OtpEmailService", () => {
       expect(mockVerify).not.toHaveBeenCalled();
     });
 
-    it("should skip verify when envId is test", async () => {
+    it("should skip when envId is test", async () => {
       mockConfig.mockReturnValue(buildConfig({ envId: "test" }));
 
       await service.onModuleInit();
@@ -177,44 +177,14 @@ describe("OtpEmailService", () => {
       expect(mockVerify).not.toHaveBeenCalled();
     });
 
-    it("should log error and not crash when SMTP config is incomplete", async () => {
-      mockConfig.mockReturnValue(
-        buildConfig({
-          envId: "dev",
-          email: { emailsEnabled: true },
-          smtp: {
-            host: "",
-            port: 587,
-            user: "",
-            pass: "",
-            from: "",
-            timeoutMs: 10_000,
-          },
-        })
-      );
-      const errSpy = jest
-        .spyOn(service["logger"], "error")
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        .mockImplementation(() => {});
-
-      await expect(service.onModuleInit()).resolves.toBeUndefined();
-      expect(mockVerify).not.toHaveBeenCalled();
-      expect(errSpy.mock.calls[0][0]).toContain("SMTP config incomplete");
-    });
-
-    it("should call verify and not crash when verify rejects", async () => {
+    it("should never call transporter.verify() (live ping skipped)", async () => {
       mockConfig.mockReturnValue(
         buildConfig({ envId: "dev", email: { emailsEnabled: true } })
       );
-      mockVerify.mockRejectedValue(new Error("SMTP unreachable"));
-      const errSpy = jest
-        .spyOn(service["logger"], "error")
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        .mockImplementation(() => {});
 
-      await expect(service.onModuleInit()).resolves.toBeUndefined();
-      expect(mockVerify).toHaveBeenCalledTimes(1);
-      expect(errSpy.mock.calls[0][0]).toContain("SMTP verify failed");
+      await service.onModuleInit();
+
+      expect(mockVerify).not.toHaveBeenCalled();
     });
   });
 
