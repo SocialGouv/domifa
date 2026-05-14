@@ -28,7 +28,7 @@ import {
 import { AuthService, CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../interfaces";
 import { UsagerService } from "../../services";
-import { Iso2 } from "intl-tel-input/data";
+import { Iso2 } from "intl-tel-input";
 
 import { Observable, Subscription } from "rxjs";
 import { EmailValidator } from "../../../../shared";

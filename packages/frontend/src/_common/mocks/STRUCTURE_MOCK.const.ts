@@ -1,5 +1,5 @@
 import { StructureCommon } from "@domifa/common";
-import { Iso2 } from "intl-tel-input/data";
+import { Iso2 } from "intl-tel-input";
 
 export const STRUCTURE_MOCK: StructureCommon = {
   id: 1,

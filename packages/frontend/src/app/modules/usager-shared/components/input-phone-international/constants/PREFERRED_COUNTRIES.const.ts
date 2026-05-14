@@ -1,4 +1,4 @@
-import { Iso2 } from "intl-tel-input/data";
+import { Iso2 } from "intl-tel-input";
 
 export const PREFERRED_COUNTRIES: Iso2[] = [
   "fr",

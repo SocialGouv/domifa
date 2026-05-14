@@ -18,7 +18,7 @@ import {
 } from "../../../../shared";
 import { Subscription } from "rxjs";
 import { GeneralService } from "../../services/general.service";
-import { Iso2 } from "intl-tel-input/data";
+import { Iso2 } from "intl-tel-input";
 import { PREFERRED_COUNTRIES } from "../../../../../_common/model";
 import { anyPhoneValidator, getFormPhone } from "../../../../shared/phone";
 import { RouterModule } from "@angular/router";

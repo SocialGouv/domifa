@@ -19,7 +19,7 @@ import {
 import { DsfrDropdownMenuComponent } from "@edugouvfr/ngx-dsfr-ext";
 
 import intlTelInput from "intl-tel-input";
-import { Country } from "intl-tel-input/data";
+import { Country } from "intl-tel-input";
 import { PhoneNumberUtil } from "google-libphonenumber";
 import { FR_COUNTRIES } from "./constants/FR_COUNTRIES.const";
 import { PREFERRED_COUNTRIES } from "./constants";
