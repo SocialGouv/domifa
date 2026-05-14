@@ -2,13 +2,14 @@
 import {
   HttpErrorResponse,
   HttpEvent,
+  HttpEventType,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { from, Observable, throwError } from "rxjs";
-import { catchError, switchMap } from "rxjs/operators";
+import { EMPTY, from, Observable, throwError } from "rxjs";
+import { catchError, finalize, switchMap, tap } from "rxjs/operators";
 import { OtpPromptService } from "../services/otp-prompt.service";
 import { OtpErrorBody, OtpErrorCode } from "../otp.types";
 
@@ -27,14 +28,18 @@ export class OtpInterceptor implements HttpInterceptor {
         if (!(error instanceof HttpErrorResponse)) {
           return throwError(() => error);
         }
-        const code = this.extractOtpCode(error);
-        if (!code) {
-          return throwError(() => error);
-        }
-        if (code === "OTP_BLOCKED" || code === "OTP_RESEND_LIMIT") {
-          return throwError(() => error);
-        }
-        return this.promptAndRetry(request, next, code);
+        return from(this.normalizeError(error)).pipe(
+          switchMap((normalized) => {
+            const code = this.extractOtpCode(normalized);
+            if (!code) {
+              return throwError(() => normalized);
+            }
+            if (code === "OTP_BLOCKED" || code === "OTP_RESEND_LIMIT") {
+              return throwError(() => normalized);
+            }
+            return this.promptAndRetry(request, next, code);
+          })
+        );
       })
     );
   }
@@ -54,36 +59,88 @@ export class OtpInterceptor implements HttpInterceptor {
     return null;
   }
 
+  // Requests with `responseType: 'blob'` surface error bodies as a Blob. Parse
+  // it as JSON so `extractOtpCode` can read `{ code: ... }` consistently across
+  // export downloads and regular API calls.
+  private async normalizeError(
+    error: HttpErrorResponse
+  ): Promise<HttpErrorResponse> {
+    if (!(error.error instanceof Blob)) {
+      return error;
+    }
+    try {
+      const text = await error.error.text();
+      const parsed = text ? JSON.parse(text) : null;
+      return new HttpErrorResponse({
+        status: error.status,
+        statusText: error.statusText,
+        headers: error.headers,
+        url: error.url ?? undefined,
+        error: parsed,
+      });
+    } catch {
+      return error;
+    }
+  }
+
   private promptAndRetry(
     request: HttpRequest<any>,
     next: HttpHandler,
     previousErrorCode: OtpErrorCode
   ): Observable<HttpEvent<any>> {
-    return from(
-      this.promptService.prompt({
+    return this.promptService
+      .prompt({
         purpose: "RESET_USAGERS",
         previousErrorCode:
           previousErrorCode === "OTP_REQUIRED" ? undefined : previousErrorCode,
       })
-    ).pipe(
-      switchMap((result) => {
-        if (result.kind === "cancel") {
-          // Not 401: cancelling the OTP prompt is a user action, not an auth
-          // failure. A 401 would be caught by ServerErrorInterceptor and
-          // force a logout.
-          return throwError(
-            () =>
-              new HttpErrorResponse({
-                status: 400,
-                error: { code: "OTP_CANCELLED" },
-              })
+      .pipe(
+        switchMap((result) => {
+          if (result.kind === "cancel") {
+            // Not 401: cancelling the OTP prompt is a user action, not an
+            // auth failure. A 401 would be caught by ServerErrorInterceptor
+            // and force a logout.
+            return throwError(
+              () =>
+                new HttpErrorResponse({
+                  status: 400,
+                  error: { code: "OTP_CANCELLED" },
+                })
+            );
+          }
+          const retried = request.clone({
+            setHeaders: { [OTP_CODE_HEADER]: result.code },
+          });
+          this.promptService.setSubmitting(true);
+          return next.handle(retried).pipe(
+            finalize(() => this.promptService.setSubmitting(false)),
+            tap({
+              next: (event) => {
+                if (event.type === HttpEventType.Response) {
+                  this.promptService.closeSuccess();
+                }
+              },
+            }),
+            catchError((error: unknown) => {
+              if (!(error instanceof HttpErrorResponse)) {
+                this.promptService.closeSuccess();
+                return throwError(() => error);
+              }
+              return from(this.normalizeError(error)).pipe(
+                switchMap((normalized) => {
+                  const otpCode = this.extractOtpCode(normalized);
+                  if (otpCode === "OTP_INVALID" || otpCode === "OTP_REQUIRED") {
+                    // Keep modal open, show error, wait for next submission.
+                    this.promptService.updateError("OTP_INVALID");
+                    return EMPTY;
+                  }
+                  this.promptService.closeSuccess();
+                  return throwError(() => normalized);
+                })
+              );
+            })
           );
-        }
-        const retried = request.clone({
-          setHeaders: { [OTP_CODE_HEADER]: result.code },
-        });
-        return this.intercept(retried, next);
-      })
-    );
+        })
+      );
   }
 }

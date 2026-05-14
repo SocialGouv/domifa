@@ -1,10 +1,12 @@
 import { CommonModule } from "@angular/common";
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
+  Renderer2,
   ViewChild,
 } from "@angular/core";
 import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
@@ -18,9 +20,10 @@ import { OtpErrorCode, OtpPromptOptions } from "../../otp.types";
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, DsfrModalComponent],
   templateUrl: "./otp-modal.component.html",
+  styleUrl: "./otp-modal.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OtpModalComponent implements OnInit, OnDestroy {
+export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild("otpModal", { static: true })
   public otpModal!: DsfrModalComponent;
 
@@ -30,16 +33,20 @@ export class OtpModalComponent implements OnInit, OnDestroy {
   });
 
   public submitted = false;
+  public submitting = false;
   public errorCode: OtpErrorCode | null = null;
   public attemptCount = 0;
 
   public static readonly MAX_ATTEMPTS = 3;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
+  private isOpen = false;
+  private unlistenCancel: (() => void) | null = null;
 
   constructor(
     private readonly promptService: OtpPromptService,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    private readonly renderer: Renderer2
   ) {}
 
   public ngOnInit(): void {
@@ -52,10 +59,33 @@ export class OtpModalComponent implements OnInit, OnDestroy {
         }
       })
     );
+    this.subscription.add(
+      this.promptService.submitting$.subscribe((submitting) => {
+        this.submitting = submitting;
+        this.cdr.markForCheck();
+      })
+    );
+  }
+
+  public ngAfterViewInit(): void {
+    // Block the native <dialog> Escape behavior. The dialog fires a cancelable
+    // `cancel` event before closing; preventing it keeps the modal open until
+    // the user clicks Annuler.
+    const dialog = this.otpModal?.dsfrModal?.nativeElement as
+      | HTMLElement
+      | undefined;
+    if (dialog) {
+      this.unlistenCancel = this.renderer.listen(
+        dialog,
+        "cancel",
+        (event: Event) => event.preventDefault()
+      );
+    }
   }
 
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.unlistenCancel?.();
   }
 
   public onSubmit(event: Event): void {
@@ -64,7 +94,7 @@ export class OtpModalComponent implements OnInit, OnDestroy {
   }
 
   public submit(): void {
-    if (this.isLocked) {
+    if (this.isLocked || this.submitting) {
       return;
     }
     this.submitted = true;
@@ -109,11 +139,17 @@ export class OtpModalComponent implements OnInit, OnDestroy {
     this.errorCode = options.previousErrorCode ?? null;
     this.submitted = false;
     this.codeControl.reset("");
-    this.otpModal.open();
+    if (!this.isOpen) {
+      this.otpModal.open();
+      this.isOpen = true;
+    }
     this.cdr.markForCheck();
   }
 
   private closeQuiet(): void {
-    this.otpModal?.close();
+    if (this.isOpen) {
+      this.otpModal?.close();
+      this.isOpen = false;
+    }
   }
 }

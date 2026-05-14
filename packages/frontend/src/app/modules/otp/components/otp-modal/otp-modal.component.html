@@ -25,7 +25,6 @@
         autocomplete="one-time-code"
         class="fr-input"
         id="otp-code-input"
-        autocomplete="one-time-code"
         maxlength="6"
         minlength="6"
         [formControl]="codeControl"
@@ -51,7 +50,7 @@
         class="fr-btn"
         type="button"
         (click)="submit()"
-        [disabled]="isLocked"
+        [disabled]="isLocked || submitting"
       >
         Valider
       </button>
