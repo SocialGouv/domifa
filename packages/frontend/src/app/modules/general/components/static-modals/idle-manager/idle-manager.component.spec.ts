@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { IdleManagerComponent } from "./idle-manager.component";
@@ -14,10 +15,10 @@ describe("IdleManagerComponent", () => {
     await TestBed.configureTestingModule({
       declarations: [IdleManagerComponent],
       imports: [
-        HttpClientTestingModule,
         DsfrModalComponent,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
   });
 

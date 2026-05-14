@@ -1,5 +1,6 @@
 import { TestBed } from "@angular/core/testing";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { LoadingService } from "../../shared/services/loading.service";
 
 import { InteractionService } from "./interaction.service";
@@ -12,11 +13,10 @@ describe("InteractionService", () => {
   beforeEach(() => {
     const loadingServiceStub = () => ({});
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        StoreModule.forRoot({ app: _usagerReducer }),
-      ],
+      imports: [StoreModule.forRoot({ app: _usagerReducer })],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         InteractionService,
         { provide: LoadingService, useFactory: loadingServiceStub },
       ],

@@ -25,6 +25,39 @@
       </div>
     </div>
   </div>
+  <div class="fr-grid-row fr-mt-2w">
+    <div class="fr-container fr-col-12">
+      <ul
+        class="fr-badges-group"
+        aria-label="Répartition des utilisateurs par rôle"
+      >
+        <li>
+          <p class="fr-badge fr-badge--purple-glycine">
+            {{ USER_SUPERVISOR_ROLES_LABELS["super-admin-domifa"] }} :
+            {{ roleCounts["super-admin-domifa"] }}
+          </p>
+        </li>
+        <li>
+          <p class="fr-badge fr-badge--blue-cumulus">
+            {{ USER_SUPERVISOR_ROLES_LABELS["national"] }} :
+            {{ roleCounts["national"] }}
+          </p>
+        </li>
+        <li>
+          <p class="fr-badge fr-badge--green-emeraude">
+            {{ USER_SUPERVISOR_ROLES_LABELS["region"] }} :
+            {{ roleCounts["region"] }}
+          </p>
+        </li>
+        <li>
+          <p class="fr-badge fr-badge--brown-caramel">
+            {{ USER_SUPERVISOR_ROLES_LABELS["department"] }} :
+            {{ roleCounts["department"] }}
+          </p>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 
 <div class="fr-container" *ngIf="me">

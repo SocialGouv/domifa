@@ -2,7 +2,8 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { AdminPortailUsagersMenuComponent } from "./admin-portail-usagers-menu.component";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CommonModule } from "@angular/common";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
@@ -18,11 +19,11 @@ describe("AdminPortailUsagersMenuComponent", () => {
       declarations: [AdminPortailUsagersMenuComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        HttpClientTestingModule,
         SharedModule,
         CommonModule,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AdminPortailUsagersMenuComponent);

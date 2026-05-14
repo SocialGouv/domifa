@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { ProfilHistoriqueTransfertsComponent } from "./profil-historique-transferts.component";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { USAGER_VALIDE_MOCK } from "../../../../../../_common/mocks";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { StoreModule } from "@ngrx/store";
@@ -14,10 +15,8 @@ describe("ProfilHistoriqueTransfertsComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ProfilHistoriqueTransfertsComponent],
-      imports: [
-        HttpClientTestingModule,
-        StoreModule.forRoot({ app: _usagerReducer }),
-      ],
+      imports: [StoreModule.forRoot({ app: _usagerReducer })],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProfilHistoriqueTransfertsComponent);

@@ -46,6 +46,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Permet de bloquer la réouverture si une modale est déjà ouverte
   private isAnyModalOpen = false;
+  private cguTermsAccepted = false;
 
   public readonly versionModalActions: DsfrModalAction[] = [
     {
@@ -57,7 +58,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private readonly subscription = new Subscription();
   public readonly partnerLinks = LIENS_PARTENAIRES;
-  public dsfrBannerClosed = false;
 
   constructor(
     private readonly authService: AuthService,
@@ -69,8 +69,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {
     this.apiVersion = localStorage.getItem("version");
     this.me = null;
-    this.dsfrBannerClosed =
-      sessionStorage.getItem("dsfr-banner-closed") === "true";
     this.initCguForm();
     this.checkMatomo();
   }
@@ -150,8 +148,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public logout(): void {
     this.acceptTermsModalRef.close();
-    this.isAnyModalOpen = false;
-    this.authService.logout();
   }
 
   public submitAcceptTerms(): void {
@@ -172,6 +168,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
           next: () => {
             this.submitted = false;
             this.loading = false;
+            this.cguTermsAccepted = true;
             this.toastService.success(
               "Merci, vous pouvez continuer votre navigation"
             );
@@ -188,21 +185,15 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public openAcceptTermsModal(): void {
     this.isAnyModalOpen = true;
+    this.cguTermsAccepted = false;
     this.acceptTermsModalRef.open();
   }
 
-  public trackDsfrBannerClick(): void {
-    this.matomo.trackEvent(
-      "DSFR_MIGRATION",
-      "BANNER_LINK_CLICK",
-      "PREVIEW_DOCS",
-      1
-    );
-  }
-
-  public closeDsfrBanner(): void {
-    this.dsfrBannerClosed = true;
-    sessionStorage.setItem("dsfr-banner-closed", "true");
+  public onAcceptTermsModalConceal(): void {
+    this.isAnyModalOpen = false;
+    if (!this.cguTermsAccepted) {
+      this.authService.logout();
+    }
   }
 
   public closeModals(): void {

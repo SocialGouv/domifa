@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { DecisionStandbyFormComponent } from "./decision-standby-form.component";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import {
   USER_STRUCTURE_MOCK,
@@ -21,12 +22,15 @@ describe("DecisionStandbyFormComponent", () => {
     await TestBed.configureTestingModule({
       declarations: [DecisionStandbyFormComponent],
       imports: [
-        HttpClientTestingModule,
         FormsModule,
         ReactiveFormsModule,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 

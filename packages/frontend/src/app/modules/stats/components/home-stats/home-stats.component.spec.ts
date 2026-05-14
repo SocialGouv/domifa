@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { HomeStatsComponent } from "./home-stats.component";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CountUpModule } from "ngx-countup";
 import { NgIf } from "@angular/common";
 import { RouterModule } from "@angular/router";
@@ -16,9 +17,9 @@ describe("HomeStatsComponent", () => {
         NgIf,
         HomeStatsComponent,
         CountUpModule,
-        HttpClientTestingModule,
         RouterModule.forRoot([]),
       ],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HomeStatsComponent);

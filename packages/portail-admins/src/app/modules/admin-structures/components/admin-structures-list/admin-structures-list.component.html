@@ -67,21 +67,50 @@
           (updateFilters)="updateFilters($event)"
         ></app-structure-filters>
       </div>
-      <dsfr-ext-spinner
-        *ngIf="searching"
-        typeLoader="quarter"
-        label="Chargement des données..."
-        [overlay]="true"
-      ></dsfr-ext-spinner>
 
-      <app-admin-structures-table
-        *ngIf="this.structures"
-        [structures]="this.structures"
-        [filters]="this.filters"
-        (sort)="updateFilters($event)"
-      ></app-admin-structures-table>
+      <ul
+        class="fr-badges-group fr-mt-2w fr-mb-2w"
+        aria-label="Répartition des structures par statut"
+      >
+        <li>
+          <p class="fr-badge fr-badge--success">
+            Actives : {{ statusCounts.VALIDE }}
+          </p>
+        </li>
+        <li>
+          <p class="fr-badge fr-badge--warning">
+            Non validées : {{ statusCounts.EN_ATTENTE }}
+          </p>
+        </li>
+        <li>
+          <p class="fr-badge fr-badge--error">
+            Refusées : {{ statusCounts.REFUS }}
+          </p>
+        </li>
+        <li>
+          <p class="fr-badge fr-badge--error">
+            Supprimées : {{ statusCounts.SUPPRIME }}
+          </p>
+        </li>
+      </ul>
 
-      <div #sentinel class="sentinel-preload"></div>
+      <div class="admin-list-overlay-wrapper">
+        <dsfr-ext-spinner
+          *ngIf="searching"
+          typeLoader="quarter"
+          label="Chargement des données..."
+          [overlay]="true"
+        ></dsfr-ext-spinner>
+
+        <app-admin-structures-table
+          *ngIf="this.structures"
+          [structures]="this.structures"
+          [filters]="this.filters"
+          (sort)="updateFilters($event)"
+        ></app-admin-structures-table>
+
+        <div #sentinel class="sentinel-preload"></div>
+      </div>
     </div>
   </div>
 </div>

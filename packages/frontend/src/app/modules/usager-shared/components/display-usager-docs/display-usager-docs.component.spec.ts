@@ -1,5 +1,6 @@
 import { USAGER_VALIDE_MOCK } from "../../../../../_common/mocks/USAGER_VALIDE.mock";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
@@ -15,7 +16,8 @@ describe("DisplayUsagerDocsComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
-      imports: [HttpClientTestingModule, SharedModule],
+      imports: [SharedModule],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
       declarations: [DisplayUsagerDocsComponent],
     }).compileComponents();
   });
