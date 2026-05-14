@@ -109,15 +109,23 @@ async function bootstrapTestApp(
   return context;
 }
 async function tearDownTestConnection(): Promise<void> {
-  // In tests we want deterministic teardown: leaving the pg pool open
-  // makes Jest report open handles (TCPWRAP) and can also lead to flaky
-  // behavior when running many suites.
-  await myDataSource.destroy();
+  // Defer the destroy to the next tick so the pool stays alive long enough
+  // for the next suite's bootstrap to grab a connection. Required when all
+  // suites share a single process (CI: --runInBand) and module-level
+  // repositories (e.g. otpRepository, usagerRepository) hold a reference
+  // to the pool: a synchronous destroy() between suites would otherwise
+  // surface as `Cannot use a pool after calling end on the pool` on the
+  // next query. `--forceExit` cleans up at the very end.
+  setTimeout(async () => {
+    await myDataSource.destroy();
+  }, 200);
 }
 
 async function tearDownTestApp({ module }: AppTestContext): Promise<void> {
   await module.close();
-  await myDataSource.destroy();
+  setTimeout(async () => {
+    await myDataSource.destroy();
+  }, 200);
 }
 
 async function bootstrapTestConnection(): Promise<DataSource> {
