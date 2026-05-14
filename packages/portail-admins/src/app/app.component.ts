@@ -43,40 +43,49 @@ export class AppComponent implements OnInit {
     this.adminAuthService.currentAdminSubject.subscribe(
       (admin: PortailAdminUser | null) => {
         this.adminProfile = admin;
-        if (admin?.role === "super-admin-domifa") {
-          // left logout button
-          this.headerToolsLinks = [
-            {
-              ariaControls: "logoutModal",
-              linkId: "logout",
-              mode: "button",
-              label: "Se déconnecter",
-              icon: "fr-icon-logout-box-r-line",
-            },
-          ];
-          // subheader menun
+        if (!admin) {
+          this.headerToolsLinks = [];
+          this.menuHeaderItems = [];
+          return;
+        }
+
+        this.headerToolsLinks = [
+          {
+            ariaControls: "logoutModal",
+            linkId: "logout",
+            mode: "button",
+            label: "Se déconnecter",
+            icon: "fr-icon-logout-box-r-line",
+          },
+        ];
+
+        const statsItem: DsfrHeaderMenuItem = {
+          linkId: "stats",
+          label: "Statistiques de la domiciliation",
+          routerLink: "/stats",
+        };
+
+        if (admin.role === "super-admin-domifa") {
           this.menuHeaderItems = [
             {
-              linkId: "dashboard",
-              label: "Tableau de bord",
+              linkId: "structures",
+              label: "Liste des structures",
               routerLink: "/structure",
             },
             {
-              linkId: "manage-users",
-              label: "Utilisateurs de l'administration",
-              routerLink: "/manage-users",
-            },
-            {
               linkId: "manage-structure-users",
-              label: "Gérer les utilisateurs",
+              label: "Liste des utilisateurs",
               routerLink: "/manage-structure-users",
             },
             {
-              linkId: "stats",
-              label: "Statistiques de la domiciliation",
-              routerLink: "/stats",
+              linkId: "manage-users",
+              label: "Utilisateurs tableau de pilotage",
+              routerLink: "/manage-users",
             },
+            statsItem,
           ];
+        } else {
+          this.menuHeaderItems = [statsItem];
         }
       }
     );

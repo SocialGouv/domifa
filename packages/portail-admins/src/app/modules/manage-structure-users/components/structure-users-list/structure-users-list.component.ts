@@ -5,7 +5,7 @@ import { Store } from "@ngrx/store";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { Observable, Subscription } from "rxjs";
 
-import { UsersForAdminList } from "@domifa/common";
+import { UsersForAdminList, UserStatus } from "@domifa/common";
 
 import { environment } from "../../../../../environments/environment";
 import { UserStructureEventHistoryLabels } from "../../../admin-auth/types/event-history";
@@ -59,6 +59,12 @@ interface ConfirmModalContext {
 })
 export class StructureUsersListComponent implements OnInit, OnDestroy {
   public users: AdminUserViewModel[] = [];
+  public statusCounts: Record<UserStatus, number> = {
+    ACTIVE: 0,
+    PENDING: 0,
+    BLOCKED: 0,
+    TEMPORARILY_BLOCKED: 0,
+  };
   public readonly loading$: Observable<boolean>;
 
   public userForModal?: AdminUserViewModel;
@@ -92,6 +98,7 @@ export class StructureUsersListComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.store.select(selectAllAdminUsers).subscribe((users) => {
         this.users = users.map((user) => this.mapToViewModel(user));
+        this.computeStatusCounts(this.users);
       })
     );
 
@@ -236,6 +243,21 @@ export class StructureUsersListComponent implements OnInit, OnDestroy {
     const now = new Date();
     const validity = new Date(user.temporaryTokens.validity);
     return validity > now;
+  }
+
+  private computeStatusCounts(users: AdminUserViewModel[]): void {
+    const counts: Record<UserStatus, number> = {
+      ACTIVE: 0,
+      PENDING: 0,
+      BLOCKED: 0,
+      TEMPORARILY_BLOCKED: 0,
+    };
+    for (const user of users) {
+      if (counts[user.status] !== undefined) {
+        counts[user.status]++;
+      }
+    }
+    this.statusCounts = counts;
   }
 
   private mapToViewModel(user: UsersForAdminList): AdminUserViewModel {

@@ -15,13 +15,12 @@
           (ngModelChange)="onSearchChange()"
         />
         <button
-          *ngIf="searchTerm"
           type="button"
           class="fr-btn"
-          title="Effacer la recherche"
-          (click)="clearSearch()"
+          title="Rechercher"
+          (click)="onSearchChange()"
         >
-          Effacer
+          Rechercher
         </button>
       </div>
     </div>
@@ -67,7 +66,7 @@
     <div class="fr-table__container">
       <div class="fr-table__content">
         <table [id]="tableId" [attr.aria-rowcount]="filteredUsers.length">
-          <caption class="visually-hidden">
+          <caption class="fr-sr-only">
             {{
               caption
             }}

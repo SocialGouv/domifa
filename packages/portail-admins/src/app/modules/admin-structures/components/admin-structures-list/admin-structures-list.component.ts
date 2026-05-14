@@ -66,7 +66,6 @@ export class AdminStructuresListComponent
     SUPPRIME: 0,
   };
   public filters = new StructureFilterCriteria();
-  public showFilters = false;
   public pageSize = 100;
   public filters$: BehaviorSubject<StructureFilterCriteria> =
     new BehaviorSubject(this.filters);
@@ -173,9 +172,6 @@ export class AdminStructuresListComponent
     }, options);
   }
 
-  public toggleFilters() {
-    this.showFilters = !this.showFilters;
-  }
   private applyPagination(): void {
     if (!this.filteredStructures?.length) {
       return;

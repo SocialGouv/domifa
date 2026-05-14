@@ -1,10 +1,13 @@
 import {
   ExecutionContext,
   ForbiddenException,
+  HttpException,
+  HttpStatus,
   Injectable,
   Logger,
 } from "@nestjs/common";
 import { ThrottlerGuard, ThrottlerLimitDetail } from "@nestjs/throttler";
+import { createHash } from "node:crypto";
 import { Request } from "express";
 import { appLogsRepository, AppLogTable } from "../../../database";
 import { domifaConfig } from "../../../config";
@@ -97,6 +100,18 @@ export class AppThrottlerGuard extends ThrottlerGuard {
     return getClientIp(req as Request);
   }
 
+  // Global per-IP bucket: drop class/handler from the default key so a single
+  // IP shares one counter across all routes per tier. Otherwise NestJS keys
+  // buckets per (controller-method, IP), letting an attacker hammer each
+  // endpoint up to the limit independently.
+  protected override generateKey(
+    _context: ExecutionContext,
+    suffix: string,
+    name: string
+  ): string {
+    return createHash("sha256").update(`${name}-${suffix}`).digest("hex");
+  }
+
   protected override async throwThrottlingException(
     context: ExecutionContext,
     throttlerLimitDetail: ThrottlerLimitDetail
@@ -137,7 +152,13 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       }
     }
 
-    return super.throwThrottlingException(context, throttlerLimitDetail);
+    // Minimal body: no "ThrottlerException: Too Many Requests" leakage about
+    // which library/tier blocked. The Retry-After header is still emitted by
+    // the underlying storage layer.
+    throw new HttpException(
+      { statusCode: HttpStatus.TOO_MANY_REQUESTS },
+      HttpStatus.TOO_MANY_REQUESTS
+    );
   }
 
   private isInternalProbe(userAgent: string | string[] | undefined): boolean {

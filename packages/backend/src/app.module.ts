@@ -43,7 +43,7 @@ const throttlerImports = isThrottled
       ThrottlerModule.forRoot([
         { name: "short", ttl: 1_000, limit: 10, blockDuration: 300_000 }, // 10 req/s, block 5min
         { name: "medium", ttl: 60_000, limit: 100, blockDuration: 900_000 }, // 100 req/min, block 15min
-        { name: "long", ttl: 3_600_000, limit: 3000, blockDuration: 3_600_000 }, // 3000 req/h, block 1h
+        { name: "long", ttl: 3_600_000, limit: 5000, blockDuration: 3_600_000 }, // 5000 req/h, block 1h
       ]),
     ]
   : [];

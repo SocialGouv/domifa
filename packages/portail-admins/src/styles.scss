@@ -299,6 +299,12 @@ a.fr-link:has(img):hover {
   width: 100%;
 }
 
+.stat-cards-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
 // .fr-btn--sort:before {
 //   --icon-size: 0.9rem;
 // }
@@ -318,18 +324,4 @@ a.fr-link:has(img):hover {
 
 hr {
   margin-top: 1.5rem;
-}
-
-// ============================================================
-// Localized spinner overlay (scoped to a list/table area)
-// ============================================================
-.admin-list-overlay-wrapper {
-  position: relative;
-  min-height: 8rem;
-
-  dsfr-ext-spinner .dsfrx-overlay,
-  dsfrx-spinner .dsfrx-overlay {
-    position: absolute;
-    inset: 0;
-  }
 }

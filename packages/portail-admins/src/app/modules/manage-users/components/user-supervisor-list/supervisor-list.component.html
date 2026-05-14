@@ -1,59 +1,62 @@
 <div class="head-page fr-pt-4w">
   <div class="fr-grid-row">
-    <div class="fr-container fr-col-md-12 fr-col-12">
-      <h1 class="fr-text-title--blue-france">Gestion des utilisateurs Admin</h1>
+    <div
+      class="fr-container fr-col-md-12 fr-col-12 fr-display-flex fr-justify-content-between fr-align-items-center"
+    >
+      <h1 class="fr-text-title--blue-france fr-mb-0">
+        Utilisateurs tableau de pilotage
+        <ng-container *ngIf="users.length">({{ users.length }})</ng-container>
+      </h1>
+      <button
+        *ngIf="me?.role === 'super-admin-domifa'"
+        type="button"
+        (click)="openAddUserModal()"
+        class="fr-btn fr-icon-user-add-fill fr-btn--md fr-btn--icon-right fr-btn--secondary"
+      >
+        Ajouter un utilisateur
+      </button>
     </div>
   </div>
 </div>
 
-<div *ngIf="me.role === 'super-admin-domifa'" class="fr-pt-4w">
-  <div class="fr-grid-row">
-    <div
-      class="fr-container fr-col-12 fr-display-flex fr-justify-content-between fr-align-items-center"
-    >
-      <h2 class="fr-h5 fr-mb-0w">
-        {{ users.length }} Utilisateurs enregistrés
-      </h2>
-      <div>
-        <button
-          type="button"
-          (click)="openAddUserModal()"
-          class="fr-btn fr-icon-user-add-fill fr-btn--md fr-btn--icon-right fr-btn--secondary"
-        >
-          Ajouter un utilisateur
-        </button>
-      </div>
-    </div>
-  </div>
+<div *ngIf="me?.role === 'super-admin-domifa'" class="fr-pt-4w">
   <div class="fr-grid-row fr-mt-2w">
     <div class="fr-container fr-col-12">
       <ul
-        class="fr-badges-group"
+        class="fr-grid-row fr-grid-row--gutters stat-cards-list"
         aria-label="Répartition des utilisateurs par rôle"
       >
-        <li>
-          <p class="fr-badge fr-badge--purple-glycine">
-            {{ USER_SUPERVISOR_ROLES_LABELS["super-admin-domifa"] }} :
-            {{ roleCounts["super-admin-domifa"] }}
-          </p>
+        <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
+          <app-stat-card
+            [label]="USER_SUPERVISOR_ROLES_LABELS['super-admin-domifa']"
+            [value]="roleCounts['super-admin-domifa']"
+            icon="fr-icon-shield-user-line"
+            status="info"
+          ></app-stat-card>
         </li>
-        <li>
-          <p class="fr-badge fr-badge--blue-cumulus">
-            {{ USER_SUPERVISOR_ROLES_LABELS["national"] }} :
-            {{ roleCounts["national"] }}
-          </p>
+        <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
+          <app-stat-card
+            [label]="USER_SUPERVISOR_ROLES_LABELS['national']"
+            [value]="roleCounts['national']"
+            icon="fr-icon-france-line"
+            status="neutral"
+          ></app-stat-card>
         </li>
-        <li>
-          <p class="fr-badge fr-badge--green-emeraude">
-            {{ USER_SUPERVISOR_ROLES_LABELS["region"] }} :
-            {{ roleCounts["region"] }}
-          </p>
+        <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
+          <app-stat-card
+            [label]="USER_SUPERVISOR_ROLES_LABELS['region']"
+            [value]="roleCounts['region']"
+            icon="fr-icon-map-pin-2-line"
+            status="success"
+          ></app-stat-card>
         </li>
-        <li>
-          <p class="fr-badge fr-badge--brown-caramel">
-            {{ USER_SUPERVISOR_ROLES_LABELS["department"] }} :
-            {{ roleCounts["department"] }}
-          </p>
+        <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
+          <app-stat-card
+            [label]="USER_SUPERVISOR_ROLES_LABELS['department']"
+            [value]="roleCounts['department']"
+            icon="fr-icon-community-line"
+            status="warning"
+          ></app-stat-card>
         </li>
       </ul>
     </div>
@@ -66,8 +69,8 @@
       <div class="fr-table__container">
         <div class="fr-table__content">
           <table [attr.aria-rowcount]="users.length">
-            <caption class="visually-hidden">
-              Liste des utilisateurs enregistrés
+            <caption class="fr-sr-only">
+              Liste des utilisateurs "pilotage" enregistrés
             </caption>
             <thead>
               <tr>
