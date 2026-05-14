@@ -31,6 +31,9 @@ export class OtpModalComponent implements OnInit, OnDestroy {
 
   public submitted = false;
   public errorCode: OtpErrorCode | null = null;
+  public attemptCount = 0;
+
+  public static readonly MAX_ATTEMPTS = 3;
 
   private subscription = new Subscription();
 
@@ -55,7 +58,15 @@ export class OtpModalComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  public onSubmit(event: Event): void {
+    event.preventDefault();
+    this.submit();
+  }
+
   public submit(): void {
+    if (this.isLocked) {
+      return;
+    }
     this.submitted = true;
     if (this.codeControl.invalid) {
       this.cdr.markForCheck();
@@ -68,7 +79,14 @@ export class OtpModalComponent implements OnInit, OnDestroy {
     this.promptService.cancel();
   }
 
+  public get isLocked(): boolean {
+    return this.attemptCount >= OtpModalComponent.MAX_ATTEMPTS;
+  }
+
   public get errorMessage(): string | null {
+    if (this.isLocked) {
+      return "Trop de tentatives. Veuillez réessayer plus tard.";
+    }
     switch (this.errorCode) {
       case "OTP_INVALID":
         return "Code incorrect. Veuillez ressaisir le code.";
@@ -82,6 +100,12 @@ export class OtpModalComponent implements OnInit, OnDestroy {
   }
 
   private openWith(options: OtpPromptOptions): void {
+    if (options.previousErrorCode === "OTP_INVALID") {
+      this.attemptCount += 1;
+    } else if (!options.previousErrorCode) {
+      this.attemptCount = 0;
+    }
+
     this.errorCode = options.previousErrorCode ?? null;
     this.submitted = false;
     this.codeControl.reset("");

@@ -1,5 +1,6 @@
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, waitForAsync, TestBed } from "@angular/core/testing";
 
@@ -21,14 +22,17 @@ describe("SetInteractionOutFormComponent", () => {
     TestBed.configureTestingModule({
       declarations: [SetInteractionOutFormComponent],
       imports: [
-        HttpClientTestingModule,
         FormsModule,
         SharedModule,
         FullNamePipe,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
     }).compileComponents();
   }));
 

@@ -32,7 +32,7 @@
               "src/styles.scss",
               "src/assets/css/main.scss",
               "src/assets/css/print.css",
-              "node_modules/intl-tel-input/build/css/intlTelInput.css"
+              "node_modules/intl-tel-input/dist/css/intlTelInput.css"
             ],
             "scripts": ["./node_modules/@gouvfr/dsfr/dist/dsfr/dsfr.module.js"],
             "aot": false,

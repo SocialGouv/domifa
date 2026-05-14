@@ -28,6 +28,12 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
   public displayUserRightsHelper: boolean;
   public sortValue: SortValues;
   public currentKey: keyof UserSupervisor;
+  public roleCounts: Record<UserSupervisorRole, number> = {
+    "super-admin-domifa": 0,
+    national: 0,
+    region: 0,
+    department: 0,
+  };
   private readonly subscription = new Subscription();
 
   public selectedUser: UserSupervisor | null;
@@ -76,7 +82,23 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
           lastLogin: user?.lastLogin ? new Date(user.lastLogin) : null,
         };
       });
+      this.computeRoleCounts(this.users);
     });
+  }
+
+  private computeRoleCounts(users: UserSupervisor[]): void {
+    const counts: Record<UserSupervisorRole, number> = {
+      "super-admin-domifa": 0,
+      national: 0,
+      region: 0,
+      department: 0,
+    };
+    for (const user of users) {
+      if (counts[user.role] !== undefined) {
+        counts[user.role]++;
+      }
+    }
+    this.roleCounts = counts;
   }
 
   public resetRoles() {

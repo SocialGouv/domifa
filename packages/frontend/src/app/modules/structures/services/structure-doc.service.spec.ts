@@ -1,5 +1,6 @@
 import { TestBed } from "@angular/core/testing";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { StructureDocService } from "./structure-doc.service";
 
 describe("StructureDocService", () => {
@@ -7,8 +8,11 @@ describe("StructureDocService", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [StructureDocService],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        StructureDocService,
+      ],
     });
     service = TestBed.inject(StructureDocService);
   });

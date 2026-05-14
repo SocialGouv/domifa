@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { StructureService } from "./structure.service";
 
@@ -7,8 +8,11 @@ describe("StructureService", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [StructureService],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        StructureService,
+      ],
     });
     service = TestBed.inject(StructureService);
   });

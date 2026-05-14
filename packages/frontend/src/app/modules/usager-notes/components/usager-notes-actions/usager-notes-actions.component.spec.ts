@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { UsagerNotesActionsComponent } from "./usager-notes-actions.component";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { USAGER_VALIDE_MOCK, USAGER_NOTE } from "../../../../../_common/mocks";
@@ -15,11 +16,8 @@ describe("UsagerNotesActionsComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-
-        StoreModule.forRoot({ app: _usagerReducer }),
-      ],
+      imports: [StoreModule.forRoot({ app: _usagerReducer })],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
       declarations: [UsagerNotesActionsComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

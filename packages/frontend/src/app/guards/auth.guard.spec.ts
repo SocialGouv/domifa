@@ -1,5 +1,6 @@
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { inject, TestBed } from "@angular/core/testing";
 import {
   ActivatedRouteSnapshot,
@@ -23,11 +24,12 @@ describe("AuthGuard", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
         RouterModule.forRoot([]),
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         AuthGuard,
         {
           provide: ActivatedRouteSnapshot,

@@ -2,7 +2,8 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { ColumnInteractionsComponent } from "./column-interactions.component";
 
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
 
@@ -14,10 +15,10 @@ describe("ColumnInteractionsComponent", () => {
     await TestBed.configureTestingModule({
       imports: [
         ColumnInteractionsComponent,
-        HttpClientTestingModule,
         StoreModule.forRoot({ app: _usagerReducer }),
         ColumnInteractionsComponent,
       ],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ColumnInteractionsComponent);

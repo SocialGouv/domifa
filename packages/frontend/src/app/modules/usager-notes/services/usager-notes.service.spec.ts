@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 
 import { UsagerNotesService } from "./usager-notes.service";
@@ -10,10 +11,8 @@ describe("UsagerNotesService", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        StoreModule.forRoot({ app: _usagerReducer }),
-      ],
+      imports: [StoreModule.forRoot({ app: _usagerReducer })],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     });
     service = TestBed.inject(UsagerNotesService);
   });

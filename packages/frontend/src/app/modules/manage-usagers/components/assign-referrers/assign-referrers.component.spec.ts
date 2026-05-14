@@ -2,7 +2,8 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { AssignReferrersComponent } from "./assign-referrers.component";
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
@@ -20,12 +21,15 @@ describe("AssignReferrersComponent", () => {
       imports: [
         ReactiveFormsModule,
         FormsModule,
-        HttpClientTestingModule,
         StoreModule.forRoot({ app: _usagerReducer }),
         FullNamePipe,
         DsfrModalComponent,
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AssignReferrersComponent);

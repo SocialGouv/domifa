@@ -319,3 +319,17 @@ a.fr-link:has(img):hover {
 hr {
   margin-top: 1.5rem;
 }
+
+// ============================================================
+// Localized spinner overlay (scoped to a list/table area)
+// ============================================================
+.admin-list-overlay-wrapper {
+  position: relative;
+  min-height: 8rem;
+
+  dsfr-ext-spinner .dsfrx-overlay,
+  dsfrx-spinner .dsfrx-overlay {
+    position: absolute;
+    inset: 0;
+  }
+}

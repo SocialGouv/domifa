@@ -1,6 +1,6 @@
 import { APP_BASE_HREF } from "@angular/common";
 
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
@@ -25,7 +25,6 @@ describe("StuctureStatsComponent", () => {
       declarations: [StuctureStatsComponent],
       imports: [
         StructuresModule,
-        HttpClientTestingModule,
         FormsModule,
         SharedModule,
         DsfrDatePickerComponent,
@@ -35,6 +34,7 @@ describe("StuctureStatsComponent", () => {
       ],
       providers: [
         provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: APP_BASE_HREF, useValue: "/" },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

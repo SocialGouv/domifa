@@ -2,10 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { ManageUserUsagerComponent } from "./manage-user-usager.component";
 import { provideHttpClient } from "@angular/common/http";
-import {
-  HttpClientTestingModule,
-  provideHttpClientTesting,
-} from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { SharedModule } from "../../../shared/shared.module";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../shared";
@@ -23,7 +20,6 @@ describe("ManageUserUsagerComponent", () => {
         SharedModule,
         CommonModule,
         NoopAnimationsModule,
-        HttpClientTestingModule,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
       providers: [provideHttpClient(), provideHttpClientTesting()],

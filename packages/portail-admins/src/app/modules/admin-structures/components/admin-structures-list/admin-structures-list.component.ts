@@ -30,6 +30,7 @@ import {
   SortValues,
   StructureType,
   StructureAdmin,
+  StructureDecisionStatut,
 } from "@domifa/common";
 import { structuresFilter, structuresSorter } from "../../utils";
 import {
@@ -58,6 +59,12 @@ export class AdminStructuresListComponent
   private readonly subscription = new Subscription();
   public searching = true;
   public totalStructures = 0;
+  public statusCounts: Record<StructureDecisionStatut, number> = {
+    VALIDE: 0,
+    EN_ATTENTE: 0,
+    REFUS: 0,
+    SUPPRIME: 0,
+  };
   public filters = new StructureFilterCriteria();
   public showFilters = false;
   public pageSize = 100;
@@ -132,6 +139,7 @@ export class AdminStructuresListComponent
           this.totalStructures = allstructures.length;
           this.structures = allstructures;
           this.filters = filters;
+          this.computeStatusCounts(allstructures);
           this.setFilters();
           this.applyFilters({
             filters,
@@ -324,6 +332,21 @@ export class AdminStructuresListComponent
       this.filters.domicilieSegment = value as DomiciliesSegmentEnum;
     }
     this.filters$.next(this.filters);
+  }
+
+  private computeStatusCounts(structures: StructureAdmin[]): void {
+    const counts: Record<StructureDecisionStatut, number> = {
+      VALIDE: 0,
+      EN_ATTENTE: 0,
+      REFUS: 0,
+      SUPPRIME: 0,
+    };
+    for (const structure of structures) {
+      if (counts[structure.statut] !== undefined) {
+        counts[structure.statut]++;
+      }
+    }
+    this.statusCounts = counts;
   }
 
   private initFiltersFromStorage() {

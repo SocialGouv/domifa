@@ -1,6 +1,7 @@
 import { FormsModule } from "@angular/forms";
 import { APP_BASE_HREF } from "@angular/common";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
@@ -20,13 +21,16 @@ describe("SetInteractionInFormComponent", () => {
     TestBed.configureTestingModule({
       declarations: [SetInteractionInFormComponent],
       imports: [
-        HttpClientTestingModule,
         SharedModule,
         FormsModule,
         FullNamePipe,
         StoreModule.forRoot({ app: _usagerReducer }),
       ],
-      providers: [{ provide: APP_BASE_HREF, useValue: "/" }],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: APP_BASE_HREF, useValue: "/" },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

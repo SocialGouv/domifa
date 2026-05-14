@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import {
   USAGER_VALIDE_MOCK,
@@ -17,10 +18,8 @@ describe("ManageDownloadDocsComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        StoreModule.forRoot({ app: _usagerReducer }),
-      ],
+      imports: [StoreModule.forRoot({ app: _usagerReducer })],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
       declarations: [ManageDownloadDocsComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

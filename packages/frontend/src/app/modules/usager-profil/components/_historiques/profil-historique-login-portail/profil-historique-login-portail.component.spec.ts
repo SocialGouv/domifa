@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { ProfilHistoriqueLoginPortailComponent } from "./profil-historique-login-portail.component";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { StoreModule } from "@ngrx/store";
 import { _usagerReducer } from "../../../../../shared";
@@ -16,11 +17,11 @@ describe("ProfilHistoriqueLoginPortailComponent", () => {
     await TestBed.configureTestingModule({
       declarations: [ProfilHistoriqueLoginPortailComponent],
       imports: [
-        HttpClientTestingModule,
         StoreModule.forRoot({ app: _usagerReducer }),
         NoopAnimationsModule,
         SharedModule,
       ],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProfilHistoriqueLoginPortailComponent);
