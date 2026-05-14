@@ -55,7 +55,7 @@ describe("OtpEmailService", () => {
   it("should not call sendMail when envId is test", async () => {
     mockConfig.mockReturnValue(buildConfig({ envId: "test" }));
 
-    await service.sendOtpEmail("test@example.com", "123456");
+    await service.sendOtpEmail("test@example.com", "123456", "LOGIN");
 
     expect(mockSendMail).not.toHaveBeenCalled();
   });
@@ -65,7 +65,7 @@ describe("OtpEmailService", () => {
       buildConfig({ envId: "dev", email: { emailsEnabled: false } })
     );
 
-    await service.sendOtpEmail("test@example.com", "123456");
+    await service.sendOtpEmail("test@example.com", "123456", "LOGIN");
 
     expect(mockSendMail).not.toHaveBeenCalled();
   });
@@ -87,7 +87,7 @@ describe("OtpEmailService", () => {
     );
 
     await expect(
-      service.sendOtpEmail("test@example.com", "123456")
+      service.sendOtpEmail("test@example.com", "123456", "LOGIN")
     ).rejects.toBeInstanceOf(InternalServerErrorException);
     expect(mockSendMail).not.toHaveBeenCalled();
   });
@@ -109,7 +109,7 @@ describe("OtpEmailService", () => {
     );
 
     await expect(
-      service.sendOtpEmail("test@example.com", "123456")
+      service.sendOtpEmail("test@example.com", "123456", "LOGIN")
     ).rejects.toBeInstanceOf(InternalServerErrorException);
     expect(mockSendMail).not.toHaveBeenCalled();
   });
@@ -126,7 +126,7 @@ describe("OtpEmailService", () => {
     );
     mockSendMail.mockResolvedValue({ messageId: "<msg-1>" });
 
-    await service.sendOtpEmail("real@example.com", "246890");
+    await service.sendOtpEmail("real@example.com", "246890", "LOGIN");
 
     expect(mockSendMail).toHaveBeenCalledTimes(1);
     const args = mockSendMail.mock.calls[0][0];
@@ -150,7 +150,7 @@ describe("OtpEmailService", () => {
       .mockImplementation(() => {});
 
     await expect(
-      service.sendOtpEmail("real@example.com", "123456")
+      service.sendOtpEmail("real@example.com", "123456", "LOGIN")
     ).rejects.toThrow("SMTP boom");
     expect(errSpy).toHaveBeenCalledTimes(1);
     expect(errSpy.mock.calls[0][0]).toContain("SMTP boom");
@@ -200,7 +200,7 @@ describe("OtpEmailService", () => {
     );
     mockSendMail.mockResolvedValue({ messageId: "<msg-2>" });
 
-    await service.sendOtpEmail("real@example.com", "123456");
+    await service.sendOtpEmail("real@example.com", "123456", "LOGIN");
 
     expect(mockSendMail.mock.calls[0][0].to).toBe("preprod-test@x.com");
   });

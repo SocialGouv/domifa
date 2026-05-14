@@ -8,7 +8,9 @@ import * as nodemailer from "nodemailer";
 import { Transporter } from "nodemailer";
 
 import { domifaConfig } from "../../../config";
+import { OtpPurpose } from "../otp.types";
 import { redactEmail } from "../otp.utils";
+import { generateOtpActionEmailHtml } from "../templates/otp-action-email.template";
 import { generateOtpEmailHtml } from "../templates/otp-email.template";
 
 @Injectable()
@@ -36,7 +38,11 @@ export class OtpEmailService implements OnModuleInit {
     );
   }
 
-  async sendOtpEmail(email: string, code: string): Promise<void> {
+  async sendOtpEmail(
+    email: string,
+    code: string,
+    purpose: OtpPurpose
+  ): Promise<void> {
     const config = domifaConfig();
     const emailLog = redactEmail(email);
 
@@ -67,17 +73,23 @@ export class OtpEmailService implements OnModuleInit {
         : config.email.emailAddressRedirectAllTo || email;
     const recipientLog = redactEmail(recipient);
 
-    const html = generateOtpEmailHtml({ code });
+    const isLogin = purpose === "LOGIN";
+    const html = isLogin
+      ? generateOtpEmailHtml({ code })
+      : generateOtpActionEmailHtml({ code });
+    const subject = isLogin
+      ? "Votre code de connexion DomiFa"
+      : "Votre code de confirmation DomiFa";
 
     try {
       const result = await this.getTransporter().sendMail({
         from: config.smtp.from,
         to: recipient,
-        subject: "Votre code de connexion DomiFa",
+        subject,
         html,
       });
       this.logger.log(
-        `OTP email envoye a ${recipientLog} (original: ${emailLog}), messageId: ${result.messageId}`
+        `OTP email envoye a ${recipientLog} (original: ${emailLog}, purpose=${purpose}), messageId: ${result.messageId}`
       );
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);

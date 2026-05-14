@@ -64,14 +64,6 @@ const routes: Routes = [
         "./modules/manage-structure-users/manage-structure-users.module"
       ).then((m) => m.ManageStructureUsersModule),
   },
-  // {
-  // path: "structures-confirm",
-  // canActivate: [AuthGuard],
-  // loadChildren: () =>
-  // import(
-  // "./modules/admin-structures-confirm/admin-structures-confirm.module"
-  // ).then((m) => m.AdminStructureConfirmModule),
-  // },
   {
     path: "",
     canActivate: [RoleRedirectGuard],

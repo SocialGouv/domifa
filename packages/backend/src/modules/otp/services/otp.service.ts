@@ -98,7 +98,11 @@ export class OtpService {
         this.hmacCode(code)
       );
       const resendCount = updated?.resendCount ?? existing.resendCount + 1;
-      await this.otpEmailService.sendOtpEmail(context.email, code);
+      await this.otpEmailService.sendOtpEmail(
+        context.email,
+        code,
+        context.purpose
+      );
       this.logger.log(
         `OTP renvoye pour ${emailLog} (purpose=${context.purpose}, resends=${resendCount}/${OTP_MAX_RESENDS})`
       );
@@ -125,7 +129,11 @@ export class OtpService {
       }, expire=${expiresAt.toISOString()})`
     );
 
-    await this.otpEmailService.sendOtpEmail(context.email, code);
+    await this.otpEmailService.sendOtpEmail(
+      context.email,
+      code,
+      context.purpose
+    );
 
     return {
       kind: "generated",

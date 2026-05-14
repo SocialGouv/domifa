@@ -1,4 +1,4 @@
-export function generateOtpEmailHtml(params: { code: string }): string {
+export function generateOtpActionEmailHtml(params: { code: string }): string {
   const { code } = params;
 
   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -6,7 +6,7 @@ export function generateOtpEmailHtml(params: { code: string }): string {
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Votre code de connexion DomiFa</title>
+  <title>Votre code de confirmation DomiFa</title>
   <style type="text/css">
     body { margin: 0; padding: 0; width: 100% !important; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; background-color: #ffffff; }
     table { border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
@@ -43,7 +43,7 @@ export function generateOtpEmailHtml(params: { code: string }): string {
                 <tr>
                   <td width="60%" valign="middle" style="padding: 25px 20px;">
                     <h1 style="margin: 0; color: #000091; font-family: Arial, Helvetica, sans-serif; font-size: 24px; font-weight: bold; line-height: 1.3;">
-                      Votre code de connexion
+                      Votre code de confirmation
                     </h1>
                   </td>
                   <td width="40%" valign="middle" style="padding: 10px 15px; text-align: right;">
@@ -69,7 +69,7 @@ export function generateOtpEmailHtml(params: { code: string }): string {
                 <!-- Intro text -->
                 <tr>
                   <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.5; color: #000000; padding-bottom: 20px;">
-                    Voici votre code de s&eacute;curit&eacute; pour vous connecter &agrave; DomiFa :
+                    Une action que vous avez entreprise sur DomiFa requiert un code de confirmation. Copiez-collez ce code dans l'interface :
                   </td>
                 </tr>
 
@@ -99,7 +99,7 @@ export function generateOtpEmailHtml(params: { code: string }): string {
                 <!-- If you initiated -->
                 <tr>
                   <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.5; color: #000000; padding-bottom: 10px;">
-                    &#9989; Si vous &ecirc;tes &agrave; l'origine de cette connexion, vous pouvez saisir ce code pour la finaliser.
+                    &#9989; Si vous &ecirc;tes &agrave; l'origine de cette action, vous pouvez utiliser ce code pour la confirmer.
                   </td>
                 </tr>
 
@@ -107,13 +107,6 @@ export function generateOtpEmailHtml(params: { code: string }): string {
                 <tr>
                   <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.5; color: #000000; padding-bottom: 15px;">
                     &#10060; Si vous n'&ecirc;tes pas &agrave; l'origine de cette demande, ignorez ce message et renouvelez votre mot de passe par s&eacute;curit&eacute;.
-                  </td>
-                </tr>
-
-                <!-- Attention block -->
-                <tr>
-                  <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.5; color: #000000; padding-bottom: 15px;">
-                    <strong>Attention :</strong> En cas de signalement d'une connexion dont vous n'&ecirc;tes pas &agrave; l'origine, l'acc&egrave;s &agrave; votre espace personnel sera temporairement suspendu pour des raisons de s&eacute;curit&eacute;.
                   </td>
                 </tr>
 
