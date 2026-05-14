@@ -31,10 +31,14 @@ export const StructuresControllerSecurityTests: AppTestHttpClientSecurityTestDef
       }),
     },
     {
-      label: `${CONTROLLER}.hardResetConfirm`,
+      label: `${CONTROLLER}.hardResetConfirm (no OTP code)`,
       query: async (context: AppTestContext) => ({
-        response: await AppTestHttpClient.get(
-          "/structures/hard-reset-confirm/INVALID-TOKEN",
+        // Endpoint is OtpGuard-protected: an authenticated admin with no
+        // `x-otp-code` header is rejected with 401 + `{ code: "OTP_REQUIRED" }`,
+        // which is what we expect on the "valid role" path here. Anonymous
+        // and non-admin still get 401/403 from the upstream JWT/role guards.
+        response: await AppTestHttpClient.post(
+          "/structures/hard-reset-confirm",
           {
             context,
           }
@@ -43,7 +47,53 @@ export const StructuresControllerSecurityTests: AppTestHttpClientSecurityTestDef
           context.user,
           {
             roles: ["admin"],
-            validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
+            validExpectedResponseStatus: HttpStatus.UNAUTHORIZED,
+          }
+        ),
+      }),
+    },
+    {
+      label: `${CONTROLLER}.hardResetConfirm (invalid OTP code)`,
+      query: async (context: AppTestContext) => ({
+        // Admin with a syntactically valid but unknown OTP code: guard hits
+        // the claim path, finds no matching row, returns 401 + OTP_INVALID.
+        // Belt-and-suspenders coverage for the case where someone might
+        // accidentally make the guard skip validation when a code IS present.
+        response: await AppTestHttpClient.post(
+          "/structures/hard-reset-confirm",
+          {
+            context,
+            otpCode: "999999",
+          }
+        ),
+        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+          context.user,
+          {
+            roles: ["admin"],
+            validExpectedResponseStatus: HttpStatus.UNAUTHORIZED,
+          }
+        ),
+      }),
+    },
+    {
+      label: `${CONTROLLER}.hardResetConfirm (malformed OTP code)`,
+      query: async (context: AppTestContext) => ({
+        // Malformed header (not 6 digits) → guard's readOtpCode returns null
+        // and the request takes the "no code provided" path → 401 OTP_REQUIRED.
+        // Proves the strict regex on the header is enforced and that random
+        // junk can't reach the claim path.
+        response: await AppTestHttpClient.post(
+          "/structures/hard-reset-confirm",
+          {
+            context,
+            otpCode: "not-a-code",
+          }
+        ),
+        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+          context.user,
+          {
+            roles: ["admin"],
+            validExpectedResponseStatus: HttpStatus.UNAUTHORIZED,
           }
         ),
       }),

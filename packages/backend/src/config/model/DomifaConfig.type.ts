@@ -9,6 +9,10 @@ export type DomifaConfigSecurity = {
   internalUserAgent: string; // DOMIFA_INTERNAL_USER_AGENT
   sessionDurationDays: number; // SESSION_DURATION_DAYS
   sessionPurgeAfterDays: number; // SESSION_PURGE_AFTER_DAYS
+  // Server-side secret used as the HMAC-SHA256 key when storing OTP codes.
+  // Never sent to clients. Without it the service refuses to issue OTPs —
+  // we never want to fall back to storing plaintext or unkeyed hashes.
+  otpSecret: string; // DOMIFA_OTP_SECRET
 };
 
 export type DomifaConfig = {
@@ -22,9 +26,6 @@ export type DomifaConfig = {
   };
   security: DomifaConfigSecurity;
   postgres: DomifaConfigPostgres;
-  typeorm: {
-    runOnStartup: boolean; // DOMIFA_TYPEORM_RUN_ON_STARTUP
-  };
   upload: {
     bucketRootDir: string; // S3_BUCKET_ROOT_DIR
     bucketAccessKey: string; // S3_BUCKET_ACCESS_KEY
@@ -60,8 +61,6 @@ export type DomifaConfig = {
       userResetPassword: number; // DOMIFA_BREVO_TEMPLATES_USER_RESET_PASSWORD
       // User structure appointment created template
       userStructureAppointment: number; // DOMIFA_BREVO_TEMPLATES_USER_STRUCTURE_APPOINTMENT_CREATED
-      // Structure hard reset template
-      structureHardReset: number; // DOMIFA_BREVO_TEMPLATES_HARD_RESET
       // User account activated template
       userAccountActivated: number; // DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_ACTIVATED
       // Structure refusal template
@@ -72,8 +71,6 @@ export type DomifaConfig = {
       userStructureCreatedByAdmin: number; // DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_CREATED_BY_ADMIN
       // Structure pending activation template
       structurePendingActivation: number; // DOMIFA_BREVO_TEMPLATES_STRUCTURE_PENDING_ACTIVATION
-      // Import fail template
-      importFail: number; // DOMIFA_BREVO_TEMPLATES_IMPORT_FAIL
     };
   };
   email: {
@@ -94,6 +91,14 @@ export type DomifaConfig = {
     mssToken: string;
     dataInclusionUrl: string;
     dataInclusionToken: string;
+  };
+  smtp: {
+    host: string; // DOMIFA_SMTP_HOST
+    port: number; // DOMIFA_SMTP_PORT
+    user: string; // DOMIFA_SMTP_USER
+    pass: string; // DOMIFA_SMTP_PASS
+    from: string; // DOMIFA_SMTP_FROM
+    timeoutMs: number; // DOMIFA_SMTP_TIMEOUT_MS
   };
   metabase: {
     url: string;

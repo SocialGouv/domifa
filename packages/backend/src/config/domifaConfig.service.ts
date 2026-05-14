@@ -148,15 +148,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         defaultValue: false,
       }),
     },
-    typeorm: {
-      runOnStartup: configParser.parseBoolean(
-        x,
-        "DOMIFA_TYPEORM_RUN_ON_STARTUP",
-        {
-          defaultValue: true,
-        }
-      ),
-    },
     upload: {
       bucketAccessKey: configParser.parseString(x, "S3_BUCKET_ACCESS_KEY"),
       bucketSecretKey: configParser.parseString(x, "S3_BUCKET_SECRET_KEY"),
@@ -247,13 +238,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             required: emailsEnabled,
           }
         ),
-        structureHardReset: configParser.parseInteger(
-          x,
-          "DOMIFA_BREVO_TEMPLATES_HARD_RESET",
-          {
-            required: emailsEnabled,
-          }
-        ),
         userAccountActivated: configParser.parseInteger(
           x,
           "DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_ACTIVATED",
@@ -285,13 +269,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         structurePendingActivation: configParser.parseInteger(
           x,
           "DOMIFA_BREVO_TEMPLATES_STRUCTURE_PENDING_ACTIVATION",
-          {
-            required: emailsEnabled,
-          }
-        ),
-        importFail: configParser.parseInteger(
-          x,
-          "DOMIFA_BREVO_TEMPLATES_IMPORT_FAIL",
           {
             required: emailsEnabled,
           }
@@ -352,6 +329,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         required: false,
       }),
     },
+    smtp: parseSmtpConfig(x),
     metabase: {
       token: configParser.parseString(x, "METABASE_TOKEN", {
         required: true,
@@ -362,6 +340,30 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
     },
   };
   return config;
+}
+
+function parseSmtpConfig(x: Partial<DomifaEnv>): DomifaConfig["smtp"] {
+  // SMTP host/user/pass must be present at boot — fail fast on misconfig.
+  // Tests and local envs without emails should still set these to placeholders
+  // (e.g. mailtrap). The live verify() ping is intentionally NOT run at boot:
+  // a transient network blip would crash the whole API.
+  return {
+    host: configParser.parseString(x, "DOMIFA_SMTP_HOST"),
+    user: configParser.parseString(x, "DOMIFA_SMTP_USER"),
+    pass: configParser.parseString(x, "DOMIFA_SMTP_PASS"),
+    port: configParser.parseInteger(x, "DOMIFA_SMTP_PORT", {
+      required: false,
+      defaultValue: 587,
+    }),
+    from: configParser.parseString(x, "DOMIFA_SMTP_FROM", {
+      required: false,
+      defaultValue: "ne-pas-repondre@domifa.fabrique.social.gouv.fr",
+    }),
+    timeoutMs: configParser.parseInteger(x, "DOMIFA_SMTP_TIMEOUT_MS", {
+      required: false,
+      defaultValue: 10_000,
+    }),
+  };
 }
 
 function parseSecurityConfig(x: Partial<DomifaEnv>): DomifaConfigSecurity {
@@ -388,5 +390,6 @@ function parseSecurityConfig(x: Partial<DomifaEnv>): DomifaConfigSecurity {
         defaultValue: 365,
       }
     ),
+    otpSecret: configParser.parseString(x, "DOMIFA_OTP_SECRET"),
   };
 }

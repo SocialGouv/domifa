@@ -6,21 +6,15 @@ import {
 
 import { myDataSource } from "..";
 import { UsagerTable } from "../../entities";
-import { joinSelectFields, pgRepository } from "../_postgres";
+import { joinSelectFields } from "../_postgres";
 import { USER_USAGER_ATTRIBUTES } from "../../../modules/portail-usagers/constants";
 import { getDateForMonthInterval } from "../../../modules/stats/services";
-
-const baseRepository = pgRepository.get<UsagerTable, Usager>(UsagerTable);
 
 export const usagerRepository = myDataSource
   .getRepository<Usager>(UsagerTable)
   .extend({
     countMigratedUsagers,
-    aggregateAsNumber: baseRepository.aggregateAsNumber,
-    _parseCounts: baseRepository._parseCounts,
-    countBy: baseRepository.countBy,
     getUsager,
-    customCountBy: baseRepository.countBy,
     countAyantsDroits,
     countUsagersByMonth,
     countTotalUsagers,
@@ -89,14 +83,36 @@ async function getUsager(uuid: string): Promise<Usager> {
   });
 }
 
-//@deprecated
-async function countAyantsDroits(structuresId?: number[]): Promise<number> {
-  return _advancedCount({ countType: "ayant-droit", structuresId });
+async function countAyantsDroits(regionId?: string): Promise<number> {
+  return aggregateUsagers(
+    `SUM(jsonb_array_length(u."ayantsDroits"))`,
+    regionId
+  );
 }
 
-//@deprecated
-async function countUsagers(structuresId?: number[]): Promise<number> {
-  return _advancedCount({ countType: "domicilie", structuresId });
+async function countUsagers(regionId?: string): Promise<number> {
+  return aggregateUsagers(`COUNT(u."uuid")`, regionId);
+}
+
+// Inline COUNT/SUM with optional region filter via INNER JOIN on structure —
+// safe because `aggregation` is a hardcoded string literal (no caller-supplied
+// expression) and `regionId` is a bound parameter.
+async function aggregateUsagers(
+  aggregation: string,
+  regionId?: string
+): Promise<number> {
+  const qb = usagerRepository
+    .createQueryBuilder("u")
+    .select(aggregation, "count");
+
+  if (regionId) {
+    qb.innerJoin("structure", "s", `s.id = u."structureId"`)
+      .where("s.region = :regionId", { regionId })
+      .andWhere("s.statut = :statut", { statut: "VALIDE" });
+  }
+
+  const result = await qb.getRawOne<{ count: string | null }>();
+  return parseInt(result?.count ?? "0", 10);
 }
 
 async function countUsagersByMonth(regionId?: string) {
@@ -114,45 +130,11 @@ async function countUsagersByMonth(regionId?: string) {
   return usagerRepository.query(query, where);
 }
 
-function _advancedCount({
-  countType,
-  logSql,
-  structuresId,
-}: {
-  countType: "domicilie" | "ayant-droit";
-  logSql?: boolean;
-  structuresId?: number[];
-}): Promise<number> {
-  const expression =
-    countType === "domicilie"
-      ? `COUNT("uuid")`
-      : 'sum(jsonb_array_length("ayantsDroits"))';
-
-  const query: {
-    expression: string;
-    resultAlias: string;
-    where?: any;
-    params?: { [attr: string]: any };
-    alias?: string;
-    logSql?: boolean;
-  } = {
-    alias: "u",
-    expression,
-    resultAlias: "count",
-    logSql,
-  };
-
-  if (structuresId) {
-    query.where = `u.structureId IN(:...ids)`;
-    query.params = { ids: structuresId };
-  }
-
-  return usagerRepository.aggregateAsNumber(query);
-}
-
-async function countTotalUsagers(structuresId?: number[]): Promise<number> {
-  const usagers = await usagerRepository.countUsagers(structuresId);
-  const ayantsDroits = await usagerRepository.countAyantsDroits(structuresId);
+async function countTotalUsagers(regionId?: string): Promise<number> {
+  const [usagers, ayantsDroits] = await Promise.all([
+    usagerRepository.countUsagers(regionId),
+    usagerRepository.countAyantsDroits(regionId),
+  ]);
   return usagers + ayantsDroits;
 }
 

@@ -12,10 +12,36 @@ import { userStatusManager } from "./userStatusManager.service";
 import { appLogsRepository, AppLogTable } from "../../../database";
 import { SYSTEM_ACTOR_FIELDS } from "../../app-logs/app-logs.helpers";
 
+// Target wall-clock duration for the login flow. We pad every response —
+// success or failure — up to this floor to neutralize the timing differential
+// between "unknown email" (DB miss, fast) and "wrong password" (bcrypt, slow).
+// Must comfortably exceed a single bcrypt compare at cost 10 (~100 ms on
+// commodity hardware).
+const LOGIN_RESPONSE_TIME_TARGET_MS = 350;
+
 export const userSecurityPasswordChecker = {
   checkPassword,
 };
-async function checkPassword<T extends UserStructure | UserSupervisor>({
+
+async function checkPassword<T extends UserStructure | UserSupervisor>(args: {
+  email: string;
+  password: string;
+  userProfile: UserProfile;
+}): Promise<T> {
+  const started = Date.now();
+  try {
+    return await checkPasswordImpl<T>(args);
+  } finally {
+    const elapsed = Date.now() - started;
+    if (elapsed < LOGIN_RESPONSE_TIME_TARGET_MS) {
+      await new Promise((resolve) =>
+        setTimeout(resolve, LOGIN_RESPONSE_TIME_TARGET_MS - elapsed)
+      );
+    }
+  }
+}
+
+async function checkPasswordImpl<T extends UserStructure | UserSupervisor>({
   email,
   password,
   userProfile,
