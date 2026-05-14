@@ -1,3 +1,10 @@
+# [2.241.0](https://github.com/SocialGouv/domifa/compare/v2.240.0...v2.241.0) (2026-05-14)
+
+
+### Features
+
+* **backend:** add OTP and mail for suspicious activity ([c95ff7d](https://github.com/SocialGouv/domifa/commit/c95ff7d526559308828d3d9606e26d1796225089))
+
 # [2.240.0](https://github.com/SocialGouv/domifa/compare/v2.239.1...v2.240.0) (2026-05-13)
 
 
