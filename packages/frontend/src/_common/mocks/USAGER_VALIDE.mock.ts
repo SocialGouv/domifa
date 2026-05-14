@@ -1,4 +1,4 @@
-import { Iso2 } from "intl-tel-input/data";
+import { Iso2 } from "intl-tel-input";
 import { UsagerLight } from "../model";
 import {
   ETAPE_DOSSIER_COMPLET,

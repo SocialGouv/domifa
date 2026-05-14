@@ -1,5 +1,6 @@
 import { InteractionsModule } from "../../../modules/interactions/interactions.module";
 import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
+import { OtpModule } from "../../../modules/otp/otp.module";
 import { StructuresModule } from "../../../modules/structures/structure.module";
 import { UsersModule } from "../../../modules/users/users.module";
 import { AppTestContext, AppTestHelper } from "../../../util/test";
@@ -15,7 +16,7 @@ describe("Export Controller", () => {
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [ExportStructureUsagersController],
-      imports: [UsersModule, InteractionsModule, StructuresModule],
+      imports: [UsersModule, InteractionsModule, StructuresModule, OtpModule],
       providers: [UsagersService, UsagerHistoryStateService, AppLogsService],
     });
     controller = context.module.get<ExportStructureUsagersController>(

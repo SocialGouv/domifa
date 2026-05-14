@@ -1,4 +1,4 @@
-import { Iso2 } from "intl-tel-input/data";
+import { Iso2 } from "intl-tel-input";
 import { Entretien, Rdv, Decision } from ".";
 import { Telephone } from "../../../../_common/model";
 

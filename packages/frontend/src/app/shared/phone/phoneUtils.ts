@@ -1,7 +1,7 @@
 /* eslint-disable id-denylist */
 import { PhoneNumberUtil } from "google-libphonenumber";
 import { Telephone } from "../../../_common/model";
-import { Iso2 } from "intl-tel-input/data";
+import { Iso2 } from "intl-tel-input";
 
 export function getFormPhone(formValue: Telephone | null): Telephone {
   if (!formValue) {

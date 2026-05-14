@@ -6,7 +6,7 @@ import {
   UntypedFormGroup,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { Iso2 } from "intl-tel-input/data";
+import { Iso2 } from "intl-tel-input";
 
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { Subject, Subscription } from "rxjs";

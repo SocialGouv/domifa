@@ -15,7 +15,7 @@ import {
   UntypedFormBuilder,
   ValidationErrors,
 } from "@angular/forms";
-import { Iso2 } from "intl-tel-input/data";
+import { Iso2 } from "intl-tel-input";
 import { Observable, Subscription } from "rxjs";
 
 import {

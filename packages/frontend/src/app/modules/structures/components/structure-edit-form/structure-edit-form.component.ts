@@ -7,7 +7,7 @@ import {
 } from "@angular/forms";
 
 import { Subject, Subscription } from "rxjs";
-import { Iso2 } from "intl-tel-input/data";
+import { Iso2 } from "intl-tel-input";
 import { getFormPhone } from "../../../../shared/phone";
 import { CustomToastService } from "../../../shared/services";
 import { StructureService } from "../../services";

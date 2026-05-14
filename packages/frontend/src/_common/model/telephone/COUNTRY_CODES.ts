@@ -1,5 +1,5 @@
 import { TimeZone } from "@domifa/common";
-import { Iso2 } from "intl-tel-input/data";
+import { Iso2 } from "intl-tel-input";
 
 export const COUNTRY_CODES: { [key: string]: string } = {
   af: "93",
