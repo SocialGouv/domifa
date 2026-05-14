@@ -145,6 +145,24 @@ CREATE TABLE public.open_data_places (
     "populationSegment" text,
     siret text
 );
+CREATE TABLE public.otp (
+    uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
+    "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
+    version integer NOT NULL,
+    email text NOT NULL,
+    code text NOT NULL,
+    "expiresAt" timestamp with time zone NOT NULL,
+    attempts integer DEFAULT 0 NOT NULL,
+    used boolean DEFAULT false NOT NULL,
+    purpose text NOT NULL,
+    "fingerprintHash" text NOT NULL,
+    url text NOT NULL,
+    "userUuid" uuid NOT NULL,
+    "userType" text NOT NULL,
+    "resendCount" integer DEFAULT 0 NOT NULL,
+    "usedAt" timestamp with time zone
+);
 CREATE TABLE public.public_stats_cache (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
@@ -593,6 +611,8 @@ ALTER TABLE ONLY public.monitor_batch_process
     ADD CONSTRAINT "PK_f00131d757d1ddf39e70901e372" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.open_data_cities
     ADD CONSTRAINT "PK_f20d1eb20573a7f2922c8a5f9a8" PRIMARY KEY (uuid);
+ALTER TABLE ONLY public.otp
+    ADD CONSTRAINT "PK_f63f78c8d648a9c53057079b0af" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.open_data_places
     ADD CONSTRAINT "PK_f80b64cfb42753deacd8bf6d78d" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.user_supervisor
@@ -693,6 +713,7 @@ CREATE INDEX "IDX_ef9fade8e5a6dac06ef5031986" ON public.interactions USING btree
 CREATE INDEX "IDX_f072e2874bd87ecb6da2fbd66e" ON public.usager USING btree (nom_prenom_surnom_ref);
 CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON public.interactions USING btree ("usagerUUID");
 CREATE INDEX "IDX_fa4dea9a1ff8deb8fcf47c451e" ON public.structure USING btree (departement);
+CREATE INDEX "IDX_otp_fingerprintHash" ON public.otp USING btree ("fingerprintHash");
 CREATE INDEX idx_interactions_date ON public.interactions USING btree ("structureId", "usagerUUID", "dateInteraction");
 CREATE INDEX idx_interactions_type ON public.interactions USING btree ("structureId", "usagerUUID", type);
 CREATE INDEX idx_stats_range ON public.usager_history_states USING btree ("historyBeginDate", "historyEndDate", "isActive");

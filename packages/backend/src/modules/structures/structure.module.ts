@@ -13,6 +13,7 @@ import { StructuresService } from "./services/structures.service";
 import { AppLogsService } from "../app-logs/app-logs.service";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
 import { MailsModule } from "../mails/mails.module";
+import { OtpModule } from "../otp/otp.module";
 import { StatsModule } from "../stats/stats.module";
 
 @Module({
@@ -24,6 +25,7 @@ import { StatsModule } from "../stats/stats.module";
   exports: [StructuresService, StructureHardResetService],
   imports: [
     HttpModule,
+    forwardRef(() => OtpModule),
     forwardRef(() => MailsModule),
     forwardRef(() => UsersModule),
     forwardRef(() => UsagersModule),

@@ -3,6 +3,23 @@ import supertest from "supertest";
 
 import { AppTestContext } from "./AppTestContext.type";
 
+const OTP_CODE_HEADER = "x-otp-code";
+
+type BaseQueryOptions = {
+  authenticate?: boolean;
+  context: AppTestContext;
+  headers?: { [name: string]: string };
+  // Convenience for OTP-protected endpoints — sets the `x-otp-code` header.
+  // Equivalent to `headers: { "x-otp-code": "<code>" }` but more explicit.
+  otpCode?: string;
+};
+
+type WriteQueryOptions = BaseQueryOptions & {
+  body?: string | object;
+  fields?: { [name: string]: string };
+  attachments?: { [name: string]: string };
+};
+
 export const AppTestHttpClient = {
   get,
   delete: query("delete"),
@@ -11,42 +28,20 @@ export const AppTestHttpClient = {
   patch: query("patch"),
 };
 
-function get(
-  url: string,
-  {
-    authenticate = true,
-    context,
-  }: { authenticate?: boolean; context: AppTestContext }
-): supertest.Test {
-  const { app } = context;
+function get(url: string, options: BaseQueryOptions): supertest.Test {
+  const { app } = options.context;
   expectAppToBeDefined(app);
-  const req = supertest(app.getHttpServer()).get(url);
-  if (authenticate && context.authToken) {
-    return req.set("Authorization", `Bearer ${context.authToken}`);
-  }
-  return req;
+
+  let req = supertest(app.getHttpServer()).get(url);
+  req = applyHeaders(req, options);
+  return applyAuth(req, options);
 }
+
 function query(method: "post" | "put" | "patch" | "delete") {
-  return function (
-    url: string,
-    {
-      authenticate = true,
-      body,
-      headers,
-      fields,
-      context,
-      attachments,
-    }: {
-      authenticate?: boolean;
-      body?: string | object;
-      headers?: { [name: string]: string };
-      fields?: { [name: string]: string };
-      context: AppTestContext;
-      attachments?: { [name: string]: string };
-    }
-  ): supertest.Test {
-    const { app } = context;
+  return function (url: string, options: WriteQueryOptions): supertest.Test {
+    const { app } = options.context;
     expectAppToBeDefined(app);
+
     const client = supertest(app.getHttpServer());
     let req =
       method === "post"
@@ -56,30 +51,49 @@ function query(method: "post" | "put" | "patch" | "delete") {
         : method === "patch"
         ? client.patch(url)
         : client.delete(url);
-    if (body) {
-      req = req.send(body);
+
+    if (options.body) {
+      req = req.send(options.body);
     }
-    if (headers) {
-      Object.keys(headers).forEach((key) => {
-        req = req.set(key, headers[key]);
+    req = applyHeaders(req, options);
+    if (options.fields) {
+      Object.keys(options.fields).forEach((key) => {
+        req = req.field(key, options.fields![key]);
       });
     }
-    if (fields) {
-      Object.keys(fields).forEach((key) => {
-        req = req.field(key, fields[key]);
-      });
-    }
-    if (attachments) {
-      Object.keys(attachments).forEach((key) => {
-        req = req.attach(key, attachments[key]);
+    if (options.attachments) {
+      Object.keys(options.attachments).forEach((key) => {
+        req = req.attach(key, options.attachments![key]);
       });
     }
 
-    if (authenticate && context.authToken) {
-      return req.set("Authorization", `Bearer ${context.authToken}`);
-    }
-    return req;
+    return applyAuth(req, options);
   };
+}
+
+function applyHeaders(
+  req: supertest.Test,
+  { headers, otpCode }: BaseQueryOptions
+): supertest.Test {
+  if (headers) {
+    Object.keys(headers).forEach((key) => {
+      req = req.set(key, headers[key]);
+    });
+  }
+  if (otpCode !== undefined) {
+    req = req.set(OTP_CODE_HEADER, otpCode);
+  }
+  return req;
+}
+
+function applyAuth(
+  req: supertest.Test,
+  { authenticate = true, context }: BaseQueryOptions
+): supertest.Test {
+  if (authenticate && context.authToken) {
+    return req.set("Authorization", `Bearer ${context.authToken}`);
+  }
+  return req;
 }
 
 function expectAppToBeDefined(app: INestApplication) {

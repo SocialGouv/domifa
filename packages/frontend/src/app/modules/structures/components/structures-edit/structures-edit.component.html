@@ -104,53 +104,13 @@
       Vous n'aurez aucun moyen de restaurer les dossiers effacés.
     </strong>
     <br />
-    Pour finaliser cette procédure, cliquez sur "continuer".
+    Un code de confirmation vous sera envoyé par email avant la suppression.
   </p>
-
-  @if (showHardReset) {
-  <div class="fr-mt-2w">
-    <form [formGroup]="hardResetForm" (ngSubmit)="hardResetConfirm()">
-      <div
-        class="fr-input-group"
-        [class.fr-input-group--error]="h.token.dirty && h.token.errors"
-      >
-        <label class="fr-label" for="hard-reset-input">
-          Veuillez saisir le code reçu par email
-        </label>
-        <input
-          type="text"
-          class="fr-input"
-          [class.fr-input--error]="h.token.dirty && h.token.errors"
-          id="hard-reset-input"
-          formControlName="token"
-          name="token"
-          maxlength="7"
-          minlength="7"
-        />
-      </div>
-    </form>
-  </div>
-  }
 
   <ng-template #modalFooterTemplate>
     <div
       class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
     >
-      @if (!showHardReset) {
-      <button
-        class="fr-btn"
-        (click)="hardReset()"
-        [disabled]="loading"
-        [attr.aria-busy]="loading"
-        type="button"
-      >
-        @if (!loading) {
-        <span>Continuer</span>
-        } @else {
-        <span class="fr-sr-only">Veuillez patienter...</span>
-        }
-      </button>
-      } @if (showHardReset) {
       <button
         class="fr-btn"
         [disabled]="loading"
@@ -164,7 +124,6 @@
         <span class="fr-sr-only">Veuillez patienter...</span>
         }
       </button>
-      }
       <button
         class="fr-btn fr-btn--secondary"
         type="button"

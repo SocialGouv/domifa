@@ -1,10 +1,4 @@
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import {
-  AbstractControl,
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { saveAs } from "file-saver";
 import { Subscription } from "rxjs";
@@ -31,11 +25,8 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
   public structure!: StructureCommon;
 
   public exportLoading: boolean;
-  public showHardReset: boolean;
-
   public loading: boolean;
 
-  public hardResetForm!: UntypedFormGroup;
   private readonly subscription = new Subscription();
   public readonly UsagersFilterCriteriaStatut = UsagersFilterCriteriaStatut;
 
@@ -43,20 +34,14 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
   public hardResetModal!: DsfrModalComponent;
 
   constructor(
-    private readonly formBuilder: UntypedFormBuilder,
     private readonly structureService: StructureService,
     private readonly toastService: CustomToastService,
     private readonly authService: AuthService,
     private readonly titleService: Title,
     private readonly store: Store<UsagerState>
   ) {
-    this.showHardReset = false;
     this.exportLoading = false;
     this.loading = false;
-  }
-
-  public get h(): { [key: string]: AbstractControl } {
-    return this.hardResetForm.controls;
   }
 
   public ngOnInit(): void {
@@ -70,15 +55,8 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
         .findMyStructure()
         .subscribe((structure: StructureCommon) => {
           this.structure = structure;
-          this.initForms();
         })
     );
-  }
-
-  public initForms(): void {
-    this.hardResetForm = this.formBuilder.group({
-      token: ["", [Validators.required]],
-    });
   }
 
   public openHardResetModal(): void {
@@ -89,45 +67,31 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
     this.hardResetModal?.close();
   }
 
-  public hardReset(): void {
-    this.subscription.add(
-      this.structureService.hardReset().subscribe(() => {
-        this.showHardReset = true;
-      })
-    );
-  }
-
   public hardResetConfirm(): void {
-    if (this.hardResetForm.invalid) {
-      this.toastService.error("Veuillez vérifier le formulaire");
-      return;
-    }
-
     this.loading = true;
     this.subscription.add(
-      this.structureService
-        .hardResetConfirm(this.hardResetForm.controls.token.value)
-        .subscribe({
-          next: () => {
-            this.toastService.success(
-              "La remise à zéro a été effectuée avec succès !"
-            );
-            this.store.dispatch(usagerActions.clearCache());
+      this.structureService.hardResetConfirm().subscribe({
+        next: () => {
+          this.toastService.success(
+            "La remise à zéro a été effectuée avec succès !"
+          );
+          this.store.dispatch(usagerActions.clearCache());
 
-            setTimeout(() => {
-              this.closeModals();
-              this.showHardReset = false;
-              this.loading = false;
-              this.hardResetForm.reset();
-            }, 1000);
-          },
-          error: () => {
+          setTimeout(() => {
+            this.closeModals();
             this.loading = false;
-            this.toastService.error(
-              "La remise à zéro n'a pas pu être effectuée !"
-            );
-          },
-        })
+          }, 1000);
+        },
+        error: (err) => {
+          this.loading = false;
+          if (err?.error?.code === "OTP_CANCELLED") {
+            return;
+          }
+          this.toastService.error(
+            "La remise à zéro n'a pas pu être effectuée !"
+          );
+        },
+      })
     );
   }
 

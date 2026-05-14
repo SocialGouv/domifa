@@ -2,35 +2,39 @@ fileignoreconfig:
 - filename: .anonymizer/yarn.lock
   checksum: adf574ab2b9fc5e21891b802504438b9f7738c8854047dbc7ca628cd3994ef5f
 - filename: .kontinuous/env/dev/templates/backend.sealed-secret.yaml
-  checksum: 4805800a1e4be90d199cc0bcf512e0138040515bb1a9ccdaea15f066978c7ba0
+  checksum: 2bfc2aa5bfaed9b1291421a3f5943d66b265a2d5b763809aaa66e65a546e3f22
 - filename: .kontinuous/env/preprod/templates/backend.sealed-secret.yaml
-  checksum: 22db3acb83b93eeee41b5c22ad62701c57915601ab192aa85f4204b845dd5589
+  checksum: ea966b6cbb1994ecb009c12912d034d2ece8632be0b503eac310b368ff80a357
 - filename: .kontinuous/env/prod/templates/backend.sealed-secret.yaml
-  checksum: 4ded7ab370682c827b7414b75bd4015508d9459792b05817aa95eb0cf7f8744f
-- filename: _docs/dev/0.run-local-env.md
+  checksum: 5205a6aa11256a5de11dd54ad0cba1d9b115c4e4fa60006a91365b15463f5254
+- filename: \_docs/dev/0.run-local-env.md
   checksum: 855b6f29ace746c86597d36382dbe7e40f771137734e3bf5eb53c948d6592a74
-- filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
+- filename: \_scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
   checksum: 1ebde061e52fd69ed9ee613d269b5a2b708fc959de89b022526e112c1efb09bc
-- filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
+- filename: \_scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
   checksum: 3a81dc1516a98ef170ead05d9dbfe540690eae1f39298cc42f1c85b1e6438545
 - filename: package.json
   checksum: 9f1a88fbfc8cd4e19d5e8ef253d5ddbf174bdfd6ff252ee26df4e9b370294646
 - filename: packages/backend/package.json
   checksum: 2f5813dbc35cdc3659516beabf9f93e2978eb62d1b5403cfbb2907f22bb25355
-- filename: packages/backend/src/_migrations/1757532174131-auto-migration.ts
+- filename: packages/backend/src/\_migrations/1757532174131-auto-migration.ts
   checksum: e2d06e63d58935b349f2591b0a3c407c254be26c4e833456829e7c605fc7411b
-- filename: packages/backend/src/_migrations/1759327920930-auto-migration.ts
+- filename: packages/backend/src/\_migrations/1759327920930-auto-migration.ts
   checksum: f9096a9010ab4dd663b09c37d6c84f3b9f273cf0fd9ac02d850bbafcc16371d0
-- filename: packages/backend/src/_migrations/1760044365787-auto-migration.ts
+- filename: packages/backend/src/\_migrations/1760044365787-auto-migration.ts
   checksum: 05cafb91fb17905b562fe559181b2d2e9eed43a650b07025a15e58d9311d4411
-- filename: packages/backend/src/_migrations/1763999725431-auto-migration.ts
+- filename: packages/backend/src/\_migrations/1763999725431-auto-migration.ts
   checksum: 3762d1281d4109a0f57e6f100d49340db6528a17b4b9421d02cf0349b93fc3a0
-- filename: packages/backend/src/_migrations/1778077375651-auto-migration.ts
+- filename: packages/backend/src/\_migrations/1778077375651-auto-migration.ts
   checksum: 84a6888ebf8396e91f958169db5c28bf65a9cd6f0fb4f51e181013390ec8fbc6
-- filename: packages/backend/src/_migrations/1778628193503-auto-migration.ts
+- filename: packages/backend/src/\_migrations/1778628193503-auto-migration.ts
   checksum: 4fc3814342a5e699f901acc15fb236fd00904069f5397bcaf9eca160b6e65dbf
-- filename: packages/backend/src/_migrations/_init-db/domifa_test_schema.sql
+- filename: packages/backend/src/\_migrations/\_init-db/domifa_test_schema.sql
   checksum: 20023e26692f1e5456e22d9c11e27bb6fb03d0757430a6caa17fe754f566ad4b
+- filename: packages/backend/src/_migrations/1778582320186-add-otp-table.ts
+  checksum: e5b5fc05e6b97eb3901154fb8eb698d50c5084442bea7316bdc947755b34b282
+- filename: packages/backend/src/_migrations/_init-db/domifa_test_schema.sql
+  checksum: 996653eeec757748d83ab566febd1e6edeb7d7a9715fda06d8c4d376dfc210a1
 - filename: packages/frontend/src/app/modules/general/components/static-pages/politique/politique.component.html
   checksum: 5a51711775b228a5086ca5f40eac5f971a09d9a6837b115f0cb81db16938b8e2
 - filename: packages/frontend/src/app/modules/general/components/static-pages/temoignages/temoignages.component.html
@@ -51,14 +55,14 @@ fileignoreconfig:
   checksum: c54f1bf45a44280960869561243668e7a92713fb5265f008a95fc3fe66014bf1
 - filename: packages/portail-admins/src/app/modules/general/components/static-pages/politique/politique.component.ts
   checksum: d1cc83582130541b0aff2b8b3984e907b889c057b21f8f251c9b55583e864703
-- filename: packages/portail-usagers/src/app/modules/general/components/_static/politique/politique.component.html
+- filename: packages/portail-usagers/src/app/modules/general/components/\_static/politique/politique.component.html
   checksum: c569c439ae74865248ff9a0840b658903e31f2b64af367760de27155957c6ea9
-- filename: packages/portail-usagers/src/app/modules/general/components/_static/politique/politique.component.ts
+- filename: packages/portail-usagers/src/app/modules/general/components/\_static/politique/politique.component.ts
   checksum: dfdbbe1892cf17b22d28f529914eb5df3a07063d5e3071e59c36c907020260d3
 - filename: pnpm-lock.yaml
-  checksum: 21f57b8993c175806337dae8eb4379913536a27de1d677049ba98a9719267ac5
+  checksum: 91dfa87ee3b5657ebac0c7c02577c47ba32d4f443eaf8e587299318dd94b03d6
 allowed_patterns:
-- uses:\s*[\w\-\.]+/[\w\-\.]+@[a-fA-F0-9]{40}
+- uses:\s\*[\w\-\.]+/[\w\-\.]+@[a-fA-F0-9]{40}
 - uses:\s*[\w\-\.]+/[\w\-\.]+/[\w\-\./]*@[a-fA-F0-9]{40}
 threshold: medium
 version: "1.0"

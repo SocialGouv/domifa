@@ -25,3 +25,5 @@ Thumbs.db
 
 .claude
 
+# Audit / analysis reports (security, perf, archi) — internal only
+docs/audits/

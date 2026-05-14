@@ -6,6 +6,7 @@ export * from "./interaction";
 export * from "./message-sms";
 export * from "./monitoring";
 export * from "./open-data";
+export * from "./otp";
 export * from "./structure";
 export * from "./structure-doc";
 export * from "./usager";
