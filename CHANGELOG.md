@@ -1,3 +1,11 @@
+## [2.241.2](https://github.com/SocialGouv/domifa/compare/v2.241.1...v2.241.2) (2026-05-14)
+
+
+### Bug Fixes
+
+* **admin:** add stats ([e90c22b](https://github.com/SocialGouv/domifa/commit/e90c22b120c65f680f385dfe00bc462b7516c161))
+* **backend:** fix typeorm for tests ([befa254](https://github.com/SocialGouv/domifa/commit/befa25499edd51367d979a15fc0ab184dd7d46c9))
+
 ## [2.241.1](https://github.com/SocialGouv/domifa/compare/v2.241.0...v2.241.1) (2026-05-14)
 
 
