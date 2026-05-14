@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
 import { ButtonComponent } from "./components/button/button.component";
+import { StatCardComponent } from "./components/stat-card/stat-card.component";
 
 import { AdminStructuresApiClient } from "./services";
 import { AdminStructuresExportComponent } from "./components/admin-structures-export";
@@ -37,6 +38,7 @@ import {
     ButtonComponent,
     AdminStructuresExportComponent,
     FonctionSelectionComponent,
+    StatCardComponent,
   ],
   exports: [
     DsfrAlertModule,
@@ -48,6 +50,7 @@ import {
     CustomToastrComponent,
     ButtonComponent,
     FonctionSelectionComponent,
+    StatCardComponent,
     FonctionFormatPipe,
     DsfrSkiplinksModule,
     DsfrHeaderModule,

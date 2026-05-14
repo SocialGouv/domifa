@@ -1,24 +1,54 @@
 <div class="head-page fr-pt-4w">
   <div class="fr-grid-row">
     <div class="fr-container fr-col-md-12 fr-col-12">
-      <h1 class="fr-text-title--blue-france">Gérer les utilisateurs</h1>
-    </div>
-  </div>
-</div>
-
-<div class="fr-pt-2w">
-  <div class="fr-grid-row">
-    <div
-      class="fr-container fr-col-12 fr-display-flex fr-justify-content-between fr-align-items-center"
-    >
-      <h2 class="fr-h5 fr-mb-0w">
-        {{ users.length }} utilisateur(s) enregistré(s)
-      </h2>
+      <h1 class="fr-text-title--blue-france">
+        Liste des
+        <ng-container *ngIf="users.length">{{ users.length }}</ng-container>
+        utilisateurs de DomiFa
+      </h1>
     </div>
   </div>
 </div>
 
 <div class="fr-container fr-pt-2w">
+  <ul
+    class="fr-grid-row fr-grid-row--gutters fr-mb-3w stat-cards-list"
+    aria-label="Répartition des utilisateurs par statut"
+  >
+    <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
+      <app-stat-card
+        label="Actifs"
+        [value]="statusCounts.ACTIVE"
+        icon="fr-icon-checkbox-circle-line"
+        status="success"
+      ></app-stat-card>
+    </li>
+    <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
+      <app-stat-card
+        label="En attente"
+        [value]="statusCounts.PENDING"
+        icon="fr-icon-time-line"
+        status="info"
+      ></app-stat-card>
+    </li>
+    <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
+      <app-stat-card
+        label="Blocage temporaire"
+        [value]="statusCounts.TEMPORARILY_BLOCKED"
+        icon="fr-icon-lock-line"
+        status="warning"
+      ></app-stat-card>
+    </li>
+    <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
+      <app-stat-card
+        label="Bloqués"
+        [value]="statusCounts.BLOCKED"
+        icon="fr-icon-lock-fill"
+        status="error"
+      ></app-stat-card>
+    </li>
+  </ul>
+
   <dsfr-ext-spinner
     *ngIf="loading$ | async"
     typeLoader="quarter"
@@ -207,7 +237,7 @@
         <div class="fr-table__container">
           <div class="fr-table__content">
             <table>
-              <caption class="visually-hidden">
+              <caption class="fr-sr-only">
                 Historique d'activité de l'utilisateur
               </caption>
               <thead>

@@ -1,0 +1,72 @@
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background-color: var(--background-default-grey);
+  border: 1px solid var(--border-default-grey);
+  border-left-width: 4px;
+  border-radius: 4px;
+  height: 100%;
+
+  &__icon {
+    font-size: 1.5rem;
+
+    &::before {
+      --icon-size: 1.5rem;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+
+  &__value {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  &__label {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--text-mention-grey);
+  }
+
+  &--success {
+    border-left-color: var(--background-flat-success);
+    .stat-card__icon {
+      color: var(--background-flat-success);
+    }
+  }
+
+  &--warning {
+    border-left-color: var(--background-flat-warning);
+    .stat-card__icon {
+      color: var(--background-flat-warning);
+    }
+  }
+
+  &--error {
+    border-left-color: var(--background-flat-error);
+    .stat-card__icon {
+      color: var(--background-flat-error);
+    }
+  }
+
+  &--info {
+    border-left-color: var(--background-flat-info);
+    .stat-card__icon {
+      color: var(--background-flat-info);
+    }
+  }
+
+  &--neutral {
+    border-left-color: var(--border-action-high-blue-france);
+    .stat-card__icon {
+      color: var(--text-action-high-blue-france);
+    }
+  }
+}
