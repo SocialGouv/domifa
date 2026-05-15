@@ -9,6 +9,7 @@ import { PortailAdminUser } from "@domifa/common";
   selector: "app-plan-site",
   templateUrl: "./plan-site.component.html",
   styleUrls: ["./plan-site.component.css"],
+  standalone: false,
 })
 export class PlanSiteComponent implements OnInit, OnDestroy {
   public siteMapLinksLogged: {

@@ -17,7 +17,6 @@ import { OtpErrorCode, OtpPromptOptions } from "../../otp.types";
 
 @Component({
   selector: "app-otp-modal",
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, DsfrModalComponent],
   templateUrl: "./otp-modal.component.html",
   styleUrl: "./otp-modal.component.scss",

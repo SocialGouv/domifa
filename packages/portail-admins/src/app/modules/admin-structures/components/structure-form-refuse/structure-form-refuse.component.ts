@@ -32,7 +32,6 @@ import {
 
 @Component({
   selector: "app-structure-form-refuse",
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

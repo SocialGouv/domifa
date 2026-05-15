@@ -25,6 +25,7 @@ import { FilterOutput } from "../admin-structures-list/admin-structures-list.com
 @Component({
   selector: "app-structure-filters",
   templateUrl: "./structure-filters.component.html",
+  standalone: false,
 })
 export class StructureFiltersComponent implements OnChanges {
   @Input({ required: true }) public filters!: StructureFilterCriteria;

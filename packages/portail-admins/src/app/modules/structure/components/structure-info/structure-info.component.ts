@@ -26,6 +26,7 @@ import {
   selector: "app-structure-info",
   templateUrl: "./structure-info.component.html",
   styleUrl: "./structure-info.component.css",
+  standalone: false,
 })
 export class StructureInfoComponent implements OnInit, OnDestroy {
   public structure?: Structure;

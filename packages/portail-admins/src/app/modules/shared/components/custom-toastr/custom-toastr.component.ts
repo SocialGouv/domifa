@@ -12,6 +12,7 @@ import { CustomToastService } from "../../services";
   templateUrl: "./custom-toastr.component.html",
   styleUrls: ["./custom-toastr.component.scss"],
   animations: [fadeInOut],
+  standalone: false,
 })
 export class CustomToastrComponent implements OnInit, OnDestroy {
   public toast: CustomToast;

@@ -10,6 +10,7 @@ enum CONTROL_OPTIONS {
 @Component({
   selector: "app-fonction-selection",
   templateUrl: "./fonction-selection.component.html",
+  standalone: false,
 })
 export class FonctionSelectionComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public submitted!: boolean;

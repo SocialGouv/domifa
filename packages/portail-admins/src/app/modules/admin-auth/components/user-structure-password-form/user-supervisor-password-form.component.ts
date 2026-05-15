@@ -10,6 +10,7 @@ import { PasswordValidator } from "../../services/password-validator.service";
 @Component({
   selector: "app-user-supervisor-password-form",
   templateUrl: "./user-supervisor-password-form.component.html",
+  standalone: false,
 })
 export class UserSupervisorPasswordFormComponent {
   @Input() public submitted!: boolean;

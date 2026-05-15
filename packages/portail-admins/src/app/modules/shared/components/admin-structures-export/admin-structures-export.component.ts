@@ -8,6 +8,7 @@ import { CustomToastService } from "../../services/custom-toast.service";
 @Component({
   selector: "app-admin-structures-export",
   templateUrl: "./admin-structures-export.component.html",
+  standalone: false,
 })
 export class AdminStructuresExportComponent {
   public exportLoading = false;

@@ -35,7 +35,6 @@ const DEFAULT_PAGE_SIZE = 25;
 @Component({
   selector: "app-users-table",
   templateUrl: "./users-table.component.html",
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,

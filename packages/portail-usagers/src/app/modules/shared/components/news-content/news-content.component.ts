@@ -5,7 +5,6 @@ import { NewsItem } from "@domifa/common";
 
 @Component({
   selector: "app-news-content",
-  standalone: true,
   imports: [SharedModule, CommonModule],
   templateUrl: "./news-content.component.html",
 })

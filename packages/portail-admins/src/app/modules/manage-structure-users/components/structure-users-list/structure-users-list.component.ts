@@ -56,6 +56,7 @@ interface ConfirmModalContext {
 @Component({
   selector: "app-structure-users-list",
   templateUrl: "./structure-users-list.component.html",
+  standalone: false,
 })
 export class StructureUsersListComponent implements OnInit, OnDestroy {
   public users: AdminUserViewModel[] = [];

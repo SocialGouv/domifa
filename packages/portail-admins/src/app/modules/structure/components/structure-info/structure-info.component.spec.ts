@@ -13,6 +13,7 @@ import { provideHttpClient } from "@angular/common/http";
 import { StructureAdmin } from "@domifa/common";
 
 import { structuresFeature } from "../../../shared/store/structures";
+import { AdminStructuresApiClient } from "../../../shared/services/api";
 
 describe("StructureInfoComponent", () => {
   let component: StructureInfoComponent;
@@ -31,6 +32,7 @@ describe("StructureInfoComponent", () => {
       providers: [
         provideHttpClient(),
         StructureService,
+        AdminStructuresApiClient,
         provideMockStore({
           initialState: {
             [structuresFeature.name]: {

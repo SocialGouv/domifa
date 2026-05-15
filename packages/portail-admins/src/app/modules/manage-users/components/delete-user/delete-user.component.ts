@@ -8,6 +8,7 @@ import { UserSupervisor } from "@domifa/common";
   selector: "app-delete-user",
   templateUrl: "./delete-user.component.html",
   styleUrls: ["./delete-user.component.css"],
+  standalone: false,
 })
 export class DeleteUserComponent {
   @Input() public selectedUser: UserSupervisor | null;

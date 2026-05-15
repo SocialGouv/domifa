@@ -7,7 +7,6 @@ import { SortValues } from "@domifa/common";
   selector: "app-table-head-sort",
   templateUrl: "./table-head-sort.component.html",
   styleUrls: ["./table-head-sort.component.scss"],
-  standalone: true,
   imports: [TableHeadSortIconComponent],
 })
 export class TableHeadSortComponent {

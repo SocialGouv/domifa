@@ -40,6 +40,7 @@ import { ManageUsersService } from "../../services/manage-users.service";
   animations: [fadeInOut],
   selector: "app-register-user-supervisor",
   templateUrl: "./register-user-supervisor.component.html",
+  standalone: false,
 })
 export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
   public user: UserSupervisor;
