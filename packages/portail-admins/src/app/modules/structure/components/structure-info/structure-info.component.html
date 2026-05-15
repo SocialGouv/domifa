@@ -233,15 +233,61 @@
   </div>
 </div>
 <hr />
-<div class="fr-grid-row fr-container fr-justify-content-end fr-my-4w">
+<div
+  class="fr-grid-row fr-container fr-justify-content-end fr-my-4w gap-1"
+  *ngIf="cachedStructure.statut !== 'SUPPRIME'"
+>
   <button
-    *ngIf="cachedStructure.statut !== 'SUPPRIME'"
     (click)="structureToDelete = cachedStructure"
     type="button"
     class="fr-btn fr-icon-delete-line fr-btn--icon-right"
   >
     Supprimer la structure
   </button>
+
+  <dsfrx-dropdownmenu
+    [ariaLabelMenu]="'Administrer la structure ' + cachedStructure.id"
+    [labelMenu]="'Actions'"
+    [closeOnAction]="true"
+    appendTo="body"
+    size="SM"
+  >
+    <ng-template #contentTemplate>
+      <ng-container *ngIf="cachedStructure.statut === 'EN_ATTENTE'">
+        <dsfrx-dropdownmenu-item (selectItem)="refuseModal(cachedStructure)">
+          <button
+            type="button"
+            class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+            (click)="refuseModal(cachedStructure)"
+          >
+            <i class="fr-icon-close-circle-line" aria-hidden="true"></i>
+            Refuser la structure
+          </button>
+        </dsfrx-dropdownmenu-item>
+
+        <dsfrx-dropdownmenu-item>
+          <button
+            type="button"
+            class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left d-block"
+            (click)="confirmStructure(cachedStructure)"
+          >
+            <i class="fr-icon-checkbox-circle-line" aria-hidden="true"></i>
+            Valider la structure
+          </button>
+        </dsfrx-dropdownmenu-item>
+      </ng-container>
+      <dsfrx-dropdownmenu-item *ngIf="cachedStructure.statut === 'VALIDE'">
+        <button
+          type="button"
+          class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left d-block"
+          (click)="openAddAdminModal(cachedStructure)"
+        >
+          <i class="fr-icon-user-add-line" aria-hidden="true"></i>
+          Ajouter un admin
+        </button>
+      </dsfrx-dropdownmenu-item>
+    </ng-template>
+  </dsfrx-dropdownmenu>
 </div>
 
 <app-structure-form-delete
@@ -249,3 +295,28 @@
   [structure]="structureToDelete"
   *ngIf="structureToDelete"
 ></app-structure-form-delete>
+
+<app-structure-form-refuse
+  (closeModals)="cancelForm()"
+  [structure]="structureToRefuse"
+  *ngIf="structureToRefuse"
+></app-structure-form-refuse>
+
+<dsfr-modal
+  class="text-start"
+  icon="fr-icon-user-add-fill"
+  #addUserModal
+  dialogId="addAdminFromStructureFiche"
+  titleModal="Création d'un utilisateur admin pour la structure :
+      {{ currentStructure?.nom }}"
+  [concealingBackdrop]="false"
+  [autoCloseOnAction]="false"
+  (conceal)="addUserModal.close()"
+  size="LG"
+>
+  <app-register-user
+    (getUsers)="addUserModal.close()"
+    (cancel)="addUserModal.close()"
+    [currentStructure]="currentStructure"
+  ></app-register-user>
+</dsfr-modal>

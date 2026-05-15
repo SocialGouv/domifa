@@ -231,6 +231,10 @@ export class ManageUsagersPageComponent
     this.subscription.add(
       timer(FIVE_MINUTES, FIVE_MINUTES)
         .pipe(
+          // Skip the tick when the tab is in background: a hidden tab does not
+          // need fresh data and would just consume the IP's rate-limit quota
+          // for nothing (cabinets share an outgoing IP via NAT).
+          filter(() => document.visibilityState === "visible"),
           tap(() => {
             this.searching = true;
           }),

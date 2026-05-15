@@ -1,6 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
+import {
+  DsfrDropdownMenuComponent,
+  DsfrSpinnerComponent,
+} from "@edugouvfr/ngx-dsfr-ext";
 import { SharedModule } from "../shared/shared.module";
 import { UsersComponent } from "./components/users/users.component";
 import { StructureInfoComponent } from "./components/structure-info/structure-info.component";
@@ -9,10 +12,11 @@ import { StructureStatsComponent } from "./components/structure-stats/structure-
 import { FormsModule } from "@angular/forms";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { StructureRoutingModule } from "./structure-routing.module";
-import { DsfrTooltipDirective } from "@edugouvfr/ngx-dsfr";
+import { DsfrModalModule, DsfrTooltipDirective } from "@edugouvfr/ngx-dsfr";
 import { RegisterUserComponent } from "./components/register-user/register-user.component";
 import { DisplayLastLoginComponent } from "../shared/components/display-last-login/display-last-login.component";
 import { UsersTableComponent } from "../shared/components/users-table/users-table.component";
+import { StructureFormRefuseComponent } from "../admin-structures/components/structure-form-refuse/structure-form-refuse.component";
 
 @NgModule({
   declarations: [
@@ -32,6 +36,9 @@ import { UsersTableComponent } from "../shared/components/users-table/users-tabl
     DisplayLastLoginComponent,
     UsersTableComponent,
     DsfrSpinnerComponent,
+    DsfrDropdownMenuComponent,
+    DsfrModalModule,
+    StructureFormRefuseComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

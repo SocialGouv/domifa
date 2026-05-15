@@ -1,10 +1,10 @@
 <div *ngIf="showSearch" class="fr-mb-2w">
   <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--bottom">
     <div class="fr-col-12 fr-col-md-8">
+      <label class="fr-label" [attr.for]="tableId + '-search'">
+        Rechercher
+      </label>
       <div class="fr-search-bar" role="search">
-        <label class="fr-label" [attr.for]="tableId + '-search'">
-          Rechercher
-        </label>
         <input
           class="fr-input"
           [attr.id]="tableId + '-search'"
@@ -66,7 +66,7 @@
           </caption>
           <thead>
             <tr>
-              <th *ngIf="showId" scope="col">
+              <th scope="col">
                 <app-table-head-sort
                   sortKey="id"
                   [(sortValue)]="sortValue"
@@ -168,7 +168,7 @@
               "
               [attr.aria-rowindex]="(currentPage - 1) * pageSize + i + 1"
             >
-              <td *ngIf="showId" class="fr-text--bold">{{ user.id }}</td>
+              <td class="fr-text--bold">{{ user.id }}</td>
               <td class="fr-text--bold">{{ user | fullName }}</td>
               <td>{{ user.email }}</td>
               <td *ngIf="showStructure">

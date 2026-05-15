@@ -51,10 +51,10 @@ export class UsersTableComponent implements OnChanges {
   @Input() public users: UsersTableRow[] = [];
   @Input() public tableId = "users-table";
   @Input() public caption = "Liste des utilisateurs";
-  @Input() public showId = false;
   @Input() public showStructure = false;
   @Input() public showSearch = true;
-  @Input() public searchPlaceholder = "Rechercher par nom, email ou structure";
+  @Input() public searchPlaceholder =
+    "Rechercher par ID, nom, email ou structure";
   @Input() public initialSortKey: keyof UsersTableRow = "nom";
   @Input() public pageSize = DEFAULT_PAGE_SIZE;
 
@@ -108,22 +108,6 @@ export class UsersTableComponent implements OnChanges {
     this.refreshFilteredUsers({ resetPage: true });
   }
 
-  public clearSearch(): void {
-    this.searchTerm = "";
-    this.refreshFilteredUsers({ resetPage: true });
-  }
-
-  public clearStatusFilter(): void {
-    this.statusFilter = "";
-    this.refreshFilteredUsers({ resetPage: true });
-  }
-
-  public clearAllFilters(): void {
-    this.searchTerm = "";
-    this.statusFilter = "";
-    this.refreshFilteredUsers({ resetPage: true });
-  }
-
   public onPageSelect(page: number): void {
     this.currentPage = page;
     this.updateDisplayedUsers();
@@ -138,8 +122,7 @@ export class UsersTableComponent implements OnChanges {
   }
 
   public get columnsCount(): number {
-    let count = 7;
-    if (this.showId) count++;
+    let count = 8;
     if (this.showStructure) count++;
     if (this.actionsTemplate) count++;
     return count;
@@ -154,7 +137,14 @@ export class UsersTableComponent implements OnChanges {
         return false;
       }
       if (!term) return true;
-      const haystack = [user.nom, user.prenom, user.email, user.structureName]
+      const haystack = [
+        String(user.id),
+        user.uuid,
+        user.nom,
+        user.prenom,
+        user.email,
+        user.structureName,
+      ]
         .filter((v): v is string => !!v)
         .join(" ")
         .toLowerCase();

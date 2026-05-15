@@ -30,4 +30,8 @@ export interface ThrottleBlockedLogContext {
   // Number of dedup'd attempts aggregated under a single log row.
   // Summed across rows over the auto-block window to decide on locking the account.
   attempts?: number;
+
+  // Captured only when the blocked request targets a login endpoint. Surfaces
+  // brute-force patterns aimed at a specific account in the security alert.
+  attemptedIdentifier?: string;
 }
