@@ -6,6 +6,7 @@ import { MoreThanOrEqual, In } from "typeorm";
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 import { appLogsRepository, AppLogTable } from "../../../database";
 import { appLogger } from "../../../util";
+import { formatThrottleWindow } from "../../../auth/guards/app-throttler/app-throttler.utils";
 import {
   BlockedIpSummary,
   BlockedUserSummary,
@@ -22,6 +23,7 @@ const SECURITY_ACTIONS: SecurityLogAction[] = [
 ];
 const MAX_USERS_IN_REPORT = 20;
 const MAX_IPS_IN_REPORT = 20;
+const MAX_IDENTIFIERS_PER_IP = 10;
 
 @Injectable()
 export class SecurityMonitoringService {
@@ -162,17 +164,66 @@ function ingestBlockedIpLog({
 }): void {
   const ip = stringOrUndef(context["ip"]);
   if (!ip) return;
-  const attempts = numberOrUndef(context["attempts"]) ?? 1;
+  // THROTTLE rows expose totalHits (raw rate-limiter counter), REQUEST rows expose attempts (dedup'd counter).
+  const attempts =
+    action === "THROTTLE_BLOCKED"
+      ? numberOrUndef(context["totalHits"]) ?? 1
+      : numberOrUndef(context["attempts"]) ?? 1;
   const reason = stringOrUndef(context["reason"]) ?? action;
   const url = stringOrUndef(context["url"]);
+  const throttle = extractThrottleDetails(action, context);
+  const attemptedIdentifier = stringOrUndef(context["attemptedIdentifier"]);
+
   const existing = blockedIpsByKey.get(ip);
   if (existing) {
     existing.attempts += attempts;
     if (!existing.reasons.includes(reason)) existing.reasons.push(reason);
     if (url) existing.lastUrl = url;
+    if (
+      throttle &&
+      (!existing.throttle || throttle.totalHits > existing.throttle.totalHits)
+    ) {
+      existing.throttle = throttle;
+    }
+    if (attemptedIdentifier) {
+      appendIdentifier(existing, attemptedIdentifier);
+    }
     return;
   }
-  blockedIpsByKey.set(ip, { ip, attempts, reasons: [reason], lastUrl: url });
+  const entry: BlockedIpSummary = {
+    ip,
+    attempts,
+    reasons: [reason],
+    lastUrl: url,
+    throttle,
+  };
+  if (attemptedIdentifier) {
+    appendIdentifier(entry, attemptedIdentifier);
+  }
+  blockedIpsByKey.set(ip, entry);
+}
+
+function appendIdentifier(entry: BlockedIpSummary, identifier: string): void {
+  if (!entry.attemptedIdentifiers) entry.attemptedIdentifiers = [];
+  if (entry.attemptedIdentifiers.includes(identifier)) return;
+  if (entry.attemptedIdentifiers.length >= MAX_IDENTIFIERS_PER_IP) {
+    entry.attemptedIdentifiersOverflow =
+      (entry.attemptedIdentifiersOverflow ?? 0) + 1;
+    return;
+  }
+  entry.attemptedIdentifiers.push(identifier);
+}
+
+function extractThrottleDetails(
+  action: SecurityLogAction,
+  context: Record<string, unknown>
+): BlockedIpSummary["throttle"] | undefined {
+  if (action !== "THROTTLE_BLOCKED") return undefined;
+  const ttl = numberOrUndef(context["ttl"]);
+  const limit = numberOrUndef(context["limit"]);
+  const totalHits = numberOrUndef(context["totalHits"]);
+  if (limit === undefined || totalHits === undefined) return undefined;
+  return { windowLabel: formatThrottleWindow(ttl), limit, totalHits };
 }
 
 function stringOrUndef(value: unknown): string | undefined {

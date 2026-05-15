@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Subscription } from "rxjs";
@@ -16,6 +16,11 @@ import {
 } from "@domifa/common";
 
 import { selectStructureById } from "../../../shared/store/structures";
+import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import {
+  AdminStructuresApiClient,
+  CustomToastService,
+} from "../../../shared/services";
 
 @Component({
   selector: "app-structure-info",
@@ -36,12 +41,19 @@ export class StructureInfoComponent implements OnInit, OnDestroy {
   public currentToolLabel = "";
   public marketToolLabel = "";
   public structureToDelete?: StructureAdmin;
+  public structureToRefuse?: StructureAdmin;
+  public currentStructure?: StructureAdmin;
+
+  @ViewChild("addUserModal")
+  public addUserModal!: DsfrModalComponent;
 
   private readonly subscription = new Subscription();
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly adminStructuresApiClient: AdminStructuresApiClient,
+    private readonly toastService: CustomToastService
   ) {}
 
   ngOnInit() {
@@ -142,6 +154,33 @@ export class StructureInfoComponent implements OnInit, OnDestroy {
   }
 
   public cancelForm(): void {
-    this.structureToDelete = null;
+    this.structureToDelete = undefined;
+    this.structureToRefuse = undefined;
+    this.currentStructure = undefined;
+    this.addUserModal?.close();
+  }
+
+  public refuseModal(structure: StructureAdmin): void {
+    this.structureToRefuse = structure;
+  }
+
+  public confirmStructure(structure: StructureAdmin): void {
+    this.subscription.add(
+      this.adminStructuresApiClient
+        .setDecisionStructure(structure.id, "VALIDE")
+        .subscribe({
+          next: () => {
+            this.toastService.success("Structure vérifiée avec succès");
+          },
+          error: () => {
+            this.toastService.error("Impossible de valider la structure");
+          },
+        })
+    );
+  }
+
+  public openAddAdminModal(structure: StructureAdmin): void {
+    this.currentStructure = structure;
+    this.addUserModal.open();
   }
 }

@@ -44,6 +44,8 @@ import { userSecurityEventHistoryManager } from "../../../users/services";
 import { CurrentSupervisor } from "../../../../auth/decorators/current-supervisor.decorator";
 import { StructureDecisionEmailService } from "../../services/structure-decision-email/structure-decision-email.service";
 import { StructureDecisionService } from "../../services/structure-decision/structure-decision.service";
+import { OtpGuard } from "../../../otp/guards/otp.guard";
+import { RequireOtp } from "../../../otp/decorators/require-otp.decorator";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
@@ -60,6 +62,8 @@ export class AdminStructuresController {
   ) {}
 
   @Get("export")
+  @UseGuards(OtpGuard)
+  @RequireOtp("EXPORT")
   public async export(
     @CurrentSupervisor() user: UserAdminAuthenticated,
     @Res() response: ExpressResponse

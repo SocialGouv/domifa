@@ -18,6 +18,8 @@ import {
 } from "./app-throttler.types";
 import {
   extractJwtUser,
+  extractLoginIdentifier,
+  formatThrottleWindow,
   getAllowedOrigins,
   getBlockReason,
   isBypassedRoute,
@@ -92,12 +94,22 @@ export class AppThrottlerGuard extends ThrottlerGuard {
     return super.canActivate(context);
   }
 
-  // Rate-limit key derived from the same source of truth used for
-  // logging/session fingerprinting (X-Real-IP first, then req.ip).
+  // Rate-limit bucket key:
+  // - Authenticated requests are keyed per JWT user (userProfile:userId) so big
+  //   operators behind a shared NAT (e.g. Coallia) don't share a single bucket.
+  //   The JWT is decoded without signature verification here (the auth guard
+  //   does that later), but a forged JWT just gets its own bucket — no abuse.
+  // - Anonymous traffic (login, password reset, bots) falls back to the client
+  //   IP, derived from the same source of truth as logging/session fingerprint.
   protected override async getTracker(
     req: Record<string, any>
   ): Promise<string> {
-    return getClientIp(req as Request);
+    const request = req as Request;
+    const jwtUser = extractJwtUser(request.headers["authorization"]);
+    if (jwtUser?.userId) {
+      return `user:${jwtUser.userProfile}:${jwtUser.userId}`;
+    }
+    return `ip:${getClientIp(request)}`;
   }
 
   // Global per-IP bucket: drop class/handler from the default key so a single
@@ -118,6 +130,8 @@ export class AppThrottlerGuard extends ThrottlerGuard {
   ): Promise<void> {
     const request = context.switchToHttp().getRequest<Request>();
 
+    const attemptedIdentifier = extractLoginIdentifier(request);
+
     const logContext: ThrottleBlockedLogContext = {
       ...throttlerLimitDetail,
       ip: sanitizeForLog(request.ip),
@@ -125,7 +139,24 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       method: sanitizeForLog(request.method) ?? "",
       url: sanitizeForLog(request.url) ?? "",
       jwtUser: extractJwtUser(request.headers["authorization"]),
+      attemptedIdentifier,
     };
+
+    // totalHits is the current TTL-window counter for the tier that reports the
+    // violation. When blockDuration >= ttl (our config), the window resets while
+    // the block keeps running, so totalHits during a block reflects ongoing
+    // activity, NOT the value that triggered the block. We surface the threshold
+    // (limit + window) as the authoritative "why blocked" and keep totalHits as
+    // an ops debug signal.
+    this.logger.warn(
+      `[THROTTLE_BLOCKED] ip="${logContext.ip}" quota=${
+        logContext.limit
+      } req/${formatThrottleWindow(logContext.ttl)} activite-en-cours=${
+        logContext.totalHits
+      } req ${logContext.method} ${logContext.url}${
+        attemptedIdentifier ? ` attempted="${attemptedIdentifier}"` : ""
+      }`
+    );
 
     const existingLogUuid = this.activeBlocks.get(throttlerLimitDetail.key);
 
@@ -194,6 +225,7 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       reason,
       origin: sanitizeForLog(request.headers["origin"]),
       referer: sanitizeForLog(request.headers["referer"]),
+      attemptedIdentifier: extractLoginIdentifier(request),
     };
 
     const existingLogUuid = this.activeBlocks.get(dedupKey);

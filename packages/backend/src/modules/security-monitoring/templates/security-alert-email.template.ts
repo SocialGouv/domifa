@@ -163,6 +163,16 @@ function renderIpHighlight(
   ip: SuspiciousActivitySummary["blockedIps"][0]
 ): string {
   const reasons = ip.reasons.map(humanizeReason).join(", ");
+  const throttleLine = ip.throttle
+    ? `<div>Quota depasse : <strong>${ip.throttle.limit} requete${
+        ip.throttle.limit > 1 ? "s" : ""
+      } / ${escapeHtml(ip.throttle.windowLabel)}</strong> <span style="color: ${
+        COLORS.textSecondary
+      };">(activite observee pendant le blocage : ${
+        ip.throttle.totalHits
+      } req)</span></div>`
+    : "";
+  const identifiersLine = renderIdentifiersHighlight(ip);
   return `
     <div style="font-size: 11px; font-weight: 700; color: ${
       COLORS.redMarianne
@@ -177,6 +187,8 @@ function renderIpHighlight(
     <div>Motif${ip.reasons.length > 1 ? "s" : ""} : <strong>${escapeHtml(
     reasons || humanizeReason(undefined)
   )}</strong></div>
+    ${throttleLine}
+    ${identifiersLine}
     ${
       ip.lastUrl
         ? `<div style="color: ${
@@ -187,6 +199,23 @@ function renderIpHighlight(
         : ""
     }
   `;
+}
+
+function renderIdentifiersHighlight(
+  ip: SuspiciousActivitySummary["blockedIps"][0]
+): string {
+  if (!ip.attemptedIdentifiers || ip.attemptedIdentifiers.length === 0) {
+    return "";
+  }
+  const escaped = ip.attemptedIdentifiers.map(escapeHtml).join(", ");
+  const overflow = ip.attemptedIdentifiersOverflow ?? 0;
+  const overflowSuffix =
+    overflow > 0
+      ? ` <span style="color: ${COLORS.textSecondary};">(+${overflow} autre${
+          overflow > 1 ? "s" : ""
+        })</span>`
+      : "";
+  return `<div style="margin-top: 4px;">Identifiants tentes sur le login : <strong style="font-family: monospace;">${escaped}</strong>${overflowSuffix}</div>`;
 }
 
 function renderBlockedUsersTable(
@@ -251,6 +280,16 @@ function renderBlockedIpsTable(
           <td style="${cellStyle}">${escapeHtml(
           ip.reasons.map(humanizeReason).join(", ")
         )}</td>
+          <td style="${cellStyle}">${
+          ip.throttle
+            ? `<strong>${ip.throttle.limit} req/${escapeHtml(
+                ip.throttle.windowLabel
+              )}</strong>`
+            : "-"
+        }</td>
+          <td style="${cellStyle} font-family: monospace; font-size: 12px;">${renderIdentifiersCell(
+          ip
+        )}</td>
           <td style="${cellStyle} font-family: monospace; font-size: 12px; color: ${
           COLORS.textSecondary
         };">${escapeHtml(ip.lastUrl ?? "-")}</td>
@@ -264,11 +303,24 @@ function renderBlockedIpsTable(
         <th style="${headerCellStyle}">IP</th>
         <th style="${headerCellRightStyle}">Tentatives</th>
         <th style="${headerCellStyle}">Motifs</th>
+        <th style="${headerCellStyle}">Quota depasse</th>
+        <th style="${headerCellStyle}">Identifiants tentes (login)</th>
         <th style="${headerCellStyle}">Derniere URL</th>
       </tr>
     </thead>
     <tbody>${rows}</tbody>
   </table>`;
+}
+
+function renderIdentifiersCell(
+  ip: SuspiciousActivitySummary["blockedIps"][0]
+): string {
+  if (!ip.attemptedIdentifiers || ip.attemptedIdentifiers.length === 0) {
+    return "-";
+  }
+  const list = ip.attemptedIdentifiers.map(escapeHtml).join(", ");
+  const overflow = ip.attemptedIdentifiersOverflow ?? 0;
+  return overflow > 0 ? `${list} (+${overflow})` : list;
 }
 
 export function generateSecurityAlertEmailHtml(

@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
 
 import { AuthModule } from "../../auth/auth.module";
 
@@ -13,6 +13,7 @@ import { AdminSuperivorUsersService } from "./services/admin-superivor-users/adm
 import { MailsModule } from "../mails/mails.module";
 import { StructureDecisionEmailService } from "./services/structure-decision-email/structure-decision-email.service";
 import { StructureDecisionService } from "./services/structure-decision/structure-decision.service";
+import { OtpModule } from "../otp/otp.module";
 
 @Module({
   controllers: [
@@ -22,7 +23,7 @@ import { StructureDecisionService } from "./services/structure-decision/structur
     AdminUsersController,
   ],
 
-  imports: [AuthModule, MailsModule],
+  imports: [AuthModule, MailsModule, forwardRef(() => OtpModule)],
   providers: [
     AppLogsService,
     AdminStructuresService,

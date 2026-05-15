@@ -22,6 +22,8 @@ import { JwtInterceptor } from "./interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "./interceptors/server-error.interceptor";
 import { CustomToastService } from "./modules/shared/services/custom-toast.service";
 import { GeneralModule } from "./modules/general/general.module";
+import { OtpModalComponent } from "./modules/otp/components/otp-modal/otp-modal.component";
+import { OtpInterceptor } from "./modules/otp/interceptors/otp.interceptor";
 import { createErrorHandler, init } from "@sentry/angular";
 import { environment } from "../environments/environment";
 import pkg from "../../package.json";
@@ -64,6 +66,7 @@ registerLocaleData(localeFr, "fr");
     SharedModule,
     ReactiveFormsModule,
     MATOMO_INJECTORS,
+    OtpModalComponent,
   ],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),
@@ -79,11 +82,16 @@ registerLocaleData(localeFr, "fr");
     }),
     { provide: LOCALE_ID, useValue: "fr" },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    // OtpInterceptor must come AFTER ServerErrorInterceptor so it sits closer
+    // to the backend in the chain. Angular runs error catchers innermost-first,
+    // so OTP gets first crack at 401/429 and only non-OTP errors fall through
+    // to ServerErrorInterceptor (which logs out on any 401).
     {
       multi: true,
       provide: HTTP_INTERCEPTORS,
       useClass: ServerErrorInterceptor,
     },
+    { provide: HTTP_INTERCEPTORS, useClass: OtpInterceptor, multi: true },
     {
       provide: ErrorHandler,
       useValue: createErrorHandler({

@@ -2,6 +2,7 @@ export enum StructureDecisionRefusMotif {
   COMPTE_EXISTANT = "COMPTE_EXISTANT",
   PAS_DE_DOMICILIATION = "PAS_DE_DOMICILIATION",
   ERREUR_DOMICILIE = "ERREUR_DOMICILIE",
+  MAIL_GENERIQUE = "MAIL_GENERIQUE",
 }
 
 export enum StructureDecisionSuppressionMotif {

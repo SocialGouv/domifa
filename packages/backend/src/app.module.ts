@@ -41,9 +41,14 @@ appModuleLogger.log(
 const throttlerImports = isThrottled
   ? [
       ThrottlerModule.forRoot([
-        { name: "short", ttl: 1_000, limit: 10, blockDuration: 300_000 }, // 10 req/s, block 5min
-        { name: "medium", ttl: 60_000, limit: 100, blockDuration: 900_000 }, // 100 req/min, block 15min
-        { name: "long", ttl: 3_600_000, limit: 5000, blockDuration: 3_600_000 }, // 5000 req/h, block 1h
+        { name: "short", ttl: 1_000, limit: 10, blockDuration: 1_800_000 }, // 10 req/s, block 30min
+        { name: "medium", ttl: 60_000, limit: 100, blockDuration: 3_600_000 }, // 100 req/min, block 1h
+        {
+          name: "long",
+          ttl: 3_600_000,
+          limit: 6_000,
+          blockDuration: 7_200_000,
+        }, // 6000 req/h, block 2h
       ]),
     ]
   : [];

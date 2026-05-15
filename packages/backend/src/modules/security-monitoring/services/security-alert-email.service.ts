@@ -10,15 +10,12 @@ import { domifaConfig, DomifaConfig } from "../../../config";
 import { generateSecurityAlertEmailHtml } from "../templates/security-alert-email.template";
 import { SuspiciousActivitySummary } from "../types/security-alert.types";
 
-const ALERT_THROTTLE_MS = 60 * 60 * 1000;
-
 type GuardResult = { sent: false; reason: string } | { sent: true };
 
 @Injectable()
 export class SecurityAlertEmailService {
   private readonly logger = new Logger("SecurityAlertEmailService");
   private transporter: Transporter | null = null;
-  private lastAlertSentAt: number | null = null;
 
   private getTransporter(): Transporter {
     if (!this.transporter) {
@@ -57,9 +54,6 @@ export class SecurityAlertEmailService {
       return { sent: false, reason: "no_recipient_configured" };
     }
 
-    const throttled = this.checkThrottle();
-    if (throttled) return throttled;
-
     const effectiveRecipients = resolveEffectiveRecipients(config, recipients);
     const html = generateSecurityAlertEmailHtml(summary, config.envId);
 
@@ -70,7 +64,6 @@ export class SecurityAlertEmailService {
         subject: `[DomiFa - ${config.envId.toUpperCase()}] Alerte securite - activite suspecte detectee`,
         html,
       });
-      this.lastAlertSentAt = Date.now();
       this.logger.log(
         `[SECURITY ALERT] Mail envoye a ${effectiveRecipients.join(
           ", "
@@ -110,19 +103,6 @@ export class SecurityAlertEmailService {
     }
 
     return null;
-  }
-
-  private checkThrottle(): GuardResult | null {
-    if (this.lastAlertSentAt === null) return null;
-    const elapsed = Date.now() - this.lastAlertSentAt;
-    if (elapsed >= ALERT_THROTTLE_MS) return null;
-    const minutesAgo = Math.round(elapsed / 60000);
-    this.logger.log(
-      `[SECURITY ALERT] Throttled - dernier mail envoye il y a ${minutesAgo}min (limite: 1 mail / ${
-        ALERT_THROTTLE_MS / 60000
-      }min)`
-    );
-    return { sent: false, reason: "throttled" };
   }
 }
 

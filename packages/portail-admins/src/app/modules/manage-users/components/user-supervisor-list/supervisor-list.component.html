@@ -1,3 +1,10 @@
+<dsfr-ext-spinner
+  *ngIf="loading"
+  typeLoader="quarter"
+  [overlay]="true"
+  label="Veuillez patienter"
+></dsfr-ext-spinner>
+
 <div class="head-page fr-pt-4w">
   <div class="fr-grid-row">
     <div
@@ -64,16 +71,48 @@
 </div>
 
 <div class="fr-container" *ngIf="me">
+  <div class="fr-mb-2w">
+    <label class="fr-label" for="supervisor-list-search"> Rechercher </label>
+    <div class="fr-search-bar" role="search">
+      <input
+        class="fr-input"
+        id="supervisor-list-search"
+        type="search"
+        name="search"
+        placeholder="Rechercher par ID, nom ou email"
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="applyFilter()"
+      />
+      <button
+        type="button"
+        class="fr-btn"
+        title="Rechercher"
+        (click)="applyFilter()"
+      >
+        Rechercher
+      </button>
+    </div>
+  </div>
+
   <div class="fr-table fr-table--no-outer-border" id="table-0-component">
     <div class="fr-table__wrapper">
       <div class="fr-table__container">
         <div class="fr-table__content">
-          <table [attr.aria-rowcount]="users.length">
+          <table [attr.aria-rowcount]="filteredUsers.length">
             <caption class="fr-sr-only">
               Liste des utilisateurs "pilotage" enregistrés
             </caption>
             <thead>
               <tr>
+                <th scope="col">
+                  <app-table-head-sort
+                    sortKey="id"
+                    [(sortValue)]="sortValue"
+                    [(currentKey)]="currentKey"
+                    columnName="ID"
+                  >
+                  </app-table-head-sort>
+                </th>
                 <th scope="col">
                   <app-table-head-sort
                     sortKey="nom"
@@ -127,12 +166,14 @@
             <tbody>
               <tr
                 *ngFor="
-                  let user of users | sortArray : currentKey : sortValue;
+                  let user of filteredUsers
+                    | sortArray : currentKey : sortValue;
                   let i = index;
                   trackBy: userIdTrackBy
                 "
                 [attr.aria-rowindex]="i + 1"
               >
+                <td class="fr-text--bold">{{ user.id }}</td>
                 <td class="fr-text--bold">{{ user | fullName }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.createdAt | date : "d MMMM y" }}</td>

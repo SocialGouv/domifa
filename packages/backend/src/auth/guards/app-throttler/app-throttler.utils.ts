@@ -13,6 +13,43 @@ import {
 
 const MAX_LOG_FIELD_LENGTH = 512;
 
+// Maps a throttler ttl (ms) to a human-readable window label.
+// Matches the three tiers declared in app.module.ts: short (1s), medium (1min), long (1h).
+export function formatThrottleWindow(ttlMs: number | undefined): string {
+  if (typeof ttlMs !== "number" || !Number.isFinite(ttlMs)) return "inconnue";
+  if (ttlMs <= 1_000) return "seconde";
+  if (ttlMs <= 60_000) return "minute";
+  return "heure";
+}
+
+// Login-like endpoints from which we want to capture the attempted identifier
+// (email or usager login) when an IP is throttled or filtered. Surfaces a
+// brute-force pattern targeting a specific account in the security alert.
+// Includes password-reset request endpoints (account enumeration via reset).
+// Passwords are NEVER read.
+const LOGIN_IDENTIFIER_ENDPOINTS: ReadonlyArray<{
+  prefix: string;
+  field: "email" | "login";
+}> = [
+  { prefix: "/structures/auth/login", field: "email" },
+  { prefix: "/portail-admins/auth/login", field: "email" },
+  { prefix: "/portail-usagers/auth/login", field: "login" },
+  { prefix: "/users/get-password-token", field: "email" },
+  { prefix: "/users-supervisor/get-password-token", field: "email" },
+];
+
+export function extractLoginIdentifier(request: Request): string | undefined {
+  const url = request.url ?? "";
+  const endpoint = LOGIN_IDENTIFIER_ENDPOINTS.find(
+    (e) => url === e.prefix || url.startsWith(`${e.prefix}?`)
+  );
+  if (!endpoint) return undefined;
+  const body = (request as { body?: unknown }).body;
+  if (!body || typeof body !== "object") return undefined;
+  const raw = (body as Record<string, unknown>)[endpoint.field];
+  return sanitizeForLog(raw);
+}
+
 // Defense in depth — TypeORM already parameterizes queries, but request-
 // controlled strings can still pollute logs (newlines, control chars, huge
 // payloads). Cap length and strip ASCII control characters before storing.

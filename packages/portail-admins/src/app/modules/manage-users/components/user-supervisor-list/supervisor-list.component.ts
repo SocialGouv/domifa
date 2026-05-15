@@ -22,6 +22,8 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 })
 export class SupervisorListComponent implements OnInit, OnDestroy {
   public users: UserSupervisor[];
+  public filteredUsers: UserSupervisor[] = [];
+  public searchTerm = "";
   public me!: PortailAdminUser | null;
 
   public loading: boolean;
@@ -83,6 +85,28 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
         };
       });
       this.computeRoleCounts(this.users);
+      this.applyFilter();
+    });
+  }
+
+  public applyFilter(): void {
+    const term = this.searchTerm.trim().toLowerCase();
+    if (!term) {
+      this.filteredUsers = [...this.users];
+      return;
+    }
+    this.filteredUsers = this.users.filter((user) => {
+      const haystack = [
+        String(user.id),
+        user.uuid,
+        user.nom,
+        user.prenom,
+        user.email,
+      ]
+        .filter((v): v is string => !!v)
+        .join(" ")
+        .toLowerCase();
+      return haystack.includes(term);
     });
   }
 
@@ -137,6 +161,7 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
   }
 
   public getUsers(): void {
+    this.loading = true;
     this.manageUsersService.loadUsers();
   }
 

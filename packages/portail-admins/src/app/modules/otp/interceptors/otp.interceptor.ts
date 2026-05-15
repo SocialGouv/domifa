@@ -12,7 +12,7 @@ import { EMPTY, from, Observable, throwError } from "rxjs";
 import { catchError, finalize, switchMap, tap } from "rxjs/operators";
 import { OtpPromptService } from "../services/otp-prompt.service";
 import { OtpErrorBody, OtpErrorCode } from "../otp.types";
-import { CustomToastService } from "../../shared/services";
+import { CustomToastService } from "../../shared/services/custom-toast.service";
 
 const OTP_CODE_HEADER = "X-Otp-Code";
 
@@ -94,7 +94,7 @@ export class OtpInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return this.promptService
       .prompt({
-        purpose: "RESET_USAGERS",
+        purpose: "EXPORT",
         previousErrorCode:
           previousErrorCode === "OTP_REQUIRED" ? undefined : previousErrorCode,
       })

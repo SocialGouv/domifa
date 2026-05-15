@@ -11,6 +11,8 @@ export const MOTIFS_REFUS_STRUCTURE_LABELS: {
     "La structure ne propose pas/plus de service de domiciliation",
   ERREUR_DOMICILIE:
     "La création du compte structure a été créée par erreur par un domicilié",
+  MAIL_GENERIQUE:
+    "Adresse email non conforme : seules les adresses emails professionnelles, nominatives et individuelles sont autorisées.",
 };
 
 export const MOTIFS_SUPPRESSION_STRUCTURE_LABELS: {
