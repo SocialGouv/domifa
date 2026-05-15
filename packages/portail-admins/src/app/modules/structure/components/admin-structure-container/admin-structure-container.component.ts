@@ -21,6 +21,7 @@ import {
   selector: "app-admin-structure-container",
   templateUrl: "./admin-structure-container.component.html",
   styleUrl: "./admin-structure-container.component.css",
+  standalone: false,
 })
 export class AdminStructureContainerComponent implements OnInit, OnDestroy {
   public structure?: StructureAdmin;

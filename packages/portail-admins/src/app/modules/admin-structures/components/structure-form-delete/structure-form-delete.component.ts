@@ -34,7 +34,6 @@ import {
 } from "@edugouvfr/ngx-dsfr";
 @Component({
   selector: "app-structure-form-delete",
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

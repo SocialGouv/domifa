@@ -48,6 +48,7 @@ export type FilterOutput = {
 @Component({
   selector: "app-admin-structures-list",
   templateUrl: "./admin-structures-list.component.html",
+  standalone: false,
 })
 export class AdminStructuresListComponent
   implements OnInit, OnDestroy, AfterViewInit

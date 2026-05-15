@@ -3,7 +3,6 @@ import { SeoService } from "../../../../../../shared/services/seo.service";
 
 @Component({
   selector: "app-faq-support",
-  standalone: true,
   imports: [],
   templateUrl: "./faq-support.component.html",
   styleUrl: "./faq-support.component.css",

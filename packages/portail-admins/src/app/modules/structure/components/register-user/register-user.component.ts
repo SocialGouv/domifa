@@ -38,7 +38,6 @@ import { CommonModule } from "@angular/common";
 import { SharedModule } from "../../../shared/shared.module";
 
 @Component({
-  standalone: true,
   selector: "app-register-user",
   templateUrl: "./register-user.component.html",
   imports: [ReactiveFormsModule, CommonModule, SharedModule],

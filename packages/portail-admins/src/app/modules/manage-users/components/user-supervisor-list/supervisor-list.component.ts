@@ -19,6 +19,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 @Component({
   selector: "app-supervisor-list",
   templateUrl: "./supervisor-list.component.html",
+  standalone: false,
 })
 export class SupervisorListComponent implements OnInit, OnDestroy {
   public users: UserSupervisor[];

@@ -21,6 +21,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 @Component({
   selector: "app-admin-structures-table",
   templateUrl: "./admin-structures-table.component.html",
+  standalone: false,
 })
 export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   @Input()

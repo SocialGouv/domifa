@@ -6,7 +6,6 @@ import { SeoService } from "../../../../shared/services/seo.service";
 
 @Component({
   selector: "app-faq",
-  standalone: true,
   imports: [RouterModule, CommonModule, DsfrSidemenuModule],
   templateUrl: "./faq.component.html",
 })

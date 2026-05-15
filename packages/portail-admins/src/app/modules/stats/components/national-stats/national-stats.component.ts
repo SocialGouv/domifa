@@ -26,6 +26,7 @@ import { AdminAuthService } from "../../../admin-auth/services/admin-auth.servic
   selector: "app-national-stats",
   templateUrl: "./national-stats.component.html",
   styleUrls: ["./national-stats.component.css"],
+  standalone: false,
 })
 export class NationalStatsComponent implements OnInit, OnDestroy {
   public years: number[] = [];

@@ -66,6 +66,7 @@ type UserWithSecurityViewModel = UserStructure & {
   selector: "app-users",
   templateUrl: "./users.component.html",
   styleUrl: "./users.component.css",
+  standalone: false,
 })
 export class UsersComponent implements OnInit, OnDestroy {
   public users: UserWithSecurityViewModel[] = [];

@@ -5,6 +5,7 @@ import { DsfrColumn } from "@edugouvfr/ngx-dsfr";
 @Component({
   selector: "app-politique",
   templateUrl: "./politique.component.html",
+  standalone: false,
 })
 export class PolitiqueComponent implements OnInit {
   public constructor(private readonly titleService: Title) {}

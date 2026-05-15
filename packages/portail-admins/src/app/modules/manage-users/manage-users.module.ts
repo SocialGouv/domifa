@@ -13,6 +13,7 @@ import {
   withInterceptorsFromDi,
 } from "@angular/common/http";
 import { DisplayLastLoginComponent } from "../shared/components/display-last-login/display-last-login.component";
+import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { DisplayLastLoginComponent } from "../shared/components/display-last-log
     FullNamePipe,
     SortArrayPipe,
     DisplayLastLoginComponent,
+    DsfrSpinnerComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

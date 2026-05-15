@@ -11,6 +11,7 @@ import { Structure } from "@domifa/common";
 @Component({
   selector: "app-structure-confirm",
   templateUrl: "./structure-confirm.component.html",
+  standalone: false,
 })
 export class StructureConfirmComponent implements OnInit, OnDestroy {
   public successDelete: boolean;

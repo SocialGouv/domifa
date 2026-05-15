@@ -16,6 +16,7 @@ import { PortailAdminAuthApiResponse } from "@domifa/common";
 @Component({
   selector: "app-admin-login",
   templateUrl: "./admin-login.component.html",
+  standalone: false,
 })
 export class AdminLoginComponent implements OnInit {
   public loginForm!: UntypedFormGroup;

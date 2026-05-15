@@ -22,6 +22,7 @@ import { PasswordValidator } from "../../services/password-validator.service";
   selector: "app-reset-password",
   styleUrls: ["./reset-password.component.css"],
   templateUrl: "./reset-password.component.html",
+  standalone: false,
 })
 export class ResetPasswordComponent implements OnInit, OnDestroy {
   public emailForm!: UntypedFormGroup;

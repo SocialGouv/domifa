@@ -15,6 +15,7 @@ import saveAs from "file-saver";
   selector: "app-structure-stats",
   templateUrl: "./structure-stats.component.html",
   styleUrl: "./structure-stats.component.css",
+  standalone: false,
 })
 export class StructureStatsComponent implements OnInit {
   public structure: StructureCommon;

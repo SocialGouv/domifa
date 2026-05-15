@@ -5,7 +5,6 @@ import { fr } from "date-fns/locale";
 
 @Component({
   selector: "app-display-last-login",
-  standalone: true,
   imports: [NgClass, NgIf],
   templateUrl: "./display-last-login.component.html",
   styleUrl: "./display-last-login.component.css",
