@@ -28,6 +28,7 @@ import { Component, ViewChild } from "@angular/core";
       ></app-fonction-selection>
     </form>
   `,
+  standalone: false,
 })
 class TestHostComponent {
   @ViewChild(FonctionSelectionComponent)

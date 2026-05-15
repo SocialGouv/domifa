@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { AdminStructuresTableComponent } from "./admin-structures-table.component";
 import { AdminStructuresModule } from "../../admin-structures.module";
-import { RouterModule } from "@angular/router";
+import { provideRouter } from "@angular/router";
 import { StructureFilterCriteria } from "../../utils/structure-filter-criteria";
 import { provideHttpClient } from "@angular/common/http";
 import { provideMockStore } from "@ngrx/store/testing";
@@ -13,8 +13,8 @@ describe("AdminStructuresTableComponent", () => {
   beforeAll(() => {
     TestBed.configureTestingModule({
       declarations: [AdminStructuresTableComponent],
-      imports: [AdminStructuresModule, RouterModule.forRoot([])],
-      providers: [provideHttpClient(), provideMockStore({})],
+      imports: [AdminStructuresModule],
+      providers: [provideRouter([]), provideHttpClient(), provideMockStore({})],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AdminStructuresTableComponent);

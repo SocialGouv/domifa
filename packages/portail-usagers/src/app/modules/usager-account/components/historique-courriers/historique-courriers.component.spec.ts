@@ -6,7 +6,7 @@ import "@angular/localize/init";
 import { provideHttpClient } from "@angular/common/http";
 import { APP_BASE_HREF } from "@angular/common";
 import {
-  RouterModule,
+  provideRouter,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
 } from "@angular/router";
@@ -19,8 +19,9 @@ describe("HistoriqueCourriersComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [HistoriqueCourriersComponent],
-      imports: [SharedModule, RouterModule.forRoot([])],
+      imports: [SharedModule],
       providers: [
+        provideRouter([]),
         AuthGuard,
         provideHttpClient(),
         {

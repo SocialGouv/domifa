@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { StructureStatsComponent } from "./structure-stats.component";
 import { CommonModule } from "@angular/common";
-import { ActivatedRoute, RouterModule } from "@angular/router";
+import { ActivatedRoute, provideRouter } from "@angular/router";
 import { TableHeadSortComponent } from "../../../shared/components/table-head-sort/table-head-sort.component";
 import { SortArrayPipe } from "../../../shared/pipes/sort-array.pipe";
 import { StructureService } from "../../services/structure.service";
@@ -24,9 +24,9 @@ describe("StructureStatsComponent", () => {
         TableHeadSortComponent,
         SortArrayPipe,
         SharedModule,
-        RouterModule.forRoot([]),
       ],
       providers: [
+        provideRouter([]),
         provideHttpClient(),
         provideMockStore({}),
         StructureService,

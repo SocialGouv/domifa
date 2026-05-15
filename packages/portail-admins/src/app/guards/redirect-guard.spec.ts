@@ -1,7 +1,6 @@
 import { APP_BASE_HREF } from "@angular/common";
 import { inject, TestBed } from "@angular/core/testing";
-import { Router } from "@angular/router";
-import { RouterModule } from "@angular/router";
+import { provideRouter, Router } from "@angular/router";
 import { StoreModule } from "@ngrx/store";
 import { AdminAuthService } from "../modules/admin-auth/services/admin-auth.service";
 import { RoleRedirectGuard } from "./redirect-guard";
@@ -16,13 +15,13 @@ describe("RoleRedirectGuard", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterModule,
         StoreModule.forRoot({
           [structuresFeature.name]: structuresFeature.reducer,
           [usersFeature.name]: usersFeature.reducer,
         }),
       ],
       providers: [
+        provideRouter([]),
         provideHttpClient(),
         RoleRedirectGuard,
         AdminAuthService,

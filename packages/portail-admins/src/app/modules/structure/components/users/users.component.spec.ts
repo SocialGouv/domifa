@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { UsersComponent } from "./users.component";
 import { CommonModule } from "@angular/common";
-import { ActivatedRoute, RouterModule } from "@angular/router";
+import { ActivatedRoute, provideRouter } from "@angular/router";
 import { provideMockStore } from "@ngrx/store/testing";
 import { UsersTableComponent } from "../../../shared/components/users-table/users-table.component";
 import { StructureService } from "../../services/structure.service";
@@ -20,8 +20,9 @@ describe("UsersComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [UsersComponent],
-      imports: [CommonModule, UsersTableComponent, RouterModule.forRoot([])],
+      imports: [CommonModule, UsersTableComponent],
       providers: [
+        provideRouter([]),
         provideHttpClient(),
         StructureService,
         CustomToastService,

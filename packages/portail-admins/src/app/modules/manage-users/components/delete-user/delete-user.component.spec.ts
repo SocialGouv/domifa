@@ -5,7 +5,7 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { USER_SUPERVISOR_MOCK } from "../../../../mocks/USER_SUPERVISOR.mock";
-import { RouterModule } from "@angular/router";
+import { provideRouter } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
 
 describe("DeleteUserComponent", () => {
@@ -15,8 +15,9 @@ describe("DeleteUserComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DeleteUserComponent],
-      imports: [ReactiveFormsModule, FormsModule, RouterModule.forRoot([])],
+      imports: [ReactiveFormsModule, FormsModule],
       providers: [
+        provideRouter([]),
         provideHttpClient(),
         { provide: APP_BASE_HREF, useValue: "/" },
       ],

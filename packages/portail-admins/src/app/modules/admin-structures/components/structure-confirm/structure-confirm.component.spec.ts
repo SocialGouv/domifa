@@ -2,8 +2,7 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
-import { RouterModule } from "@angular/router";
+import { ActivatedRoute, provideRouter } from "@angular/router";
 import { provideMockStore } from "@ngrx/store/testing";
 import { SharedModule } from "../../../shared/shared.module";
 
@@ -17,13 +16,9 @@ describe("StructureConfirmComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [StructureConfirmComponent],
-      imports: [
-        ReactiveFormsModule,
-        FormsModule,
-        SharedModule,
-        RouterModule.forRoot([]),
-      ],
+      imports: [ReactiveFormsModule, FormsModule, SharedModule],
       providers: [
+        provideRouter([]),
         provideHttpClient(),
         provideMockStore({}),
         { provide: APP_BASE_HREF, useValue: "/" },

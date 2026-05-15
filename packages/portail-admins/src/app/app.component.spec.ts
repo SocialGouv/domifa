@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { TestBed, waitForAsync } from "@angular/core/testing";
-import { RouterModule } from "@angular/router";
+import { provideRouter } from "@angular/router";
 import { AppComponent } from "./app.component";
 import { provideHttpClient } from "@angular/common/http";
 import { StoreModule } from "@ngrx/store";
@@ -11,13 +11,12 @@ describe("AppComponent", () => {
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       imports: [
-        RouterModule.forRoot([]),
         StoreModule.forRoot({
           [structuresFeature.name]: structuresFeature.reducer,
           [usersFeature.name]: usersFeature.reducer,
         }),
       ],
-      providers: [provideHttpClient()],
+      providers: [provideRouter([]), provideHttpClient()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));

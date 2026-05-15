@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { NationalStatsComponent } from "./national-stats.component";
-import { RouterModule } from "@angular/router";
+import { provideRouter } from "@angular/router";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { MATOMO_INJECTORS } from "../../../../shared";
 import { USER_SUPERVISOR_MOCK } from "../../../../mocks/USER_SUPERVISOR.mock";
@@ -18,9 +18,10 @@ describe("NationalStatsComponent", () => {
     };
     await TestBed.configureTestingModule({
       declarations: [NationalStatsComponent],
-      imports: [MATOMO_INJECTORS, RouterModule.forRoot([])],
+      imports: [MATOMO_INJECTORS],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
       providers: [
+        provideRouter([]),
         provideHttpClient(),
         { provide: AdminAuthService, useValue: adminAuthServiceMock },
       ],

@@ -25,8 +25,8 @@ import {
 })
 export class AdminStructureContainerComponent implements OnInit, OnDestroy {
   public structure?: StructureAdmin;
-  public currentUrl: UrlSegment[];
-  public activeTab: "users" | "stats" | "infos";
+  public currentUrl: UrlSegment[] = [];
+  public activeTab: "users" | "stats" | "infos" = "infos";
   public loading = true;
   private readonly subscription = new Subscription();
 
@@ -54,7 +54,7 @@ export class AdminStructureContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const structureId = parseInt(
+    const structureId = Number.parseInt(
       this.activatedRoute.snapshot.params["structureId"],
       10
     );

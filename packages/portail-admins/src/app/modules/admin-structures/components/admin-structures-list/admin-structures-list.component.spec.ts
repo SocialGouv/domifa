@@ -1,7 +1,7 @@
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from "@angular/core";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
-import { ActivatedRoute, RouterModule } from "@angular/router";
+import { ActivatedRoute, provideRouter } from "@angular/router";
 import { of } from "rxjs";
 
 import {
@@ -49,12 +49,9 @@ describe("AdminStructuresListComponent", () => {
     // Configure testing module
     TestBed.configureTestingModule({
       declarations: [AdminStructuresListComponent],
-      imports: [
-        AdminStructuresModule,
-        RouterModule.forRoot([]),
-        NoopAnimationsModule,
-      ],
+      imports: [AdminStructuresModule, NoopAnimationsModule],
       providers: [
+        provideRouter([]),
         provideHttpClient(),
         provideMockStore({
           initialState: {

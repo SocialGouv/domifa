@@ -4,7 +4,7 @@ import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NotFoundComponent } from "./not-found.component";
-import { RouterModule } from "@angular/router";
+import { provideRouter } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
 
 describe("NotFoundComponent", () => {
@@ -14,8 +14,9 @@ describe("NotFoundComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [NotFoundComponent],
-      imports: [ReactiveFormsModule, FormsModule, RouterModule.forRoot([])],
+      imports: [ReactiveFormsModule, FormsModule],
       providers: [
+        provideRouter([]),
         provideHttpClient(),
         { provide: APP_BASE_HREF, useValue: "/" },
       ],

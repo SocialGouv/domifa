@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { RouterModule } from "@angular/router";
+import { provideRouter } from "@angular/router";
 import { provideMockStore } from "@ngrx/store/testing";
 import { SharedModule } from "../../shared.module";
 import { AdminStructuresExportComponent } from "./admin-structures-export.component";
@@ -12,8 +12,8 @@ describe("AdminStructuresExportComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AdminStructuresExportComponent],
-      imports: [SharedModule, RouterModule.forRoot([])],
-      providers: [provideHttpClient(), provideMockStore({})],
+      imports: [SharedModule],
+      providers: [provideRouter([]), provideHttpClient(), provideMockStore({})],
     }).compileComponents();
   });
 

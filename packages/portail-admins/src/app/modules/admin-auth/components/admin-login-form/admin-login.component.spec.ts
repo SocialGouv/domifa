@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
+import { provideRouter } from "@angular/router";
 import { StoreModule } from "@ngrx/store";
 import { AdminLoginComponent } from "./admin-login.component";
 import { provideHttpClient } from "@angular/common/http";
@@ -17,13 +17,12 @@ describe("AdminLoginComponent", () => {
       imports: [
         ReactiveFormsModule,
         FormsModule,
-        RouterModule.forRoot([]),
         StoreModule.forRoot({
           [structuresFeature.name]: structuresFeature.reducer,
           [usersFeature.name]: usersFeature.reducer,
         }),
       ],
-      providers: [provideHttpClient()],
+      providers: [provideRouter([]), provideHttpClient()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
   });

@@ -2,10 +2,10 @@ import { APP_BASE_HREF } from "@angular/common";
 import { inject, TestBed } from "@angular/core/testing";
 import {
   ActivatedRouteSnapshot,
+  provideRouter,
   Router,
   RouterStateSnapshot,
 } from "@angular/router";
-import { RouterModule } from "@angular/router";
 import { StoreModule } from "@ngrx/store";
 import { AdminAuthService } from "../modules/admin-auth/services/admin-auth.service";
 import { AuthGuard } from "./auth-guard";
@@ -22,13 +22,13 @@ describe("AuthGuard", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterModule,
         StoreModule.forRoot({
           [structuresFeature.name]: structuresFeature.reducer,
           [usersFeature.name]: usersFeature.reducer,
         }),
       ],
       providers: [
+        provideRouter([]),
         provideHttpClient(),
         AuthGuard,
         {

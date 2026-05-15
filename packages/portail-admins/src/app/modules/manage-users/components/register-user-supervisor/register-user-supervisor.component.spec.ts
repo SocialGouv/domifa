@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { APP_BASE_HREF } from "@angular/common";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { USER_SUPERVISOR_MOCK } from "../../../../mocks/USER_SUPERVISOR.mock";
-import { RouterModule } from "@angular/router";
+import { provideRouter } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
 
 describe("RegisterUserSupervisorComponent", () => {
@@ -14,8 +14,9 @@ describe("RegisterUserSupervisorComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [RegisterUserSupervisorComponent],
-      imports: [ReactiveFormsModule, FormsModule, RouterModule.forRoot([])],
+      imports: [ReactiveFormsModule, FormsModule],
       providers: [
+        provideRouter([]),
         provideHttpClient(),
         { provide: APP_BASE_HREF, useValue: "/" },
       ],
