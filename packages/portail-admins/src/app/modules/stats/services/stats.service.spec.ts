@@ -6,13 +6,13 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { JwtInterceptor } from "src/app/interceptors/jwt.interceptor";
 import { ServerErrorInterceptor } from "src/app/interceptors/server-error.interceptor";
 import { StatsService } from "./stats.service";
-import { RouterModule } from "@angular/router";
+import { provideRouter } from "@angular/router";
 
 describe("StatsService", () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([])],
       providers: [
+        provideRouter([]),
         provideHttpClient(),
         { provide: APP_BASE_HREF, useValue: "/" },
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

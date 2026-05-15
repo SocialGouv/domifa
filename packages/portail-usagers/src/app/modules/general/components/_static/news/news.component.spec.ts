@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { NewsComponent } from "./news.component";
 import { SharedModule } from "../../../../shared/shared.module";
-import { RouterModule } from "@angular/router";
+import { provideRouter } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
 
 describe("NewsComponent", () => {
@@ -11,8 +11,8 @@ describe("NewsComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [NewsComponent],
-      imports: [RouterModule.forRoot([]), SharedModule],
-      providers: [provideHttpClient()],
+      imports: [SharedModule],
+      providers: [provideRouter([]), provideHttpClient()],
     }).compileComponents();
   }));
 

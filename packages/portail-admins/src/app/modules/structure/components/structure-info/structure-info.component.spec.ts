@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { StructureInfoComponent } from "./structure-info.component";
 import { CommonModule } from "@angular/common";
-import { ActivatedRoute, RouterModule } from "@angular/router";
+import { ActivatedRoute, provideRouter } from "@angular/router";
 import { provideMockStore } from "@ngrx/store/testing";
 import { TableHeadSortComponent } from "../../../shared/components/table-head-sort/table-head-sort.component";
 import { SortArrayPipe } from "../../../shared/pipes/sort-array.pipe";
@@ -26,10 +26,10 @@ describe("StructureInfoComponent", () => {
         CommonModule,
         TableHeadSortComponent,
         SortArrayPipe,
-        RouterModule.forRoot([]),
         FormatInternationalPhoneNumberPipe,
       ],
       providers: [
+        provideRouter([]),
         provideHttpClient(),
         StructureService,
         AdminStructuresApiClient,

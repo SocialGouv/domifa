@@ -8,7 +8,7 @@ import {
 
 import { HomeUsagerComponent } from "./home-usager.component";
 import { UsagerAccountModule } from "../../usager-account.module";
-import { RouterModule } from "@angular/router";
+import { provideRouter } from "@angular/router";
 import { StructureInformationService } from "../../services/structure-information.service";
 import { BehaviorSubject, of } from "rxjs";
 import { PortailUsagerProfile, StructureInformation } from "@domifa/common";
@@ -45,8 +45,9 @@ describe("HomeUsagerComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [HomeUsagerComponent],
-      imports: [UsagerAccountModule, RouterModule.forRoot([])],
+      imports: [UsagerAccountModule],
       providers: [
+        provideRouter([]),
         provideHttpClientTesting(),
         {
           provide: StructureInformationService,

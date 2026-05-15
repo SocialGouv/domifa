@@ -1,5 +1,5 @@
 import { TestBed } from "@angular/core/testing";
-import { RouterModule } from "@angular/router";
+import { provideRouter } from "@angular/router";
 import { StoreModule } from "@ngrx/store";
 import { AdminAuthService } from "./admin-auth.service";
 import { provideHttpClient } from "@angular/common/http";
@@ -11,13 +11,12 @@ describe("AdminAuthService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterModule.forRoot([]),
         StoreModule.forRoot({
           [structuresFeature.name]: structuresFeature.reducer,
           [usersFeature.name]: usersFeature.reducer,
         }),
       ],
-      providers: [provideHttpClient(), AdminAuthService],
+      providers: [provideRouter([]), provideHttpClient(), AdminAuthService],
     });
     service = TestBed.inject(AdminAuthService);
   });

@@ -4,7 +4,7 @@ import { UsagerAcceptCguComponent } from "./usager-accept-cgu.component";
 import { provideHttpClient } from "@angular/common/http";
 import { APP_BASE_HREF } from "@angular/common";
 import {
-  RouterModule,
+  provideRouter,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
 } from "@angular/router";
@@ -18,8 +18,8 @@ describe("UsagerAcceptCguComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [UsagerAcceptCguComponent],
-      imports: [RouterModule.forRoot([])],
       providers: [
+        provideRouter([]),
         AuthGuard,
         provideHttpClient(),
         {

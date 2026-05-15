@@ -5,15 +5,16 @@ import { TestBed } from "@angular/core/testing";
 
 import { AppComponent } from "./app.component";
 import { MATOMO_INJECTORS } from "./shared";
-import { RouterModule } from "@angular/router";
+import { provideRouter } from "@angular/router";
 import { UsagerAuthService } from "./modules/usager-auth/services/usager-auth.service";
 
 describe("AppComponent", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AppComponent],
-      imports: [...MATOMO_INJECTORS, RouterModule.forRoot([])],
+      imports: [...MATOMO_INJECTORS],
       providers: [
+        provideRouter([]),
         UsagerAuthService,
         provideHttpClient(),
         provideHttpClientTesting(),

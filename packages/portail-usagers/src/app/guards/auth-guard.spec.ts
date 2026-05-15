@@ -2,7 +2,7 @@ import { APP_BASE_HREF } from "@angular/common";
 import { inject, TestBed } from "@angular/core/testing";
 import {
   ActivatedRouteSnapshot,
-  RouterModule,
+  provideRouter,
   RouterStateSnapshot,
 } from "@angular/router";
 
@@ -17,8 +17,8 @@ describe("AuthGuard", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([])],
       providers: [
+        provideRouter([]),
         AuthGuard,
         provideHttpClient(),
         {

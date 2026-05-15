@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MATOMO_INJECTORS } from "../../../shared";
 
 import { UsagerLoginComponent } from "./usager-login.component";
-import { RouterModule } from "@angular/router";
+import { provideRouter } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
 import { SharedModule } from "../../shared/shared.module";
 
@@ -19,10 +19,9 @@ describe("UsagerLoginComponent", () => {
         ReactiveFormsModule,
         MATOMO_INJECTORS,
         FormsModule,
-        RouterModule.forRoot([]),
         SharedModule,
       ],
-      providers: [provideHttpClient()],
+      providers: [provideRouter([]), provideHttpClient()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   });

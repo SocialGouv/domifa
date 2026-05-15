@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { SupervisorListComponent } from "./supervisor-list.component";
-import { RouterModule } from "@angular/router";
+import { provideRouter } from "@angular/router";
 import {
   provideHttpClient,
   withInterceptorsFromDi,
@@ -18,8 +18,9 @@ describe("SupervisorListComponent", () => {
   beforeAll(async () => {
     TestBed.configureTestingModule({
       declarations: [SupervisorListComponent],
-      imports: [RouterModule.forRoot([]), ReactiveFormsModule, FormsModule],
+      imports: [ReactiveFormsModule, FormsModule],
       providers: [
+        provideRouter([]),
         provideHttpClient(withInterceptorsFromDi()),
         provideMockStore({}),
         { provide: APP_BASE_HREF, useValue: "/" },
