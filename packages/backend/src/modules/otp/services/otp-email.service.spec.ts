@@ -60,6 +60,23 @@ describe("OtpEmailService", () => {
     expect(mockSendMail).not.toHaveBeenCalled();
   });
 
+  it("should log the OTP code and skip sendMail when envId is local", async () => {
+    mockConfig.mockReturnValue(
+      buildConfig({ envId: "local", email: { emailsEnabled: true } })
+    );
+    const logSpy = jest
+      .spyOn(service["logger"], "log")
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      .mockImplementation(() => {});
+
+    await service.sendOtpEmail("dev@example.com", "424242", "LOGIN");
+
+    expect(mockSendMail).not.toHaveBeenCalled();
+    expect(logSpy).toHaveBeenCalledTimes(1);
+    expect(logSpy.mock.calls[0][0]).toContain("424242");
+    expect(logSpy.mock.calls[0][0]).toContain("[OTP LOCAL]");
+  });
+
   it("should not call sendMail when emailsEnabled is false", async () => {
     mockConfig.mockReturnValue(
       buildConfig({ envId: "dev", email: { emailsEnabled: false } })

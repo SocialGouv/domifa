@@ -6,6 +6,9 @@ export const OTP_BLOCK_DURATION_MINUTES = 60;
 // send: 0 = first send, 1 = first resend, 2 = second resend. At resendCount=2
 // the user has received 3 codes total and any further demand for the same
 // scope is refused until the OTP expires.
-export const OTP_MAX_RESENDS = 2;
+export const OTP_MAX_RESENDS = 5;
 
-export const OTP_CODE_HEADER = "x-otp-code";
+// Header non-préfixé : RFC 6648 (2012) déprécie le préfixe `X-` pour les
+// headers custom. Express normalise toutes les clés en lowercase côté
+// `req.headers`, donc la lecture marche quelle que soit la casse envoyée.
+export const OTP_CODE_HEADER = "otp-code";

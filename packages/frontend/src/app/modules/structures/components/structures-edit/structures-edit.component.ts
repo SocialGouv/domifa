@@ -84,7 +84,7 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           this.loading = false;
-          if (err?.error?.code === "OTP_CANCELLED") {
+          if (err?.error?.code?.startsWith?.("OTP_")) {
             return;
           }
           this.toastService.error(
@@ -109,11 +109,14 @@ export class StructuresEditComponent implements OnInit, OnDestroy {
             this.exportLoading = false;
           }, 1000);
         },
-        error: () => {
+        error: (err) => {
+          this.exportLoading = false;
+          if (err?.error?.code?.startsWith?.("OTP_")) {
+            return;
+          }
           this.toastService.error(
             "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
           );
-          this.exportLoading = false;
         },
       })
     );

@@ -34,7 +34,7 @@ export const StructuresControllerSecurityTests: AppTestHttpClientSecurityTestDef
       label: `${CONTROLLER}.hardResetConfirm (no OTP code)`,
       query: async (context: AppTestContext) => ({
         // Endpoint is OtpGuard-protected: an authenticated admin with no
-        // `x-otp-code` header is rejected with 401 + `{ code: "OTP_REQUIRED" }`,
+        // `otp-code` header is rejected with 401 + `{ code: "OTP_REQUIRED" }`,
         // which is what we expect on the "valid role" path here. Anonymous
         // and non-admin still get 401/403 from the upstream JWT/role guards.
         response: await AppTestHttpClient.post(

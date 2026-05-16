@@ -1,9 +1,9 @@
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
-  HostListener,
   Input,
   OnDestroy,
 } from "@angular/core";
@@ -39,19 +39,47 @@ export class ManageDownloadDocsComponent implements OnDestroy {
   public readonly faFileWord = "ri-file-word-2-line";
   public showMenu = false;
 
+  private outsideClickListener?: (e: Event) => void;
+
   constructor(
     private readonly documentService: DocumentService,
     private readonly toastService: CustomToastService,
     private readonly authService: AuthService,
-    private readonly elementRef: ElementRef
+    private readonly elementRef: ElementRef,
+    private readonly cd: ChangeDetectorRef
   ) {
     this.me = this.authService.currentUserValue;
   }
 
-  @HostListener("document:click", ["$event.target"])
-  onClickOutside(target: HTMLElement): void {
-    if (this.showMenu && !this.elementRef.nativeElement.contains(target)) {
-      this.showMenu = false;
+  public toggleMenu(event: Event): void {
+    event.stopPropagation();
+    this.showMenu = !this.showMenu;
+    if (this.showMenu) {
+      // Attacher après le tick courant pour ne pas capter le click qui ouvre.
+      setTimeout(() => {
+        this.outsideClickListener = (e: Event) => {
+          if (!this.elementRef.nativeElement.contains(e.target as Node)) {
+            this.showMenu = false;
+            this.detachOutsideClick();
+            this.cd.markForCheck();
+          }
+        };
+        document.addEventListener("click", this.outsideClickListener);
+      });
+    } else {
+      this.detachOutsideClick();
+    }
+  }
+
+  public closeMenu(): void {
+    this.showMenu = false;
+    this.detachOutsideClick();
+  }
+
+  private detachOutsideClick(): void {
+    if (this.outsideClickListener) {
+      document.removeEventListener("click", this.outsideClickListener);
+      this.outsideClickListener = undefined;
     }
   }
 
@@ -89,6 +117,7 @@ export class ManageDownloadDocsComponent implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.detachOutsideClick();
     this.subscription.unsubscribe();
   }
 }

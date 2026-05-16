@@ -215,11 +215,14 @@ export class NationalStatsComponent implements OnInit, OnDestroy {
 
             this.loading = false;
           },
-          error: () => {
+          error: (err) => {
+            this.loading = false;
+            if (err?.error?.code?.startsWith?.("OTP_")) {
+              return;
+            }
             this.toastService.error(
               "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
             );
-            this.loading = false;
           },
         })
     );

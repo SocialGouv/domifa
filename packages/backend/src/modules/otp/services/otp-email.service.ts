@@ -26,7 +26,11 @@ export class OtpEmailService implements OnModuleInit {
   async onModuleInit(): Promise<void> {
     const config = domifaConfig();
 
-    if (!config.email.emailsEnabled || config.envId === "test") {
+    if (
+      !config.email.emailsEnabled ||
+      config.envId === "test" ||
+      config.envId === "local"
+    ) {
       this.logger.warn(
         `OTP emails disabled at boot (envId=${config.envId}, emailsEnabled=${config.email.emailsEnabled})`
       );
@@ -45,6 +49,13 @@ export class OtpEmailService implements OnModuleInit {
   ): Promise<void> {
     const config = domifaConfig();
     const emailLog = redactEmail(email);
+
+    if (config.envId === "local") {
+      this.logger.log(
+        `[OTP LOCAL] code=${code} purpose=${purpose} to=${emailLog} (SMTP skipped en local)`
+      );
+      return;
+    }
 
     if (!config.email.emailsEnabled || config.envId === "test") {
       this.logger.log(

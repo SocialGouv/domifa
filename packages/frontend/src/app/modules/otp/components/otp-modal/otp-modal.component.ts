@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   OnDestroy,
   OnInit,
   Renderer2,
@@ -27,9 +28,17 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild("otpModal", { static: true })
   public otpModal!: DsfrModalComponent;
 
+  @ViewChild("otpCodeInput")
+  public otpCodeInput?: ElementRef<HTMLInputElement>;
+
   public readonly codeControl = new FormControl("", {
     nonNullable: true,
-    validators: [Validators.required, Validators.pattern(/^\d{6}$/)],
+    validators: [
+      Validators.required,
+      Validators.minLength(6),
+      Validators.maxLength(6),
+      Validators.pattern(/^\d{6}$/),
+    ],
   });
 
   public submitted = false;
@@ -143,6 +152,11 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
       this.attemptCount = 0;
     }
 
+    if (this.attemptCount >= OtpModalComponent.MAX_ATTEMPTS) {
+      this.promptService.blocked();
+      return;
+    }
+
     this.errorCode = options.previousErrorCode ?? null;
     this.submitted = false;
     this.codeControl.reset("");
@@ -151,6 +165,11 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
       this.isOpen = true;
     }
     this.cdr.markForCheck();
+    // DSFR injects a "Fermer" close button at the top of the modal which the
+    // native <dialog> auto-focuses on open. Override that so the user lands
+    // directly on the OTP input — pressing Enter on the close button would
+    // cancel the prompt and trigger a fresh OTP cycle on the next attempt.
+    setTimeout(() => this.otpCodeInput?.nativeElement.focus(), 50);
   }
 
   private closeQuiet(): void {

@@ -88,6 +88,7 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   }>();
 
   public me!: UserStructure | null;
+  public canEditUsagers = false;
   private readonly subscription = new Subscription();
   public showCheckboxes = false;
   public currentFilters!: UsagersFilterCriteria;
@@ -112,6 +113,8 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
     private readonly store: Store<UsagerState>
   ) {
     this.me = this.authService.currentUserValue;
+    this.canEditUsagers =
+      this.me?.role !== "facteur" && this.me?.role !== "agent";
     this.usagers = [];
     this.selectedRefs.clear();
   }

@@ -31,11 +31,14 @@ export class AdminStructuresExportComponent {
           this.exportLoading = false;
         }, 2000);
       },
-      error: () => {
+      error: (err) => {
+        this.exportLoading = false;
+        if (err?.error?.code?.startsWith?.("OTP_")) {
+          return;
+        }
         this.notifService.error(
           "Une erreur innatendue a eu lieu. Veuillez rééssayer dans quelques minutes"
         );
-        this.exportLoading = false;
       },
     });
   }

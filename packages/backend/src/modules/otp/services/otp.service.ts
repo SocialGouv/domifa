@@ -7,7 +7,6 @@ import {
   OTP_BLOCK_DURATION_MINUTES,
   OTP_EXPIRATION_MINUTES,
   OTP_MAX_ATTEMPTS,
-  OTP_MAX_RESENDS,
 } from "../otp.constants";
 import { OtpRequestContext } from "../otp.types";
 import { redactEmail } from "../otp.utils";
@@ -78,33 +77,15 @@ export class OtpService {
     }
 
     if (existing) {
-      // Anti-flood: up to OTP_MAX_RESENDS resends are allowed within the
-      // OTP's lifetime (= OTP_EXPIRATION_MINUTES). Past that, refuse to send
-      // any further code on this scope until the row expires. The user has
-      // to wait out the 10-min window before requesting a fresh OTP cycle.
-      if (existing.resendCount >= OTP_MAX_RESENDS) {
-        this.logger.warn(
-          `OTP resend limit atteint pour ${emailLog} (purpose=${context.purpose}, resendCount=${existing.resendCount}/${OTP_MAX_RESENDS})`
-        );
-        return { kind: "resend_limit_reached", expiresAt: existing.expiresAt };
-      }
-
-      // Mint a fresh code and overwrite the row's HMAC — we don't store the
-      // plaintext, so we can't re-email the original. The user effectively
-      // gets a new code each time they hit "renvoyer".
-      const code = randomInt(100000, 1000000).toString();
-      const updated = await otpRepository.refreshCodeAndIncrementResend(
-        existing.uuid!,
-        this.hmacCode(code)
-      );
-      const resendCount = updated?.resendCount ?? existing.resendCount + 1;
-      await this.otpEmailService.sendOtpEmail(
-        context.email,
-        code,
-        context.purpose
-      );
+      // No silent resend: an existing OTP is still valid → just signal
+      // OTP_REQUIRED with its expiresAt. The user reuses the code received
+      // on the first send. A future "Renvoyer" button will need its own
+      // explicit endpoint to mint+send a fresh code; until then, the user
+      // waits out the OTP_EXPIRATION_MINUTES window before a new OTP cycle.
       this.logger.log(
-        `OTP renvoye pour ${emailLog} (purpose=${context.purpose}, resends=${resendCount}/${OTP_MAX_RESENDS})`
+        `OTP existant reutilise pour ${emailLog} (purpose=${
+          context.purpose
+        }, expire=${existing.expiresAt.toISOString()})`
       );
       return { kind: "generated", expiresAt: existing.expiresAt };
     }
