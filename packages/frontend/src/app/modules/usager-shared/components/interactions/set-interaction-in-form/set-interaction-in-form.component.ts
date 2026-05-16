@@ -1,7 +1,6 @@
 import {
   Component,
   EventEmitter,
-  HostListener,
   Input,
   OnDestroy,
   Output,
@@ -45,7 +44,6 @@ export class SetInteractionInFormComponent implements OnDestroy {
   public interactionFormData: InteractionInForm;
   public content: string | null;
   public loading = false;
-  public isModalOpen = false;
 
   constructor(
     private readonly interactionService: InteractionService,
@@ -81,7 +79,6 @@ export class SetInteractionInFormComponent implements OnDestroy {
       })
     );
     this.initFormData();
-    this.isModalOpen = true;
     this.receptionModal.open();
   }
 
@@ -105,7 +102,6 @@ export class SetInteractionInFormComponent implements OnDestroy {
   }
 
   public close(): void {
-    this.isModalOpen = false;
     this.modalSubscription.unsubscribe();
     this.receptionModal.close();
     this.cancelReception.emit();
@@ -166,14 +162,6 @@ export class SetInteractionInFormComponent implements OnDestroy {
     this.interactionFormData[value].nbCourrier = this.interactionFormData[
       value
     ].nbCourrier = this.interactionFormData[value].nbCourrier - 1;
-  }
-
-  @HostListener("document:keypress", ["$event"])
-  public keyEvent(event: KeyboardEvent): void {
-    if (this.isModalOpen && event.key === "Enter") {
-      event.preventDefault();
-      this.setInteractionForm();
-    }
   }
 
   public ngOnDestroy(): void {

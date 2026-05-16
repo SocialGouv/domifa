@@ -18,10 +18,10 @@ import {
   ReactiveFormsModule,
 } from "@angular/forms";
 import {
-  StructureDecisionRefusMotif,
   MOTIFS_SUPPRESSION_STRUCTURE_LABELS,
   StructureCommon,
   StructureAdmin,
+  StructureDecisionSuppressionMotif,
 } from "@domifa/common";
 import { Subscription } from "rxjs";
 import { AdminStructuresApiClient } from "../../../shared/services";
@@ -162,11 +162,12 @@ export class StructureFormDeleteComponent
     }
 
     this.loading = true;
-    const motif = this.deleteForm.value.motif as StructureDecisionRefusMotif;
+    const motif = this.deleteForm.value
+      .motif as StructureDecisionSuppressionMotif;
 
     this.subscription.add(
       this.adminStructuresApiClient
-        .setDecisionStructure(this.structure.id, "SUPPRIME", motif)
+        .deleteStructure(this.structure.id, motif)
         .subscribe({
           next: () => {
             this.loading = false;
@@ -175,6 +176,9 @@ export class StructureFormDeleteComponent
           },
           error: (error) => {
             this.loading = false;
+            if (error?.error?.code?.startsWith?.("OTP_")) {
+              return;
+            }
             console.error("Erreur lors de la suppression:", error);
           },
         })

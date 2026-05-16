@@ -7,7 +7,7 @@
       'Menu pour télécharger un document de ' + usager.fullName
     "
     [attr.aria-expanded]="showMenu"
-    (click)="showMenu = !showMenu"
+    (click)="toggleMenu($event)"
   >
     <span class="ri-more-2-fill" aria-hidden="true"></span>
   </button>
@@ -19,7 +19,7 @@
       <button
         type="button"
         class="fr-nav__link"
-        (click)="getCerfa(usager.ref, CerfaDocType.demande); showMenu = false"
+        (click)="getCerfa(usager.ref, CerfaDocType.demande); closeMenu()"
       >
         <span class="ri-file-pdf-2-line" aria-hidden="true"></span>
         Télécharger le Cerfa d'attestation de demande (.pdf)
@@ -32,9 +32,7 @@
       <button
         type="button"
         class="fr-nav__link"
-        (click)="
-          getCerfa(usager.ref, CerfaDocType.attestation); showMenu = false
-        "
+        (click)="getCerfa(usager.ref, CerfaDocType.attestation); closeMenu()"
       >
         <span class="ri-file-pdf-2-line" aria-hidden="true"></span>
         Télécharger le Cerfa d'élection de domicile (.pdf)
@@ -45,7 +43,7 @@
       <button
         class="fr-nav__link"
         type="button"
-        (click)="getCerfa(usager.ref, CerfaDocType.demande); showMenu = false"
+        (click)="getCerfa(usager.ref, CerfaDocType.demande); closeMenu()"
       >
         <span class="ri-file-pdf-2-line" aria-hidden="true"></span>
         Télécharger l'attestation de refus (.pdf)
@@ -62,7 +60,7 @@
             usager.ref,
             StructureDocTypesAvailable.courrier_radiation
           );
-          showMenu = false
+          closeMenu()
         "
       >
         Télécharger le courrier de radiation (.docx)
@@ -78,7 +76,7 @@
             usager.ref,
             StructureDocTypesAvailable.attestation_postale
           );
-          showMenu = false
+          closeMenu()
         "
       >
         <span class="ri-file-word-2-line" aria-hidden="true"></span>
@@ -95,7 +93,7 @@
             usager.ref,
             StructureDocTypesAvailable.cerfa_attestation
           );
-          showMenu = false
+          closeMenu()
         "
       >
         <span class="ri-file-word-2-line" aria-hidden="true"></span>

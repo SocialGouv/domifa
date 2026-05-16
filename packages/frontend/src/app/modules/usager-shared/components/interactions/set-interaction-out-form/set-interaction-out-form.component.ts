@@ -1,7 +1,6 @@
 import {
   Component,
   EventEmitter,
-  HostListener,
   Input,
   OnDestroy,
   Output,
@@ -203,14 +202,6 @@ export class SetInteractionOutFormComponent implements OnDestroy {
           },
         })
     );
-  }
-
-  @HostListener("document:keypress", ["$event"])
-  public keyEvent(event: KeyboardEvent): void {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      this.setInteractionForm();
-    }
   }
 
   private initFormData(): void {

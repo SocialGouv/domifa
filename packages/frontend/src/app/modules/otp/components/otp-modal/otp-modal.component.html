@@ -21,9 +21,11 @@
         >Saisissez le code reçu</label
       >
       <input
-        type="number"
+        #otpCodeInput
+        type="text"
         inputmode="numeric"
         autocomplete="one-time-code"
+        pattern="[0-9]{6}"
         class="fr-input"
         id="otp-code-input"
         maxlength="6"
@@ -51,7 +53,7 @@
         class="fr-btn"
         type="button"
         (click)="submit()"
-        [disabled]="isLocked || submitting"
+        [disabled]="isLocked || submitting || codeControl.invalid"
       >
         Valider
       </button>

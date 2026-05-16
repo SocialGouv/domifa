@@ -85,6 +85,24 @@ export class AdminStructuresApiClient {
       );
   }
 
+  public deleteStructure(
+    structureId: number,
+    motif?: StructureDecisionSuppressionMotif
+  ): Observable<StructureAdmin> {
+    return this.http
+      .patch<StructureAdmin>(
+        `${BASE_URL}/structure-decision/${structureId}/delete`,
+        { motif }
+      )
+      .pipe(
+        tap((updatedStructure: StructureAdmin) => {
+          this.store.dispatch(
+            StructuresActions.updateOne({ structure: updatedStructure })
+          );
+        })
+      );
+  }
+
   public getAdminStructureListData(): Observable<StructureAdmin[]> {
     return this.http.get<StructureAdmin[]>(BASE_URL);
   }

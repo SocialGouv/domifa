@@ -14,7 +14,10 @@ import { OtpPromptService } from "../services/otp-prompt.service";
 import { OtpErrorBody, OtpErrorCode } from "../otp.types";
 import { CustomToastService } from "../../shared/services/custom-toast.service";
 
-const OTP_CODE_HEADER = "X-Otp-Code";
+const OTP_CODE_HEADER = "Otp-Code";
+
+const OTP_BLOCKED_TOAST =
+  "Le code n'a pas pu être validé. Veuillez réessayer plus tard et demander un nouveau code.";
 
 @Injectable()
 export class OtpInterceptor implements HttpInterceptor {
@@ -39,12 +42,23 @@ export class OtpInterceptor implements HttpInterceptor {
               return throwError(() => normalized);
             }
             if (code === "OTP_BLOCKED" || code === "OTP_RESEND_LIMIT") {
-              return throwError(() => normalized);
+              return this.failBlocked();
             }
             return this.promptAndRetry(request, next, code);
           })
         );
       })
+    );
+  }
+
+  private failBlocked(): Observable<never> {
+    this.toastr.error(OTP_BLOCKED_TOAST);
+    return throwError(
+      () =>
+        new HttpErrorResponse({
+          status: 400,
+          error: { code: "OTP_FAILED" },
+        })
     );
   }
 
@@ -112,6 +126,9 @@ export class OtpInterceptor implements HttpInterceptor {
                 })
             );
           }
+          if (result.kind === "blocked") {
+            return this.failBlocked();
+          }
           const retried = request.clone({
             setHeaders: { [OTP_CODE_HEADER]: result.code },
           });
@@ -138,6 +155,13 @@ export class OtpInterceptor implements HttpInterceptor {
                     // Keep modal open, show error, wait for next submission.
                     this.promptService.updateError("OTP_INVALID");
                     return EMPTY;
+                  }
+                  if (
+                    otpCode === "OTP_BLOCKED" ||
+                    otpCode === "OTP_RESEND_LIMIT"
+                  ) {
+                    this.promptService.closeSuccess();
+                    return this.failBlocked();
                   }
                   this.promptService.closeSuccess();
                   return throwError(() => normalized);

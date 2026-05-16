@@ -241,11 +241,11 @@
                   class="fr-icon-message-2-fill fr-mr-1w fr-text-action-high--blue-france"
                   aria-hidden="true"
                 ></span>
-                } @if (!usager.pinnedNote) {
+                } @else {
                 <span class="fr-sr-only">Aucune note épinglée</span>
                 }
                 <a
-                  [routerLink]="(usager.decision.statut === UsagersFilterCriteriaStatut.INSTRUCTION || usager.decision.statut === UsagersFilterCriteriaStatut.ATTENTE_DECISION) && me?.role !== 'facteur' && me?.role !== 'agent'
+                  [routerLink]="(usager.decision.statut === UsagersFilterCriteriaStatut.INSTRUCTION || usager.decision.statut === UsagersFilterCriteriaStatut.ATTENTE_DECISION) && canEditUsagers
                         ? '/usager/' + usager.ref + '/edit/' + ETAPES_DEMANDE_URL[usager.etapeDemande]
                         : '/profil/general/' + usager.ref"
                   ariaCurrentWhenActive="page"
@@ -267,14 +267,18 @@
               >
                 @if (usager.telephone?.numero) {
                 <span>{{ usager?.phoneNumber || "Non renseigné" }}</span>
-                } @if (!usager.telephone?.numero) {
+                } @else {
                 <span class="fr-sr-only">Téléphone non renseigné</span>
                 }
               </td>
               <td>
+                @defer (on viewport; prefetch on idle) {
                 <app-column-informations
                   [usager]="usager"
                 ></app-column-informations>
+                } @placeholder {
+                <span>&nbsp;</span>
+                }
               </td>
               @if (filters.statut ===
               UsagersFilterCriteriaStatut.ATTENTE_DECISION || filters.statut ===
@@ -310,7 +314,7 @@
                 ></span>
                 @if (usager?.decisionDeadline?.color === 'bg-danger') {
                 <span class="fr-sr-only">Moins de 2 mois</span>
-                } @if (usager?.decisionDeadline?.color !== 'bg-danger') {
+                } @else {
                 <span class="fr-sr-only">Moins de 2 semaines ou dépassée</span>
                 } } @if (usager?.decisionDeadline?.dateToDisplay) {
                 <span
@@ -320,23 +324,35 @@
                 }
               </td>
               <td class="fr-text--left list-interaction-icons no-print">
+                @defer (on viewport; prefetch on idle) {
                 <app-manage-usagers-interactions
                   [usager]="usager"
                   template="small-buttons"
                 ></app-manage-usagers-interactions>
+                } @placeholder {
+                <span>&nbsp;</span>
+                }
               </td>
               <td class="fr-text--left list-interaction-icons no-print">
+                @defer (on viewport; prefetch on idle) {
                 <app-manage-usagers-interactions
                   [usager]="usager"
                   template="big-buttons"
                   (openReception)="openInteractionInModal($event)"
                   (openDistribution)="openInteractionOutModal($event)"
                 ></app-manage-usagers-interactions>
+                } @placeholder {
+                <span>&nbsp;</span>
+                }
               </td>
               <td class="no-print">
+                @defer (on viewport; prefetch on idle) {
                 <app-manage-download-docs
                   [usager]="usager"
                 ></app-manage-download-docs>
+                } @placeholder {
+                <span>&nbsp;</span>
+                }
               </td>
             </tr>
             }

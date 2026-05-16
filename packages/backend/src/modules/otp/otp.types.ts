@@ -5,6 +5,7 @@ export const OTP_PURPOSES = [
   "EXPORT",
   "RESET_USAGERS",
   "DOWNLOAD_MULTIPLE_DOCS",
+  "DELETE_STRUCTURE",
 ] as const;
 
 export type OtpPurpose = (typeof OTP_PURPOSES)[number];

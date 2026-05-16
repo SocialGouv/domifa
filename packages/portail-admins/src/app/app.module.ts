@@ -61,7 +61,7 @@ registerLocaleData(localeFr, "fr");
 
 @NgModule({
   bootstrap: [AppComponent],
-  declarations: [],
+  declarations: [AppComponent],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule.withConfig({ disableAnimations }),
@@ -75,7 +75,6 @@ registerLocaleData(localeFr, "fr");
     DsfrFooterModule,
     DsfrHeaderModule,
     DsfrSkiplinksModule,
-    AppComponent,
   ],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),

@@ -3,14 +3,14 @@ import supertest from "supertest";
 
 import { AppTestContext } from "./AppTestContext.type";
 
-const OTP_CODE_HEADER = "x-otp-code";
+const OTP_CODE_HEADER = "otp-code";
 
 type BaseQueryOptions = {
   authenticate?: boolean;
   context: AppTestContext;
   headers?: { [name: string]: string };
-  // Convenience for OTP-protected endpoints — sets the `x-otp-code` header.
-  // Equivalent to `headers: { "x-otp-code": "<code>" }` but more explicit.
+  // Convenience for OTP-protected endpoints — sets the `otp-code` header.
+  // Equivalent to `headers: { "otp-code": "<code>" }` but more explicit.
   otpCode?: string;
 };
 

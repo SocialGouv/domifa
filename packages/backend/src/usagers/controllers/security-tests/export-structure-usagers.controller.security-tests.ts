@@ -14,7 +14,7 @@ import {
 const CONTROLLER = "ExportStructureUsagersController";
 
 // Endpoint is OtpGuard-protected: an authenticated responsable/admin with no
-// `x-otp-code` header is rejected with 401 + `{ code: "OTP_REQUIRED" }`,
+// `otp-code` header is rejected with 401 + `{ code: "OTP_REQUIRED" }`,
 // which is the "valid role" path here. Other roles still get 403 from the
 // upstream role guard, anonymous still gets 401 from the JWT guard.
 export const ExportStructureUsagersControllerSecurityTests: AppTestHttpClientSecurityTestDef[] =

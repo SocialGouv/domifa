@@ -53,6 +53,10 @@ export class OtpPromptService {
     this.closeWith({ kind: "cancel" });
   }
 
+  public blocked(): void {
+    this.closeWith({ kind: "blocked" });
+  }
+
   // Called by the interceptor when the retried request succeeds or fails with
   // a non-retryable error. The modal closes; any pending consumer of the
   // observable completes.

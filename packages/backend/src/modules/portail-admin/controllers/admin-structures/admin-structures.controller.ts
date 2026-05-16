@@ -37,7 +37,10 @@ import {
 } from "@domifa/common";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
 import { buildSupervisorActorFields } from "../../../app-logs/app-logs.helpers";
-import { UpdateStructureDecisionStatutDto } from "../../dto";
+import {
+  DeleteStructureDto,
+  UpdateStructureDecisionStatutDto,
+} from "../../dto";
 import { UserStructureWithSecurity } from "../../types";
 import { format } from "date-fns";
 import { userSecurityEventHistoryManager } from "../../../users/services";
@@ -225,6 +228,26 @@ export class AdminStructuresController {
         message: "INTERNAL_SERVER_ERROR",
       });
     }
+  }
+
+  @Patch("structure-decision/:structureId/delete")
+  @UseGuards(OtpGuard)
+  @RequireOtp("DELETE_STRUCTURE")
+  public async deleteStructure(
+    @CurrentSupervisor() user: UserAdminAuthenticated,
+    @Param("structureId", new ParseIntPipe()) structureId: number,
+    @Body() deleteDto: DeleteStructureDto,
+    @Res() res: ExpressResponse
+  ): Promise<ExpressResponse> {
+    return this.updateStructureStatus(
+      user,
+      structureId,
+      {
+        statut: "SUPPRIME",
+        statutDetail: deleteDto.motif,
+      },
+      res
+    );
   }
 
   @Patch("structure/:structureId/users/:userId/unblock")
