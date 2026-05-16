@@ -1,3 +1,11 @@
+## [2.242.1](https://github.com/SocialGouv/domifa/compare/v2.242.0...v2.242.1) (2026-05-16)
+
+
+### Bug Fixes
+
+* **admin:** reset otp ([81c842b](https://github.com/SocialGouv/domifa/commit/81c842bc41b1b5faac8f1d4aa380c8e0595267c6))
+* **backend:** fix otp and enforce perf of manage ([314dbb3](https://github.com/SocialGouv/domifa/commit/314dbb3e65645f0c6154216de33279d9ebeadebf))
+
 # [2.242.0](https://github.com/SocialGouv/domifa/compare/v2.241.3...v2.242.0) (2026-05-16)
 
 
