@@ -9,7 +9,7 @@ import { StatsRoutingModule } from "./stats-routing.module";
 import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 
 @NgModule({
-  declarations: [NationalStatsComponent],
+  declarations: [],
   imports: [
     CommonModule,
     SharedModule,
@@ -18,6 +18,7 @@ import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
     TableHeadSortComponent,
     SortArrayPipe,
     DsfrSpinnerComponent,
+    NationalStatsComponent,
   ],
 })
 export class StatsModule {}

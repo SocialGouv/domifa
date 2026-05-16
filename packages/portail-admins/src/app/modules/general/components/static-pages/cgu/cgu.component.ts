@@ -4,7 +4,6 @@ import { Title } from "@angular/platform-browser";
 @Component({
   selector: "app-cgu",
   templateUrl: "./cgu.component.html",
-  standalone: false,
 })
 export class CguComponent implements OnInit {
   constructor(private readonly titleService: Title) {}

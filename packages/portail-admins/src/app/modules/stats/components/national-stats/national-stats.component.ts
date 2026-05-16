@@ -1,9 +1,12 @@
+import { CommonModule } from "@angular/common";
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import {
   DomSanitizer,
   SafeResourceUrl,
   Title,
 } from "@angular/platform-browser";
+import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 import {
   DEPARTEMENTS_LISTE,
   MetabaseParams,
@@ -21,12 +24,13 @@ import { StatsService } from "../../services/stats.service";
 import { StructureListForStats } from "../../types/StructureListForStats.type";
 import { MatomoTracker } from "ngx-matomo-client";
 import { AdminAuthService } from "../../../admin-auth/services/admin-auth.service";
+import { UcFirstPipe } from "../../../shared/pipes";
 
 @Component({
   selector: "app-national-stats",
   templateUrl: "./national-stats.component.html",
   styleUrls: ["./national-stats.component.css"],
-  standalone: false,
+  imports: [CommonModule, FormsModule, DsfrSpinnerComponent, UcFirstPipe],
 })
 export class NationalStatsComponent implements OnInit, OnDestroy {
   public years: number[] = [];

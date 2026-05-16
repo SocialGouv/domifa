@@ -277,7 +277,7 @@
   size="LG"
 >
   <app-register-user
-    (cancel)="addUserModal.close()"
+    (cancelAction)="addUserModal.close()"
     (getUsers)="addUserModal.close(); reloadUsersSubject$.next()"
     [currentStructure]="structure"
   ></app-register-user>

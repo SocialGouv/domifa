@@ -8,7 +8,7 @@ describe("RgaaComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RgaaComponent],
+      imports: [RgaaComponent],
     }).compileComponents();
   });
 

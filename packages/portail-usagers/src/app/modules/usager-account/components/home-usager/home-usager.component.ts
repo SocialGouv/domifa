@@ -1,14 +1,30 @@
 import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { PortailUsagerProfile, StructureInformation } from "@domifa/common";
 import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.service";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { StructureInformationService } from "../../services/structure-information.service";
 import { SeoService } from "../../../shared/services/seo.service";
+import { SectionCourriersComponent } from "./sections/section-courriers/section-courriers.component";
+import { StructureInformationComponent } from "./sections/structure-information/structure-information.component";
+import { SectionInfosComponent } from "./sections/section-infos/section-infos.component";
+import { SectionDocsComponent } from "./sections/section-docs/section-docs.component";
+import { SectionOptionsComponent } from "./sections/section-options/section-options.component";
+import { SectionLinksComponent } from "./sections/section-links/section-links.component";
 
 @Component({
   selector: "app-home-usager",
   templateUrl: "./home-usager.component.html",
+  imports: [
+    CommonModule,
+    SectionCourriersComponent,
+    StructureInformationComponent,
+    SectionInfosComponent,
+    SectionDocsComponent,
+    SectionOptionsComponent,
+    SectionLinksComponent,
+  ],
 })
 export class HomeUsagerComponent implements OnInit {
   public usagerProfile!: PortailUsagerProfile | null;

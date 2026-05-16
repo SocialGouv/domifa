@@ -17,7 +17,7 @@ describe("IdleManagerComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [IdleManagerComponent],
+      imports: [IdleManagerComponent],
       providers: [
         provideRouter([]),
         AuthGuard,

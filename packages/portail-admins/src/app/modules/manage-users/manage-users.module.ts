@@ -13,14 +13,15 @@ import {
   withInterceptorsFromDi,
 } from "@angular/common/http";
 import { DisplayLastLoginComponent } from "../shared/components/display-last-login/display-last-login.component";
-import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
+import {
+  DsfrDropdownMenuComponent,
+  DsfrDropdownMenuItemComponent,
+  DsfrSpinnerComponent,
+} from "@edugouvfr/ngx-dsfr-ext";
+import { DsfrModalModule } from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
-  declarations: [
-    SupervisorListComponent,
-    RegisterUserSupervisorComponent,
-    DeleteUserComponent,
-  ],
+  declarations: [],
   imports: [
     TableHeadSortComponent,
     FormsModule,
@@ -32,6 +33,12 @@ import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
     SortArrayPipe,
     DisplayLastLoginComponent,
     DsfrSpinnerComponent,
+    DsfrModalModule,
+    DsfrDropdownMenuComponent,
+    DsfrDropdownMenuItemComponent,
+    SupervisorListComponent,
+    RegisterUserSupervisorComponent,
+    DeleteUserComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

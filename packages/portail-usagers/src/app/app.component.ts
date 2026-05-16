@@ -1,17 +1,41 @@
 import { UsagerAuthService } from "./modules/usager-auth/services/usager-auth.service";
 import { Component, OnInit, ViewChild } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { Title } from "@angular/platform-browser";
-import { NavigationEnd, Router } from "@angular/router";
+import { NavigationEnd, Router, RouterModule } from "@angular/router";
 import { filter } from "rxjs";
 import { LIENS_PARTENAIRES } from "./modules/general/components/_static/plan-site/LIENS_PARTENAIRES.const";
 import { PortailUsagerProfile, NewsItem } from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
 import DOMIFA_NEWS from "../assets/files/news.json";
-import { DsfrLink, DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import {
+  DsfrButtonModule,
+  DsfrButtonsGroupModule,
+  DsfrFooterModule,
+  DsfrLink,
+  DsfrModalComponent,
+  DsfrModalModule,
+  DsfrSkiplinksModule,
+} from "@edugouvfr/ngx-dsfr";
+import { DsfrToastComponent } from "@edugouvfr/ngx-dsfr-ext";
+import { IdleManagerComponent } from "./modules/general/components/idle-manager/idle-manager.component";
+import { NewsContentComponent } from "./modules/shared/components/news-content/news-content.component";
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
+  imports: [
+    CommonModule,
+    RouterModule,
+    DsfrSkiplinksModule,
+    DsfrFooterModule,
+    DsfrModalModule,
+    DsfrButtonModule,
+    DsfrButtonsGroupModule,
+    DsfrToastComponent,
+    IdleManagerComponent,
+    NewsContentComponent,
+  ],
 })
 export class AppComponent implements OnInit {
   public title: string;

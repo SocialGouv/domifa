@@ -14,7 +14,6 @@ describe("ResetPasswordComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ResetPasswordComponent],
       imports: [
         ReactiveFormsModule,
         FormsModule,
@@ -22,6 +21,7 @@ describe("ResetPasswordComponent", () => {
           [structuresFeature.name]: structuresFeature.reducer,
           [usersFeature.name]: usersFeature.reducer,
         }),
+        ResetPasswordComponent,
       ],
       providers: [
         provideRouter([]),

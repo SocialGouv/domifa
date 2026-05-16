@@ -1,10 +1,13 @@
 import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
 import { LIENS_PARTENAIRES } from "./LIENS_PARTENAIRES.const";
 import { SeoService } from "../../../../shared/services/seo.service";
 
 @Component({
   selector: "app-plan-site",
   templateUrl: "./plan-site.component.html",
+  imports: [CommonModule, RouterModule],
 })
 export class PlanSiteComponent implements OnInit {
   public readonly sitemapLinks: {

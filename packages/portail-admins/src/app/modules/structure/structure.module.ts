@@ -12,18 +12,19 @@ import { StructureStatsComponent } from "./components/structure-stats/structure-
 import { FormsModule } from "@angular/forms";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { StructureRoutingModule } from "./structure-routing.module";
-import { DsfrModalModule, DsfrTooltipDirective } from "@edugouvfr/ngx-dsfr";
+import {
+  DsfrButtonModule,
+  DsfrButtonsGroupModule,
+  DsfrModalModule,
+  DsfrTooltipDirective,
+} from "@edugouvfr/ngx-dsfr";
 import { RegisterUserComponent } from "./components/register-user/register-user.component";
 import { DisplayLastLoginComponent } from "../shared/components/display-last-login/display-last-login.component";
 import { UsersTableComponent } from "../shared/components/users-table/users-table.component";
 import { StructureFormRefuseComponent } from "../admin-structures/components/structure-form-refuse/structure-form-refuse.component";
 
 @NgModule({
-  declarations: [
-    UsersComponent,
-    StructureInfoComponent,
-    StructureStatsComponent,
-  ],
+  declarations: [],
   imports: [
     StructureRoutingModule,
     CommonModule,
@@ -38,7 +39,12 @@ import { StructureFormRefuseComponent } from "../admin-structures/components/str
     DsfrSpinnerComponent,
     DsfrDropdownMenuComponent,
     DsfrModalModule,
+    DsfrButtonModule,
+    DsfrButtonsGroupModule,
     StructureFormRefuseComponent,
+    UsersComponent,
+    StructureInfoComponent,
+    StructureStatsComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

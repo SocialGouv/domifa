@@ -1,5 +1,7 @@
 import { Subscription } from "rxjs";
+import { CommonModule } from "@angular/common";
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 
 import {
@@ -14,12 +16,37 @@ import {
 import { ManageUsersService } from "../../services/manage-users.service";
 import { AdminAuthService } from "../../../admin-auth/services/admin-auth.service";
 import { subMonths } from "date-fns";
-import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { DsfrModalComponent, DsfrModalModule } from "@edugouvfr/ngx-dsfr";
+import {
+  DsfrDropdownMenuComponent,
+  DsfrDropdownMenuItemComponent,
+  DsfrSpinnerComponent,
+} from "@edugouvfr/ngx-dsfr-ext";
+import { TableHeadSortComponent } from "../../../shared/components/table-head-sort/table-head-sort.component";
+import { DisplayLastLoginComponent } from "../../../shared/components/display-last-login/display-last-login.component";
+import { StatCardComponent } from "../../../shared/components/stat-card/stat-card.component";
+import { RegisterUserSupervisorComponent } from "../register-user-supervisor/register-user-supervisor.component";
+import { DeleteUserComponent } from "../delete-user/delete-user.component";
+import { FullNamePipe, SortArrayPipe } from "../../../shared/pipes";
 
 @Component({
   selector: "app-supervisor-list",
   templateUrl: "./supervisor-list.component.html",
-  standalone: false,
+  imports: [
+    CommonModule,
+    FormsModule,
+    DsfrModalModule,
+    DsfrSpinnerComponent,
+    DsfrDropdownMenuComponent,
+    DsfrDropdownMenuItemComponent,
+    TableHeadSortComponent,
+    DisplayLastLoginComponent,
+    StatCardComponent,
+    RegisterUserSupervisorComponent,
+    DeleteUserComponent,
+    FullNamePipe,
+    SortArrayPipe,
+  ],
 })
 export class SupervisorListComponent implements OnInit, OnDestroy {
   public users: UserSupervisor[];

@@ -2,8 +2,6 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { SectionInfosComponent } from "./section-infos.component";
-import { SharedModule } from "../../../../../shared/shared.module";
-import { FormatInternationalPhoneNumberPipe } from "../../../../pipes";
 import { DEFAULT_USAGER } from "../../../../../../../_common";
 
 describe("SectionInfosComponent", () => {
@@ -12,8 +10,7 @@ describe("SectionInfosComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SharedModule, FormatInternationalPhoneNumberPipe],
-      declarations: [SectionInfosComponent],
+      imports: [SectionInfosComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
   });

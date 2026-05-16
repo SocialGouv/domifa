@@ -1,11 +1,11 @@
 import { Component, Input } from "@angular/core";
-import { SharedModule } from "../../shared.module";
 import { CommonModule } from "@angular/common";
 import { NewsItem } from "@domifa/common";
+import { ReplaceLineBreaks } from "../../pipes/nl2br.pipe";
 
 @Component({
   selector: "app-news-content",
-  imports: [SharedModule, CommonModule],
+  imports: [CommonModule, ReplaceLineBreaks],
   templateUrl: "./news-content.component.html",
 })
 export class NewsContentComponent {

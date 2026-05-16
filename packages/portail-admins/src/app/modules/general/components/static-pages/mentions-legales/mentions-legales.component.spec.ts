@@ -8,7 +8,7 @@ describe("MentionsLegalesComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [MentionsLegalesComponent],
+      imports: [MentionsLegalesComponent],
     }).compileComponents();
   }));
 

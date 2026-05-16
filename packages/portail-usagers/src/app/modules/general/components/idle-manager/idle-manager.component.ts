@@ -3,11 +3,17 @@ import { UserIdleService } from "angular-user-idle";
 import { Subscription } from "rxjs";
 import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.service";
 import { PortailUsagerProfile } from "@domifa/common";
-import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import {
+  DsfrButtonModule,
+  DsfrButtonsGroupModule,
+  DsfrModalComponent,
+  DsfrModalModule,
+} from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-idle-manager",
   templateUrl: "./idle-manager.component.html",
+  imports: [DsfrModalModule, DsfrButtonsGroupModule, DsfrButtonModule],
 })
 export class IdleManagerComponent implements OnInit {
   @ViewChild(DsfrModalComponent)

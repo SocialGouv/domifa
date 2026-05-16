@@ -2,8 +2,8 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { SectionCourriersComponent } from "./section-courriers.component";
-import { SharedModule } from "../../../../../shared/shared.module";
 import { provideHttpClient } from "@angular/common/http";
+import { provideRouter } from "@angular/router";
 import { Interaction } from "@domifa/common";
 import { unProfilUsager } from "../../../../../../../_tests/mocks/PORTAIL_USAGER_PROFILE_MOCK";
 import { interactionUsager } from "../../../../../../../_tests/mocks/INTERACTION_USAGER_MOCK";
@@ -14,9 +14,8 @@ describe("SectionCourriersComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SectionCourriersComponent],
-      imports: [SharedModule],
-      providers: [provideHttpClient()],
+      imports: [SectionCourriersComponent],
+      providers: [provideHttpClient(), provideRouter([])],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
   });

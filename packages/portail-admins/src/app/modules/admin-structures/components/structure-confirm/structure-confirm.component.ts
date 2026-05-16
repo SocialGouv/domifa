@@ -1,17 +1,20 @@
+import { CommonModule } from "@angular/common";
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { AdminStructuresApiClient } from "../../../shared/services";
 import { Subscription } from "rxjs";
 import { isHexadecimal, isUUID } from "class-validator";
 import {} from "../../types";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { Structure } from "@domifa/common";
+import { ButtonComponent } from "../../../shared/components/button/button.component";
 
 @Component({
   selector: "app-structure-confirm",
   templateUrl: "./structure-confirm.component.html",
-  standalone: false,
+  imports: [CommonModule, FormsModule, RouterModule, ButtonComponent],
 })
 export class StructureConfirmComponent implements OnInit, OnDestroy {
   public successDelete: boolean;

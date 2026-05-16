@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import {
   Component,
   EventEmitter,
@@ -21,11 +22,12 @@ import {
   STRUCTURE_TYPE_LABELS,
 } from "@domifa/common";
 import { FilterOutput } from "../admin-structures-list/admin-structures-list.component";
+import { SortArrayPipe } from "../../../shared/pipes/sort-array.pipe";
 
 @Component({
   selector: "app-structure-filters",
   templateUrl: "./structure-filters.component.html",
-  standalone: false,
+  imports: [CommonModule, SortArrayPipe],
 })
 export class StructureFiltersComponent implements OnChanges {
   @Input({ required: true }) public filters!: StructureFilterCriteria;

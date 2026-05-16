@@ -18,12 +18,12 @@ describe("StructureStatsComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [StructureStatsComponent],
       imports: [
         CommonModule,
         TableHeadSortComponent,
         SortArrayPipe,
         SharedModule,
+        StructureStatsComponent,
       ],
       providers: [
         provideRouter([]),

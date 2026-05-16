@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngrx/store";
@@ -16,17 +17,36 @@ import {
 } from "@domifa/common";
 
 import { selectStructureById } from "../../../shared/store/structures";
-import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { DsfrModalComponent, DsfrModalModule } from "@edugouvfr/ngx-dsfr";
+import {
+  DsfrDropdownMenuComponent,
+  DsfrDropdownMenuItemComponent,
+} from "@edugouvfr/ngx-dsfr-ext";
 import {
   AdminStructuresApiClient,
   CustomToastService,
 } from "../../../shared/services";
+import { DisplayLastLoginComponent } from "../../../shared/components/display-last-login/display-last-login.component";
+import { StructureFormDeleteComponent } from "../../../admin-structures/components/structure-form-delete/structure-form-delete.component";
+import { StructureFormRefuseComponent } from "../../../admin-structures/components/structure-form-refuse/structure-form-refuse.component";
+import { RegisterUserComponent } from "../register-user/register-user.component";
+import { FormatInternationalPhoneNumberPipe } from "../../../../shared/utils/formatInternationalPhoneNumber.pipe";
 
 @Component({
   selector: "app-structure-info",
   templateUrl: "./structure-info.component.html",
   styleUrl: "./structure-info.component.css",
-  standalone: false,
+  imports: [
+    CommonModule,
+    DsfrModalModule,
+    DsfrDropdownMenuComponent,
+    DsfrDropdownMenuItemComponent,
+    DisplayLastLoginComponent,
+    StructureFormDeleteComponent,
+    StructureFormRefuseComponent,
+    RegisterUserComponent,
+    FormatInternationalPhoneNumberPipe,
+  ],
 })
 export class StructureInfoComponent implements OnInit, OnDestroy {
   public structure?: Structure;

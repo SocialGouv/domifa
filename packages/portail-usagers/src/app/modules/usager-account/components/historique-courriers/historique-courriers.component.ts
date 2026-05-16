@@ -1,14 +1,25 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
 import { Order, PageResults, Interaction, PageOptions } from "@domifa/common";
 import { InteractionService } from "../../services/interaction.service";
 import { Subscription } from "rxjs";
 import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.service";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { SeoService } from "../../../shared/services/seo.service";
+import { DsfrButtonModule, DsfrPaginationModule } from "@edugouvfr/ngx-dsfr";
+import { ReplaceLineBreaks } from "../../../shared/pipes/nl2br.pipe";
 
 @Component({
   selector: "app-historique-courriers",
   templateUrl: "./historique-courriers.component.html",
+  imports: [
+    CommonModule,
+    RouterModule,
+    DsfrButtonModule,
+    DsfrPaginationModule,
+    ReplaceLineBreaks,
+  ],
 })
 export class HistoriqueCourriersComponent implements OnDestroy, OnInit {
   private subscription = new Subscription();

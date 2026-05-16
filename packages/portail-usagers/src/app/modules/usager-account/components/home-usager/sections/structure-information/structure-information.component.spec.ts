@@ -9,7 +9,7 @@ describe("StructureInformationComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [StructureInformationComponent],
+      imports: [StructureInformationComponent],
       providers: [provideHttpClient()],
     });
     fixture = TestBed.createComponent(StructureInformationComponent);

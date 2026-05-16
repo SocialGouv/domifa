@@ -279,7 +279,7 @@
   >
     <app-register-user-supervisor
       [isEditMode]="false"
-      (cancel)="closeModal('add'); getUsers()"
+      (cancelAction)="closeModal('add'); getUsers()"
     ></app-register-user-supervisor>
   </dsfr-modal>
 
@@ -296,7 +296,7 @@
     <ng-container *ngIf="selectedUser">
       <app-register-user-supervisor
         [isEditMode]="true"
-        (cancel)="closeModal('update'); getUsers()"
+        (cancelAction)="closeModal('update'); getUsers()"
         [userToEdit]="selectedUser"
       ></app-register-user-supervisor>
     </ng-container>

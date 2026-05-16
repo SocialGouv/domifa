@@ -14,8 +14,7 @@ describe("DeleteUserComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DeleteUserComponent],
-      imports: [ReactiveFormsModule, FormsModule],
+      imports: [ReactiveFormsModule, FormsModule, DeleteUserComponent],
       providers: [
         provideRouter([]),
         provideHttpClient(),

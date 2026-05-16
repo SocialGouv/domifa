@@ -13,7 +13,6 @@ describe("AdminLoginComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AdminLoginComponent],
       imports: [
         ReactiveFormsModule,
         FormsModule,
@@ -21,6 +20,7 @@ describe("AdminLoginComponent", () => {
           [structuresFeature.name]: structuresFeature.reducer,
           [usersFeature.name]: usersFeature.reducer,
         }),
+        AdminLoginComponent,
       ],
       providers: [provideRouter([]), provideHttpClient()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],

@@ -4,11 +4,12 @@ import { saveAs } from "file-saver";
 import { AdminStructuresApiClient } from "../../services";
 
 import { CustomToastService } from "../../services/custom-toast.service";
+import { ButtonComponent } from "../button/button.component";
 
 @Component({
   selector: "app-admin-structures-export",
   templateUrl: "./admin-structures-export.component.html",
-  standalone: false,
+  imports: [ButtonComponent],
 })
 export class AdminStructuresExportComponent {
   public exportLoading = false;

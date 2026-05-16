@@ -1,5 +1,7 @@
+import { CommonModule } from "@angular/common";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
+import { RouterModule } from "@angular/router";
 import { LIENS_PARTENAIRES } from "./LIENS_PARTENAIRES.const";
 import { AdminAuthService } from "../../../../admin-auth/services/admin-auth.service";
 import { Subscription } from "rxjs";
@@ -9,7 +11,7 @@ import { PortailAdminUser } from "@domifa/common";
   selector: "app-plan-site",
   templateUrl: "./plan-site.component.html",
   styleUrls: ["./plan-site.component.css"],
-  standalone: false,
+  imports: [CommonModule, RouterModule],
 })
 export class PlanSiteComponent implements OnInit, OnDestroy {
   public siteMapLinksLogged: {

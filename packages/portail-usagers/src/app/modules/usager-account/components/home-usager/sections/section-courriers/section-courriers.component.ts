@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
 
 import { DEFAULT_USAGER_PROFILE } from "../../../../../../../_common/mocks/DEFAULT_USAGER.const";
 import { Interaction, PortailUsagerPublic } from "@domifa/common";
@@ -9,6 +11,7 @@ import {
   PendingInteractionsCount,
   TypeGroupedInteractions,
 } from "../../../../types/usager-interactions";
+import { ReplaceLineBreaks } from "../../../../../shared/pipes/nl2br.pipe";
 
 @Component({
   selector: "app-section-courriers",
@@ -16,6 +19,7 @@ import {
   styles: [
     ".fr-border-left-blue-france { border-left: 3px solid var(--blue-france-sun-113-625) !important; }",
   ],
+  imports: [CommonModule, RouterModule, ReplaceLineBreaks],
 })
 export class SectionCourriersComponent implements OnInit {
   @Input() public usager!: PortailUsagerPublic;

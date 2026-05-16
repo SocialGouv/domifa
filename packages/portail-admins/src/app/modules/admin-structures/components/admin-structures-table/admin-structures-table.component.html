@@ -352,7 +352,7 @@
 >
   <app-register-user
     (getUsers)="addUserModal.close(); reloadStructures$.next()"
-    (cancel)="addUserModal.close()"
+    (cancelAction)="addUserModal.close()"
     [currentStructure]="currentStructure"
   ></app-register-user>
 </dsfr-modal>

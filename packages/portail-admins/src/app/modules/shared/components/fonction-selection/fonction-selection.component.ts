@@ -1,6 +1,12 @@
 import { Subscription } from "rxjs";
+import { CommonModule } from "@angular/common";
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
-import { AbstractControl, UntypedFormGroup, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormsModule,
+  UntypedFormGroup,
+  Validators,
+} from "@angular/forms";
 import { USER_FONCTION_LABELS, UserFonction } from "@domifa/common";
 
 enum CONTROL_OPTIONS {
@@ -10,7 +16,7 @@ enum CONTROL_OPTIONS {
 @Component({
   selector: "app-fonction-selection",
   templateUrl: "./fonction-selection.component.html",
-  standalone: false,
+  imports: [CommonModule, FormsModule],
 })
 export class FonctionSelectionComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public submitted!: boolean;

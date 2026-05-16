@@ -9,7 +9,7 @@ describe("SectionOptionsComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SectionOptionsComponent],
+      imports: [SectionOptionsComponent],
     }).compileComponents();
   });
 

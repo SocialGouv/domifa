@@ -1,12 +1,14 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { ViewportScroller } from "@angular/common";
+import { CommonModule, ViewportScroller } from "@angular/common";
 import {
   ActivatedRoute,
   NavigationEnd,
   Router,
+  RouterModule,
   UrlSegment,
 } from "@angular/router";
 import { Store } from "@ngrx/store";
+import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 import { filter, Subscription, take } from "rxjs";
 
 import { StructureAdmin } from "@domifa/common";
@@ -21,7 +23,7 @@ import {
   selector: "app-admin-structure-container",
   templateUrl: "./admin-structure-container.component.html",
   styleUrl: "./admin-structure-container.component.css",
-  standalone: false,
+  imports: [CommonModule, RouterModule, DsfrSpinnerComponent],
 })
 export class AdminStructureContainerComponent implements OnInit, OnDestroy {
   public structure?: StructureAdmin;

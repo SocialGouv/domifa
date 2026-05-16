@@ -1,11 +1,14 @@
 import { Component } from "@angular/core";
-import { DsfrColumn } from "@edugouvfr/ngx-dsfr";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { DsfrColumn, DsfrDataTableModule } from "@edugouvfr/ngx-dsfr";
 import { MatomoTracker } from "ngx-matomo-client";
 import { SeoService } from "../../../../shared/services/seo.service";
 
 @Component({
   selector: "app-politique",
   templateUrl: "./politique.component.html",
+  imports: [CommonModule, FormsModule, DsfrDataTableModule],
 })
 export class PolitiqueComponent {
   optedOut$: Promise<boolean>;

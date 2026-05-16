@@ -17,8 +17,7 @@ describe("AdminStructureContainerComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AdminStructureContainerComponent],
-      imports: [CommonModule, SharedModule],
+      imports: [CommonModule, SharedModule, AdminStructureContainerComponent],
       providers: [
         provideRouter([]),
         provideMockStore({

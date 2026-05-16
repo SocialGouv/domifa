@@ -19,8 +19,7 @@ describe("UsersComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UsersComponent],
-      imports: [CommonModule, UsersTableComponent],
+      imports: [CommonModule, UsersTableComponent, UsersComponent],
       providers: [
         provideRouter([]),
         provideHttpClient(),

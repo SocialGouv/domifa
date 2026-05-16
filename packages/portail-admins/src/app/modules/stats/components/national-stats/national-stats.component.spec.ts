@@ -17,8 +17,7 @@ describe("NationalStatsComponent", () => {
       currentUserValue: USER_SUPERVISOR_MOCK,
     };
     await TestBed.configureTestingModule({
-      declarations: [NationalStatsComponent],
-      imports: [MATOMO_INJECTORS],
+      imports: [MATOMO_INJECTORS, NationalStatsComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
       providers: [
         provideRouter([]),

@@ -1,8 +1,10 @@
 import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
+  ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
 import { Subscription } from "rxjs";
@@ -11,11 +13,13 @@ import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.ser
 import { PortailUsagerProfile } from "@domifa/common";
 import { Router } from "@angular/router";
 import { SeoService } from "../../../shared/services/seo.service";
+import { CguComponent } from "../../../general/components/_static/cgu/cgu.component";
 
 @Component({
   selector: "app-usager-accept-cgu",
   templateUrl: "./usager-accept-cgu.component.html",
   styleUrls: ["./usager-accept-cgu.component.css"],
+  imports: [CommonModule, ReactiveFormsModule, CguComponent],
 })
 export class UsagerAcceptCguComponent implements OnInit {
   public acceptTermsForm!: FormGroup;

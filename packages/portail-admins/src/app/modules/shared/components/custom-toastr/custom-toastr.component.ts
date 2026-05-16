@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 
 import { Subscription } from "rxjs";
@@ -6,13 +7,14 @@ import { CustomToast } from "../../types/CustomToast.type";
 import { CustomToastClass } from "../../types";
 import { fadeInOut } from "../../constants";
 import { CustomToastService } from "../../services";
+import { DsfrAlertModule } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-custom-toastr",
   templateUrl: "./custom-toastr.component.html",
   styleUrls: ["./custom-toastr.component.scss"],
   animations: [fadeInOut],
-  standalone: false,
+  imports: [CommonModule, DsfrAlertModule],
 })
 export class CustomToastrComponent implements OnInit, OnDestroy {
   public toast: CustomToast;

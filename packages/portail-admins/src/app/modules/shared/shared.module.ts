@@ -1,5 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+
 import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
 import { ButtonComponent } from "./components/button/button.component";
 import { StatCardComponent } from "./components/stat-card/stat-card.component";
@@ -12,37 +14,12 @@ import {
   UcFirstPipe,
 } from "./pipes";
 import { FonctionSelectionComponent } from "./components/fonction-selection/fonction-selection.component";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
-import {
-  DsfrAlertModule,
-  DsfrSkiplinksModule,
-  DsfrFooterModule,
-  DsfrHeaderModule,
-  DsfrButtonModule,
-  DsfrModalModule,
-  DsfrButtonsGroupModule,
-} from "@edugouvfr/ngx-dsfr";
-import { StructureFormDeleteComponent } from "../admin-structures/components/structure-form-delete/structure-form-delete.component";
-import {
-  DsfrDropdownMenuComponent,
-  DsfrDropdownMenuItemComponent,
-} from "@edugouvfr/ngx-dsfr-ext";
+import { DsfrAlertModule } from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
-  declarations: [
-    FormatPhoneNumberPipe,
-    UcFirstPipe,
-    FormatBigNumberPipe,
-    CustomToastrComponent,
-    ButtonComponent,
-    AdminStructuresExportComponent,
-    FonctionSelectionComponent,
-    StatCardComponent,
-  ],
+  declarations: [],
   exports: [
-    DsfrAlertModule,
-    DsfrFooterModule,
     UcFirstPipe,
     FormatPhoneNumberPipe,
     FormatBigNumberPipe,
@@ -52,28 +29,21 @@ import {
     FonctionSelectionComponent,
     StatCardComponent,
     FonctionFormatPipe,
-    DsfrSkiplinksModule,
-    DsfrHeaderModule,
-    StructureFormDeleteComponent,
-    DsfrDropdownMenuComponent,
-    DsfrDropdownMenuItemComponent,
-    DsfrButtonModule,
-    DsfrModalModule,
-    DsfrButtonsGroupModule,
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     FonctionFormatPipe,
+    FormatPhoneNumberPipe,
+    UcFirstPipe,
+    FormatBigNumberPipe,
     DsfrAlertModule,
-    DsfrHeaderModule,
-    StructureFormDeleteComponent,
-    DsfrDropdownMenuComponent,
-    DsfrDropdownMenuItemComponent,
-    DsfrButtonModule,
-    DsfrModalModule,
-    DsfrButtonsGroupModule,
+    CustomToastrComponent,
+    ButtonComponent,
+    AdminStructuresExportComponent,
+    FonctionSelectionComponent,
+    StatCardComponent,
   ],
   providers: [AdminStructuresApiClient],
 })
