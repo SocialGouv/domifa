@@ -28,7 +28,7 @@ import { Component, ViewChild } from "@angular/core";
       ></app-fonction-selection>
     </form>
   `,
-  standalone: false,
+  imports: [ReactiveFormsModule, FonctionSelectionComponent],
 })
 class TestHostComponent {
   @ViewChild(FonctionSelectionComponent)
@@ -56,8 +56,7 @@ describe("FonctionSelectionComponent", () => {
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        declarations: [FonctionSelectionComponent],
-        imports: [FormsModule],
+        imports: [FormsModule, FonctionSelectionComponent],
       }).compileComponents();
 
       fixture = TestBed.createComponent(FonctionSelectionComponent);
@@ -142,8 +141,12 @@ describe("FonctionSelectionComponent", () => {
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        declarations: [FonctionSelectionComponent, TestHostComponent],
-        imports: [FormsModule, ReactiveFormsModule],
+        imports: [
+          FormsModule,
+          ReactiveFormsModule,
+          FonctionSelectionComponent,
+          TestHostComponent,
+        ],
       }).compileComponents();
 
       hostFixture = TestBed.createComponent(TestHostComponent);
@@ -321,8 +324,7 @@ describe("FonctionSelectionComponent", () => {
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        declarations: [FonctionSelectionComponent],
-        imports: [FormsModule],
+        imports: [FormsModule, FonctionSelectionComponent],
       }).compileComponents();
 
       fixture = TestBed.createComponent(FonctionSelectionComponent);
@@ -368,8 +370,7 @@ describe("FonctionSelectionComponent", () => {
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        declarations: [FonctionSelectionComponent],
-        imports: [FormsModule],
+        imports: [FormsModule, FonctionSelectionComponent],
       }).compileComponents();
 
       fixture = TestBed.createComponent(FonctionSelectionComponent);

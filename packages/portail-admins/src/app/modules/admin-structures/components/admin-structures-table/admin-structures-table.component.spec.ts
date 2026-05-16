@@ -12,8 +12,7 @@ describe("AdminStructuresTableComponent", () => {
 
   beforeAll(() => {
     TestBed.configureTestingModule({
-      declarations: [AdminStructuresTableComponent],
-      imports: [AdminStructuresModule],
+      imports: [AdminStructuresModule, AdminStructuresTableComponent],
       providers: [provideRouter([]), provideHttpClient(), provideMockStore({})],
     }).compileComponents();
 

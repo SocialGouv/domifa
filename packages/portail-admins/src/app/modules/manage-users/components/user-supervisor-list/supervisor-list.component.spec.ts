@@ -17,8 +17,7 @@ describe("SupervisorListComponent", () => {
 
   beforeAll(async () => {
     TestBed.configureTestingModule({
-      declarations: [SupervisorListComponent],
-      imports: [ReactiveFormsModule, FormsModule],
+      imports: [ReactiveFormsModule, FormsModule, SupervisorListComponent],
       providers: [
         provideRouter([]),
         provideHttpClient(withInterceptorsFromDi()),

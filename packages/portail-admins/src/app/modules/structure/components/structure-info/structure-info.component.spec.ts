@@ -21,12 +21,12 @@ describe("StructureInfoComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [StructureInfoComponent],
       imports: [
         CommonModule,
         TableHeadSortComponent,
         SortArrayPipe,
         FormatInternationalPhoneNumberPipe,
+        StructureInfoComponent,
       ],
       providers: [
         provideRouter([]),

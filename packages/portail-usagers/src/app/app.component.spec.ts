@@ -11,8 +11,7 @@ import { UsagerAuthService } from "./modules/usager-auth/services/usager-auth.se
 describe("AppComponent", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
-      imports: [...MATOMO_INJECTORS],
+      imports: [...MATOMO_INJECTORS, AppComponent],
       providers: [
         provideRouter([]),
         UsagerAuthService,

@@ -29,6 +29,11 @@ import { environment } from "../environments/environment";
 import pkg from "../../package.json";
 import { MATOMO_INJECTORS } from "./shared";
 import { AdminAuthService } from "./modules/admin-auth/services/admin-auth.service";
+import {
+  DsfrFooterModule,
+  DsfrHeaderModule,
+  DsfrSkiplinksModule,
+} from "@edugouvfr/ngx-dsfr";
 import { provideStore } from "@ngrx/store";
 import { provideEffects } from "@ngrx/effects";
 import { provideStoreDevtools } from "@ngrx/store-devtools";
@@ -56,7 +61,7 @@ registerLocaleData(localeFr, "fr");
 
 @NgModule({
   bootstrap: [AppComponent],
-  declarations: [AppComponent],
+  declarations: [],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule.withConfig({ disableAnimations }),
@@ -67,6 +72,10 @@ registerLocaleData(localeFr, "fr");
     ReactiveFormsModule,
     MATOMO_INJECTORS,
     OtpModalComponent,
+    DsfrFooterModule,
+    DsfrHeaderModule,
+    DsfrSkiplinksModule,
+    AppComponent,
   ],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),

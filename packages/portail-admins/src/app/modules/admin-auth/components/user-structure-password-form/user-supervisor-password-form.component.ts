@@ -1,5 +1,7 @@
+import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
 import {
+  FormsModule,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
@@ -10,7 +12,7 @@ import { PasswordValidator } from "../../services/password-validator.service";
 @Component({
   selector: "app-user-supervisor-password-form",
   templateUrl: "./user-supervisor-password-form.component.html",
-  standalone: false,
+  imports: [CommonModule, FormsModule],
 })
 export class UserSupervisorPasswordFormComponent {
   @Input() public submitted!: boolean;

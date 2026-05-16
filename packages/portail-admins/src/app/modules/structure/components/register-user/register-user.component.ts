@@ -43,7 +43,7 @@ import { SharedModule } from "../../../shared/shared.module";
   imports: [ReactiveFormsModule, CommonModule, SharedModule],
 })
 export class RegisterUserComponent implements OnInit, OnDestroy {
-  public user: UserStructure;
+  public user: UserStructure | null;
   public newAdminForm!: UntypedFormGroup;
 
   public submitted: boolean;
@@ -60,7 +60,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   public territoriesList: RegionsLabels = DEPARTEMENTS_LISTE;
 
   @Input() currentStructure!: StructureAdmin;
-  @Output() public readonly cancel = new EventEmitter<void>();
+  @Output() public readonly cancelAction = new EventEmitter<void>();
   @Output() public readonly getUsers = new EventEmitter<void>();
 
   @ViewChild("form", { static: true })

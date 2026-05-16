@@ -6,7 +6,6 @@ import { MATOMO_INJECTORS } from "../../../shared";
 import { UsagerLoginComponent } from "./usager-login.component";
 import { provideRouter } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
-import { SharedModule } from "../../shared/shared.module";
 
 describe("UsagerLoginComponent", () => {
   let component: UsagerLoginComponent;
@@ -14,12 +13,11 @@ describe("UsagerLoginComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UsagerLoginComponent],
       imports: [
         ReactiveFormsModule,
         MATOMO_INJECTORS,
         FormsModule,
-        SharedModule,
+        UsagerLoginComponent,
       ],
       providers: [provideRouter([]), provideHttpClient()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

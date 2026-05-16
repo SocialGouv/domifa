@@ -10,7 +10,7 @@ describe("PolitiqueComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [PolitiqueComponent],
+      imports: [PolitiqueComponent],
     }).compileComponents();
   }));
 

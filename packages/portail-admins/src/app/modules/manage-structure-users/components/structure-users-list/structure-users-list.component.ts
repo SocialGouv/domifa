@@ -1,8 +1,20 @@
 import { Clipboard } from "@angular/cdk/clipboard";
+import { CommonModule } from "@angular/common";
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Store } from "@ngrx/store";
-import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import {
+  DsfrButtonModule,
+  DsfrButtonsGroupModule,
+  DsfrModalComponent,
+  DsfrModalModule,
+} from "@edugouvfr/ngx-dsfr";
+import {
+  DsfrDropdownMenuComponent,
+  DsfrDropdownMenuItemComponent,
+  DsfrSpinnerComponent,
+} from "@edugouvfr/ngx-dsfr-ext";
 import { Observable, Subscription } from "rxjs";
 
 import { UsersForAdminList, UserStatus } from "@domifa/common";
@@ -16,6 +28,8 @@ import {
   selectIsAdminUsersLoading,
   UsersActions,
 } from "../../../shared/store/users";
+import { UsersTableComponent } from "../../../shared/components/users-table/users-table.component";
+import { StatCardComponent } from "../../../shared/components/stat-card/stat-card.component";
 
 enum MODAL_ACTION {
   PROMOTE_USER = "PROMOTE_USER",
@@ -56,7 +70,18 @@ interface ConfirmModalContext {
 @Component({
   selector: "app-structure-users-list",
   templateUrl: "./structure-users-list.component.html",
-  standalone: false,
+  imports: [
+    CommonModule,
+    FormsModule,
+    DsfrModalModule,
+    DsfrButtonModule,
+    DsfrButtonsGroupModule,
+    DsfrSpinnerComponent,
+    DsfrDropdownMenuComponent,
+    DsfrDropdownMenuItemComponent,
+    UsersTableComponent,
+    StatCardComponent,
+  ],
 })
 export class StructureUsersListComponent implements OnInit, OnDestroy {
   public users: AdminUserViewModel[] = [];

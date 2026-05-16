@@ -9,7 +9,7 @@ describe("LoginContainerComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LoginContainerComponent],
+      imports: [LoginContainerComponent],
       providers: [provideRouter([])],
     }).compileComponents();
 

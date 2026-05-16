@@ -1,5 +1,7 @@
 import { ActivatedRoute } from "@angular/router";
+import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import {
   SafeResourceUrl,
   DomSanitizer,
@@ -10,12 +12,13 @@ import { Subscription } from "rxjs";
 import { StatsService } from "../../../stats/services/stats.service";
 import { CustomToastService } from "../../../shared/services";
 import saveAs from "file-saver";
+import { ButtonComponent } from "../../../shared/components/button/button.component";
 
 @Component({
   selector: "app-structure-stats",
   templateUrl: "./structure-stats.component.html",
   styleUrl: "./structure-stats.component.css",
-  standalone: false,
+  imports: [CommonModule, FormsModule, ButtonComponent],
 })
 export class StructureStatsComponent implements OnInit {
   public structure: StructureCommon;

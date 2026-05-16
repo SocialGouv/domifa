@@ -11,8 +11,7 @@ describe("AdminStructuresExportComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AdminStructuresExportComponent],
-      imports: [SharedModule],
+      imports: [SharedModule, AdminStructuresExportComponent],
       providers: [provideRouter([]), provideHttpClient(), provideMockStore({})],
     }).compileComponents();
   });

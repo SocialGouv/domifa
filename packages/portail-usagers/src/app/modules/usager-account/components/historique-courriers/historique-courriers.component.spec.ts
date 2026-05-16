@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { HistoriqueCourriersComponent } from "./historique-courriers.component";
-import { SharedModule } from "../../../shared/shared.module";
 import "@angular/localize/init";
 import { provideHttpClient } from "@angular/common/http";
 import { APP_BASE_HREF } from "@angular/common";
@@ -18,8 +17,7 @@ describe("HistoriqueCourriersComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HistoriqueCourriersComponent],
-      imports: [SharedModule],
+      imports: [HistoriqueCourriersComponent],
       providers: [
         provideRouter([]),
         AuthGuard,

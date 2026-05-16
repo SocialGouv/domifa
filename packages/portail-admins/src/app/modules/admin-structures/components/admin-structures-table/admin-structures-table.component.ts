@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import {
   Component,
   EventEmitter,
@@ -7,6 +8,7 @@ import {
   ViewChild,
   OnDestroy,
 } from "@angular/core";
+import { RouterModule } from "@angular/router";
 import { SortValues, StructureAdmin } from "@domifa/common";
 import { Subject, Subscription } from "rxjs";
 
@@ -16,12 +18,32 @@ import {
 } from "../../../shared/services";
 import { StructureFilterCriteria } from "../../utils";
 import { FilterOutput } from "../admin-structures-list/admin-structures-list.component";
-import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { DsfrModalComponent, DsfrModalModule } from "@edugouvfr/ngx-dsfr";
+import {
+  DsfrDropdownMenuComponent,
+  DsfrDropdownMenuItemComponent,
+} from "@edugouvfr/ngx-dsfr-ext";
+import { TableHeadSortComponent } from "../../../shared/components/table-head-sort/table-head-sort.component";
+import { DisplayLastLoginComponent } from "../../../shared/components/display-last-login/display-last-login.component";
+import { RegisterUserComponent } from "../../../structure/components/register-user/register-user.component";
+import { StructureFormDeleteComponent } from "../structure-form-delete/structure-form-delete.component";
+import { StructureFormRefuseComponent } from "../structure-form-refuse/structure-form-refuse.component";
 
 @Component({
   selector: "app-admin-structures-table",
   templateUrl: "./admin-structures-table.component.html",
-  standalone: false,
+  imports: [
+    CommonModule,
+    RouterModule,
+    DsfrModalModule,
+    DsfrDropdownMenuComponent,
+    DsfrDropdownMenuItemComponent,
+    TableHeadSortComponent,
+    DisplayLastLoginComponent,
+    RegisterUserComponent,
+    StructureFormDeleteComponent,
+    StructureFormRefuseComponent,
+  ],
 })
 export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   @Input()

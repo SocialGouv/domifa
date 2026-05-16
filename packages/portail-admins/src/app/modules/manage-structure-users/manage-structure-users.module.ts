@@ -7,7 +7,16 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from "@angular/common/http";
-import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
+import {
+  DsfrDropdownMenuComponent,
+  DsfrDropdownMenuItemComponent,
+  DsfrSpinnerComponent,
+} from "@edugouvfr/ngx-dsfr-ext";
+import {
+  DsfrButtonModule,
+  DsfrButtonsGroupModule,
+  DsfrModalModule,
+} from "@edugouvfr/ngx-dsfr";
 
 import { SharedModule } from "../shared/shared.module";
 import { UsersTableComponent } from "../shared/components/users-table/users-table.component";
@@ -16,7 +25,7 @@ import { ManageStructureUsersRoutingModule } from "./manage-structure-users-rout
 import { StructureUsersListComponent } from "./components/structure-users-list/structure-users-list.component";
 
 @NgModule({
-  declarations: [StructureUsersListComponent],
+  declarations: [],
   imports: [
     CommonModule,
     FormsModule,
@@ -26,6 +35,12 @@ import { StructureUsersListComponent } from "./components/structure-users-list/s
     ManageStructureUsersRoutingModule,
     UsersTableComponent,
     DsfrSpinnerComponent,
+    DsfrModalModule,
+    DsfrButtonModule,
+    DsfrButtonsGroupModule,
+    DsfrDropdownMenuComponent,
+    DsfrDropdownMenuItemComponent,
+    StructureUsersListComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

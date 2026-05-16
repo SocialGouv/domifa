@@ -1,22 +1,25 @@
+import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import {
   AbstractControl,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { regexp } from "../../../../shared/utils/validators";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { PortailAdminAuthLoginForm } from "../../types";
 import { AdminAuthService } from "../../services/admin-auth.service";
 import { PortailAdminAuthApiResponse } from "@domifa/common";
+import { ButtonComponent } from "../../../shared/components/button/button.component";
 
 @Component({
   selector: "app-admin-login",
   templateUrl: "./admin-login.component.html",
-  standalone: false,
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, ButtonComponent],
 })
 export class AdminLoginComponent implements OnInit {
   public loginForm!: UntypedFormGroup;

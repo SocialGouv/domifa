@@ -1,5 +1,5 @@
-<div class="stat-card" [class]="'stat-card--' + status">
-  <span class="stat-card__icon" [class]="icon" aria-hidden="true"></span>
+<div [class]="'stat-card--' + status">
+  <span [class]="'stat-card__icon ' + icon" aria-hidden="true"></span>
   <div class="stat-card__body">
     <p class="stat-card__value">{{ value }}</p>
     <p class="stat-card__label">{{ label }}</p>

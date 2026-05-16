@@ -25,8 +25,7 @@ describe("StructureFiltersComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [StructureFiltersComponent],
-      imports: [CommonModule, SortArrayPipe],
+      imports: [CommonModule, SortArrayPipe, StructureFiltersComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 

@@ -1,28 +1,40 @@
 import { NoWhiteSpaceValidator } from "../../../../shared/validators/no-whitespace.validator";
 import { Subscription } from "rxjs";
+import { CommonModule } from "@angular/common";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
   FormControl,
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 import { EmailValidator } from "../../../../shared";
 
 import { PASSWORD_VALIDATOR } from "../../types/PASSWORD_VALIDATOR.const";
 import { UsersService } from "../../services/users.service";
 import { PasswordValidator } from "../../services/password-validator.service";
+import { ButtonComponent } from "../../../shared/components/button/button.component";
+import { UserSupervisorPasswordFormComponent } from "../user-structure-password-form/user-supervisor-password-form.component";
 
 @Component({
   selector: "app-reset-password",
   styleUrls: ["./reset-password.component.css"],
   templateUrl: "./reset-password.component.html",
-  standalone: false,
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    ButtonComponent,
+    UserSupervisorPasswordFormComponent,
+  ],
 })
 export class ResetPasswordComponent implements OnInit, OnDestroy {
   public emailForm!: UntypedFormGroup;

@@ -8,13 +8,15 @@ import {
   ViewChild,
   ViewChildren,
 } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import {
   AbstractControl,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { Router } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 
 import type { PortailUsagerAuthLoginForm } from "../../../../_common";
 import { UsagerAuthService } from "../services/usager-auth.service";
@@ -26,11 +28,22 @@ import {
   PortailUsagerAuthApiResponse,
 } from "@domifa/common";
 import { SeoService } from "../../shared/services/seo.service";
+import { DsfrButtonModule } from "@edugouvfr/ngx-dsfr";
+import { UppercaseDirective } from "../../shared/directives/uppercase.directive";
+import { FaqComponent } from "../../shared/components/faq/faq.component";
 
 @Component({
   selector: "app-usager-login",
   styleUrls: ["./usager-login.component.scss"],
   templateUrl: "./usager-login.component.html",
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    DsfrButtonModule,
+    UppercaseDirective,
+    FaqComponent,
+  ],
 })
 export class UsagerLoginComponent implements OnInit, OnDestroy {
   public loginForm!: UntypedFormGroup;

@@ -17,7 +17,7 @@ describe("UsagerAcceptCguComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UsagerAcceptCguComponent],
+      imports: [UsagerAcceptCguComponent],
       providers: [
         provideRouter([]),
         AuthGuard,

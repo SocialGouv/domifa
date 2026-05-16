@@ -1,11 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { DsfrColumn } from "@edugouvfr/ngx-dsfr";
+import { DsfrColumn, DsfrDataTableModule } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-politique",
   templateUrl: "./politique.component.html",
-  standalone: false,
+  imports: [DsfrDataTableModule],
 })
 export class PolitiqueComponent implements OnInit {
   public constructor(private readonly titleService: Title) {}

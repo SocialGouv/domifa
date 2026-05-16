@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { UsagerDocService } from "../../../../services/usager-doc.service";
 import {
   initLoadingState,
@@ -12,10 +13,12 @@ import {
 import { Subscription } from "rxjs";
 import { CustomToastService } from "../../../../../shared/services/custom-toast.service";
 import { saveAs } from "file-saver";
+import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 
 @Component({
   selector: "app-section-docs",
   templateUrl: "./section-docs.component.html",
+  imports: [CommonModule, DsfrSpinnerComponent],
 })
 export class SectionDocsComponent implements OnInit, OnDestroy {
   @Input() public usager!: PortailUsagerPublic;

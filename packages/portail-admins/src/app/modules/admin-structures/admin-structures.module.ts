@@ -24,13 +24,7 @@ import { RegisterUserComponent } from "src/app/modules/structure/components/regi
 import { DisplayLastLoginComponent } from "../shared/components/display-last-login/display-last-login.component";
 
 @NgModule({
-  declarations: [
-    AdminStructuresListComponent,
-    AdminStructuresTableComponent,
-    StructureFiltersComponent,
-    StructureConfirmComponent,
-    AdminStructureContainerComponent,
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     AdminStructuresRoutingModule,
@@ -46,6 +40,11 @@ import { DisplayLastLoginComponent } from "../shared/components/display-last-log
     StructureFormRefuseComponent,
     RegisterUserComponent,
     DisplayLastLoginComponent,
+    AdminStructuresListComponent,
+    AdminStructuresTableComponent,
+    StructureFiltersComponent,
+    StructureConfirmComponent,
+    AdminStructureContainerComponent,
   ],
   providers: [StatsService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

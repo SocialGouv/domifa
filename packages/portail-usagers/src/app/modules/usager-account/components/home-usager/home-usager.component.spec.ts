@@ -1,3 +1,4 @@
+import { provideHttpClient } from "@angular/common/http";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
 import {
   ComponentFixture,
@@ -44,10 +45,10 @@ describe("HomeUsagerComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HomeUsagerComponent],
-      imports: [UsagerAccountModule],
+      imports: [UsagerAccountModule, HomeUsagerComponent],
       providers: [
         provideRouter([]),
+        provideHttpClient(),
         provideHttpClientTesting(),
         {
           provide: StructureInformationService,

@@ -1,4 +1,9 @@
 /* eslint-disable max-classes-per-file */
+if (typeof globalThis.structuredClone !== "function") {
+  globalThis.structuredClone = (value: unknown) =>
+    JSON.parse(JSON.stringify(value));
+}
+
 Object.defineProperty(window, "IntersectionObserver", {
   writable: true,
   value: class IntersectionObserver {

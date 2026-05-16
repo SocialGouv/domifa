@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { CommonModule } from "@angular/common";
 import {
   ChangeDetectorRef,
   Component,
@@ -7,18 +8,34 @@ import {
   ViewChild,
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { NavigationEnd, Router } from "@angular/router";
+import { NavigationEnd, Router, RouterModule } from "@angular/router";
 import { filter } from "rxjs";
 import { AdminAuthService } from "./modules/admin-auth/services/admin-auth.service";
 import { LIENS_PARTENAIRES } from "./modules/general/components/static-pages/plan-site/LIENS_PARTENAIRES.const";
 import { PortailAdminUser } from "@domifa/common";
-import { DsfrHeaderMenuItem, DsfrLink } from "@edugouvfr/ngx-dsfr";
+import {
+  DsfrFooterModule,
+  DsfrHeaderMenuItem,
+  DsfrHeaderModule,
+  DsfrLink,
+  DsfrSkiplinksModule,
+} from "@edugouvfr/ngx-dsfr";
+import { CustomToastrComponent } from "./modules/shared/components/custom-toastr/custom-toastr.component";
+import { OtpModalComponent } from "./modules/otp/components/otp-modal/otp-modal.component";
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"],
-  standalone: false,
+  imports: [
+    CommonModule,
+    RouterModule,
+    DsfrHeaderModule,
+    DsfrFooterModule,
+    DsfrSkiplinksModule,
+    CustomToastrComponent,
+    OtpModalComponent,
+  ],
 })
 export class AppComponent implements OnInit {
   public adminProfile: PortailAdminUser | null;

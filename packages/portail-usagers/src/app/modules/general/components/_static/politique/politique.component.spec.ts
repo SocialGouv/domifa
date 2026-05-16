@@ -11,8 +11,12 @@ describe("PolitiqueComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [PolitiqueComponent],
-      imports: [ReactiveFormsModule, MATOMO_INJECTORS, FormsModule],
+      imports: [
+        ReactiveFormsModule,
+        MATOMO_INJECTORS,
+        FormsModule,
+        PolitiqueComponent,
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));

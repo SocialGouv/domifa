@@ -11,7 +11,7 @@ describe("PlanSiteComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [PlanSiteComponent],
+      imports: [PlanSiteComponent],
       providers: [provideRouter([]), provideHttpClient(), provideMockStore({})],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

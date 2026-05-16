@@ -11,7 +11,6 @@ export type StatCardStatus =
   selector: "app-stat-card",
   templateUrl: "./stat-card.component.html",
   styleUrl: "./stat-card.component.scss",
-  standalone: false,
 })
 export class StatCardComponent {
   @Input({ required: true }) public label!: string;

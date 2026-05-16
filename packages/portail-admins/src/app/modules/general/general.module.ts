@@ -21,13 +21,7 @@ import {
 } from "@edugouvfr/ngx-dsfr";
 
 @NgModule({
-  declarations: [
-    NotFoundComponent,
-    PlanSiteComponent,
-    CguComponent,
-    PolitiqueComponent,
-    MentionsLegalesComponent,
-  ],
+  declarations: [],
   exports: [NotFoundComponent],
   imports: [
     CommonModule,
@@ -35,6 +29,11 @@ import {
     SharedModule,
     DsfrDataTableModule,
     DsfrResponseComponent,
+    NotFoundComponent,
+    PlanSiteComponent,
+    CguComponent,
+    PolitiqueComponent,
+    MentionsLegalesComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],

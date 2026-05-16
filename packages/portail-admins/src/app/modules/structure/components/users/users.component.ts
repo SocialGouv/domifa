@@ -7,7 +7,9 @@ import {
   StructureAdmin,
 } from "@domifa/common";
 
+import { CommonModule } from "@angular/common";
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { filter, map, Subject, Subscription, switchMap, take } from "rxjs";
 import { StructureService } from "../../services/structure.service";
 import { environment } from "../../../../../environments/environment";
@@ -18,7 +20,18 @@ import { UserStructureEventHistoryLabels } from "../../../admin-auth/types/event
 import { UserSecurityEventType } from "../../../shared/types/UserSecurityEvent.type";
 import { UserStructureWithSecurity } from "../../../admin-auth/types/UserStructureWithSecurity.type";
 import { selectStructureById } from "../../../shared/store/structures";
-import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import {
+  DsfrButtonModule,
+  DsfrButtonsGroupModule,
+  DsfrModalComponent,
+  DsfrModalModule,
+} from "@edugouvfr/ngx-dsfr";
+import {
+  DsfrDropdownMenuComponent,
+  DsfrDropdownMenuItemComponent,
+} from "@edugouvfr/ngx-dsfr-ext";
+import { UsersTableComponent } from "../../../shared/components/users-table/users-table.component";
+import { RegisterUserComponent } from "../register-user/register-user.component";
 
 export enum MODAL_ACTION {
   PROMOTE_USER = "PROMOTE_USER",
@@ -66,7 +79,17 @@ type UserWithSecurityViewModel = UserStructure & {
   selector: "app-users",
   templateUrl: "./users.component.html",
   styleUrl: "./users.component.css",
-  standalone: false,
+  imports: [
+    CommonModule,
+    FormsModule,
+    DsfrModalModule,
+    DsfrButtonModule,
+    DsfrButtonsGroupModule,
+    DsfrDropdownMenuComponent,
+    DsfrDropdownMenuItemComponent,
+    UsersTableComponent,
+    RegisterUserComponent,
+  ],
 })
 export class UsersComponent implements OnInit, OnDestroy {
   public users: UserWithSecurityViewModel[] = [];

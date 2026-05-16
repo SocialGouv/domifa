@@ -3,12 +3,13 @@ import { CustomToastService } from "../../../shared/services";
 import { ManageUsersService } from "../../services/manage-users.service";
 import { Subscription } from "rxjs";
 import { UserSupervisor } from "@domifa/common";
+import { ButtonComponent } from "../../../shared/components/button/button.component";
 
 @Component({
   selector: "app-delete-user",
   templateUrl: "./delete-user.component.html",
   styleUrls: ["./delete-user.component.css"],
-  standalone: false,
+  imports: [ButtonComponent],
 })
 export class DeleteUserComponent {
   @Input() public selectedUser: UserSupervisor | null;

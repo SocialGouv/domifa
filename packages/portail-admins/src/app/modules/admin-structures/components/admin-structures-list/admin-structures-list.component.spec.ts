@@ -48,8 +48,11 @@ describe("AdminStructuresListComponent", () => {
 
     // Configure testing module
     TestBed.configureTestingModule({
-      declarations: [AdminStructuresListComponent],
-      imports: [AdminStructuresModule, NoopAnimationsModule],
+      imports: [
+        AdminStructuresModule,
+        NoopAnimationsModule,
+        AdminStructuresListComponent,
+      ],
       providers: [
         provideRouter([]),
         provideHttpClient(),

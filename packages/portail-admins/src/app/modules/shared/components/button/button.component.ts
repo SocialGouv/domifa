@@ -30,7 +30,6 @@ type ButtonIcon =
   selector: "app-button",
   templateUrl: "./button.component.html",
   styleUrl: "./button.component.scss",
-  standalone: false,
 })
 export class ButtonComponent implements OnChanges {
   @HostBinding("class.d-print-none") readonly dPrintNone = true;

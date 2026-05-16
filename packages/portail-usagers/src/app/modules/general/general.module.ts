@@ -1,4 +1,3 @@
-import { SharedModule } from "src/app/modules/shared/shared.module";
 import { CommonModule } from "@angular/common";
 import {
   provideHttpClient,
@@ -19,43 +18,27 @@ import { CguComponent } from "./components/_static/cgu/cgu.component";
 import { RgaaComponent } from "./components/_static/rgaa/rgaa.component";
 import { IdleManagerComponent } from "./components/idle-manager/idle-manager.component";
 import { PlanSiteComponent } from "./components/_static/plan-site/plan-site.component";
-import { FormsModule } from "@angular/forms";
 import { NewsComponent } from "./components/_static/news/news.component";
-import {
-  DsfrDataTableModule,
-  DsfrResponseComponent,
-  DsfrSidemenuModule,
-} from "@edugouvfr/ngx-dsfr";
-import { NewsContentComponent } from "../shared/components/news-content/news-content.component";
 
 @NgModule({
-  declarations: [
-    IdleManagerComponent,
-    MentionsLegalesComponent,
-    NotFoundComponent,
-    CguComponent,
-    PlanSiteComponent,
-    PolitiqueComponent,
-    RgaaComponent,
-    NewsComponent,
-  ],
   exports: [
     NotFoundComponent,
     IdleManagerComponent,
     PlanSiteComponent,
     CguComponent,
-    DsfrSidemenuModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   imports: [
     CommonModule,
     RouterModule.forChild([]),
-    SharedModule,
-    FormsModule,
-    DsfrSidemenuModule,
-    DsfrDataTableModule,
-    DsfrResponseComponent,
-    NewsContentComponent,
+    NotFoundComponent,
+    IdleManagerComponent,
+    MentionsLegalesComponent,
+    CguComponent,
+    PlanSiteComponent,
+    PolitiqueComponent,
+    RgaaComponent,
+    NewsComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

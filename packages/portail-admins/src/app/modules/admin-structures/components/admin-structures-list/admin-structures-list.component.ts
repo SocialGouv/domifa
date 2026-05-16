@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import {
   AfterViewInit,
   Component,
@@ -8,6 +9,12 @@ import {
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { Store } from "@ngrx/store";
+import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
+
+import { AdminStructuresExportComponent } from "../../../shared/components/admin-structures-export/admin-structures-export.component";
+import { StatCardComponent } from "../../../shared/components/stat-card/stat-card.component";
+import { StructureFiltersComponent } from "../structure-filters/structure-filters.component";
+import { AdminStructuresTableComponent } from "../admin-structures-table/admin-structures-table.component";
 import {
   BehaviorSubject,
   combineLatest,
@@ -48,7 +55,14 @@ export type FilterOutput = {
 @Component({
   selector: "app-admin-structures-list",
   templateUrl: "./admin-structures-list.component.html",
-  standalone: false,
+  imports: [
+    CommonModule,
+    DsfrSpinnerComponent,
+    AdminStructuresExportComponent,
+    StatCardComponent,
+    StructureFiltersComponent,
+    AdminStructuresTableComponent,
+  ],
 })
 export class AdminStructuresListComponent
   implements OnInit, OnDestroy, AfterViewInit

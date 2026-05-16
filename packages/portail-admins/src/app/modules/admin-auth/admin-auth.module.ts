@@ -14,18 +14,17 @@ import { UserSupervisorPasswordFormComponent } from "./components/user-structure
 import { LoginContainerComponent } from "./components/login-container/login-container.component";
 
 @NgModule({
-  declarations: [
-    AdminLoginComponent,
-    ResetPasswordComponent,
-    UserSupervisorPasswordFormComponent,
-    LoginContainerComponent,
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     AdminAuthRoutingModule,
     FormsModule,
     SharedModule,
     ReactiveFormsModule,
+    AdminLoginComponent,
+    ResetPasswordComponent,
+    UserSupervisorPasswordFormComponent,
+    LoginContainerComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi()), AdminAuthService],
 })

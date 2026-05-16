@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import {
   Component,
   ElementRef,
@@ -10,6 +11,7 @@ import {
 } from "@angular/core";
 import {
   AbstractControl,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   ValidationErrors,
@@ -35,12 +37,14 @@ import {
   UserSupervisorRole,
 } from "@domifa/common";
 import { ManageUsersService } from "../../services/manage-users.service";
+import { ButtonComponent } from "../../../shared/components/button/button.component";
+import { SortArrayPipe } from "../../../shared/pipes";
 
 @Component({
   animations: [fadeInOut],
   selector: "app-register-user-supervisor",
   templateUrl: "./register-user-supervisor.component.html",
-  standalone: false,
+  imports: [CommonModule, ReactiveFormsModule, ButtonComponent, SortArrayPipe],
 })
 export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
   public user: UserSupervisor;
@@ -62,7 +66,7 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
   @Input() public userToEdit: UserSupervisor | null = null;
   @Input() public isEditMode = false;
 
-  @Output() public readonly cancel = new EventEmitter<void>();
+  @Output() public readonly cancelAction = new EventEmitter<void>();
   @Output() public readonly getUsers = new EventEmitter<void>();
 
   @ViewChild("form", { static: true })
@@ -214,7 +218,7 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
                 this.toastService.success("Utilisateur mis à jour avec succès");
                 this.resetForm();
                 this.getUsers.emit();
-                this.cancel.emit();
+                this.cancelAction.emit();
               },
               error: (error) => {
                 this.loading = false;
@@ -236,7 +240,7 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
               this.submitted = false;
               this.getUsers.emit();
               this.userForm.reset();
-              this.cancel.emit();
+              this.cancelAction.emit();
               this.toastService.success(
                 "Le nouveau compte a été créé avec succès, votre collaborateur vient de recevoir un email pour ajouter son mot de passe."
               );

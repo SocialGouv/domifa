@@ -2,11 +2,13 @@ import { Component, OnInit } from "@angular/core";
 import DOMIFA_NEWS from "../../../../../../assets/files/news.json";
 import { SeoService } from "../../../../shared/services/seo.service";
 import { NewsItem } from "@domifa/common";
+import { NewsContentComponent } from "../../../../shared/components/news-content/news-content.component";
 
 @Component({
   selector: "app-news",
   styleUrls: ["./news.component.css"],
   templateUrl: "./news.component.html",
+  imports: [NewsContentComponent],
 })
 export class NewsComponent implements OnInit {
   public readonly DOMIFA_NEWS: NewsItem[] = DOMIFA_NEWS;

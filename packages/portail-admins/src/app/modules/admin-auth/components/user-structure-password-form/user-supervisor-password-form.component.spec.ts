@@ -8,7 +8,7 @@ describe("UserSupervisorPasswordFormComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UserSupervisorPasswordFormComponent],
+      imports: [UserSupervisorPasswordFormComponent],
     }).compileComponents();
   });
 

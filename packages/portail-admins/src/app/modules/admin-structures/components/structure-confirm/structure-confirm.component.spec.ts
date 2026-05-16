@@ -15,8 +15,12 @@ describe("StructureConfirmComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [StructureConfirmComponent],
-      imports: [ReactiveFormsModule, FormsModule, SharedModule],
+      imports: [
+        ReactiveFormsModule,
+        FormsModule,
+        SharedModule,
+        StructureConfirmComponent,
+      ],
       providers: [
         provideRouter([]),
         provideHttpClient(),

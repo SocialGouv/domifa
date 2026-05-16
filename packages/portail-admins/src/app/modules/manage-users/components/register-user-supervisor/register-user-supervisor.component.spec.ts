@@ -13,8 +13,11 @@ describe("RegisterUserSupervisorComponent", () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [RegisterUserSupervisorComponent],
-      imports: [ReactiveFormsModule, FormsModule],
+      imports: [
+        ReactiveFormsModule,
+        FormsModule,
+        RegisterUserSupervisorComponent,
+      ],
       providers: [
         provideRouter([]),
         provideHttpClient(),
