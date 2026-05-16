@@ -55,7 +55,7 @@
     "ngx-matomo-client": "^6.4.1",
     "rimraf": "^6.0.1",
     "rxjs": "^7.8.2",
-    "uuid": "^9.0.1",
+    "uuid": "^14.0.0",
     "validator": "^13.15.23",
     "zone.js": "~0.15.1"
   },
