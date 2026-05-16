@@ -1,3 +1,17 @@
+# [2.242.0](https://github.com/SocialGouv/domifa/compare/v2.241.3...v2.242.0) (2026-05-16)
+
+
+### Bug Fixes
+
+* **admin:** fix lint & standalone components ([546f675](https://github.com/SocialGouv/domifa/commit/546f67561521a01f8c5a8e6d83d6fd920c43b103))
+* **admin:** upgrade tests for angular v19 ([35c2a81](https://github.com/SocialGouv/domifa/commit/35c2a81289296a162183aed2dc9288b139c706fc))
+* **backend:** adjust throlling limits ([c780684](https://github.com/SocialGouv/domifa/commit/c780684d79a120db6ac64c367ddb0b4c8e0dcfaa))
+
+
+### Features
+
+* **frontend:** upgrade to v19 all frontends ([daa991f](https://github.com/SocialGouv/domifa/commit/daa991febe1d853ef482ea175fc141dd9a354bfb))
+
 ## [2.241.3](https://github.com/SocialGouv/domifa/compare/v2.241.2...v2.241.3) (2026-05-14)
 
 
