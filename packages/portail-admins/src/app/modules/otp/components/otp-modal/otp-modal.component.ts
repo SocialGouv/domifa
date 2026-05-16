@@ -147,8 +147,6 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
   private openWith(options: OtpPromptOptions): void {
     if (options.previousErrorCode === "OTP_INVALID") {
       this.attemptCount += 1;
-    } else if (!options.previousErrorCode) {
-      this.attemptCount = 0;
     }
 
     if (this.attemptCount >= OtpModalComponent.MAX_ATTEMPTS) {
@@ -156,6 +154,10 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
+    // Reset par-saisie : on vide le champ et l'état "submitted" à chaque
+    // (ré)ouverture, y compris entre retries (le compteur d'attempts persiste
+    // lui pendant la session courante, et est remis à 0 par closeQuiet quand
+    // la modale se ferme).
     this.errorCode = options.previousErrorCode ?? null;
     this.submitted = false;
     this.codeControl.reset("");
@@ -176,5 +178,18 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
       this.isOpen = false;
       this.otpModal?.close();
     }
+    this.resetState();
+  }
+
+  // Cleanup complet à la fermeture de session : garantit que la prochaine
+  // ouverture démarre à zéro, sans dépendre du chemin emprunté par le caller
+  // (cancel, blocked, success). Appelé via closeQuiet quand currentPrompt
+  // émet null — pas pendant les retries (updateError ne déclenche pas null).
+  private resetState(): void {
+    this.attemptCount = 0;
+    this.submitted = false;
+    this.errorCode = null;
+    this.codeControl.reset("");
+    this.cdr.markForCheck();
   }
 }
