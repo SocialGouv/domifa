@@ -9,7 +9,12 @@ import {
 import { ThrottlerGuard, ThrottlerLimitDetail } from "@nestjs/throttler";
 import { createHash } from "node:crypto";
 import { Request } from "express";
-import { appLogsRepository, AppLogTable } from "../../../database";
+import {
+  appLogsRepository,
+  AppLogTable,
+  userStructureRepository,
+  userSupervisorRepository,
+} from "../../../database";
 import { domifaConfig } from "../../../config";
 import {
   RequestBlockReason,
@@ -17,6 +22,8 @@ import {
   ThrottleBlockedLogContext,
 } from "./app-throttler.types";
 import {
+  AttemptedTargetRoute,
+  extractAttemptedTarget,
   extractJwtUser,
   extractLoginIdentifier,
   formatThrottleWindow,
@@ -30,9 +37,10 @@ import {
   SYSTEM_ACTOR_FIELDS,
 } from "../../../modules/app-logs/app-logs.helpers";
 import { userStatusManager } from "../../../modules/users/services";
+import { UserProfile } from "../../../_common/model";
 import { getClientIp } from "../../../util/express/clientRequest.helper";
 
-const SKIP_THROTTLE_ENVS = ["test"];
+const SKIP_THROTTLE_ENVS: ReadonlySet<string> = new Set(["test"]);
 const REQUEST_BLOCK_DEDUP_TTL_MS = 5 * 60 * 1000;
 
 const AUTO_BLOCK_REASONS: ReadonlySet<RequestBlockReason> = new Set([
@@ -76,7 +84,7 @@ export class AppThrottlerGuard extends ThrottlerGuard {
     }
 
     const envId = domifaConfig().envId;
-    if (SKIP_THROTTLE_ENVS.includes(envId)) {
+    if (SKIP_THROTTLE_ENVS.has(envId)) {
       this.logger.debug(
         `[THROTTLE] Skipped: envId="${envId}" not in THROTTLED_ENVS`
       );
@@ -131,6 +139,7 @@ export class AppThrottlerGuard extends ThrottlerGuard {
     const request = context.switchToHttp().getRequest<Request>();
 
     const attemptedIdentifier = extractLoginIdentifier(request);
+    const jwtUser = extractJwtUser(request.headers["authorization"]);
 
     const logContext: ThrottleBlockedLogContext = {
       ...throttlerLimitDetail,
@@ -138,7 +147,7 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       userAgent: sanitizeForLog(request.headers["user-agent"]),
       method: sanitizeForLog(request.method) ?? "",
       url: sanitizeForLog(request.url) ?? "",
-      jwtUser: extractJwtUser(request.headers["authorization"]),
+      jwtUser,
       attemptedIdentifier,
     };
 
@@ -183,6 +192,8 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       }
     }
 
+    await this.applyThrottleAutoBlock(request, jwtUser, logContext);
+
     // Minimal body: no "ThrottlerException: Too Many Requests" leakage about
     // which library/tier blocked. The Retry-After header is still emitted by
     // the underlying storage layer.
@@ -190,6 +201,143 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       { statusCode: HttpStatus.TOO_MANY_REQUESTS },
       HttpStatus.TOO_MANY_REQUESTS
     );
+  }
+
+  // Definitive auto-block on throttle for:
+  // - JWT-authenticated users (any rate-limited endpoint)
+  // - Anonymous requests on login/reset endpoints where we can resolve the
+  //   targeted account from the body identifier (defense against IP rotation)
+  // Status goes straight to BLOCKED — admin must unlock. Mirrors the bot/UA
+  // policy in maybeAutoBlockUser but covers the rate-limit path that
+  // previously slipped through.
+  private async applyThrottleAutoBlock(
+    request: Request,
+    jwtUser: ThrottleBlockedJwtUser | undefined,
+    logContext: ThrottleBlockedLogContext
+  ): Promise<void> {
+    if (jwtUser?.userId) {
+      await this.applyAutoBlock({
+        userProfile: jwtUser.userProfile as UserProfile,
+        userId: jwtUser.userId,
+        reason: "throttle_authenticated",
+        blockedUserExtra: {
+          email: jwtUser.email,
+          structureId: jwtUser.structureId,
+          role: jwtUser.role,
+        },
+        context: {
+          throttle: logContext,
+        },
+      });
+      return;
+    }
+
+    const attempted = extractAttemptedTarget(request);
+    if (!attempted) {
+      return;
+    }
+    // Skip the DB lookup for profiles we never auto-block (e.g. usager —
+    // random logins, brute force not viable). Filter is also enforced in
+    // applyAutoBlock as defense-in-depth.
+    if (!AUTO_BLOCK_PROFILES.has(attempted.route.userProfile)) {
+      return;
+    }
+    const userId = await this.resolveUserIdByIdentifier(attempted);
+    if (userId === null) {
+      return;
+    }
+    await this.applyAutoBlock({
+      userProfile: attempted.route.userProfile,
+      userId,
+      reason: "throttle_targeted",
+      blockedUserExtra: {
+        email: attempted.identifier,
+      },
+      context: {
+        throttle: logContext,
+        attemptedIdentifier: attempted.identifier,
+        targetRoute: attempted.route.prefix,
+      },
+    });
+  }
+
+  private async applyAutoBlock({
+    userProfile,
+    userId,
+    reason,
+    blockedUserExtra,
+    context,
+  }: {
+    userProfile: UserProfile;
+    userId: number;
+    reason: string;
+    blockedUserExtra?: {
+      email?: string;
+      structureId?: number;
+      role?: string;
+    };
+    context: Record<string, unknown>;
+  }): Promise<void> {
+    if (!AUTO_BLOCK_PROFILES.has(userProfile)) {
+      return;
+    }
+
+    const currentStatus = await userStatusManager
+      .getUserStatusFromDb({ userProfile, userId })
+      .catch(() => null);
+    if (currentStatus === "BLOCKED") {
+      return;
+    }
+
+    await userStatusManager
+      .markUserAsBlocked({ userProfile, userId })
+      .catch(() => undefined);
+
+    await appLogsRepository
+      .save(
+        new AppLogTable({
+          ...SYSTEM_ACTOR_FIELDS,
+          action: "BLOCK_USER",
+          context: {
+            autoBlocked: true,
+            triggeredBy: "AppThrottlerGuard",
+            reason,
+            blockedUser: { userId, userProfile, ...blockedUserExtra },
+            ...context,
+          },
+        })
+      )
+      .catch(() => undefined);
+
+    this.logger.warn(
+      `[AUTO_BLOCK] ${userProfile} user ${userId} blocked (reason=${reason})`
+    );
+  }
+
+  private async resolveUserIdByIdentifier(attempted: {
+    route: AttemptedTargetRoute;
+    identifier: string;
+  }): Promise<number | null> {
+    const { route, identifier } = attempted;
+    // Caller is expected to filter usager out before calling this (see
+    // applyThrottleAutoBlock) — keep the explicit guard so a refactor can't
+    // introduce a silent block on a profile we deliberately exclude.
+    if (route.userProfile === "usager") {
+      return null;
+    }
+    try {
+      const repo =
+        route.userProfile === "supervisor"
+          ? userSupervisorRepository
+          : userStructureRepository;
+      const row = await repo.findOne({
+        where: { email: identifier.toLowerCase() },
+        select: { id: true },
+      });
+      return row?.id ?? null;
+    } catch {
+      return null;
+    }
   }
 
   private isInternalProbe(userAgent: string | string[] | undefined): boolean {
@@ -277,47 +425,16 @@ export class AppThrottlerGuard extends ThrottlerGuard {
     if (!AUTO_BLOCK_REASONS.has(reason)) {
       return;
     }
-    if (!AUTO_BLOCK_PROFILES.has(jwtUser.userProfile)) {
-      return;
-    }
-
-    const userProfile = jwtUser.userProfile as "structure" | "supervisor";
-
-    // Avoid duplicate BLOCK_USER logs once the account is already locked.
-    const currentStatus = await userStatusManager
-      .getUserStatusFromDb({ userProfile, userId: jwtUser.userId })
-      .catch(() => null);
-    if (currentStatus === "BLOCKED") {
-      return;
-    }
-
-    await userStatusManager
-      .markUserAsBlocked({ userProfile, userId: jwtUser.userId })
-      .catch(() => undefined);
-
-    await appLogsRepository
-      .save(
-        new AppLogTable({
-          ...SYSTEM_ACTOR_FIELDS,
-          action: "BLOCK_USER",
-          context: {
-            autoBlocked: true,
-            triggeredBy: "AppThrottlerGuard",
-            reason,
-            blockedUser: {
-              userId: jwtUser.userId,
-              userProfile,
-              structureId: jwtUser.structureId,
-              email: jwtUser.email,
-              role: jwtUser.role,
-            },
-          },
-        })
-      )
-      .catch(() => undefined);
-
-    this.logger.warn(
-      `[AUTO_BLOCK] ${userProfile} user ${jwtUser.userId} blocked (reason=${reason})`
-    );
+    await this.applyAutoBlock({
+      userProfile: jwtUser.userProfile as UserProfile,
+      userId: jwtUser.userId,
+      reason,
+      blockedUserExtra: {
+        email: jwtUser.email,
+        structureId: jwtUser.structureId,
+        role: jwtUser.role,
+      },
+      context: {},
+    });
   }
 }

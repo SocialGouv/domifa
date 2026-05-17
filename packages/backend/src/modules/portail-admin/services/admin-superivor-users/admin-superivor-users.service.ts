@@ -6,7 +6,10 @@ import {
   userSupervisorRepository,
 } from "../../../../database";
 import { passwordGenerator } from "../../../../util";
-import { userSecurityResetPasswordInitiator } from "../../../users/services";
+import {
+  logUserSecurityEvent,
+  userSecurityResetPasswordInitiator,
+} from "../../../users/services";
 import { RegisterUserSupervisorDto } from "../../dto";
 
 @Injectable()
@@ -36,5 +39,21 @@ export class AdminSuperivorUsersService {
       userSecurityAttributes
     );
     return { user, userSecurity };
+  }
+
+  public async unblockSupervisorUser(userId: number): Promise<void> {
+    await userSupervisorRepository.update({ id: userId }, { status: "ACTIVE" });
+    // Clear events history so the soft-lock (backoff) doesn't re-block the
+    // account on the next login attempt — mirrors unblockStructureUser.
+    const userSecurity = await userSupervisorSecurityRepository.findOneByOrFail(
+      { userId }
+    );
+    await logUserSecurityEvent({
+      userProfile: "supervisor",
+      userId,
+      userSecurity,
+      eventType: "account-unblocked",
+      clearAllEvents: true,
+    });
   }
 }

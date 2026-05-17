@@ -14,6 +14,7 @@ export type UsersForAdminList = Pick<
   | "passwordLastUpdate"
   | "createdAt"
 > & {
+  structureUuid: string;
   structureName: string;
   eventsHistory?: {
     type: string;

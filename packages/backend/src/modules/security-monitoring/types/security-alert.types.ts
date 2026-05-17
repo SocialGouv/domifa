@@ -9,6 +9,8 @@ export interface BlockedUserSummary {
   userId: number;
   userProfile?: string;
   structureId?: number;
+  structureName?: string;
+  structureCity?: string;
   email?: string;
   role?: string;
   reason?: string;

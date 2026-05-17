@@ -27,27 +27,82 @@ export function formatThrottleWindow(ttlMs: number | undefined): string {
 // brute-force pattern targeting a specific account in the security alert.
 // Includes password-reset request endpoints (account enumeration via reset).
 // Passwords are NEVER read.
-const LOGIN_IDENTIFIER_ENDPOINTS: ReadonlyArray<{
+//
+// The `userProfile` field also lets the throttler resolve the targeted
+// account from an anonymous attempt — used to auto-block that account when
+// the IP gets throttled (defense against IP rotation).
+export type AttemptedTargetRoute = {
   prefix: string;
   field: "email" | "login";
-}> = [
-  { prefix: "/structures/auth/login", field: "email" },
-  { prefix: "/portail-admins/auth/login", field: "email" },
-  { prefix: "/portail-usagers/auth/login", field: "login" },
-  { prefix: "/users/get-password-token", field: "email" },
-  { prefix: "/users-supervisor/get-password-token", field: "email" },
+  userProfile: "structure" | "supervisor" | "usager";
+};
+
+const LOGIN_IDENTIFIER_ENDPOINTS: ReadonlyArray<AttemptedTargetRoute> = [
+  {
+    prefix: "/structures/auth/login",
+    field: "email",
+    userProfile: "structure",
+  },
+  {
+    prefix: "/portail-admins/auth/login",
+    field: "email",
+    userProfile: "supervisor",
+  },
+  {
+    prefix: "/portail-usagers/auth/login",
+    field: "login",
+    userProfile: "usager",
+  },
+  {
+    prefix: "/users/get-password-token",
+    field: "email",
+    userProfile: "structure",
+  },
+  {
+    prefix: "/users-supervisor/get-password-token",
+    field: "email",
+    userProfile: "supervisor",
+  },
 ];
 
-export function extractLoginIdentifier(request: Request): string | undefined {
-  const url = request.url ?? "";
-  const endpoint = LOGIN_IDENTIFIER_ENDPOINTS.find(
+function findAttemptedTargetRoute(
+  url: string
+): AttemptedTargetRoute | undefined {
+  return LOGIN_IDENTIFIER_ENDPOINTS.find(
     (e) => url === e.prefix || url.startsWith(`${e.prefix}?`)
   );
-  if (!endpoint) return undefined;
+}
+
+export function extractLoginIdentifier(request: Request): string | undefined {
+  const route = findAttemptedTargetRoute(request.url ?? "");
+  if (!route) {
+    return undefined;
+  }
   const body = (request as { body?: unknown }).body;
-  if (!body || typeof body !== "object") return undefined;
-  const raw = (body as Record<string, unknown>)[endpoint.field];
+  if (!body || typeof body !== "object") {
+    return undefined;
+  }
+  const raw = (body as Record<string, unknown>)[route.field];
   return sanitizeForLog(raw);
+}
+
+export function extractAttemptedTarget(
+  request: Request
+): { route: AttemptedTargetRoute; identifier: string } | undefined {
+  const route = findAttemptedTargetRoute(request.url ?? "");
+  if (!route) {
+    return undefined;
+  }
+  const body = (request as { body?: unknown }).body;
+  if (!body || typeof body !== "object") {
+    return undefined;
+  }
+  const raw = (body as Record<string, unknown>)[route.field];
+  const identifier = sanitizeForLog(raw);
+  if (!identifier) {
+    return undefined;
+  }
+  return { route, identifier };
 }
 
 // Defense in depth — TypeORM already parameterizes queries, but request-

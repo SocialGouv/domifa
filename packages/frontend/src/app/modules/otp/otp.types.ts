@@ -4,6 +4,7 @@ export const OTP_PURPOSES = [
   "RESET_USAGERS",
   "DOWNLOAD_MULTIPLE_DOCS",
   "DELETE_STRUCTURE",
+  "UNBLOCK_USER",
 ] as const;
 
 export type OtpPurpose = (typeof OTP_PURPOSES)[number];
