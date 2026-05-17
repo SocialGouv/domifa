@@ -30,21 +30,28 @@ export class AdminUsersApiClient {
   }
 
   public unblockUser(
-    structureId: number,
+    structureUuid: string,
     userId: number
   ): Observable<{ status: string }> {
     return this.http.patch<{ status: string }>(
-      `${this.structuresUrl}/structure/${structureId}/users/${userId}/unblock`,
+      `${this.structuresUrl}/structure/${structureUuid}/users/${userId}/unblock`,
       {}
     );
   }
 
   public blockUser(
-    structureId: number,
+    structureUuid: string,
     userId: number
   ): Observable<{ status: string }> {
     return this.http.patch<{ status: string }>(
-      `${this.structuresUrl}/structure/${structureId}/users/${userId}/block`,
+      `${this.structuresUrl}/structure/${structureUuid}/users/${userId}/block`,
+      {}
+    );
+  }
+
+  public unblockSupervisorUser(userId: number): Observable<{ status: string }> {
+    return this.http.patch<{ status: string }>(
+      `${this.baseUrl}/supervisor/${userId}/unblock`,
       {}
     );
   }

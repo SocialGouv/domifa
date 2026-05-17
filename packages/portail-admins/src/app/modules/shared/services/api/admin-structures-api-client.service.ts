@@ -64,18 +64,20 @@ export class AdminStructuresApiClient {
   }
 
   public setDecisionStructure(
-    structureId: number,
+    structureUuid: string,
     statut: StructureDecisionStatut,
     statutDetail?:
       | StructureDecisionRefusMotif
       | StructureDecisionSuppressionMotif
   ): Observable<StructureAdmin> {
     return this.http
-      .patch<StructureAdmin>(`${BASE_URL}/structure-decision/${structureId}`, {
-        structureId,
-        statut,
-        statutDetail,
-      })
+      .patch<StructureAdmin>(
+        `${BASE_URL}/structure-decision/${structureUuid}`,
+        {
+          statut,
+          statutDetail,
+        }
+      )
       .pipe(
         tap((updatedStructure: StructureAdmin) => {
           this.store.dispatch(
@@ -86,12 +88,12 @@ export class AdminStructuresApiClient {
   }
 
   public deleteStructure(
-    structureId: number,
+    structureUuid: string,
     motif?: StructureDecisionSuppressionMotif
   ): Observable<StructureAdmin> {
     return this.http
       .patch<StructureAdmin>(
-        `${BASE_URL}/structure-decision/${structureId}/delete`,
+        `${BASE_URL}/structure-decision/${structureUuid}/delete`,
         { motif }
       )
       .pipe(

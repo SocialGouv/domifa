@@ -72,8 +72,8 @@ export class UsersEffects {
   public readonly unblockUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UsersActions.unblockUser),
-      mergeMap(({ structureId, userId }) =>
-        this.adminUsersApiClient.unblockUser(structureId, userId).pipe(
+      mergeMap(({ structureUuid, userId }) =>
+        this.adminUsersApiClient.unblockUser(structureUuid, userId).pipe(
           switchMap(() => [
             UsersActions.unblockUserSuccess({ userId }),
             UsersActions.load(),
@@ -93,8 +93,8 @@ export class UsersEffects {
   public readonly blockUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UsersActions.blockUser),
-      mergeMap(({ structureId, userId }) =>
-        this.adminUsersApiClient.blockUser(structureId, userId).pipe(
+      mergeMap(({ structureUuid, userId }) =>
+        this.adminUsersApiClient.blockUser(structureUuid, userId).pipe(
           switchMap(() => [
             UsersActions.blockUserSuccess({ userId }),
             UsersActions.load(),

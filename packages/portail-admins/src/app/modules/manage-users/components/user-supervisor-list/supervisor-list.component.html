@@ -11,8 +11,14 @@
       class="fr-container fr-col-md-12 fr-col-12 fr-display-flex fr-justify-content-between fr-align-items-center"
     >
       <h1 class="fr-text-title--blue-france fr-mb-0">
-        Utilisateurs tableau de pilotage
-        <ng-container *ngIf="users.length">({{ users.length }})</ng-container>
+        Liste des {{ users?.length ?? 0 }} utilisateurs "pilotage"
+        <span
+          *ngIf="
+            !!users && !!filteredUsers && users.length !== filteredUsers.length
+          "
+        >
+          ({{ filteredUsers.length }} résultats)
+        </span>
       </h1>
       <button
         *ngIf="me?.role === 'super-admin-domifa'"

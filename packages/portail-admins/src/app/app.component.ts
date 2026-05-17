@@ -40,6 +40,7 @@ export class AppComponent implements OnInit {
   public ngOnInit(): void {
     this.currentUrl = this.router.url;
     this.titleService.setTitle("Bienvenue sur le portail admin de DomiFa");
+    this.installDropdownCloseOnClick();
 
     this.adminAuthService.currentAdminSubject.subscribe(
       (admin: PortailAdminUser | null) => {
@@ -153,5 +154,26 @@ export class AppComponent implements OnInit {
 
   public dismissNotice() {
     this.noticeRef.nativeElement.remove();
+  }
+
+  // Workaround DSFR-ext : quand on utilise <dsfrx-dropdownmenu> avec un slot
+  // <ng-template #contentTemplate> (au lieu du mode programmatique [menus]),
+  // le `[closeOnAction]` ne se déclenche pas car les events `onButtonClick` /
+  // `onLinkSelect` internes ne sont jamais invoqués sur les items slottés.
+  // On simule donc un clic-outside (mouseup sur body) à chaque clic dans un
+  // dropdown item, ce qui ferme proprement le menu via la directive
+  // EduClickOutside de la lib.
+  private installDropdownCloseOnClick(): void {
+    document.addEventListener("click", (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (!target?.closest("dsfrx-dropdownmenu-item")) {
+        return;
+      }
+      setTimeout(() => {
+        document.body.dispatchEvent(
+          new MouseEvent("mouseup", { bubbles: true })
+        );
+      });
+    });
   }
 }

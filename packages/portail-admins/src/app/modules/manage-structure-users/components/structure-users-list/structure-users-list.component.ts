@@ -179,11 +179,15 @@ export class StructureUsersListComponent implements OnInit, OnDestroy {
   }
 
   public confirmBlock(): void {
-    if (!this.userToBlock || !this.userToBlock.structureId) return;
-    if (!this.isBlockNameConfirmed) return;
+    if (!this.userToBlock || !this.userToBlock.structureUuid) {
+      return;
+    }
+    if (!this.isBlockNameConfirmed) {
+      return;
+    }
     this.store.dispatch(
       UsersActions.blockUser({
-        structureId: this.userToBlock.structureId,
+        structureUuid: this.userToBlock.structureUuid,
         userId: this.userToBlock.id,
       })
     );
@@ -206,10 +210,12 @@ export class StructureUsersListComponent implements OnInit, OnDestroy {
   }
 
   public unblockUser(user: AdminUserViewModel): void {
-    if (!user.structureId) return;
+    if (!user.structureUuid) {
+      return;
+    }
     this.store.dispatch(
       UsersActions.unblockUser({
-        structureId: user.structureId,
+        structureUuid: user.structureUuid,
         userId: user.id,
       })
     );

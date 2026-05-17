@@ -15,13 +15,13 @@ const USER_ADMIN_BASE_URL = `${environment.apiUrl}admin/users`;
 export class StructureService {
   constructor(private readonly http: HttpClient) {}
 
-  public getStructure(id: number): Observable<StructureCommon> {
-    return this.http.get<StructureCommon>(`${BASE_URL}/structure/${id}`);
+  public getStructure(uuid: string): Observable<StructureCommon> {
+    return this.http.get<StructureCommon>(`${BASE_URL}/structure/${uuid}`);
   }
 
-  public getUsers(id: number): Observable<Array<UserStructureWithSecurity>> {
+  public getUsers(uuid: string): Observable<Array<UserStructureWithSecurity>> {
     return this.http.get<Array<UserStructureWithSecurity>>(
-      `${BASE_URL}/structure/${id}/users`
+      `${BASE_URL}/structure/${uuid}/users`
     );
   }
 
@@ -38,21 +38,21 @@ export class StructureService {
   }
 
   public unblockUser(
-    structureId: number,
+    structureUuid: string,
     userId: number
   ): Observable<{ status: string }> {
     return this.http.patch<{ status: string }>(
-      `${BASE_URL}/structure/${structureId}/users/${userId}/unblock`,
+      `${BASE_URL}/structure/${structureUuid}/users/${userId}/unblock`,
       {}
     );
   }
 
   public blockUser(
-    structureId: number,
+    structureUuid: string,
     userId: number
   ): Observable<{ status: string }> {
     return this.http.patch<{ status: string }>(
-      `${BASE_URL}/structure/${structureId}/users/${userId}/block`,
+      `${BASE_URL}/structure/${structureUuid}/users/${userId}/block`,
       {}
     );
   }
