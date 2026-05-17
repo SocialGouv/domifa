@@ -1,3 +1,17 @@
+# [2.243.0](https://github.com/SocialGouv/domifa/compare/v2.242.1...v2.243.0) (2026-05-17)
+
+
+### Bug Fixes
+
+* **backend:** fix otp test ([e2268c7](https://github.com/SocialGouv/domifa/commit/e2268c7f43583bad9f5aff809f0fca8808e2889c))
+* **backend:** fix unit test for OTP ([6edad2d](https://github.com/SocialGouv/domifa/commit/6edad2d435431d35007af6c45ea98de2e5a6d505))
+
+
+### Features
+
+* **backend:** 🔒 durcissement sécurité OTP, throttle et accès structures ([e2696f2](https://github.com/SocialGouv/domifa/commit/e2696f2b3177847ee0f020359c3f2583bcf9c295))
+* **portail-admins:** 🎨 uuid sur endpoints structure, UX dropdowns et titres listes ([f6eec7e](https://github.com/SocialGouv/domifa/commit/f6eec7edef9313d340d9fbd0bef9f3e69f14305e))
+
 ## [2.242.1](https://github.com/SocialGouv/domifa/compare/v2.242.0...v2.242.1) (2026-05-16)
 
 
