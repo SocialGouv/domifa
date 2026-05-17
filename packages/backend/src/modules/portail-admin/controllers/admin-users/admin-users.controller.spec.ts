@@ -10,7 +10,12 @@ import { USER_SUPERVISOR_AUTH } from "../../../../_common/mocks/USER_SUPERVISOR_
 import { TESTS_USERS_STRUCTURE } from "../../../../_tests";
 import { AppTestHelper } from "../../../../util/test";
 import { userStructureRepository } from "../../../../database";
+import { OtpModule } from "../../../otp/otp.module";
 
+// envId=test short-circuits all BrevoSenderService.* methods to no-op
+// (see brevo-sender.service.ts), so the real provider is safe in tests and
+// no mock is required. Same story for AppLogsService — it just writes to
+// the test database we've already bootstrapped.
 describe("AdminUsersController", () => {
   let controller: AdminUsersController;
 
@@ -29,27 +34,17 @@ describe("AdminUsersController", () => {
     await AppTestHelper.bootstrapTestConnection();
 
     const module: TestingModule = await Test.createTestingModule({
+      // OtpModule is needed because AdminUsersController has methods
+      // decorated with `@UseGuards(OtpGuard)`; Nest resolves the guard's
+      // deps (OtpService) at module compile time even when the protected
+      // routes aren't exercised here.
+      imports: [OtpModule],
       controllers: [AdminUsersController],
       providers: [
-        {
-          provide: AppLogsService,
-          useValue: { create: jest.fn().mockResolvedValue({}) },
-        },
-        {
-          provide: AdminSuperivorUsersService,
-          useValue: { createUserWithTmpToken: jest.fn() },
-        },
-        {
-          provide: AdminStructuresService,
-          useValue: { getUsersForAdmin: jest.fn() },
-        },
-        {
-          provide: BrevoSenderService,
-          useValue: {
-            sendEmailWithTemplate: jest.fn().mockResolvedValue({}),
-            sendUserActivationEmail: jest.fn().mockResolvedValue({}),
-          },
-        },
+        AppLogsService,
+        AdminSuperivorUsersService,
+        AdminStructuresService,
+        BrevoSenderService,
       ],
     }).compile();
 

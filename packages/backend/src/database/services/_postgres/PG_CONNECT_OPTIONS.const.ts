@@ -45,7 +45,13 @@ export const PG_CONNECT_OPTIONS: PostgresConnectionOptions = {
   username: domifaConfig().postgres.username,
   password: domifaConfig().postgres.password,
   database: domifaConfig().postgres.database,
-  poolSize: domifaConfig().envId === "test" ? 1 : 100,
+  // En test on garde un pool minimal, mais > 1 : certains flows (ex.
+  // OtpService) ouvrent une transaction pour poser un pg_advisory_xact_lock
+  // puis exécutent d'autres requêtes via les repositories module-level
+  // (qui rentrent par la pool, pas par l'EntityManager de la transaction).
+  // Avec poolSize=1 ce schéma deadlock car la transaction tient l'unique
+  // connexion. En prod (poolSize=100) c'est invisible.
+  poolSize: domifaConfig().envId === "test" ? 10 : 100,
   ssl: domifaConfig().postgres.ssl
     ? {
         rejectUnauthorized: false,

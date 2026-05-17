@@ -8,6 +8,7 @@ import {
   OTP_EXPIRATION_MINUTES,
   OTP_MAX_ATTEMPTS,
 } from "../otp.constants";
+import { recordTestOtpCode } from "../otp-test-sink";
 import { OtpRequestContext } from "../otp.types";
 import { redactEmail } from "../otp.utils";
 import { OtpEmailService } from "./otp-email.service";
@@ -91,6 +92,7 @@ export class OtpService {
     }
 
     const code = randomInt(100000, 1000000).toString();
+    recordTestOtpCode(context.userUuid, code);
     const expiresAt = new Date(Date.now() + OTP_EXPIRATION_MINUTES * 60 * 1000);
 
     await otpRepository.createOtp({
