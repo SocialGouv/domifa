@@ -129,15 +129,23 @@ export class UsersComponent implements OnInit, OnDestroy {
       this.activatedRoute.parent.snapshot.params.structureId
     );
 
-    this.store
-      .select(selectStructureById(this.structureId))
-      .pipe(take(1))
-      .subscribe((structure) => {
-        this.structure = structure;
-      });
-    this.loadUsers();
+    // Wait for the structure to be loaded in the store before fetching the
+    // users : getUsers needs the structure uuid (post-migration from
+    // sequential id) and selectStructureById emits undefined while the list
+    // is still loading.
+    this.subscription.add(
+      this.store
+        .select(selectStructureById(this.structureId))
+        .pipe(
+          filter((structure): structure is StructureAdmin => !!structure),
+          take(1)
+        )
+        .subscribe((structure) => {
+          this.structure = structure;
+          this.loadUsers();
+        })
+    );
 
-    // Subscribe to reloadUsers subject to reload the list when triggered
     this.subscription.add(
       this.reloadUsersSubject$.subscribe(() => {
         this.loadUsers();
@@ -147,8 +155,12 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   private loadUsers(): void {
     this.searching = true;
+    if (!this.structure?.uuid) {
+      this.searching = false;
+      return;
+    }
     this.subscription.add(
-      this.structureService.getUsers(this.structureId).subscribe((users) => {
+      this.structureService.getUsers(this.structure.uuid).subscribe((users) => {
         this.users = users.map((user) => mapUserStructureToViewModel(user));
         this.searching = false;
       })
@@ -188,9 +200,12 @@ export class UsersComponent implements OnInit, OnDestroy {
   public confirmBlock(): void {
     if (!this.userToBlock || !this.isBlockNameConfirmed) return;
 
+    if (!this.structure?.uuid) {
+      return;
+    }
     const targetId = this.userToBlock.id;
     this.subscription.add(
-      this.structureService.blockUser(this.structureId, targetId).subscribe({
+      this.structureService.blockUser(this.structure.uuid, targetId).subscribe({
         next: () => {
           this.toastService.success("L'utilisateur a été bloqué");
           this.userToBlock = null;
@@ -252,18 +267,25 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   public unblockUser(user: UserWithSecurityViewModel): void {
+    if (!this.structure?.uuid) {
+      return;
+    }
     this.subscription.add(
-      this.structureService.unblockUser(this.structureId, user.id).subscribe({
-        next: () => {
-          this.reloadUsersSubject$.next();
-          this.toastService.success("L'utilisateur a été débloqué");
-          this.userForModal = null;
-          this.informationModal?.close();
-        },
-        error: () => {
-          this.toastService.error("Erreur lors du déblocage de l'utilisateur");
-        },
-      })
+      this.structureService
+        .unblockUser(this.structure.uuid, user.id)
+        .subscribe({
+          next: () => {
+            this.reloadUsersSubject$.next();
+            this.toastService.success("L'utilisateur a été débloqué");
+            this.userForModal = null;
+            this.informationModal?.close();
+          },
+          error: () => {
+            this.toastService.error(
+              "Erreur lors du déblocage de l'utilisateur"
+            );
+          },
+        })
     );
   }
 
@@ -281,13 +303,16 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   public doResetPasswordAndCopyLink(user: UserWithSecurityViewModel): void {
-    if (!user) return;
+    if (!user || !this.structure?.uuid) {
+      return;
+    }
+    const structureUuid = this.structure.uuid;
 
     this.subscription.add(
       this.structureService
         .resetStructureAdminPassword(user.email)
         .pipe(
-          switchMap(() => this.structureService.getUsers(this.structureId)),
+          switchMap(() => this.structureService.getUsers(structureUuid)),
           // Get user from users
           map((users) => {
             this.users = users.map((user) => mapUserStructureToViewModel(user));

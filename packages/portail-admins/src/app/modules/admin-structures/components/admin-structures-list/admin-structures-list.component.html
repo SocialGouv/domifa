@@ -11,104 +11,100 @@
       class="fr-container fr-col-md-12 fr-col-12 fr-display-flex fr-justify-content-between fr-align-items-center"
     >
       <h1 class="fr-text-title--blue-france fr-mb-0">
-        Liste des&nbsp;
-        <span *ngIf="!!structures && !!filteredStructures">
-          {{ filteredStructures.length }}
-          <span *ngIf="totalStructures !== filteredStructures.length"
-            >/{{ totalStructures }}
-          </span></span
-        >&nbsp;structures
+        Liste des {{ totalStructures }} structures
+        <span
+          *ngIf="
+            !!filteredStructures &&
+            totalStructures !== filteredStructures.length
+          "
+        >
+          ({{ filteredStructures.length }} résultats)
+        </span>
       </h1>
       <app-admin-structures-export></app-admin-structures-export>
     </div>
   </div>
 </div>
 
-<div class="fr-background-alt--blue-france fr-py-4w">
-  <div class="fr-container">
-    <div class="fr-background-default--grey fr-p-4w">
-      <ul
-        class="fr-grid-row fr-grid-row--gutters fr-mb-3w stat-cards-list"
-        aria-label="Répartition des structures par statut"
-      >
-        <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
-          <app-stat-card
-            label="Actives"
-            [value]="statusCounts.VALIDE"
-            icon="fr-icon-checkbox-circle-line"
-            status="success"
-          ></app-stat-card>
-        </li>
-        <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
-          <app-stat-card
-            label="Non validées"
-            [value]="statusCounts.EN_ATTENTE"
-            icon="fr-icon-time-line"
-            status="warning"
-          ></app-stat-card>
-        </li>
-        <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
-          <app-stat-card
-            label="Refusées"
-            [value]="statusCounts.REFUS"
-            icon="fr-icon-close-circle-line"
-            status="error"
-          ></app-stat-card>
-        </li>
-        <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
-          <app-stat-card
-            label="Supprimées"
-            [value]="statusCounts.SUPPRIME"
-            icon="fr-icon-delete-line"
-            status="error"
-          ></app-stat-card>
-        </li>
-      </ul>
+<div class="fr-container fr-pt-2w">
+  <ul
+    class="fr-grid-row fr-grid-row--gutters fr-mb-3w stat-cards-list"
+    aria-label="Répartition des structures par statut"
+  >
+    <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
+      <app-stat-card
+        label="Actives"
+        [value]="statusCounts.VALIDE"
+        icon="fr-icon-checkbox-circle-line"
+        status="success"
+      ></app-stat-card>
+    </li>
+    <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
+      <app-stat-card
+        label="Non validées"
+        [value]="statusCounts.EN_ATTENTE"
+        icon="fr-icon-time-line"
+        status="warning"
+      ></app-stat-card>
+    </li>
+    <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
+      <app-stat-card
+        label="Refusées"
+        [value]="statusCounts.REFUS"
+        icon="fr-icon-close-circle-line"
+        status="error"
+      ></app-stat-card>
+    </li>
+    <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
+      <app-stat-card
+        label="Supprimées"
+        [value]="statusCounts.SUPPRIME"
+        icon="fr-icon-delete-line"
+        status="error"
+      ></app-stat-card>
+    </li>
+  </ul>
 
-      <div
-        class="fr-grid-row fr-grid-row--gutters fr-grid-row--bottom fr-mb-3w"
-      >
-        <div class="fr-col-12 fr-col-lg-3">
-          <label class="fr-label" for="search-input"> Rechercher </label>
-          <div class="fr-search-bar" role="search">
-            <input
-              class="fr-input"
-              aria-describedby="search-input-messages"
-              placeholder="Rechercher"
-              name="searchInput"
-              [disabled]="searching"
-              #searchInput
-              id="search-input"
-              type="search"
-            />
-            <div
-              class="fr-messages-group"
-              id="search-input-messages"
-              aria-live="polite"
-            ></div>
-            <button title="Rechercher" type="button" class="fr-btn">
-              Rechercher
-            </button>
-          </div>
-        </div>
-        <div class="fr-col-12 fr-col-lg-9">
-          <app-structure-filters
-            [filters]="filters"
-            [nbResults]="filteredStructures.length"
-            [searching]="searching"
-            (updateFilters)="updateFilters($event)"
-          ></app-structure-filters>
-        </div>
+  <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--bottom fr-mb-3w">
+    <div class="fr-col-12 fr-col-lg-3">
+      <label class="fr-label" for="search-input"> Rechercher </label>
+      <div class="fr-search-bar" role="search">
+        <input
+          class="fr-input"
+          aria-describedby="search-input-messages"
+          placeholder="Rechercher"
+          name="searchInput"
+          [disabled]="searching"
+          #searchInput
+          id="search-input"
+          type="search"
+        />
+        <div
+          class="fr-messages-group"
+          id="search-input-messages"
+          aria-live="polite"
+        ></div>
+        <button title="Rechercher" type="button" class="fr-btn">
+          Rechercher
+        </button>
       </div>
-
-      <app-admin-structures-table
-        *ngIf="structures"
-        [structures]="structures"
+    </div>
+    <div class="fr-col-12 fr-col-lg-9">
+      <app-structure-filters
         [filters]="filters"
-        (sort)="updateFilters($event)"
-      ></app-admin-structures-table>
-
-      <div #sentinel class="sentinel-preload"></div>
+        [nbResults]="filteredStructures.length"
+        [searching]="searching"
+        (updateFilters)="updateFilters($event)"
+      ></app-structure-filters>
     </div>
   </div>
+
+  <app-admin-structures-table
+    *ngIf="structures"
+    [structures]="structures"
+    [filters]="filters"
+    (sort)="updateFilters($event)"
+  ></app-admin-structures-table>
+
+  <div #sentinel class="sentinel-preload"></div>
 </div>

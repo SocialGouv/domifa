@@ -126,7 +126,9 @@ export class StructureFormRefuseComponent
   }
 
   public setDecision(): void {
-    if (!this.structure) return;
+    if (!this.structure?.uuid) {
+      return;
+    }
 
     this.submitted = true;
 
@@ -139,7 +141,7 @@ export class StructureFormRefuseComponent
 
     this.subscription.add(
       this.adminStructuresApiClient
-        .setDecisionStructure(this.structure.id, "REFUS", motif)
+        .setDecisionStructure(this.structure.uuid, "REFUS", motif)
         .subscribe({
           next: () => {
             this.loading = false;

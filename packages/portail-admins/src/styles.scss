@@ -158,11 +158,19 @@ label {
 }
 
 // ============================================================
-// 6. Components (modal, links)
+// 6. Components (modal, links, dropdown menus)
 // ============================================================
 
 .fr-modal__title {
   margin-bottom: 1rem;
+}
+
+// Dropdown menu items : marge droite sur les icônes pour la lisibilité
+// (1w DSFR = 0.25rem). Couvre les boutons internes (`fr-btn--icon-left`)
+// et les icônes posées directement dans l'item via DsfrLink/DsfrButton.
+dsfrx-dropdownmenu-item [class^="fr-icon-"],
+dsfrx-dropdownmenu-item [class*=" fr-icon-"] {
+  margin-right: 0.25rem !important;
 }
 
 a.fr-link:has(img),

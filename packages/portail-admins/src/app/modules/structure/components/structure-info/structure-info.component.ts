@@ -186,9 +186,12 @@ export class StructureInfoComponent implements OnInit, OnDestroy {
   }
 
   public confirmStructure(structure: StructureAdmin): void {
+    if (!structure.uuid) {
+      return;
+    }
     this.subscription.add(
       this.adminStructuresApiClient
-        .setDecisionStructure(structure.id, "VALIDE")
+        .setDecisionStructure(structure.uuid, "VALIDE")
         .subscribe({
           next: () => {
             this.toastService.success("Structure vérifiée avec succès");

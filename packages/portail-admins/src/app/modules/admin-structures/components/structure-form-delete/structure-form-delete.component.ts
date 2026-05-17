@@ -153,7 +153,9 @@ export class StructureFormDeleteComponent
   }
 
   public setDecision(): void {
-    if (!this.structure) return;
+    if (!this.structure?.uuid) {
+      return;
+    }
 
     this.submitted = true;
 
@@ -167,7 +169,7 @@ export class StructureFormDeleteComponent
 
     this.subscription.add(
       this.adminStructuresApiClient
-        .deleteStructure(this.structure.id, motif)
+        .deleteStructure(this.structure.uuid, motif)
         .subscribe({
           next: () => {
             this.loading = false;

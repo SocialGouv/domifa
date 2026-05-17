@@ -115,9 +115,12 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   }
 
   public confirmStructure(structure: StructureAdmin) {
+    if (!structure.uuid) {
+      return;
+    }
     this.subscription.add(
       this.adminStructuresApiClient
-        .setDecisionStructure(structure.id, "VALIDE")
+        .setDecisionStructure(structure.uuid, "VALIDE")
         .subscribe({
           next: () => {
             structure.statut = "VALIDE";
