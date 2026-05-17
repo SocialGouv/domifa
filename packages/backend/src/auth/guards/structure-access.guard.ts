@@ -5,23 +5,26 @@ import {
   HttpStatus,
   Injectable,
 } from "@nestjs/common";
-import { isInt } from "class-validator";
+import { isUUID } from "class-validator";
 
 import { appLogger } from "../../util";
 import { structureRepository } from "../../database";
 
+// Route param resolved by this guard. Switched from the sequential int `id`
+// to the random `uuid` to remove the enumeration attack surface that lets an
+// attacker iterate /admin/structures/structure/1, /2, /3, ...
 @Injectable()
 export class StructureAccessGuard implements CanActivate {
   public async canActivate(context: ExecutionContext) {
     const r = context.switchToHttp().getRequest();
 
-    const structureId = Number(r.params?.structureId);
+    const structureUuid = r.params?.structureUuid;
 
-    if (!isInt(structureId) || structureId <= 0) {
-      appLogger.error("[StructureAccessGuard] invalid structureId", {
+    if (typeof structureUuid !== "string" || !isUUID(structureUuid)) {
+      appLogger.error("[StructureAccessGuard] invalid structureUuid", {
         sentry: true,
         context: {
-          structureId: r?.params?.structureId,
+          structureUuid: r?.params?.structureUuid,
           user: r?.user?.id,
         },
       });
@@ -31,17 +34,16 @@ export class StructureAccessGuard implements CanActivate {
     try {
       const structure = await structureRepository.findOneOrFail({
         where: {
-          id: structureId,
-          // statut: "VALIDE",
+          uuid: structureUuid,
         },
       });
       r.structure = structure;
       return r;
     } catch (e) {
-      appLogger.error("[UsagerAccessGuard] Structure not found", {
+      appLogger.error("[StructureAccessGuard] Structure not found", {
         sentry: true,
         context: {
-          structureId,
+          structureUuid,
           user: r?.user?.id,
           role: r?.user?.role,
         },

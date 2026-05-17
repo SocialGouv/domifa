@@ -126,6 +126,21 @@ function renderHighlights(summary: SuspiciousActivitySummary): string {
     .join("");
 }
 
+function renderStructureLabel(
+  user: SuspiciousActivitySummary["blockedUsers"][0]
+): string | null {
+  if (user.structureId === undefined) {
+    return null;
+  }
+  const namePart = user.structureName
+    ? ` ${escapeHtml(user.structureName)}`
+    : "";
+  const cityPart = user.structureCity
+    ? ` (${escapeHtml(user.structureCity)})`
+    : "";
+  return `Structure #${user.structureId}${namePart}${cityPart}`;
+}
+
 function renderUserHighlight(
   user: SuspiciousActivitySummary["blockedUsers"][0]
 ): string {
@@ -138,7 +153,7 @@ function renderUserHighlight(
   const meta = [
     user.userProfile ? `Profil : ${escapeHtml(user.userProfile)}` : null,
     user.role ? `Role : ${escapeHtml(user.role)}` : null,
-    user.structureId !== undefined ? `Structure : ${user.structureId}` : null,
+    renderStructureLabel(user),
   ]
     .filter(Boolean)
     .join(" • ");
@@ -234,7 +249,7 @@ function renderBlockedUsersTable(
           <td style="${cellStyle} font-weight: 700;">#${user.userId}</td>
           <td style="${cellStyle}">${escapeHtml(user.userProfile ?? "-")}</td>
           <td style="${cellStyle}">${escapeHtml(user.role ?? "-")}</td>
-          <td style="${cellStyle}">${user.structureId ?? "-"}</td>
+          <td style="${cellStyle}">${renderStructureCell(user)}</td>
           <td style="${cellStyle}">${escapeHtml(user.email ?? "-")}</td>
           <td style="${cellStyle}">${escapeHtml(
           humanizeReason(user.reason)
@@ -256,6 +271,27 @@ function renderBlockedUsersTable(
     </thead>
     <tbody>${rows}</tbody>
   </table>`;
+}
+
+function renderStructureCell(
+  user: SuspiciousActivitySummary["blockedUsers"][0]
+): string {
+  if (user.structureId === undefined) {
+    return "-";
+  }
+  const label = `#${user.structureId}`;
+  if (!user.structureName && !user.structureCity) {
+    return label;
+  }
+  const namePart = user.structureName
+    ? `<div>${escapeHtml(user.structureName)}</div>`
+    : "";
+  const cityPart = user.structureCity
+    ? `<div style="color: ${
+        COLORS.textSecondary
+      }; font-size: 12px;">${escapeHtml(user.structureCity)}</div>`
+    : "";
+  return `<div style="font-weight: 700;">${label}</div>${namePart}${cityPart}`;
 }
 
 function renderBlockedIpsTable(

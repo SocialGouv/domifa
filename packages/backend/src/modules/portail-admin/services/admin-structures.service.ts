@@ -85,6 +85,7 @@ export class AdminStructuresService {
         `user_structure."lastLogin" AS "lastLogin"`,
         `user_structure."passwordLastUpdate" AS "passwordLastUpdate"`,
         `user_structure."createdAt" AS "createdAt"`,
+        `structure.uuid AS "structureUuid"`,
         `structure.nom AS "structureName"`,
         `uss."eventsHistory" AS "eventsHistory"`,
         `uss."temporaryTokens" AS "temporaryTokens"`,

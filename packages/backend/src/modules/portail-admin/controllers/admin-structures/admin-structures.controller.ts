@@ -101,26 +101,22 @@ export class AdminStructuresController {
     return await structureRepository.getAdminStructuresListData();
   }
 
-  @Get("structure/:structureId")
+  @Get("structure/:structureUuid")
   @UseGuards(StructureAccessGuard)
   public async getStructure(
     @CurrentSupervisor() _user: UserAdminAuthenticated,
-    @CurrentStructure() structure: Structure,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    @Param("structureId", new ParseIntPipe()) _structureId: number
+    @CurrentStructure() structure: Structure
   ): Promise<Structure> {
     return await structureRepository.findOneOrFail({
       where: { id: structure.id },
     });
   }
 
-  @Get("structure/:structureId/users")
+  @Get("structure/:structureUuid/users")
   @UseGuards(StructureAccessGuard)
   public async getUsers(
     @CurrentSupervisor() _user: UserAdminAuthenticated,
-    @CurrentStructure() structure: Structure,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    @Param("structureId", new ParseIntPipe()) _structureId: number
+    @CurrentStructure() structure: Structure
   ): Promise<Array<UserStructureWithSecurity>> {
     const usersStructure = await userStructureSecurityRepository.query<
       UserStructureWithSecurity[]
@@ -156,24 +152,15 @@ export class AdminStructuresController {
     }));
   }
 
-  @Patch("structure-decision/:structureId")
+  @Patch("structure-decision/:structureUuid")
+  @UseGuards(StructureAccessGuard)
   public async updateStructureStatus(
     @CurrentSupervisor() user: UserAdminAuthenticated,
-    @Param("structureId", new ParseIntPipe()) structureId: number,
+    @CurrentStructure() structure: Structure,
     @Body() updateStatusDto: UpdateStructureDecisionStatutDto,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
     try {
-      const structure = await structureRepository.findOneBy({
-        id: structureId,
-      });
-
-      if (!structure) {
-        return res.status(HttpStatus.NOT_FOUND).json({
-          message: "BAD_REQUEST",
-        });
-      }
-
       // Valider le motif si applicable
       const { motifLabel } = this.structureDecisionService.validateMotif(
         updateStatusDto.statut,
@@ -189,14 +176,14 @@ export class AdminStructuresController {
 
       // Mettre à jour la structure
       await this.structureDecisionService.updateStructureStatut(
-        structureId,
+        structure.id,
         updateStatusDto.statut,
         decision
       );
 
       // Récupérer l'admin de la structure
       const admin = await this.structureDecisionService.getStructureAdmin(
-        structureId
+        structure.id
       );
 
       // Gérer les actions selon le statut
@@ -219,7 +206,7 @@ export class AdminStructuresController {
 
       // Retourner les données mises à jour
       const updatedStructure =
-        await structureRepository.getAdminStructuresListData(structureId);
+        await structureRepository.getAdminStructuresListData(structure.id);
 
       return res.status(HttpStatus.OK).json(updatedStructure);
     } catch (error) {
@@ -230,18 +217,18 @@ export class AdminStructuresController {
     }
   }
 
-  @Patch("structure-decision/:structureId/delete")
-  @UseGuards(OtpGuard)
+  @Patch("structure-decision/:structureUuid/delete")
+  @UseGuards(StructureAccessGuard, OtpGuard)
   @RequireOtp("DELETE_STRUCTURE")
   public async deleteStructure(
     @CurrentSupervisor() user: UserAdminAuthenticated,
-    @Param("structureId", new ParseIntPipe()) structureId: number,
+    @CurrentStructure() structure: Structure,
     @Body() deleteDto: DeleteStructureDto,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
     return this.updateStructureStatus(
       user,
-      structureId,
+      structure,
       {
         statut: "SUPPRIME",
         statutDetail: deleteDto.motif,
@@ -250,34 +237,38 @@ export class AdminStructuresController {
     );
   }
 
-  @Patch("structure/:structureId/users/:userId/unblock")
-  @UseGuards(StructureAccessGuard)
+  @Patch("structure/:structureUuid/users/:userId/unblock")
+  @UseGuards(StructureAccessGuard, OtpGuard)
+  @RequireOtp("UNBLOCK_USER")
   public async unblockStructureUser(
     @CurrentSupervisor() user: UserAdminAuthenticated,
-    @Param("structureId", new ParseIntPipe()) structureId: number,
+    @CurrentStructure() structure: Structure,
     @Param("userId", new ParseIntPipe()) userId: number,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
-    await this.adminStructuresService.unblockStructureUser(userId, structureId);
+    await this.adminStructuresService.unblockStructureUser(
+      userId,
+      structure.id
+    );
 
     await this.appLogsService.create({
       ...buildSupervisorActorFields(user),
       action: "UNBLOCK_USER",
-      context: { userId },
+      context: { userId, userProfile: "structure" },
     });
 
     return res.status(HttpStatus.OK).json({ status: "ACTIVE" });
   }
 
-  @Patch("structure/:structureId/users/:userId/block")
+  @Patch("structure/:structureUuid/users/:userId/block")
   @UseGuards(StructureAccessGuard)
   public async blockStructureUser(
     @CurrentSupervisor() user: UserAdminAuthenticated,
-    @Param("structureId", new ParseIntPipe()) structureId: number,
+    @CurrentStructure() structure: Structure,
     @Param("userId", new ParseIntPipe()) userId: number,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
-    await this.adminStructuresService.blockStructureUser(userId, structureId);
+    await this.adminStructuresService.blockStructureUser(userId, structure.id);
 
     await this.appLogsService.create({
       ...buildSupervisorActorFields(user),

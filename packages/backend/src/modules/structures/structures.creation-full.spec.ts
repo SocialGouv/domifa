@@ -193,7 +193,7 @@ describe("Stuctures creation full", () => {
 
     await adminStructuresController.updateStructureStatus(
       userAuthentificated,
-      structure.id,
+      structure,
       { statut: "VALIDE" },
       res
     );
@@ -222,7 +222,7 @@ describe("Stuctures creation full", () => {
     });
     await adminStructuresController.updateStructureStatus(
       userAuthentificated,
-      structure.id,
+      structure,
       {
         statut: "SUPPRIME",
         statutDetail: StructureDecisionSuppressionMotif.PAS_DE_DOMICILIATION,

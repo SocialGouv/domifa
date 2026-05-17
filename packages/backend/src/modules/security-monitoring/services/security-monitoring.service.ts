@@ -4,7 +4,11 @@ import { SentryCron } from "@sentry/nestjs";
 import { MoreThanOrEqual, In } from "typeorm";
 
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
-import { appLogsRepository, AppLogTable } from "../../../database";
+import {
+  appLogsRepository,
+  AppLogTable,
+  structureRepository,
+} from "../../../database";
 import { appLogger } from "../../../util";
 import { formatThrottleWindow } from "../../../auth/guards/app-throttler/app-throttler.utils";
 import {
@@ -66,6 +70,7 @@ export class SecurityMonitoringService {
     }
 
     const summary = buildSummary({ recentLogs, windowStart, windowEnd });
+    await enrichBlockedUsersWithStructure(summary.blockedUsers);
 
     appLogger.warn(
       `[CRON] [securityMonitoring] Detected ${recentLogs.length} suspicious event(s) (blocked users: ${summary.blockedUsers.length}, blocked IPs: ${summary.blockedIps.length})`
@@ -224,6 +229,44 @@ function extractThrottleDetails(
   const totalHits = numberOrUndef(context["totalHits"]);
   if (limit === undefined || totalHits === undefined) return undefined;
   return { windowLabel: formatThrottleWindow(ttl), limit, totalHits };
+}
+
+async function enrichBlockedUsersWithStructure(
+  blockedUsers: BlockedUserSummary[]
+): Promise<void> {
+  const structureIds = [
+    ...new Set(
+      blockedUsers
+        .map((u) => u.structureId)
+        .filter((id): id is number => typeof id === "number")
+    ),
+  ];
+  if (structureIds.length === 0) {
+    return;
+  }
+  try {
+    const rows = await structureRepository.find({
+      where: { id: In(structureIds) },
+      select: { id: true, nom: true, ville: true },
+    });
+    const byId = new Map(rows.map((r) => [r.id, r]));
+    for (const user of blockedUsers) {
+      if (user.structureId === undefined) {
+        continue;
+      }
+      const row = byId.get(user.structureId);
+      if (!row) {
+        continue;
+      }
+      user.structureName = row.nom;
+      user.structureCity = row.ville;
+    }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    appLogger.warn(
+      `[CRON] [securityMonitoring] Failed to enrich blocked users with structure info: ${message}`
+    );
+  }
 }
 
 function stringOrUndef(value: unknown): string | undefined {

@@ -5,12 +5,15 @@ import {
   Get,
   HttpStatus,
   Param,
+  ParseIntPipe,
   ParseUUIDPipe,
   Patch,
   Post,
   Res,
   UseGuards,
 } from "@nestjs/common";
+import { OtpGuard } from "../../../otp/guards/otp.guard";
+import { RequireOtp } from "../../../otp/decorators/require-otp.decorator";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags, ApiBearerAuth, ApiOperation } from "@nestjs/swagger";
 import { UserAdminAuthenticated } from "../../../../_common/model";
@@ -168,6 +171,27 @@ export class AdminUsersController {
   @Get("structure-users")
   public async getStructureUsers(): Promise<UsersForAdminList[]> {
     return this.adminStructuresService.getUsersForAdmin();
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({ summary: "Débloquer un utilisateur supervisor (OTP requis)" })
+  @Patch("supervisor/:userId/unblock")
+  @UseGuards(OtpGuard)
+  @RequireOtp("UNBLOCK_USER")
+  public async unblockSupervisorUser(
+    @CurrentSupervisor() user: UserAdminAuthenticated,
+    @Param("userId", new ParseIntPipe()) userId: number,
+    @Res() res: ExpressResponse
+  ): Promise<ExpressResponse> {
+    await this.adminSuperivorUsersService.unblockSupervisorUser(userId);
+
+    await this.appLogsService.create({
+      ...buildSupervisorActorFields(user),
+      action: "UNBLOCK_USER",
+      context: { userId, userProfile: "supervisor" },
+    });
+
+    return res.status(HttpStatus.OK).json({ status: "ACTIVE" });
   }
 
   @ApiBearerAuth()
