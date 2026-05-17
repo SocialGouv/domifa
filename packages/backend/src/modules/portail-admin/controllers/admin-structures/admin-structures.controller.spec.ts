@@ -12,6 +12,7 @@ import { MailsModule } from "../../../mails/mails.module";
 import { StructureDecisionService } from "../../services/structure-decision/structure-decision.service";
 import { FileManagerService } from "../../../../util";
 import { StructureDecisionEmailService } from "../../services/structure-decision-email/structure-decision-email.service";
+import { OtpModule } from "../../../otp/otp.module";
 
 describe("Dashboard AdminStructuresController", () => {
   let controller: AdminStructuresController;
@@ -25,6 +26,7 @@ describe("Dashboard AdminStructuresController", () => {
         forwardRef(() => UsagersModule),
         forwardRef(() => InteractionsModule),
         forwardRef(() => MailsModule),
+        forwardRef(() => OtpModule),
         forwardRef(() => SmsModule),
       ],
       providers: [
