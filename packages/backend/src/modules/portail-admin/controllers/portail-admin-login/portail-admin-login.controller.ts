@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpCode,
+  HttpException,
   HttpStatus,
   Post,
   Req,
@@ -36,6 +37,10 @@ import {
   ExpiredTokenTable,
   expiredTokenRepositiory,
 } from "../../../../database";
+import { OtpService } from "../../../otp/services/otp.service";
+import { normalizeUrl, readOtpCode } from "../../../otp/guards/otp.guard";
+import { computeOtpFingerprint } from "../../../otp/otp-fingerprint.helper";
+import { OtpRequestContext } from "../../../otp/otp.types";
 
 const userProfile: UserProfile = "supervisor";
 @Controller("portail-admins/auth")
@@ -43,7 +48,8 @@ const userProfile: UserProfile = "supervisor";
 export class PortailAdminLoginController {
   constructor(
     private readonly adminsAuthService: AdminsAuthService,
-    private readonly sessionFingerprintService: SessionFingerprintService
+    private readonly sessionFingerprintService: SessionFingerprintService,
+    private readonly otpService: OtpService
   ) {}
 
   @Post("login")
@@ -53,24 +59,47 @@ export class PortailAdminLoginController {
     @Res() res: ExpressResponse,
     @Body() loginDto: StructureAdminLoginDto
   ) {
+    let user: UserSupervisor;
     try {
-      const user =
-        await userSecurityPasswordChecker.checkPassword<UserSupervisor>({
-          email: loginDto.email,
-          password: loginDto.password,
-          userProfile,
-        });
-
-      const accessToken = await this.adminsAuthService.login(user, {
-        ipAddress: getClientIp(req),
-        userAgent: getClientUserAgent(req),
+      user = await userSecurityPasswordChecker.checkPassword<UserSupervisor>({
+        email: loginDto.email,
+        password: loginDto.password,
+        userProfile,
       });
-      return res.status(HttpStatus.OK).json(accessToken);
     } catch (err) {
+      // Anti-enumeration: no OTP is generated when credentials fail, so
+      // unknown emails and wrong passwords look the same to a caller.
       return res
         .status(HttpStatus.UNAUTHORIZED)
         .json({ message: "LOGIN_FAILED" });
     }
+
+    const userUuid = user.uuid;
+    if (!userUuid) {
+      // OTP scoping relies on user.uuid (fingerprint hash + DB row). Refuse
+      // the login rather than silently bypass the second factor for legacy
+      // accounts that pre-date uuid backfill.
+      return res
+        .status(HttpStatus.UNAUTHORIZED)
+        .json({ message: "LOGIN_FAILED" });
+    }
+
+    try {
+      const otpContext = buildLoginOtpContext(req, user.email, userUuid);
+      const code = readOtpCode(req);
+      await this.otpService.enforceOrThrow(otpContext, code);
+    } catch (err) {
+      if (err instanceof HttpException) {
+        return res.status(err.getStatus()).json(err.getResponse());
+      }
+      throw err;
+    }
+
+    const accessToken = await this.adminsAuthService.login(user, {
+      ipAddress: getClientIp(req),
+      userAgent: getClientUserAgent(req),
+    });
+    return res.status(HttpStatus.OK).json(accessToken);
   }
 
   @ApiBearerAuth()
@@ -107,4 +136,24 @@ export class PortailAdminLoginController {
       userId: currentUser._userId,
     });
   }
+}
+
+function buildLoginOtpContext(
+  req: ExpressRequest,
+  email: string,
+  uuid: string
+): OtpRequestContext {
+  const url = normalizeUrl(req);
+  return {
+    fingerprintHash: computeOtpFingerprint(
+      { uuid, email, _userProfile: userProfile },
+      "LOGIN",
+      url
+    ),
+    url,
+    purpose: "LOGIN",
+    email,
+    userType: userProfile,
+    userUuid: uuid,
+  };
 }

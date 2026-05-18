@@ -1,4 +1,4 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable, Logger } from "@nestjs/common";
 import { createHmac, randomInt, timingSafeEqual } from "node:crypto";
 import { domifaConfig } from "../../../config";
 import { myDataSource, otpRepository } from "../../../database";
@@ -124,6 +124,35 @@ export class OtpService {
     };
   }
 
+  // Single entry point usable from both the JWT-protected OtpGuard and the
+  // unauthenticated login path. Resolves to void on success, throws an
+  // HttpException with a stable `code` payload on any rejection so callers
+  // can react uniformly (OTP_REQUIRED / OTP_INVALID / OTP_BLOCKED).
+  async enforceOrThrow(
+    context: OtpRequestContext,
+    code: string | null
+  ): Promise<void> {
+    if (code) {
+      const result = await this.claim(context, code);
+      if (result.valid === true) {
+        return;
+      }
+      if (result.reason === "blocked") {
+        throw otpHttpError("OTP_BLOCKED", HttpStatus.TOO_MANY_REQUESTS);
+      }
+      throw otpHttpError("OTP_INVALID", HttpStatus.UNAUTHORIZED);
+    }
+
+    const result = await this.generateOrResend(context);
+    if (result.kind === "blocked") {
+      throw otpHttpError("OTP_BLOCKED", HttpStatus.TOO_MANY_REQUESTS);
+    }
+    if (result.kind === "resend_limit_reached") {
+      throw otpHttpError("OTP_RESEND_LIMIT", HttpStatus.TOO_MANY_REQUESTS);
+    }
+    throw otpHttpError("OTP_REQUIRED", HttpStatus.UNAUTHORIZED);
+  }
+
   async claim(context: OtpRequestContext, code: string): Promise<ClaimResult> {
     // Serialize concurrent claims on the same OTP scope. Closes the TOCTOU
     // between findActiveByFingerprint and incrementPendingAttempts that
@@ -234,4 +263,8 @@ function constantTimeEquals(a: string, b: string): boolean {
 // locks taken elsewhere in the codebase.
 function otpScopeLockKey(context: OtpRequestContext): string {
   return `otp:${context.fingerprintHash}`;
+}
+
+function otpHttpError(code: string, status: HttpStatus): HttpException {
+  return new HttpException({ code }, status);
 }
