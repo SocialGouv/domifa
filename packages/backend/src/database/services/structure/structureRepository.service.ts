@@ -29,6 +29,7 @@ export const structureRepository = myDataSource
       const qb = this.createQueryBuilder("structure")
         .select([
           `"structure"."id"`,
+          `"structure"."uuid"`,
           `"structure"."registrationDate"`,
           `"structure"."adresse"`,
           `"structure"."complementAdresse"`,

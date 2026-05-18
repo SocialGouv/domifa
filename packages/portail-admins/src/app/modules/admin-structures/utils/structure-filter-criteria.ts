@@ -2,6 +2,7 @@ import {
   CriteriaSearchField,
   DomiciliesSegmentEnum,
   Search,
+  StructureDecisionStatut,
   StructureType,
 } from "@domifa/common";
 
@@ -27,6 +28,7 @@ export class StructureFilterCriteria extends Search {
   public region: string | number | null;
   public departement: string | null;
   public domicilieSegment: DomiciliesSegmentEnum | null;
+  public statut: StructureDecisionStatut | null;
 
   // order by
   public sortKey: StructureFilterCriteriaSortEnum;
@@ -40,6 +42,7 @@ export class StructureFilterCriteria extends Search {
     this.region = search?.region || null;
     this.departement = search?.departement || null;
     this.domicilieSegment = search?.domicilieSegment || null;
+    this.statut = search?.statut || null;
     this.page = search?.page || 1;
     this.sortKey = search?.sortKey || StructureFilterCriteriaSortEnum.ID;
     this.sortValue = search?.sortValue || "asc";

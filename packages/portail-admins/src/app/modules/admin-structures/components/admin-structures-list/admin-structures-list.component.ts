@@ -258,9 +258,13 @@ export class AdminStructuresListComponent
     }
 
     if (
-      ["structureType", "region", "departement", "domicilieSegment"].includes(
-        element
-      )
+      [
+        "structureType",
+        "region",
+        "departement",
+        "domicilieSegment",
+        "statut",
+      ].includes(element)
     ) {
       this.updateAttributeFilters(element, value);
     }
@@ -273,7 +277,6 @@ export class AdminStructuresListComponent
     filters: StructureFilterCriteria;
     structures: StructureAdmin[];
   }): void {
-    this.searching = false;
     this.filteredStructures = structuresFilter.filter([...structures], {
       criteria: filters,
     });
@@ -341,6 +344,10 @@ export class AdminStructuresListComponent
       value !== this.filters.domicilieSegment
     ) {
       this.filters.domicilieSegment = value as DomiciliesSegmentEnum;
+    }
+
+    if (element === "statut" && value !== this.filters.statut) {
+      this.filters.statut = value as StructureDecisionStatut;
     }
     this.filters$.next(this.filters);
   }
