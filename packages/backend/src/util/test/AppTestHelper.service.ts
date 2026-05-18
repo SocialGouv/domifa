@@ -1,4 +1,5 @@
 import { myDataSource } from "../../database/services/_postgres/appTypeormManager.service";
+import { otpRepository } from "../../database";
 import {
   HttpStatus,
   INestApplication,
@@ -25,6 +26,8 @@ import {
   DeleteObjectsCommand,
 } from "@aws-sdk/client-s3";
 import { mockClient } from "aws-sdk-client-mock";
+import { OTP_CODE_HEADER } from "../../modules/otp/otp.constants";
+import { peekTestOtpCode } from "../../modules/otp/otp-test-sink";
 
 export const AppTestHelper = {
   bootstrapTestApp,
@@ -265,8 +268,33 @@ async function authenticateSupervisor(
 ) {
   const { app } = context;
   expectAppToBeDefined(app);
+
+  // Supervisor login is OTP-gated: the first call mints the code and returns
+  // 401 OTP_REQUIRED, then we replay with the captured code from the test
+  // sink to obtain the JWT. A leftover active OTP from a previous suite would
+  // be silently reused by OtpService — bypassing recordTestOtpCode — so we
+  // wipe any prior OTP for this user before priming.
+  await otpRepository.delete({ userUuid: authInfo.uuid });
+
+  const primer = await supertest(app.getHttpServer())
+    .post("/portail-admins/auth/login")
+    .send({
+      email: authInfo.email,
+      password: authInfo.password,
+    });
+  expect(primer.status).toBe(HttpStatus.UNAUTHORIZED);
+  expect(primer.body).toEqual({ code: "OTP_REQUIRED" });
+
+  const otpCode = peekTestOtpCode(authInfo.uuid);
+  if (!otpCode) {
+    throw new Error(
+      `[tests] No OTP captured for supervisor uuid=${authInfo.uuid} after login primer`
+    );
+  }
+
   const response = await supertest(app.getHttpServer())
     .post("/portail-admins/auth/login")
+    .set(OTP_CODE_HEADER, otpCode)
     .send({
       email: authInfo.email,
       password: authInfo.password,

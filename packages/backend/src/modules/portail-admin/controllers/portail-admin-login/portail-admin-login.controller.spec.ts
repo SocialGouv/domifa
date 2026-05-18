@@ -7,6 +7,7 @@ import { clearTestOtpCodes, peekTestOtpCode } from "../../../otp/otp-test-sink";
 import { AppTestContext, AppTestHelper } from "../../../../util/test";
 import { PortailAdminModule } from "../../portail-admin.module";
 import { PortailAdminLoginController } from "./portail-admin-login.controller";
+import { otpRepository } from "../../../../database";
 
 const ADMIN =
   TESTS_USERS_ADMIN.BY_EMAIL["preprod.domifa@fabrique.social.gouv.fr"];
@@ -28,10 +29,14 @@ describe("Admins Login Controller", () => {
     await AppTestHelper.tearDownTestApp(context);
   });
 
-  beforeEach(() => {
+  beforeEach(async () => {
     // Codes from previous tests would otherwise leak via the test sink and
-    // make the OTP_REQUIRED → claim flow non-deterministic.
+    // make the OTP_REQUIRED → claim flow non-deterministic. We also wipe
+    // OTP rows for this admin in DB: an active row would be silently reused
+    // by OtpService.doGenerateOrResend, bypassing recordTestOtpCode and
+    // leaving the sink empty for the next priming call.
     clearTestOtpCodes();
+    await otpRepository.delete({ userUuid: ADMIN.uuid });
   });
 
   it("should be defined", async () => {
