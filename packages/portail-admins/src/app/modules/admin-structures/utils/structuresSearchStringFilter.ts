@@ -1,6 +1,7 @@
 import {
   buildWords,
   search,
+  StructureDecisionStatut,
   StructureType,
   StructureAdmin,
 } from "@domifa/common";
@@ -10,8 +11,14 @@ export const structuresSearchFilter = (
   structures: StructureAdmin[],
   structureFilterCriteria: StructureFilterCriteria
 ): StructureAdmin[] => {
-  const { searchString, structureType, region, departement, domicilieSegment } =
-    structureFilterCriteria;
+  const {
+    searchString,
+    structureType,
+    region,
+    departement,
+    domicilieSegment,
+    statut,
+  } = structureFilterCriteria;
 
   const filterKeys = [];
   if (structureType) {
@@ -26,6 +33,9 @@ export const structuresSearchFilter = (
   if (domicilieSegment) {
     filterKeys.push("domicilieSegment");
   }
+  if (statut) {
+    filterKeys.push("statut");
+  }
 
   const words = structureFilterCriteria.searchString
     ? buildWords(searchString)
@@ -34,7 +44,7 @@ export const structuresSearchFilter = (
   const filterByProperty = (
     structure: StructureAdmin,
     key: keyof StructureAdmin,
-    value: StructureType | string | number | null
+    value: StructureType | StructureDecisionStatut | string | number | null
   ): boolean => {
     return value === null || structure[key] === value;
   };

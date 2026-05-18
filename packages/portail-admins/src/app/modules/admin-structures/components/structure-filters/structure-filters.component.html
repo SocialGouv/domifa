@@ -97,5 +97,27 @@
         </select>
       </div>
     </div>
+
+    <div class="fr-col-12 fr-col-md-3">
+      <div class="fr-select-group">
+        <label class="fr-label" for="select-statut"> Statut </label>
+        <select
+          class="fr-select"
+          id="select-statut"
+          [disabled]="searching"
+          (change)="onStatutChange($event)"
+        >
+          <option value="" selected disabled hidden>
+            Sélectionner un statut
+          </option>
+          <option
+            *ngFor="let statut of statutOptions | keyvalue"
+            [value]="statut.key"
+          >
+            {{ statut.value }}
+          </option>
+        </select>
+      </div>
+    </div>
   </div>
 </div>
