@@ -46,17 +46,23 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
             return;
           }
 
-          // Wait a bit for other modals (version, acceptTerms) to finish
+          // CGU must be accepted before any welcome/news/tour modal opens,
+          // otherwise they stack on top of the CGU modal at first login.
+          if (!user.acceptTerms) {
+            return;
+          }
+
+          // Wait a bit for other modals (version) to finish
           setTimeout(() => {
-            this.checkWelcomeFlow();
+            this.checkWelcomeFlow(user);
           }, 500);
         },
       })
     );
   }
 
-  private checkWelcomeFlow(): void {
-    if (this.newsModalOpen) {
+  private checkWelcomeFlow(user: UserStructure): void {
+    if (this.newsModalOpen || !user.acceptTerms) {
       return;
     }
 

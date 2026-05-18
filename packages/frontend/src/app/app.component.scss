@@ -37,9 +37,10 @@ footer {
 }
 
 #cgu-modal {
-  max-height: 400px;
-  overflow: auto;
+  max-height: min(50vh, 400px);
+  overflow-y: auto;
   border: 1px solid #b1b1b1;
   border-radius: 5px;
   margin: 1rem auto;
+  padding: 1rem;
 }

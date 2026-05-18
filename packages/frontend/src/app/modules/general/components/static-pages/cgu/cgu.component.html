@@ -1,12 +1,19 @@
+@if (!inModal) {
 <div class="head-page">
   <div class="fr-container">
     <h1>Conditions générales d'utilisation de DomiFa</h1>
     <p>Date de publication au 16 mai 2025</p>
   </div>
 </div>
+}
 
-<div class="fr-container">
+<div [class.fr-container]="!inModal">
   <div class="fr-content">
+    @if (inModal) {
+    <p class="fr-text--sm fr-mb-2w">
+      <em>Date de publication au 16 mai 2025</em>
+    </p>
+    }
     <br />
     <h2>Article 1 - Champ d'application</h2>
     <p>
