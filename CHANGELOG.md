@@ -1,3 +1,11 @@
+## [2.243.1](https://github.com/SocialGouv/domifa/compare/v2.243.0...v2.243.1) (2026-05-18)
+
+
+### Bug Fixes
+
+* **backend:** add otp to admin ([3d468f8](https://github.com/SocialGouv/domifa/commit/3d468f8a5ff3542ea8b93b2dd87d596c9d17d3bf))
+* **backend:** fix unit tests ([54123e8](https://github.com/SocialGouv/domifa/commit/54123e895ab6f6c5563a9139c678e450b3809dd1))
+
 # [2.243.0](https://github.com/SocialGouv/domifa/compare/v2.242.1...v2.243.0) (2026-05-17)
 
 
