@@ -1,3 +1,11 @@
+## [2.243.2](https://github.com/SocialGouv/domifa/compare/v2.243.1...v2.243.2) (2026-05-18)
+
+
+### Bug Fixes
+
+* **backend:** fix load of users ([27f9772](https://github.com/SocialGouv/domifa/commit/27f9772ee61fe1efbda107220b2bced95e84c1d3))
+* **frontend:** fix modal first login ([b773797](https://github.com/SocialGouv/domifa/commit/b77379748a6b889d8ad6c66723b60df623a8e389))
+
 ## [2.243.1](https://github.com/SocialGouv/domifa/compare/v2.243.0...v2.243.1) (2026-05-18)
 
 
