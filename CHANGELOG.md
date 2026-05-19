@@ -1,3 +1,10 @@
+## [2.243.3](https://github.com/SocialGouv/domifa/compare/v2.243.2...v2.243.3) (2026-05-19)
+
+
+### Bug Fixes
+
+* **backend:** fix mail of alert ([507803d](https://github.com/SocialGouv/domifa/commit/507803db957f73d83fb269cc4e53c1960888930b))
+
 ## [2.243.2](https://github.com/SocialGouv/domifa/compare/v2.243.1...v2.243.2) (2026-05-18)
 
 
