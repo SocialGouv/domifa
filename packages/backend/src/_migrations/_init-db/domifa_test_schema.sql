@@ -1,3 +1,4 @@
+\restrict qUakeGkMLmPDG6liERMeQ533PYI3Xy40XxmibVFkIU2EzlpAZUwRkAfghKERaL9
 CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 CREATE TABLE public.app_log (
@@ -775,3 +776,4 @@ ALTER TABLE ONLY public.usager_notes
     ADD CONSTRAINT "FK_e8b75cd4ebe81d288a6ff7d4115" FOREIGN KEY ("structureId") REFERENCES public.structure(id) ON DELETE CASCADE;
 ALTER TABLE ONLY public.interactions
     ADD CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE;
+\unrestrict qUakeGkMLmPDG6liERMeQ533PYI3Xy40XxmibVFkIU2EzlpAZUwRkAfghKERaL9

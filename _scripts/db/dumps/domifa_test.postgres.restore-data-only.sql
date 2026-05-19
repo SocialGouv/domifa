@@ -2,8 +2,10 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 15.13
--- Dumped by pg_dump version 15.13
+\restrict dMVTPbZJkfsYqyB84Dummv6K4gsjZp0em1dqWxz5pAMkRhVGkHecomxjURrfRAV
+
+-- Dumped from database version 16.14
+-- Dumped by pg_dump version 16.14
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -492,4 +494,6 @@ SELECT pg_catalog.setval('public.user_usager_id_seq', 2, true);
 --
 -- PostgreSQL database dump complete
 --
+
+\unrestrict dMVTPbZJkfsYqyB84Dummv6K4gsjZp0em1dqWxz5pAMkRhVGkHecomxjURrfRAV
 
