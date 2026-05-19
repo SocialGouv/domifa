@@ -191,6 +191,16 @@ function ingestBlockUserLog({
   const userId = Number(blockedUser["userId"] ?? log.userId);
   if (!Number.isFinite(userId) || userId <= 0) return;
   if (blockedUsersById.has(userId)) return;
+
+  const throttleCtx =
+    (context["throttle"] as Record<string, unknown>) ?? undefined;
+  const throttleLimit = throttleCtx
+    ? numberOrUndef(throttleCtx["limit"])
+    : undefined;
+  const throttleTtl = throttleCtx
+    ? numberOrUndef(throttleCtx["ttl"])
+    : undefined;
+
   blockedUsersById.set(userId, {
     userId,
     userProfile: stringOrUndef(blockedUser["userProfile"]),
@@ -198,6 +208,20 @@ function ingestBlockUserLog({
     email: stringOrUndef(blockedUser["email"]),
     role: stringOrUndef(blockedUser["role"]),
     reason: stringOrUndef(context["reason"]),
+    triggerIp: throttleCtx ? stringOrUndef(throttleCtx["ip"]) : undefined,
+    triggerUrl: throttleCtx ? stringOrUndef(throttleCtx["url"]) : undefined,
+    triggerMethod: throttleCtx
+      ? stringOrUndef(throttleCtx["method"])
+      : undefined,
+    attemptedIdentifier: stringOrUndef(context["attemptedIdentifier"]),
+    targetRoute: stringOrUndef(context["targetRoute"]),
+    throttle:
+      throttleLimit !== undefined && throttleTtl !== undefined
+        ? {
+            windowLabel: formatThrottleWindow(throttleTtl),
+            limit: throttleLimit,
+          }
+        : undefined,
   });
 }
 

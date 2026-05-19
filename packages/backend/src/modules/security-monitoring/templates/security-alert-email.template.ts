@@ -38,20 +38,22 @@ const escapeHtml = (value: string): string =>
 // Anything not in this map falls back to the raw code so we never silently
 // hide a new reason — operators will see the code and know to update this map.
 const REASON_LABELS: Record<string, string> = {
-  bot_ua: "Bot/scraper (User-Agent suspect)",
-  missing_ua: "User-Agent absent",
-  invalid_origin: "Origin/Referer non autorise",
-  throttle_authenticated: "Quota depasse (utilisateur authentifie)",
-  throttle_targeted: "Quota depasse sur tentative de connexion",
+  bot_ua: "User-Agent suspect (scanner/scraper detecte)",
+  missing_ua: "User-Agent absent (requete non-navigateur)",
+  invalid_origin: "Provenance non autorisee (Origin/Referer invalides)",
+  throttle_authenticated:
+    "Compte authentifie : trop de requetes en peu de temps",
+  throttle_targeted:
+    "Tentatives de connexion repetees sur ce compte depuis une meme IP (defense anti-bruteforce)",
   BLOCK_USER: "Compte bloque automatiquement",
-  REQUEST_BLOCKED: "Requete rejetee (filtre bot/origin)",
-  THROTTLE_BLOCKED: "Quota IP depasse",
+  REQUEST_BLOCKED: "Requete rejetee (filtre bot ou origine)",
+  THROTTLE_BLOCKED: "Quota de requetes depasse pour cette IP",
 };
 
 const ACTION_LABELS: Record<string, string> = {
   BLOCK_USER: "Comptes bloques automatiquement",
-  REQUEST_BLOCKED: "Requetes rejetees (filtre bot/origin)",
-  THROTTLE_BLOCKED: "IP bloquees (quota depasse)",
+  REQUEST_BLOCKED: "Requetes rejetees (filtre bot ou origine)",
+  THROTTLE_BLOCKED: "IP bloquees pour quota de requetes depasse",
 };
 
 const humanizeReason = (code: string | undefined): string => {
@@ -166,7 +168,63 @@ function renderUserHighlight(
     <div>Motif : <strong>${escapeHtml(
       humanizeReason(user.reason)
     )}</strong></div>
+    ${renderUserTriggerBlock(user)}
   `;
+}
+
+// Surfaces the trigger event (IP, URL, attempted identifier, quota) directly in
+// the email so operators don't need to open app_log to understand "blocked by
+// what?". Only renders when at least one trigger field is present.
+function renderUserTriggerBlock(
+  user: SuspiciousActivitySummary["blockedUsers"][0]
+): string {
+  const lines: string[] = [];
+
+  if (user.triggerIp) {
+    lines.push(
+      `IP source : <strong style="font-family: monospace;">${escapeHtml(
+        user.triggerIp
+      )}</strong>`
+    );
+  }
+
+  const urlLabel = [user.triggerMethod, user.triggerUrl ?? user.targetRoute]
+    .filter(Boolean)
+    .join(" ");
+  if (urlLabel) {
+    lines.push(
+      `URL ciblee : <strong style="font-family: monospace;">${escapeHtml(
+        urlLabel
+      )}</strong>`
+    );
+  }
+
+  if (
+    user.attemptedIdentifier &&
+    user.attemptedIdentifier.toLowerCase() !== (user.email ?? "").toLowerCase()
+  ) {
+    lines.push(
+      `Identifiant tente : <strong style="font-family: monospace;">${escapeHtml(
+        user.attemptedIdentifier
+      )}</strong>`
+    );
+  }
+
+  if (user.throttle) {
+    lines.push(
+      `Quota declencheur : <strong>${user.throttle.limit} requete${
+        user.throttle.limit > 1 ? "s" : ""
+      } / ${escapeHtml(user.throttle.windowLabel)}</strong>`
+    );
+  }
+
+  if (lines.length === 0) return "";
+
+  return `<div style="margin-top: 6px; color: ${
+    COLORS.textPrimary
+  }; font-size: 12px; line-height: 1.6;">${lines
+    .map((line) => `<div>${line}</div>`)
+    .join("")}</div>`;
 }
 
 function renderIpHighlight(
@@ -245,6 +303,9 @@ function renderBlockedUsersTable(
           <td style="${cellStyle}">${escapeHtml(
           humanizeReason(user.reason)
         )}</td>
+          <td style="${cellStyle} font-size: 12px;">${renderUserTriggerCell(
+          user
+        )}</td>
         </tr>`
     )
     .join("");
@@ -258,10 +319,65 @@ function renderBlockedUsersTable(
         <th style="${headerCellStyle}">Structure</th>
         <th style="${headerCellStyle}">Email</th>
         <th style="${headerCellStyle}">Raison</th>
+        <th style="${headerCellStyle}">Origine du blocage</th>
       </tr>
     </thead>
     <tbody>${rows}</tbody>
   </table>`;
+}
+
+function renderUserTriggerCell(
+  user: SuspiciousActivitySummary["blockedUsers"][0]
+): string {
+  const parts: string[] = [];
+
+  if (user.triggerIp) {
+    parts.push(
+      `<div><span style="color: ${
+        COLORS.textSecondary
+      };">IP :</span> <span style="font-family: monospace; font-weight: 700;">${escapeHtml(
+        user.triggerIp
+      )}</span></div>`
+    );
+  }
+
+  const urlLabel = [user.triggerMethod, user.triggerUrl ?? user.targetRoute]
+    .filter(Boolean)
+    .join(" ");
+  if (urlLabel) {
+    parts.push(
+      `<div><span style="color: ${
+        COLORS.textSecondary
+      };">URL :</span> <span style="font-family: monospace;">${escapeHtml(
+        urlLabel
+      )}</span></div>`
+    );
+  }
+
+  if (
+    user.attemptedIdentifier &&
+    user.attemptedIdentifier.toLowerCase() !== (user.email ?? "").toLowerCase()
+  ) {
+    parts.push(
+      `<div><span style="color: ${
+        COLORS.textSecondary
+      };">Identifiant tente :</span> <span style="font-family: monospace;">${escapeHtml(
+        user.attemptedIdentifier
+      )}</span></div>`
+    );
+  }
+
+  if (user.throttle) {
+    parts.push(
+      `<div><span style="color: ${
+        COLORS.textSecondary
+      };">Quota :</span> <strong>${user.throttle.limit} req / ${escapeHtml(
+        user.throttle.windowLabel
+      )}</strong></div>`
+    );
+  }
+
+  return parts.length > 0 ? parts.join("") : "-";
 }
 
 function renderStructureCell(
