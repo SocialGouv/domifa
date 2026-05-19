@@ -13,6 +13,10 @@ fileignoreconfig:
   checksum: 1ebde061e52fd69ed9ee613d269b5a2b708fc959de89b022526e112c1efb09bc
 - filename: \_scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
   checksum: 3a81dc1516a98ef170ead05d9dbfe540690eae1f39298cc42f1c85b1e6438545
+- filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
+  checksum: ce58c1964a4a64cad52f02f2e12f2e9cdbbd8551daec56467fa308af9d715eaa
+- filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
+  checksum: 9ef49a9d0c4774574df70d7957424bf21f1c340cd05d76668019aae0a5554779
 - filename: package.json
   checksum: 9f1a88fbfc8cd4e19d5e8ef253d5ddbf174bdfd6ff252ee26df4e9b370294646
 - filename: packages/backend/package.json
@@ -34,7 +38,7 @@ fileignoreconfig:
 - filename: packages/backend/src/_migrations/1778582320186-add-otp-table.ts
   checksum: e5b5fc05e6b97eb3901154fb8eb698d50c5084442bea7316bdc947755b34b282
 - filename: packages/backend/src/_migrations/_init-db/domifa_test_schema.sql
-  checksum: 996653eeec757748d83ab566febd1e6edeb7d7a9715fda06d8c4d376dfc210a1
+  checksum: 1948c6d720e17c4587591d5dad3954686e356fbe70cc44d3d1daaf550d61cfdc
 - filename: packages/frontend/src/app/modules/general/components/static-pages/politique/politique.component.html
   checksum: 5a51711775b228a5086ca5f40eac5f971a09d9a6837b115f0cb81db16938b8e2
 - filename: packages/frontend/src/app/modules/general/components/static-pages/temoignages/temoignages.component.html

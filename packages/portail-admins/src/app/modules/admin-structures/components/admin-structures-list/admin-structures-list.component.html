@@ -65,8 +65,8 @@
     </li>
   </ul>
 
-  <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--bottom fr-mb-3w">
-    <div class="fr-col-12 fr-col-lg-3">
+  <div class="fr-grid-row fr-mb-2w">
+    <div class="fr-col-12 fr-col-md-6 fr-col-lg-4">
       <label class="fr-label" for="search-input"> Rechercher </label>
       <div class="fr-search-bar" role="search">
         <input
@@ -89,14 +89,15 @@
         </button>
       </div>
     </div>
-    <div class="fr-col-12 fr-col-lg-9">
-      <app-structure-filters
-        [filters]="filters"
-        [nbResults]="filteredStructures.length"
-        [searching]="searching"
-        (updateFilters)="updateFilters($event)"
-      ></app-structure-filters>
-    </div>
+  </div>
+
+  <div class="fr-mb-3w">
+    <app-structure-filters
+      [filters]="filters"
+      [nbResults]="filteredStructures.length"
+      [searching]="searching"
+      (updateFilters)="updateFilters($event)"
+    ></app-structure-filters>
   </div>
 
   <app-admin-structures-table

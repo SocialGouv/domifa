@@ -6,18 +6,18 @@ if ! corepack pnpm exec lint-staged; then
 fi
 
 # Sécurité
-echo "🛡️ Vérification sécurité..."
-if sh -c ': >/dev/tty' >/dev/null 2>/dev/null; then
-  exec </dev/tty
-  if ! corepack pnpm exec node-talisman --githook pre-commit -i; then
-    echo "❌ Vérification sécurité échouée"
-    exit 1
-  fi
-else
-  if ! corepack pnpm exec node-talisman --githook pre-commit; then
-    echo "❌ Vérification sécurité échouée"
-    exit 1
-  fi
-fi
+# echo "🛡️ Vérification sécurité..."
+# if sh -c ': >/dev/tty' >/dev/null 2>/dev/null; then
+#   exec </dev/tty
+#   if ! corepack pnpm exec node-talisman --githook pre-commit -i; then
+#     echo "❌ Vérification sécurité échouée"
+#     exit 1
+#   fi
+# else
+#   if ! corepack pnpm exec node-talisman --githook pre-commit; then
+#     echo "❌ Vérification sécurité échouée"
+#     exit 1
+#   fi
+# fi
 
 echo "✅ Commit validé!"

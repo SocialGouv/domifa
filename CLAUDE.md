@@ -16,7 +16,7 @@ packages/
 ## Stack technique
 
 - **Node** >= 22, **pnpm** 10.x, **Lerna** 8.x (independent versioning)
-- **Backend** : NestJS 11, TypeORM 0.3, PostgreSQL 15 (PostGIS), Passport JWT, Pino, Swagger
+- **Backend** : NestJS 11, TypeORM 0.3, PostgreSQL 16 (PostGIS), Passport JWT, Pino, Swagger
 - **Frontends** : Angular 19 (frontend) / Angular 18 (portail-usagers, portail-admins), RxJS, NgRx (frontend), DSFR (toutes les apps)
 - **Tests** : Jest (backend + frontends), Supertest (backend HTTP)
 - **CI/CD** : GitHub Actions, semantic-release, Docker multi-stage, Kubernetes (Kontinuous)
@@ -57,7 +57,7 @@ pnpm --filter @domifa/frontend build
 
 ## Base de données
 
-- PostgreSQL 15 + PostGIS, ORM TypeORM
+- PostgreSQL 16 + PostGIS, ORM TypeORM
 - Migrations : `packages/backend/src/_migrations/`
 - Entities : `packages/backend/src/database/entities/**/*Table.typeorm.ts`
 - Docker local : `docker-compose.local.yml` (postgres + minio)

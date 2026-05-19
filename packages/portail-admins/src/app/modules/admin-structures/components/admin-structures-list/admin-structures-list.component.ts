@@ -138,7 +138,6 @@ export class AdminStructuresListComponent
 
     const searchEvents$ = merge(inputChange$, enterPress$).pipe(
       tap((searchString: string) => {
-        this.searching = true;
         this.filters.searchString = searchString ?? null;
         this.filters.page = 1;
         this.filters$.next(this.filters);

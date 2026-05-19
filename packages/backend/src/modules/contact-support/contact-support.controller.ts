@@ -29,9 +29,8 @@ export class ContactSupportController {
   constructor(private readonly brevoSenderService: BrevoSenderService) {}
 
   @Throttle({
-    short: { limit: 3, ttl: 60_000, blockDuration: 1_800_000 }, // 3 req/min, block 30min
-    medium: { limit: 5, ttl: 600_000, blockDuration: 1_800_000 }, // 5 req/10min, block 30min
-    long: { limit: 10, ttl: 3_600_000, blockDuration: 3_600_000 }, // 10 req/h, block 1h
+    short: { limit: 1, ttl: 1_000, blockDuration: 60_000 }, // 1 req/sec, block 1min
+    medium: { limit: 3, ttl: 60_000, blockDuration: 1_800_000 }, // 3 req/min, block 30min
   })
   @Post("")
   @UseInterceptors(
