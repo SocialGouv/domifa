@@ -94,6 +94,28 @@ export class SecurityMonitoringService {
   }
 }
 
+// Internal aggregator: keeps REQUEST_BLOCKED and THROTTLE_BLOCKED contributions
+// separate so the final attempts count doesn't double-count.
+// - requestBlockedAttempts: sum of the already-deduped attempts counter on
+//   REQUEST_BLOCKED rows (one row per (reason, IP/user) dedup key).
+// - maxThrottleHits: max totalHits across THROTTLE_BLOCKED rows. The throttler
+//   writes one row per tier (short/medium/long), and each tier increments its
+//   counter on the SAME physical request — so summing across tiers triples the
+//   real number. We keep the max as the best lower bound on real traffic.
+// - bestThrottle: the tier with the smallest TTL among those that fired (i.e.
+//   the burst-protection tier). More informative than the long-window tier,
+//   whose totalHits keeps climbing during the 2h block.
+type IpAggregator = {
+  ip: string;
+  reasons: string[];
+  lastUrl?: string;
+  requestBlockedAttempts: number;
+  maxThrottleHits: number;
+  bestThrottle?: { ttl: number; limit: number; totalHits: number };
+  attemptedIdentifiers?: string[];
+  attemptedIdentifiersOverflow?: number;
+};
+
 function buildSummary({
   recentLogs,
   windowStart,
@@ -110,17 +132,19 @@ function buildSummary({
   };
 
   const blockedUsersById = new Map<number, BlockedUserSummary>();
-  const blockedIpsByKey = new Map<string, BlockedIpSummary>();
+  const ipAggregators = new Map<string, IpAggregator>();
 
   for (const log of recentLogs) {
     const action = log.action as SecurityLogAction;
-    if (action in totals) totals[action] += 1;
+    if (action in totals) {
+      totals[action] += 1;
+    }
 
     const context = (log.context ?? {}) as Record<string, unknown>;
     if (action === "BLOCK_USER") {
       ingestBlockUserLog({ log, context, blockedUsersById });
     } else {
-      ingestBlockedIpLog({ action, context, blockedIpsByKey });
+      ingestBlockedIpLog({ action, context, ipAggregators });
     }
   }
 
@@ -128,11 +152,30 @@ function buildSummary({
     0,
     MAX_USERS_IN_REPORT
   );
-  const blockedIps = [...blockedIpsByKey.values()]
+  const blockedIps = [...ipAggregators.values()]
+    .map(toBlockedIpSummary)
     .sort((a, b) => b.attempts - a.attempts)
     .slice(0, MAX_IPS_IN_REPORT);
 
   return { windowStart, windowEnd, totals, blockedUsers, blockedIps };
+}
+
+function toBlockedIpSummary(agg: IpAggregator): BlockedIpSummary {
+  return {
+    ip: agg.ip,
+    attempts: agg.requestBlockedAttempts + agg.maxThrottleHits,
+    reasons: agg.reasons,
+    lastUrl: agg.lastUrl,
+    throttle: agg.bestThrottle
+      ? {
+          windowLabel: formatThrottleWindow(agg.bestThrottle.ttl),
+          limit: agg.bestThrottle.limit,
+          totalHits: agg.bestThrottle.totalHits,
+        }
+      : undefined,
+    attemptedIdentifiers: agg.attemptedIdentifiers,
+    attemptedIdentifiersOverflow: agg.attemptedIdentifiersOverflow,
+  };
 }
 
 function ingestBlockUserLog({
@@ -161,74 +204,86 @@ function ingestBlockUserLog({
 function ingestBlockedIpLog({
   action,
   context,
-  blockedIpsByKey,
+  ipAggregators,
 }: {
   action: SecurityLogAction;
   context: Record<string, unknown>;
-  blockedIpsByKey: Map<string, BlockedIpSummary>;
+  ipAggregators: Map<string, IpAggregator>;
 }): void {
   const ip = stringOrUndef(context["ip"]);
-  if (!ip) return;
-  // THROTTLE rows expose totalHits (raw rate-limiter counter), REQUEST rows expose attempts (dedup'd counter).
-  const attempts =
-    action === "THROTTLE_BLOCKED"
-      ? numberOrUndef(context["totalHits"]) ?? 1
-      : numberOrUndef(context["attempts"]) ?? 1;
-  const reason = stringOrUndef(context["reason"]) ?? action;
-  const url = stringOrUndef(context["url"]);
-  const throttle = extractThrottleDetails(action, context);
-  const attemptedIdentifier = stringOrUndef(context["attemptedIdentifier"]);
-
-  const existing = blockedIpsByKey.get(ip);
-  if (existing) {
-    existing.attempts += attempts;
-    if (!existing.reasons.includes(reason)) existing.reasons.push(reason);
-    if (url) existing.lastUrl = url;
-    if (
-      throttle &&
-      (!existing.throttle || throttle.totalHits > existing.throttle.totalHits)
-    ) {
-      existing.throttle = throttle;
-    }
-    if (attemptedIdentifier) {
-      appendIdentifier(existing, attemptedIdentifier);
-    }
+  if (!ip) {
     return;
   }
-  const entry: BlockedIpSummary = {
-    ip,
-    attempts,
-    reasons: [reason],
-    lastUrl: url,
-    throttle,
-  };
-  if (attemptedIdentifier) {
-    appendIdentifier(entry, attemptedIdentifier);
+
+  let agg = ipAggregators.get(ip);
+  if (!agg) {
+    agg = {
+      ip,
+      reasons: [],
+      requestBlockedAttempts: 0,
+      maxThrottleHits: 0,
+    };
+    ipAggregators.set(ip, agg);
   }
-  blockedIpsByKey.set(ip, entry);
+
+  const reason = stringOrUndef(context["reason"]) ?? action;
+  if (!agg.reasons.includes(reason)) {
+    agg.reasons.push(reason);
+  }
+
+  const url = stringOrUndef(context["url"]);
+  if (url) {
+    agg.lastUrl = url;
+  }
+
+  const attemptedIdentifier = stringOrUndef(context["attemptedIdentifier"]);
+  if (attemptedIdentifier) {
+    appendIdentifier(agg, attemptedIdentifier);
+  }
+
+  if (action === "THROTTLE_BLOCKED") {
+    const totalHits = numberOrUndef(context["totalHits"]);
+    const limit = numberOrUndef(context["limit"]);
+    const ttl = numberOrUndef(context["ttl"]);
+
+    if (totalHits !== undefined && totalHits > agg.maxThrottleHits) {
+      agg.maxThrottleHits = totalHits;
+    }
+    if (
+      limit !== undefined &&
+      totalHits !== undefined &&
+      ttl !== undefined &&
+      (!agg.bestThrottle || ttl < agg.bestThrottle.ttl)
+    ) {
+      agg.bestThrottle = { ttl, limit, totalHits };
+    }
+  } else {
+    // REQUEST_BLOCKED rows are deduped per (reason, IP/user) by the guard, so
+    // summing the per-row attempts counter is the right total.
+    const attempts = numberOrUndef(context["attempts"]) ?? 1;
+    agg.requestBlockedAttempts += attempts;
+  }
 }
 
-function appendIdentifier(entry: BlockedIpSummary, identifier: string): void {
-  if (!entry.attemptedIdentifiers) entry.attemptedIdentifiers = [];
-  if (entry.attemptedIdentifiers.includes(identifier)) return;
+function appendIdentifier(
+  entry: {
+    attemptedIdentifiers?: string[];
+    attemptedIdentifiersOverflow?: number;
+  },
+  identifier: string
+): void {
+  if (!entry.attemptedIdentifiers) {
+    entry.attemptedIdentifiers = [];
+  }
+  if (entry.attemptedIdentifiers.includes(identifier)) {
+    return;
+  }
   if (entry.attemptedIdentifiers.length >= MAX_IDENTIFIERS_PER_IP) {
     entry.attemptedIdentifiersOverflow =
       (entry.attemptedIdentifiersOverflow ?? 0) + 1;
     return;
   }
   entry.attemptedIdentifiers.push(identifier);
-}
-
-function extractThrottleDetails(
-  action: SecurityLogAction,
-  context: Record<string, unknown>
-): BlockedIpSummary["throttle"] | undefined {
-  if (action !== "THROTTLE_BLOCKED") return undefined;
-  const ttl = numberOrUndef(context["ttl"]);
-  const limit = numberOrUndef(context["limit"]);
-  const totalHits = numberOrUndef(context["totalHits"]);
-  if (limit === undefined || totalHits === undefined) return undefined;
-  return { windowLabel: formatThrottleWindow(ttl), limit, totalHits };
 }
 
 async function enrichBlockedUsersWithStructure(

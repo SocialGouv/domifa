@@ -39,7 +39,7 @@ const routes: Routes = [
     path: "edit",
     component: StructuresEditComponent,
     data: {
-      roles: ["admin"],
+      roles: ["admin", "responsable"],
     },
   },
   {
