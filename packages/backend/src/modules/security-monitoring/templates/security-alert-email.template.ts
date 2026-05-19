@@ -41,15 +41,17 @@ const REASON_LABELS: Record<string, string> = {
   bot_ua: "Bot/scraper (User-Agent suspect)",
   missing_ua: "User-Agent absent",
   invalid_origin: "Origin/Referer non autorise",
-  BLOCK_USER: "Blocage automatique du compte",
-  REQUEST_BLOCKED: "Requete rejetee (filtre)",
+  throttle_authenticated: "Quota depasse (utilisateur authentifie)",
+  throttle_targeted: "Quota depasse sur tentative de connexion",
+  BLOCK_USER: "Compte bloque automatiquement",
+  REQUEST_BLOCKED: "Requete rejetee (filtre bot/origin)",
   THROTTLE_BLOCKED: "Quota IP depasse",
 };
 
 const ACTION_LABELS: Record<string, string> = {
   BLOCK_USER: "Comptes bloques automatiquement",
   REQUEST_BLOCKED: "Requetes rejetees (filtre bot/origin)",
-  THROTTLE_BLOCKED: "Quotas IP depasses",
+  THROTTLE_BLOCKED: "IP bloquees (quota depasse)",
 };
 
 const humanizeReason = (code: string | undefined): string => {
@@ -71,13 +73,6 @@ function renderTotalsTable(totals: Record<SecurityLogAction, number>): string {
       (action) =>
         `<tr>
           <td style="${cellStyle}">
-            <span style="display: inline-block; padding: 2px 8px; background-color: ${
-              COLORS.blueLight
-            }; color: ${
-          COLORS.blueFrance
-        }; border-radius: 3px; font-size: 12px; font-weight: 700; margin-right: 8px;">${escapeHtml(
-          action
-        )}</span>
             <span style="color: ${COLORS.textPrimary};">${escapeHtml(
           humanizeAction(action)
         )}</span>
@@ -181,11 +176,7 @@ function renderIpHighlight(
   const throttleLine = ip.throttle
     ? `<div>Quota depasse : <strong>${ip.throttle.limit} requete${
         ip.throttle.limit > 1 ? "s" : ""
-      } / ${escapeHtml(ip.throttle.windowLabel)}</strong> <span style="color: ${
-        COLORS.textSecondary
-      };">(activite observee pendant le blocage : ${
-        ip.throttle.totalHits
-      } req)</span></div>`
+      } / ${escapeHtml(ip.throttle.windowLabel)}</strong></div>`
     : "";
   const identifiersLine = renderIdentifiersHighlight(ip);
   return `
@@ -481,9 +472,7 @@ export function generateSecurityAlertEmailHtml(
           <!-- Blocked users -->
           <tr>
             <td style="padding: 24px 24px 0 24px;">
-              <h2 style="${sectionTitleStyle}">Comptes bloques <span style="font-size: 12px; font-weight: 400; color: ${
-    COLORS.textSecondary
-  };">(BLOCK_USER)</span></h2>
+              <h2 style="${sectionTitleStyle}">Comptes bloques</h2>
               ${renderBlockedUsersTable(blockedUsers)}
             </td>
           </tr>
@@ -491,9 +480,7 @@ export function generateSecurityAlertEmailHtml(
           <!-- Blocked IPs -->
           <tr>
             <td style="padding: 24px 24px 0 24px;">
-              <h2 style="${sectionTitleStyle}">IP bloquees <span style="font-size: 12px; font-weight: 400; color: ${
-    COLORS.textSecondary
-  };">(REQUEST_BLOCKED / THROTTLE_BLOCKED)</span></h2>
+              <h2 style="${sectionTitleStyle}">IP bloquees</h2>
               ${renderBlockedIpsTable(blockedIps)}
             </td>
           </tr>
