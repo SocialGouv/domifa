@@ -14,6 +14,18 @@ export interface BlockedUserSummary {
   email?: string;
   role?: string;
   reason?: string;
+  // Trigger details extracted from the BLOCK_USER log context. Present when the
+  // block was caused by a throttle/request event (e.g. throttle_targeted) so the
+  // alert email can surface the IP/URL/identifier without an admin opening app_log.
+  triggerIp?: string;
+  triggerUrl?: string;
+  triggerMethod?: string;
+  attemptedIdentifier?: string;
+  targetRoute?: string;
+  throttle?: {
+    windowLabel: string;
+    limit: number;
+  };
 }
 
 export interface BlockedIpSummary {
