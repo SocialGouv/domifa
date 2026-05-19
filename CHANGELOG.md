@@ -1,3 +1,11 @@
+## [2.243.4](https://github.com/SocialGouv/domifa/compare/v2.243.3...v2.243.4) (2026-05-19)
+
+
+### Bug Fixes
+
+* **backend:** add filters & debug searching ([f376363](https://github.com/SocialGouv/domifa/commit/f3763631857f8ccbac07ef797ed5fcc62e068105))
+* **backend:** fix email of alerts ([03e23c1](https://github.com/SocialGouv/domifa/commit/03e23c1b501350a8db04e12f5225665dbfe199b8))
+
 ## [2.243.3](https://github.com/SocialGouv/domifa/compare/v2.243.2...v2.243.3) (2026-05-19)
 
 
