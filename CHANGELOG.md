@@ -1,3 +1,16 @@
+# [2.244.0](https://github.com/SocialGouv/domifa/compare/v2.243.4...v2.244.0) (2026-05-20)
+
+
+### Bug Fixes
+
+* **backend:** add elements to logs ([1a3a40c](https://github.com/SocialGouv/domifa/commit/1a3a40c7a03bb6de128c266f1f34efcb06dd3ae6))
+
+
+### Features
+
+* **backend:** add monitoring & unblock ([12568b7](https://github.com/SocialGouv/domifa/commit/12568b7cd9e4f33820d9314c66672d46669eb671))
+* **backend:** add userType to logs ([be264d9](https://github.com/SocialGouv/domifa/commit/be264d962771d6f5c91023571b9356b39f41860d))
+
 ## [2.243.4](https://github.com/SocialGouv/domifa/compare/v2.243.3...v2.243.4) (2026-05-19)
 
 
