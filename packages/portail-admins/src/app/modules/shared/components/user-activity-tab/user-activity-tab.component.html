@@ -1,0 +1,88 @@
+<div class="fr-mt-3w">
+  <h2 class="fr-h4 fr-mb-2w">Activité récente</h2>
+  <p class="fr-text--sm fr-text--mention-grey">
+    Liste des actions effectuées par cet utilisateur, du plus récent au plus
+    ancien.
+  </p>
+
+  <div
+    *ngIf="loading"
+    role="alert"
+    aria-busy="true"
+    aria-label="Chargement de l'activité"
+    class="text-center fr-py-3w"
+  >
+    <dsfr-ext-spinner
+      typeLoader="quarter"
+      label="Chargement de l'activité..."
+    ></dsfr-ext-spinner>
+  </div>
+
+  <ng-container *ngIf="!loading">
+    <div *ngIf="logs.length === 0" class="fr-alert fr-alert--info">
+      <p>Aucune activité enregistrée pour cet utilisateur.</p>
+    </div>
+
+    <div *ngIf="logs.length > 0" class="fr-table fr-table--no-outer-border">
+      <div class="fr-table__wrapper">
+        <div class="fr-table__container">
+          <div class="fr-table__content">
+            <table>
+              <caption class="fr-sr-only">
+                Activité de l'utilisateur ({{
+                  itemCount
+                }}
+                entrées)
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Action</th>
+                  <th scope="col">Rôle</th>
+                  <th scope="col">Contexte</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let log of logs">
+                  <td>{{ log.createdAt | date : "dd/MM/yyyy HH:mm" }}</td>
+                  <td class="fr-text--bold">{{ actionLabel(log.action) }}</td>
+                  <td>{{ log.role ?? "-" }}</td>
+                  <td class="fr-text--xs">
+                    <ng-container *ngIf="log.context; else noContext">
+                      <p
+                        *ngIf="contextHuman(log.action, log.context) as human"
+                        class="fr-m-0 fr-mb-1w fr-text--sm"
+                      >
+                        {{ human }}
+                      </p>
+                      <details>
+                        <summary class="fr-text--xs fr-text--mention-grey">
+                          JSON brut
+                        </summary>
+                        <pre
+                          class="fr-m-0 fr-mt-1w fr-text--xs"
+                          style="white-space: pre-wrap; word-break: break-word"
+                          >{{ contextJson(log.context) }}</pre
+                        >
+                      </details>
+                    </ng-container>
+                    <ng-template #noContext>-</ng-template>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="totalPages > 1" class="fr-mt-2w">
+      <dsfr-pagination
+        [pageCount]="totalPages"
+        [currentPage]="currentPage"
+        (pageSelect)="onPageSelect($event)"
+        ariaLabel="Pagination de l'activité"
+      ></dsfr-pagination>
+    </div>
+  </ng-container>
+</div>

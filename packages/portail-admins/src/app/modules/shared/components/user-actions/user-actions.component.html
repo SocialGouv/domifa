@@ -1,0 +1,300 @@
+<ng-container *ngIf="user && canManage">
+  <dsfrx-dropdownmenu
+    [ariaLabelMenu]="
+      isSupervisor
+        ? 'Administrer l\'utilisateur ' + user.nom + ' ' + user.prenom
+        : 'Actions pour ' + user.email
+    "
+    labelMenu="Actions"
+    [closeOnAction]="true"
+    size="SM"
+    appendTo="body"
+  >
+    <ng-template #contentTemplate>
+      <!-- Structure-only -->
+      <dsfrx-dropdownmenu-item
+        *ngIf="isStructure"
+        (selectItem)="openConfirm('reset-password')"
+      >
+        <button
+          type="button"
+          class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+          (click)="openConfirm('reset-password')"
+        >
+          <i class="fr-icon-settings-5-fill" aria-hidden="true"></i>
+          Réinitialiser mot de passe
+        </button>
+      </dsfrx-dropdownmenu-item>
+
+      <dsfrx-dropdownmenu-item *ngIf="isStructure && hasResetPasswordLink">
+        <button
+          type="button"
+          class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+          (click)="copyResetLink()"
+        >
+          <i class="fr-icon-links-line" aria-hidden="true"></i>
+          Copier le lien !
+        </button>
+      </dsfrx-dropdownmenu-item>
+
+      <dsfrx-dropdownmenu-item
+        *ngIf="isStructure && canPromote"
+        (selectItem)="openConfirm('promote')"
+      >
+        <button
+          type="button"
+          class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+          (click)="openConfirm('promote')"
+        >
+          <i class="fr-icon-arrow-up-fill" aria-hidden="true"></i>
+          Promouvoir en administrateur
+        </button>
+      </dsfrx-dropdownmenu-item>
+
+      <!-- Supervisor-only -->
+      <dsfrx-dropdownmenu-item
+        *ngIf="isSupervisor && showEdit"
+        (selectItem)="requestEdit()"
+      >
+        <button
+          type="button"
+          class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+          (click)="requestEdit()"
+        >
+          <i class="fr-icon-edit-fill" aria-hidden="true"></i>
+          Modifier l'utilisateur
+        </button>
+      </dsfrx-dropdownmenu-item>
+
+      <!-- Shared block / unblock -->
+      <dsfrx-dropdownmenu-item *ngIf="canBlock" (selectItem)="openBlockModal()">
+        <button
+          type="button"
+          class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+          (click)="openBlockModal()"
+        >
+          <i class="fr-icon-lock-fill" aria-hidden="true"></i>
+          Bloquer l'utilisateur
+        </button>
+      </dsfrx-dropdownmenu-item>
+
+      <dsfrx-dropdownmenu-item
+        *ngIf="canUnblock"
+        (selectItem)="openUnblockModal()"
+      >
+        <button
+          type="button"
+          class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+          (click)="openUnblockModal()"
+        >
+          <i class="fr-icon-lock-unlock-fill" aria-hidden="true"></i>
+          Débloquer l'utilisateur
+        </button>
+      </dsfrx-dropdownmenu-item>
+
+      <!-- Supervisor-only delete -->
+      <dsfrx-dropdownmenu-item
+        *ngIf="isSupervisor"
+        (selectItem)="openDeleteModal()"
+      >
+        <button
+          type="button"
+          class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+          (click)="openDeleteModal()"
+        >
+          <i class="fr-icon-delete-fill" aria-hidden="true"></i>
+          Supprimer l'utilisateur
+        </button>
+      </dsfrx-dropdownmenu-item>
+    </ng-template>
+  </dsfrx-dropdownmenu>
+
+  <!-- Modals -->
+  <dsfr-modal
+    *ngIf="isStructure"
+    class="text-start"
+    icon="fr-icon-check-line"
+    #confirmModal
+    [dialogId]="'confirmUserAction-' + user.uuid"
+    titleModal="Confirmation"
+    [concealingBackdrop]="false"
+    [autoCloseOnAction]="false"
+    size="SM"
+  >
+    <p>
+      Êtes-vous sûr de vouloir {{ confirmText }} :
+      <span class="fr-text--bold">{{ user.email }}</span> ?
+    </p>
+    <div class="fr-modal__footer">
+      <div
+        class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left"
+      >
+        <div>
+          <button type="button" class="fr-btn" (click)="doConfirm()">
+            Confirmer
+          </button>
+        </div>
+        <div>
+          <button
+            class="fr-btn fr-btn--secondary"
+            type="button"
+            (click)="closeConfirm()"
+          >
+            Annuler
+          </button>
+        </div>
+      </div>
+    </div>
+  </dsfr-modal>
+
+  <dsfr-modal
+    class="text-start"
+    #blockUserModal
+    icon="fr-icon-lock-fill"
+    [dialogId]="'blockUser-' + userKind + '-' + user.uuid"
+    titleModal="Bloquer l'utilisateur"
+    [concealingBackdrop]="false"
+    [autoCloseOnAction]="false"
+    (conceal)="closeBlockModal()"
+    size="MD"
+  >
+    <div class="fr-alert fr-alert--warning fr-mb-2w">
+      <p>
+        Cette action va bloquer l'accès de
+        <span class="fr-text--bold">{{ user.email }}</span> à l'application.
+        Recopiez ci-dessous son nom et prénom pour confirmer.
+      </p>
+    </div>
+    <p class="fr-text--bold fr-mb-1w">Nom et prénom à recopier :</p>
+    <p class="fr-text--bold fr-text-title--blue-france fr-mb-2w">
+      {{ expectedBlockName }}
+    </p>
+    <div class="fr-input-group">
+      <label class="fr-label" [attr.for]="'block-input-' + userKind + user.id">
+        Recopiez ici le nom et prénom
+      </label>
+      <input
+        class="fr-input"
+        type="text"
+        [id]="'block-input-' + userKind + user.id"
+        [name]="'block-input-' + userKind + user.id"
+        autocomplete="off"
+        [(ngModel)]="blockConfirmationInput"
+        placeholder="Nom Prénom"
+      />
+    </div>
+    <div class="fr-modal__footer">
+      <div
+        class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left"
+      >
+        <div>
+          <button
+            type="button"
+            class="fr-btn"
+            (click)="confirmBlock()"
+            [disabled]="!isBlockNameConfirmed || actionLoading"
+          >
+            {{
+              actionLoading ? "Veuillez patienter..." : "Bloquer l'utilisateur"
+            }}
+          </button>
+        </div>
+        <div>
+          <button
+            class="fr-btn fr-btn--secondary"
+            type="button"
+            (click)="closeBlockModal()"
+          >
+            Annuler
+          </button>
+        </div>
+      </div>
+    </div>
+  </dsfr-modal>
+
+  <dsfr-modal
+    class="text-start"
+    #unblockUserModal
+    icon="fr-icon-lock-unlock-fill"
+    [dialogId]="'unblockUser-' + userKind + '-' + user.uuid"
+    titleModal="Débloquer l'utilisateur"
+    [concealingBackdrop]="false"
+    [autoCloseOnAction]="false"
+    (conceal)="closeUnblockModal()"
+    size="MD"
+  >
+    <p>
+      Vous êtes sur le point de débloquer
+      <span class="fr-text--bold">{{ user.email }}</span
+      >. Indiquez ci-dessous le motif du déblocage — il sera conservé dans les
+      logs. Un code de confirmation par email vous sera demandé.
+    </p>
+    <div class="fr-input-group fr-mt-2w">
+      <label
+        class="fr-label"
+        [attr.for]="'unblock-motif-' + userKind + user.id"
+      >
+        Motif du déblocage
+      </label>
+      <input
+        class="fr-input"
+        type="text"
+        [id]="'unblock-motif-' + userKind + user.id"
+        [name]="'unblock-motif-' + userKind + user.id"
+        minlength="3"
+        maxlength="500"
+        required
+        [(ngModel)]="unblockMotif"
+        placeholder="Ex. Confirmation reçue par téléphone, faux positif anti-bruteforce…"
+      />
+    </div>
+    <div class="fr-modal__footer">
+      <div
+        class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left"
+      >
+        <div>
+          <button
+            type="button"
+            class="fr-btn"
+            (click)="confirmUnblock()"
+            [disabled]="actionLoading || !isUnblockMotifValid"
+          >
+            {{
+              actionLoading
+                ? "Veuillez patienter..."
+                : "Débloquer l'utilisateur"
+            }}
+          </button>
+        </div>
+        <div>
+          <button
+            class="fr-btn fr-btn--secondary"
+            type="button"
+            (click)="closeUnblockModal()"
+          >
+            Annuler
+          </button>
+        </div>
+      </div>
+    </div>
+  </dsfr-modal>
+
+  <dsfr-modal
+    *ngIf="isSupervisor"
+    class="text-start"
+    #deleteUserConfirmationModal
+    icon="fr-icon-delete-fill"
+    [dialogId]="'deleteSupervisor-' + user.uuid"
+    titleModal="Vous êtes sur le point de supprimer le compte de {{
+      user.nom
+    }} {{ user.prenom }}"
+    [concealingBackdrop]="false"
+    (conceal)="deleteUserConfirmationModal?.close()"
+    size="MD"
+  >
+    <app-delete-user
+      [selectedUser]="$any(user)"
+      (deleteComplete)="onDeleteComplete()"
+    ></app-delete-user>
+  </dsfr-modal>
+</ng-container>

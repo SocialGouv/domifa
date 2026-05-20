@@ -1,12 +1,23 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
+import { SupervisorActivityComponent } from "./components/supervisor-activity/supervisor-activity.component";
+import { SupervisorDetailContainerComponent } from "./components/supervisor-detail-container/supervisor-detail-container.component";
+import { SupervisorInfoComponent } from "./components/supervisor-info/supervisor-info.component";
 import { SupervisorListComponent } from "./components/user-supervisor-list/supervisor-list.component";
 
 const routes: Routes = [
   {
     component: SupervisorListComponent,
     path: "",
+  },
+  {
+    component: SupervisorDetailContainerComponent,
+    path: ":uuid",
+    children: [
+      { path: "", component: SupervisorInfoComponent },
+      { path: "activity", component: SupervisorActivityComponent },
+    ],
   },
 ];
 

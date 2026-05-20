@@ -1,0 +1,115 @@
+<div class="fr-content-container">
+  <div class="fr-container">
+    <div
+      *ngIf="loading"
+      role="alert"
+      aria-busy="true"
+      aria-label="Chargement de l'utilisateur..."
+      class="text-center fr-py-6w"
+    >
+      <dsfr-ext-spinner
+        typeLoader="quarter"
+        label="Chargement de l'utilisateur..."
+      ></dsfr-ext-spinner>
+    </div>
+
+    <ng-container *ngIf="!loading && supervisor">
+      <div class="fr-py-3w" id="subnav">
+        <div class="fr-grid-row">
+          <a routerLink="/manage-users" class="fr-link w-auto">
+            <span class="fr-icon-arrow-left-s-line"></span>Retour
+            <span class="fr-sr-only">à la liste des utilisateurs</span>
+          </a>
+        </div>
+        <div
+          class="fr-grid-row fr-pt-2w fr-align-items-center fr-grid-row--gutters"
+        >
+          <div class="fr-col-12 fr-col-md-8 fr-grid-row fr-align-items-center">
+            <h1 class="fr-text-title--blue-france fr-p-0w fr-m-0w">
+              {{ supervisor.id }} - {{ supervisor.nom }} {{ supervisor.prenom }}
+            </h1>
+            <span class="fr-ml-2w" *ngIf="supervisor.status === 'ACTIVE'">
+              <span class="fr-badge fr-badge--success">Actif</span>
+            </span>
+            <span class="fr-ml-2w" *ngIf="supervisor.status === 'PENDING'">
+              <span class="fr-badge fr-badge--info">En attente</span>
+            </span>
+            <span
+              class="fr-ml-2w"
+              *ngIf="supervisor.status === 'TEMPORARILY_BLOCKED'"
+            >
+              <span class="fr-badge fr-badge--warning">Blocage temporaire</span>
+            </span>
+            <span class="fr-ml-2w" *ngIf="supervisor.status === 'BLOCKED'">
+              <span class="fr-badge fr-badge--error">Bloqué</span>
+            </span>
+          </div>
+          <div
+            class="fr-col-12 fr-col-md-4 fr-grid-row fr-grid-row--right fr-align-items-center"
+          >
+            <app-user-actions
+              [user]="supervisor"
+              userKind="supervisor"
+              [me]="me"
+              [showEdit]="true"
+              (editRequest)="openEditModal()"
+              (refresh)="onActionsRefresh()"
+            ></app-user-actions>
+          </div>
+        </div>
+      </div>
+
+      <div class="fr-tabs">
+        <ul
+          class="fr-tabs__list"
+          role="tablist"
+          aria-label="Onglets de l'utilisateur"
+        >
+          <li role="presentation">
+            <a
+              type="button"
+              class="fr-tabs__tab"
+              role="link"
+              [routerLink]="['/manage-users', supervisor.uuid]"
+              [attr.aria-selected]="activeTab === 'infos'"
+            >
+              Informations
+            </a>
+          </li>
+          <li role="presentation">
+            <a
+              type="button"
+              class="fr-tabs__tab"
+              role="link"
+              [routerLink]="['/manage-users', supervisor.uuid, 'activity']"
+              [attr.aria-selected]="activeTab === 'activity'"
+            >
+              Activité récente
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="fr-content">
+        <router-outlet></router-outlet>
+      </div>
+
+      <dsfr-modal
+        class="text-start"
+        icon="fr-icon-edit-fill"
+        #updateUserModal
+        [dialogId]="'updateSupervisorDetail-' + supervisor.uuid"
+        titleModal="Modifier l'utilisateur"
+        [concealingBackdrop]="false"
+        (conceal)="closeEditModal()"
+        size="LG"
+      >
+        <app-register-user-supervisor
+          [isEditMode]="true"
+          (cancelAction)="closeEditModal()"
+          [userToEdit]="supervisor"
+        ></app-register-user-supervisor>
+      </dsfr-modal>
+    </ng-container>
+  </div>
+</div>

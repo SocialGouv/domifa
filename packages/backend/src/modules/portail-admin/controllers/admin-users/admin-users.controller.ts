@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  Query,
   Res,
   UseGuards,
 } from "@nestjs/common";
@@ -36,7 +37,9 @@ import {
 import {
   RegisterUserStructureAdminDto,
   RegisterUserSupervisorDto,
+  UnblockUserDto,
 } from "../../dto";
+import { PageOptionsDto } from "../../../../usagers/dto/pagination/page-options.dto";
 import { AdminStructuresService } from "../../services";
 import { AdminSuperivorUsersService } from "../../services/admin-superivor-users/admin-superivor-users.service";
 import { PatchUserSupervisorDto } from "../../dto/patch-user-supervisor.dto";
@@ -181,6 +184,7 @@ export class AdminUsersController {
   public async unblockSupervisorUser(
     @CurrentSupervisor() user: UserAdminAuthenticated,
     @Param("userId", new ParseIntPipe()) userId: number,
+    @Body() unblockDto: UnblockUserDto,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
     await this.adminSuperivorUsersService.unblockSupervisorUser(userId);
@@ -188,10 +192,71 @@ export class AdminUsersController {
     await this.appLogsService.create({
       ...buildSupervisorActorFields(user),
       action: "UNBLOCK_USER",
-      context: { userId, userProfile: "supervisor" },
+      context: {
+        userId,
+        userProfile: "supervisor",
+        motif: unblockDto.motif,
+      },
     });
 
     return res.status(HttpStatus.OK).json({ status: "ACTIVE" });
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({ summary: "Logs d'activité d'un utilisateur supervisor" })
+  @Get("supervisor/:userId/logs")
+  public async getSupervisorUserLogs(
+    @Param("userId", new ParseIntPipe()) userId: number,
+    @Query() pageOptions: PageOptionsDto
+  ) {
+    return this.appLogsService.findUserLogs({
+      userType: "user_supervisor",
+      userId,
+      page: pageOptions.page,
+      take: pageOptions.take,
+    });
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({ summary: "Logs d'activité d'un utilisateur de structure" })
+  @Get("structure-user/:userId/logs")
+  public async getStructureUserLogs(
+    @Param("userId", new ParseIntPipe()) userId: number,
+    @Query() pageOptions: PageOptionsDto
+  ) {
+    return this.appLogsService.findUserLogs({
+      userType: "user_structure",
+      userId,
+      page: pageOptions.page,
+      take: pageOptions.take,
+    });
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({ summary: "Bloquer un utilisateur supervisor (OTP requis)" })
+  @Patch("supervisor/:userId/block")
+  @UseGuards(OtpGuard)
+  @RequireOtp("BLOCK_USER_BY_ADMIN")
+  public async blockSupervisorUser(
+    @CurrentSupervisor() user: UserAdminAuthenticated,
+    @Param("userId", new ParseIntPipe()) userId: number,
+    @Res() res: ExpressResponse
+  ): Promise<ExpressResponse> {
+    if (user.id === userId) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "CANNOT_BLOCK_SELF" });
+    }
+
+    await this.adminSuperivorUsersService.blockSupervisorUser(userId);
+
+    await this.appLogsService.create({
+      ...buildSupervisorActorFields(user),
+      action: "BLOCK_USER_BY_ADMIN",
+      context: { userId, userProfile: "supervisor" },
+    });
+
+    return res.status(HttpStatus.OK).json({ status: "BLOCKED" });
   }
 
   @ApiBearerAuth()
@@ -209,6 +274,7 @@ export class AdminUsersController {
         createdAt: true,
         territories: true,
         uuid: true,
+        status: true,
       },
     });
   }
@@ -251,6 +317,8 @@ export class AdminUsersController {
   }
 
   @Delete(":uuid")
+  @UseGuards(OtpGuard)
+  @RequireOtp("DELETE_USER_BY_ADMIN")
   public async deleteUserSupervisor(
     @CurrentSupervisor() user: UserAdminAuthenticated,
     @Res() res: ExpressResponse,
