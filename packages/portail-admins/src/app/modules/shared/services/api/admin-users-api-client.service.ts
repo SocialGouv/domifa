@@ -1,10 +1,11 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
-import { UsersForAdminList } from "@domifa/common";
+import { PageResults, UsersForAdminList } from "@domifa/common";
 
 import { environment } from "src/environments/environment";
+import { UserActivityLog } from "../../../manage-users/types/user-activity-log";
 
 @Injectable({ providedIn: "root" })
 export class AdminUsersApiClient {
@@ -49,10 +50,38 @@ export class AdminUsersApiClient {
     );
   }
 
-  public unblockSupervisorUser(userId: number): Observable<{ status: string }> {
+  public unblockSupervisorUser(
+    userId: number,
+    motif: string
+  ): Observable<{ status: string }> {
     return this.http.patch<{ status: string }>(
       `${this.baseUrl}/supervisor/${userId}/unblock`,
-      {}
+      { motif }
+    );
+  }
+
+  public unblockUserWithMotif(
+    structureUuid: string,
+    userId: number,
+    motif: string
+  ): Observable<{ status: string }> {
+    return this.http.patch<{ status: string }>(
+      `${this.structuresUrl}/structure/${structureUuid}/users/${userId}/unblock`,
+      { motif }
+    );
+  }
+
+  public getStructureUserLogs(
+    userId: number,
+    page: number,
+    take: number
+  ): Observable<PageResults<UserActivityLog>> {
+    const params = new HttpParams()
+      .set("page", String(page))
+      .set("take", String(take));
+    return this.http.get<PageResults<UserActivityLog>>(
+      `${this.baseUrl}/structure-user/${userId}/logs`,
+      { params }
     );
   }
 }

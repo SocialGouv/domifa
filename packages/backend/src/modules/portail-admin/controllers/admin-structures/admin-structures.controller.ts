@@ -39,6 +39,7 @@ import { AppLogsService } from "../../../app-logs/app-logs.service";
 import { buildSupervisorActorFields } from "../../../app-logs/app-logs.helpers";
 import {
   DeleteStructureDto,
+  UnblockUserDto,
   UpdateStructureDecisionStatutDto,
 } from "../../dto";
 import { UserStructureWithSecurity } from "../../types";
@@ -244,6 +245,7 @@ export class AdminStructuresController {
     @CurrentSupervisor() user: UserAdminAuthenticated,
     @CurrentStructure() structure: Structure,
     @Param("userId", new ParseIntPipe()) userId: number,
+    @Body() unblockDto: UnblockUserDto,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
     await this.adminStructuresService.unblockStructureUser(
@@ -254,7 +256,12 @@ export class AdminStructuresController {
     await this.appLogsService.create({
       ...buildSupervisorActorFields(user),
       action: "UNBLOCK_USER",
-      context: { userId, userProfile: "structure" },
+      context: {
+        userId,
+        userProfile: "structure",
+        structureId: structure.id,
+        motif: unblockDto.motif,
+      },
     });
 
     return res.status(HttpStatus.OK).json({ status: "ACTIVE" });
@@ -272,8 +279,8 @@ export class AdminStructuresController {
 
     await this.appLogsService.create({
       ...buildSupervisorActorFields(user),
-      action: "BLOCK_USER",
-      context: { userId },
+      action: "BLOCK_USER_BY_ADMIN",
+      context: { userId, userProfile: "structure", structureId: structure.id },
     });
 
     return res.status(HttpStatus.OK).json({ status: "BLOCKED" });

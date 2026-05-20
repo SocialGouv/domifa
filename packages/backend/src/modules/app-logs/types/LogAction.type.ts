@@ -73,4 +73,5 @@ export type LogAction =
   | "REQUEST_BLOCKED"
   | "UNBLOCK_USER"
   | "BLOCK_USER"
+  | "BLOCK_USER_BY_ADMIN"
   | "ACCESS_DENIED_NON_ACTIVE";

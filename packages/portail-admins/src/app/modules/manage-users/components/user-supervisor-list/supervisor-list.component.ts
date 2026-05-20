@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
+import { RouterModule } from "@angular/router";
 
 import {
   DEPARTEMENTS_LISTE,
@@ -17,16 +18,12 @@ import { ManageUsersService } from "../../services/manage-users.service";
 import { AdminAuthService } from "../../../admin-auth/services/admin-auth.service";
 import { subMonths } from "date-fns";
 import { DsfrModalComponent, DsfrModalModule } from "@edugouvfr/ngx-dsfr";
-import {
-  DsfrDropdownMenuComponent,
-  DsfrDropdownMenuItemComponent,
-  DsfrSpinnerComponent,
-} from "@edugouvfr/ngx-dsfr-ext";
+import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 import { TableHeadSortComponent } from "../../../shared/components/table-head-sort/table-head-sort.component";
 import { DisplayLastLoginComponent } from "../../../shared/components/display-last-login/display-last-login.component";
 import { StatCardComponent } from "../../../shared/components/stat-card/stat-card.component";
 import { RegisterUserSupervisorComponent } from "../register-user-supervisor/register-user-supervisor.component";
-import { DeleteUserComponent } from "../delete-user/delete-user.component";
+import { UserActionsComponent } from "../../../shared/components/user-actions/user-actions.component";
 import { FullNamePipe, SortArrayPipe } from "../../../shared/pipes";
 
 @Component({
@@ -35,15 +32,14 @@ import { FullNamePipe, SortArrayPipe } from "../../../shared/pipes";
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     DsfrModalModule,
     DsfrSpinnerComponent,
-    DsfrDropdownMenuComponent,
-    DsfrDropdownMenuItemComponent,
     TableHeadSortComponent,
     DisplayLastLoginComponent,
     StatCardComponent,
     RegisterUserSupervisorComponent,
-    DeleteUserComponent,
+    UserActionsComponent,
     FullNamePipe,
     SortArrayPipe,
   ],
@@ -55,7 +51,6 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
   public me!: PortailAdminUser | null;
 
   public loading: boolean;
-  public displayUserRightsHelper: boolean;
   public sortValue: SortValues;
   public currentKey: keyof UserSupervisor;
   public roleCounts: Record<UserSupervisorRole, number> = {
@@ -67,15 +62,10 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
   private readonly subscription = new Subscription();
 
   public selectedUser: UserSupervisor | null;
-  public newReferrerId: number | null = null;
-  public expectedRole: UserSupervisorRole | null = null;
 
   public readonly DEPARTEMENTS_LISTE = DEPARTEMENTS_LISTE;
   public readonly REGIONS_LISTE = REGIONS_LISTE;
   public readonly USER_SUPERVISOR_ROLES_LABELS = USER_SUPERVISOR_ROLES_LABELS;
-
-  @ViewChild("deleteUserConfirmationModal")
-  public deleteUserConfirmationModal!: DsfrModalComponent;
 
   @ViewChild("addUserModal")
   public addUserModal!: DsfrModalComponent;
@@ -95,7 +85,6 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
     this.currentKey = "nom";
     this.loading = false;
     this.selectedUser = null;
-    this.displayUserRightsHelper = false;
   }
 
   public ngOnInit(): void {
@@ -104,17 +93,17 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
     this.me = this.authService.currentUserValue;
     this.getUsers();
 
-    this.manageUsersService.users$.subscribe((users) => {
-      this.loading = false;
-      this.users = users.map((user) => {
-        return {
+    this.subscription.add(
+      this.manageUsersService.users$.subscribe((users) => {
+        this.loading = false;
+        this.users = users.map((user) => ({
           ...user,
           lastLogin: user?.lastLogin ? new Date(user.lastLogin) : null,
-        };
-      });
-      this.computeRoleCounts(this.users);
-      this.applyFilter();
-    });
+        }));
+        this.computeRoleCounts(this.users);
+        this.applyFilter();
+      })
+    );
   }
 
   public applyFilter(): void {
@@ -153,38 +142,23 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
     this.roleCounts = counts;
   }
 
-  public resetRoles() {
-    this.selectedUser = null;
-    this.expectedRole = null;
-    this.newReferrerId = null;
-  }
-
-  public openDeleteConfirmation(user: UserSupervisor): void {
-    this.selectedUser = user;
-    this.deleteUserConfirmationModal.open();
-  }
-
   public openUpdateUserModal(user: UserSupervisor): void {
     this.selectedUser = user;
     this.updateUserModal.open();
   }
+
   public openAddUserModal(): void {
     this.selectedUser = null;
     this.addUserModal.open();
   }
 
-  public closeModal(modal: "add" | "update" | "delete"): void {
+  public closeModal(modal: "add" | "update"): void {
     this.selectedUser = null;
     if (modal === "add") {
       this.addUserModal?.close();
     }
-
     if (modal === "update") {
       this.updateUserModal?.close();
-    }
-
-    if (modal === "delete") {
-      this.deleteUserConfirmationModal?.close();
     }
   }
 

@@ -7,6 +7,9 @@ import { SupervisorListComponent } from "./components/user-supervisor-list/super
 import { RegisterUserSupervisorComponent } from "./components/register-user-supervisor/register-user-supervisor.component";
 import { ManageUsersRoutingModule } from "./manage-users-routing.module";
 import { DeleteUserComponent } from "./components/delete-user/delete-user.component";
+import { SupervisorActivityComponent } from "./components/supervisor-activity/supervisor-activity.component";
+import { SupervisorDetailContainerComponent } from "./components/supervisor-detail-container/supervisor-detail-container.component";
+import { SupervisorInfoComponent } from "./components/supervisor-info/supervisor-info.component";
 import { FullNamePipe, SortArrayPipe } from "../shared/pipes";
 import {
   provideHttpClient,
@@ -39,6 +42,9 @@ import { DsfrModalModule } from "@edugouvfr/ngx-dsfr";
     SupervisorListComponent,
     RegisterUserSupervisorComponent,
     DeleteUserComponent,
+    SupervisorDetailContainerComponent,
+    SupervisorInfoComponent,
+    SupervisorActivityComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

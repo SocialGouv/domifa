@@ -1,9 +1,10 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { ApiMessage, UserSupervisor } from "@domifa/common";
+import { ApiMessage, PageResults, UserSupervisor } from "@domifa/common";
 import { BehaviorSubject, Observable, map } from "rxjs";
 
 import { environment } from "../../../../environments/environment";
+import { UserActivityLog } from "../types/user-activity-log";
 
 @Injectable({
   providedIn: "root",
@@ -41,6 +42,37 @@ export class ManageUsersService {
 
   public deleteUser(uuid: string): Observable<ApiMessage> {
     return this.http.delete<ApiMessage>(`${this.endPoint}/${uuid}`);
+  }
+
+  public blockSupervisorUser(userId: number): Observable<{ status: string }> {
+    return this.http.patch<{ status: string }>(
+      `${this.endPoint}/supervisor/${userId}/block`,
+      {}
+    );
+  }
+
+  public unblockSupervisorUser(
+    userId: number,
+    motif: string
+  ): Observable<{ status: string }> {
+    return this.http.patch<{ status: string }>(
+      `${this.endPoint}/supervisor/${userId}/unblock`,
+      { motif }
+    );
+  }
+
+  public getSupervisorUserLogs(
+    userId: number,
+    page: number,
+    take: number
+  ): Observable<PageResults<UserActivityLog>> {
+    const params = new HttpParams()
+      .set("page", String(page))
+      .set("take", String(take));
+    return this.http.get<PageResults<UserActivityLog>>(
+      `${this.endPoint}/supervisor/${userId}/logs`,
+      { params }
+    );
   }
 
   public getLastPasswordUpdate(): Observable<Date | null> {

@@ -169,7 +169,17 @@
               [attr.aria-rowindex]="(currentPage - 1) * pageSize + i + 1"
             >
               <td class="fr-text--bold">{{ user.id }}</td>
-              <td class="fr-text--bold">{{ user | fullName }}</td>
+              <td class="fr-text--bold">
+                <a
+                  class="fr-link"
+                  [routerLink]="['/manage-structure-users', user.id]"
+                  [attr.aria-label]="
+                    'Voir le détail de ' + user.nom + ' ' + user.prenom
+                  "
+                >
+                  {{ user | fullName }}
+                </a>
+              </td>
               <td>{{ user.email }}</td>
               <td *ngIf="showStructure">
                 <a

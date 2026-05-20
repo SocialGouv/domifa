@@ -1,0 +1,67 @@
+<ng-container *ngIf="supervisor">
+  <div class="fr-mt-3w">
+    <h2 class="fr-h4">Informations du compte</h2>
+    <dl class="fr-mt-2w">
+      <div class="fr-grid-row fr-py-1w">
+        <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Identifiant</dt>
+        <dd class="fr-col-12 fr-col-md-8 fr-m-0">{{ supervisor.id }}</dd>
+      </div>
+      <div class="fr-grid-row fr-py-1w">
+        <dt class="fr-col-12 fr-col-md-4 fr-text--bold">UUID</dt>
+        <dd class="fr-col-12 fr-col-md-8 fr-m-0 fr-text--xs">
+          {{ supervisor.uuid }}
+        </dd>
+      </div>
+      <div class="fr-grid-row fr-py-1w">
+        <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Nom</dt>
+        <dd class="fr-col-12 fr-col-md-8 fr-m-0">{{ supervisor.nom }}</dd>
+      </div>
+      <div class="fr-grid-row fr-py-1w">
+        <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Prénom</dt>
+        <dd class="fr-col-12 fr-col-md-8 fr-m-0">{{ supervisor.prenom }}</dd>
+      </div>
+      <div class="fr-grid-row fr-py-1w">
+        <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Email</dt>
+        <dd class="fr-col-12 fr-col-md-8 fr-m-0">{{ supervisor.email }}</dd>
+      </div>
+      <div class="fr-grid-row fr-py-1w">
+        <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Rôle</dt>
+        <dd class="fr-col-12 fr-col-md-8 fr-m-0">
+          {{ USER_SUPERVISOR_ROLES_LABELS[supervisor.role] }}
+        </dd>
+      </div>
+      <div
+        class="fr-grid-row fr-py-1w"
+        *ngIf="supervisor.role === 'department' || supervisor.role === 'region'"
+      >
+        <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Territoire d'action</dt>
+        <dd class="fr-col-12 fr-col-md-8 fr-m-0">
+          <ng-container *ngIf="supervisor.role === 'department'">
+            <span *ngFor="let territory of supervisor.territories">
+              {{ DEPARTEMENTS_LISTE[territory] }}
+            </span>
+          </ng-container>
+          <ng-container *ngIf="supervisor.role === 'region'">
+            <span *ngFor="let territory of supervisor.territories">
+              {{ REGIONS_LISTE[territory] }}
+            </span>
+          </ng-container>
+        </dd>
+      </div>
+      <div class="fr-grid-row fr-py-1w">
+        <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Date d'inscription</dt>
+        <dd class="fr-col-12 fr-col-md-8 fr-m-0">
+          {{ supervisor.createdAt | date : "d MMMM y" }}
+        </dd>
+      </div>
+      <div class="fr-grid-row fr-py-1w">
+        <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Dernière connexion</dt>
+        <dd class="fr-col-12 fr-col-md-8 fr-m-0">
+          <app-display-last-login
+            [lastLogin]="supervisor.lastLogin"
+          ></app-display-last-login>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</ng-container>

@@ -46,10 +46,21 @@ export interface BlockedIpSummary {
   attemptedIdentifiersOverflow?: number;
 }
 
+export interface PermanentlyBlockedAccount {
+  userId: number;
+  userProfile: "structure" | "supervisor";
+  email: string;
+  role?: string;
+  structureId?: number;
+  structureName?: string;
+  structureCity?: string;
+}
+
 export interface SuspiciousActivitySummary {
   windowStart: Date;
   windowEnd: Date;
   totals: Record<SecurityLogAction, number>;
   blockedUsers: BlockedUserSummary[];
   blockedIps: BlockedIpSummary[];
+  permanentlyBlockedAccounts: PermanentlyBlockedAccount[];
 }

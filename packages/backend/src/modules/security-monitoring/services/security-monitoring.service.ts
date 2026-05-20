@@ -8,12 +8,15 @@ import {
   appLogsRepository,
   AppLogTable,
   structureRepository,
+  userStructureRepository,
+  userSupervisorRepository,
 } from "../../../database";
 import { appLogger } from "../../../util";
 import { formatThrottleWindow } from "../../../auth/guards/app-throttler/app-throttler.utils";
 import {
   BlockedIpSummary,
   BlockedUserSummary,
+  PermanentlyBlockedAccount,
   SecurityLogAction,
   SuspiciousActivitySummary,
 } from "../types/security-alert.types";
@@ -71,9 +74,21 @@ export class SecurityMonitoringService {
 
     const summary = buildSummary({ recentLogs, windowStart, windowEnd });
     await enrichBlockedUsersWithStructure(summary.blockedUsers);
+    summary.permanentlyBlockedAccounts = await loadPermanentlyBlockedAccounts();
 
+    const blockedEmails = summary.permanentlyBlockedAccounts
+      .map((account) => account.email)
+      .filter((email): email is string => !!email);
     appLogger.warn(
-      `[CRON] [securityMonitoring] Detected ${recentLogs.length} suspicious event(s) (blocked users: ${summary.blockedUsers.length}, blocked IPs: ${summary.blockedIps.length})`
+      `[CRON] [securityMonitoring] Detected ${
+        recentLogs.length
+      } suspicious event(s) (blocked users: ${
+        summary.blockedUsers.length
+      }, blocked IPs: ${
+        summary.blockedIps.length
+      }, permanently blocked accounts: ${
+        summary.permanentlyBlockedAccounts.length
+      }${blockedEmails.length > 0 ? ` [${blockedEmails.join(", ")}]` : ""})`
     );
 
     try {
@@ -157,7 +172,14 @@ function buildSummary({
     .sort((a, b) => b.attempts - a.attempts)
     .slice(0, MAX_IPS_IN_REPORT);
 
-  return { windowStart, windowEnd, totals, blockedUsers, blockedIps };
+  return {
+    windowStart,
+    windowEnd,
+    totals,
+    blockedUsers,
+    blockedIps,
+    permanentlyBlockedAccounts: [],
+  };
 }
 
 function toBlockedIpSummary(agg: IpAggregator): BlockedIpSummary {
@@ -308,6 +330,77 @@ function appendIdentifier(
     return;
   }
   entry.attemptedIdentifiers.push(identifier);
+}
+
+// Snapshot of every account currently in status='BLOCKED' across structure and
+// supervisor tables. Surfaced in the alert email so operators can see the
+// cumulative blocked state (not only what fired in the 5-min window).
+async function loadPermanentlyBlockedAccounts(): Promise<
+  PermanentlyBlockedAccount[]
+> {
+  try {
+    const [structureRows, supervisorRows] = await Promise.all([
+      userStructureRepository.find({
+        where: { status: "BLOCKED" },
+        select: {
+          id: true,
+          email: true,
+          role: true,
+          structureId: true,
+        },
+      }),
+      userSupervisorRepository.find({
+        where: { status: "BLOCKED" },
+        select: { id: true, email: true, role: true },
+      }),
+    ]);
+
+    const accounts: PermanentlyBlockedAccount[] = [
+      ...structureRows.map((row) => ({
+        userId: row.id,
+        userProfile: "structure" as const,
+        email: row.email,
+        role: row.role,
+        structureId: row.structureId,
+      })),
+      ...supervisorRows.map((row) => ({
+        userId: row.id,
+        userProfile: "supervisor" as const,
+        email: row.email,
+        role: row.role,
+      })),
+    ];
+
+    const structureIds = [
+      ...new Set(
+        accounts
+          .map((a) => a.structureId)
+          .filter((id): id is number => typeof id === "number")
+      ),
+    ];
+    if (structureIds.length > 0) {
+      const rows = await structureRepository.find({
+        where: { id: In(structureIds) },
+        select: { id: true, nom: true, ville: true },
+      });
+      const byId = new Map(rows.map((r) => [r.id, r]));
+      for (const account of accounts) {
+        if (account.structureId === undefined) continue;
+        const row = byId.get(account.structureId);
+        if (!row) continue;
+        account.structureName = row.nom;
+        account.structureCity = row.ville;
+      }
+    }
+
+    return accounts;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    appLogger.warn(
+      `[CRON] [securityMonitoring] Failed to load permanently blocked accounts: ${message}`
+    );
+    return [];
+  }
 }
 
 async function enrichBlockedUsersWithStructure(

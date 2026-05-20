@@ -56,4 +56,11 @@ export class AdminSuperivorUsersService {
       clearAllEvents: true,
     });
   }
+
+  public async blockSupervisorUser(userId: number): Promise<void> {
+    await userSupervisorRepository.update(
+      { id: userId },
+      { status: "BLOCKED" }
+    );
+  }
 }
