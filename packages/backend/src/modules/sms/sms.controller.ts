@@ -29,27 +29,19 @@ export class SmsController {
     @CurrentUsager() currentUsager: Usager,
     @Body() pageOptionsDto: PageOptionsDto
   ) {
-    const queryBuilder = messageSmsRepository
-      .createQueryBuilder("message_sms")
-      .where(`"structureId" = :id`, {
-        id: currentUsager.structureId,
-      })
-      .andWhere(`"usagerRef" = :ref`, {
-        ref: currentUsager.ref,
-      })
-      .orderBy(`"createdAt"`, pageOptionsDto.order)
-      .skip(pageOptionsDto.skip)
-      .take(pageOptionsDto.take);
-
-    const [entities, itemCount] = await Promise.all([
-      queryBuilder.getMany(),
-      queryBuilder.getCount(),
-    ]);
-
-    const pageMetaDto = new PageMeta({
-      itemCount,
-      pageOptions: pageOptionsDto,
+    const [entities, itemCount] = await messageSmsRepository.findAndCount({
+      where: {
+        structureId: currentUsager.structureId,
+        usagerRef: currentUsager.ref,
+      },
+      order: { createdAt: pageOptionsDto.order },
+      skip: pageOptionsDto.skip,
+      take: pageOptionsDto.take,
     });
-    return new PageResults({ data: entities, meta: pageMetaDto });
+
+    return new PageResults({
+      data: entities,
+      meta: new PageMeta({ itemCount, pageOptions: pageOptionsDto }),
+    });
   }
 }

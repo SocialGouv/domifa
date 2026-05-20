@@ -209,8 +209,7 @@ function ingestBlockUserLog({
   context: Record<string, unknown>;
   blockedUsersById: Map<number, BlockedUserSummary>;
 }): void {
-  const blockedUser = (context["blockedUser"] as Record<string, unknown>) ?? {};
-  const userId = Number(blockedUser["userId"] ?? log.userId);
+  const userId = Number(context["userId"] ?? log.userId);
   if (!Number.isFinite(userId) || userId <= 0) return;
   if (blockedUsersById.has(userId)) return;
 
@@ -225,10 +224,10 @@ function ingestBlockUserLog({
 
   blockedUsersById.set(userId, {
     userId,
-    userProfile: stringOrUndef(blockedUser["userProfile"]),
-    structureId: numberOrUndef(blockedUser["structureId"]),
-    email: stringOrUndef(blockedUser["email"]),
-    role: stringOrUndef(blockedUser["role"]),
+    userProfile: stringOrUndef(context["userProfile"]),
+    structureId: numberOrUndef(context["structureId"]) ?? log.structureId,
+    email: stringOrUndef(context["email"]),
+    role: stringOrUndef(context["role"]),
     reason: stringOrUndef(context["reason"]),
     triggerIp: throttleCtx ? stringOrUndef(throttleCtx["ip"]) : undefined,
     triggerUrl: throttleCtx ? stringOrUndef(throttleCtx["url"]) : undefined,

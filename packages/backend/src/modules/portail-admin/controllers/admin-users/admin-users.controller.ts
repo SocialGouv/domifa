@@ -206,6 +206,7 @@ export class AdminUsersController {
   @ApiOperation({ summary: "Logs d'activité d'un utilisateur supervisor" })
   @Get("supervisor/:userId/logs")
   public async getSupervisorUserLogs(
+    @CurrentSupervisor() _user: UserAdminAuthenticated,
     @Param("userId", new ParseIntPipe()) userId: number,
     @Query() pageOptions: PageOptionsDto
   ) {
@@ -221,6 +222,7 @@ export class AdminUsersController {
   @ApiOperation({ summary: "Logs d'activité d'un utilisateur de structure" })
   @Get("structure-user/:userId/logs")
   public async getStructureUserLogs(
+    @CurrentSupervisor() _user: UserAdminAuthenticated,
     @Param("userId", new ParseIntPipe()) userId: number,
     @Query() pageOptions: PageOptionsDto
   ) {

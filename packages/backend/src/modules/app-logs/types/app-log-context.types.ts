@@ -35,14 +35,13 @@ export type AdminUserRoleChangeLogContext = {
 export type UserStructureRoleChangeLogContext = {
   // USER_ROLE_CHANGE
   userId: number;
-  structureId: number;
   oldRole: UserStructureRole;
   newRole: UserStructureRole;
 };
 
 export type UserStructureCreateLogContext = {
-  // USER_CREATE
+  // USER_CREATE | USER_DELETE — structureId lives on the row, not in context
   userId: number;
-  structureId: number;
+  structureId?: number;
   role: UserStructureRole;
 };

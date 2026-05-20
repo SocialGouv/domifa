@@ -179,8 +179,11 @@ export class StructuresAuthService {
     );
 
     await appLogsRepository.save({
-      ...buildStructureActorFields({ id: event.userId, role: event.role }),
-      structureId: event.structureId,
+      ...buildStructureActorFields({
+        id: event.userId,
+        role: event.role,
+        structureId: event.structureId,
+      }),
       action: action as LogAction,
       context,
     });

@@ -383,10 +383,8 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
       expect(blockLogs[0].context.autoBlocked).toBe(true);
       expect(blockLogs[0].context.triggeredBy).toBe("AppThrottlerGuard");
       expect(blockLogs[0].context.reason).toBe("bot_ua");
-      expect(blockLogs[0].context.blockedUser.userId).toBe(
-        TEST_STRUCTURE_USER_ID
-      );
-      expect(blockLogs[0].context.blockedUser.userProfile).toBe("structure");
+      expect(blockLogs[0].context.userId).toBe(TEST_STRUCTURE_USER_ID);
+      expect(blockLogs[0].context.userProfile).toBe("structure");
 
       // REQUEST_BLOCKED dedup'd to one row with attempts=10 and per-user key
       const reqLogs = await appLogsRepository.find({

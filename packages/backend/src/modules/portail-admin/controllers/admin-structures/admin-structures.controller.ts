@@ -202,6 +202,7 @@ export class AdminStructuresController {
       );
       await this.appLogsService.create({
         ...buildSupervisorActorFields(user),
+        structureId: structure.id,
         action: config.logAction,
       });
 
@@ -255,11 +256,11 @@ export class AdminStructuresController {
 
     await this.appLogsService.create({
       ...buildSupervisorActorFields(user),
+      structureId: structure.id,
       action: "UNBLOCK_USER",
       context: {
         userId,
         userProfile: "structure",
-        structureId: structure.id,
         motif: unblockDto.motif,
       },
     });
@@ -279,8 +280,9 @@ export class AdminStructuresController {
 
     await this.appLogsService.create({
       ...buildSupervisorActorFields(user),
+      structureId: structure.id,
       action: "BLOCK_USER_BY_ADMIN",
-      context: { userId, userProfile: "structure", structureId: structure.id },
+      context: { userId, userProfile: "structure" },
     });
 
     return res.status(HttpStatus.OK).json({ status: "BLOCKED" });

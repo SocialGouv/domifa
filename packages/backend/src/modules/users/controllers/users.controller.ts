@@ -52,6 +52,10 @@ import {
 import { RegisterUserStructureAdminDto } from "../../portail-admin";
 import { AppLogsService } from "../../app-logs/app-logs.service";
 import {
+  buildStructureActorFields,
+  buildSupervisorActorFields,
+} from "../../app-logs/app-logs.helpers";
+import {
   UserStructureCreateLogContext,
   UserStructureRoleChangeLogContext,
 } from "../../app-logs/types/app-log-context.types";
@@ -165,14 +169,12 @@ export class UsersController {
       { role: updateRoleDto.role }
     );
     await this.appLogService.create<UserStructureRoleChangeLogContext>({
+      ...buildStructureActorFields(userStructureAuth),
       action: "USER_ROLE_CHANGE",
-      userId: userStructureAuth.id,
-      role: userStructureAuth.role,
       context: {
         newRole: updateRoleDto.role,
         oldRole: chosenUserStructure.role,
         userId: chosenUserStructure.id,
-        structureId: chosenUserStructure.structureId,
       },
     });
     return userStructureRepository.findOneBy({
@@ -227,12 +229,9 @@ export class UsersController {
     @Param("userUuid", new ParseUUIDPipe()) _userUuid: string,
     @CurrentChosenUserStructure() chosenUserStructure: UserStructure
   ) {
-    return usagerRepository
-      .createQueryBuilder("usager")
-      .where(`usager."referrerId" = :id`, {
-        id: chosenUserStructure.id,
-      })
-      .getCount();
+    return usagerRepository.count({
+      where: { referrerId: chosenUserStructure.id },
+    });
   }
 
   @AllowUserStructureRoles("admin")
@@ -263,14 +262,11 @@ export class UsersController {
     }
 
     await this.appLogService.create<UserStructureCreateLogContext>({
+      ...buildStructureActorFields(userStructureAuth),
       action: "USER_DELETE",
-      userId: userStructureAuth._userId,
-      role: userStructureAuth.role,
-      structureId: userStructureAuth.structureId,
       context: {
         role: chosenUserStructure.role,
         userId: chosenUserStructure.id,
-        structureId: userStructureAuth.structureId,
       },
     });
 
@@ -339,10 +335,10 @@ export class UsersController {
     }
 
     await this.appLogService.create<UserStructureCreateLogContext>({
+      ...(user._userProfile === "structure"
+        ? buildStructureActorFields(user as UserStructureAuthenticated)
+        : buildSupervisorActorFields(user as UserAdminAuthenticated)),
       action: "USER_CREATE",
-      userId: user.id,
-      structureId: "structureId" in user ? user.structureId : null,
-      role: user.role,
       context: {
         role: newUser.role,
         userId: newUser.id,

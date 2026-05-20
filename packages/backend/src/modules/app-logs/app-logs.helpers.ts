@@ -6,10 +6,18 @@ import { AppLog } from "./types";
 
 type ActorFields = Pick<
   AppLog,
-  "userId" | "userStructureId" | "userSupervisorId" | "userType" | "role"
+  | "userId"
+  | "userStructureId"
+  | "userSupervisorId"
+  | "userType"
+  | "role"
+  | "structureId"
 >;
 
-type StructureActorIdentity = Pick<UserStructureAuthenticated, "id" | "role">;
+type StructureActorIdentity = Pick<
+  UserStructureAuthenticated,
+  "id" | "role" | "structureId"
+>;
 type SupervisorActorIdentity = Pick<UserAdminAuthenticated, "id" | "role">;
 
 type UsagerLogIdentity = { ref: number; uuid?: string };
@@ -22,6 +30,7 @@ export const buildStructureActorFields = (
   userStructureId: user.id,
   userType: "user_structure",
   role: user.role,
+  structureId: user.structureId,
 });
 
 export const buildSupervisorActorFields = (
