@@ -19,6 +19,11 @@ import { SYSTEM_ACTOR_FIELDS } from "../../app-logs/app-logs.helpers";
 // commodity hardware).
 const LOGIN_RESPONSE_TIME_TARGET_MS = 350;
 
+export interface CheckPasswordRequestContext {
+  ip: string;
+  userAgent: string;
+}
+
 export const userSecurityPasswordChecker = {
   checkPassword,
 };
@@ -27,6 +32,7 @@ async function checkPassword<T extends UserStructure | UserSupervisor>(args: {
   email: string;
   password: string;
   userProfile: UserProfile;
+  requestContext: CheckPasswordRequestContext;
 }): Promise<T> {
   const started = Date.now();
   try {
@@ -45,10 +51,12 @@ async function checkPasswordImpl<T extends UserStructure | UserSupervisor>({
   email,
   password,
   userProfile,
+  requestContext,
 }: {
   email: string;
   password: string;
   userProfile: UserProfile;
+  requestContext: CheckPasswordRequestContext;
 }): Promise<T> {
   const repository = getUserRepository(userProfile);
   const securityRepository = getUserSecurityRepository(userProfile);
@@ -103,6 +111,7 @@ async function checkPasswordImpl<T extends UserStructure | UserSupervisor>({
       userProfile,
       userId: user.id,
       status: currentStatus,
+      requestContext,
     });
     if (currentStatus === "BLOCKED") {
       throw new Error("ACCOUNT_BLOCKED");
@@ -133,10 +142,12 @@ async function logAccessDeniedOnLogin({
   userProfile,
   userId,
   status,
+  requestContext,
 }: {
   userProfile: UserProfile;
   userId: number;
   status: UserStatus | null;
+  requestContext: CheckPasswordRequestContext;
 }): Promise<void> {
   await appLogsRepository
     .save(
@@ -148,6 +159,8 @@ async function logAccessDeniedOnLogin({
           status,
           userProfile,
           userId,
+          ip: requestContext.ip,
+          userAgent: requestContext.userAgent,
         },
       })
     )

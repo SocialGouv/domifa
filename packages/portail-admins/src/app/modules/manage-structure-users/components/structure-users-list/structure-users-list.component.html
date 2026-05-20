@@ -137,6 +137,24 @@
             </dsfrx-dropdownmenu-item>
           </ng-container>
 
+          <!-- Débloquer utilisateur -->
+          <ng-container
+            *ngIf="
+              user.status === 'BLOCKED' || user.status === 'TEMPORARILY_BLOCKED'
+            "
+          >
+            <dsfrx-dropdownmenu-item (selectItem)="unblockUser(user)">
+              <button
+                type="button"
+                class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
+                (click)="unblockUser(user)"
+              >
+                <i class="fr-icon-lock-unlock-fill" aria-hidden="true"></i>
+                Débloquer l'utilisateur
+              </button>
+            </dsfrx-dropdownmenu-item>
+          </ng-container>
+
           <!-- Activité utilisateur -->
           <dsfrx-dropdownmenu-item>
             <button

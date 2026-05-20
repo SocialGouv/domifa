@@ -412,12 +412,13 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       }
     }
 
-    await this.maybeAutoBlockUser(reason, jwtUser);
+    await this.maybeAutoBlockUser(reason, jwtUser, baseContext);
   }
 
   private async maybeAutoBlockUser(
     reason: RequestBlockReason,
-    jwtUser: ThrottleBlockedJwtUser | undefined
+    jwtUser: ThrottleBlockedJwtUser | undefined,
+    requestContext: ThrottleBlockedLogContext
   ): Promise<void> {
     if (!jwtUser?.userId) {
       return;
@@ -434,7 +435,14 @@ export class AppThrottlerGuard extends ThrottlerGuard {
         structureId: jwtUser.structureId,
         role: jwtUser.role,
       },
-      context: {},
+      context: {
+        ip: requestContext.ip,
+        userAgent: requestContext.userAgent,
+        method: requestContext.method,
+        url: requestContext.url,
+        origin: requestContext.origin,
+        referer: requestContext.referer,
+      },
     });
   }
 }
