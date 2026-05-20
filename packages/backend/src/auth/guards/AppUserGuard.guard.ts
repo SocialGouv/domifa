@@ -24,6 +24,10 @@ import { authChecker } from "../services";
 import { userStatusManager } from "../../modules/users/services";
 import { appLogsRepository, AppLogTable } from "../../database";
 import { SYSTEM_ACTOR_FIELDS } from "../../modules/app-logs/app-logs.helpers";
+import {
+  getClientIp,
+  getClientUserAgent,
+} from "../../util/express/clientRequest.helper";
 
 @Injectable()
 export class AppUserGuard implements CanActivate {
@@ -182,7 +186,8 @@ export class AppUserGuard implements CanActivate {
                 userId: user._userId,
                 method: request.method,
                 url: request.url,
-                ip: request.ip,
+                ip: getClientIp(request),
+                userAgent: getClientUserAgent(request),
               },
             })
           )

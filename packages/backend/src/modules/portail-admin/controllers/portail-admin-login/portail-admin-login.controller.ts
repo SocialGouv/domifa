@@ -65,6 +65,10 @@ export class PortailAdminLoginController {
         email: loginDto.email,
         password: loginDto.password,
         userProfile,
+        requestContext: {
+          ip: getClientIp(req),
+          userAgent: getClientUserAgent(req),
+        },
       });
     } catch (err) {
       // Anti-enumeration: no OTP is generated when credentials fail, so

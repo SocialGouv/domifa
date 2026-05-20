@@ -56,6 +56,10 @@ export class StructuresAuthController {
           email: loginDto.email,
           password: loginDto.password,
           userProfile,
+          requestContext: {
+            ip: getClientIp(req),
+            userAgent: getClientUserAgent(req),
+          },
         });
 
       const accessToken = await this.structuresAuthService.login(user, {
