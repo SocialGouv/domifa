@@ -103,24 +103,21 @@ export class InteractionsController {
     @CurrentUsager() currentUsager: Usager,
     @Body() pageOptionsDto: PageOptionsDto
   ) {
-    const queryBuilder = userUsagerLoginRepository
-      .createQueryBuilder("user_usager_login")
-      .select([`"createdAt"`])
-      .where({
-        structureId: user.structureId,
+    const [entities, itemCount] = await userUsagerLoginRepository.findAndCount({
+      select: { createdAt: true },
+      where: {
+        structureId: user.structureId as number,
         usagerUUID: currentUsager.uuid,
-      })
-      .orderBy(`"createdAt"`, pageOptionsDto.order)
-      .skip((pageOptionsDto.page - 1) * pageOptionsDto.take)
-      .take(pageOptionsDto.take);
-
-    const itemCount = await queryBuilder.getCount();
-    const entities = await queryBuilder.getRawMany();
-    const pageMetaDto = new PageMeta({
-      itemCount,
-      pageOptions: pageOptionsDto,
+      },
+      order: { createdAt: pageOptionsDto.order },
+      skip: (pageOptionsDto.page - 1) * pageOptionsDto.take,
+      take: pageOptionsDto.take,
     });
-    return new PageResults({ data: entities, meta: pageMetaDto });
+
+    return new PageResults({
+      data: entities,
+      meta: new PageMeta({ itemCount, pageOptions: pageOptionsDto }),
+    });
   }
 
   @UseGuards(UsagerAccessGuard, InteractionsGuard)

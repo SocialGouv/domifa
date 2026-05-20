@@ -106,6 +106,7 @@ export class UsersSupervisorController {
       });
 
       await this.appLogservice.create<UserSupervisorCrudLogContext>({
+        userType: "user_supervisor",
         action: "ADMIN_PASSWORD_RESET",
         userId: user.id,
       });

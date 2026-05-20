@@ -297,12 +297,15 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       .save(
         new AppLogTable({
           ...SYSTEM_ACTOR_FIELDS,
+          structureId: blockedUserExtra?.structureId,
           action: "BLOCK_USER",
           context: {
             autoBlocked: true,
             triggeredBy: "AppThrottlerGuard",
             reason,
-            blockedUser: { userId, userProfile, ...blockedUserExtra },
+            userId,
+            userProfile,
+            ...blockedUserExtra,
             ...context,
           },
         })
