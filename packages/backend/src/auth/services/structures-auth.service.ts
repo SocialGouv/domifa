@@ -10,6 +10,10 @@ import {
 import { appLogger } from "../../util";
 import {
   CURRENT_JWT_PAYLOAD_VERSION,
+  CurrentUserSession,
+  STRUCTURE_TRUST_JWT_EXPIRES_IN,
+  STRUCTURE_TRUST_JWT_SUBJECT,
+  StructureTrustJwtPayload,
   UserStructureAuthenticated,
   UserStructureJwtPayload,
   UserStructurePublic,
@@ -58,8 +62,10 @@ export class StructuresAuthService {
     user: UserStructure,
     request: { ipAddress: string; userAgent: string }
   ) {
-    // Rotate the session on every login: any prior active session is moved
-    // to history and a new one (with a fresh salt + fingerprint) is created.
+    // Rotate the session on every full login: any prior active session is
+    // moved to history and a new one (with a fresh salt + fingerprint) is
+    // created. Called for the OTP-validated path. The trusted-device path
+    // uses signForExistingSession to keep the current session alive.
     const session = await this.sessionFingerprintService.startNewSession(
       "structure",
       user.id,
@@ -68,6 +74,25 @@ export class StructuresAuthService {
       request.userAgent,
       user.structureId
     );
+
+    return this.signAccessTokenForSession(user, session);
+  }
+
+  // Trusted-device path: keep the existing session (no salt rotation) and
+  // re-issue an access JWT carrying a fresh trust token. Caller has already
+  // verified the trust token presented by the client.
+  public signForExistingSession(
+    user: UserStructure,
+    session: CurrentUserSession
+  ) {
+    return this.signAccessTokenForSession(user, session);
+  }
+
+  private signAccessTokenForSession(
+    user: UserStructure,
+    session: CurrentUserSession
+  ) {
+    const trustToken = this.signTrustToken(user, session);
 
     const payload: UserStructureJwtPayload = {
       _jwtPayloadVersion: CURRENT_JWT_PAYLOAD_VERSION,
@@ -86,10 +111,28 @@ export class StructuresAuthService {
       structureId: user.structureId,
       domifaVersion: domifaConfig().version.toString(),
       fingerprintHash: session.fingerprintHash,
+      trustToken,
     };
     return {
       access_token: this.jwtService.sign(payload),
     };
+  }
+
+  private signTrustToken(
+    user: UserStructure,
+    session: CurrentUserSession
+  ): string {
+    const payload: StructureTrustJwtPayload = {
+      sub: STRUCTURE_TRUST_JWT_SUBJECT,
+      userUuid: user.uuid,
+      userId: user.id,
+      sessionUuid: session.uuid,
+      salt: session.salt,
+      fingerprintHash: session.fingerprintHash,
+    };
+    return this.jwtService.sign(payload, {
+      expiresIn: STRUCTURE_TRUST_JWT_EXPIRES_IN,
+    });
   }
 
   public async validateUserStructure(

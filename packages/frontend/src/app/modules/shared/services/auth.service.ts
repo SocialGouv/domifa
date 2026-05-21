@@ -43,10 +43,17 @@ export class AuthService {
   }
 
   public login(email: string, password: string): Observable<UserStructure> {
+    // Re-present the trust token nested in the previous access JWT (if any).
+    // When the backend accepts it the OTP step is skipped; otherwise the
+    // OtpInterceptor catches the 401 OTP_REQUIRED and re-runs the request
+    // with the Otp-Code header automatically.
+    const trustToken = this.readTrustTokenFromPreviousAccessToken();
+
     return this.http
       .post<{ access_token: string }>(`${this.endPoint}/login`, {
         email,
         password,
+        ...(trustToken ? { trustToken } : {}),
       })
       .pipe(
         map((token: { access_token: string }) => {
@@ -60,6 +67,26 @@ export class AuthService {
           return user;
         })
       );
+  }
+
+  // The trust token is a nested signed JWT carried inside the access JWT
+  // payload (claim `trustToken`). We decode the previous access JWT without
+  // verifying anything — the backend re-verifies signature + binding before
+  // trusting the token. If anything is off (missing, malformed, no prior
+  // login), return null and the backend falls back to the OTP path.
+  private readTrustTokenFromPreviousAccessToken(): string | null {
+    const previous = this.currentUserValue?.access_token;
+    if (!previous) {
+      return null;
+    }
+    try {
+      const decoded = jwtDecode<{ trustToken?: string }>(previous);
+      return typeof decoded?.trustToken === "string"
+        ? decoded.trustToken
+        : null;
+    } catch {
+      return null;
+    }
   }
 
   public isAuth(): Observable<boolean> {

@@ -71,6 +71,10 @@ export type DomifaConfig = {
       userStructureCreatedByAdmin: number; // DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_CREATED_BY_ADMIN
       // Structure pending activation template
       structurePendingActivation: number; // DOMIFA_BREVO_TEMPLATES_STRUCTURE_PENDING_ACTIVATION
+      // OTP login email template (used when otpProvider === "brevo")
+      otpLogin: number; // DOMIFA_BREVO_TEMPLATES_OTP_LOGIN
+      // OTP action confirmation email template (used when otpProvider === "brevo")
+      otpAction: number; // DOMIFA_BREVO_TEMPLATES_OTP_ACTION
     };
   };
   email: {
@@ -78,6 +82,8 @@ export type DomifaConfig = {
     emailAddressRedirectAllTo: string; // DOMIFA_EMAIL_ADDRESS_REDIRECT_ALL_TO
     emailAddressErrorReport: string[]; // DOMIFA_ERROR_REPORT_EMAILS
     emailAddressAdmin: string; // DOMIFA_ADMIN_EMAIL
+    // Provider used for OTP emails. SMTP stays available for legacy/manual use.
+    otpProvider: "brevo" | "smtp"; // DOMIFA_OTP_EMAIL_PROVIDER
   };
   sms: {
     enabled: boolean; // DOMIFA_SMS_ENABLE
