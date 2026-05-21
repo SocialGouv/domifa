@@ -87,7 +87,12 @@ describe("OtpEmailService", () => {
   it("should not call sendMail when envId is test", async () => {
     mockConfig.mockReturnValue(buildConfig({ envId: "test" }));
 
-    await service.sendOtpEmail("test@example.com", "123456", "LOGIN");
+    await service.sendOtpEmail({
+      email: "test@example.com",
+      prenom: "Alice",
+      code: "123456",
+      purpose: "LOGIN",
+    });
 
     expect(mockSendMail).not.toHaveBeenCalled();
   });
@@ -101,7 +106,12 @@ describe("OtpEmailService", () => {
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       .mockImplementation(() => {});
 
-    await service.sendOtpEmail("dev@example.com", "424242", "LOGIN");
+    await service.sendOtpEmail({
+      email: "dev@example.com",
+      prenom: "Alice",
+      code: "424242",
+      purpose: "LOGIN",
+    });
 
     expect(mockSendMail).not.toHaveBeenCalled();
     expect(logSpy).toHaveBeenCalledTimes(1);
@@ -114,7 +124,12 @@ describe("OtpEmailService", () => {
       buildConfig({ envId: "dev", email: { emailsEnabled: false } })
     );
 
-    await service.sendOtpEmail("test@example.com", "123456", "LOGIN");
+    await service.sendOtpEmail({
+      email: "test@example.com",
+      prenom: "Alice",
+      code: "123456",
+      purpose: "LOGIN",
+    });
 
     expect(mockSendMail).not.toHaveBeenCalled();
   });
@@ -136,7 +151,12 @@ describe("OtpEmailService", () => {
     );
 
     await expect(
-      service.sendOtpEmail("test@example.com", "123456", "LOGIN")
+      service.sendOtpEmail({
+        email: "test@example.com",
+        prenom: "Alice",
+        code: "123456",
+        purpose: "LOGIN",
+      })
     ).rejects.toBeInstanceOf(InternalServerErrorException);
     expect(mockSendMail).not.toHaveBeenCalled();
   });
@@ -158,7 +178,12 @@ describe("OtpEmailService", () => {
     );
 
     await expect(
-      service.sendOtpEmail("test@example.com", "123456", "LOGIN")
+      service.sendOtpEmail({
+        email: "test@example.com",
+        prenom: "Alice",
+        code: "123456",
+        purpose: "LOGIN",
+      })
     ).rejects.toBeInstanceOf(InternalServerErrorException);
     expect(mockSendMail).not.toHaveBeenCalled();
   });
@@ -175,7 +200,12 @@ describe("OtpEmailService", () => {
     );
     mockSendMail.mockResolvedValue({ messageId: "<msg-1>" });
 
-    await service.sendOtpEmail("real@example.com", "246890", "LOGIN");
+    await service.sendOtpEmail({
+      email: "real@example.com",
+      prenom: "Alice",
+      code: "246890",
+      purpose: "LOGIN",
+    });
 
     expect(mockSendMail).toHaveBeenCalledTimes(1);
     const args = mockSendMail.mock.calls[0][0];
@@ -199,7 +229,12 @@ describe("OtpEmailService", () => {
       .mockImplementation(() => {});
 
     await expect(
-      service.sendOtpEmail("real@example.com", "123456", "LOGIN")
+      service.sendOtpEmail({
+        email: "real@example.com",
+        prenom: "Alice",
+        code: "123456",
+        purpose: "LOGIN",
+      })
     ).rejects.toThrow("SMTP boom");
     expect(errSpy).toHaveBeenCalledTimes(1);
     expect(errSpy.mock.calls[0][0]).toContain("SMTP boom");
@@ -249,7 +284,12 @@ describe("OtpEmailService", () => {
     );
     mockSendMail.mockResolvedValue({ messageId: "<msg-2>" });
 
-    await service.sendOtpEmail("real@example.com", "123456", "LOGIN");
+    await service.sendOtpEmail({
+      email: "real@example.com",
+      prenom: "Alice",
+      code: "123456",
+      purpose: "LOGIN",
+    });
 
     expect(mockSendMail.mock.calls[0][0].to).toBe("preprod-test@x.com");
   });
@@ -267,7 +307,12 @@ describe("OtpEmailService", () => {
         })
       );
 
-      await service.sendOtpEmail("real@example.com", "246890", "LOGIN");
+      await service.sendOtpEmail({
+        email: "real@example.com",
+        prenom: "Alice",
+        code: "246890",
+        purpose: "LOGIN",
+      });
 
       expect(mockBrevoSendEmailWithTemplate).toHaveBeenCalledTimes(1);
       expect(mockSendMail).not.toHaveBeenCalled();
@@ -276,7 +321,7 @@ describe("OtpEmailService", () => {
       expect(args.to).toEqual([
         { email: "real@example.com", name: "real@example.com" },
       ]);
-      expect(args.params).toEqual({ code: "246890" });
+      expect(args.params).toEqual({ code: "246890", prenom: "Alice" });
     });
 
     it("should send action OTP via Brevo with the action template", async () => {
@@ -291,12 +336,21 @@ describe("OtpEmailService", () => {
         })
       );
 
-      await service.sendOtpEmail("real@example.com", "123456", "EXPORT");
+      await service.sendOtpEmail({
+        email: "real@example.com",
+        prenom: "Alice",
+        code: "123456",
+        purpose: "EXPORT",
+      });
 
       expect(mockBrevoSendEmailWithTemplate).toHaveBeenCalledTimes(1);
-      expect(mockBrevoSendEmailWithTemplate.mock.calls[0][0].templateId).toBe(
-        202
-      );
+      const brevoArgs = mockBrevoSendEmailWithTemplate.mock.calls[0][0];
+      expect(brevoArgs.templateId).toBe(202);
+      expect(brevoArgs.params).toEqual({
+        code: "123456",
+        prenom: "Alice",
+        motif: "Export des usagers",
+      });
     });
 
     it("should propagate Brevo errors (no SMTP fallback)", async () => {
@@ -313,7 +367,12 @@ describe("OtpEmailService", () => {
       mockBrevoSendEmailWithTemplate.mockRejectedValue(new Error("Brevo boom"));
 
       await expect(
-        service.sendOtpEmail("real@example.com", "123456", "LOGIN")
+        service.sendOtpEmail({
+          email: "real@example.com",
+          prenom: "Alice",
+          code: "123456",
+          purpose: "LOGIN",
+        })
       ).rejects.toThrow("Brevo boom");
       expect(mockSendMail).not.toHaveBeenCalled();
     });
@@ -332,7 +391,12 @@ describe("OtpEmailService", () => {
       );
 
       await expect(
-        service.sendOtpEmail("real@example.com", "123456", "LOGIN")
+        service.sendOtpEmail({
+          email: "real@example.com",
+          prenom: "Alice",
+          code: "123456",
+          purpose: "LOGIN",
+        })
       ).rejects.toThrow("DOMIFA_BREVO_TEMPLATES_OTP_LOGIN");
       expect(mockBrevoSendEmailWithTemplate).not.toHaveBeenCalled();
       expect(mockSendMail).not.toHaveBeenCalled();

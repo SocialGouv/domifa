@@ -9,6 +9,7 @@ import { Transporter } from "nodemailer";
 
 import { domifaConfig } from "../../../config";
 import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
+import { OTP_ACTION_MOTIF_LABELS } from "../otp.labels";
 import { OtpPurpose } from "../otp.types";
 import { redactEmail } from "../otp.utils";
 import { generateOtpActionEmailHtml } from "../templates/otp-action-email.template";
@@ -45,11 +46,13 @@ export class OtpEmailService implements OnModuleInit {
     );
   }
 
-  async sendOtpEmail(
-    email: string,
-    code: string,
-    purpose: OtpPurpose
-  ): Promise<void> {
+  async sendOtpEmail(args: {
+    email: string;
+    prenom: string;
+    code: string;
+    purpose: OtpPurpose;
+  }): Promise<void> {
+    const { email, prenom, code, purpose } = args;
     const config = domifaConfig();
     const emailLog = redactEmail(email);
 
@@ -77,7 +80,7 @@ export class OtpEmailService implements OnModuleInit {
     const isLogin = purpose === "LOGIN";
 
     if (config.email.otpProvider === "brevo") {
-      await this.sendViaBrevo({ recipient, code, isLogin });
+      await this.sendViaBrevo({ recipient, code, prenom, purpose, isLogin });
       this.logger.log(
         `OTP email envoye via Brevo a ${recipientLog} (original: ${emailLog}, purpose=${purpose})`
       );
@@ -90,9 +93,11 @@ export class OtpEmailService implements OnModuleInit {
   private async sendViaBrevo(params: {
     recipient: string;
     code: string;
+    prenom: string;
+    purpose: OtpPurpose;
     isLogin: boolean;
   }): Promise<void> {
-    const { recipient, code, isLogin } = params;
+    const { recipient, code, prenom, purpose, isLogin } = params;
     const { templates } = domifaConfig().brevo;
     const templateId = isLogin ? templates.otpLogin : templates.otpAction;
 
@@ -106,10 +111,15 @@ export class OtpEmailService implements OnModuleInit {
       );
     }
 
+    const templateParams: Record<string, string> = { code, prenom };
+    if (purpose !== "LOGIN") {
+      templateParams.motif = OTP_ACTION_MOTIF_LABELS[purpose];
+    }
+
     await this.brevoSender.sendEmailWithTemplate({
       templateId,
       to: [{ email: recipient, name: recipient }],
-      params: { code },
+      params: templateParams,
     });
   }
 

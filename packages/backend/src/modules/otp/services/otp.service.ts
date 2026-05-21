@@ -112,11 +112,12 @@ export class OtpService {
       }, expire=${expiresAt.toISOString()})`
     );
 
-    await this.otpEmailService.sendOtpEmail(
-      context.email,
+    await this.otpEmailService.sendOtpEmail({
+      email: context.email,
+      prenom: context.prenom,
       code,
-      context.purpose
-    );
+      purpose: context.purpose,
+    });
 
     return {
       kind: "generated",

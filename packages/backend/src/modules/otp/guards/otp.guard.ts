@@ -59,6 +59,7 @@ export class OtpGuard implements CanActivate {
       url,
       purpose,
       email: user.email,
+      prenom: user.prenom ?? "",
       userType: user._userProfile,
       userUuid: user.uuid,
     };
