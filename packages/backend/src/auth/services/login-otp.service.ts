@@ -20,6 +20,7 @@ export type LoginUserPrincipal = {
   id: number;
   uuid: string;
   email: string;
+  prenom: string;
 };
 
 export type LoginOtpResult =
@@ -157,13 +158,19 @@ export class LoginOtpService {
   private buildOtpContext(user: LoginUserPrincipal): OtpRequestContext {
     return {
       fingerprintHash: computeOtpFingerprint(
-        { uuid: user.uuid, email: user.email, _userProfile: "structure" },
+        {
+          uuid: user.uuid,
+          email: user.email,
+          prenom: user.prenom,
+          _userProfile: "structure",
+        },
         "LOGIN",
         LOGIN_OTP_URL
       ),
       url: LOGIN_OTP_URL,
       purpose: "LOGIN",
       email: user.email,
+      prenom: user.prenom,
       userType: "structure",
       userUuid: user.uuid,
     };

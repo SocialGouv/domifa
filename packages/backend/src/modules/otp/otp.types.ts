@@ -16,6 +16,7 @@ export type OtpPurpose = (typeof OTP_PURPOSES)[number];
 export interface AuthenticatedOtpUser {
   uuid: string;
   email: string;
+  prenom: string;
   _userProfile: UserProfile;
 }
 
@@ -24,6 +25,7 @@ export interface OtpRequestContext {
   url: string;
   purpose: OtpPurpose;
   email: string;
+  prenom: string;
   userType: UserProfile;
   userUuid: string;
 }

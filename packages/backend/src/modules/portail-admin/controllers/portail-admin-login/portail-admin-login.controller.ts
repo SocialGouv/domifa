@@ -89,7 +89,12 @@ export class PortailAdminLoginController {
     }
 
     try {
-      const otpContext = buildLoginOtpContext(req, user.email, userUuid);
+      const otpContext = buildLoginOtpContext(
+        req,
+        user.email,
+        userUuid,
+        user.prenom
+      );
       const code = readOtpCode(req);
       await this.otpService.enforceOrThrow(otpContext, code);
     } catch (err) {
@@ -145,18 +150,20 @@ export class PortailAdminLoginController {
 function buildLoginOtpContext(
   req: ExpressRequest,
   email: string,
-  uuid: string
+  uuid: string,
+  prenom: string
 ): OtpRequestContext {
   const url = normalizeUrl(req);
   return {
     fingerprintHash: computeOtpFingerprint(
-      { uuid, email, _userProfile: userProfile },
+      { uuid, email, prenom, _userProfile: userProfile },
       "LOGIN",
       url
     ),
     url,
     purpose: "LOGIN",
     email,
+    prenom,
     userType: userProfile,
     userUuid: uuid,
   };

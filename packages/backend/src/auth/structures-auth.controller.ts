@@ -77,7 +77,12 @@ export class StructuresAuthController {
 
     try {
       const result = await this.loginOtpService.evaluate({
-        user: { id: user.id, uuid: user.uuid, email: user.email },
+        user: {
+          id: user.id,
+          uuid: user.uuid,
+          email: user.email,
+          prenom: user.prenom,
+        },
         ip,
         userAgent,
         trustToken: loginDto.trustToken,

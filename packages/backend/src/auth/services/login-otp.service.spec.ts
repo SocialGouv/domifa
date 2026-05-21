@@ -18,7 +18,12 @@ import { OtpService } from "../../modules/otp/services/otp.service";
 import { LoginOtpService } from "./login-otp.service";
 import { SessionFingerprintService } from "./session-fingerprint.service";
 
-const USER = { id: 42, uuid: "user-uuid-42", email: "agent@example.com" };
+const USER = {
+  id: 42,
+  uuid: "user-uuid-42",
+  email: "agent@example.com",
+  prenom: "Alice",
+};
 const IP = "1.2.3.4";
 const UA = "Mozilla/5.0";
 
