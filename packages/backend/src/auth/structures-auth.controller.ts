@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpCode,
+  HttpException,
   HttpStatus,
   Post,
   Req,
@@ -24,8 +25,10 @@ import { UserProfile, UserStructureAuthenticated } from "../_common/model";
 import { AllowUserProfiles } from "./decorators/AllowUserProfiles.decorator";
 import { CurrentUser } from "./decorators/current-user.decorator";
 import { AppUserGuard } from "./guards/AppUserGuard.guard";
+import { LoginOtpService } from "./services/login-otp.service";
 import { SessionFingerprintService } from "./services/session-fingerprint.service";
 import { StructuresAuthService } from "./services/structures-auth.service";
+import { readOtpCode } from "../modules/otp/guards/otp.guard";
 import { ExpiredTokenTable, expiredTokenRepositiory } from "../database";
 import { domifaConfig } from "../config";
 import { userSecurityPasswordChecker } from "../modules/users/services";
@@ -40,7 +43,8 @@ const userProfile: UserProfile = "structure";
 export class StructuresAuthController {
   constructor(
     private readonly structuresAuthService: StructuresAuthService,
-    private readonly sessionFingerprintService: SessionFingerprintService
+    private readonly sessionFingerprintService: SessionFingerprintService,
+    private readonly loginOtpService: LoginOtpService
   ) {}
 
   @Post("login")
@@ -50,33 +54,61 @@ export class StructuresAuthController {
     @Res() res: ExpressResponse,
     @Body() loginDto: StructureLoginDto
   ) {
-    try {
-      const user =
-        await userSecurityPasswordChecker.checkPassword<UserStructure>({
-          email: loginDto.email,
-          password: loginDto.password,
-          userProfile,
-          requestContext: {
-            ip: getClientIp(req),
-            userAgent: getClientUserAgent(req),
-          },
-        });
+    const ip = getClientIp(req);
+    const userAgent = getClientUserAgent(req);
 
-      const accessToken = await this.structuresAuthService.login(user, {
-        ipAddress: getClientIp(req),
-        userAgent: getClientUserAgent(req),
+    let user: UserStructure;
+    try {
+      user = await userSecurityPasswordChecker.checkPassword<UserStructure>({
+        email: loginDto.email,
+        password: loginDto.password,
+        userProfile,
+        requestContext: { ip, userAgent },
       });
+    } catch (err) {
+      appLogger.error("StructuresAuthController.loginUser failed", {
+        error: err,
+        context: { userProfile, email: loginDto?.email },
+      });
+      return res
+        .status(HttpStatus.UNAUTHORIZED)
+        .json({ message: "LOGIN_FAILED" });
+    }
+
+    try {
+      const result = await this.loginOtpService.evaluate({
+        user: { id: user.id, uuid: user.uuid, email: user.email },
+        ip,
+        userAgent,
+        trustToken: loginDto.trustToken,
+        // OtpInterceptor on the front-end retries 401 OTP_REQUIRED with the
+        // Otp-Code header — read it server-side via the same helper as
+        // OtpGuard so a malformed payload is treated as "no code".
+        otpCode: readOtpCode(req) ?? undefined,
+      });
+
+      const accessToken =
+        result.kind === "trusted"
+          ? this.structuresAuthService.signForExistingSession(
+              user,
+              result.session
+            )
+          : await this.structuresAuthService.login(user, {
+              ipAddress: ip,
+              userAgent,
+            });
 
       return res.status(HttpStatus.OK).json(accessToken);
     } catch (err) {
-      // Important: log the real error (stack/message). Passing the error object
-      // directly as the message loses useful details with our logger wrapper.
-      appLogger.error("StructuresAuthController.loginUser failed", {
+      // OTP_REQUIRED / OTP_INVALID / OTP_BLOCKED are HttpExceptions raised by
+      // LoginOtpService/OtpService. Re-throw as-is so Nest preserves their
+      // status code and `{ code }` payload — the front discriminates on it.
+      if (err instanceof HttpException) {
+        throw err;
+      }
+      appLogger.error("StructuresAuthController.loginUser OTP step failed", {
         error: err,
-        context: {
-          userProfile,
-          email: loginDto?.email,
-        },
+        context: { userProfile, email: loginDto?.email },
       });
       return res
         .status(HttpStatus.UNAUTHORIZED)

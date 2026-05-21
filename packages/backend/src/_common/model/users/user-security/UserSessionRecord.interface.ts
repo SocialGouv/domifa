@@ -1,5 +1,8 @@
 // Closing reasons. Persisted on each historical session entry.
 // REPLACED is emitted when a new login rotates the active session.
+// OTP_REQUIRED is emitted when a login attempt without a valid trust token
+// forces a fresh OTP cycle (current session is dropped so the old JWT and
+// trust token cannot resurrect it).
 // IP_MISMATCH / UA_MISMATCH / ADMIN_REVOKED are reserved for phase 3
 // (post-2FA, blocking mode) and not produced by the current flow.
 export type SessionClosedReason =
@@ -8,7 +11,8 @@ export type SessionClosedReason =
   | "IP_MISMATCH"
   | "UA_MISMATCH"
   | "MANUAL_LOGOUT"
-  | "ADMIN_REVOKED";
+  | "ADMIN_REVOKED"
+  | "OTP_REQUIRED";
 
 // Active session for a user. Stored in the `currentSession` jsonb column
 // of user_*_security; NULL on the row = no active session.

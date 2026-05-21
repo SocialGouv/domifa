@@ -48,6 +48,8 @@ export type DomifaEnv = {
   DOMIFA_BREVO_TEMPLATES_STRUCTURE_DELETE: string;
   DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_CREATED_BY_ADMIN: string;
   DOMIFA_BREVO_TEMPLATES_STRUCTURE_PENDING_ACTIVATION: string;
+  DOMIFA_BREVO_TEMPLATES_OTP_LOGIN: string;
+  DOMIFA_BREVO_TEMPLATES_OTP_ACTION: string;
   DOMIFA_SENTRY_ENABLED: string;
   DOMIFA_SENTRY_DEBUG_MODE_ENABLED: string;
   DOMIFA_SENTRY_DSN_BACKEND: string;
@@ -73,4 +75,7 @@ export type DomifaEnv = {
   DOMIFA_SMTP_FROM: string;
   DOMIFA_SMTP_TIMEOUT_MS: string;
   DOMIFA_OTP_SECRET: string;
+  // OTP email delivery provider. "brevo" uses BrevoSenderService templates;
+  // "smtp" uses the SMTP transport (tipimail). Default: "brevo".
+  DOMIFA_OTP_EMAIL_PROVIDER: string;
 };

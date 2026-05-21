@@ -1,7 +1,5 @@
 import { InternalServerErrorException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
-import { OtpEmailService } from "./otp-email.service";
-import { generateOtpEmailHtml } from "../templates/otp-email.template";
 
 const mockSendMail = jest.fn();
 const mockVerify = jest.fn();
@@ -19,10 +17,28 @@ jest.mock("../../../config", () => ({
   },
 }));
 
+const mockBrevoSendEmailWithTemplate = jest.fn();
+// Mock the Brevo sender module so importing it does NOT pull in the
+// database/config chain (which would trigger domifaConfig() at module load
+// time and break the jest.mock hoisting order).
+jest.mock("../../mails/services/brevo-sender/brevo-sender.service", () => ({
+  BrevoSenderService: class MockBrevoSenderService {
+    sendEmailWithTemplate = mockBrevoSendEmailWithTemplate;
+  },
+}));
+
+import { OtpEmailService } from "./otp-email.service";
+import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
+import { generateOtpEmailHtml } from "../templates/otp-email.template";
+
 function buildConfig(overrides: Record<string, unknown> = {}) {
   return {
     envId: "test",
-    email: { emailsEnabled: false, emailAddressRedirectAllTo: "" },
+    email: {
+      emailsEnabled: false,
+      emailAddressRedirectAllTo: "",
+      otpProvider: "smtp",
+    },
     smtp: {
       host: "smtp.test.com",
       port: 587,
@@ -30,6 +46,12 @@ function buildConfig(overrides: Record<string, unknown> = {}) {
       pass: "pass",
       from: "noreply@test.com",
       timeoutMs: 10_000,
+    },
+    brevo: {
+      templates: {
+        otpLogin: 101,
+        otpAction: 202,
+      },
     },
     ...overrides,
   };
@@ -44,9 +66,19 @@ describe("OtpEmailService", () => {
     mockVerify.mockResolvedValue(true);
     mockConfig.mockReset();
     mockConfig.mockReturnValue(buildConfig());
+    mockBrevoSendEmailWithTemplate.mockReset();
+    mockBrevoSendEmailWithTemplate.mockResolvedValue({ messageId: "brevo-1" });
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [OtpEmailService],
+      providers: [
+        OtpEmailService,
+        {
+          provide: BrevoSenderService,
+          useValue: {
+            sendEmailWithTemplate: mockBrevoSendEmailWithTemplate,
+          },
+        },
+      ],
     }).compile();
 
     service = module.get<OtpEmailService>(OtpEmailService);
@@ -220,6 +252,91 @@ describe("OtpEmailService", () => {
     await service.sendOtpEmail("real@example.com", "123456", "LOGIN");
 
     expect(mockSendMail.mock.calls[0][0].to).toBe("preprod-test@x.com");
+  });
+
+  describe("brevo provider", () => {
+    it("should send LOGIN OTP via Brevo with the login template", async () => {
+      mockConfig.mockReturnValue(
+        buildConfig({
+          envId: "prod",
+          email: {
+            emailsEnabled: true,
+            emailAddressRedirectAllTo: "",
+            otpProvider: "brevo",
+          },
+        })
+      );
+
+      await service.sendOtpEmail("real@example.com", "246890", "LOGIN");
+
+      expect(mockBrevoSendEmailWithTemplate).toHaveBeenCalledTimes(1);
+      expect(mockSendMail).not.toHaveBeenCalled();
+      const args = mockBrevoSendEmailWithTemplate.mock.calls[0][0];
+      expect(args.templateId).toBe(101);
+      expect(args.to).toEqual([
+        { email: "real@example.com", name: "real@example.com" },
+      ]);
+      expect(args.params).toEqual({ code: "246890" });
+    });
+
+    it("should send action OTP via Brevo with the action template", async () => {
+      mockConfig.mockReturnValue(
+        buildConfig({
+          envId: "prod",
+          email: {
+            emailsEnabled: true,
+            emailAddressRedirectAllTo: "",
+            otpProvider: "brevo",
+          },
+        })
+      );
+
+      await service.sendOtpEmail("real@example.com", "123456", "EXPORT");
+
+      expect(mockBrevoSendEmailWithTemplate).toHaveBeenCalledTimes(1);
+      expect(mockBrevoSendEmailWithTemplate.mock.calls[0][0].templateId).toBe(
+        202
+      );
+    });
+
+    it("should propagate Brevo errors (no SMTP fallback)", async () => {
+      mockConfig.mockReturnValue(
+        buildConfig({
+          envId: "prod",
+          email: {
+            emailsEnabled: true,
+            emailAddressRedirectAllTo: "",
+            otpProvider: "brevo",
+          },
+        })
+      );
+      mockBrevoSendEmailWithTemplate.mockRejectedValue(new Error("Brevo boom"));
+
+      await expect(
+        service.sendOtpEmail("real@example.com", "123456", "LOGIN")
+      ).rejects.toThrow("Brevo boom");
+      expect(mockSendMail).not.toHaveBeenCalled();
+    });
+
+    it("should throw when Brevo template id is missing", async () => {
+      mockConfig.mockReturnValue(
+        buildConfig({
+          envId: "prod",
+          email: {
+            emailsEnabled: true,
+            emailAddressRedirectAllTo: "",
+            otpProvider: "brevo",
+          },
+          brevo: { templates: { otpLogin: 0, otpAction: 202 } },
+        })
+      );
+
+      await expect(
+        service.sendOtpEmail("real@example.com", "123456", "LOGIN")
+      ).rejects.toThrow("DOMIFA_BREVO_TEMPLATES_OTP_LOGIN");
+      expect(mockBrevoSendEmailWithTemplate).not.toHaveBeenCalled();
+      expect(mockSendMail).not.toHaveBeenCalled();
+    });
   });
 });
 

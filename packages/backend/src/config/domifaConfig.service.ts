@@ -273,6 +273,20 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             required: emailsEnabled,
           }
         ),
+        otpLogin: configParser.parseInteger(
+          x,
+          "DOMIFA_BREVO_TEMPLATES_OTP_LOGIN",
+          {
+            required: emailsEnabled,
+          }
+        ),
+        otpAction: configParser.parseInteger(
+          x,
+          "DOMIFA_BREVO_TEMPLATES_OTP_ACTION",
+          {
+            required: emailsEnabled,
+          }
+        ),
       },
     },
     email: {
@@ -293,6 +307,15 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         "DOMIFA_EMAIL_ADDRESS_REDIRECT_ALL_TO",
         {
           required: false,
+        }
+      ),
+      otpProvider: configParser.parseString<"brevo" | "smtp">(
+        x,
+        "DOMIFA_OTP_EMAIL_PROVIDER",
+        {
+          required: false,
+          defaultValue: "brevo",
+          validValues: ["brevo", "smtp"],
         }
       ),
     },
