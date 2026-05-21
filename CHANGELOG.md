@@ -1,3 +1,18 @@
+# [2.245.0](https://github.com/SocialGouv/domifa/compare/v2.244.0...v2.245.0) (2026-05-21)
+
+
+### Bug Fixes
+
+* **backend:** add action labels ([db6f87c](https://github.com/SocialGouv/domifa/commit/db6f87c3f236f41a6da127599a10ce672621103a))
+* **backend:** add secret ([8fe12d7](https://github.com/SocialGouv/domifa/commit/8fe12d7d68d97e02642eb6ec5e197435376cf298))
+* **backend:** add structure logs ([4a845f7](https://github.com/SocialGouv/domifa/commit/4a845f731beb428a3e33e94d18ff6c876c9f1d82))
+* **backend:** fix end to end tests ([3c938f7](https://github.com/SocialGouv/domifa/commit/3c938f7ac5c3ea69100229789efe7655aef35f45))
+
+
+### Features
+
+* **backend:** add OTP for login ! ([e909910](https://github.com/SocialGouv/domifa/commit/e909910d27f4db142bdd5a1918f96b01fb800ae4))
+
 # [2.244.0](https://github.com/SocialGouv/domifa/compare/v2.243.4...v2.244.0) (2026-05-20)
 
 
