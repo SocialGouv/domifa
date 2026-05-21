@@ -1,9 +1,6 @@
 <div class="fr-mt-3w">
-  <h2 class="fr-h4 fr-mb-2w">Activité récente</h2>
-  <p class="fr-text--sm fr-text--mention-grey">
-    Liste des actions effectuées par cet utilisateur, du plus récent au plus
-    ancien.
-  </p>
+  <h2 class="fr-h4 fr-mb-2w">{{ title }}</h2>
+  <p class="fr-text--sm fr-text--mention-grey">{{ subtitle }}</p>
 
   <div
     *ngIf="loading"
@@ -20,7 +17,7 @@
 
   <ng-container *ngIf="!loading">
     <div *ngIf="logs.length === 0" class="fr-alert fr-alert--info">
-      <p>Aucune activité enregistrée pour cet utilisateur.</p>
+      <p>{{ emptyMessage }}</p>
     </div>
 
     <div *ngIf="logs.length > 0" class="fr-table fr-table--no-outer-border">
@@ -29,7 +26,10 @@
           <div class="fr-table__content">
             <table>
               <caption class="fr-sr-only">
-                Activité de l'utilisateur ({{
+                {{
+                  title
+                }}
+                ({{
                   itemCount
                 }}
                 entrées)

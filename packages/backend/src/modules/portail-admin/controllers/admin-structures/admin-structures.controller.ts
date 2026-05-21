@@ -3,6 +3,7 @@ import {
   Get,
   Body,
   HttpStatus,
+  Query,
   Res,
   UseGuards,
   Param,
@@ -10,7 +11,9 @@ import {
   Patch,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
+
+import { PageOptionsDto } from "../../../../usagers/dto/pagination/page-options.dto";
 
 import {
   AllowUserProfiles,
@@ -110,6 +113,21 @@ export class AdminStructuresController {
   ): Promise<Structure> {
     return await structureRepository.findOneOrFail({
       where: { id: structure.id },
+    });
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({ summary: "Logs d'activité d'une structure" })
+  @Get(":structureId/logs")
+  public async getStructureLogs(
+    @CurrentSupervisor() _user: UserAdminAuthenticated,
+    @Param("structureId", new ParseIntPipe()) structureId: number,
+    @Query() pageOptions: PageOptionsDto
+  ) {
+    return this.appLogsService.findStructureLogs({
+      structureId,
+      page: pageOptions.page,
+      take: pageOptions.take,
     });
   }
 

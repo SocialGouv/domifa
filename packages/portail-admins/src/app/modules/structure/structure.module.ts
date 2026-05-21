@@ -9,6 +9,7 @@ import { UsersComponent } from "./components/users/users.component";
 import { StructureInfoComponent } from "./components/structure-info/structure-info.component";
 import { FormatInternationalPhoneNumberPipe } from "../../shared/utils/formatInternationalPhoneNumber.pipe";
 import { StructureStatsComponent } from "./components/structure-stats/structure-stats.component";
+import { StructureActivityComponent } from "./components/structure-activity/structure-activity.component";
 import { FormsModule } from "@angular/forms";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { StructureRoutingModule } from "./structure-routing.module";
@@ -45,6 +46,7 @@ import { StructureFormRefuseComponent } from "../admin-structures/components/str
     UsersComponent,
     StructureInfoComponent,
     StructureStatsComponent,
+    StructureActivityComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

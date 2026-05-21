@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable, tap } from "rxjs";
@@ -7,6 +7,7 @@ import { environment } from "src/environments/environment";
 
 import {
   ApiMessage,
+  PageResults,
   Structure,
   StructureAdmin,
   StructureDecisionRefusMotif,
@@ -15,6 +16,7 @@ import {
 } from "@domifa/common";
 import { UserNewAdmin } from "../../../admin-structures/types";
 import { StructuresActions } from "../../store/structures";
+import { UserActivityLog } from "../../../manage-users/types/user-activity-log";
 
 const BASE_URL = `${environment.apiUrl}admin/structures`;
 @Injectable()
@@ -121,6 +123,20 @@ export class AdminStructuresApiClient {
     return this.http.post<ApiMessage>(
       `${environment.apiUrl}admin/users/register-user-structure`,
       newAdmin
+    );
+  }
+
+  public getStructureLogs(
+    structureId: number,
+    page: number,
+    take: number
+  ): Observable<PageResults<UserActivityLog>> {
+    const params = new HttpParams()
+      .set("page", String(page))
+      .set("take", String(take));
+    return this.http.get<PageResults<UserActivityLog>>(
+      `${BASE_URL}/${structureId}/logs`,
+      { params }
     );
   }
 }

@@ -12,6 +12,12 @@ export interface FindUserLogsOptions {
   take: number;
 }
 
+export interface FindStructureLogsOptions {
+  structureId: number;
+  page: number;
+  take: number;
+}
+
 @Injectable()
 export class AppLogsService {
   public async create<T = any>(appLog: AppLog<T>): Promise<AppLog<T>> {
@@ -25,6 +31,27 @@ export class AppLogsService {
 
     const [data, itemCount] = await appLogsRepository.findAndCount({
       where: { userId, userType },
+      order: { createdAt: "DESC" },
+      skip: (page - 1) * take,
+      take,
+    });
+
+    return new PageResults<AppLogTable>({
+      data,
+      meta: new PageMeta({
+        itemCount,
+        pageOptions: new PageOptions({ page, take }),
+      }),
+    });
+  }
+
+  public async findStructureLogs(
+    options: FindStructureLogsOptions
+  ): Promise<PageResults<AppLogTable>> {
+    const { structureId, page, take } = options;
+
+    const [data, itemCount] = await appLogsRepository.findAndCount({
+      where: { structureId },
       order: { createdAt: "DESC" },
       skip: (page - 1) * take,
       take,

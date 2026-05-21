@@ -28,7 +28,7 @@ import {
 export class AdminStructureContainerComponent implements OnInit, OnDestroy {
   public structure?: StructureAdmin;
   public currentUrl: UrlSegment[] = [];
-  public activeTab: "users" | "stats" | "infos" = "infos";
+  public activeTab: "users" | "stats" | "infos" | "activity" = "infos";
   public loading = true;
   private readonly subscription = new Subscription();
 
@@ -47,6 +47,8 @@ export class AdminStructureContainerComponent implements OnInit, OnDestroy {
             this.activeTab = "users";
           } else if (url.endsWith("/stats")) {
             this.activeTab = "stats";
+          } else if (url.endsWith("/activity")) {
+            this.activeTab = "activity";
           } else {
             this.activeTab = "infos";
           }
