@@ -21,7 +21,7 @@ import {
 import { UserActivityLog } from "../../../manage-users/types/user-activity-log";
 
 export type UserActivityLogsFetcher = (
-  userId: number,
+  entityId: number,
   page: number,
   take: number
 ) => Observable<PageResults<UserActivityLog>>;
@@ -34,8 +34,15 @@ const PAGE_SIZE = 20;
   imports: [CommonModule, DsfrPaginationComponent, DsfrSpinnerComponent],
 })
 export class UserActivityTabComponent implements OnChanges, OnDestroy {
-  @Input({ required: true }) public userId!: number | undefined;
+  @Input({ required: true }) public entityId!: number | undefined;
   @Input({ required: true }) public fetcher!: UserActivityLogsFetcher;
+  @Input() public title = "Activité récente";
+  @Input() public subtitle =
+    "Liste des actions effectuées par cet utilisateur, du plus récent au plus ancien.";
+  @Input() public emptyMessage =
+    "Aucune activité enregistrée pour cet utilisateur.";
+  @Input() public errorMessage =
+    "Impossible de charger l'activité de l'utilisateur";
 
   public logs: UserActivityLog[] = [];
   public currentPage = 1;
@@ -49,18 +56,18 @@ export class UserActivityTabComponent implements OnChanges, OnDestroy {
   constructor(private readonly toastService: CustomToastService) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes["userId"] && this.userId) {
+    if (changes["entityId"] && this.entityId) {
       this.loadPage(1);
     }
   }
 
   public loadPage(page: number): void {
-    if (!this.userId) {
+    if (!this.entityId) {
       return;
     }
     this.loading = true;
     this.subscription.add(
-      this.fetcher(this.userId, page, this.pageSize).subscribe({
+      this.fetcher(this.entityId, page, this.pageSize).subscribe({
         next: (results) => {
           this.logs = results.data;
           this.currentPage = results.meta.page;
@@ -70,9 +77,7 @@ export class UserActivityTabComponent implements OnChanges, OnDestroy {
         },
         error: () => {
           this.loading = false;
-          this.toastService.error(
-            "Impossible de charger l'activité de l'utilisateur"
-          );
+          this.toastService.error(this.errorMessage);
         },
       })
     );

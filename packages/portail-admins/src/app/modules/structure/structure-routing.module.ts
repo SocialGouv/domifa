@@ -4,6 +4,7 @@ import { AdminStructureContainerComponent } from "./components/admin-structure-c
 import { StructureStatsComponent } from "./components/structure-stats/structure-stats.component";
 import { UsersComponent } from "./components/users/users.component";
 import { StructureInfoComponent } from "./components/structure-info/structure-info.component";
+import { StructureActivityComponent } from "./components/structure-activity/structure-activity.component";
 
 const routes: Routes = [
   {
@@ -13,6 +14,7 @@ const routes: Routes = [
       { path: "", component: StructureInfoComponent },
       { path: "users", component: UsersComponent },
       { path: "stats", component: StructureStatsComponent },
+      { path: "activity", component: StructureActivityComponent },
     ],
   },
 ];
