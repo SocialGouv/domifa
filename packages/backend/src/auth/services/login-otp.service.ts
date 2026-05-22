@@ -48,9 +48,21 @@ export class LoginOtpService {
     userAgent: string;
     trustToken?: string;
     otpCode?: string;
+    forceResend?: boolean;
   }): Promise<LoginOtpResult> {
-    const { user, ip, userAgent, trustToken, otpCode } = params;
+    const { user, ip, userAgent, trustToken, otpCode, forceResend } = params;
     const emailLog = redactEmail(user.email);
+
+    // Resend flow short-circuits trust and code paths: the user is on the
+    // OTP modal asking for a fresh email, not trying to authenticate. Skip
+    // straight to the OTP mint step.
+    if (forceResend) {
+      const otpContext = this.buildOtpContext(user);
+      await this.otpService.enforceOrThrow(otpContext, null, {
+        forceResend: true,
+      });
+      throw otpHttpError("OTP_REQUIRED", HttpStatus.UNAUTHORIZED);
+    }
 
     if (trustToken) {
       const trusted = await this.tryTrustToken({

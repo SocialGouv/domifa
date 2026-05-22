@@ -7,6 +7,7 @@ import {
   OTP_BLOCK_DURATION_MINUTES,
   OTP_EXPIRATION_MINUTES,
   OTP_MAX_ATTEMPTS,
+  OTP_MAX_RESENDS,
 } from "../otp.constants";
 import { recordTestOtpCode } from "../otp-test-sink";
 import { OtpRequestContext } from "../otp.types";
@@ -129,9 +130,13 @@ export class OtpService {
   // unauthenticated login path. Resolves to void on success, throws an
   // HttpException with a stable `code` payload on any rejection so callers
   // can react uniformly (OTP_REQUIRED / OTP_INVALID / OTP_BLOCKED).
+  // `forceResend` bypasses the "reuse existing OTP" shortcut and explicitly
+  // mints a fresh code (subject to OTP_MAX_RESENDS). Ignored when `code` is
+  // provided — a submitted code is always claimed against the current OTP.
   async enforceOrThrow(
     context: OtpRequestContext,
-    code: string | null
+    code: string | null,
+    options: { forceResend?: boolean } = {}
   ): Promise<void> {
     if (code) {
       const result = await this.claim(context, code);
@@ -144,7 +149,9 @@ export class OtpService {
       throw otpHttpError("OTP_INVALID", HttpStatus.UNAUTHORIZED);
     }
 
-    const result = await this.generateOrResend(context);
+    const result = options.forceResend
+      ? await this.resend(context)
+      : await this.generateOrResend(context);
     if (result.kind === "blocked") {
       throw otpHttpError("OTP_BLOCKED", HttpStatus.TOO_MANY_REQUESTS);
     }
@@ -152,6 +159,91 @@ export class OtpService {
       throw otpHttpError("OTP_RESEND_LIMIT", HttpStatus.TOO_MANY_REQUESTS);
     }
     throw otpHttpError("OTP_REQUIRED", HttpStatus.UNAUTHORIZED);
+  }
+
+  // Explicit "Renvoyer le code" path: mints a fresh 6-digit code, overwrites
+  // the existing OTP row's HMAC and bumps resendCount atomically, then re-
+  // sends the email. Refuses past OTP_MAX_RESENDS. If no active OTP is found,
+  // falls back to generateOrResend so the caller still gets a code (covers
+  // the edge case where the OTP expired between modal open and resend click).
+  async resend(context: OtpRequestContext): Promise<GenerateOrResendResult> {
+    return myDataSource.transaction(async (manager) => {
+      await acquireAdvisoryXactLock(manager, otpScopeLockKey(context));
+      return this.doResend(context);
+    });
+  }
+
+  private async doResend(
+    context: OtpRequestContext
+  ): Promise<GenerateOrResendResult> {
+    const emailLog = redactEmail(context.email);
+
+    const blockKey = {
+      fingerprintHash: context.fingerprintHash,
+      url: context.url,
+      purpose: context.purpose,
+    };
+    const blockMs = OTP_BLOCK_DURATION_MINUTES * 60 * 1000;
+    const blocked = await otpRepository.findRecentBlocked(
+      blockKey,
+      OTP_MAX_ATTEMPTS,
+      blockMs
+    );
+    if (blocked) {
+      const retryAt = new Date(blocked.updatedAt!.getTime() + blockMs);
+      this.logger.warn(
+        `OTP resend refuse (block actif) pour ${emailLog} (purpose=${context.purpose})`
+      );
+      return { kind: "blocked", retryAt };
+    }
+
+    const candidate = await otpRepository.findActiveByFingerprint(
+      context.fingerprintHash,
+      OTP_MAX_ATTEMPTS,
+      context.userUuid
+    );
+    const existing =
+      candidate?.url === context.url && candidate?.purpose === context.purpose
+        ? candidate
+        : null;
+
+    if (!existing) {
+      // OTP expired (or never created) between modal open and resend click.
+      // Fall back to the normal mint path so the user still receives a code.
+      return this.doGenerateOrResend(context);
+    }
+
+    if (existing.resendCount >= OTP_MAX_RESENDS) {
+      this.logger.warn(
+        `OTP resend refuse (limite ${OTP_MAX_RESENDS}) pour ${emailLog} (purpose=${context.purpose})`
+      );
+      return { kind: "resend_limit_reached", expiresAt: existing.expiresAt };
+    }
+
+    const code = randomInt(100000, 1000000).toString();
+    recordTestOtpCode(context.userUuid, code);
+    const refreshed = await otpRepository.refreshCodeAndIncrementResend(
+      existing.uuid,
+      this.hmacCode(code)
+    );
+    if (!refreshed) {
+      // Race: row claimed or deleted between findActive and refresh. Re-enter
+      // the normal generate path so the user gets a usable code.
+      return this.doGenerateOrResend(context);
+    }
+
+    this.logger.log(
+      `OTP renvoye pour ${emailLog} (purpose=${context.purpose}, resendCount=${refreshed.resendCount})`
+    );
+
+    await this.otpEmailService.sendOtpEmail({
+      email: context.email,
+      prenom: context.prenom,
+      code,
+      purpose: context.purpose,
+    });
+
+    return { kind: "generated", expiresAt: existing.expiresAt };
   }
 
   async claim(context: OtpRequestContext, code: string): Promise<ClaimResult> {

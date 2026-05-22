@@ -15,9 +15,12 @@ import { OtpErrorBody, OtpErrorCode } from "../otp.types";
 import { CustomToastService } from "../../shared/services";
 
 const OTP_CODE_HEADER = "Otp-Code";
+const OTP_RESEND_HEADER = "Otp-Resend";
 
 const OTP_BLOCKED_TOAST =
   "Le code n'a pas pu être validé. Veuillez réessayer plus tard et demander un nouveau code.";
+
+const OTP_RESENT_TOAST = "Un nouveau code vient de vous être envoyé par email.";
 
 @Injectable()
 export class OtpInterceptor implements HttpInterceptor {
@@ -129,47 +132,103 @@ export class OtpInterceptor implements HttpInterceptor {
           if (result.kind === "blocked") {
             return this.failBlocked();
           }
-          const retried = request.clone({
-            setHeaders: { [OTP_CODE_HEADER]: result.code },
-          });
-          this.promptService.setSubmitting(true);
-          return next.handle(retried).pipe(
-            finalize(() => this.promptService.setSubmitting(false)),
-            tap({
-              next: (event) => {
-                if (event.type === HttpEventType.Response) {
-                  this.promptService.closeSuccess();
-                  this.toastr.success("Code validé");
-                }
-              },
-            }),
-            catchError((error: unknown) => {
-              if (!(error instanceof HttpErrorResponse)) {
-                this.promptService.closeSuccess();
-                return throwError(() => error);
-              }
-              return from(this.normalizeError(error)).pipe(
-                switchMap((normalized) => {
-                  const otpCode = this.extractOtpCode(normalized);
-                  if (otpCode === "OTP_INVALID" || otpCode === "OTP_REQUIRED") {
-                    // Keep modal open, show error, wait for next submission.
-                    this.promptService.updateError("OTP_INVALID");
-                    return EMPTY;
-                  }
-                  if (
-                    otpCode === "OTP_BLOCKED" ||
-                    otpCode === "OTP_RESEND_LIMIT"
-                  ) {
-                    this.promptService.closeSuccess();
-                    return this.failBlocked();
-                  }
-                  this.promptService.closeSuccess();
-                  return throwError(() => normalized);
-                })
-              );
-            })
-          );
+          if (result.kind === "resend") {
+            return this.fireResend(request, next);
+          }
+          return this.fireSubmit(request, next, result.code);
         })
       );
+  }
+
+  private fireSubmit(
+    request: HttpRequest<any>,
+    next: HttpHandler,
+    code: string
+  ): Observable<HttpEvent<any>> {
+    const retried = request.clone({
+      setHeaders: { [OTP_CODE_HEADER]: code },
+    });
+    this.promptService.setSubmitting(true);
+    return next.handle(retried).pipe(
+      finalize(() => this.promptService.setSubmitting(false)),
+      tap({
+        next: (event) => {
+          if (event.type === HttpEventType.Response) {
+            this.promptService.closeSuccess();
+            this.toastr.success("Code validé");
+          }
+        },
+      }),
+      catchError((error: unknown) => {
+        if (!(error instanceof HttpErrorResponse)) {
+          this.promptService.closeSuccess();
+          return throwError(() => error);
+        }
+        return from(this.normalizeError(error)).pipe(
+          switchMap((normalized) => {
+            const otpCode = this.extractOtpCode(normalized);
+            if (otpCode === "OTP_INVALID" || otpCode === "OTP_REQUIRED") {
+              // Keep modal open, show error, wait for next submission.
+              this.promptService.updateError("OTP_INVALID");
+              return EMPTY;
+            }
+            if (otpCode === "OTP_BLOCKED" || otpCode === "OTP_RESEND_LIMIT") {
+              this.promptService.closeSuccess();
+              return this.failBlocked();
+            }
+            this.promptService.closeSuccess();
+            return throwError(() => normalized);
+          })
+        );
+      })
+    );
+  }
+
+  // Re-fire the original request with `Otp-Resend: 1` (no Otp-Code). The
+  // backend mints a fresh code and re-sends the email, then re-throws
+  // OTP_REQUIRED — which we treat as success-of-resend: the modal stays open,
+  // the user sees a "code envoyé" toast and waits for the new mail. Any
+  // other terminal error (OTP_BLOCKED / OTP_RESEND_LIMIT) is surfaced to the
+  // modal so the resend button can disable.
+  private fireResend(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    const retried = request.clone({
+      setHeaders: { [OTP_RESEND_HEADER]: "1" },
+    });
+    this.promptService.setSubmitting(true);
+    return next.handle(retried).pipe(
+      finalize(() => this.promptService.setSubmitting(false)),
+      catchError((error: unknown) => {
+        if (!(error instanceof HttpErrorResponse)) {
+          this.promptService.closeSuccess();
+          return throwError(() => error);
+        }
+        return from(this.normalizeError(error)).pipe(
+          switchMap((normalized) => {
+            const otpCode = this.extractOtpCode(normalized);
+            if (otpCode === "OTP_REQUIRED") {
+              // Happy path: backend minted + sent a fresh code. Keep modal
+              // open, clear any previous error, wait for the new code.
+              this.promptService.markResent();
+              this.toastr.success(OTP_RESENT_TOAST);
+              return EMPTY;
+            }
+            if (otpCode === "OTP_RESEND_LIMIT") {
+              // Limit hit: keep modal open but disable the resend button.
+              this.promptService.updateError("OTP_RESEND_LIMIT");
+              return EMPTY;
+            }
+            if (otpCode === "OTP_BLOCKED") {
+              this.promptService.closeSuccess();
+              return this.failBlocked();
+            }
+            this.promptService.closeSuccess();
+            return throwError(() => normalized);
+          })
+        );
+      })
+    );
   }
 }

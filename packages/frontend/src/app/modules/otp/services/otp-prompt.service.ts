@@ -41,12 +41,28 @@ export class OtpPromptService {
     this.currentPrompt.next({ ...current, previousErrorCode: errorCode });
   }
 
+  // Resend ack: clear any prior error message (the user just received a
+  // fresh code, so any "OTP_INVALID" hint from a previous attempt is stale)
+  // and reset the submitting flag so the form is usable again.
+  public markResent(): void {
+    const current = this.currentPrompt.value;
+    if (!current) {
+      return;
+    }
+    this.submittingSubject.next(false);
+    this.currentPrompt.next({ ...current, previousErrorCode: undefined });
+  }
+
   public setSubmitting(submitting: boolean): void {
     this.submittingSubject.next(submitting);
   }
 
   public submit(code: string): void {
     this.results?.next({ kind: "submit", code });
+  }
+
+  public resend(): void {
+    this.results?.next({ kind: "resend" });
   }
 
   public cancel(): void {

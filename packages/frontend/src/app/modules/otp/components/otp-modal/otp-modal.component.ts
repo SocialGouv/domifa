@@ -45,6 +45,7 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
   public submitting = false;
   public errorCode: OtpErrorCode | null = null;
   public attemptCount = 0;
+  public resendDisabled = false;
 
   public static readonly MAX_ATTEMPTS = 3;
 
@@ -118,6 +119,20 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.promptService.cancel();
   }
 
+  public resend(): void {
+    if (this.resendDisabled || this.submitting) {
+      return;
+    }
+    // Reset the local form state so the user can type the new code as soon
+    // as it arrives. We don't clear `attemptCount` — wrong-code attempts on
+    // the previous code stay on the lockout meter (matches backend behavior
+    // where `attempts` is not reset across resends).
+    this.submitted = false;
+    this.codeControl.reset("");
+    this.cdr.markForCheck();
+    this.promptService.resend();
+  }
+
   public onConceal(): void {
     if (this.isOpen) {
       this.isOpen = false;
@@ -160,6 +175,12 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
     // lui pendant la session courante, et est remis à 0 par closeQuiet quand
     // la modale se ferme).
     this.errorCode = options.previousErrorCode ?? null;
+    // Le backend retourne OTP_RESEND_LIMIT quand on a épuisé les renvois sur
+    // l'OTP actif. À ce stade le seul recours est d'attendre l'expiration
+    // (10 min) ou de valider le dernier code reçu — on grise le bouton.
+    if (options.previousErrorCode === "OTP_RESEND_LIMIT") {
+      this.resendDisabled = true;
+    }
     this.submitted = false;
     this.codeControl.reset("");
     if (!this.isOpen) {
@@ -190,6 +211,7 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.attemptCount = 0;
     this.submitted = false;
     this.errorCode = null;
+    this.resendDisabled = false;
     this.codeControl.reset("");
     this.cdr.markForCheck();
   }
