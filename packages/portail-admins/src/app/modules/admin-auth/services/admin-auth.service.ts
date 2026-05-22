@@ -84,6 +84,7 @@ export class AdminAuthService {
     this.store.dispatch(resetAppState());
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.removeItem(USER_KEY);
+    window.localStorage.clear();
     this.currentAdminSubject.next(null);
 
     getCurrentScope().setTag("profil-admin", "none");
