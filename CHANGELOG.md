@@ -1,3 +1,10 @@
+## [2.245.1](https://github.com/SocialGouv/domifa/compare/v2.245.0...v2.245.1) (2026-05-22)
+
+
+### Bug Fixes
+
+* **backend:** fix 401 ([bab2a5f](https://github.com/SocialGouv/domifa/commit/bab2a5ffb7a4ce37072bd63c367a453f7f43cfd0))
+
 # [2.245.0](https://github.com/SocialGouv/domifa/compare/v2.244.0...v2.245.0) (2026-05-21)
 
 
