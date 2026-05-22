@@ -49,7 +49,13 @@ import {
   userStructureCreator,
   userStructureSecurityPasswordUpdater,
 } from "../services";
-import { RegisterUserStructureAdminDto } from "../../portail-admin";
+// Direct path (not via the `portail-admin` barrel): the barrel re-exports
+// `portail-admin.module.ts`, which imports `AuthModule`. UsersModule is
+// transitively loaded from AuthModule via OtpModule → MailsModule → UsersModule,
+// so going through the barrel here creates a JS module evaluation cycle that
+// leaves PortailAdminModule.imports[0] (= AuthModule) as undefined at decorator
+// time → "Nest cannot create the PortailAdminModule instance".
+import { RegisterUserStructureAdminDto } from "../../portail-admin/dto/register-user-structure-admin.dto";
 import { AppLogsService } from "../../app-logs/app-logs.service";
 import {
   buildStructureActorFields,
