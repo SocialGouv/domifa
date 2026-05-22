@@ -3,7 +3,7 @@ import {
   NestInterceptor,
   ExecutionContext,
   CallHandler,
-  InternalServerErrorException,
+  HttpException,
 } from "@nestjs/common";
 import { getCurrentScope, captureException } from "@sentry/nestjs";
 import { Observable, catchError, throwError } from "rxjs";
@@ -19,6 +19,14 @@ export class AppSentryInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
       catchError((err) => {
+        // 4xx are expected client-side errors (auth challenges like
+        // OTP_REQUIRED, validation, forbidden, ...). Re-throw untouched so
+        // Nest's exception layer preserves the original status + body, and
+        // skip Sentry capture so the dashboard stays focused on real bugs.
+        if (err instanceof HttpException && err.getStatus() < 500) {
+          return throwError(() => err);
+        }
+
         const {
           user,
         }: {
@@ -50,11 +58,9 @@ export class AppSentryInterceptor implements NestInterceptor {
         }
 
         captureException(err);
-
-        console.log(err);
         appLogger.error(`[http] ${err.message}`, { error: err });
 
-        return throwError(() => new InternalServerErrorException());
+        return throwError(() => err);
       })
     );
   }
