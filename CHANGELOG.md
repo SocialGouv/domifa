@@ -1,3 +1,10 @@
+# [2.246.0](https://github.com/SocialGouv/domifa/compare/v2.245.1...v2.246.0) (2026-05-22)
+
+
+### Features
+
+* **backend:** add resend of otp ([4f6b087](https://github.com/SocialGouv/domifa/commit/4f6b0871fe17bd364c3c15f8048534a107a07482))
+
 ## [2.245.1](https://github.com/SocialGouv/domifa/compare/v2.245.0...v2.245.1) (2026-05-22)
 
 
