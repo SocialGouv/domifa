@@ -9,6 +9,10 @@
   (conceal)="onConceal()"
 >
   <p>Un code de vérification à 6 chiffres vous a été envoyé par email.</p>
+  <p class="fr-text--sm fr-mb-2w">
+    Pensez à vérifier vos courriers indésirables (spams) si vous ne le recevez
+    pas.
+  </p>
 
   <form (submit)="onSubmit($event)">
     <div
@@ -57,7 +61,19 @@
       >
         Valider
       </button>
-      <button class="fr-btn fr-btn--secondary" type="button" (click)="cancel()">
+      <button
+        class="fr-btn fr-btn--secondary"
+        type="button"
+        (click)="resend()"
+        [disabled]="resendDisabled || submitting || isLocked"
+      >
+        Renvoyer le code
+      </button>
+      <button
+        class="fr-btn fr-btn--tertiary-no-outline"
+        type="button"
+        (click)="cancel()"
+      >
         Annuler
       </button>
     </div>

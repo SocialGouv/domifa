@@ -275,4 +275,69 @@ describe("LoginOtpService", () => {
       expect(otpService.enforceOrThrow.mock.calls[0][1]).toBeNull();
     });
   });
+
+  describe("forceResend", () => {
+    it("calls enforceOrThrow with forceResend=true and does NOT close the session", async () => {
+      otpService.enforceOrThrow.mockRejectedValue(
+        new HttpException({ code: "OTP_REQUIRED" }, HttpStatus.UNAUTHORIZED)
+      );
+
+      await expect(
+        service.evaluate({
+          user: USER,
+          ip: IP,
+          userAgent: UA,
+          forceResend: true,
+        })
+      ).rejects.toMatchObject({ response: { code: "OTP_REQUIRED" } });
+
+      expect(otpService.enforceOrThrow).toHaveBeenCalledTimes(1);
+      expect(otpService.enforceOrThrow.mock.calls[0][1]).toBeNull();
+      expect(otpService.enforceOrThrow.mock.calls[0][2]).toEqual({
+        forceResend: true,
+      });
+      // Resend on an OTP cycle that is already in progress: the session was
+      // already closed on the initial login leg, no need to close it again.
+      expect(
+        sessionFingerprintService.closeActiveSession
+      ).not.toHaveBeenCalled();
+    });
+
+    it("propagates OTP_RESEND_LIMIT from otpService", async () => {
+      otpService.enforceOrThrow.mockRejectedValue(
+        new HttpException(
+          { code: "OTP_RESEND_LIMIT" },
+          HttpStatus.TOO_MANY_REQUESTS
+        )
+      );
+
+      await expect(
+        service.evaluate({
+          user: USER,
+          ip: IP,
+          userAgent: UA,
+          forceResend: true,
+        })
+      ).rejects.toMatchObject({ response: { code: "OTP_RESEND_LIMIT" } });
+    });
+
+    it("ignores trustToken when forceResend is set", async () => {
+      otpService.enforceOrThrow.mockRejectedValue(
+        new HttpException({ code: "OTP_REQUIRED" }, HttpStatus.UNAUTHORIZED)
+      );
+
+      await expect(
+        service.evaluate({
+          user: USER,
+          ip: IP,
+          userAgent: UA,
+          trustToken: "any-token",
+          forceResend: true,
+        })
+      ).rejects.toMatchObject({ response: { code: "OTP_REQUIRED" } });
+
+      // No trust verification on the resend path — straight to OTP mint.
+      expect(jwtService.verify).not.toHaveBeenCalled();
+    });
+  });
 });

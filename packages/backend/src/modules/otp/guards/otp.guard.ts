@@ -10,7 +10,7 @@ import { Request } from "express";
 import validator from "validator";
 
 import { OTP_PURPOSE_METADATA_KEY } from "../decorators/require-otp.decorator";
-import { OTP_CODE_HEADER } from "../otp.constants";
+import { OTP_CODE_HEADER, OTP_RESEND_HEADER } from "../otp.constants";
 import { computeOtpFingerprint } from "../otp-fingerprint.helper";
 import {
   AuthenticatedOtpUser,
@@ -38,8 +38,9 @@ export class OtpGuard implements CanActivate {
     const req = context.switchToHttp().getRequest<Request>();
     const otpContext = this.buildContext(req, purpose);
     const code = readOtpCode(req);
+    const forceResend = readOtpResendFlag(req);
 
-    await this.otpService.enforceOrThrow(otpContext, code);
+    await this.otpService.enforceOrThrow(otpContext, code, { forceResend });
     return true;
   }
 
@@ -82,6 +83,14 @@ export function readOtpCode(req: Request): string | null {
     return null;
   }
   return trimmed;
+}
+
+export function readOtpResendFlag(req: Request): boolean {
+  const raw = req.headers[OTP_RESEND_HEADER];
+  if (typeof raw !== "string") {
+    return false;
+  }
+  return raw.trim() === "1";
 }
 
 export function normalizeUrl(req: Request): string {
