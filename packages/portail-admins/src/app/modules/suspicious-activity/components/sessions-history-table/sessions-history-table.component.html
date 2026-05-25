@@ -1,0 +1,48 @@
+<div *ngIf="sessions.length === 0" class="fr-alert fr-alert--info fr-alert--sm">
+  <p>Aucune session fermée enregistrée.</p>
+</div>
+
+<div *ngIf="sessions.length > 0" class="fr-table fr-table--no-outer-border">
+  <div class="fr-table__wrapper">
+    <div class="fr-table__container">
+      <div class="fr-table__content">
+        <table>
+          <caption class="fr-sr-only">
+            Historique des sessions ({{
+              sessions.length
+            }})
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Début</th>
+              <th scope="col">Fin</th>
+              <th scope="col">Motif</th>
+              <th scope="col">IP</th>
+              <th scope="col">User-Agent</th>
+              <th scope="col">Empreinte</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let session of sessions">
+              <td>{{ session.createdAt | date : "dd/MM/yyyy HH:mm" }}</td>
+              <td>{{ session.closedAt | date : "dd/MM/yyyy HH:mm" }}</td>
+              <td class="fr-text--bold">
+                {{ reasonLabel(session.closedReason) }}
+              </td>
+              <td>{{ session.ipAddress }}</td>
+              <td
+                class="fr-text--xs"
+                style="max-width: 250px; word-break: break-word"
+              >
+                {{ session.userAgent }}
+              </td>
+              <td class="fr-text--xs">
+                <code>{{ truncate(session.fingerprintHash) }}</code>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

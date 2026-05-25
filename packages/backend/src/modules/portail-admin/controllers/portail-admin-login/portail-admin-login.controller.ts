@@ -31,7 +31,6 @@ import {
   CurrentUser,
 } from "../../../../auth/decorators";
 import { AppUserGuard } from "../../../../auth/guards";
-import { SessionFingerprintService } from "../../../../auth/services/session-fingerprint.service";
 import { portailAdminProfilBuilder } from "../../services/portail-admin-profil-builder.service";
 import {
   ExpiredTokenTable,
@@ -48,7 +47,6 @@ const userProfile: UserProfile = "supervisor";
 export class PortailAdminLoginController {
   constructor(
     private readonly adminsAuthService: AdminsAuthService,
-    private readonly sessionFingerprintService: SessionFingerprintService,
     private readonly otpService: OtpService
   ) {}
 
@@ -126,12 +124,6 @@ export class PortailAdminLoginController {
       userProfile: user._userProfile,
     });
     await expiredTokenRepositiory.save(tokenToBlacklist);
-
-    await this.sessionFingerprintService.closeActiveSession(
-      "supervisor",
-      user.id,
-      "MANUAL_LOGOUT"
-    );
 
     return true;
   }

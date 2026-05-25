@@ -84,6 +84,11 @@ export class AppComponent implements OnInit {
               label: "Utilisateurs tableau de pilotage",
               routerLink: "/manage-users",
             },
+            {
+              linkId: "suspicious-activity",
+              label: "Activité suspecte",
+              routerLink: "/suspicious-activity",
+            },
             statsItem,
           ];
         } else {

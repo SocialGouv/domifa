@@ -23,7 +23,7 @@ import { addLogContext, appLogger } from "../../util";
 import { authChecker } from "../services";
 import { userStatusManager } from "../../modules/users/services";
 import { appLogsRepository, AppLogTable } from "../../database";
-import { SYSTEM_ACTOR_FIELDS } from "../../modules/app-logs/app-logs.helpers";
+import { userTypeFromProfile } from "../../modules/app-logs/app-logs.helpers";
 import {
   getClientIp,
   getClientUserAgent,
@@ -177,13 +177,14 @@ export class AppUserGuard implements CanActivate {
         await appLogsRepository
           .save(
             new AppLogTable({
-              ...SYSTEM_ACTOR_FIELDS,
+              // SUBJECT = the user being denied (so the row shows up in their
+              // activity tab via findUserLogs({ userId, userType })).
+              userId: user._userId,
+              userType: userTypeFromProfile(user._userProfile),
               action: "ACCESS_DENIED_NON_ACTIVE",
               context: {
                 triggeredBy: "AppUserGuard",
                 status,
-                userProfile: user._userProfile,
-                userId: user._userId,
                 method: request.method,
                 url: request.url,
                 ip: getClientIp(request),

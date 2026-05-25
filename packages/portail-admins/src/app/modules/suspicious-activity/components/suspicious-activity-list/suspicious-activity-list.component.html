@@ -1,0 +1,151 @@
+<ng-container *ngIf="showFilters; else embeddedLayout">
+  <dsfr-ext-spinner
+    *ngIf="loading"
+    typeLoader="quarter"
+    [overlay]="true"
+    label="Veuillez patienter"
+  ></dsfr-ext-spinner>
+
+  <div class="head-page fr-pt-4w">
+    <div class="fr-grid-row">
+      <div
+        class="fr-container fr-col-md-12 fr-col-12 fr-display-flex fr-justify-content-between fr-align-items-center"
+      >
+        <h1 class="fr-text-title--blue-france fr-mb-0">
+          {{ title }}
+          <span *ngIf="itemCount > 0">({{ itemCount }} résultats)</span>
+        </h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="fr-container fr-pt-4w">
+    <p class="fr-text--sm fr-text--mention-grey">
+      Blocages, throttle, requêtes rejetées et accès refusés sur l'ensemble de
+      la plateforme, du plus récent au plus ancien.
+    </p>
+
+    <app-suspicious-activity-filters
+      (filtersChange)="onFiltersChange($event)"
+    ></app-suspicious-activity-filters>
+
+    <ng-container *ngTemplateOutlet="tableTpl"></ng-container>
+  </div>
+</ng-container>
+
+<ng-template #embeddedLayout>
+  <ng-container *ngTemplateOutlet="tableTpl"></ng-container>
+</ng-template>
+
+<ng-template #tableTpl>
+  <div *ngIf="!loading && logs.length === 0" class="fr-alert fr-alert--info">
+    <p>Aucun événement suspect ne correspond aux filtres.</p>
+  </div>
+
+  <div *ngIf="logs.length > 0" class="fr-table fr-table--no-outer-border">
+    <div class="fr-table__wrapper">
+      <div class="fr-table__container">
+        <div class="fr-table__content">
+          <table>
+            <caption class="fr-sr-only">
+              Événements de sécurité ({{
+                itemCount
+              }}
+              entrées)
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Action</th>
+                <th scope="col">Utilisateur</th>
+                <th scope="col">IP</th>
+                <th scope="col">Identifiant tenté</th>
+                <th scope="col">Détails</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let log of logs">
+                <td>{{ log.createdAt | date : "dd/MM/yyyy HH:mm:ss" }}</td>
+                <td>
+                  <p
+                    class="fr-badge fr-badge--sm"
+                    [ngClass]="actionBadgeClass(log.action)"
+                  >
+                    {{ actionLabel(log.action) }}
+                  </p>
+                </td>
+                <td>
+                  <ng-container
+                    *ngIf="log.resolvedUser as user; else anonymousCell"
+                  >
+                    <a
+                      class="fr-link"
+                      [routerLink]="[
+                        '/suspicious-activity',
+                        'users',
+                        user.userType,
+                        user.userId
+                      ]"
+                    >
+                      {{ user.fullName || user.email }}
+                    </a>
+                    <br />
+                    <span class="fr-text--xs fr-text--mention-grey">
+                      {{
+                        user.userType === "user_supervisor"
+                          ? "Superviseur"
+                          : "Structure"
+                      }}
+                      <ng-container *ngIf="user.role">
+                        · {{ user.role }}
+                      </ng-container>
+                      <ng-container *ngIf="user.structureId">
+                        · structure #{{ user.structureId }}
+                      </ng-container>
+                    </span>
+                  </ng-container>
+                  <ng-template #anonymousCell>
+                    <span class="fr-text--mention-grey">
+                      {{ log.userType === "anonymous" ? "Anonyme" : "Système" }}
+                    </span>
+                  </ng-template>
+                </td>
+                <td>{{ contextString(log.context, "ip") }}</td>
+                <td>
+                  {{ contextString(log.context, "attemptedIdentifier") }}
+                </td>
+                <td class="fr-text--xs">
+                  <p
+                    *ngIf="contextHuman(log.action, log.context) as human"
+                    class="fr-m-0 fr-mb-1w fr-text--sm"
+                  >
+                    {{ human }}
+                  </p>
+                  <details>
+                    <summary class="fr-text--xs fr-text--mention-grey">
+                      JSON brut
+                    </summary>
+                    <pre
+                      class="fr-m-0 fr-mt-1w fr-text--xs"
+                      style="white-space: pre-wrap; word-break: break-word"
+                      >{{ contextJson(log.context) }}</pre
+                    >
+                  </details>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="totalPages > 1" class="fr-mt-2w">
+    <dsfr-pagination
+      [pageCount]="totalPages"
+      [currentPage]="currentPage"
+      (pageSelect)="onPageSelect($event)"
+      ariaLabel="Pagination des événements de sécurité"
+    ></dsfr-pagination>
+  </div>
+</ng-template>

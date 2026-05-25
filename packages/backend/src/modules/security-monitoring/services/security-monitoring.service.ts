@@ -16,18 +16,14 @@ import { formatThrottleWindow } from "../../../auth/guards/app-throttler/app-thr
 import {
   BlockedIpSummary,
   BlockedUserSummary,
+  EmailAlertingLogAction,
   PermanentlyBlockedAccount,
-  SecurityLogAction,
   SuspiciousActivitySummary,
 } from "../types/security-alert.types";
+import { EMAIL_ALERTING_LOG_ACTIONS } from "../constants/SECURITY_LOG_ACTIONS.const";
 import { SecurityAlertEmailService } from "./security-alert-email.service";
 
 const WINDOW_MS = 5 * 60 * 1000;
-const SECURITY_ACTIONS: SecurityLogAction[] = [
-  "BLOCK_USER",
-  "REQUEST_BLOCKED",
-  "THROTTLE_BLOCKED",
-];
 const MAX_USERS_IN_REPORT = 20;
 const MAX_IPS_IN_REPORT = 20;
 const MAX_IDENTIFIERS_PER_IP = 10;
@@ -59,7 +55,7 @@ export class SecurityMonitoringService {
 
     const recentLogs = await appLogsRepository.find({
       where: {
-        action: In(SECURITY_ACTIONS),
+        action: In(EMAIL_ALERTING_LOG_ACTIONS),
         createdAt: MoreThanOrEqual(windowStart),
       },
       order: { createdAt: "DESC" },
@@ -140,7 +136,7 @@ function buildSummary({
   windowStart: Date;
   windowEnd: Date;
 }): SuspiciousActivitySummary {
-  const totals: Record<SecurityLogAction, number> = {
+  const totals: Record<EmailAlertingLogAction, number> = {
     BLOCK_USER: 0,
     REQUEST_BLOCKED: 0,
     THROTTLE_BLOCKED: 0,
@@ -150,7 +146,7 @@ function buildSummary({
   const ipAggregators = new Map<string, IpAggregator>();
 
   for (const log of recentLogs) {
-    const action = log.action as SecurityLogAction;
+    const action = log.action as EmailAlertingLogAction;
     if (action in totals) {
       totals[action] += 1;
     }
@@ -251,7 +247,7 @@ function ingestBlockedIpLog({
   context,
   ipAggregators,
 }: {
-  action: SecurityLogAction;
+  action: EmailAlertingLogAction;
   context: Record<string, unknown>;
   ipAggregators: Map<string, IpAggregator>;
 }): void {

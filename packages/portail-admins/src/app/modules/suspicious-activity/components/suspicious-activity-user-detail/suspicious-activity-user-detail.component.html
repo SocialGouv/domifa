@@ -1,0 +1,156 @@
+<div class="fr-content-container">
+  <div class="fr-container">
+    <dsfr-ext-spinner
+      *ngIf="loading"
+      typeLoader="quarter"
+      [overlay]="true"
+      label="Chargement de la fiche"
+    ></dsfr-ext-spinner>
+
+    <ng-container *ngIf="!loading && user">
+      <div class="fr-py-3w" id="subnav">
+        <div class="fr-grid-row">
+          <a routerLink="/suspicious-activity" class="fr-link w-auto">
+            <span class="fr-icon-arrow-left-s-line"></span>Retour
+            <span class="fr-sr-only">à l'activité suspecte</span>
+          </a>
+        </div>
+        <div
+          class="fr-grid-row fr-pt-2w fr-align-items-center fr-grid-row--gutters"
+        >
+          <div class="fr-col-12 fr-grid-row fr-align-items-center">
+            <h1 class="fr-text-title--blue-france fr-p-0w fr-m-0w">
+              {{ user.userId }} - {{ user.fullName || user.email }}
+            </h1>
+            <span class="fr-ml-2w" *ngIf="user.status === 'ACTIVE'">
+              <span class="fr-badge fr-badge--success">Actif</span>
+            </span>
+            <span class="fr-ml-2w" *ngIf="user.status === 'PENDING'">
+              <span class="fr-badge fr-badge--info">En attente</span>
+            </span>
+            <span
+              class="fr-ml-2w"
+              *ngIf="user.status === 'TEMPORARILY_BLOCKED'"
+            >
+              <span class="fr-badge fr-badge--warning">Blocage temporaire</span>
+            </span>
+            <span class="fr-ml-2w" *ngIf="user.status === 'BLOCKED'">
+              <span class="fr-badge fr-badge--error">Bloqué</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <section class="fr-mb-4w">
+        <h2 class="fr-h4">Informations du compte</h2>
+        <dl class="fr-mt-2w">
+          <div class="fr-grid-row fr-py-1w">
+            <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Identifiant</dt>
+            <dd class="fr-col-12 fr-col-md-8 fr-m-0">{{ user.userId }}</dd>
+          </div>
+          <div class="fr-grid-row fr-py-1w">
+            <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Profil</dt>
+            <dd class="fr-col-12 fr-col-md-8 fr-m-0">
+              {{ profileLabel(user.userType) }}
+            </dd>
+          </div>
+          <div class="fr-grid-row fr-py-1w">
+            <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Email</dt>
+            <dd class="fr-col-12 fr-col-md-8 fr-m-0">{{ user.email }}</dd>
+          </div>
+          <div class="fr-grid-row fr-py-1w" *ngIf="user.role">
+            <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Rôle</dt>
+            <dd class="fr-col-12 fr-col-md-8 fr-m-0">{{ user.role }}</dd>
+          </div>
+          <div class="fr-grid-row fr-py-1w" *ngIf="user.structureId">
+            <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Structure</dt>
+            <dd class="fr-col-12 fr-col-md-8 fr-m-0">
+              #{{ user.structureId }}
+            </dd>
+          </div>
+          <div class="fr-grid-row fr-py-1w" *ngIf="user.createdAt">
+            <dt class="fr-col-12 fr-col-md-4 fr-text--bold">
+              Date d'inscription
+            </dt>
+            <dd class="fr-col-12 fr-col-md-8 fr-m-0">
+              {{ user.createdAt | date : "d MMMM y" }}
+            </dd>
+          </div>
+          <div class="fr-grid-row fr-py-1w">
+            <dt class="fr-col-12 fr-col-md-4 fr-text--bold">
+              Dernière connexion
+            </dt>
+            <dd class="fr-col-12 fr-col-md-8 fr-m-0">
+              <app-display-last-login
+                [lastLogin]="user.lastLogin ? toDate(user.lastLogin) : null"
+              ></app-display-last-login>
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="fr-mb-4w" *ngIf="sessions">
+        <h2 class="fr-h4">Session active</h2>
+        <ng-container
+          *ngIf="sessions.currentSession as cur; else noActiveSession"
+        >
+          <dl class="fr-mt-2w">
+            <div class="fr-grid-row fr-py-1w">
+              <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Adresse IP</dt>
+              <dd class="fr-col-12 fr-col-md-8 fr-m-0">{{ cur.ipAddress }}</dd>
+            </div>
+            <div class="fr-grid-row fr-py-1w">
+              <dt class="fr-col-12 fr-col-md-4 fr-text--bold">User-Agent</dt>
+              <dd class="fr-col-12 fr-col-md-8 fr-m-0 fr-text--xs">
+                {{ cur.userAgent }}
+              </dd>
+            </div>
+            <div class="fr-grid-row fr-py-1w">
+              <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Ouverte le</dt>
+              <dd class="fr-col-12 fr-col-md-8 fr-m-0">
+                {{ cur.createdAt | date : "dd/MM/yyyy HH:mm:ss" }}
+              </dd>
+            </div>
+            <div class="fr-grid-row fr-py-1w">
+              <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Expire le</dt>
+              <dd class="fr-col-12 fr-col-md-8 fr-m-0">
+                {{ cur.expiresAt | date : "dd/MM/yyyy HH:mm:ss" }}
+              </dd>
+            </div>
+            <div class="fr-grid-row fr-py-1w" *ngIf="cur.lastVerifiedAt">
+              <dt class="fr-col-12 fr-col-md-4 fr-text--bold">
+                Dernière vérification
+              </dt>
+              <dd class="fr-col-12 fr-col-md-8 fr-m-0">
+                {{ cur.lastVerifiedAt | date : "dd/MM/yyyy HH:mm:ss" }}
+              </dd>
+            </div>
+          </dl>
+        </ng-container>
+        <ng-template #noActiveSession>
+          <p class="fr-text--mention-grey">Aucune session active.</p>
+        </ng-template>
+      </section>
+
+      <section class="fr-mb-4w" *ngIf="sessions">
+        <h2 class="fr-h4">Historique des sessions</h2>
+        <app-sessions-history-table
+          [sessions]="sessions.sessionsHistory"
+        ></app-sessions-history-table>
+      </section>
+
+      <section *ngIf="userType && userId">
+        <h2 class="fr-h4">Derniers événements de sécurité</h2>
+        <app-suspicious-activity-list
+          [showFilters]="false"
+          [lockedFilters]="{ userType: userType, userId: userId }"
+          [title]="''"
+        ></app-suspicious-activity-list>
+      </section>
+    </ng-container>
+
+    <div *ngIf="!loading && !user" class="fr-alert fr-alert--error fr-mt-3w">
+      <p>Utilisateur introuvable.</p>
+    </div>
+  </div>
+</div>

@@ -1,8 +1,23 @@
 import {
   UserAdminAuthenticated,
+  UserProfile,
   UserStructureAuthenticated,
 } from "../../_common/model";
-import { AppLog } from "./types";
+import { AppLog, AppLogActorType } from "./types";
+
+// Maps a short UserProfile ("structure" | "supervisor" | "usager") to the
+// AppLogActorType used on app_log rows. Use this when writing a log row whose
+// SUBJECT is a user (target of a block, unblock, access-deny, etc.) and the
+// caller only has the short profile string handy.
+const USER_TYPE_BY_PROFILE: Record<UserProfile, AppLogActorType> = {
+  structure: "user_structure",
+  supervisor: "user_supervisor",
+  usager: "usager",
+};
+
+export function userTypeFromProfile(profile: UserProfile): AppLogActorType {
+  return USER_TYPE_BY_PROFILE[profile];
+}
 
 type ActorFields = Pick<
   AppLog,

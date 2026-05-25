@@ -29,6 +29,9 @@ export class AppLogsService {
   ): Promise<PageResults<AppLogTable>> {
     const { userType, userId, page, take } = options;
 
+    // `userId` + `userType` ARE the subject of the log on every row, including
+    // security actions (BLOCK_USER, UNBLOCK_USER, etc.). See migration
+    // AppLogTargetUserOnSecurityActions1779996279014 for the data backfill.
     const [data, itemCount] = await appLogsRepository.findAndCount({
       where: { userId, userType },
       order: { createdAt: "DESC" },

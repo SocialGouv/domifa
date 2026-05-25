@@ -65,6 +65,15 @@ const routes: Routes = [
       ).then((m) => m.ManageStructureUsersModule),
   },
   {
+    path: "suspicious-activity",
+    canActivate: [AuthGuard],
+    data: { roles: ["super-admin-domifa"] },
+    loadChildren: () =>
+      import("./modules/suspicious-activity/suspicious-activity.module").then(
+        (m) => m.SuspiciousActivityModule
+      ),
+  },
+  {
     path: "",
     canActivate: [RoleRedirectGuard],
     pathMatch: "full",
