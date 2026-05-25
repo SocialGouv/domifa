@@ -58,8 +58,10 @@ export class AdminSecurityService {
 
   public async getUserSessions(
     userType: SuspiciousUserProfile,
-    userId: number
+    uuid: string
   ): Promise<UserSessionsViewDto> {
+    const userId = await resolveUserIdByUuid(userType, uuid);
+
     const repo =
       userType === "user_supervisor"
         ? userSupervisorSecurityRepository
@@ -84,11 +86,11 @@ export class AdminSecurityService {
 
   public async getUserSummary(
     userType: SuspiciousUserProfile,
-    userId: number
+    uuid: string
   ): Promise<SecurityUserSummaryDto> {
     if (userType === "user_supervisor") {
       const supervisor = await userSupervisorRepository.findOne({
-        where: { id: userId },
+        where: { uuid },
         select: {
           id: true,
           nom: true,
@@ -118,7 +120,7 @@ export class AdminSecurityService {
     }
 
     const structureUser = await userStructureRepository.findOne({
-      where: { id: userId },
+      where: { uuid },
       select: {
         id: true,
         nom: true,
@@ -127,6 +129,7 @@ export class AdminSecurityService {
         role: true,
         status: true,
         structureId: true,
+        uuid: true,
         lastLogin: true,
         createdAt: true,
       },
@@ -142,6 +145,7 @@ export class AdminSecurityService {
       role: structureUser.role ?? undefined,
       status: structureUser.status ?? undefined,
       structureId: structureUser.structureId ?? undefined,
+      uuid: structureUser.uuid ?? undefined,
       lastLogin: structureUser.lastLogin ?? null,
       createdAt: structureUser.createdAt ?? null,
     };
@@ -180,6 +184,7 @@ export class AdminSecurityService {
               role: true,
               status: true,
               structureId: true,
+              uuid: true,
             },
           }),
       supervisorIds.size === 0
@@ -208,6 +213,7 @@ export class AdminSecurityService {
         role: u.role ?? undefined,
         status: u.status ?? undefined,
         structureId: u.structureId ?? undefined,
+        uuid: u.uuid ?? undefined,
       });
     }
     for (const u of supervisors) {
@@ -320,4 +326,19 @@ function pickTargetKey(
 
 function formatFullName(prenom?: string | null, nom?: string | null): string {
   return [prenom, nom].filter(Boolean).join(" ").trim();
+}
+
+async function resolveUserIdByUuid(
+  userType: SuspiciousUserProfile,
+  uuid: string
+): Promise<number> {
+  const repo =
+    userType === "user_supervisor"
+      ? userSupervisorRepository
+      : userStructureRepository;
+  const user = await repo.findOne({ where: { uuid }, select: { id: true } });
+  if (!user) {
+    throw new NotFoundException("USER_NOT_FOUND");
+  }
+  return user.id;
 }

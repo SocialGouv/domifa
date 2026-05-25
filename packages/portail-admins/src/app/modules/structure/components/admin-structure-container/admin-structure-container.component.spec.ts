@@ -34,7 +34,7 @@ describe("AdminStructureContainerComponent", () => {
           provide: ActivatedRoute,
           useValue: {
             snapshot: {
-              params: { structureId: STRUCTURE_MOCK.id },
+              params: { structureUuid: STRUCTURE_MOCK.uuid },
             },
           },
         },

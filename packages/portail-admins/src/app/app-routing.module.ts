@@ -26,7 +26,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: "structure/:structureId",
+    path: "structure/:structureUuid",
     canActivate: [AuthGuard],
     data: {
       roles: ["super-admin-domifa"],

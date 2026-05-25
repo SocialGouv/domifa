@@ -13,7 +13,7 @@ const routes: Routes = [
   },
   {
     component: StructureUserDetailContainerComponent,
-    path: ":userId",
+    path: ":uuid",
     children: [
       { path: "", component: StructureUserInfoComponent },
       { path: "activity", component: StructureUserActivityComponent },

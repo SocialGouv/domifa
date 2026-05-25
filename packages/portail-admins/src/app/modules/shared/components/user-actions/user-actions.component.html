@@ -306,7 +306,7 @@
     #sessionsModalCmp
     [dialogId]="'userSessions-' + userKind + '-' + user.uuid"
     [userType]="sessionsUserType"
-    [userId]="user.id"
+    [userUuid]="user.uuid!"
     [titleModal]="'Sessions — ' + (user.nom || '') + ' ' + (user.prenom || '')"
   ></app-user-sessions-modal>
 </ng-container>

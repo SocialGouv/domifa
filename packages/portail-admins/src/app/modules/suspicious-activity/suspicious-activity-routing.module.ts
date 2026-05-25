@@ -7,7 +7,7 @@ import { SuspiciousActivityUserDetailComponent } from "./components/suspicious-a
 const routes: Routes = [
   { path: "", component: SuspiciousActivityListComponent },
   {
-    path: "users/:userType/:userId",
+    path: "users/:userType/:uuid",
     component: SuspiciousActivityUserDetailComponent,
   },
 ];

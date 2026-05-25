@@ -39,20 +39,20 @@ export class StructureService {
 
   public unblockUser(
     structureUuid: string,
-    userId: number
+    userUuid: string
   ): Observable<{ status: string }> {
     return this.http.patch<{ status: string }>(
-      `${BASE_URL}/structure/${structureUuid}/users/${userId}/unblock`,
+      `${BASE_URL}/structure/${structureUuid}/users/${userUuid}/unblock`,
       {}
     );
   }
 
   public blockUser(
     structureUuid: string,
-    userId: number
+    userUuid: string
   ): Observable<{ status: string }> {
     return this.http.patch<{ status: string }>(
-      `${BASE_URL}/structure/${structureUuid}/users/${userId}/block`,
+      `${BASE_URL}/structure/${structureUuid}/users/${userUuid}/block`,
       {}
     );
   }

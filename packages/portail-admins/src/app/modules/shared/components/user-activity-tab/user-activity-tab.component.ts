@@ -20,7 +20,7 @@ import {
 import { UserActivityLog } from "../../../manage-users/types/user-activity-log";
 
 export type UserActivityLogsFetcher = (
-  entityId: number,
+  entityUuid: string,
   page: number,
   take: number
 ) => Observable<PageResults<UserActivityLog>>;
@@ -33,7 +33,7 @@ const PAGE_SIZE = 20;
   imports: [CommonModule, DsfrPaginationComponent, DsfrSpinnerComponent],
 })
 export class UserActivityTabComponent implements OnChanges, OnDestroy {
-  @Input({ required: true }) public entityId!: number | undefined;
+  @Input({ required: true }) public entityId!: string | undefined;
   @Input({ required: true }) public fetcher!: UserActivityLogsFetcher;
   @Input() public title = "Activité récente";
   @Input() public subtitle =

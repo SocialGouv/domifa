@@ -59,7 +59,6 @@ import { appLogger } from "../../util";
 import { input } from "node-pdftk";
 import { generateCerfaData } from "../utils";
 import { readFile } from "fs-extra";
-import { isUUID } from "class-validator";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @ApiTags("docs")
@@ -263,14 +262,9 @@ export class UsagerDocsController {
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager,
-    @Query("decisionUuid") decisionUuid?: string
+    @Query("decisionUuid", new ParseUUIDPipe({ optional: true }))
+    decisionUuid?: string
   ) {
-    if (decisionUuid && !isUUID(decisionUuid)) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "BAD_REQUEST" });
-    }
-
     const pdfForm =
       typeCerfa === CerfaDocType.attestation ||
       typeCerfa === CerfaDocType.attestation_future

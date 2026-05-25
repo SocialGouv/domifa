@@ -48,7 +48,7 @@ describe("StructureInfoComponent", () => {
           useValue: {
             parent: {
               snapshot: {
-                params: { structureId: STRUCTURE_MOCK.id },
+                params: { structureUuid: STRUCTURE_MOCK.uuid },
               },
             },
           },

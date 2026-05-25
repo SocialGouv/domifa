@@ -2,7 +2,8 @@ import {
   Controller,
   Get,
   Param,
-  ParseIntPipe,
+  ParseEnumPipe,
+  ParseUUIDPipe,
   Query,
   UseGuards,
 } from "@nestjs/common";
@@ -21,7 +22,11 @@ import {
   AllowUserSupervisorRoles,
 } from "../../../../auth/decorators";
 import { AppUserGuard } from "../../../../auth/guards";
-import { SuspiciousActivityQueryDto } from "../../dto/suspicious-activity-query.dto";
+import {
+  SUSPICIOUS_USER_PROFILES,
+  SuspiciousActivityQueryDto,
+  SuspiciousUserProfile,
+} from "../../dto/suspicious-activity-query.dto";
 import {
   SecurityUserSummaryDto,
   SuspiciousActivityLogDto,
@@ -49,25 +54,27 @@ export class AdminSecurityController {
     return this.adminSecurityService.findSuspiciousActivity(query);
   }
 
-  @Get("users/:userType/:userId")
+  @Get("users/:userType/:uuid")
   @ApiOperation({ summary: "Fiche utilisateur (vue sécurité)" })
-  @ApiParam({ name: "userType", enum: ["user_structure", "user_supervisor"] })
+  @ApiParam({ name: "userType", enum: SUSPICIOUS_USER_PROFILES })
   public async getUserSummary(
-    @Param("userType") userType: "user_structure" | "user_supervisor",
-    @Param("userId", ParseIntPipe) userId: number
+    @Param("userType", new ParseEnumPipe(SUSPICIOUS_USER_PROFILES))
+    userType: SuspiciousUserProfile,
+    @Param("uuid", new ParseUUIDPipe()) uuid: string
   ): Promise<SecurityUserSummaryDto> {
-    return this.adminSecurityService.getUserSummary(userType, userId);
+    return this.adminSecurityService.getUserSummary(userType, uuid);
   }
 
-  @Get("users/:userType/:userId/sessions")
+  @Get("users/:userType/:uuid/sessions")
   @ApiOperation({
     summary: "Sessions courante + historique d'un utilisateur",
   })
-  @ApiParam({ name: "userType", enum: ["user_structure", "user_supervisor"] })
+  @ApiParam({ name: "userType", enum: SUSPICIOUS_USER_PROFILES })
   public async getUserSessions(
-    @Param("userType") userType: "user_structure" | "user_supervisor",
-    @Param("userId", ParseIntPipe) userId: number
+    @Param("userType", new ParseEnumPipe(SUSPICIOUS_USER_PROFILES))
+    userType: SuspiciousUserProfile,
+    @Param("uuid", new ParseUUIDPipe()) uuid: string
   ): Promise<UserSessionsViewDto> {
-    return this.adminSecurityService.getUserSessions(userType, userId);
+    return this.adminSecurityService.getUserSessions(userType, uuid);
   }
 }

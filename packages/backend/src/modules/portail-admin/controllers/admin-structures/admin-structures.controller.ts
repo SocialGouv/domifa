@@ -3,11 +3,12 @@ import {
   Get,
   Body,
   HttpStatus,
+  NotFoundException,
   Query,
   Res,
   UseGuards,
   Param,
-  ParseIntPipe,
+  ParseUUIDPipe,
   Patch,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
@@ -53,6 +54,7 @@ import { StructureDecisionEmailService } from "../../services/structure-decision
 import { StructureDecisionService } from "../../services/structure-decision/structure-decision.service";
 import { OtpGuard } from "../../../otp/guards/otp.guard";
 import { RequireOtp } from "../../../otp/decorators/require-otp.decorator";
+import { BlockUserByAdminLogContext } from "../../../app-logs/types/app-log-context.types";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
@@ -118,14 +120,21 @@ export class AdminStructuresController {
 
   @ApiBearerAuth()
   @ApiOperation({ summary: "Logs d'activité d'une structure" })
-  @Get(":structureId/logs")
+  @Get(":structureUuid/logs")
   public async getStructureLogs(
     @CurrentSupervisor() _user: UserAdminAuthenticated,
-    @Param("structureId", new ParseIntPipe()) structureId: number,
+    @Param("structureUuid", new ParseUUIDPipe()) structureUuid: string,
     @Query() pageOptions: PageOptionsDto
   ) {
+    const structure = await structureRepository.findOne({
+      where: { uuid: structureUuid },
+      select: { id: true },
+    });
+    if (!structure) {
+      throw new NotFoundException("STRUCTURE_NOT_FOUND");
+    }
     return this.appLogsService.findStructureLogs({
-      structureId,
+      structureId: structure.id,
       page: pageOptions.page,
       take: pageOptions.take,
     });
@@ -257,18 +266,18 @@ export class AdminStructuresController {
     );
   }
 
-  @Patch("structure/:structureUuid/users/:userId/unblock")
+  @Patch("structure/:structureUuid/users/:uuid/unblock")
   @UseGuards(StructureAccessGuard, OtpGuard)
   @RequireOtp("UNBLOCK_USER")
   public async unblockStructureUser(
     @CurrentSupervisor() user: UserAdminAuthenticated,
     @CurrentStructure() structure: Structure,
-    @Param("userId", new ParseIntPipe()) userId: number,
+    @Param("uuid", new ParseUUIDPipe()) uuid: string,
     @Body() unblockDto: UnblockUserDto,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
-    await this.adminStructuresService.unblockStructureUser(
-      userId,
+    const { userId } = await this.adminStructuresService.unblockStructureUser(
+      uuid,
       structure.id
     );
 
@@ -286,25 +295,31 @@ export class AdminStructuresController {
     return res.status(HttpStatus.OK).json({ status: "ACTIVE" });
   }
 
-  @Patch("structure/:structureUuid/users/:userId/block")
+  @Patch("structure/:structureUuid/users/:uuid/block")
   @UseGuards(StructureAccessGuard)
   public async blockStructureUser(
     @CurrentSupervisor() user: UserAdminAuthenticated,
     @CurrentStructure() structure: Structure,
-    @Param("userId", new ParseIntPipe()) userId: number,
+    @Param("uuid", new ParseUUIDPipe()) uuid: string,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
-    await this.adminStructuresService.blockStructureUser(userId, structure.id);
+    const previous = await this.adminStructuresService.blockStructureUser(
+      uuid,
+      structure.id
+    );
 
-    await this.appLogsService.create({
+    await this.appLogsService.create<BlockUserByAdminLogContext>({
       // SUBJECT = target structure user; ACTOR = admin (userSupervisorId).
-      userId,
+      userId: previous.userId,
       userType: "user_structure",
       userSupervisorId: user.id,
       structureId: structure.id,
       role: user.role,
       action: "BLOCK_USER_BY_ADMIN",
-      context: {},
+      context: {
+        previousStatus: previous.previousStatus,
+        previousRole: previous.previousRole,
+      },
     });
 
     return res.status(HttpStatus.OK).json({ status: "BLOCKED" });

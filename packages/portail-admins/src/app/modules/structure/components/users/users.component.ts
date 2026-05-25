@@ -19,7 +19,7 @@ import { Clipboard } from "@angular/cdk/clipboard";
 import { UserStructureEventHistoryLabels } from "../../../admin-auth/types/event-history";
 import { UserSecurityEventType } from "../../../shared/types/UserSecurityEvent.type";
 import { UserStructureWithSecurity } from "../../../admin-auth/types/UserStructureWithSecurity.type";
-import { selectStructureById } from "../../../shared/store/structures";
+import { selectStructureByUuid } from "../../../shared/store/structures";
 import {
   DsfrButtonModule,
   DsfrButtonsGroupModule,
@@ -100,7 +100,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   public readonly _USER_FONCTION_LABELS = USER_FONCTION_LABELS;
   public readonly USER_ACTIVITY_LABELS = UserStructureEventHistoryLabels;
   public readonly MODAL_ACTION = MODAL_ACTION;
-  public structureId: number;
+  public structureUuid: string;
   public structure?: StructureAdmin;
   private readonly subscription = new Subscription();
   public searching = true;
@@ -125,17 +125,15 @@ export class UsersComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.structureId = parseInt(
-      this.activatedRoute.parent.snapshot.params.structureId
-    );
+    this.structureUuid =
+      this.activatedRoute.parent.snapshot.params.structureUuid;
 
     // Wait for the structure to be loaded in the store before fetching the
-    // users : getUsers needs the structure uuid (post-migration from
-    // sequential id) and selectStructureById emits undefined while the list
-    // is still loading.
+    // users : getUsers needs the structure uuid and selectStructureByUuid
+    // emits undefined while the list is still loading.
     this.subscription.add(
       this.store
-        .select(selectStructureById(this.structureId))
+        .select(selectStructureByUuid(this.structureUuid))
         .pipe(
           filter((structure): structure is StructureAdmin => !!structure),
           take(1)
@@ -200,23 +198,25 @@ export class UsersComponent implements OnInit, OnDestroy {
   public confirmBlock(): void {
     if (!this.userToBlock || !this.isBlockNameConfirmed) return;
 
-    if (!this.structure?.uuid) {
+    if (!this.structure?.uuid || !this.userToBlock.uuid) {
       return;
     }
-    const targetId = this.userToBlock.id;
+    const targetUuid = this.userToBlock.uuid;
     this.subscription.add(
-      this.structureService.blockUser(this.structure.uuid, targetId).subscribe({
-        next: () => {
-          this.toastService.success("L'utilisateur a été bloqué");
-          this.userToBlock = null;
-          this.blockConfirmationInput = "";
-          this.blockModal.close();
-          this.reloadUsersSubject$.next();
-        },
-        error: () => {
-          this.toastService.error("Erreur lors du blocage de l'utilisateur");
-        },
-      })
+      this.structureService
+        .blockUser(this.structure.uuid, targetUuid)
+        .subscribe({
+          next: () => {
+            this.toastService.success("L'utilisateur a été bloqué");
+            this.userToBlock = null;
+            this.blockConfirmationInput = "";
+            this.blockModal.close();
+            this.reloadUsersSubject$.next();
+          },
+          error: () => {
+            this.toastService.error("Erreur lors du blocage de l'utilisateur");
+          },
+        })
     );
   }
 
@@ -267,12 +267,12 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   public unblockUser(user: UserWithSecurityViewModel): void {
-    if (!this.structure?.uuid) {
+    if (!this.structure?.uuid || !user.uuid) {
       return;
     }
     this.subscription.add(
       this.structureService
-        .unblockUser(this.structure.uuid, user.id)
+        .unblockUser(this.structure.uuid, user.uuid)
         .subscribe({
           next: () => {
             this.reloadUsersSubject$.next();

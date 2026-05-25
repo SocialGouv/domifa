@@ -1,4 +1,8 @@
-import { UserStructureRole, UserSupervisorRole } from "@domifa/common";
+import {
+  UserStatus,
+  UserStructureRole,
+  UserSupervisorRole,
+} from "@domifa/common";
 
 export type FailedUsagerImportLogContext = {
   // IMPORT_USAGERS_FAILED
@@ -44,4 +48,10 @@ export type UserStructureCreateLogContext = {
   userId: number;
   structureId?: number;
   role: UserStructureRole;
+};
+
+export type BlockUserByAdminLogContext = {
+  // BLOCK_USER_BY_ADMIN — snapshot taken before mutation
+  previousStatus: UserStatus;
+  previousRole: UserStructureRole | UserSupervisorRole;
 };

@@ -1,9 +1,9 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { Observable, Subscription } from "rxjs";
+import { Observable } from "rxjs";
 
-import { PageResults, UserSupervisor } from "@domifa/common";
+import { PageResults } from "@domifa/common";
 
 import { ManageUsersService } from "../../services/manage-users.service";
 import {
@@ -17,17 +17,15 @@ import { UserActivityLog } from "../../types/user-activity-log";
   templateUrl: "./supervisor-activity.component.html",
   imports: [CommonModule, UserActivityTabComponent],
 })
-export class SupervisorActivityComponent implements OnInit, OnDestroy {
-  public userId?: number;
+export class SupervisorActivityComponent implements OnInit {
+  public userUuid?: string;
 
   public readonly fetcher: UserActivityLogsFetcher = (
-    userId,
+    userUuid,
     page,
     take
   ): Observable<PageResults<UserActivityLog>> =>
-    this.manageUsersService.getSupervisorUserLogs(userId, page, take);
-
-  private readonly subscription = new Subscription();
+    this.manageUsersService.getSupervisorUserLogs(userUuid, page, take);
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -35,19 +33,6 @@ export class SupervisorActivityComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    const uuid = this.route.parent?.snapshot.params["uuid"];
-
-    this.subscription.add(
-      this.manageUsersService.users$.subscribe((users) => {
-        const found = users.find((u: UserSupervisor) => u.uuid === uuid);
-        if (found && found.id !== this.userId) {
-          this.userId = found.id;
-        }
-      })
-    );
-  }
-
-  public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.userUuid = this.route.parent?.snapshot.params["uuid"];
   }
 }

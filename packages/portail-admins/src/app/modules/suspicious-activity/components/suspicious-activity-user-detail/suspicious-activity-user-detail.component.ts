@@ -35,7 +35,7 @@ export class SuspiciousActivityUserDetailComponent
   public sessions?: UserSessionsView;
   public loading = true;
   public userType?: SuspiciousUserProfile;
-  public userId?: number;
+  public userUuid?: string;
 
   private readonly subscription = new Subscription();
 
@@ -47,26 +47,21 @@ export class SuspiciousActivityUserDetailComponent
 
   public ngOnInit(): void {
     const userType = this.route.snapshot.paramMap.get("userType");
-    const userIdParam = this.route.snapshot.paramMap.get("userId");
+    const uuid = this.route.snapshot.paramMap.get("uuid");
     if (
       (userType !== "user_structure" && userType !== "user_supervisor") ||
-      !userIdParam
+      !uuid
     ) {
       this.loading = false;
       return;
     }
-    const userId = Number(userIdParam);
-    if (!Number.isFinite(userId) || userId <= 0) {
-      this.loading = false;
-      return;
-    }
     this.userType = userType;
-    this.userId = userId;
+    this.userUuid = uuid;
 
     this.subscription.add(
       forkJoin({
-        user: this.service.getUserSummary(userType, userId),
-        sessions: this.service.getUserSessions(userType, userId),
+        user: this.service.getUserSummary(userType, uuid),
+        sessions: this.service.getUserSessions(userType, uuid),
       }).subscribe({
         next: ({ user, sessions }) => {
           this.user = user;

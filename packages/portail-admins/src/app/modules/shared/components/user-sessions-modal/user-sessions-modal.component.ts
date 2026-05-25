@@ -21,7 +21,7 @@ import {
 export class UserSessionsModalComponent {
   @Input({ required: true }) public dialogId!: string;
   @Input({ required: true }) public userType!: SessionsUserProfile;
-  @Input({ required: true }) public userId!: number;
+  @Input({ required: true }) public userUuid!: string;
   @Input() public titleModal = "Sessions de l'utilisateur";
 
   @ViewChild("sessionsModal") public modal?: DsfrModalComponent;
@@ -55,7 +55,7 @@ export class UserSessionsModalComponent {
   private load(): void {
     this.loading = true;
     this.subscription.add(
-      this.api.getUserSessions(this.userType, this.userId).subscribe({
+      this.api.getUserSessions(this.userType, this.userUuid).subscribe({
         next: (data) => {
           this.sessions = data;
           this.loading = false;

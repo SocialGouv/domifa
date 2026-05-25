@@ -16,7 +16,7 @@ import {
   STRUCTURE_TYPE_LABELS,
 } from "@domifa/common";
 
-import { selectStructureById } from "../../../shared/store/structures";
+import { selectStructureByUuid } from "../../../shared/store/structures";
 import { DsfrModalComponent, DsfrModalModule } from "@edugouvfr/ngx-dsfr";
 import {
   DsfrDropdownMenuComponent,
@@ -78,13 +78,10 @@ export class StructureInfoComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    const structureId = parseInt(
-      this.route.parent?.snapshot.params["structureId"],
-      10
-    );
+    const structureUuid = this.route.parent?.snapshot.params["structureUuid"];
 
     this.subscription.add(
-      this.store.select(selectStructureById(structureId)).subscribe({
+      this.store.select(selectStructureByUuid(structureUuid)).subscribe({
         next: (structure) => {
           if (!structure) return;
           this.structure = structure as unknown as Structure;

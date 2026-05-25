@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   HttpStatus,
+  NotFoundException,
   Param,
-  ParseIntPipe,
   ParseUUIDPipe,
   Patch,
   Post,
@@ -47,6 +47,7 @@ import { ElevateUserRoleDto } from "../../dto/elevate-user-role.dto";
 import {
   UserSupervisorCrudLogContext,
   AdminUserRoleChangeLogContext,
+  BlockUserByAdminLogContext,
 } from "../../../app-logs/types/app-log-context.types";
 import { CurrentSupervisor } from "../../../../auth/decorators/current-supervisor.decorator";
 import { BrevoSenderService } from "../../../mails/services/brevo-sender/brevo-sender.service";
@@ -178,16 +179,17 @@ export class AdminUsersController {
 
   @ApiBearerAuth()
   @ApiOperation({ summary: "Débloquer un utilisateur supervisor (OTP requis)" })
-  @Patch("supervisor/:userId/unblock")
+  @Patch("supervisor/:uuid/unblock")
   @UseGuards(OtpGuard)
   @RequireOtp("UNBLOCK_USER")
   public async unblockSupervisorUser(
     @CurrentSupervisor() user: UserAdminAuthenticated,
-    @Param("userId", new ParseIntPipe()) userId: number,
+    @Param("uuid", new ParseUUIDPipe()) uuid: string,
     @Body() unblockDto: UnblockUserDto,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
-    await this.adminSuperivorUsersService.unblockSupervisorUser(userId);
+    const { userId } =
+      await this.adminSuperivorUsersService.unblockSupervisorUser(uuid);
 
     await this.appLogsService.create({
       // SUBJECT = target user (so the row shows in their activity tab).
@@ -205,15 +207,22 @@ export class AdminUsersController {
 
   @ApiBearerAuth()
   @ApiOperation({ summary: "Logs d'activité d'un utilisateur supervisor" })
-  @Get("supervisor/:userId/logs")
+  @Get("supervisor/:uuid/logs")
   public async getSupervisorUserLogs(
     @CurrentSupervisor() _user: UserAdminAuthenticated,
-    @Param("userId", new ParseIntPipe()) userId: number,
+    @Param("uuid", new ParseUUIDPipe()) uuid: string,
     @Query() pageOptions: PageOptionsDto
   ) {
+    const target = await userSupervisorRepository.findOne({
+      where: { uuid },
+      select: { id: true },
+    });
+    if (!target) {
+      throw new NotFoundException("USER_NOT_FOUND");
+    }
     return this.appLogsService.findUserLogs({
       userType: "user_supervisor",
-      userId,
+      userId: target.id,
       page: pageOptions.page,
       take: pageOptions.take,
     });
@@ -221,15 +230,22 @@ export class AdminUsersController {
 
   @ApiBearerAuth()
   @ApiOperation({ summary: "Logs d'activité d'un utilisateur de structure" })
-  @Get("structure-user/:userId/logs")
+  @Get("structure-user/:uuid/logs")
   public async getStructureUserLogs(
     @CurrentSupervisor() _user: UserAdminAuthenticated,
-    @Param("userId", new ParseIntPipe()) userId: number,
+    @Param("uuid", new ParseUUIDPipe()) uuid: string,
     @Query() pageOptions: PageOptionsDto
   ) {
+    const target = await userStructureRepository.findOne({
+      where: { uuid },
+      select: { id: true },
+    });
+    if (!target) {
+      throw new NotFoundException("USER_NOT_FOUND");
+    }
     return this.appLogsService.findUserLogs({
       userType: "user_structure",
-      userId,
+      userId: target.id,
       page: pageOptions.page,
       take: pageOptions.take,
     });
@@ -237,30 +253,35 @@ export class AdminUsersController {
 
   @ApiBearerAuth()
   @ApiOperation({ summary: "Bloquer un utilisateur supervisor (OTP requis)" })
-  @Patch("supervisor/:userId/block")
+  @Patch("supervisor/:uuid/block")
   @UseGuards(OtpGuard)
   @RequireOtp("BLOCK_USER_BY_ADMIN")
   public async blockSupervisorUser(
     @CurrentSupervisor() user: UserAdminAuthenticated,
-    @Param("userId", new ParseIntPipe()) userId: number,
+    @Param("uuid", new ParseUUIDPipe()) uuid: string,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
-    if (user.id === userId) {
+    if (user.uuid === uuid) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "CANNOT_BLOCK_SELF" });
     }
 
-    await this.adminSuperivorUsersService.blockSupervisorUser(userId);
+    const previous = await this.adminSuperivorUsersService.blockSupervisorUser(
+      uuid
+    );
 
-    await this.appLogsService.create({
+    await this.appLogsService.create<BlockUserByAdminLogContext>({
       // SUBJECT = target user; ACTOR = admin (userSupervisorId).
-      userId,
+      userId: previous.userId,
       userType: "user_supervisor",
       userSupervisorId: user.id,
       role: user.role,
       action: "BLOCK_USER_BY_ADMIN",
-      context: {},
+      context: {
+        previousStatus: previous.previousStatus,
+        previousRole: previous.previousRole,
+      },
     });
 
     return res.status(HttpStatus.OK).json({ status: "BLOCKED" });
