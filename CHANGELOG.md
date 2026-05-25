@@ -1,3 +1,17 @@
+# [2.247.0](https://github.com/SocialGouv/domifa/compare/v2.246.0...v2.247.0) (2026-05-25)
+
+
+### Bug Fixes
+
+* **backend:** add session read ([5b97319](https://github.com/SocialGouv/domifa/commit/5b97319c09875fe0d51879f0d346bcd2fe818a90))
+* **backend:** fix unit test ([854a13c](https://github.com/SocialGouv/domifa/commit/854a13cdeb4838cd6df14410b24dd9709025298c))
+* **backend:** fix uuid ([c258793](https://github.com/SocialGouv/domifa/commit/c2587936028c4f725e31ba07feac8fea3b4ce11a))
+
+
+### Features
+
+* **backend:** add logs to back ([e3fd81c](https://github.com/SocialGouv/domifa/commit/e3fd81ca73b9f591bd3705dbe49fa625d771dc00))
+
 # [2.246.0](https://github.com/SocialGouv/domifa/compare/v2.245.1...v2.246.0) (2026-05-22)
 
 
