@@ -6,6 +6,10 @@ import { PageResults, UsersForAdminList } from "@domifa/common";
 
 import { environment } from "src/environments/environment";
 import { UserActivityLog } from "../../../manage-users/types/user-activity-log";
+import {
+  SessionsUserProfile,
+  UserSessionsView,
+} from "../../components/user-sessions-modal/user-sessions.types";
 
 @Injectable({ providedIn: "root" })
 export class AdminUsersApiClient {
@@ -82,6 +86,15 @@ export class AdminUsersApiClient {
     return this.http.get<PageResults<UserActivityLog>>(
       `${this.baseUrl}/structure-user/${userId}/logs`,
       { params }
+    );
+  }
+
+  public getUserSessions(
+    userType: SessionsUserProfile,
+    userId: number
+  ): Observable<UserSessionsView> {
+    return this.http.get<UserSessionsView>(
+      `${environment.apiUrl}admin/security/users/${userType}/${userId}/sessions`
     );
   }
 }

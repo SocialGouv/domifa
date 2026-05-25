@@ -1,0 +1,138 @@
+<dsfr-modal
+  #sessionsModal
+  class="text-start"
+  icon="fr-icon-shield-line"
+  [dialogId]="dialogId"
+  [titleModal]="titleModal"
+  [concealingBackdrop]="false"
+  modalSize="LG"
+>
+  <dsfr-ext-spinner
+    *ngIf="loading"
+    typeLoader="quarter"
+    label="Chargement des sessions..."
+  ></dsfr-ext-spinner>
+
+  <ng-container *ngIf="!loading && sessions">
+    <section class="fr-mb-4w">
+      <h3 class="fr-h5">Session active</h3>
+      <ng-container
+        *ngIf="sessions.currentSession as cur; else noActiveSession"
+      >
+        <dl class="fr-mt-1w">
+          <div class="fr-grid-row fr-py-1w">
+            <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Adresse IP</dt>
+            <dd class="fr-col-12 fr-col-md-8 fr-m-0">{{ cur.ipAddress }}</dd>
+          </div>
+          <div class="fr-grid-row fr-py-1w">
+            <dt class="fr-col-12 fr-col-md-4 fr-text--bold">User-Agent</dt>
+            <dd
+              class="fr-col-12 fr-col-md-8 fr-m-0 fr-text--xs"
+              style="word-break: break-word"
+            >
+              {{ cur.userAgent }}
+            </dd>
+          </div>
+          <div class="fr-grid-row fr-py-1w">
+            <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Ouverte le</dt>
+            <dd class="fr-col-12 fr-col-md-8 fr-m-0">
+              {{ cur.createdAt | date : "dd/MM/yyyy HH:mm:ss" }}
+            </dd>
+          </div>
+          <div class="fr-grid-row fr-py-1w">
+            <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Expire le</dt>
+            <dd class="fr-col-12 fr-col-md-8 fr-m-0">
+              {{ cur.expiresAt | date : "dd/MM/yyyy HH:mm:ss" }}
+            </dd>
+          </div>
+          <div class="fr-grid-row fr-py-1w" *ngIf="cur.lastVerifiedAt">
+            <dt class="fr-col-12 fr-col-md-4 fr-text--bold">
+              Dernière vérification
+            </dt>
+            <dd class="fr-col-12 fr-col-md-8 fr-m-0">
+              {{ cur.lastVerifiedAt | date : "dd/MM/yyyy HH:mm:ss" }}
+            </dd>
+          </div>
+        </dl>
+      </ng-container>
+      <ng-template #noActiveSession>
+        <p class="fr-text--mention-grey">Aucune session active.</p>
+      </ng-template>
+    </section>
+
+    <section>
+      <h3 class="fr-h5">
+        Historique des sessions
+        <span class="fr-text--xs fr-text--mention-grey">
+          ({{ sessions.sessionsHistory.length }})
+        </span>
+      </h3>
+      <div
+        *ngIf="sessions.sessionsHistory.length === 0"
+        class="fr-alert fr-alert--info fr-alert--sm"
+      >
+        <p>Aucune session fermée enregistrée.</p>
+      </div>
+
+      <div
+        *ngIf="sessions.sessionsHistory.length > 0"
+        class="fr-table fr-table--no-outer-border"
+      >
+        <div class="fr-table__wrapper">
+          <div class="fr-table__container">
+            <div class="fr-table__content">
+              <table>
+                <caption class="fr-sr-only">
+                  Historique des sessions
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Début</th>
+                    <th scope="col">Fin</th>
+                    <th scope="col">Motif</th>
+                    <th scope="col">IP</th>
+                    <th scope="col">User-Agent</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let session of sessions.sessionsHistory">
+                    <td>{{ session.createdAt | date : "dd/MM/yyyy HH:mm" }}</td>
+                    <td>{{ session.closedAt | date : "dd/MM/yyyy HH:mm" }}</td>
+                    <td class="fr-text--bold">
+                      {{ reasonLabel(session.closedReason) }}
+                    </td>
+                    <td>{{ session.ipAddress }}</td>
+                    <td
+                      class="fr-text--xs"
+                      style="max-width: 280px; word-break: break-word"
+                    >
+                      {{ session.userAgent }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </ng-container>
+
+  <ul
+    class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-mt-3w"
+  >
+    <li>
+      <button
+        type="button"
+        class="fr-btn fr-btn--secondary"
+        (click)="refresh()"
+        [disabled]="loading"
+      >
+        Rafraîchir
+      </button>
+    </li>
+    <li>
+      <button type="button" class="fr-btn" (click)="close()">Fermer</button>
+    </li>
+  </ul>
+</dsfr-modal>
