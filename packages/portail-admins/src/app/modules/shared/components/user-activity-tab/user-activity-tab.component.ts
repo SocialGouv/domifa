@@ -10,10 +10,9 @@ import { DsfrPaginationComponent } from "@edugouvfr/ngx-dsfr";
 import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 import { Observable, Subscription } from "rxjs";
 
-import { PageResults } from "@domifa/common";
+import { LOG_ACTION_LABELS, PageResults } from "@domifa/common";
 
 import { CustomToastService } from "../../services";
-import { getLogActionLabel } from "../../../manage-users/types/log-action-labels";
 import {
   getLogContextHumanSummary,
   getLogContextJson,
@@ -88,7 +87,9 @@ export class UserActivityTabComponent implements OnChanges, OnDestroy {
   }
 
   public actionLabel(action: string): string {
-    return getLogActionLabel(action);
+    return (
+      LOG_ACTION_LABELS[action as keyof typeof LOG_ACTION_LABELS] ?? action
+    );
   }
 
   public contextHuman(action: string, context: unknown): string {

@@ -13,6 +13,12 @@ import { getCurrentScope } from "@sentry/angular";
 import { UserStructure, filterMatomoParams } from "@domifa/common";
 import { Store } from "@ngrx/store";
 
+// Persisted separately from `currentUser` so it survives logout. The trust
+// token represents "this device is trusted" — clearing it on logout would force
+// an OTP cycle on every reconnection. It is rotated on every backend response
+// that issues a new access JWT.
+const TRUST_TOKEN_STORAGE_KEY = "structureTrustToken";
+
 @Injectable({
   providedIn: "root",
 })
@@ -43,11 +49,10 @@ export class AuthService {
   }
 
   public login(email: string, password: string): Observable<UserStructure> {
-    // Re-present the trust token nested in the previous access JWT (if any).
-    // When the backend accepts it the OTP step is skipped; otherwise the
-    // OtpInterceptor catches the 401 OTP_REQUIRED and re-runs the request
-    // with the Otp-Code header automatically.
-    const trustToken = this.readTrustTokenFromPreviousAccessToken();
+    // Re-present the persisted trust token. Backend verifies signature + IP/UA
+    // binding and either skips the OTP step (trusted device) or falls back to
+    // the OTP cycle via OtpInterceptor + 401 OTP_REQUIRED.
+    const trustToken = this.readTrustToken();
 
     return this.http
       .post<{ access_token: string }>(`${this.endPoint}/login`, {
@@ -62,6 +67,7 @@ export class AuthService {
           );
 
           user.access_token = token.access_token;
+          this.persistTrustTokenFromAccess(token.access_token);
           this.store.dispatch(usagerActions.clearCache());
           this.setUser(user);
           return user;
@@ -69,24 +75,23 @@ export class AuthService {
       );
   }
 
-  // The trust token is a nested signed JWT carried inside the access JWT
-  // payload (claim `trustToken`). We decode the previous access JWT without
-  // verifying anything — the backend re-verifies signature + binding before
-  // trusting the token. If anything is off (missing, malformed, no prior
-  // login), return null and the backend falls back to the OTP path.
-  private readTrustTokenFromPreviousAccessToken(): string | null {
-    const previous = this.currentUserValue?.access_token;
-    if (!previous) {
-      return null;
-    }
+  // Persists the trust token from a freshly-issued access JWT. The backend
+  // rotates the trust token on every login (OTP path AND trusted path), so we
+  // always overwrite the stored value with the latest one. Stored in its own
+  // localStorage key so logout doesn't wipe it.
+  private persistTrustTokenFromAccess(accessToken: string): void {
     try {
-      const decoded = jwtDecode<{ trustToken?: string }>(previous);
-      return typeof decoded?.trustToken === "string"
-        ? decoded.trustToken
-        : null;
+      const decoded = jwtDecode<{ trustToken?: string }>(accessToken);
+      if (typeof decoded?.trustToken === "string") {
+        localStorage.setItem(TRUST_TOKEN_STORAGE_KEY, decoded.trustToken);
+      }
     } catch {
-      return null;
+      /* malformed access token — leave the previous trust token untouched */
     }
+  }
+
+  private readTrustToken(): string | null {
+    return localStorage.getItem(TRUST_TOKEN_STORAGE_KEY);
   }
 
   public isAuth(): Observable<boolean> {
