@@ -1,15 +1,9 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { CommonModule, ViewportScroller } from "@angular/common";
-import {
-  ActivatedRoute,
-  NavigationEnd,
-  Router,
-  RouterModule,
-  UrlSegment,
-} from "@angular/router";
+import { CommonModule } from "@angular/common";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
-import { filter, Subscription, take } from "rxjs";
+import { Subscription, take } from "rxjs";
 
 import { StructureAdmin } from "@domifa/common";
 
@@ -27,35 +21,14 @@ import {
 })
 export class AdminStructureContainerComponent implements OnInit, OnDestroy {
   public structure?: StructureAdmin;
-  public currentUrl: UrlSegment[] = [];
-  public activeTab: "users" | "stats" | "infos" | "activity" = "infos";
   public loading = true;
   private readonly subscription = new Subscription();
 
   constructor(
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly store: Store,
-    private viewportScroller: ViewportScroller
-  ) {
-    this.subscription.add(
-      this.router.events
-        .pipe(filter((event) => event instanceof NavigationEnd))
-        .subscribe(() => {
-          const url = this.router.url;
-          if (url.endsWith("/users")) {
-            this.activeTab = "users";
-          } else if (url.endsWith("/stats")) {
-            this.activeTab = "stats";
-          } else if (url.endsWith("/activity")) {
-            this.activeTab = "activity";
-          } else {
-            this.activeTab = "infos";
-          }
-          this.viewportScroller.scrollToAnchor("subnav");
-        })
-    );
-  }
+    private readonly store: Store
+  ) {}
 
   ngOnInit(): void {
     const structureUuid = this.activatedRoute.snapshot.params["structureUuid"];

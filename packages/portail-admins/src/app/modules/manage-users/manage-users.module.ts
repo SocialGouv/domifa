@@ -10,6 +10,7 @@ import { DeleteUserComponent } from "./components/delete-user/delete-user.compon
 import { SupervisorActivityComponent } from "./components/supervisor-activity/supervisor-activity.component";
 import { SupervisorDetailContainerComponent } from "./components/supervisor-detail-container/supervisor-detail-container.component";
 import { SupervisorInfoComponent } from "./components/supervisor-info/supervisor-info.component";
+import { SupervisorSessionsComponent } from "./components/supervisor-sessions/supervisor-sessions.component";
 import { FullNamePipe, SortArrayPipe } from "../shared/pipes";
 import {
   provideHttpClient,
@@ -45,6 +46,7 @@ import { DsfrModalModule } from "@edugouvfr/ngx-dsfr";
     SupervisorDetailContainerComponent,
     SupervisorInfoComponent,
     SupervisorActivityComponent,
+    SupervisorSessionsComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

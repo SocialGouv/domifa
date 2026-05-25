@@ -1,17 +1,28 @@
-<dsfr-modal
-  #sessionsModal
-  class="text-start"
-  icon="fr-icon-shield-line"
-  [dialogId]="dialogId"
-  [titleModal]="titleModal"
-  [concealingBackdrop]="false"
-  modalSize="LG"
->
-  <dsfr-ext-spinner
+<div class="fr-mt-3w">
+  <div class="fr-grid-row fr-grid-row--middle fr-mb-2w">
+    <h2 class="fr-h4 fr-mb-0 fr-col">Sessions</h2>
+    <button
+      type="button"
+      class="fr-btn fr-btn--secondary fr-btn--sm fr-icon-refresh-line fr-btn--icon-left"
+      (click)="refresh()"
+      [disabled]="loading"
+    >
+      Rafraîchir
+    </button>
+  </div>
+
+  <div
     *ngIf="loading"
-    typeLoader="quarter"
-    label="Chargement des sessions..."
-  ></dsfr-ext-spinner>
+    role="alert"
+    aria-busy="true"
+    aria-label="Chargement des sessions..."
+    class="text-center fr-py-3w"
+  >
+    <dsfr-ext-spinner
+      typeLoader="quarter"
+      label="Chargement des sessions..."
+    ></dsfr-ext-spinner>
+  </div>
 
   <ng-container *ngIf="!loading && sessions">
     <section class="fr-mb-4w">
@@ -102,12 +113,7 @@
                       {{ reasonLabel(session.closedReason) }}
                     </td>
                     <td>{{ session.ipAddress }}</td>
-                    <td
-                      class="fr-text--xs"
-                      style="max-width: 280px; word-break: break-word"
-                    >
-                      {{ session.userAgent }}
-                    </td>
+                    <td class="fr-text--xs">{{ session.userAgent }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -117,22 +123,4 @@
       </div>
     </section>
   </ng-container>
-
-  <ul
-    class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-mt-3w"
-  >
-    <li>
-      <button
-        type="button"
-        class="fr-btn fr-btn--secondary"
-        (click)="refresh()"
-        [disabled]="loading"
-      >
-        Rafraîchir
-      </button>
-    </li>
-    <li>
-      <button type="button" class="fr-btn" (click)="close()">Fermer</button>
-    </li>
-  </ul>
-</dsfr-modal>
+</div>

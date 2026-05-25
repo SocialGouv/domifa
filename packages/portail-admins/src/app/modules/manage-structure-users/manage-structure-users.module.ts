@@ -25,6 +25,7 @@ import { ManageStructureUsersRoutingModule } from "./manage-structure-users-rout
 import { StructureUserActivityComponent } from "./components/structure-user-activity/structure-user-activity.component";
 import { StructureUserDetailContainerComponent } from "./components/structure-user-detail-container/structure-user-detail-container.component";
 import { StructureUserInfoComponent } from "./components/structure-user-info/structure-user-info.component";
+import { StructureUserSessionsComponent } from "./components/structure-user-sessions/structure-user-sessions.component";
 import { StructureUsersListComponent } from "./components/structure-users-list/structure-users-list.component";
 
 @NgModule({
@@ -47,6 +48,7 @@ import { StructureUsersListComponent } from "./components/structure-users-list/s
     StructureUserDetailContainerComponent,
     StructureUserInfoComponent,
     StructureUserActivityComponent,
+    StructureUserSessionsComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

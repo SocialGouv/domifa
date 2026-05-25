@@ -24,7 +24,7 @@ export const selectAllAdminUsers = createSelector(selectUsersList, (users) =>
 export const selectIsAdminUsersLoading = selectUsersLoading;
 export const selectAreAdminUsersLoaded = selectUsersLoaded;
 
-export const selectAdminUserById = (id: number) =>
+export const selectAdminUserByUuid = (uuid: string) =>
   createSelector(selectAllAdminUsers, (users) =>
-    users.find((u) => u.id === id)
+    users.find((u) => u.uuid === uuid)
   );
