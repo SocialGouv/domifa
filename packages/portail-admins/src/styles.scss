@@ -158,6 +158,15 @@ label {
 }
 
 // ============================================================
+// 5b. Tables — break long unbreakable content (User-Agent,
+// JSON contexts, emails, fingerprints) instead of overflowing.
+// ============================================================
+.fr-table__content td {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+// ============================================================
 // 6. Components (modal, links, dropdown menus)
 // ============================================================
 

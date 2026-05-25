@@ -1,15 +1,10 @@
-import { CommonModule, ViewportScroller } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import {
-  ActivatedRoute,
-  NavigationEnd,
-  Router,
-  RouterModule,
-} from "@angular/router";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { Title } from "@angular/platform-browser";
 import { DsfrModalComponent, DsfrModalModule } from "@edugouvfr/ngx-dsfr";
 import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
-import { filter, Subscription } from "rxjs";
+import { Subscription } from "rxjs";
 
 import { PortailAdminUser, UserSupervisor } from "@domifa/common";
 
@@ -33,7 +28,6 @@ import { UserActionsComponent } from "../../../shared/components/user-actions/us
 export class SupervisorDetailContainerComponent implements OnInit, OnDestroy {
   public supervisor?: UserSupervisor;
   public me!: PortailAdminUser | null;
-  public activeTab: "infos" | "activity" = "infos";
   public loading = true;
 
   @ViewChild("updateUserModal")
@@ -46,19 +40,8 @@ export class SupervisorDetailContainerComponent implements OnInit, OnDestroy {
     private readonly activatedRoute: ActivatedRoute,
     private readonly authService: AdminAuthService,
     private readonly manageUsersService: ManageUsersService,
-    private readonly titleService: Title,
-    private readonly viewportScroller: ViewportScroller
-  ) {
-    this.subscription.add(
-      this.router.events
-        .pipe(filter((event) => event instanceof NavigationEnd))
-        .subscribe(() => {
-          const url = this.router.url;
-          this.activeTab = url.endsWith("/activity") ? "activity" : "infos";
-          this.viewportScroller.scrollToAnchor("subnav");
-        })
-    );
-  }
+    private readonly titleService: Title
+  ) {}
 
   public ngOnInit(): void {
     this.me = this.authService.currentUserValue;

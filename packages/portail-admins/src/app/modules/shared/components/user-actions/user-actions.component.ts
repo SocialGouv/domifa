@@ -28,8 +28,6 @@ import { DeleteUserComponent } from "../../../manage-users/components/delete-use
 import { ManageUsersService } from "../../../manage-users/services/manage-users.service";
 import { AdminUsersApiClient, CustomToastService } from "../../services";
 import { UsersActions } from "../../store/users";
-import { UserSessionsModalComponent } from "../user-sessions-modal/user-sessions-modal.component";
-import { SessionsUserProfile } from "../user-sessions-modal/user-sessions.types";
 
 export type UserActionsKind = "structure" | "supervisor";
 type ConfirmKind = "reset-password" | "promote";
@@ -44,7 +42,6 @@ type ConfirmKind = "reset-password" | "promote";
     DsfrDropdownMenuComponent,
     DsfrDropdownMenuItemComponent,
     DeleteUserComponent,
-    UserSessionsModalComponent,
   ],
 })
 export class UserActionsComponent implements OnDestroy {
@@ -65,16 +62,6 @@ export class UserActionsComponent implements OnDestroy {
   @ViewChild("unblockUserModal") public unblockUserModal!: DsfrModalComponent;
   @ViewChild("deleteUserConfirmationModal")
   public deleteUserConfirmationModal?: DsfrModalComponent;
-  @ViewChild("sessionsModalCmp")
-  public sessionsModalCmp?: UserSessionsModalComponent;
-
-  public get sessionsUserType(): SessionsUserProfile {
-    return this.isSupervisor ? "user_supervisor" : "user_structure";
-  }
-
-  public openSessionsModal(): void {
-    this.sessionsModalCmp?.open();
-  }
 
   private readonly subscription = new Subscription();
 

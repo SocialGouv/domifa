@@ -1,6 +1,11 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, ViewChild } from "@angular/core";
-import { DsfrModalComponent, DsfrModalModule } from "@edugouvfr/ngx-dsfr";
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges,
+} from "@angular/core";
 import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 import { Subscription } from "rxjs";
 
@@ -13,18 +18,13 @@ import {
 } from "./user-sessions.types";
 
 @Component({
-  selector: "app-user-sessions-modal",
-  standalone: true,
-  templateUrl: "./user-sessions-modal.component.html",
-  imports: [CommonModule, DsfrModalModule, DsfrSpinnerComponent],
+  selector: "app-user-sessions-tab",
+  templateUrl: "./user-sessions-tab.component.html",
+  imports: [CommonModule, DsfrSpinnerComponent],
 })
-export class UserSessionsModalComponent {
-  @Input({ required: true }) public dialogId!: string;
+export class UserSessionsTabComponent implements OnChanges, OnDestroy {
   @Input({ required: true }) public userType!: SessionsUserProfile;
   @Input({ required: true }) public userUuid!: string;
-  @Input() public titleModal = "Sessions de l'utilisateur";
-
-  @ViewChild("sessionsModal") public modal?: DsfrModalComponent;
 
   public sessions?: UserSessionsView;
   public loading = false;
@@ -37,15 +37,14 @@ export class UserSessionsModalComponent {
     private readonly toast: CustomToastService
   ) {}
 
-  public open(): void {
-    this.modal?.open();
-    if (!this.loaded) {
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (
+      (changes["userUuid"] || changes["userType"]) &&
+      this.userUuid &&
+      this.userType
+    ) {
       this.load();
     }
-  }
-
-  public close(): void {
-    this.modal?.close();
   }
 
   public refresh(): void {
@@ -73,10 +72,7 @@ export class UserSessionsModalComponent {
     return SESSION_CLOSED_REASON_LABELS[reason] ?? reason;
   }
 
-  public truncate(value: string | null | undefined, len = 12): string {
-    if (!value) {
-      return "—";
-    }
-    return value.length > len ? value.slice(0, len) + "…" : value;
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

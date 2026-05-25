@@ -53,7 +53,10 @@
               class="fr-tabs__tab"
               role="link"
               routerLink="/structure/{{ structure.uuid }}"
-              [attr.aria-selected]="activeTab === 'infos'"
+              routerLinkActive
+              #infosRla="routerLinkActive"
+              [routerLinkActiveOptions]="{ exact: true }"
+              [attr.aria-selected]="infosRla.isActive"
             >
               Informations
             </a>
@@ -64,9 +67,11 @@
               id="storybook-tab-1"
               class="fr-tabs__tab"
               role="link"
-              [attr.aria-selected]="activeTab === 'users'"
               aria-controls="storybook-tab-1-panel"
               [routerLink]="'users'"
+              routerLinkActive
+              #usersRla="routerLinkActive"
+              [attr.aria-selected]="usersRla.isActive"
             >
               Utilisateurs
             </a>
@@ -78,9 +83,11 @@
               class="fr-tabs__tab"
               tabindex="-1"
               role="link"
-              [attr.aria-selected]="activeTab === 'stats'"
               aria-controls="storybook-tab-2-panel"
               [routerLink]="'stats'"
+              routerLinkActive
+              #statsRla="routerLinkActive"
+              [attr.aria-selected]="statsRla.isActive"
             >
               Statistiques
             </a>
@@ -92,9 +99,11 @@
               class="fr-tabs__tab"
               tabindex="-1"
               role="link"
-              [attr.aria-selected]="activeTab === 'activity'"
               aria-controls="storybook-tab-3-panel"
               [routerLink]="'activity'"
+              routerLinkActive
+              #activityRla="routerLinkActive"
+              [attr.aria-selected]="activityRla.isActive"
             >
               Activité
             </a>

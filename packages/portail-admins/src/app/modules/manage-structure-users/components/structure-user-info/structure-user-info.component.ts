@@ -7,7 +7,7 @@ import { Subscription } from "rxjs";
 import { USER_STRUCTURE_ROLES_LABELS, UsersForAdminList } from "@domifa/common";
 
 import { DisplayLastLoginComponent } from "../../../shared/components/display-last-login/display-last-login.component";
-import { selectAdminUserById } from "../../../shared/store/users";
+import { selectAdminUserByUuid } from "../../../shared/store/users";
 
 @Component({
   selector: "app-structure-user-info",
@@ -27,12 +27,9 @@ export class StructureUserInfoComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    const userId = Number.parseInt(
-      this.route.parent?.snapshot.params["userId"] ?? "0",
-      10
-    );
+    const uuid = this.route.parent?.snapshot.params["uuid"] ?? "";
     this.subscription.add(
-      this.store.select(selectAdminUserById(userId)).subscribe((user) => {
+      this.store.select(selectAdminUserByUuid(uuid)).subscribe((user) => {
         this.user = user;
       })
     );

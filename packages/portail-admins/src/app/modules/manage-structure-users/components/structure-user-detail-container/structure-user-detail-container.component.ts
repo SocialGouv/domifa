@@ -1,20 +1,15 @@
-import { CommonModule, ViewportScroller } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import {
-  ActivatedRoute,
-  NavigationEnd,
-  Router,
-  RouterModule,
-} from "@angular/router";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { Title } from "@angular/platform-browser";
 import { Store } from "@ngrx/store";
 import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
-import { filter, Subscription, take } from "rxjs";
+import { Subscription, take } from "rxjs";
 
 import { UsersForAdminList } from "@domifa/common";
 
 import {
-  selectAdminUserById,
+  selectAdminUserByUuid,
   selectAreAdminUsersLoaded,
   UsersActions,
 } from "../../../shared/store/users";
@@ -34,7 +29,6 @@ export class StructureUserDetailContainerComponent
   implements OnInit, OnDestroy
 {
   public user?: UsersForAdminList;
-  public activeTab: "infos" | "activity" = "infos";
   public loading = true;
 
   private readonly subscription = new Subscription();
@@ -43,25 +37,11 @@ export class StructureUserDetailContainerComponent
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private readonly store: Store,
-    private readonly titleService: Title,
-    private readonly viewportScroller: ViewportScroller
-  ) {
-    this.subscription.add(
-      this.router.events
-        .pipe(filter((event) => event instanceof NavigationEnd))
-        .subscribe(() => {
-          const url = this.router.url;
-          this.activeTab = url.endsWith("/activity") ? "activity" : "infos";
-          this.viewportScroller.scrollToAnchor("subnav");
-        })
-    );
-  }
+    private readonly titleService: Title
+  ) {}
 
   public ngOnInit(): void {
-    const userId = Number.parseInt(
-      this.activatedRoute.snapshot.params["userId"],
-      10
-    );
+    const uuid = this.activatedRoute.snapshot.params["uuid"];
 
     this.store
       .select(selectAreAdminUsersLoaded)
@@ -73,7 +53,7 @@ export class StructureUserDetailContainerComponent
       });
 
     this.subscription.add(
-      this.store.select(selectAdminUserById(userId)).subscribe((user) => {
+      this.store.select(selectAdminUserByUuid(uuid)).subscribe((user) => {
         if (user) {
           this.user = user;
           this.titleService.setTitle(

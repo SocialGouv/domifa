@@ -51,18 +51,6 @@
         </button>
       </dsfrx-dropdownmenu-item>
 
-      <!-- Sessions (any user) -->
-      <dsfrx-dropdownmenu-item (selectItem)="openSessionsModal()">
-        <button
-          type="button"
-          class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
-          (click)="openSessionsModal()"
-        >
-          <i class="fr-icon-shield-line" aria-hidden="true"></i>
-          Voir les sessions
-        </button>
-      </dsfrx-dropdownmenu-item>
-
       <!-- Supervisor-only -->
       <dsfrx-dropdownmenu-item
         *ngIf="isSupervisor && showEdit"
@@ -301,12 +289,4 @@
       (deleteComplete)="onDeleteComplete()"
     ></app-delete-user>
   </dsfr-modal>
-
-  <app-user-sessions-modal
-    #sessionsModalCmp
-    [dialogId]="'userSessions-' + userKind + '-' + user.uuid"
-    [userType]="sessionsUserType"
-    [userUuid]="user.uuid!"
-    [titleModal]="'Sessions — ' + (user.nom || '') + ' ' + (user.prenom || '')"
-  ></app-user-sessions-modal>
 </ng-container>

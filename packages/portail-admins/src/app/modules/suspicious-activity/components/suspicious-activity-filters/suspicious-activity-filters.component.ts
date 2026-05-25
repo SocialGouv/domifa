@@ -1,13 +1,6 @@
 import { CommonModule } from "@angular/common";
-import {
-  Component,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output,
-} from "@angular/core";
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { Subject, debounceTime, takeUntil } from "rxjs";
 
 import {
   SUSPICIOUS_ACTIONS,
@@ -24,7 +17,7 @@ import {
   templateUrl: "./suspicious-activity-filters.component.html",
   imports: [CommonModule, ReactiveFormsModule],
 })
-export class SuspiciousActivityFiltersComponent implements OnInit, OnDestroy {
+export class SuspiciousActivityFiltersComponent implements OnInit {
   @Output() public readonly filtersChange =
     new EventEmitter<SuspiciousActivityFilters>();
 
@@ -34,8 +27,6 @@ export class SuspiciousActivityFiltersComponent implements OnInit, OnDestroy {
   }
 
   public form!: FormGroup;
-
-  private readonly destroy$ = new Subject<void>();
 
   constructor(private readonly fb: FormBuilder) {}
 
@@ -48,10 +39,10 @@ export class SuspiciousActivityFiltersComponent implements OnInit, OnDestroy {
       identifier: this.fb.control<string | null>(null),
       userType: this.fb.control<string | null>(null),
     });
+  }
 
-    this.form.valueChanges
-      .pipe(debounceTime(300), takeUntil(this.destroy$))
-      .subscribe(() => this.emit());
+  public submit(): void {
+    this.emit();
   }
 
   public reset(): void {
@@ -63,6 +54,7 @@ export class SuspiciousActivityFiltersComponent implements OnInit, OnDestroy {
       identifier: null,
       userType: null,
     });
+    this.emit();
   }
 
   private emit(): void {
@@ -90,10 +82,5 @@ export class SuspiciousActivityFiltersComponent implements OnInit, OnDestroy {
           ? v.userType
           : undefined,
     });
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

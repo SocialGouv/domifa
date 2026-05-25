@@ -9,7 +9,7 @@ import { UserActivityLog } from "../../../manage-users/types/user-activity-log";
 import {
   SessionsUserProfile,
   UserSessionsView,
-} from "../../components/user-sessions-modal/user-sessions.types";
+} from "../../components/user-sessions-tab/user-sessions.types";
 
 @Injectable({ providedIn: "root" })
 export class AdminUsersApiClient {

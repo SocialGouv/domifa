@@ -68,7 +68,10 @@
               class="fr-tabs__tab"
               role="link"
               [routerLink]="['/manage-structure-users', user.uuid]"
-              [attr.aria-selected]="activeTab === 'infos'"
+              routerLinkActive
+              #infosRla="routerLinkActive"
+              [routerLinkActiveOptions]="{ exact: true }"
+              [attr.aria-selected]="infosRla.isActive"
             >
               Informations
             </a>
@@ -79,9 +82,24 @@
               class="fr-tabs__tab"
               role="link"
               [routerLink]="['/manage-structure-users', user.uuid, 'activity']"
-              [attr.aria-selected]="activeTab === 'activity'"
+              routerLinkActive
+              #activityRla="routerLinkActive"
+              [attr.aria-selected]="activityRla.isActive"
             >
               Activité récente
+            </a>
+          </li>
+          <li role="presentation">
+            <a
+              type="button"
+              class="fr-tabs__tab"
+              role="link"
+              [routerLink]="['/manage-structure-users', user.uuid, 'sessions']"
+              routerLinkActive
+              #sessionsRla="routerLinkActive"
+              [attr.aria-selected]="sessionsRla.isActive"
+            >
+              Sessions
             </a>
           </li>
         </ul>

@@ -4,6 +4,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { SupervisorActivityComponent } from "./components/supervisor-activity/supervisor-activity.component";
 import { SupervisorDetailContainerComponent } from "./components/supervisor-detail-container/supervisor-detail-container.component";
 import { SupervisorInfoComponent } from "./components/supervisor-info/supervisor-info.component";
+import { SupervisorSessionsComponent } from "./components/supervisor-sessions/supervisor-sessions.component";
 import { SupervisorListComponent } from "./components/user-supervisor-list/supervisor-list.component";
 
 const routes: Routes = [
@@ -17,6 +18,7 @@ const routes: Routes = [
     children: [
       { path: "", component: SupervisorInfoComponent },
       { path: "activity", component: SupervisorActivityComponent },
+      { path: "sessions", component: SupervisorSessionsComponent },
     ],
   },
 ];
