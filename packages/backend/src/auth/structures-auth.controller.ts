@@ -26,7 +26,6 @@ import { AllowUserProfiles } from "./decorators/AllowUserProfiles.decorator";
 import { CurrentUser } from "./decorators/current-user.decorator";
 import { AppUserGuard } from "./guards/AppUserGuard.guard";
 import { LoginOtpService } from "./services/login-otp.service";
-import { SessionFingerprintService } from "./services/session-fingerprint.service";
 import { StructuresAuthService } from "./services/structures-auth.service";
 import {
   readOtpCode,
@@ -46,7 +45,6 @@ const userProfile: UserProfile = "structure";
 export class StructuresAuthController {
   constructor(
     private readonly structuresAuthService: StructuresAuthService,
-    private readonly sessionFingerprintService: SessionFingerprintService,
     private readonly loginOtpService: LoginOtpService
   ) {}
 
@@ -156,15 +154,6 @@ export class StructuresAuthController {
       userProfile: user._userProfile,
     });
     await expiredTokenRepositiory.save(tokenToBlacklist);
-
-    // Close the active session if one exists. v1 has at most one active
-    // entry per user (enforced by the service); we never throw if it's
-    // already closed.
-    await this.sessionFingerprintService.closeActiveSession(
-      "structure",
-      user.id,
-      "MANUAL_LOGOUT"
-    );
 
     return true;
   }

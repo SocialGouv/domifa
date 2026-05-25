@@ -190,13 +190,14 @@ export class AdminUsersController {
     await this.adminSuperivorUsersService.unblockSupervisorUser(userId);
 
     await this.appLogsService.create({
-      ...buildSupervisorActorFields(user),
+      // SUBJECT = target user (so the row shows in their activity tab).
+      // Actor = the admin, tracked separately via userSupervisorId.
+      userId,
+      userType: "user_supervisor",
+      userSupervisorId: user.id,
+      role: user.role,
       action: "UNBLOCK_USER",
-      context: {
-        userId,
-        userProfile: "supervisor",
-        motif: unblockDto.motif,
-      },
+      context: { motif: unblockDto.motif },
     });
 
     return res.status(HttpStatus.OK).json({ status: "ACTIVE" });
@@ -253,9 +254,13 @@ export class AdminUsersController {
     await this.adminSuperivorUsersService.blockSupervisorUser(userId);
 
     await this.appLogsService.create({
-      ...buildSupervisorActorFields(user),
+      // SUBJECT = target user; ACTOR = admin (userSupervisorId).
+      userId,
+      userType: "user_supervisor",
+      userSupervisorId: user.id,
+      role: user.role,
       action: "BLOCK_USER_BY_ADMIN",
-      context: { userId, userProfile: "supervisor" },
+      context: {},
     });
 
     return res.status(HttpStatus.OK).json({ status: "BLOCKED" });

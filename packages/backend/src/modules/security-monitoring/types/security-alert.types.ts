@@ -1,7 +1,20 @@
 import { LogAction } from "../../app-logs/types";
 
-export type SecurityLogAction = Extract<
+// Broader set surfaced in the super-admin "Suspicious activity" view.
+export type SuspiciousLogAction = Extract<
   LogAction,
+  | "BLOCK_USER"
+  | "BLOCK_USER_BY_ADMIN"
+  | "THROTTLE_BLOCKED"
+  | "REQUEST_BLOCKED"
+  | "UNBLOCK_USER"
+  | "ACCESS_DENIED_NON_ACTIVE"
+>;
+
+// Narrower subset that the 5-min CRON aggregates into alert emails. Kept as a
+// dedicated type so widening the UI list doesn't change email payloads.
+export type EmailAlertingLogAction = Extract<
+  SuspiciousLogAction,
   "BLOCK_USER" | "REQUEST_BLOCKED" | "THROTTLE_BLOCKED"
 >;
 
@@ -59,7 +72,7 @@ export interface PermanentlyBlockedAccount {
 export interface SuspiciousActivitySummary {
   windowStart: Date;
   windowEnd: Date;
-  totals: Record<SecurityLogAction, number>;
+  totals: Record<EmailAlertingLogAction, number>;
   blockedUsers: BlockedUserSummary[];
   blockedIps: BlockedIpSummary[];
   permanentlyBlockedAccounts: PermanentlyBlockedAccount[];

@@ -8,7 +8,6 @@ import {
   Post,
   Res,
 } from "@nestjs/common";
-import { Throttle } from "@nestjs/throttler";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ParseTokenPipe } from "../../../_common/decorators";
 import { appLogger, ExpressResponse } from "../../../util";
@@ -70,11 +69,6 @@ export class UsersPublicController {
   }
 
   @ApiOperation({ summary: "Reset du mot de passe : envoi du lien par mail" })
-  @Throttle({
-    short: { limit: 3, ttl: 60_000, blockDuration: 1_800_000 }, // 3 req/min, block 30min
-    medium: { limit: 5, ttl: 600_000, blockDuration: 1_800_000 }, // 5 req/10min, block 30min
-    long: { limit: 10, ttl: 3_600_000, blockDuration: 3_600_000 }, // 10 req/h, block 1h
-  })
   @Post("get-password-token")
   public async generatePasswordToken(
     @Body() emailDto: EmailDto,

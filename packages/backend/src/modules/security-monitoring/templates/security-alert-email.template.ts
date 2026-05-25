@@ -4,7 +4,7 @@ import { fr } from "date-fns/locale";
 
 import {
   PermanentlyBlockedAccount,
-  SecurityLogAction,
+  EmailAlertingLogAction,
   SuspiciousActivitySummary,
 } from "../types/security-alert.types";
 
@@ -70,8 +70,10 @@ const headerCellStyle = `font-family: ${FONT_STACK}; font-size: 12px; font-weigh
 const headerCellRightStyle = `${headerCellStyle} text-align: right;`;
 const emptyRowStyle = `font-family: ${FONT_STACK}; font-size: 13px; color: ${COLORS.textSecondary}; padding: 16px; text-align: center; font-style: italic;`;
 
-function renderTotalsTable(totals: Record<SecurityLogAction, number>): string {
-  const rows = (Object.keys(totals) as SecurityLogAction[])
+function renderTotalsTable(
+  totals: Record<EmailAlertingLogAction, number>
+): string {
+  const rows = (Object.keys(totals) as EmailAlertingLogAction[])
     .map(
       (action) =>
         `<tr>

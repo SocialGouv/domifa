@@ -273,14 +273,14 @@ export class AdminStructuresController {
     );
 
     await this.appLogsService.create({
-      ...buildSupervisorActorFields(user),
+      // SUBJECT = target structure user; ACTOR = admin (userSupervisorId).
+      userId,
+      userType: "user_structure",
+      userSupervisorId: user.id,
       structureId: structure.id,
+      role: user.role,
       action: "UNBLOCK_USER",
-      context: {
-        userId,
-        userProfile: "structure",
-        motif: unblockDto.motif,
-      },
+      context: { motif: unblockDto.motif },
     });
 
     return res.status(HttpStatus.OK).json({ status: "ACTIVE" });
@@ -297,10 +297,14 @@ export class AdminStructuresController {
     await this.adminStructuresService.blockStructureUser(userId, structure.id);
 
     await this.appLogsService.create({
-      ...buildSupervisorActorFields(user),
+      // SUBJECT = target structure user; ACTOR = admin (userSupervisorId).
+      userId,
+      userType: "user_structure",
+      userSupervisorId: user.id,
       structureId: structure.id,
+      role: user.role,
       action: "BLOCK_USER_BY_ADMIN",
-      context: { userId, userProfile: "structure" },
+      context: {},
     });
 
     return res.status(HttpStatus.OK).json({ status: "BLOCKED" });

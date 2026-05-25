@@ -34,7 +34,7 @@ import {
 } from "./app-throttler.utils";
 import {
   ANONYMOUS_ACTOR_FIELDS,
-  SYSTEM_ACTOR_FIELDS,
+  userTypeFromProfile,
 } from "../../../modules/app-logs/app-logs.helpers";
 import { userStatusManager } from "../../../modules/users/services";
 import { UserProfile } from "../../../_common/model";
@@ -296,15 +296,16 @@ export class AppThrottlerGuard extends ThrottlerGuard {
     await appLogsRepository
       .save(
         new AppLogTable({
-          ...SYSTEM_ACTOR_FIELDS,
+          // SUBJECT of the log = the target user being blocked. Keeps
+          // findUserLogs({ userId, userType }) simple — no JSONB lookup.
+          userId,
+          userType: userTypeFromProfile(userProfile),
           structureId: blockedUserExtra?.structureId,
           action: "BLOCK_USER",
           context: {
             autoBlocked: true,
             triggeredBy: "AppThrottlerGuard",
             reason,
-            userId,
-            userProfile,
             ...blockedUserExtra,
             ...context,
           },

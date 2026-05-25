@@ -121,30 +121,28 @@
     [autoCloseOnAction]="false"
     size="SM"
   >
-    <p>
+    <p style="word-break: break-word">
       Êtes-vous sûr de vouloir {{ confirmText }} :
       <span class="fr-text--bold">{{ user.email }}</span> ?
     </p>
-    <div class="fr-modal__footer">
-      <div
-        class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left"
-      >
-        <div>
-          <button type="button" class="fr-btn" (click)="doConfirm()">
-            Confirmer
-          </button>
-        </div>
-        <div>
-          <button
-            class="fr-btn fr-btn--secondary"
-            type="button"
-            (click)="closeConfirm()"
-          >
-            Annuler
-          </button>
-        </div>
-      </div>
-    </div>
+    <ul
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left fr-mt-3w"
+    >
+      <li>
+        <button type="button" class="fr-btn" (click)="doConfirm()">
+          Confirmer
+        </button>
+      </li>
+      <li>
+        <button
+          class="fr-btn fr-btn--secondary"
+          type="button"
+          (click)="closeConfirm()"
+        >
+          Annuler
+        </button>
+      </li>
+    </ul>
   </dsfr-modal>
 
   <dsfr-modal
@@ -159,7 +157,7 @@
     size="MD"
   >
     <div class="fr-alert fr-alert--warning fr-mb-2w">
-      <p>
+      <p style="word-break: break-word">
         Cette action va bloquer l'accès de
         <span class="fr-text--bold">{{ user.email }}</span> à l'application.
         Recopiez ci-dessous son nom et prénom pour confirmer.
@@ -183,33 +181,31 @@
         placeholder="Nom Prénom"
       />
     </div>
-    <div class="fr-modal__footer">
-      <div
-        class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left"
-      >
-        <div>
-          <button
-            type="button"
-            class="fr-btn"
-            (click)="confirmBlock()"
-            [disabled]="!isBlockNameConfirmed || actionLoading"
-          >
-            {{
-              actionLoading ? "Veuillez patienter..." : "Bloquer l'utilisateur"
-            }}
-          </button>
-        </div>
-        <div>
-          <button
-            class="fr-btn fr-btn--secondary"
-            type="button"
-            (click)="closeBlockModal()"
-          >
-            Annuler
-          </button>
-        </div>
-      </div>
-    </div>
+    <ul
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left fr-mt-3w"
+    >
+      <li>
+        <button
+          type="button"
+          class="fr-btn"
+          (click)="confirmBlock()"
+          [disabled]="!isBlockNameConfirmed || actionLoading"
+        >
+          {{
+            actionLoading ? "Veuillez patienter..." : "Bloquer l'utilisateur"
+          }}
+        </button>
+      </li>
+      <li>
+        <button
+          class="fr-btn fr-btn--secondary"
+          type="button"
+          (click)="closeBlockModal()"
+        >
+          Annuler
+        </button>
+      </li>
+    </ul>
   </dsfr-modal>
 
   <dsfr-modal
@@ -223,7 +219,7 @@
     (conceal)="closeUnblockModal()"
     size="MD"
   >
-    <p>
+    <p style="word-break: break-word">
       Vous êtes sur le point de débloquer
       <span class="fr-text--bold">{{ user.email }}</span
       >. Indiquez ci-dessous le motif du déblocage — il sera conservé dans les
@@ -248,35 +244,31 @@
         placeholder="Ex. Confirmation reçue par téléphone, faux positif anti-bruteforce…"
       />
     </div>
-    <div class="fr-modal__footer">
-      <div
-        class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left"
-      >
-        <div>
-          <button
-            type="button"
-            class="fr-btn"
-            (click)="confirmUnblock()"
-            [disabled]="actionLoading || !isUnblockMotifValid"
-          >
-            {{
-              actionLoading
-                ? "Veuillez patienter..."
-                : "Débloquer l'utilisateur"
-            }}
-          </button>
-        </div>
-        <div>
-          <button
-            class="fr-btn fr-btn--secondary"
-            type="button"
-            (click)="closeUnblockModal()"
-          >
-            Annuler
-          </button>
-        </div>
-      </div>
-    </div>
+    <ul
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left fr-mt-3w"
+    >
+      <li>
+        <button
+          type="button"
+          class="fr-btn"
+          (click)="confirmUnblock()"
+          [disabled]="actionLoading || !isUnblockMotifValid"
+        >
+          {{
+            actionLoading ? "Veuillez patienter..." : "Débloquer l'utilisateur"
+          }}
+        </button>
+      </li>
+      <li>
+        <button
+          class="fr-btn fr-btn--secondary"
+          type="button"
+          (click)="closeUnblockModal()"
+        >
+          Annuler
+        </button>
+      </li>
+    </ul>
   </dsfr-modal>
 
   <dsfr-modal
