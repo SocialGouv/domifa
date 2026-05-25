@@ -1,3 +1,10 @@
+## [2.247.1](https://github.com/SocialGouv/domifa/compare/v2.247.0...v2.247.1) (2026-05-25)
+
+
+### Bug Fixes
+
+* **backend:** add logs ([3bf128c](https://github.com/SocialGouv/domifa/commit/3bf128cc6cb386405565a1e8d786d985170d5d86))
+
 # [2.247.0](https://github.com/SocialGouv/domifa/compare/v2.246.0...v2.247.0) (2026-05-25)
 
 
