@@ -15,7 +15,7 @@ import { StructureAdmin } from "@domifa/common";
 
 import {
   selectAreStructuresLoaded,
-  selectStructureById,
+  selectStructureByUuid,
   StructuresActions,
 } from "../../../shared/store/structures";
 
@@ -58,10 +58,7 @@ export class AdminStructureContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const structureId = Number.parseInt(
-      this.activatedRoute.snapshot.params["structureId"],
-      10
-    );
+    const structureUuid = this.activatedRoute.snapshot.params["structureUuid"];
 
     this.store
       .select(selectAreStructuresLoaded)
@@ -73,7 +70,7 @@ export class AdminStructureContainerComponent implements OnInit, OnDestroy {
       });
 
     this.subscription.add(
-      this.store.select(selectStructureById(structureId)).subscribe({
+      this.store.select(selectStructureByUuid(structureUuid)).subscribe({
         next: (structure) => {
           this.structure = structure;
           this.loading = false;

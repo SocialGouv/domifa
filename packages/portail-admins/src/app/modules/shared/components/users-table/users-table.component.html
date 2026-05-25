@@ -172,7 +172,7 @@
               <td class="fr-text--bold">
                 <a
                   class="fr-link"
-                  [routerLink]="['/manage-structure-users', user.id]"
+                  [routerLink]="['/manage-structure-users', user.uuid]"
                   [attr.aria-label]="
                     'Voir le détail de ' + user.nom + ' ' + user.prenom
                   "
@@ -183,8 +183,8 @@
               <td>{{ user.email }}</td>
               <td *ngIf="showStructure">
                 <a
-                  *ngIf="user.structureId"
-                  [routerLink]="['/structure', user.structureId]"
+                  *ngIf="user.structureUuid"
+                  [routerLink]="['/structure', user.structureUuid]"
                   class="fr-link"
                 >
                   {{ user.structureName }}

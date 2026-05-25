@@ -1,12 +1,19 @@
 import { Injectable } from "@nestjs/common";
 
+import { NotFoundException } from "@nestjs/common";
+
 import {
   userStructureRepository,
   userStructureSecurityRepository,
   structureRepository,
 } from "../../../database";
 
-import { StructureAdmin, UsersForAdminList } from "@domifa/common";
+import {
+  StructureAdmin,
+  UserStatus,
+  UserStructureRole,
+  UsersForAdminList,
+} from "@domifa/common";
 import {
   logUserSecurityEvent,
   userSecurityEventHistoryManager,
@@ -16,35 +23,59 @@ import { UserSecurityEvent } from "../../../_common/model/users/user-security/Us
 @Injectable()
 export class AdminStructuresService {
   public async unblockStructureUser(
-    userId: number,
+    uuid: string,
     structureId: number
-  ): Promise<void> {
+  ): Promise<{ userId: number }> {
+    const target = await userStructureRepository.findOne({
+      where: { uuid, structureId },
+      select: { id: true },
+    });
+    if (!target) {
+      throw new NotFoundException("USER_NOT_FOUND");
+    }
     await userStructureRepository.update(
-      { id: userId, structureId },
+      { id: target.id, structureId },
       { status: "ACTIVE" }
     );
     // Log the unblock as a fresh event with clearAllEvents so the throttler
     // does not immediately re-block the account on the next login attempt.
     const userSecurity = await userStructureSecurityRepository.findOneByOrFail({
-      userId,
+      userId: target.id,
     });
     await logUserSecurityEvent({
       userProfile: "structure",
-      userId,
+      userId: target.id,
       userSecurity,
       eventType: "account-unblocked",
       clearAllEvents: true,
     });
+    return { userId: target.id };
   }
 
   public async blockStructureUser(
-    userId: number,
+    uuid: string,
     structureId: number
-  ): Promise<void> {
+  ): Promise<{
+    userId: number;
+    previousStatus: UserStatus;
+    previousRole: UserStructureRole;
+  }> {
+    const target = await userStructureRepository.findOne({
+      where: { uuid, structureId },
+      select: { id: true, status: true, role: true },
+    });
+    if (!target) {
+      throw new NotFoundException("USER_NOT_FOUND");
+    }
     await userStructureRepository.update(
-      { id: userId, structureId },
+      { id: target.id, structureId },
       { status: "BLOCKED" }
     );
+    return {
+      userId: target.id,
+      previousStatus: target.status,
+      previousRole: target.role,
+    };
   }
 
   public async getAdminStructuresListData(): Promise<StructureAdmin[]> {

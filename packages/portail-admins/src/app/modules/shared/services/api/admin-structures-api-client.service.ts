@@ -127,7 +127,7 @@ export class AdminStructuresApiClient {
   }
 
   public getStructureLogs(
-    structureId: number,
+    structureUuid: string,
     page: number,
     take: number
   ): Observable<PageResults<UserActivityLog>> {
@@ -135,7 +135,7 @@ export class AdminStructuresApiClient {
       .set("page", String(page))
       .set("take", String(take));
     return this.http.get<PageResults<UserActivityLog>>(
-      `${BASE_URL}/${structureId}/logs`,
+      `${BASE_URL}/${structureUuid}/logs`,
       { params }
     );
   }

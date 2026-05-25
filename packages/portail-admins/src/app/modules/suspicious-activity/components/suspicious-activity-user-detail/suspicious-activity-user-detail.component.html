@@ -139,11 +139,11 @@
         ></app-sessions-history-table>
       </section>
 
-      <section *ngIf="userType && userId">
+      <section *ngIf="userType && user?.userId">
         <h2 class="fr-h4">Derniers événements de sécurité</h2>
         <app-suspicious-activity-list
           [showFilters]="false"
-          [lockedFilters]="{ userType: userType, userId: userId }"
+          [lockedFilters]="{ userType: userType, userId: user!.userId }"
           [title]="''"
         ></app-suspicious-activity-list>
       </section>

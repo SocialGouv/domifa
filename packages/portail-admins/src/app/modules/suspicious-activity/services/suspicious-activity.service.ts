@@ -58,19 +58,19 @@ export class SuspiciousActivityService {
 
   public getUserSummary(
     userType: SuspiciousUserProfile,
-    userId: number
+    userUuid: string
   ): Observable<SecurityUserSummary> {
     return this.http.get<SecurityUserSummary>(
-      `${this.endPoint}/users/${userType}/${userId}`
+      `${this.endPoint}/users/${userType}/${userUuid}`
     );
   }
 
   public getUserSessions(
     userType: SuspiciousUserProfile,
-    userId: number
+    userUuid: string
   ): Observable<UserSessionsView> {
     return this.http.get<UserSessionsView>(
-      `${this.endPoint}/users/${userType}/${userId}/sessions`
+      `${this.endPoint}/users/${userType}/${userUuid}/sessions`
     );
   }
 }

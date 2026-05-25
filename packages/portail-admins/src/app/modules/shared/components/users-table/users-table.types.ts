@@ -15,6 +15,7 @@ export type UsersTableRow = Pick<
 > & {
   status: UserStatus;
   structureName?: string;
+  structureUuid?: string;
 };
 
 export const USER_STATUS_LABELS: { [key in UserStatus]: string } = {

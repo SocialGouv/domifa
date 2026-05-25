@@ -44,25 +44,25 @@ export class ManageUsersService {
     return this.http.delete<ApiMessage>(`${this.endPoint}/${uuid}`);
   }
 
-  public blockSupervisorUser(userId: number): Observable<{ status: string }> {
+  public blockSupervisorUser(userUuid: string): Observable<{ status: string }> {
     return this.http.patch<{ status: string }>(
-      `${this.endPoint}/supervisor/${userId}/block`,
+      `${this.endPoint}/supervisor/${userUuid}/block`,
       {}
     );
   }
 
   public unblockSupervisorUser(
-    userId: number,
+    userUuid: string,
     motif: string
   ): Observable<{ status: string }> {
     return this.http.patch<{ status: string }>(
-      `${this.endPoint}/supervisor/${userId}/unblock`,
+      `${this.endPoint}/supervisor/${userUuid}/unblock`,
       { motif }
     );
   }
 
   public getSupervisorUserLogs(
-    userId: number,
+    userUuid: string,
     page: number,
     take: number
   ): Observable<PageResults<UserActivityLog>> {
@@ -70,7 +70,7 @@ export class ManageUsersService {
       .set("page", String(page))
       .set("take", String(take));
     return this.http.get<PageResults<UserActivityLog>>(
-      `${this.endPoint}/supervisor/${userId}/logs`,
+      `${this.endPoint}/supervisor/${userUuid}/logs`,
       { params }
     );
   }

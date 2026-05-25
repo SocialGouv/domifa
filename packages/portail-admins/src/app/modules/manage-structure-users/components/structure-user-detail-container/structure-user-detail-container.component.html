@@ -67,7 +67,7 @@
               type="button"
               class="fr-tabs__tab"
               role="link"
-              [routerLink]="['/manage-structure-users', user.id]"
+              [routerLink]="['/manage-structure-users', user.uuid]"
               [attr.aria-selected]="activeTab === 'infos'"
             >
               Informations
@@ -78,7 +78,7 @@
               type="button"
               class="fr-tabs__tab"
               role="link"
-              [routerLink]="['/manage-structure-users', user.id, 'activity']"
+              [routerLink]="['/manage-structure-users', user.uuid, 'activity']"
               [attr.aria-selected]="activeTab === 'activity'"
             >
               Activité récente

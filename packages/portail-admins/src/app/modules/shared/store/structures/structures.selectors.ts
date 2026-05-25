@@ -14,3 +14,8 @@ export const selectStructureById = (structureId: number) =>
   createSelector(selectAllStructures, (structures) =>
     structures.find((structure) => structure.id === structureId)
   );
+
+export const selectStructureByUuid = (structureUuid: string) =>
+  createSelector(selectAllStructures, (structures) =>
+    structures.find((structure) => structure.uuid === structureUuid)
+  );

@@ -36,47 +36,47 @@ export class AdminUsersApiClient {
 
   public unblockUser(
     structureUuid: string,
-    userId: number
+    userUuid: string
   ): Observable<{ status: string }> {
     return this.http.patch<{ status: string }>(
-      `${this.structuresUrl}/structure/${structureUuid}/users/${userId}/unblock`,
+      `${this.structuresUrl}/structure/${structureUuid}/users/${userUuid}/unblock`,
       {}
     );
   }
 
   public blockUser(
     structureUuid: string,
-    userId: number
+    userUuid: string
   ): Observable<{ status: string }> {
     return this.http.patch<{ status: string }>(
-      `${this.structuresUrl}/structure/${structureUuid}/users/${userId}/block`,
+      `${this.structuresUrl}/structure/${structureUuid}/users/${userUuid}/block`,
       {}
     );
   }
 
   public unblockSupervisorUser(
-    userId: number,
+    userUuid: string,
     motif: string
   ): Observable<{ status: string }> {
     return this.http.patch<{ status: string }>(
-      `${this.baseUrl}/supervisor/${userId}/unblock`,
+      `${this.baseUrl}/supervisor/${userUuid}/unblock`,
       { motif }
     );
   }
 
   public unblockUserWithMotif(
     structureUuid: string,
-    userId: number,
+    userUuid: string,
     motif: string
   ): Observable<{ status: string }> {
     return this.http.patch<{ status: string }>(
-      `${this.structuresUrl}/structure/${structureUuid}/users/${userId}/unblock`,
+      `${this.structuresUrl}/structure/${structureUuid}/users/${userUuid}/unblock`,
       { motif }
     );
   }
 
   public getStructureUserLogs(
-    userId: number,
+    userUuid: string,
     page: number,
     take: number
   ): Observable<PageResults<UserActivityLog>> {
@@ -84,17 +84,17 @@ export class AdminUsersApiClient {
       .set("page", String(page))
       .set("take", String(take));
     return this.http.get<PageResults<UserActivityLog>>(
-      `${this.baseUrl}/structure-user/${userId}/logs`,
+      `${this.baseUrl}/structure-user/${userUuid}/logs`,
       { params }
     );
   }
 
   public getUserSessions(
     userType: SessionsUserProfile,
-    userId: number
+    userUuid: string
   ): Observable<UserSessionsView> {
     return this.http.get<UserSessionsView>(
-      `${environment.apiUrl}admin/security/users/${userType}/${userId}/sessions`
+      `${environment.apiUrl}admin/security/users/${userType}/${userUuid}/sessions`
     );
   }
 }

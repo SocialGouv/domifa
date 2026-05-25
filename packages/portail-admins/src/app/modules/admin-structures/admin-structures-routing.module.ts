@@ -12,7 +12,7 @@ const routes: Routes = [
     data: { roles: ["super-admin-domifa"] },
   },
   {
-    path: ":structureId",
+    path: ":structureUuid",
     loadChildren: () =>
       import("../../modules/structure/structure.module").then(
         (m) => m.StructureModule

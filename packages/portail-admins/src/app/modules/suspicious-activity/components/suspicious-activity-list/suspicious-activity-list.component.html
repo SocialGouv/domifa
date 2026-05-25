@@ -80,15 +80,19 @@
                   >
                     <a
                       class="fr-link"
+                      *ngIf="user.uuid; else userIdOnly"
                       [routerLink]="[
                         '/suspicious-activity',
                         'users',
                         user.userType,
-                        user.userId
+                        user.uuid
                       ]"
                     >
                       {{ user.fullName || user.email }}
                     </a>
+                    <ng-template #userIdOnly>
+                      {{ user.fullName || user.email }}
+                    </ng-template>
                     <br />
                     <span class="fr-text--xs fr-text--mention-grey">
                       {{

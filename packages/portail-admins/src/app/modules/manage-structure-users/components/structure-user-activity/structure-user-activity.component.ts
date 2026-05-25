@@ -18,14 +18,14 @@ import { UserActivityLog } from "../../../manage-users/types/user-activity-log";
   imports: [CommonModule, UserActivityTabComponent],
 })
 export class StructureUserActivityComponent implements OnInit {
-  public userId?: number;
+  public userUuid?: string;
 
   public readonly fetcher: UserActivityLogsFetcher = (
-    userId,
+    userUuid,
     page,
     take
   ): Observable<PageResults<UserActivityLog>> =>
-    this.adminUsersApi.getStructureUserLogs(userId, page, take);
+    this.adminUsersApi.getStructureUserLogs(userUuid, page, take);
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -33,9 +33,6 @@ export class StructureUserActivityComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.userId = Number.parseInt(
-      this.route.parent?.snapshot.params["userId"] ?? "0",
-      10
-    );
+    this.userUuid = this.route.parent?.snapshot.params["uuid"];
   }
 }

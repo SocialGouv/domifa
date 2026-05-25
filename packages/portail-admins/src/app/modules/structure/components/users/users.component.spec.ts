@@ -41,7 +41,7 @@ describe("UsersComponent", () => {
             parent: {
               snapshot: {
                 params: {
-                  structureId: STRUCTURE_MOCK.id,
+                  structureUuid: STRUCTURE_MOCK.uuid,
                 },
               },
             },
@@ -53,7 +53,7 @@ describe("UsersComponent", () => {
     fixture = TestBed.createComponent(UsersComponent);
     component = fixture.componentInstance;
     component.users = [];
-    component.structureId = STRUCTURE_MOCK.id;
+    component.structureUuid = STRUCTURE_MOCK.uuid;
     fixture.detectChanges();
   });
 

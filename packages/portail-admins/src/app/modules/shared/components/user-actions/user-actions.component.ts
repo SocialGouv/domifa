@@ -250,9 +250,9 @@ export class UserActionsComponent implements OnDestroy {
     const obs$ = this.isStructure
       ? this.adminUsersApi.blockUser(
           (this.user as UsersForAdminList).structureUuid,
-          this.user.id
+          this.user.uuid!
         )
-      : this.manageUsersService.blockSupervisorUser(this.user.id);
+      : this.manageUsersService.blockSupervisorUser(this.user.uuid!);
     this.subscription.add(
       obs$.subscribe({
         next: () => {
@@ -288,10 +288,10 @@ export class UserActionsComponent implements OnDestroy {
     const obs$ = this.isStructure
       ? this.adminUsersApi.unblockUserWithMotif(
           (this.user as UsersForAdminList).structureUuid,
-          this.user.id,
+          this.user.uuid!,
           motif
         )
-      : this.adminUsersApi.unblockSupervisorUser(this.user.id, motif);
+      : this.adminUsersApi.unblockSupervisorUser(this.user.uuid!, motif);
     this.subscription.add(
       obs$.subscribe({
         next: () => {

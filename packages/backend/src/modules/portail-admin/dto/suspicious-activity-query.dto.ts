@@ -15,7 +15,11 @@ import { PageOptionsDto } from "../../../usagers/dto/pagination/page-options.dto
 import { SUSPICIOUS_LOG_ACTIONS } from "../../security-monitoring/constants/SECURITY_LOG_ACTIONS.const";
 import { SuspiciousLogAction } from "../../security-monitoring/types/security-alert.types";
 
-export type SuspiciousUserProfile = "user_structure" | "user_supervisor";
+export const SUSPICIOUS_USER_PROFILES = [
+  "user_structure",
+  "user_supervisor",
+] as const;
+export type SuspiciousUserProfile = (typeof SUSPICIOUS_USER_PROFILES)[number];
 
 export class SuspiciousActivityQueryDto extends PageOptionsDto {
   @ApiPropertyOptional({ enum: SUSPICIOUS_LOG_ACTIONS, isArray: true })
@@ -55,8 +59,8 @@ export class SuspiciousActivityQueryDto extends PageOptionsDto {
   @Min(1)
   readonly userId?: number;
 
-  @ApiPropertyOptional({ enum: ["user_structure", "user_supervisor"] })
+  @ApiPropertyOptional({ enum: SUSPICIOUS_USER_PROFILES })
   @IsOptional()
-  @IsIn(["user_structure", "user_supervisor"])
+  @IsIn(SUSPICIOUS_USER_PROFILES)
   readonly userType?: SuspiciousUserProfile;
 }
