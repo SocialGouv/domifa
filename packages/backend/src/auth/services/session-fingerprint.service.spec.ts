@@ -166,7 +166,7 @@ describe("SessionFingerprintService", () => {
       expect(reloaded?.currentSession?.lastVerifiedAt).not.toBeNull();
     });
 
-    it("returns false when the IP/UA produce a different hash (replaced session)", async () => {
+    it("returns true regardless of current IP/UA — fingerprint is treated as an opaque token", async () => {
       const session = await service.startNewSession(
         "structure",
         testUser.id,
@@ -184,6 +184,35 @@ describe("SessionFingerprintService", () => {
           session.fingerprintHash,
           "10.0.0.99", // different IP
           "Other-UA" // different UA
+        )
+      ).resolves.toBe(true);
+    });
+
+    it("returns false when the JWT carries a fingerprint that no longer matches the active session (rotated)", async () => {
+      await service.startNewSession(
+        "structure",
+        testUser.id,
+        testUser.uuid,
+        "10.0.0.1",
+        "Mozilla/5.0",
+        testUser.structureId
+      );
+      // Simulate a stale JWT issued by a previous (now-replaced) session.
+      const staleHash = service.computeFingerprint(
+        testUser.uuid,
+        "10.0.0.1",
+        "Mozilla/5.0",
+        "stale-salt"
+      );
+
+      await expect(
+        service.verifySessionFromJwt(
+          "structure",
+          testUser.id,
+          testUser.uuid,
+          staleHash,
+          "10.0.0.1",
+          "Mozilla/5.0"
         )
       ).resolves.toBe(false);
     });

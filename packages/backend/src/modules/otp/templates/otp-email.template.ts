@@ -85,7 +85,7 @@ export function generateOtpEmailHtml(params: { code: string }): string {
                 <!-- Validity -->
                 <tr>
                   <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.5; color: #000000; padding-bottom: 15px;">
-                    Ce code est valable seulement <strong>10 minutes</strong>. Au-del&agrave; de ce d&eacute;lai, vous devrez demander un nouveau code.
+                    Ce code est valable seulement <strong>30 minutes</strong>. Au-del&agrave; de ce d&eacute;lai, vous devrez demander un nouveau code.
                   </td>
                 </tr>
 

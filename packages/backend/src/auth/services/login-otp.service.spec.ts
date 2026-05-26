@@ -62,7 +62,6 @@ describe("LoginOtpService", () => {
   let jwtService: { verify: jest.Mock };
   let sessionFingerprintService: {
     findActiveSession: jest.Mock;
-    computeFingerprint: jest.Mock;
     closeActiveSession: jest.Mock;
   };
   let otpService: { enforceOrThrow: jest.Mock };
@@ -71,7 +70,6 @@ describe("LoginOtpService", () => {
     jwtService = { verify: jest.fn() };
     sessionFingerprintService = {
       findActiveSession: jest.fn(),
-      computeFingerprint: jest.fn(),
       closeActiveSession: jest.fn().mockResolvedValue(undefined),
     };
     otpService = { enforceOrThrow: jest.fn() };
@@ -96,9 +94,6 @@ describe("LoginOtpService", () => {
       jwtService.verify.mockReturnValue(buildTrustPayload());
       const session = buildSession();
       sessionFingerprintService.findActiveSession.mockResolvedValue(session);
-      sessionFingerprintService.computeFingerprint.mockReturnValue(
-        "hash-original"
-      );
 
       const result = await service.evaluate({
         user: USER,
@@ -196,13 +191,10 @@ describe("LoginOtpService", () => {
       ).rejects.toMatchObject({ response: { code: "OTP_REQUIRED" } });
     });
 
-    it("falls back to OTP when current IP/UA fingerprint does not match", async () => {
+    it("falls back to OTP when the stored fingerprint no longer matches the trust token (session rotated)", async () => {
       jwtService.verify.mockReturnValue(buildTrustPayload());
       sessionFingerprintService.findActiveSession.mockResolvedValue(
-        buildSession()
-      );
-      sessionFingerprintService.computeFingerprint.mockReturnValue(
-        "hash-different"
+        buildSession({ fingerprintHash: "hash-rotated" })
       );
       otpService.enforceOrThrow.mockRejectedValue(
         new HttpException({ code: "OTP_REQUIRED" }, HttpStatus.UNAUTHORIZED)
@@ -211,11 +203,30 @@ describe("LoginOtpService", () => {
       await expect(
         service.evaluate({
           user: USER,
-          ip: "9.9.9.9",
+          ip: IP,
           userAgent: UA,
           trustToken: "tt",
         })
       ).rejects.toMatchObject({ response: { code: "OTP_REQUIRED" } });
+    });
+
+    it("returns trusted regardless of current IP/UA — fingerprint is treated as an opaque token", async () => {
+      // Hash check is verbatim: the request's IP and UA are not consulted.
+      // A laptop moving from office wifi to mobile data must keep its
+      // trust token usable.
+      jwtService.verify.mockReturnValue(buildTrustPayload());
+      const session = buildSession();
+      sessionFingerprintService.findActiveSession.mockResolvedValue(session);
+
+      const result = await service.evaluate({
+        user: USER,
+        ip: "9.9.9.9",
+        userAgent: "Totally-Different-Browser",
+        trustToken: "tt",
+      });
+
+      expect(result).toEqual({ kind: "trusted", session });
+      expect(otpService.enforceOrThrow).not.toHaveBeenCalled();
     });
   });
 

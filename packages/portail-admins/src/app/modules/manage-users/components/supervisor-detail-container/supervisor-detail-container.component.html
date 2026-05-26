@@ -16,10 +16,14 @@
     <ng-container *ngIf="!loading && supervisor">
       <div class="fr-py-3w" id="subnav">
         <div class="fr-grid-row">
-          <a routerLink="/manage-users" class="fr-link w-auto">
-            <span class="fr-icon-arrow-left-s-line"></span>Retour
+          <button
+            type="button"
+            class="fr-link fr-link--icon-left fr-icon-arrow-left-s-line"
+            (click)="goBack()"
+          >
+            Retour
             <span class="fr-sr-only">à la liste des utilisateurs</span>
-          </a>
+          </button>
         </div>
         <div
           class="fr-grid-row fr-pt-2w fr-align-items-center fr-grid-row--gutters"

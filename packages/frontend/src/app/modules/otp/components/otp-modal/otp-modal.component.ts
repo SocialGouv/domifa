@@ -46,12 +46,15 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
   public errorCode: OtpErrorCode | null = null;
   public attemptCount = 0;
   public resendDisabled = false;
+  public resendCooldown = 0;
 
   public static readonly MAX_ATTEMPTS = 3;
+  public static readonly RESEND_COOLDOWN_SECONDS = 60;
 
   private readonly subscription = new Subscription();
   private isOpen = false;
   private unlistenCancel: (() => void) | null = null;
+  private resendTimer: ReturnType<typeof setInterval> | null = null;
 
   constructor(
     private readonly promptService: OtpPromptService,
@@ -96,6 +99,7 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
     this.unlistenCancel?.();
+    this.clearResendTimer();
   }
 
   public onSubmit(event: Event): void {
@@ -120,7 +124,7 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public resend(): void {
-    if (this.resendDisabled || this.submitting) {
+    if (this.resendDisabled || this.submitting || this.resendCooldown > 0) {
       return;
     }
     // Reset the local form state so the user can type the new code as soon
@@ -129,6 +133,7 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
     // where `attempts` is not reset across resends).
     this.submitted = false;
     this.codeControl.reset("");
+    this.startResendCooldown();
     this.cdr.markForCheck();
     this.promptService.resend();
   }
@@ -177,7 +182,7 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.errorCode = options.previousErrorCode ?? null;
     // Le backend retourne OTP_RESEND_LIMIT quand on a épuisé les renvois sur
     // l'OTP actif. À ce stade le seul recours est d'attendre l'expiration
-    // (10 min) ou de valider le dernier code reçu — on grise le bouton.
+    // (30 min) ou de valider le dernier code reçu — on grise le bouton.
     if (options.previousErrorCode === "OTP_RESEND_LIMIT") {
       this.resendDisabled = true;
     }
@@ -186,6 +191,7 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.isOpen) {
       this.otpModal.open();
       this.isOpen = true;
+      this.startResendCooldown();
     }
     this.cdr.markForCheck();
     // DSFR injects a "Fermer" close button at the top of the modal which the
@@ -213,6 +219,27 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.errorCode = null;
     this.resendDisabled = false;
     this.codeControl.reset("");
+    this.clearResendTimer();
+    this.resendCooldown = 0;
     this.cdr.markForCheck();
+  }
+
+  private startResendCooldown(): void {
+    this.clearResendTimer();
+    this.resendCooldown = OtpModalComponent.RESEND_COOLDOWN_SECONDS;
+    this.resendTimer = setInterval(() => {
+      this.resendCooldown -= 1;
+      if (this.resendCooldown <= 0) {
+        this.clearResendTimer();
+      }
+      this.cdr.markForCheck();
+    }, 1000);
+  }
+
+  private clearResendTimer(): void {
+    if (this.resendTimer !== null) {
+      clearInterval(this.resendTimer);
+      this.resendTimer = null;
+    }
   }
 }

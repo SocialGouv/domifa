@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { createHash, randomUUID } from "node:crypto";
+import { createHash, randomUUID, timingSafeEqual } from "node:crypto";
 import { domifaConfig } from "../../config";
 import {
   userStructureSecurityRepository,
@@ -32,11 +32,12 @@ function syncFingerprintHash(
 
 @Injectable()
 export class SessionFingerprintService {
-  // SHA-256 of "userUUID|ipAddress|userAgent|salt". One-way: we only ever
-  // recompare against a freshly recomputed hash, never reverse it. The
-  // salt is the per-session value stored in `currentSession.salt` — never
-  // sent to the client, so even a leaked JWT signing key can't be used to
-  // forge a valid hash without DB access.
+  // SHA-256 of "userUUID|ipAddress|userAgent|salt". Computed once at login
+  // (the inputs are the request that opened the session) and then treated as
+  // an opaque session token: stored on the session row, embedded in the JWT,
+  // and compared verbatim by `verifySessionFromJwt` — we never recompute it
+  // from the current request. So a later request from a different IP or
+  // browser does NOT invalidate the session.
   public computeFingerprint(
     userUUID: string,
     ipAddress: string,
@@ -127,12 +128,16 @@ export class SessionFingerprintService {
   // Returns true if the JWT's fingerprint matches the active session.
   // Returns false (and logs) on any condition that should force the caller
   // to log out: no security row, no active session, or a hash mismatch.
-  // A mismatch typically means the session was replaced by a login from
-  // another device — the old JWT must be rejected.
+  // The fingerprint is treated as an opaque token here — we compare it
+  // verbatim against the stored value, we never recompute it from the
+  // current request. A mismatch therefore means the session was replaced
+  // (newer login on another device) or revoked — the old JWT must be
+  // rejected. `currentIp` / `currentUserAgent` are kept on the signature
+  // for structured logging on mismatch.
   public async verifySessionFromJwt(
     profile: SessionProfile,
     userId: number,
-    userUUID: string,
+    _userUUID: string,
     jwtFingerprintHash: string,
     currentIp: string,
     currentUserAgent: string
@@ -157,14 +162,7 @@ export class SessionFingerprintService {
       return false;
     }
 
-    const calculatedHash = this.computeFingerprint(
-      userUUID,
-      currentIp,
-      currentUserAgent,
-      session.salt
-    );
-
-    if (calculatedHash !== jwtFingerprintHash) {
+    if (!constantTimeStringEqual(session.fingerprintHash, jwtFingerprintHash)) {
       // Mismatch: log structured context, never the full hash (session secret).
       appLogger.warn({
         event: "session_fingerprint_mismatch",
@@ -179,7 +177,7 @@ export class SessionFingerprintService {
         newUserAgent: currentUserAgent,
         userAgentChanged: session.userAgent !== currentUserAgent,
         expectedHashPrefix: jwtFingerprintHash.substring(0, 8),
-        actualHashPrefix: calculatedHash.substring(0, 8),
+        actualHashPrefix: session.fingerprintHash.substring(0, 8),
       });
       return false;
     }
@@ -297,4 +295,16 @@ export class SessionFingerprintService {
       sessionsHistory: row.sessionsHistory,
     });
   }
+}
+
+// Constant-time equality on two strings. `timingSafeEqual` requires buffers
+// of identical length, so we short-circuit on length mismatch (which is
+// itself non-secret information — the stored hash length is fixed).
+function constantTimeStringEqual(a: string, b: string): boolean {
+  const ab = Buffer.from(a);
+  const bb = Buffer.from(b);
+  if (ab.length !== bb.length) {
+    return false;
+  }
+  return timingSafeEqual(ab, bb);
 }

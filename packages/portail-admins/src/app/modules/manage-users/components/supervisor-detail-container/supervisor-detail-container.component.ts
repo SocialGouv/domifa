@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { CommonModule, Location } from "@angular/common";
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { Title } from "@angular/platform-browser";
@@ -40,8 +40,17 @@ export class SupervisorDetailContainerComponent implements OnInit, OnDestroy {
     private readonly activatedRoute: ActivatedRoute,
     private readonly authService: AdminAuthService,
     private readonly manageUsersService: ManageUsersService,
-    private readonly titleService: Title
+    private readonly titleService: Title,
+    private readonly location: Location
   ) {}
+
+  public goBack(): void {
+    if (window.history.length > 1) {
+      this.location.back();
+    } else {
+      this.router.navigate(["/manage-users"]);
+    }
+  }
 
   public ngOnInit(): void {
     this.me = this.authService.currentUserValue;

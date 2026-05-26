@@ -9,9 +9,10 @@
   (conceal)="onConceal()"
 >
   <p>Un code de vérification à 6 chiffres vous a été envoyé par email.</p>
-  <p class="fr-text--sm fr-mb-2w">
-    Pensez à vérifier vos courriers indésirables (spams) si vous ne le recevez
-    pas.
+  <p class="fr-mb-2w">
+    Veuillez patienter quelques instants et
+    <strong>vérifier vos courriers indésirables (spams)</strong>
+    si vous ne recevez pas le code.
   </p>
 
   <form (submit)="onSubmit($event)">
@@ -65,9 +66,11 @@
         class="fr-btn fr-btn--secondary"
         type="button"
         (click)="resend()"
-        [disabled]="resendDisabled || submitting || isLocked"
+        [disabled]="
+          resendDisabled || submitting || isLocked || resendCooldown > 0
+        "
       >
-        Renvoyer le code
+        Renvoyer le code@if (resendCooldown > 0) { ({{ resendCooldown }}s) }
       </button>
       <button
         class="fr-btn fr-btn--tertiary-no-outline"
