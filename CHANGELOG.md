@@ -1,3 +1,15 @@
+# [2.248.0](https://github.com/SocialGouv/domifa/compare/v2.247.2...v2.248.0) (2026-05-26)
+
+
+### Bug Fixes
+
+* **backend:** fix unit tests ([596cd80](https://github.com/SocialGouv/domifa/commit/596cd8081f75d92cc5b143fed3dd0150c56f04c7))
+
+
+### Features
+
+* **backend:** add brevo, add whitelist ([d45e0af](https://github.com/SocialGouv/domifa/commit/d45e0af612f42264c0e01320b5b6cd7a19d99bb6))
+
 ## [2.247.2](https://github.com/SocialGouv/domifa/compare/v2.247.1...v2.247.2) (2026-05-26)
 
 
