@@ -41,10 +41,8 @@ export const StatsPrivateControllerSecurityTests: AppTestHttpClientSecurityTestD
       },
     },
     {
-      // Endpoint is OtpGuard-protected: any authenticated structure user with
-      // no `otp-code` header is rejected with 401 + `{ code: "OTP_REQUIRED" }`.
-      // The class-level role guard accepts every structure role here, so the
-      // valid path lands on the OTP guard and resolves to 401.
+      // Open to every structure role — no OTP gate. The controller streams the
+      // workbook via @Res() so the response status is HttpStatus.OK.
       label: `${CONTROLLER}.exportByDate`,
       query: async (context: AppTestContext) => {
         const structureId = securityTestDataBuilder.getUserStructureId(context);
@@ -61,7 +59,7 @@ export const StatsPrivateControllerSecurityTests: AppTestHttpClientSecurityTestD
             context.user,
             {
               roles: ALL_USER_STRUCTURE_ROLES,
-              validExpectedResponseStatus: HttpStatus.UNAUTHORIZED,
+              validExpectedResponseStatus: HttpStatus.OK,
             }
           ),
         };

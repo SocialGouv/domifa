@@ -4,6 +4,7 @@ import { AdminUsersController } from "./admin-users.controller";
 import { AdminSuperivorUsersService } from "../../services/admin-superivor-users/admin-superivor-users.service";
 import { AdminStructuresService } from "../../services/admin-structures.service";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
+import { AppLogSecurityService } from "../../../app-logs/app-log-security.service";
 import { BrevoSenderService } from "../../../mails/services/brevo-sender/brevo-sender.service";
 import { ElevateUserRoleDto } from "../../dto/elevate-user-role.dto";
 import { USER_SUPERVISOR_AUTH } from "../../../../_common/mocks/USER_SUPERVISOR_AUTHENTIFICATED.mock";
@@ -42,6 +43,7 @@ describe("AdminUsersController", () => {
       controllers: [AdminUsersController],
       providers: [
         AppLogsService,
+        AppLogSecurityService,
         AdminSuperivorUsersService,
         AdminStructuresService,
         BrevoSenderService,
