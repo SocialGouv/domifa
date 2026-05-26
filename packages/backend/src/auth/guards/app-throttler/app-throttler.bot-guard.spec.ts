@@ -386,8 +386,9 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
       expect(blockLogs[0].context.autoBlocked).toBe(true);
       expect(blockLogs[0].context.triggeredBy).toBe("AppThrottlerGuard");
       expect(blockLogs[0].context.reason).toBe("bot_ua");
-      // SUBJECT = target user — written on the row, not in context.
-      expect(blockLogs[0].userId).toBe(TEST_STRUCTURE_USER_ID);
+      // SUBJECT = target user — split into userStructureId / userSupervisorId
+      // on AppLogSecurityTable (no shared userId column).
+      expect(blockLogs[0].userStructureId).toBe(TEST_STRUCTURE_USER_ID);
       expect(blockLogs[0].userType).toBe("user_structure");
 
       // REQUEST_BLOCKED dedup'd to one row with attempts=10 and per-user key

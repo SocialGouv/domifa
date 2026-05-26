@@ -30,7 +30,6 @@ import { structureStatsExporter } from "../../../excel/export-structure-stats";
 import { expressResponseExcelRenderer } from "../../../util";
 import { AppLogsService } from "../../app-logs/app-logs.service";
 import { buildStructureActorFields } from "../../app-logs/app-logs.helpers";
-import { RequireOtp } from "../../otp/decorators/require-otp.decorator";
 import { StructureStatsReportingDto, StatsDto } from "../dto";
 import { structureStatsInPeriodGenerator } from "../services";
 
@@ -111,7 +110,6 @@ export class StatsPrivateController {
   }
 
   @Post("export")
-  @RequireOtp("EXPORT")
   public async exportByDate(
     @CurrentUser() user: UserStructureAuthenticated,
     @Body() statsDto: StatsDto,

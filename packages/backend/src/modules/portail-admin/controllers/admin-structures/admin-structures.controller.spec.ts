@@ -1,6 +1,7 @@
 import { forwardRef } from "@nestjs/common";
 import { InteractionsModule } from "../../../interactions/interactions.module";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
+import { AppLogSecurityService } from "../../../app-logs/app-log-security.service";
 import { StructuresModule } from "../../../structures/structure.module";
 import { UsagersModule } from "../../../../usagers/usagers.module";
 import { UsersModule } from "../../../users/users.module";
@@ -32,6 +33,7 @@ describe("Dashboard AdminStructuresController", () => {
       providers: [
         AdminStructuresService,
         AppLogsService,
+        AppLogSecurityService,
         StructureDecisionService,
         FileManagerService,
         StructureDecisionEmailService,
