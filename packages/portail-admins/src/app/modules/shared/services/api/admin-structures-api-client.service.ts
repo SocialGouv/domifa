@@ -13,6 +13,7 @@ import {
   StructureDecisionRefusMotif,
   StructureDecisionStatut,
   StructureDecisionSuppressionMotif,
+  StructureSessionRecord,
 } from "@domifa/common";
 import { UserNewAdmin } from "../../../admin-structures/types";
 import { StructuresActions } from "../../store/structures";
@@ -137,6 +138,28 @@ export class AdminStructuresApiClient {
     return this.http.get<PageResults<UserActivityLog>>(
       `${BASE_URL}/${structureUuid}/logs`,
       { params }
+    );
+  }
+
+  public getStructureSecurityLogs(
+    structureUuid: string,
+    page: number,
+    take: number
+  ): Observable<PageResults<UserActivityLog>> {
+    const params = new HttpParams()
+      .set("page", String(page))
+      .set("take", String(take));
+    return this.http.get<PageResults<UserActivityLog>>(
+      `${BASE_URL}/${structureUuid}/security-logs`,
+      { params }
+    );
+  }
+
+  public getStructureSessions(
+    structureUuid: string
+  ): Observable<StructureSessionRecord[]> {
+    return this.http.get<StructureSessionRecord[]>(
+      `${BASE_URL}/${structureUuid}/sessions`
     );
   }
 }

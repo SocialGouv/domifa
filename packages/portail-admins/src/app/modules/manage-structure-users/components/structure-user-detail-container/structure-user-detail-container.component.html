@@ -111,6 +111,19 @@
               type="button"
               class="fr-tabs__tab"
               role="link"
+              [routerLink]="['/manage-structure-users', user.uuid, 'brevo']"
+              routerLinkActive
+              #brevoRla="routerLinkActive"
+              [attr.aria-selected]="brevoRla.isActive"
+            >
+              Suivi mail
+            </a>
+          </li>
+          <li role="presentation">
+            <a
+              type="button"
+              class="fr-tabs__tab"
+              role="link"
               [routerLink]="['/manage-structure-users', user.uuid, 'sessions']"
               routerLinkActive
               #sessionsRla="routerLinkActive"

@@ -2,7 +2,14 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
-import { PageResults, UsersForAdminList } from "@domifa/common";
+import {
+  ApiMessage,
+  BrevoContactStatus,
+  BrevoEmailEvent,
+  BrevoEmailEventType,
+  PageResults,
+  UsersForAdminList,
+} from "@domifa/common";
 
 import { environment } from "src/environments/environment";
 import { UserActivityLog } from "../../../manage-users/types/user-activity-log";
@@ -86,6 +93,46 @@ export class AdminUsersApiClient {
     return this.http.get<PageResults<UserActivityLog>>(
       `${this.baseUrl}/structure-user/${userUuid}/logs`,
       { params }
+    );
+  }
+
+  public getStructureUserBrevoStatus(
+    userUuid: string
+  ): Observable<BrevoContactStatus> {
+    return this.http.get<BrevoContactStatus>(
+      `${this.baseUrl}/structure-user/${userUuid}/brevo/status`
+    );
+  }
+
+  public getStructureUserEmailEvents(
+    userUuid: string,
+    options: {
+      limit: number;
+      offset: number;
+      event?: BrevoEmailEventType;
+      days?: number;
+    }
+  ): Observable<BrevoEmailEvent[]> {
+    let params = new HttpParams()
+      .set("limit", String(options.limit))
+      .set("offset", String(options.offset));
+    if (options.event) {
+      params = params.set("event", options.event);
+    }
+    if (options.days) {
+      params = params.set("days", String(options.days));
+    }
+    return this.http.get<BrevoEmailEvent[]>(
+      `${this.baseUrl}/structure-user/${userUuid}/email-events`,
+      { params }
+    );
+  }
+
+  public unblockStructureUserBrevoContact(
+    userUuid: string
+  ): Observable<ApiMessage> {
+    return this.http.delete<ApiMessage>(
+      `${this.baseUrl}/structure-user/${userUuid}/brevo/blocklist`
     );
   }
 

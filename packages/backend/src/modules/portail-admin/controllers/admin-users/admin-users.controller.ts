@@ -27,14 +27,21 @@ import { appLogger, ExpressResponse } from "../../../../util";
 import { UsersController } from "../../../users/controllers/users.controller";
 
 import { AppLogsService } from "../../../app-logs/app-logs.service";
+import { AppLogSecurityService } from "../../../app-logs/app-log-security.service";
 import { buildSupervisorActorFields } from "../../../app-logs/app-logs.helpers";
-import { UserSupervisor, UsersForAdminList } from "@domifa/common";
+import {
+  BrevoContactStatus,
+  BrevoEmailEvent,
+  UserSupervisor,
+  UsersForAdminList,
+} from "@domifa/common";
 import {
   userStructureRepository,
   userSupervisorRepository,
 } from "../../../../database";
 
 import {
+  BrevoEmailEventsQueryDto,
   RegisterUserStructureAdminDto,
   RegisterUserSupervisorDto,
   UnblockUserDto,
@@ -61,6 +68,7 @@ import { BrevoSenderService } from "../../../mails/services/brevo-sender/brevo-s
 export class AdminUsersController {
   constructor(
     private readonly appLogsService: AppLogsService,
+    private readonly appLogSecurityService: AppLogSecurityService,
     private readonly adminSuperivorUsersService: AdminSuperivorUsersService,
     private readonly adminStructuresService: AdminStructuresService,
     private readonly brevoSenderService: BrevoSenderService
@@ -191,16 +199,21 @@ export class AdminUsersController {
     const { userId } =
       await this.adminSuperivorUsersService.unblockSupervisorUser(uuid);
 
-    await this.appLogsService.create({
-      // SUBJECT = target user (so the row shows in their activity tab).
-      // Actor = the admin, tracked separately via userSupervisorId.
-      userId,
-      userType: "user_supervisor",
-      userSupervisorId: user.id,
-      role: user.role,
-      action: "UNBLOCK_USER",
-      context: { motif: unblockDto.motif },
-    });
+    try {
+      await this.appLogSecurityService.create({
+        // SUBJECT = target user.
+        userSupervisorId: userId,
+        userType: "user_supervisor",
+        action: "UNBLOCK_USER",
+        context: {
+          motif: unblockDto.motif,
+          actorSupervisorId: user.id,
+          actorRole: user.role,
+        },
+      });
+    } catch {
+      // Best-effort audit: the unblock has already committed above.
+    }
 
     return res.status(HttpStatus.OK).json({ status: "ACTIVE" });
   }
@@ -229,6 +242,117 @@ export class AdminUsersController {
   }
 
   @ApiBearerAuth()
+  @ApiOperation({
+    summary: "Logs de sécurité d'un utilisateur supervisor",
+  })
+  @Get("supervisor/:uuid/security-logs")
+  public async getSupervisorSecurityLogs(
+    @Param("uuid", new ParseUUIDPipe()) uuid: string,
+    @Query() pageOptions: PageOptionsDto
+  ) {
+    const target = await userSupervisorRepository.findOne({
+      where: { uuid },
+      select: { id: true },
+    });
+    if (!target) {
+      throw new NotFoundException("USER_NOT_FOUND");
+    }
+    return this.appLogSecurityService.findUserSecurityLogs({
+      userType: "user_supervisor",
+      userId: target.id,
+      page: pageOptions.page,
+      take: pageOptions.take,
+    });
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: "Événements Brevo (logs mailing) d'un utilisateur supervisor",
+  })
+  @Get("supervisor/:uuid/email-events")
+  public async getSupervisorEmailEvents(
+    @Param("uuid", new ParseUUIDPipe()) uuid: string,
+    @Query() query: BrevoEmailEventsQueryDto
+  ): Promise<BrevoEmailEvent[]> {
+    const target = await userSupervisorRepository.findOne({
+      where: { uuid },
+      select: { email: true },
+    });
+    if (!target) {
+      throw new NotFoundException("USER_NOT_FOUND");
+    }
+    return this.brevoSenderService.getEmailEventsForEmail({
+      email: target.email,
+      limit: query.limit,
+      offset: query.offset,
+      event: query.event,
+      days: query.days,
+    });
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary:
+      "Statut Brevo (blocklist transactionnelle) d'un utilisateur supervisor",
+  })
+  @Get("supervisor/:uuid/brevo/status")
+  public async getSupervisorBrevoStatus(
+    @Param("uuid", new ParseUUIDPipe()) uuid: string
+  ): Promise<BrevoContactStatus> {
+    const target = await userSupervisorRepository.findOne({
+      where: { uuid },
+      select: { email: true },
+    });
+    if (!target) {
+      throw new NotFoundException("USER_NOT_FOUND");
+    }
+    return this.brevoSenderService.getContactStatus({ email: target.email });
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary:
+      "Retire le contact d'un utilisateur supervisor de la blocklist transactionnelle Brevo (OTP requis)",
+  })
+  @Delete("supervisor/:uuid/brevo/blocklist")
+  @UseGuards(OtpGuard)
+  @RequireOtp("UNBLOCK_BREVO_CONTACT")
+  public async unblockSupervisorBrevoContact(
+    @CurrentSupervisor() user: UserAdminAuthenticated,
+    @Param("uuid", new ParseUUIDPipe()) uuid: string,
+    @Res() res: ExpressResponse
+  ): Promise<ExpressResponse> {
+    const target = await userSupervisorRepository.findOne({
+      where: { uuid },
+      select: { id: true, email: true },
+    });
+    if (!target) {
+      throw new NotFoundException("USER_NOT_FOUND");
+    }
+
+    await this.brevoSenderService.removeFromTransactionalBlocklist({
+      email: target.email,
+    });
+
+    try {
+      await this.appLogSecurityService.create({
+        userSupervisorId: target.id,
+        userType: "user_supervisor",
+        action: "UNBLOCK_BREVO_CONTACT",
+        context: {
+          email: target.email,
+          actorSupervisorId: user.id,
+          actorRole: user.role,
+        },
+      });
+    } catch {
+      // Best-effort audit: the Brevo unblock has already committed above.
+    }
+
+    return res.status(HttpStatus.OK).json({ message: "OK" });
+  }
+
+  @ApiBearerAuth()
   @ApiOperation({ summary: "Logs d'activité d'un utilisateur de structure" })
   @Get("structure-user/:uuid/logs")
   public async getStructureUserLogs(
@@ -252,6 +376,94 @@ export class AdminUsersController {
   }
 
   @ApiBearerAuth()
+  @ApiOperation({
+    summary: "Événements Brevo (logs mailing) d'un utilisateur de structure",
+  })
+  @Get("structure-user/:uuid/email-events")
+  public async getStructureUserEmailEvents(
+    @Param("uuid", new ParseUUIDPipe()) uuid: string,
+    @Query() query: BrevoEmailEventsQueryDto
+  ): Promise<BrevoEmailEvent[]> {
+    const target = await userStructureRepository.findOne({
+      where: { uuid },
+      select: { email: true },
+    });
+    if (!target) {
+      throw new NotFoundException("USER_NOT_FOUND");
+    }
+    return this.brevoSenderService.getEmailEventsForEmail({
+      email: target.email,
+      limit: query.limit,
+      offset: query.offset,
+      event: query.event,
+      days: query.days,
+    });
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary:
+      "Statut Brevo (blocklist transactionnelle) d'un utilisateur de structure",
+  })
+  @Get("structure-user/:uuid/brevo/status")
+  public async getStructureUserBrevoStatus(
+    @Param("uuid", new ParseUUIDPipe()) uuid: string
+  ): Promise<BrevoContactStatus> {
+    const target = await userStructureRepository.findOne({
+      where: { uuid },
+      select: { email: true },
+    });
+    if (!target) {
+      throw new NotFoundException("USER_NOT_FOUND");
+    }
+    return this.brevoSenderService.getContactStatus({ email: target.email });
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary:
+      "Retire le contact d'un utilisateur de structure de la blocklist transactionnelle Brevo (OTP requis)",
+  })
+  @Delete("structure-user/:uuid/brevo/blocklist")
+  @UseGuards(OtpGuard)
+  @RequireOtp("UNBLOCK_BREVO_CONTACT")
+  public async unblockStructureUserBrevoContact(
+    @CurrentSupervisor() user: UserAdminAuthenticated,
+    @Param("uuid", new ParseUUIDPipe()) uuid: string,
+    @Res() res: ExpressResponse
+  ): Promise<ExpressResponse> {
+    const target = await userStructureRepository.findOne({
+      where: { uuid },
+      select: { id: true, email: true, structureId: true },
+    });
+    if (!target) {
+      throw new NotFoundException("USER_NOT_FOUND");
+    }
+
+    await this.brevoSenderService.removeFromTransactionalBlocklist({
+      email: target.email,
+    });
+
+    try {
+      await this.appLogSecurityService.create({
+        userStructureId: target.id,
+        userType: "user_structure",
+        structureId: target.structureId,
+        action: "UNBLOCK_BREVO_CONTACT",
+        context: {
+          email: target.email,
+          actorSupervisorId: user.id,
+          actorRole: user.role,
+        },
+      });
+    } catch {
+      // Best-effort audit: the Brevo unblock has already committed above.
+    }
+
+    return res.status(HttpStatus.OK).json({ message: "OK" });
+  }
+
+  @ApiBearerAuth()
   @ApiOperation({ summary: "Bloquer un utilisateur supervisor (OTP requis)" })
   @Patch("supervisor/:uuid/block")
   @UseGuards(OtpGuard)
@@ -271,18 +483,27 @@ export class AdminUsersController {
       uuid
     );
 
-    await this.appLogsService.create<BlockUserByAdminLogContext>({
-      // SUBJECT = target user; ACTOR = admin (userSupervisorId).
-      userId: previous.userId,
-      userType: "user_supervisor",
-      userSupervisorId: user.id,
-      role: user.role,
-      action: "BLOCK_USER_BY_ADMIN",
-      context: {
-        previousStatus: previous.previousStatus,
-        previousRole: previous.previousRole,
-      },
-    });
+    try {
+      await this.appLogSecurityService.create<
+        BlockUserByAdminLogContext & {
+          actorSupervisorId: number;
+          actorRole: string;
+        }
+      >({
+        // SUBJECT = target user.
+        userSupervisorId: previous.userId,
+        userType: "user_supervisor",
+        action: "BLOCK_USER_BY_ADMIN",
+        context: {
+          previousStatus: previous.previousStatus,
+          previousRole: previous.previousRole,
+          actorSupervisorId: user.id,
+          actorRole: user.role,
+        },
+      });
+    } catch {
+      // Best-effort audit: the block has already committed above.
+    }
 
     return res.status(HttpStatus.OK).json({ status: "BLOCKED" });
   }

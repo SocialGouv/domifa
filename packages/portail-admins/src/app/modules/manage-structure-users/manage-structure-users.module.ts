@@ -23,6 +23,7 @@ import { UsersTableComponent } from "../shared/components/users-table/users-tabl
 
 import { ManageStructureUsersRoutingModule } from "./manage-structure-users-routing.module";
 import { StructureUserActivityComponent } from "./components/structure-user-activity/structure-user-activity.component";
+import { StructureUserBrevoComponent } from "./components/structure-user-brevo/structure-user-brevo.component";
 import { StructureUserDetailContainerComponent } from "./components/structure-user-detail-container/structure-user-detail-container.component";
 import { StructureUserInfoComponent } from "./components/structure-user-info/structure-user-info.component";
 import { StructureUserSessionsComponent } from "./components/structure-user-sessions/structure-user-sessions.component";
@@ -48,6 +49,7 @@ import { StructureUsersListComponent } from "./components/structure-users-list/s
     StructureUserDetailContainerComponent,
     StructureUserInfoComponent,
     StructureUserActivityComponent,
+    StructureUserBrevoComponent,
     StructureUserSessionsComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],

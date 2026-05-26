@@ -9,6 +9,7 @@ export const OTP_PURPOSES = [
   "UNBLOCK_USER",
   "BLOCK_USER_BY_ADMIN",
   "DELETE_USER_BY_ADMIN",
+  "UNBLOCK_BREVO_CONTACT",
 ] as const;
 
 export type OtpPurpose = (typeof OTP_PURPOSES)[number];

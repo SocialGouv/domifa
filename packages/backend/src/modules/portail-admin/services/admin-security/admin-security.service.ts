@@ -12,8 +12,8 @@ import {
 import { PageMeta, PageOptions, PageResults } from "@domifa/common";
 
 import {
-  appLogsRepository,
-  AppLogTable,
+  appLogSecurityRepository,
+  AppLogSecurityTable,
   userStructureRepository,
   userStructureSecurityRepository,
   userSupervisorRepository,
@@ -37,7 +37,7 @@ export class AdminSecurityService {
   public async findSuspiciousActivity(
     query: SuspiciousActivityQueryDto
   ): Promise<PageResults<SuspiciousActivityLogDto>> {
-    const [rows, itemCount] = await appLogsRepository.findAndCount({
+    const [rows, itemCount] = await appLogSecurityRepository.findAndCount({
       where: buildWhere(query),
       order: { createdAt: "DESC" },
       skip: query.skip,
@@ -152,7 +152,7 @@ export class AdminSecurityService {
   }
 
   private async resolveUsers(
-    rows: AppLogTable[]
+    rows: AppLogSecurityTable[]
   ): Promise<Map<string, SuspiciousResolvedUser>> {
     const structureIds = new Set<number>();
     const supervisorIds = new Set<number>();
@@ -233,8 +233,8 @@ export class AdminSecurityService {
 
 function buildWhere(
   query: SuspiciousActivityQueryDto
-): FindOptionsWhere<AppLogTable> {
-  const where: FindOptionsWhere<AppLogTable> = {
+): FindOptionsWhere<AppLogSecurityTable> {
+  const where: FindOptionsWhere<AppLogSecurityTable> = {
     action: In(
       query.actions && query.actions.length > 0
         ? query.actions
@@ -246,7 +246,11 @@ function buildWhere(
     where.userType = query.userType;
   }
   if (query.userId) {
-    where.userId = query.userId;
+    if (query.userType === "user_supervisor") {
+      where.userSupervisorId = query.userId;
+    } else if (query.userType === "user_structure") {
+      where.userStructureId = query.userId;
+    }
   }
 
   const dateRange = buildDateRange(query.dateFrom, query.dateTo);
@@ -292,7 +296,7 @@ function buildDateRange(from?: Date, to?: Date) {
 }
 
 function toDto(
-  row: AppLogTable,
+  row: AppLogSecurityTable,
   resolved: Map<string, SuspiciousResolvedUser>
 ): SuspiciousActivityLogDto {
   const key = pickTargetKey(row);
@@ -310,16 +314,15 @@ function toDto(
 }
 
 function pickTargetKey(
-  row: AppLogTable
+  row: AppLogSecurityTable
 ): { userType: SuspiciousUserProfile; userId: number } | null {
-  // Every security action now writes `userId`/`userType` as the SUBJECT of the
-  // log (see migration AppLogTargetUserOnSecurityActions1779996279014). Older
-  // rows pre-migration are normalized by that migration.
-  if (
-    (row.userType === "user_structure" || row.userType === "user_supervisor") &&
-    row.userId
-  ) {
-    return { userType: row.userType, userId: row.userId };
+  // Security rows write the SUBJECT in userStructureId / userSupervisorId
+  // depending on userType.
+  if (row.userType === "user_structure" && row.userStructureId) {
+    return { userType: "user_structure", userId: row.userStructureId };
+  }
+  if (row.userType === "user_supervisor" && row.userSupervisorId) {
+    return { userType: "user_supervisor", userId: row.userSupervisorId };
   }
   return null;
 }

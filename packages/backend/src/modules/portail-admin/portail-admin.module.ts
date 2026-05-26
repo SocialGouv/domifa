@@ -3,6 +3,7 @@ import { forwardRef, Module } from "@nestjs/common";
 import { AuthModule } from "../../auth/auth.module";
 
 import { AppLogsService } from "../app-logs/app-logs.service";
+import { AppLogSecurityService } from "../app-logs/app-log-security.service";
 import { AdminSecurityController } from "./controllers/admin-security/admin-security.controller";
 import { AdminStructuresController } from "./controllers/admin-structures/admin-structures.controller";
 import { PortailAdminLoginController } from "./controllers/portail-admin-login/portail-admin-login.controller";
@@ -30,6 +31,7 @@ import { OtpModule } from "../otp/otp.module";
   providers: [
     AdminSecurityService,
     AppLogsService,
+    AppLogSecurityService,
     AdminStructuresService,
     FileManagerService,
     AdminSuperivorUsersService,

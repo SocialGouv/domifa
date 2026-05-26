@@ -9,8 +9,14 @@ import {
 } from "./get-user-repository.service";
 import { logUserSecurityEvent } from "./logUserSecurityEvent.service";
 import { userStatusManager } from "./userStatusManager.service";
-import { appLogsRepository, AppLogTable } from "../../../database";
-import { SYSTEM_ACTOR_FIELDS } from "../../app-logs/app-logs.helpers";
+import {
+  appLogSecurityRepository,
+  AppLogSecurityTable,
+} from "../../../database";
+import {
+  SYSTEM_ACTOR_FIELDS,
+  userTypeFromProfile,
+} from "../../app-logs/app-logs.helpers";
 
 // Target wall-clock duration for the login flow. We pad every response —
 // success or failure — up to this floor to neutralize the timing differential
@@ -149,20 +155,25 @@ async function logAccessDeniedOnLogin({
   status: UserStatus | null;
   requestContext: CheckPasswordRequestContext;
 }): Promise<void> {
-  await appLogsRepository
-    .save(
-      new AppLogTable({
+  const userType = userTypeFromProfile(userProfile);
+  try {
+    await appLogSecurityRepository.save(
+      new AppLogSecurityTable({
         ...SYSTEM_ACTOR_FIELDS,
+        userStructureId: userType === "user_structure" ? userId : undefined,
+        userSupervisorId: userType === "user_supervisor" ? userId : undefined,
         action: "ACCESS_DENIED_NON_ACTIVE",
+        ip: requestContext.ip,
+        userAgent: requestContext.userAgent,
         context: {
           triggeredBy: "userSecurityPasswordChecker",
           status,
           userProfile,
-          userId,
-          ip: requestContext.ip,
-          userAgent: requestContext.userAgent,
         },
       })
-    )
-    .catch(() => undefined);
+    );
+  } catch {
+    // Best-effort logging — login flow keeps responding even if the audit row
+    // fails to persist.
+  }
 }

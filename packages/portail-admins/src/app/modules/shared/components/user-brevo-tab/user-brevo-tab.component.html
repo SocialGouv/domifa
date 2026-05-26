@@ -1,0 +1,230 @@
+<div class="fr-mt-3w">
+  <h2 class="fr-h4 fr-mb-2w">Suivi mail</h2>
+  <p class="fr-text--sm fr-text--mention-grey">
+    Statut du contact Brevo associé à l'email de cet utilisateur et événements
+    transactionnels remontés par Brevo (envoi, ouverture, rebond, etc.).
+  </p>
+
+  <div *ngIf="statusLoading" class="fr-py-2w">
+    <dsfr-ext-spinner
+      typeLoader="quarter"
+      label="Chargement du statut Brevo..."
+    ></dsfr-ext-spinner>
+  </div>
+
+  <ng-container *ngIf="!statusLoading && status">
+    <div *ngIf="!status.existsInBrevo" class="fr-alert fr-alert--info fr-mb-3w">
+      <p>Aucun contact Brevo n'existe pour cet email.</p>
+    </div>
+
+    <div
+      *ngIf="status.existsInBrevo && status.emailBlacklisted"
+      class="fr-alert fr-alert--error fr-mb-3w"
+    >
+      <h3 class="fr-alert__title">
+        Contact dans la blocklist transactionnelle Brevo
+      </h3>
+      <p>
+        L'email de cet utilisateur est bloqué côté Brevo : les emails
+        transactionnels ne lui sont plus envoyés (lien d'activation, OTP,
+        notifications). Débloquer le contact retire l'email de la blocklist
+        transactionnelle (action soumise à OTP).
+      </p>
+      <button
+        type="button"
+        class="fr-btn fr-icon-lock-unlock-fill fr-btn--icon-left fr-mt-2w"
+        (click)="unblockConfirmModal.open()"
+      >
+        Débloquer dans Brevo
+      </button>
+    </div>
+
+    <div
+      *ngIf="status.existsInBrevo && !status.emailBlacklisted"
+      class="fr-alert fr-alert--success fr-mb-3w"
+    >
+      <p>
+        Contact Brevo actif (non blacklisté).
+        <ng-container *ngIf="status.modifiedAt">
+          Dernière modification :
+          {{ status.modifiedAt | date : "dd/MM/yyyy HH:mm" }}.
+        </ng-container>
+      </p>
+    </div>
+  </ng-container>
+
+  <h3 class="fr-h5 fr-mb-2w">Événements transactionnels</h3>
+
+  <div class="fr-grid-row fr-grid-row--gutters fr-mb-2w">
+    <div class="fr-col-12 fr-col-md-4">
+      <div class="fr-select-group">
+        <label class="fr-label" for="brevo-event-filter"
+          >Type d'événement</label
+        >
+        <select
+          id="brevo-event-filter"
+          class="fr-select"
+          [(ngModel)]="eventFilter"
+          (ngModelChange)="reload()"
+        >
+          <option value="">Tous</option>
+          <option *ngFor="let evt of availableEvents" [value]="evt">
+            {{ eventLabels[evt] }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="fr-col-12 fr-col-md-4">
+      <div class="fr-select-group">
+        <label class="fr-label" for="brevo-days-filter">Période</label>
+        <select
+          id="brevo-days-filter"
+          class="fr-select"
+          [(ngModel)]="daysFilter"
+          (ngModelChange)="reload()"
+        >
+          <option [ngValue]="7">7 derniers jours</option>
+          <option [ngValue]="30">30 derniers jours</option>
+          <option [ngValue]="90">90 derniers jours</option>
+          <option [ngValue]="null">Tout</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="loading"
+    role="alert"
+    aria-busy="true"
+    aria-label="Chargement des événements Brevo"
+    class="text-center fr-py-3w"
+  >
+    <dsfr-ext-spinner
+      typeLoader="quarter"
+      label="Chargement des événements Brevo..."
+    ></dsfr-ext-spinner>
+  </div>
+
+  <ng-container *ngIf="!loading">
+    <div *ngIf="events.length === 0" class="fr-alert fr-alert--info">
+      <p>
+        Aucun événement Brevo trouvé pour cet utilisateur sur la période
+        sélectionnée.
+      </p>
+    </div>
+
+    <div *ngIf="events.length > 0" class="fr-table fr-table--no-outer-border">
+      <div class="fr-table__wrapper">
+        <div class="fr-table__container">
+          <div class="fr-table__content">
+            <table>
+              <caption class="fr-sr-only">
+                Événements Brevo ({{
+                  events.length
+                }}
+                entrées affichées)
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Événement</th>
+                  <th scope="col">Sujet</th>
+                  <th scope="col">Template</th>
+                  <th scope="col">Détails</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let evt of events">
+                  <td>{{ evt.date | date : "dd/MM/yyyy HH:mm" }}</td>
+                  <td>
+                    <span [class]="badgeClass(evt.event)">
+                      {{ eventLabels[evt.event] ?? evt.event }}
+                    </span>
+                  </td>
+                  <td class="fr-text--sm">{{ evt.subject ?? "-" }}</td>
+                  <td class="fr-text--sm">
+                    {{ evt.templateId ? "#" + evt.templateId : "-" }}
+                  </td>
+                  <td class="fr-text--xs">
+                    <p *ngIf="evt.reason" class="fr-m-0 fr-mb-1w">
+                      <span class="fr-text--bold">Raison&nbsp;:</span>
+                      {{ evt.reason }}
+                    </p>
+                    <p *ngIf="evt.tag" class="fr-m-0 fr-mb-1w">
+                      <span class="fr-text--bold">Tag&nbsp;:</span>
+                      {{ evt.tag }}
+                    </p>
+                    <p *ngIf="evt.link" class="fr-m-0 fr-mb-1w">
+                      <span class="fr-text--bold">Lien&nbsp;:</span>
+                      <a
+                        [href]="evt.link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >{{ evt.link }}</a
+                      >
+                    </p>
+                    <p *ngIf="evt.ip" class="fr-m-0 fr-mb-1w">
+                      <span class="fr-text--bold">IP&nbsp;:</span> {{ evt.ip }}
+                    </p>
+                    <p
+                      class="fr-m-0 fr-text--mention-grey"
+                      style="word-break: break-all"
+                    >
+                      messageId&nbsp;: {{ evt.messageId }}
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="hasMore" class="fr-mt-2w text-center">
+      <button
+        type="button"
+        class="fr-btn fr-btn--secondary"
+        [disabled]="loadingMore"
+        (click)="loadMore()"
+      >
+        {{ loadingMore ? "Chargement..." : "Charger plus" }}
+      </button>
+    </div>
+  </ng-container>
+
+  <dsfr-modal
+    class="text-start"
+    icon="fr-icon-lock-unlock-fill"
+    #unblockConfirmModal
+    dialogId="unblockBrevoConfirm"
+    titleModal="Débloquer le contact Brevo"
+    [concealingBackdrop]="false"
+    [autoCloseOnAction]="false"
+    size="MD"
+  >
+    <p>
+      Confirmer le retrait de cet email de la blocklist transactionnelle Brevo ?
+      Un code OTP vous sera demandé.
+    </p>
+    <ng-template #modalFooterTemplate>
+      <dsfr-buttons-group
+        inline="LG"
+        alignment="reverse"
+        iconPosition="left"
+        groupMarkup="div"
+      >
+        <dsfr-button
+          (click)="unblockBrevo(unblockConfirmModal)"
+          label="Confirmer le déblocage"
+          [disabled]="unblocking"
+        ></dsfr-button>
+        <dsfr-button
+          (click)="unblockConfirmModal.close()"
+          label="Annuler"
+          variant="secondary"
+        ></dsfr-button>
+      </dsfr-buttons-group>
+    </ng-template>
+  </dsfr-modal>
+</div>

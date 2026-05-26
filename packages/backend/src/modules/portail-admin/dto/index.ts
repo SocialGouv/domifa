@@ -1,4 +1,5 @@
 // @index('./*.dto.ts', f => `export * from '${f.path}'`)
+export * from "./brevo-email-events-query.dto";
 export * from "./elevate-user-role.dto";
 export * from "./MetabaseStats.dto";
 export * from "./patch-user-supervisor.dto";

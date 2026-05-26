@@ -78,4 +78,9 @@ export type DomifaEnv = {
   // OTP email delivery provider. "brevo" uses BrevoSenderService templates;
   // "smtp" uses the SMTP transport (tipimail). Default: "brevo".
   DOMIFA_OTP_EMAIL_PROVIDER: string;
+  // Comma-separated email domains (e.g. "croix-rouge.fr,partner.org") whose
+  // structure users skip the login OTP entirely. Empty by default. Used when
+  // an org's mail filter quarantines OTP emails — those users still authenticate
+  // by password but no second factor is enforced.
+  DOMIFA_LOGIN_OTP_BYPASS_DOMAINS: string;
 };

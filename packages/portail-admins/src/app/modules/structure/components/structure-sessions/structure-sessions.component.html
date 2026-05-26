@@ -1,0 +1,114 @@
+<div class="fr-mt-3w">
+  <div class="fr-grid-row fr-grid-row--middle fr-mb-2w">
+    <h2 class="fr-h4 fr-mb-0 fr-col">Sessions</h2>
+    <button
+      type="button"
+      class="fr-btn fr-btn--secondary fr-btn--sm fr-icon-refresh-line fr-btn--icon-left"
+      (click)="refresh()"
+      [disabled]="loading"
+    >
+      Rafraîchir
+    </button>
+  </div>
+
+  <p class="fr-text--sm fr-text--mention-grey">
+    Les 100 sessions les plus récentes des utilisateurs de la structure (actives
+    et fermées), du plus récent au plus ancien.
+  </p>
+
+  <div
+    *ngIf="loading"
+    role="alert"
+    aria-busy="true"
+    aria-label="Chargement des sessions..."
+    class="text-center fr-py-3w"
+  >
+    <dsfr-ext-spinner
+      typeLoader="quarter"
+      label="Chargement des sessions..."
+    ></dsfr-ext-spinner>
+  </div>
+
+  <ng-container *ngIf="!loading && loaded">
+    <div *ngIf="sessions.length === 0" class="fr-alert fr-alert--info">
+      <p>Aucune session enregistrée pour cette structure.</p>
+    </div>
+
+    <div *ngIf="sessions.length > 0" class="fr-table fr-table--no-outer-border">
+      <div class="fr-table__wrapper">
+        <div class="fr-table__container">
+          <div class="fr-table__content">
+            <table>
+              <caption class="fr-sr-only">
+                Sessions des utilisateurs de la structure ({{
+                  sessions.length
+                }}
+                entrées)
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Utilisateur</th>
+                  <th scope="col">Statut</th>
+                  <th scope="col">Début</th>
+                  <th scope="col">Fin</th>
+                  <th scope="col">Motif</th>
+                  <th scope="col">IP</th>
+                  <th scope="col">User-Agent</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let session of sessions">
+                  <td>
+                    <span class="fr-text--bold">
+                      {{ session.userFullName || session.userEmail }}
+                    </span>
+                    <br />
+                    <span class="fr-text--xs fr-text--mention-grey">
+                      {{ session.userEmail }}
+                    </span>
+                  </td>
+                  <td>
+                    <span
+                      *ngIf="session.status === 'active'"
+                      class="fr-badge fr-badge--sm fr-badge--success"
+                    >
+                      Active
+                    </span>
+                    <span
+                      *ngIf="session.status === 'closed'"
+                      class="fr-badge fr-badge--sm fr-badge--info"
+                    >
+                      Fermée
+                    </span>
+                  </td>
+                  <td>
+                    {{ session.createdAt | date : "dd/MM/yyyy HH:mm" }}
+                  </td>
+                  <td>
+                    <ng-container *ngIf="session.closedAt; else expiresTpl">
+                      {{ session.closedAt | date : "dd/MM/yyyy HH:mm" }}
+                    </ng-container>
+                    <ng-template #expiresTpl>
+                      <span class="fr-text--mention-grey">
+                        expire
+                        {{ session.expiresAt | date : "dd/MM/yyyy HH:mm" }}
+                      </span>
+                    </ng-template>
+                  </td>
+                  <td>{{ reasonLabel(session.closedReason) }}</td>
+                  <td>{{ session.ipAddress }}</td>
+                  <td
+                    class="fr-text--xs"
+                    style="word-break: break-word; max-width: 280px"
+                  >
+                    {{ session.userAgent }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

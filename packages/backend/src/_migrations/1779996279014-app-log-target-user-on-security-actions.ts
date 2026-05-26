@@ -1,4 +1,5 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { domifaConfig } from "../config";
 
 // Realign `userId` / `userType` on security-related app_log rows so they point
 // to the SUBJECT (the user being blocked / unblocked / denied) rather than the
@@ -19,9 +20,14 @@ export class AppLogTargetUserOnSecurityActions1779996279014
   name = "AppLogTargetUserOnSecurityActions1779996279014";
 
   public async up(qr: QueryRunner): Promise<void> {
-    // 1. System-triggered actions (BLOCK_USER auto, ACCESS_DENIED_NON_ACTIVE):
-    //    userType = "system" → swap to the target's actual profile.
-    await qr.query(`
+    if (
+      domifaConfig().envId === "prod" ||
+      domifaConfig().envId === "preprod" ||
+      domifaConfig().envId === "local"
+    ) {
+      // 1. System-triggered actions (BLOCK_USER auto, ACCESS_DENIED_NON_ACTIVE):
+      //    userType = "system" → swap to the target's actual profile.
+      await qr.query(`
       UPDATE app_log
       SET
         "userId" = NULLIF(("context"::jsonb->>'userId'), '')::int,
@@ -38,12 +44,12 @@ export class AppLogTargetUserOnSecurityActions1779996279014
         AND "context"::jsonb ? 'userProfile'
     `);
 
-    // 2. Admin-triggered targeted actions (BLOCK_USER_BY_ADMIN, UNBLOCK_USER):
-    //    `userId` was the admin (= userSupervisorId). Swap it to the target.
-    //    `userType` was always "user_supervisor" — must reflect the target's
-    //    profile (could be "user_structure" when the admin blocks a structure
-    //    user via admin-structures.controller).
-    await qr.query(`
+      // 2. Admin-triggered targeted actions (BLOCK_USER_BY_ADMIN, UNBLOCK_USER):
+      //    `userId` was the admin (= userSupervisorId). Swap it to the target.
+      //    `userType` was always "user_supervisor" — must reflect the target's
+      //    profile (could be "user_structure" when the admin blocks a structure
+      //    user via admin-structures.controller).
+      await qr.query(`
       UPDATE app_log
       SET
         "userId" = NULLIF(("context"::jsonb->>'userId'), '')::int,
@@ -59,6 +65,7 @@ export class AppLogTargetUserOnSecurityActions1779996279014
         AND "context"::jsonb ? 'userProfile'
         AND "userSupervisorId" IS NOT NULL
     `);
+    }
   }
 
   // Data backfill: not reversible without losing information that subsequent

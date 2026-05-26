@@ -5,8 +5,8 @@ import { MoreThanOrEqual, In } from "typeorm";
 
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 import {
-  appLogsRepository,
-  AppLogTable,
+  appLogSecurityRepository,
+  AppLogSecurityTable,
   structureRepository,
   userStructureRepository,
   userSupervisorRepository,
@@ -53,7 +53,7 @@ export class SecurityMonitoringService {
     const windowEnd = new Date();
     const windowStart = new Date(windowEnd.getTime() - WINDOW_MS);
 
-    const recentLogs = await appLogsRepository.find({
+    const recentLogs = await appLogSecurityRepository.find({
       where: {
         action: In(EMAIL_ALERTING_LOG_ACTIONS),
         createdAt: MoreThanOrEqual(windowStart),
@@ -132,7 +132,7 @@ function buildSummary({
   windowStart,
   windowEnd,
 }: {
-  recentLogs: AppLogTable[];
+  recentLogs: AppLogSecurityTable[];
   windowStart: Date;
   windowEnd: Date;
 }): SuspiciousActivitySummary {
@@ -201,11 +201,13 @@ function ingestBlockUserLog({
   context,
   blockedUsersById,
 }: {
-  log: AppLogTable;
+  log: AppLogSecurityTable;
   context: Record<string, unknown>;
   blockedUsersById: Map<number, BlockedUserSummary>;
 }): void {
-  const userId = Number(context["userId"] ?? log.userId);
+  const userId = Number(
+    context["userId"] ?? log.userStructureId ?? log.userSupervisorId
+  );
   if (!Number.isFinite(userId) || userId <= 0) return;
   if (blockedUsersById.has(userId)) return;
 

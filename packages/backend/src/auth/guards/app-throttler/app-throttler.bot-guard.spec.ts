@@ -7,7 +7,10 @@ import { MoreThanOrEqual } from "typeorm";
 import { domifaConfig } from "../../../config";
 import { AppTestContext, AppTestHelper } from "../../../util/test";
 import { AppThrottlerGuard } from "./app-throttler.guard";
-import { AppLogTable, appLogsRepository } from "../../../database";
+import {
+  AppLogSecurityTable,
+  appLogSecurityRepository,
+} from "../../../database";
 import { userStatusManager } from "../../../modules/users/services";
 
 @Controller("test-bot-guard")
@@ -223,10 +226,10 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
       ).activeBlocks.clear();
 
       // Wipe only the logs we may have produced in this run.
-      await appLogsRepository
+      await appLogSecurityRepository
         .createQueryBuilder()
         .delete()
-        .from(AppLogTable)
+        .from(AppLogSecurityTable)
         .where("action IN (:...actions)", {
           actions: ["REQUEST_BLOCKED", "BLOCK_USER"],
         })
@@ -241,10 +244,10 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
     });
 
     afterAll(async () => {
-      await appLogsRepository
+      await appLogSecurityRepository
         .createQueryBuilder()
         .delete()
-        .from(AppLogTable)
+        .from(AppLogSecurityTable)
         .where("action IN (:...actions)", {
           actions: ["REQUEST_BLOCKED", "BLOCK_USER"],
         })
@@ -266,7 +269,7 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
         expect(res.status).toBe(403);
       }
 
-      const logs = await appLogsRepository.find({
+      const logs = await appLogSecurityRepository.find({
         where: { action: "REQUEST_BLOCKED", ...recentLogsFilter() },
       });
       expect(logs).toHaveLength(1);
@@ -284,7 +287,7 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
           .set("Origin", validOrigin);
         expect(res.status).toBe(403);
 
-        const logs = await appLogsRepository.find({
+        const logs = await appLogSecurityRepository.find({
           where: { action: "REQUEST_BLOCKED", ...recentLogsFilter() },
         });
         expect(logs).toHaveLength(1);
@@ -308,7 +311,7 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
         .set("Origin", validOrigin);
       expect(res.status).toBe(403);
 
-      const logs = await appLogsRepository.find({
+      const logs = await appLogSecurityRepository.find({
         where: { action: "REQUEST_BLOCKED", ...recentLogsFilter() },
       });
       expect(logs).toHaveLength(1);
@@ -325,7 +328,7 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
         expect(res.status).toBe(403);
       }
 
-      const logs = await appLogsRepository.find({
+      const logs = await appLogSecurityRepository.find({
         where: { action: "REQUEST_BLOCKED", ...recentLogsFilter() },
       });
       expect(logs).toHaveLength(1);
@@ -342,7 +345,7 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
         expect(res.status).toBe(403);
       }
 
-      const logs = await appLogsRepository.find({
+      const logs = await appLogSecurityRepository.find({
         where: { action: "REQUEST_BLOCKED", ...recentLogsFilter() },
       });
       expect(logs).toHaveLength(1);
@@ -376,7 +379,7 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
       expect(status).toBe("BLOCKED");
 
       // Exactly one BLOCK_USER log, with the right context
-      const blockLogs = await appLogsRepository.find({
+      const blockLogs = await appLogSecurityRepository.find({
         where: { action: "BLOCK_USER", ...recentLogsFilter() },
       });
       expect(blockLogs).toHaveLength(1);
@@ -388,7 +391,7 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
       expect(blockLogs[0].userType).toBe("user_structure");
 
       // REQUEST_BLOCKED dedup'd to one row with attempts=10 and per-user key
-      const reqLogs = await appLogsRepository.find({
+      const reqLogs = await appLogSecurityRepository.find({
         where: { action: "REQUEST_BLOCKED", ...recentLogsFilter() },
       });
       expect(reqLogs).toHaveLength(1);
@@ -413,7 +416,7 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
         expect(res.status).toBe(403);
       }
 
-      const blockLogs = await appLogsRepository.find({
+      const blockLogs = await appLogSecurityRepository.find({
         where: { action: "BLOCK_USER", ...recentLogsFilter() },
       });
       expect(blockLogs).toHaveLength(0);
@@ -443,7 +446,7 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
       });
       expect(status).not.toBe("BLOCKED");
 
-      const blockLogs = await appLogsRepository.find({
+      const blockLogs = await appLogSecurityRepository.find({
         where: { action: "BLOCK_USER", ...recentLogsFilter() },
       });
       expect(blockLogs).toHaveLength(0);

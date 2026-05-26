@@ -8,8 +8,10 @@ import { RegisterUserSupervisorComponent } from "./components/register-user-supe
 import { ManageUsersRoutingModule } from "./manage-users-routing.module";
 import { DeleteUserComponent } from "./components/delete-user/delete-user.component";
 import { SupervisorActivityComponent } from "./components/supervisor-activity/supervisor-activity.component";
+import { SupervisorBrevoComponent } from "./components/supervisor-brevo/supervisor-brevo.component";
 import { SupervisorDetailContainerComponent } from "./components/supervisor-detail-container/supervisor-detail-container.component";
 import { SupervisorInfoComponent } from "./components/supervisor-info/supervisor-info.component";
+import { SupervisorSecurityLogsComponent } from "./components/supervisor-security-logs/supervisor-security-logs.component";
 import { SupervisorSessionsComponent } from "./components/supervisor-sessions/supervisor-sessions.component";
 import { FullNamePipe, SortArrayPipe } from "../shared/pipes";
 import {
@@ -46,6 +48,8 @@ import { DsfrModalModule } from "@edugouvfr/ngx-dsfr";
     SupervisorDetailContainerComponent,
     SupervisorInfoComponent,
     SupervisorActivityComponent,
+    SupervisorSecurityLogsComponent,
+    SupervisorBrevoComponent,
     SupervisorSessionsComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],

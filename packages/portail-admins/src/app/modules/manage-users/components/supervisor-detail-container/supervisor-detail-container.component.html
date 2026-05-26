@@ -93,7 +93,33 @@
               #activityRla="routerLinkActive"
               [attr.aria-selected]="activityRla.isActive"
             >
-              Activité récente
+              Journal d'action
+            </a>
+          </li>
+          <li role="presentation">
+            <a
+              type="button"
+              class="fr-tabs__tab"
+              role="link"
+              [routerLink]="['/manage-users', supervisor.uuid, 'security-logs']"
+              routerLinkActive
+              #securityRla="routerLinkActive"
+              [attr.aria-selected]="securityRla.isActive"
+            >
+              Logs de sécurité
+            </a>
+          </li>
+          <li role="presentation">
+            <a
+              type="button"
+              class="fr-tabs__tab"
+              role="link"
+              [routerLink]="['/manage-users', supervisor.uuid, 'brevo']"
+              routerLinkActive
+              #brevoRla="routerLinkActive"
+              [attr.aria-selected]="brevoRla.isActive"
+            >
+              Suivi mail
             </a>
           </li>
           <li role="presentation">
