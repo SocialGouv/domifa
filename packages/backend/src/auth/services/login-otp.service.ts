@@ -6,6 +6,7 @@ import {
   STRUCTURE_TRUST_JWT_SUBJECT,
   StructureTrustJwtPayload,
 } from "../../_common/model";
+import { domifaConfig } from "../../config";
 import { computeOtpFingerprint } from "../../modules/otp/otp-fingerprint.helper";
 import { OtpService } from "../../modules/otp/services/otp.service";
 import { OtpRequestContext } from "../../modules/otp/otp.types";
@@ -55,6 +56,22 @@ export class LoginOtpService {
   }): Promise<LoginOtpResult> {
     const { user, trustToken, otpCode, forceResend } = params;
     const emailLog = redactEmail(user.email);
+
+    // Domain-level bypass: when the org's mail filter quarantines our OTP
+    // emails, the second factor is unusable. Operators opt-in via
+    // DOMIFA_LOGIN_OTP_BYPASS_DOMAINS — listed domains get a free pass and
+    // authenticate by password only. Treat the verdict as `otp_validated`
+    // so the controller still rotates the session like a normal login.
+    const bypassDomains = domifaConfig().security.loginOtpBypassDomains;
+    if (bypassDomains.length > 0) {
+      const emailDomain = user.email.split("@")[1]?.toLowerCase();
+      if (emailDomain && bypassDomains.includes(emailDomain)) {
+        this.logger.warn(
+          `login OTP bypassed for ${emailLog} (domain "${emailDomain}" in DOMIFA_LOGIN_OTP_BYPASS_DOMAINS)`
+        );
+        return { kind: "otp_validated" };
+      }
+    }
 
     // Resend flow short-circuits trust and code paths: the user is on the
     // OTP modal asking for a fresh email, not trying to authenticate. Skip

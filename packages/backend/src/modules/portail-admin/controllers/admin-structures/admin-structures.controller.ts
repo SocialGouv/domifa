@@ -37,9 +37,11 @@ import {
   Structure,
   StructureAdmin,
   StructureDecisionStatut,
+  StructureSessionRecord,
   UserStructure,
 } from "@domifa/common";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
+import { AppLogSecurityService } from "../../../app-logs/app-log-security.service";
 import { buildSupervisorActorFields } from "../../../app-logs/app-logs.helpers";
 import {
   DeleteStructureDto,
@@ -66,6 +68,7 @@ export class AdminStructuresController {
   constructor(
     private readonly adminStructuresService: AdminStructuresService,
     private readonly appLogsService: AppLogsService,
+    private readonly appLogSecurityService: AppLogSecurityService,
     private readonly structureDecisionService: StructureDecisionService,
     private readonly structureDecisionEmailService: StructureDecisionEmailService
   ) {}
@@ -138,6 +141,48 @@ export class AdminStructuresController {
       page: pageOptions.page,
       take: pageOptions.take,
     });
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({ summary: "Logs de sécurité d'une structure" })
+  @Get(":structureUuid/security-logs")
+  public async getStructureSecurityLogs(
+    @CurrentSupervisor() _user: UserAdminAuthenticated,
+    @Param("structureUuid", new ParseUUIDPipe()) structureUuid: string,
+    @Query() pageOptions: PageOptionsDto
+  ) {
+    const structure = await structureRepository.findOne({
+      where: { uuid: structureUuid },
+      select: { id: true },
+    });
+    if (!structure) {
+      throw new NotFoundException("STRUCTURE_NOT_FOUND");
+    }
+    return this.appLogSecurityService.findStructureSecurityLogs({
+      structureId: structure.id,
+      page: pageOptions.page,
+      take: pageOptions.take,
+    });
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary:
+      "Dernières sessions des utilisateurs d'une structure (active + historique)",
+  })
+  @Get(":structureUuid/sessions")
+  public async getStructureSessions(
+    @CurrentSupervisor() _user: UserAdminAuthenticated,
+    @Param("structureUuid", new ParseUUIDPipe()) structureUuid: string
+  ): Promise<StructureSessionRecord[]> {
+    const structure = await structureRepository.findOne({
+      where: { uuid: structureUuid },
+      select: { id: true },
+    });
+    if (!structure) {
+      throw new NotFoundException("STRUCTURE_NOT_FOUND");
+    }
+    return this.adminStructuresService.getStructureSessions(structure.id, 100);
   }
 
   @Get("structure/:structureUuid/users")
@@ -281,16 +326,22 @@ export class AdminStructuresController {
       structure.id
     );
 
-    await this.appLogsService.create({
-      // SUBJECT = target structure user; ACTOR = admin (userSupervisorId).
-      userId,
-      userType: "user_structure",
-      userSupervisorId: user.id,
-      structureId: structure.id,
-      role: user.role,
-      action: "UNBLOCK_USER",
-      context: { motif: unblockDto.motif },
-    });
+    try {
+      await this.appLogSecurityService.create({
+        // SUBJECT = target structure user.
+        userStructureId: userId,
+        userType: "user_structure",
+        structureId: structure.id,
+        action: "UNBLOCK_USER",
+        context: {
+          motif: unblockDto.motif,
+          actorSupervisorId: user.id,
+          actorRole: user.role,
+        },
+      });
+    } catch {
+      // Best-effort audit: the unblock has already committed above.
+    }
 
     return res.status(HttpStatus.OK).json({ status: "ACTIVE" });
   }
@@ -308,19 +359,28 @@ export class AdminStructuresController {
       structure.id
     );
 
-    await this.appLogsService.create<BlockUserByAdminLogContext>({
-      // SUBJECT = target structure user; ACTOR = admin (userSupervisorId).
-      userId: previous.userId,
-      userType: "user_structure",
-      userSupervisorId: user.id,
-      structureId: structure.id,
-      role: user.role,
-      action: "BLOCK_USER_BY_ADMIN",
-      context: {
-        previousStatus: previous.previousStatus,
-        previousRole: previous.previousRole,
-      },
-    });
+    try {
+      await this.appLogSecurityService.create<
+        BlockUserByAdminLogContext & {
+          actorSupervisorId: number;
+          actorRole: string;
+        }
+      >({
+        // SUBJECT = target structure user.
+        userStructureId: previous.userId,
+        userType: "user_structure",
+        structureId: structure.id,
+        action: "BLOCK_USER_BY_ADMIN",
+        context: {
+          previousStatus: previous.previousStatus,
+          previousRole: previous.previousRole,
+          actorSupervisorId: user.id,
+          actorRole: user.role,
+        },
+      });
+    } catch {
+      // Best-effort audit: the block has already committed above.
+    }
 
     return res.status(HttpStatus.OK).json({ status: "BLOCKED" });
   }

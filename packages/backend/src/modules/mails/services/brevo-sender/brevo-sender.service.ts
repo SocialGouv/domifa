@@ -11,6 +11,9 @@ import {
 import { readFileSync } from "node:fs";
 import { basename } from "node:path";
 import {
+  BrevoContactStatus,
+  BrevoEmailEvent,
+  BrevoEmailEventType,
   DEPARTEMENTS_LISTE,
   REGIONS_LISTE,
   Structure,
@@ -335,6 +338,112 @@ export class BrevoSenderService {
 
     appLogger.info(
       `Email d'activation envoyé avec succès à ${user.email} (userId: ${userId}, userProfile: ${userProfile})`
+    );
+  }
+
+  async getEmailEventsForEmail({
+    email,
+    limit,
+    offset,
+    event,
+    days,
+  }: {
+    email: string;
+    limit?: number;
+    offset?: number;
+    event?: BrevoEmailEventType;
+    days?: number;
+  }): Promise<BrevoEmailEvent[]> {
+    const config = domifaConfig();
+
+    if (!config.email.emailsEnabled || config.envId === "test") {
+      appLogger.info(
+        `[EMAILS DISABLED] Lecture des événements Brevo non effectuée pour ${email}`
+      );
+      return [];
+    }
+
+    try {
+      const { body } = await this.transactionalEmailsApi.getEmailEventReport(
+        limit,
+        offset,
+        undefined,
+        undefined,
+        days,
+        email,
+        event,
+        undefined,
+        undefined,
+        undefined,
+        "desc"
+      );
+      return (body.events ?? []) as unknown as BrevoEmailEvent[];
+    } catch (error) {
+      appLogger.warn(
+        `Erreur lors de la récupération des événements Brevo pour ${email}`,
+        error
+      );
+      throw error;
+    }
+  }
+
+  async getContactStatus({
+    email,
+  }: {
+    email: string;
+  }): Promise<BrevoContactStatus> {
+    const config = domifaConfig();
+
+    if (!config.email.emailsEnabled || config.envId === "test") {
+      appLogger.info(
+        `[EMAILS DISABLED] Lecture du statut Brevo non effectuée pour ${email}`
+      );
+      return { existsInBrevo: false, emailBlacklisted: false };
+    }
+
+    try {
+      const { body } = await this.contactsApi.getContactInfo(email);
+      return {
+        existsInBrevo: true,
+        emailBlacklisted: Boolean(body.emailBlacklisted),
+        smsBlacklisted: Boolean(body.smsBlacklisted),
+        listIds: body.listIds,
+        createdAt: body.createdAt,
+        modifiedAt: body.modifiedAt,
+      };
+    } catch (error: any) {
+      // Brevo returns 404 when the contact does not exist — that's an expected
+      // outcome, not an error to surface.
+      const status =
+        error?.response?.statusCode ?? error?.response?.status ?? error?.status;
+      if (status === 404) {
+        return { existsInBrevo: false, emailBlacklisted: false };
+      }
+      appLogger.warn(
+        `Erreur lors de la lecture du statut Brevo pour ${email}`,
+        error
+      );
+      throw error;
+    }
+  }
+
+  async removeFromTransactionalBlocklist({
+    email,
+  }: {
+    email: string;
+  }): Promise<void> {
+    const config = domifaConfig();
+
+    if (!config.email.emailsEnabled || config.envId === "test") {
+      appLogger.info(
+        `[EMAILS DISABLED] Déblocage Brevo non effectué pour ${email}`
+      );
+      return;
+    }
+
+    await this.transactionalEmailsApi.smtpBlockedContactsEmailDelete(email);
+    appLogger.info(
+      `Contact Brevo retiré de la blocklist transactionnelle: ${email}`
     );
   }
 

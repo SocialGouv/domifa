@@ -1,4 +1,4 @@
-\restrict AxeeIO9Hgan6t5oD5vA0JeiBNprsoagAqAshlwUVpce8sMYIEiIrHXe9OTkfa5a
+\restrict bTmVwuGz6x0kjxSGiHo2ykNTOuZOZoO4o0vbuVrOqMWZfaSLMWeTwo25JGxqmqP
 CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 CREATE TABLE public.app_log (
@@ -17,6 +17,22 @@ CREATE TABLE public.app_log (
     "userSupervisorId" integer,
     "userType" text,
     "usagerUuid" uuid
+);
+CREATE TABLE public.app_log_security (
+    uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
+    "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
+    version integer NOT NULL,
+    "userStructureId" integer,
+    "userSupervisorId" integer,
+    "userType" text,
+    "structureId" integer,
+    action text NOT NULL,
+    context json,
+    role text,
+    "createdBy" text,
+    ip text,
+    "userAgent" text
 );
 CREATE TABLE public.contact_support (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
@@ -610,6 +626,8 @@ ALTER TABLE ONLY public.usager_docs
     ADD CONSTRAINT "PK_e7bb21f7a22254259ca123c5caa" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.monitor_batch_process
     ADD CONSTRAINT "PK_f00131d757d1ddf39e70901e372" PRIMARY KEY (uuid);
+ALTER TABLE ONLY public.app_log_security
+    ADD CONSTRAINT "PK_f023f98c94291671126bdb9f3ab" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.open_data_cities
     ADD CONSTRAINT "PK_f20d1eb20573a7f2922c8a5f9a8" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.otp
@@ -691,7 +709,11 @@ CREATE INDEX "IDX_9beb1346c63a45ba7c15db9ee7" ON public.usager_history_states US
 CREATE INDEX "IDX_9cf79ee5a07df3bb533048b302" ON public.app_log USING btree ("userType");
 CREATE INDEX "IDX_a44d882d224e368efdee8eb8c8" ON public.usager USING btree ("structureId");
 CREATE INDEX "IDX_a52dec7d55b4a81a0af0136148" ON public.user_structure USING btree ("structureId");
+CREATE INDEX "IDX_a57270a45922d90069d3780bed" ON public.otp USING btree ("fingerprintHash");
 CREATE INDEX "IDX_aa19c17fc79f4e4a648643096f" ON public.usager_entretien USING btree ("usagerUUID");
+CREATE INDEX "IDX_app_log_security_action_createdAt" ON public.app_log_security USING btree (action, "createdAt");
+CREATE INDEX "IDX_app_log_security_ip" ON public.app_log_security USING btree (ip);
+CREATE INDEX "IDX_app_log_security_userType" ON public.app_log_security USING btree ("userType");
 CREATE INDEX "IDX_b1db67565e53acec53d5f3aa92" ON public.usager_docs USING btree ("structureId");
 CREATE INDEX "IDX_b1dfa7ef1934657b38072e749e" ON public.structure_doc USING btree (id);
 CREATE INDEX "IDX_b2ad525cbadf911e833bf61597" ON public.open_data_places USING btree ("cityCode");
@@ -714,7 +736,6 @@ CREATE INDEX "IDX_ef9fade8e5a6dac06ef5031986" ON public.interactions USING btree
 CREATE INDEX "IDX_f072e2874bd87ecb6da2fbd66e" ON public.usager USING btree (nom_prenom_surnom_ref);
 CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON public.interactions USING btree ("usagerUUID");
 CREATE INDEX "IDX_fa4dea9a1ff8deb8fcf47c451e" ON public.structure USING btree (departement);
-CREATE INDEX "IDX_otp_fingerprintHash" ON public.otp USING btree ("fingerprintHash");
 CREATE INDEX idx_interactions_date ON public.interactions USING btree ("structureId", "usagerUUID", "dateInteraction");
 CREATE INDEX idx_interactions_type ON public.interactions USING btree ("structureId", "usagerUUID", type);
 CREATE INDEX idx_stats_range ON public.usager_history_states USING btree ("historyBeginDate", "historyEndDate", "isActive");
@@ -776,4 +797,4 @@ ALTER TABLE ONLY public.usager_notes
     ADD CONSTRAINT "FK_e8b75cd4ebe81d288a6ff7d4115" FOREIGN KEY ("structureId") REFERENCES public.structure(id) ON DELETE CASCADE;
 ALTER TABLE ONLY public.interactions
     ADD CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE;
-\unrestrict AxeeIO9Hgan6t5oD5vA0JeiBNprsoagAqAshlwUVpce8sMYIEiIrHXe9OTkfa5a
+\unrestrict bTmVwuGz6x0kjxSGiHo2ykNTOuZOZoO4o0vbuVrOqMWZfaSLMWeTwo25JGxqmqP

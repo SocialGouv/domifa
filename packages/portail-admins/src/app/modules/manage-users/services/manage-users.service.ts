@@ -1,6 +1,13 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { ApiMessage, PageResults, UserSupervisor } from "@domifa/common";
+import {
+  ApiMessage,
+  BrevoContactStatus,
+  BrevoEmailEvent,
+  BrevoEmailEventType,
+  PageResults,
+  UserSupervisor,
+} from "@domifa/common";
 import { BehaviorSubject, Observable, map } from "rxjs";
 
 import { environment } from "../../../../environments/environment";
@@ -72,6 +79,60 @@ export class ManageUsersService {
     return this.http.get<PageResults<UserActivityLog>>(
       `${this.endPoint}/supervisor/${userUuid}/logs`,
       { params }
+    );
+  }
+
+  public getSupervisorSecurityLogs(
+    userUuid: string,
+    page: number,
+    take: number
+  ): Observable<PageResults<UserActivityLog>> {
+    const params = new HttpParams()
+      .set("page", String(page))
+      .set("take", String(take));
+    return this.http.get<PageResults<UserActivityLog>>(
+      `${this.endPoint}/supervisor/${userUuid}/security-logs`,
+      { params }
+    );
+  }
+
+  public getSupervisorEmailEvents(
+    userUuid: string,
+    options: {
+      limit: number;
+      offset: number;
+      event?: BrevoEmailEventType;
+      days?: number;
+    }
+  ): Observable<BrevoEmailEvent[]> {
+    let params = new HttpParams()
+      .set("limit", String(options.limit))
+      .set("offset", String(options.offset));
+    if (options.event) {
+      params = params.set("event", options.event);
+    }
+    if (options.days) {
+      params = params.set("days", String(options.days));
+    }
+    return this.http.get<BrevoEmailEvent[]>(
+      `${this.endPoint}/supervisor/${userUuid}/email-events`,
+      { params }
+    );
+  }
+
+  public getSupervisorBrevoStatus(
+    userUuid: string
+  ): Observable<BrevoContactStatus> {
+    return this.http.get<BrevoContactStatus>(
+      `${this.endPoint}/supervisor/${userUuid}/brevo/status`
+    );
+  }
+
+  public unblockSupervisorBrevoContact(
+    userUuid: string
+  ): Observable<ApiMessage> {
+    return this.http.delete<ApiMessage>(
+      `${this.endPoint}/supervisor/${userUuid}/brevo/blocklist`
     );
   }
 

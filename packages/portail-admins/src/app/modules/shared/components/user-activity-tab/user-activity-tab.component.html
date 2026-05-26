@@ -48,6 +48,17 @@
                   <td class="fr-text--bold">{{ actionLabel(log.action) }}</td>
                   <td>{{ log.role ?? "-" }}</td>
                   <td class="fr-text--xs">
+                    <p *ngIf="log.ip" class="fr-m-0 fr-mb-1w">
+                      <span class="fr-text--bold">IP&nbsp;:</span> {{ log.ip }}
+                    </p>
+                    <p
+                      *ngIf="log.userAgent"
+                      class="fr-m-0 fr-mb-1w"
+                      style="word-break: break-word"
+                    >
+                      <span class="fr-text--bold">User-Agent&nbsp;:</span>
+                      {{ log.userAgent }}
+                    </p>
                     <ng-container *ngIf="log.context; else noContext">
                       <p
                         *ngIf="contextHuman(log.action, log.context) as human"
@@ -66,7 +77,11 @@
                         >
                       </details>
                     </ng-container>
-                    <ng-template #noContext>-</ng-template>
+                    <ng-template #noContext>
+                      <ng-container *ngIf="!log.ip && !log.userAgent"
+                        >-</ng-container
+                      >
+                    </ng-template>
                   </td>
                 </tr>
               </tbody>

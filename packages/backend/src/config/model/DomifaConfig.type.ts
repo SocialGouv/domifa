@@ -13,6 +13,10 @@ export type DomifaConfigSecurity = {
   // Never sent to clients. Without it the service refuses to issue OTPs —
   // we never want to fall back to storing plaintext or unkeyed hashes.
   otpSecret: string; // DOMIFA_OTP_SECRET
+  // Lower-cased domains exempt from the structure login OTP. Set when the
+  // org filters our OTP emails. Bypasses the second factor entirely for the
+  // listed domains — manage carefully.
+  loginOtpBypassDomains: string[]; // DOMIFA_LOGIN_OTP_BYPASS_DOMAINS
 };
 
 export type DomifaConfig = {

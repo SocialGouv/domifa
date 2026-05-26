@@ -10,8 +10,8 @@ import { ThrottlerGuard, ThrottlerLimitDetail } from "@nestjs/throttler";
 import { createHash } from "node:crypto";
 import { Request } from "express";
 import {
-  appLogsRepository,
-  AppLogTable,
+  appLogSecurityRepository,
+  AppLogSecurityTable,
   userStructureRepository,
   userSupervisorRepository,
 } from "../../../database";
@@ -170,25 +170,34 @@ export class AppThrottlerGuard extends ThrottlerGuard {
     const existingLogUuid = this.activeBlocks.get(throttlerLimitDetail.key);
 
     if (existingLogUuid) {
-      await appLogsRepository
-        .update(existingLogUuid, { context: logContext as any })
-        .catch(() => undefined);
+      try {
+        await appLogSecurityRepository.update(existingLogUuid, {
+          context: logContext as any,
+        });
+      } catch {
+        // Logging is best-effort: never block the 429 response.
+      }
     } else {
-      const log = new AppLogTable({
+      const log = new AppLogSecurityTable({
         ...ANONYMOUS_ACTOR_FIELDS,
         action: "THROTTLE_BLOCKED",
+        ip: logContext.ip,
+        userAgent: logContext.userAgent,
         context: logContext,
       });
 
-      const saved = await appLogsRepository.save(log).catch(() => undefined);
+      try {
+        const saved = await appLogSecurityRepository.save(log);
+        if (saved?.uuid) {
+          this.activeBlocks.set(throttlerLimitDetail.key, saved.uuid);
 
-      if (saved?.uuid) {
-        this.activeBlocks.set(throttlerLimitDetail.key, saved.uuid);
-
-        const timeout = setTimeout(() => {
-          this.activeBlocks.delete(throttlerLimitDetail.key);
-        }, throttlerLimitDetail.ttl);
-        timeout.unref();
+          const timeout = setTimeout(() => {
+            this.activeBlocks.delete(throttlerLimitDetail.key);
+          }, throttlerLimitDetail.ttl);
+          timeout.unref();
+        }
+      } catch {
+        // Logging is best-effort: never block the 429 response.
       }
     }
 
@@ -293,15 +302,20 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       .markUserAsBlocked({ userProfile, userId })
       .catch(() => undefined);
 
-    await appLogsRepository
-      .save(
-        new AppLogTable({
-          // SUBJECT of the log = the target user being blocked. Keeps
-          // findUserLogs({ userId, userType }) simple — no JSONB lookup.
-          userId,
-          userType: userTypeFromProfile(userProfile),
+    const userType = userTypeFromProfile(userProfile);
+    const throttleCtx = (context["throttle"] ??
+      {}) as ThrottleBlockedLogContext;
+    try {
+      await appLogSecurityRepository.save(
+        new AppLogSecurityTable({
+          // SUBJECT of the log = the target user being blocked.
+          userStructureId: userType === "user_structure" ? userId : undefined,
+          userSupervisorId: userType === "user_supervisor" ? userId : undefined,
+          userType,
           structureId: blockedUserExtra?.structureId,
           action: "BLOCK_USER",
+          ip: throttleCtx.ip,
+          userAgent: throttleCtx.userAgent,
           context: {
             autoBlocked: true,
             triggeredBy: "AppThrottlerGuard",
@@ -310,8 +324,10 @@ export class AppThrottlerGuard extends ThrottlerGuard {
             ...context,
           },
         })
-      )
-      .catch(() => undefined);
+      );
+    } catch {
+      // Best-effort: the user is already marked BLOCKED in the DB above.
+    }
 
     this.logger.warn(
       `[AUTO_BLOCK] ${userProfile} user ${userId} blocked (reason=${reason})`
@@ -385,9 +401,9 @@ export class AppThrottlerGuard extends ThrottlerGuard {
     if (existingLogUuid) {
       // Atomic increment of the attempts counter alongside the context refresh.
       // context is stored as json (not jsonb), so cast both ways.
-      await appLogsRepository
-        .query(
-          `UPDATE app_log
+      try {
+        await appLogSecurityRepository.query(
+          `UPDATE app_log_security
            SET context = jsonb_set(
              $2::jsonb,
              '{attempts}',
@@ -395,24 +411,31 @@ export class AppThrottlerGuard extends ThrottlerGuard {
            )::json
            WHERE uuid = $1`,
           [existingLogUuid, JSON.stringify(baseContext)]
-        )
-        .catch(() => undefined);
+        );
+      } catch {
+        // Best-effort logging — never block the 4xx response on log persistence.
+      }
     } else {
-      const log = new AppLogTable({
+      const log = new AppLogSecurityTable({
         ...ANONYMOUS_ACTOR_FIELDS,
         action: "REQUEST_BLOCKED",
+        ip: baseContext.ip,
+        userAgent: baseContext.userAgent,
         context: { ...baseContext, attempts: 1 },
       });
 
-      const saved = await appLogsRepository.save(log).catch(() => undefined);
+      try {
+        const saved = await appLogSecurityRepository.save(log);
+        if (saved?.uuid) {
+          this.activeBlocks.set(dedupKey, saved.uuid);
 
-      if (saved?.uuid) {
-        this.activeBlocks.set(dedupKey, saved.uuid);
-
-        const timeout = setTimeout(() => {
-          this.activeBlocks.delete(dedupKey);
-        }, REQUEST_BLOCK_DEDUP_TTL_MS);
-        timeout.unref();
+          const timeout = setTimeout(() => {
+            this.activeBlocks.delete(dedupKey);
+          }, REQUEST_BLOCK_DEDUP_TTL_MS);
+          timeout.unref();
+        }
+      } catch {
+        // Best-effort logging — never block the 4xx response on log persistence.
       }
     }
 

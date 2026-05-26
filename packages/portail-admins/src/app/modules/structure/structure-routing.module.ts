@@ -5,6 +5,8 @@ import { StructureStatsComponent } from "./components/structure-stats/structure-
 import { UsersComponent } from "./components/users/users.component";
 import { StructureInfoComponent } from "./components/structure-info/structure-info.component";
 import { StructureActivityComponent } from "./components/structure-activity/structure-activity.component";
+import { StructureSecurityLogsComponent } from "./components/structure-security-logs/structure-security-logs.component";
+import { StructureSessionsComponent } from "./components/structure-sessions/structure-sessions.component";
 
 const routes: Routes = [
   {
@@ -15,6 +17,8 @@ const routes: Routes = [
       { path: "users", component: UsersComponent },
       { path: "stats", component: StructureStatsComponent },
       { path: "activity", component: StructureActivityComponent },
+      { path: "security-logs", component: StructureSecurityLogsComponent },
+      { path: "sessions", component: StructureSessionsComponent },
     ],
   },
 ];

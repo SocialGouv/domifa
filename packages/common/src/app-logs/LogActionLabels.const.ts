@@ -70,6 +70,7 @@ export const LOG_ACTION_LABELS: Record<LogAction, string> = {
   BLOCK_USER: "Blocage automatique d'un utilisateur",
   BLOCK_USER_BY_ADMIN: "Blocage manuel d'un utilisateur",
   ACCESS_DENIED_NON_ACTIVE: "Accès refusé (compte non actif)",
+  UNBLOCK_BREVO_CONTACT: "Déblocage du contact Brevo",
 };
 
 export function getLogActionLabel(action: string): string {

@@ -10,6 +10,8 @@ import { StructureInfoComponent } from "./components/structure-info/structure-in
 import { FormatInternationalPhoneNumberPipe } from "../../shared/utils/formatInternationalPhoneNumber.pipe";
 import { StructureStatsComponent } from "./components/structure-stats/structure-stats.component";
 import { StructureActivityComponent } from "./components/structure-activity/structure-activity.component";
+import { StructureSecurityLogsComponent } from "./components/structure-security-logs/structure-security-logs.component";
+import { StructureSessionsComponent } from "./components/structure-sessions/structure-sessions.component";
 import { FormsModule } from "@angular/forms";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { StructureRoutingModule } from "./structure-routing.module";
@@ -47,6 +49,8 @@ import { StructureFormRefuseComponent } from "../admin-structures/components/str
     StructureInfoComponent,
     StructureStatsComponent,
     StructureActivityComponent,
+    StructureSecurityLogsComponent,
+    StructureSessionsComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

@@ -10,10 +10,15 @@ import {
 
 import {
   StructureAdmin,
+  StructureSessionRecord,
   UserStatus,
   UserStructureRole,
   UsersForAdminList,
 } from "@domifa/common";
+import {
+  CurrentUserSession,
+  HistoricalUserSession,
+} from "../../../_common/model";
 import {
   logUserSecurityEvent,
   userSecurityEventHistoryManager,
@@ -132,5 +137,78 @@ export class AdminStructuresService {
           (user.eventsHistory ?? []) as UserSecurityEvent[]
         ) ?? null,
     }));
+  }
+
+  public async getStructureSessions(
+    structureId: number,
+    limit: number
+  ): Promise<StructureSessionRecord[]> {
+    // Flatten currentSession + sessionsHistory across every user of the
+    // structure. The jsonb columns are unbounded but a typical structure has
+    // <20 users with <SESSION_PURGE_AFTER_DAYS history entries each, so the
+    // in-memory sort + slice stays cheap. Keep `limit` enforced to bound the
+    // payload regardless.
+    type Row = {
+      id: number;
+      nom: string;
+      prenom: string;
+      email: string;
+      currentSession: CurrentUserSession | null;
+      sessionsHistory: HistoricalUserSession[] | null;
+    };
+
+    const rows = await userStructureRepository
+      .createQueryBuilder("user_structure")
+      .leftJoin(
+        "user_structure_security",
+        "uss",
+        `uss."userId" = user_structure.id`
+      )
+      .select([
+        "user_structure.id AS id",
+        "user_structure.nom AS nom",
+        "user_structure.prenom AS prenom",
+        "user_structure.email AS email",
+        `uss."currentSession" AS "currentSession"`,
+        `uss."sessionsHistory" AS "sessionsHistory"`,
+      ])
+      .where(`user_structure."structureId" = :structureId`, { structureId })
+      .getRawMany<Row>();
+
+    const sessions: StructureSessionRecord[] = [];
+    for (const row of rows) {
+      const fullName = `${row.prenom ?? ""} ${row.nom ?? ""}`.trim();
+      if (row.currentSession) {
+        sessions.push({
+          uuid: row.currentSession.uuid,
+          ipAddress: row.currentSession.ipAddress,
+          userAgent: row.currentSession.userAgent,
+          createdAt: row.currentSession.createdAt,
+          expiresAt: row.currentSession.expiresAt,
+          status: "active",
+          userId: row.id,
+          userFullName: fullName,
+          userEmail: row.email,
+        });
+      }
+      for (const past of row.sessionsHistory ?? []) {
+        sessions.push({
+          uuid: past.uuid,
+          ipAddress: past.ipAddress,
+          userAgent: past.userAgent,
+          createdAt: past.createdAt,
+          expiresAt: past.expiresAt,
+          closedAt: past.closedAt,
+          closedReason: past.closedReason,
+          status: "closed",
+          userId: row.id,
+          userFullName: fullName,
+          userEmail: row.email,
+        });
+      }
+    }
+
+    sessions.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+    return sessions.slice(0, limit);
   }
 }

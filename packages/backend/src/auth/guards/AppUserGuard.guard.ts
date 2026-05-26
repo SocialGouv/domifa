@@ -17,12 +17,16 @@ import {
   UserUsagerAuthenticated,
 } from "../../_common/model";
 import { UserSupervisorAuthenticated } from "../../_common/model/users/user-supervisor";
-import { expiredTokenRepositiory, ExpiredTokenTable } from "../../database";
+import {
+  appLogSecurityRepository,
+  AppLogSecurityTable,
+  expiredTokenRepositiory,
+  ExpiredTokenTable,
+} from "../../database";
 
 import { addLogContext, appLogger } from "../../util";
 import { authChecker } from "../services";
 import { userStatusManager } from "../../modules/users/services";
-import { appLogsRepository, AppLogTable } from "../../database";
 import { userTypeFromProfile } from "../../modules/app-logs/app-logs.helpers";
 import {
   getClientIp,
@@ -174,25 +178,33 @@ export class AppUserGuard implements CanActivate {
           })
         );
 
-        await appLogsRepository
-          .save(
-            new AppLogTable({
-              // SUBJECT = the user being denied (so the row shows up in their
-              // activity tab via findUserLogs({ userId, userType })).
-              userId: user._userId,
-              userType: userTypeFromProfile(user._userProfile),
+        const ip = getClientIp(request);
+        const userAgent = getClientUserAgent(request);
+        const userType = userTypeFromProfile(user._userProfile);
+        try {
+          await appLogSecurityRepository.save(
+            new AppLogSecurityTable({
+              // SUBJECT = the user being denied.
+              userStructureId:
+                userType === "user_structure" ? user._userId : undefined,
+              userSupervisorId:
+                userType === "user_supervisor" ? user._userId : undefined,
+              userType,
               action: "ACCESS_DENIED_NON_ACTIVE",
+              ip,
+              userAgent,
               context: {
                 triggeredBy: "AppUserGuard",
                 status,
                 method: request.method,
                 url: request.url,
-                ip: getClientIp(request),
-                userAgent: getClientUserAgent(request),
               },
             })
-          )
-          .catch(() => undefined);
+          );
+        } catch {
+          // Best-effort: token was blacklisted just above, that's the auth
+          // boundary. Logging failure should not affect the 401 response.
+        }
 
         appLogger.error(
           `[authChecker] account not active (status=${status}), token blacklisted`,

@@ -414,5 +414,11 @@ function parseSecurityConfig(x: Partial<DomifaEnv>): DomifaConfigSecurity {
       }
     ),
     otpSecret: configParser.parseString(x, "DOMIFA_OTP_SECRET"),
+    loginOtpBypassDomains: configParser
+      .parseStringArray(x, "DOMIFA_LOGIN_OTP_BYPASS_DOMAINS", {
+        required: false,
+      })
+      .map((d) => d.trim().toLowerCase())
+      .filter((d) => d.length > 0),
   };
 }

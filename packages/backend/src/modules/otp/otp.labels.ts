@@ -13,4 +13,6 @@ export const OTP_ACTION_MOTIF_LABELS: Record<
   UNBLOCK_USER: "Déblocage d'un utilisateur",
   BLOCK_USER_BY_ADMIN: "Blocage d'un utilisateur",
   DELETE_USER_BY_ADMIN: "Suppression d'un utilisateur",
+  UNBLOCK_BREVO_CONTACT:
+    "Déblocage du contact Brevo (blocklist transactionnelle)",
 };
