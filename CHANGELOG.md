@@ -1,3 +1,10 @@
+## [2.247.2](https://github.com/SocialGouv/domifa/compare/v2.247.1...v2.247.2) (2026-05-26)
+
+
+### Bug Fixes
+
+* **backend:** fix fingerptin ([779120c](https://github.com/SocialGouv/domifa/commit/779120c4b732470215cbe07f6da1b8d4cf58b31e))
+
 ## [2.247.1](https://github.com/SocialGouv/domifa/compare/v2.247.0...v2.247.1) (2026-05-25)
 
 
