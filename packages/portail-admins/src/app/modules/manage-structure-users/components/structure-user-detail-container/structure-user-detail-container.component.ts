@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { CommonModule, Location } from "@angular/common";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { Title } from "@angular/platform-browser";
@@ -37,8 +37,21 @@ export class StructureUserDetailContainerComponent
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private readonly store: Store,
-    private readonly titleService: Title
+    private readonly titleService: Title,
+    private readonly location: Location
   ) {}
+
+  public goBack(): void {
+    // history.length is 1 when the user landed directly on this page (deep
+    // link / hard refresh): there is nothing to go back to, so fall back to
+    // the list URL. Otherwise location.back() preserves whatever query
+    // string the list page carried (search / page / sort).
+    if (window.history.length > 1) {
+      this.location.back();
+    } else {
+      this.router.navigate(["/manage-structure-users"]);
+    }
+  }
 
   public ngOnInit(): void {
     const uuid = this.activatedRoute.snapshot.params["uuid"];

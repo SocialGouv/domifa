@@ -409,7 +409,7 @@ describe("generateOtpEmailHtml", () => {
     const html = generateOtpEmailHtml({ code: "246890" });
     expect(html).toContain("246890");
     expect(html).toContain("Votre code de connexion");
-    expect(html).toContain("10 minutes");
+    expect(html).toContain("30 minutes");
   });
 
   it("should use generic greeting", () => {

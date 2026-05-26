@@ -44,13 +44,16 @@ export class LoginOtpService {
   // (OTP_REQUIRED / OTP_INVALID / OTP_BLOCKED).
   async evaluate(params: {
     user: LoginUserPrincipal;
-    ip: string;
-    userAgent: string;
+    // `ip` / `userAgent` are accepted for backwards-compat with the
+    // controller signature but no longer consumed here — the trust-token
+    // check is now a pure opaque-token compare and doesn't need them.
+    ip?: string;
+    userAgent?: string;
     trustToken?: string;
     otpCode?: string;
     forceResend?: boolean;
   }): Promise<LoginOtpResult> {
-    const { user, ip, userAgent, trustToken, otpCode, forceResend } = params;
+    const { user, trustToken, otpCode, forceResend } = params;
     const emailLog = redactEmail(user.email);
 
     // Resend flow short-circuits trust and code paths: the user is on the
@@ -67,8 +70,6 @@ export class LoginOtpService {
     if (trustToken) {
       const trusted = await this.tryTrustToken({
         user,
-        ip,
-        userAgent,
         trustToken,
       });
       if (trusted) {
@@ -112,11 +113,9 @@ export class LoginOtpService {
 
   private async tryTrustToken(params: {
     user: LoginUserPrincipal;
-    ip: string;
-    userAgent: string;
     trustToken: string;
   }): Promise<CurrentUserSession | null> {
-    const { user, ip, userAgent, trustToken } = params;
+    const { user, trustToken } = params;
 
     let payload: StructureTrustJwtPayload;
     try {
@@ -148,19 +147,12 @@ export class LoginOtpService {
       return null;
     }
     if (session.fingerprintHash !== payload.fingerprintHash) {
-      // Defense in depth: session record was tampered with or out of sync.
-      return null;
-    }
-
-    const expectedFingerprint =
-      this.sessionFingerprintService.computeFingerprint(
-        user.uuid,
-        ip,
-        userAgent,
-        payload.salt
-      );
-    if (expectedFingerprint !== payload.fingerprintHash) {
-      // IP/UA changed → device is no longer "this device". Fall back to OTP.
+      // Fingerprint is treated as an opaque token: the trust JWT carries the
+      // value minted at session creation, and we compare it verbatim against
+      // the active session row. A mismatch means the session was rotated or
+      // revoked since the trust token was issued → fall back to OTP. We no
+      // longer recompute the hash from current IP/UA: a device-relocation
+      // (mobile data ↔ wifi, browser update) should not break the trust.
       return null;
     }
 

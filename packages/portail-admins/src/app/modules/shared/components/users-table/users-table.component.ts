@@ -5,6 +5,7 @@ import {
   ContentChild,
   Input,
   OnChanges,
+  OnInit,
   SimpleChanges,
   TemplateRef,
 } from "@angular/core";
@@ -31,6 +32,15 @@ import {
 } from "./users-table.types";
 
 const DEFAULT_PAGE_SIZE = 25;
+const STORAGE_KEY_PREFIX = "users-table:state:";
+
+type StoredTableState = {
+  q?: string;
+  status?: UserStatus | "";
+  sortKey?: string;
+  sortValue?: SortValues;
+  page?: number;
+};
 
 @Component({
   selector: "app-users-table",
@@ -46,7 +56,7 @@ const DEFAULT_PAGE_SIZE = 25;
     FullNamePipe,
   ],
 })
-export class UsersTableComponent implements OnChanges {
+export class UsersTableComponent implements OnChanges, OnInit {
   @Input() public users: UsersTableRow[] = [];
   @Input() public tableId = "users-table";
   @Input() public caption = "Liste des utilisateurs";
@@ -86,6 +96,12 @@ export class UsersTableComponent implements OnChanges {
   public readonly USER_STATUS_LABELS = USER_STATUS_LABELS;
   public readonly USER_STATUS_BADGE_CLASS = USER_STATUS_BADGE_CLASS;
 
+  public ngOnInit(): void {
+    // Restore filters / pagination from the previous visit to this table on
+    // the same tab. Keyed by `tableId` so distinct tables stay independent.
+    this.restoreState();
+  }
+
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes["initialSortKey"] && this.initialSortKey) {
       this.currentKey = this.initialSortKey;
@@ -97,19 +113,23 @@ export class UsersTableComponent implements OnChanges {
 
   public onSearchChange(): void {
     this.refreshFilteredUsers({ resetPage: true });
+    this.persist();
   }
 
   public onStatusFilterChange(): void {
     this.refreshFilteredUsers({ resetPage: true });
+    this.persist();
   }
 
   public onSortChange(): void {
     this.refreshFilteredUsers({ resetPage: true });
+    this.persist();
   }
 
   public onPageSelect(page: number): void {
     this.currentPage = page;
     this.updateDisplayedUsers();
+    this.persist();
   }
 
   public userTrackBy(_index: number, user: UsersTableRow): string {
@@ -171,5 +191,68 @@ export class UsersTableComponent implements OnChanges {
       start,
       start + this.pageSize
     );
+  }
+
+  private get storageKey(): string {
+    return STORAGE_KEY_PREFIX + this.tableId;
+  }
+
+  private restoreState(): void {
+    const raw = window.sessionStorage.getItem(this.storageKey);
+    if (!raw) {
+      return;
+    }
+    let parsed: StoredTableState;
+    try {
+      parsed = JSON.parse(raw) as StoredTableState;
+    } catch {
+      // Stored value is corrupted (e.g. truncated by a quota error). Drop it
+      // and fall back to defaults rather than crashing.
+      window.sessionStorage.removeItem(this.storageKey);
+      return;
+    }
+    if (typeof parsed.q === "string") {
+      this.searchTerm = parsed.q;
+    }
+    if (
+      parsed.status === "" ||
+      parsed.status === "ACTIVE" ||
+      parsed.status === "PENDING" ||
+      parsed.status === "BLOCKED" ||
+      parsed.status === "TEMPORARILY_BLOCKED"
+    ) {
+      this.statusFilter = parsed.status;
+    }
+    if (typeof parsed.sortKey === "string") {
+      this.currentKey = parsed.sortKey as keyof UsersTableRow;
+    }
+    if (parsed.sortValue === "asc" || parsed.sortValue === "desc") {
+      this.sortValue = parsed.sortValue;
+    }
+    if (
+      typeof parsed.page === "number" &&
+      Number.isFinite(parsed.page) &&
+      parsed.page > 0
+    ) {
+      this.currentPage = parsed.page;
+    }
+    this.refreshFilteredUsers({ resetPage: false });
+  }
+
+  private persist(): void {
+    const state: StoredTableState = {
+      q: this.searchTerm,
+      status: this.statusFilter,
+      sortKey: this.currentKey,
+      sortValue: this.sortValue,
+      page: this.currentPage,
+    };
+    try {
+      window.sessionStorage.setItem(this.storageKey, JSON.stringify(state));
+    } catch {
+      // Storage full / disabled by privacy mode → silently skip. The table
+      // still works for the current session, the user just loses the
+      // restore-on-back behaviour.
+    }
   }
 }

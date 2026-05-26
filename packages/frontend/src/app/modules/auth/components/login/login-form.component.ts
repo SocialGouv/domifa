@@ -101,7 +101,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.loginError = true;
             this.matomo.trackEvent("CONNEXION", "LOGIN_FAILED", "ERROR", 0);
-            this.toastService.error("Email et ou mot de passe incorrect");
           },
         })
     );
