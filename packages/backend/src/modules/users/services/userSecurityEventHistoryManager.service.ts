@@ -35,7 +35,9 @@ async function assertOperationAllowed(args: {
 
 // Counts the failed-auth events on `app_log_security` over the lockout window
 // and returns the remaining minutes before the account is freed, or null when
-// no backoff is active.
+// no backoff is active. Any successful step (LOGIN_OK, LOGIN_SUCCESS,
+// RESET_PASSWORD_SUCCESS) clears the running counter — a user who's just
+// succeeded shouldn't be locked out by old failures.
 export async function getBackoffTime({
   userProfile,
   userId,
@@ -48,7 +50,7 @@ export async function getBackoffTime({
     userId,
     actions: FAILED_AUTH_ACTIONS,
     sinceMinutes: LOCKOUT_WINDOW_HOURS * 60,
-    resetByActions: ["RESET_PASSWORD_SUCCESS"],
+    resetByActions: ["RESET_PASSWORD_SUCCESS", "LOGIN_OK", "LOGIN_SUCCESS"],
   });
 
   if (count < FAILED_AUTH_ATTEMPTS_BEFORE_LOCK || !lastEventDate) {

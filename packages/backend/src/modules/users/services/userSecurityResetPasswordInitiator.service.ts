@@ -1,7 +1,12 @@
 import { addDays } from "date-fns";
 
 import { CommonUser } from "@domifa/common";
-import { UserProfile, UserTokenType, UserTokens } from "../../../_common/model";
+import {
+  UserProfile,
+  UserSecurity,
+  UserTokenType,
+  UserTokens,
+} from "../../../_common/model";
 import { domifaConfig } from "../../../config";
 import { tokenGenerator } from "../../../util";
 import {
@@ -43,9 +48,11 @@ async function generateResetPasswordToken({
   userProfile: UserProfile;
 }): Promise<{
   user: Pick<CommonUser, "id" | "nom" | "prenom" | "email">;
-  temporaryTokens: UserTokens;
+  userSecurity: UserSecurity;
   resetLink: string;
 }> {
+  const securityRepository = getUserSecurityRepository(userProfile);
+
   const user = await getUserRepository(userProfile).findOneBy({ email });
   if (!user) {
     await logSecurityEvent({
@@ -67,16 +74,16 @@ async function generateResetPasswordToken({
     type: "reset-password",
   });
 
-  await getUserSecurityRepository(userProfile).update(
-    { userId: user.id },
-    { temporaryTokens }
-  );
-
+  await securityRepository.update({ userId: user.id }, { temporaryTokens });
   await logSecurityEventForUser("RESET_PASSWORD_REQUEST", userProfile, user);
+
+  const userSecurity = await securityRepository.findOneByOrFail({
+    userId: user.id,
+  });
 
   return {
     user,
-    temporaryTokens,
+    userSecurity,
     resetLink: buildResetPasswordLink({
       userId: user.id,
       token: temporaryTokens.token,
