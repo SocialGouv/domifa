@@ -17,6 +17,7 @@ import {
   SYSTEM_ACTOR_FIELDS,
   userTypeFromProfile,
 } from "../../app-logs/app-logs.helpers";
+import { logSecurityEvent } from "../../app-logs/app-log-security-writer";
 
 // Target wall-clock duration for the login flow. We pad every response —
 // success or failure — up to this floor to neutralize the timing differential
@@ -67,15 +68,30 @@ async function checkPasswordImpl<T extends UserStructure | UserSupervisor>({
   const repository = getUserRepository(userProfile);
   const securityRepository = getUserSecurityRepository(userProfile);
 
-  const user = (await repository.findOneByOrFail({
-    email: email.toLowerCase(),
-  })) as T;
+  const user = (await repository
+    .findOneBy({
+      email: email.toLowerCase(),
+    })
+    .catch(() => null)) as T | null;
+
+  if (!user) {
+    // Unknown email: emit a LOGIN_ERROR with userType=anonymous so the audit
+    // trail still records the attempt (identifier kept in context).
+    await logSecurityEvent({
+      action: "LOGIN_ERROR",
+      userType: "anonymous",
+      identifier: email,
+      requestContext,
+      context: { userProfile },
+    });
+    throw new Error("WRONG_CREDENTIALS 1"); // don't give the real cause
+  }
 
   const userSecurity = await securityRepository.findOneBy({
     userId: user.id,
   });
 
-  if (!user || !userSecurity) {
+  if (!userSecurity) {
     throw new Error("WRONG_CREDENTIALS 1"); // don't give the real cause
   }
 
@@ -83,10 +99,10 @@ async function checkPasswordImpl<T extends UserStructure | UserSupervisor>({
     await userSecurityEventHistoryManager.isAccountLockedForOperation({
       operation: "login",
       userProfile,
-      ...userSecurity,
+      userId: user.id,
     })
   ) {
-    throw new Error("WRONG_CREDENTIALS 2"); // don't give the real cause
+    throw new Error("BLOCKED_TEMP");
   }
 
   const isValidPass: boolean = await passwordGenerator.checkPassword({
@@ -100,6 +116,9 @@ async function checkPasswordImpl<T extends UserStructure | UserSupervisor>({
       userId: user.id,
       userSecurity,
       eventType: "login-error",
+      requestContext,
+      structureId: (user as UserStructure).structureId,
+      role: (user as UserStructure | UserSupervisor).role,
     });
     throw new Error("WRONG_CREDENTIALS 3"); // don't give the real cause
   }
@@ -130,11 +149,17 @@ async function checkPasswordImpl<T extends UserStructure | UserSupervisor>({
     throw new Error("ACCOUNT_NOT_ACTIVE");
   }
 
+  // "login-success" here means "password verified" — for structure/supervisor
+  // the writer maps it to LOGIN_OK; the real LOGIN_SUCCESS is emitted after
+  // OTP validation. See logUserSecurityEvent.service for the override.
   await logUserSecurityEvent({
     userProfile,
     userId: user.id,
     userSecurity,
     eventType: "login-success",
+    requestContext,
+    structureId: (user as UserStructure).structureId,
+    role: (user as UserStructure | UserSupervisor).role,
   });
 
   await repository.update({ id: user.id }, { lastLogin: new Date() });

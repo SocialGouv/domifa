@@ -41,7 +41,6 @@ async function createUserWithPassword(
   const userSecurityAttributes: UserSecurity = {
     userId: user.id,
     structureId: user.structureId,
-    eventsHistory: [],
     temporaryTokens: undefined,
   };
 
@@ -68,7 +67,6 @@ async function createUserWithTmpToken(
       userSecurityResetPasswordInitiator.generateResetPasswordTokenAndValidity({
         type: "create-user",
       }),
-    eventsHistory: [],
   };
 
   const userSecurity = await userStructureSecurityRepository.save(

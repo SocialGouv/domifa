@@ -27,16 +27,31 @@ type ActorFields = Pick<
   | "userType"
   | "role"
   | "structureId"
+  | "userName"
 >;
 
 type StructureActorIdentity = Pick<
   UserStructureAuthenticated,
   "id" | "role" | "structureId"
->;
-type SupervisorActorIdentity = Pick<UserAdminAuthenticated, "id" | "role">;
+> & {
+  nom?: string;
+  prenom?: string;
+};
+type SupervisorActorIdentity = Pick<UserAdminAuthenticated, "id" | "role"> & {
+  nom?: string;
+  prenom?: string;
+};
 
 type UsagerLogIdentity = { ref: number; uuid?: string };
 type UsagerFields = Pick<AppLog, "usagerRef" | "usagerUuid">;
+
+const formatUserName = (
+  prenom?: string | null,
+  nom?: string | null
+): string | undefined => {
+  const trimmed = `${prenom ?? ""} ${nom ?? ""}`.trim();
+  return trimmed.length > 0 ? trimmed : undefined;
+};
 
 export const buildStructureActorFields = (
   user: StructureActorIdentity
@@ -46,6 +61,7 @@ export const buildStructureActorFields = (
   userType: "user_structure",
   role: user.role,
   structureId: user.structureId,
+  userName: formatUserName(user.prenom, user.nom),
 });
 
 export const buildSupervisorActorFields = (
@@ -55,6 +71,7 @@ export const buildSupervisorActorFields = (
   userSupervisorId: user.id,
   userType: "user_supervisor",
   role: user.role,
+  userName: formatUserName(user.prenom, user.nom),
 });
 
 export const buildPortailUsagerActorFields = (

@@ -10,6 +10,10 @@ import {
   userSecurityEventHistoryManager,
   userStatusManager,
 } from "../../../users/services";
+import {
+  logSecurityEvent,
+  SecurityLogRequestContext,
+} from "../../../app-logs/app-log-security-writer";
 
 export const userUsagerSecurityPasswordChecker = {
   checkPassword,
@@ -19,10 +23,12 @@ async function checkPassword({
   login,
   password,
   newPassword,
+  requestContext,
 }: {
   login: string;
   password: string;
   newPassword: string;
+  requestContext?: SecurityLogRequestContext;
 }): Promise<UserUsager> {
   const user = await userUsagerRepository.findOne({
     where: {
@@ -33,10 +39,18 @@ async function checkPassword({
       salt: true,
       id: true,
       status: true,
+      structureId: true,
     },
   });
 
   if (!user) {
+    await logSecurityEvent({
+      action: "LOGIN_ERROR",
+      userType: "anonymous",
+      identifier: login,
+      requestContext,
+      context: { userProfile: "usager" },
+    });
     throw new Error("WRONG_CREDENTIALS 8"); // don't give the real cause
   }
 
@@ -48,10 +62,10 @@ async function checkPassword({
     await userSecurityEventHistoryManager.isAccountLockedForOperation({
       operation: "login",
       userProfile: "usager",
-      ...userSecurity,
+      userId: user.id,
     })
   ) {
-    throw new Error("TOO_MANY_ATTEMPTS");
+    throw new Error("BLOCKED_TEMP");
   }
 
   const isValidPass: boolean = await passwordGenerator.checkPassword({
@@ -65,6 +79,8 @@ async function checkPassword({
       userId: user.id,
       userSecurity,
       eventType: "login-error",
+      requestContext,
+      structureId: user.structureId,
     });
     throw new Error("WRONG_CREDENTIALS 9"); // don't give the real cause
   }
@@ -85,6 +101,8 @@ async function checkPassword({
     userId: user.id,
     userSecurity,
     eventType: "login-success",
+    requestContext,
+    structureId: user.structureId,
   });
   if (newPassword) {
     // update password

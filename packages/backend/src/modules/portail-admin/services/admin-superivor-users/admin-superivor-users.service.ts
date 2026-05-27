@@ -33,7 +33,6 @@ export class AdminSuperivorUsersService {
             type: "create-user",
           }
         ),
-      eventsHistory: [],
     };
 
     const userSecurity = await userSupervisorSecurityRepository.save(

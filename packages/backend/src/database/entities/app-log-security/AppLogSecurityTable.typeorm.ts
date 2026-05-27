@@ -23,6 +23,15 @@ export class AppLogSecurityTable
   @Column({ type: "integer", nullable: true })
   public userSupervisorId?: number;
 
+  @Column({ type: "integer", nullable: true })
+  public userUsagerId?: number;
+
+  // Display name of the subject ("prenom nom") captured at write time so
+  // structure-level listings don't need a runtime LEFT JOIN. NULL for system
+  // / anonymous events.
+  @Column({ type: "text", nullable: true })
+  public userName?: string;
+
   @Index("IDX_app_log_security_userType")
   @Column({ type: "text", nullable: true })
   public userType?: AppLogActorType;

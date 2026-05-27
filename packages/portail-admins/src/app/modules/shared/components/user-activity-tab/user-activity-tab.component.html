@@ -1,6 +1,6 @@
 <div class="fr-mt-3w">
-  <h2 class="fr-h4 fr-mb-2w">{{ title }}</h2>
-  <p class="fr-text--sm fr-text--mention-grey">{{ subtitle }}</p>
+  <h2 class="fr-h4 fr-mb-2w">{{ resolvedTitle }}</h2>
+  <p class="fr-text--sm fr-text--mention-grey">{{ resolvedSubtitle }}</p>
 
   <div
     *ngIf="loading"
@@ -17,7 +17,7 @@
 
   <ng-container *ngIf="!loading">
     <div *ngIf="logs.length === 0" class="fr-alert fr-alert--info">
-      <p>{{ emptyMessage }}</p>
+      <p>{{ resolvedEmptyMessage }}</p>
     </div>
 
     <div *ngIf="logs.length > 0" class="fr-table fr-table--no-outer-border">
@@ -27,7 +27,7 @@
             <table>
               <caption class="fr-sr-only">
                 {{
-                  title
+                  resolvedTitle
                 }}
                 ({{
                   itemCount
@@ -38,7 +38,10 @@
                 <tr>
                   <th scope="col">Date</th>
                   <th scope="col">Action</th>
+                  <th *ngIf="showUserColumn" scope="col">Utilisateur</th>
                   <th scope="col">Rôle</th>
+                  <th *ngIf="showNetworkColumns" scope="col">IP</th>
+                  <th *ngIf="showNetworkColumns" scope="col">User-Agent</th>
                   <th scope="col">Contexte</th>
                 </tr>
               </thead>
@@ -46,19 +49,13 @@
                 <tr *ngFor="let log of logs">
                   <td>{{ log.createdAt | date : "dd/MM/yyyy HH:mm" }}</td>
                   <td class="fr-text--bold">{{ actionLabel(log.action) }}</td>
+                  <td *ngIf="showUserColumn">{{ log.userName ?? "-" }}</td>
                   <td>{{ log.role ?? "-" }}</td>
+                  <td *ngIf="showNetworkColumns">{{ log.ip ?? "-" }}</td>
+                  <td *ngIf="showNetworkColumns" style="word-break: break-word">
+                    {{ log.userAgent ?? "-" }}
+                  </td>
                   <td class="fr-text--xs">
-                    <p *ngIf="log.ip" class="fr-m-0 fr-mb-1w">
-                      <span class="fr-text--bold">IP&nbsp;:</span> {{ log.ip }}
-                    </p>
-                    <p
-                      *ngIf="log.userAgent"
-                      class="fr-m-0 fr-mb-1w"
-                      style="word-break: break-word"
-                    >
-                      <span class="fr-text--bold">User-Agent&nbsp;:</span>
-                      {{ log.userAgent }}
-                    </p>
                     <ng-container *ngIf="log.context; else noContext">
                       <p
                         *ngIf="contextHuman(log.action, log.context) as human"
@@ -77,11 +74,7 @@
                         >
                       </details>
                     </ng-container>
-                    <ng-template #noContext>
-                      <ng-container *ngIf="!log.ip && !log.userAgent"
-                        >-</ng-container
-                      >
-                    </ng-template>
+                    <ng-template #noContext>-</ng-template>
                   </td>
                 </tr>
               </tbody>

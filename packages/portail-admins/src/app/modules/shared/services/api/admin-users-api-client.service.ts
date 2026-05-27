@@ -96,6 +96,20 @@ export class AdminUsersApiClient {
     );
   }
 
+  public getStructureUserSecurityLogs(
+    userUuid: string,
+    page: number,
+    take: number
+  ): Observable<PageResults<UserActivityLog>> {
+    const params = new HttpParams()
+      .set("page", String(page))
+      .set("take", String(take));
+    return this.http.get<PageResults<UserActivityLog>>(
+      `${this.baseUrl}/structure-user/${userUuid}/security-logs`,
+      { params }
+    );
+  }
+
   public getStructureUserBrevoStatus(
     userUuid: string
   ): Observable<BrevoContactStatus> {

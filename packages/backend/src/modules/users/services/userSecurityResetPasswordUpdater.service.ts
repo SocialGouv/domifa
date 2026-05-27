@@ -6,6 +6,10 @@ import {
 } from "./get-user-repository.service";
 import { logUserSecurityEvent } from "./logUserSecurityEvent.service";
 import { userSecurityEventHistoryManager } from "./userSecurityEventHistoryManager.service";
+import { userStatusManager } from "./userStatusManager.service";
+import { terminateUserSession } from "./userSessionTerminator.service";
+import { otpRepository } from "../../../database";
+import { OTP_MAX_ATTEMPTS } from "../../otp/otp.constants";
 
 export const userSecurityResetPasswordUpdater = {
   checkResetPasswordToken,
@@ -31,7 +35,7 @@ async function checkResetPasswordToken({
     await userSecurityEventHistoryManager.isAccountLockedForOperation({
       operation: "reset-password-confirm",
       userProfile,
-      ...userSecurity,
+      userId,
     })
   ) {
     throw new Error("Error");
@@ -78,7 +82,7 @@ async function confirmResetPassword({
     await userSecurityEventHistoryManager.isAccountLockedForOperation({
       operation: "reset-password-confirm",
       userProfile,
-      ...userSecurity,
+      userId,
     })
   ) {
     throw new Error("Error");
@@ -120,6 +124,11 @@ async function confirmResetPassword({
     { status: "ACTIVE" }
   );
 
+  // A successful reset also clears a TEMPORARILY_BLOCKED soft-lock (the
+  // backoff that fires after too many failed attempts). BLOCKED stays
+  // BLOCKED — clearTemporaryBlock is conditioned on TEMPORARILY_BLOCKED.
+  await userStatusManager.clearTemporaryBlock({ userProfile, userId });
+
   const user = await repository.findOneBy({
     id: userId,
   });
@@ -134,6 +143,21 @@ async function confirmResetPassword({
       temporaryTokens: null,
     },
   });
+
+  // Invalidate any active session: a fresh credential must not coexist with
+  // a JWT signed against the previous session's fingerprint.
+  await terminateUserSession({
+    userProfile,
+    userId,
+    reason: "PASSWORD_RESET",
+  });
+
+  // A reset link is itself a proof of identity, so lift any OTP lockout this
+  // user may have accumulated (3 bad codes → 1h block). Rows are kept for
+  // audit; only `attempts` is reset to 0 so findRecentBlocked stops matching.
+  if (user?.uuid) {
+    await otpRepository.resetBlockedOtpsForUser(user.uuid, OTP_MAX_ATTEMPTS);
+  }
 
   userSecurity = await securityRepository.findOne({
     where: {

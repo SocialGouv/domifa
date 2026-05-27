@@ -23,7 +23,6 @@ import {
   logUserSecurityEvent,
   userSecurityEventHistoryManager,
 } from "../../users/services";
-import { UserSecurityEvent } from "../../../_common/model/users/user-security/UserSecurityEvent.interface";
 
 @Injectable()
 export class AdminStructuresService {
@@ -123,20 +122,21 @@ export class AdminStructuresService {
         `user_structure."createdAt" AS "createdAt"`,
         `structure.uuid AS "structureUuid"`,
         `structure.nom AS "structureName"`,
-        `uss."eventsHistory" AS "eventsHistory"`,
         `uss."temporaryTokens" AS "temporaryTokens"`,
       ])
       .orderBy("user_structure.nom", "ASC")
       .getRawMany<UsersForAdminList>();
 
-    return users.map((user) => ({
-      ...user,
-      eventsHistory: user.eventsHistory ?? [],
-      remainingBackoffMinutes:
-        userSecurityEventHistoryManager.getBackoffTime(
-          (user.eventsHistory ?? []) as UserSecurityEvent[]
-        ) ?? null,
-    }));
+    return Promise.all(
+      users.map(async (user) => ({
+        ...user,
+        remainingBackoffMinutes:
+          (await userSecurityEventHistoryManager.getBackoffTime({
+            userProfile: "structure",
+            userId: user.id,
+          })) ?? null,
+      }))
+    );
   }
 
   public async getStructureSessions(

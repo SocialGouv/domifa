@@ -377,6 +377,30 @@ export class AdminUsersController {
 
   @ApiBearerAuth()
   @ApiOperation({
+    summary: "Logs de sécurité d'un utilisateur de structure",
+  })
+  @Get("structure-user/:uuid/security-logs")
+  public async getStructureUserSecurityLogs(
+    @Param("uuid", new ParseUUIDPipe()) uuid: string,
+    @Query() pageOptions: PageOptionsDto
+  ) {
+    const target = await userStructureRepository.findOne({
+      where: { uuid },
+      select: { id: true },
+    });
+    if (!target) {
+      throw new NotFoundException("USER_NOT_FOUND");
+    }
+    return this.appLogSecurityService.findUserSecurityLogs({
+      userType: "user_structure",
+      userId: target.id,
+      page: pageOptions.page,
+      take: pageOptions.take,
+    });
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({
     summary: "Événements Brevo (logs mailing) d'un utilisateur de structure",
   })
   @Get("structure-user/:uuid/email-events")

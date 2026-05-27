@@ -8,6 +8,8 @@ import {
   logUserSecurityEvent,
   userSecurityEventHistoryManager,
 } from "../../../users/services";
+import { terminateUserSession } from "../../../users/services/userSessionTerminator.service";
+import { userStatusManager } from "../../../users/services";
 
 export const userUsagerSecurityPasswordUpdater = {
   updatePassword,
@@ -30,7 +32,7 @@ async function updatePassword({
     await userSecurityEventHistoryManager.isAccountLockedForOperation({
       operation: "change-password",
       userProfile: "usager",
-      ...userSecurity,
+      userId,
     })
   ) {
     throw new Error("Error");
@@ -65,11 +67,26 @@ async function updatePassword({
     id: userId,
   });
 
+  // A successful password change also lifts a TEMPORARILY_BLOCKED soft-lock
+  // (BLOCKED stays — clearTemporaryBlock is conditioned on the soft state).
+  await userStatusManager.clearTemporaryBlock({
+    userProfile: "usager",
+    userId,
+  });
+
   await logUserSecurityEvent({
     userProfile: "usager",
     userId,
     userSecurity,
     eventType: "change-password-success",
+  });
+
+  // Audit-only on usager profile (no DB session to clear), but kept for
+  // parity with the structure / supervisor flows.
+  await terminateUserSession({
+    userProfile: "usager",
+    userId,
+    reason: "PASSWORD_CHANGED",
   });
   return updatedUser;
 }

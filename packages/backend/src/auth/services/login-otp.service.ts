@@ -22,6 +22,10 @@ export type LoginUserPrincipal = {
   uuid: string;
   email: string;
   prenom: string;
+  // Optional: passed through to OtpRequestContext so OTP_* rows in
+  // app_log_security can be attributed to the right structure scope.
+  // Supervisor users are multi-structure → undefined.
+  structureId?: number;
 };
 
 export type LoginOtpResult =
@@ -194,6 +198,8 @@ export class LoginOtpService {
       prenom: user.prenom,
       userType: "structure",
       userUuid: user.uuid,
+      userId: user.id,
+      structureId: user.structureId,
     };
   }
 }

@@ -29,4 +29,12 @@ export interface OtpRequestContext {
   prenom: string;
   userType: UserProfile;
   userUuid: string;
+  // Optional: numeric DB id of the targeted user. Plumbed through from the
+  // controller when it has the user row in hand. Used to attribute OTP_*
+  // entries in app_log_security to a real userStructureId / userSupervisorId /
+  // userUsagerId column instead of falling back to userType=anonymous.
+  userId?: number;
+  // Optional structureId for additional context (only meaningful for
+  // structure / usager profiles — supervisors are multi-structure).
+  structureId?: number;
 }

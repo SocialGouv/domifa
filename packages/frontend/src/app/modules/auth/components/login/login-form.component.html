@@ -4,7 +4,15 @@
   class="fr-display-flex fr-flex-column fr-gap-3w fr-pt-md-4w"
   (ngSubmit)="login()"
 >
-  @if (loginError) {
+  @if (blockedTemp) {
+  <div class="fr-alert fr-alert--warning" role="alert">
+    <p>
+      Votre compte est temporairement bloqué suite à un trop grand nombre de
+      tentatives. Réessayez dans une heure, ou réinitialisez votre mot de passe
+      pour le débloquer immédiatement.
+    </p>
+  </div>
+  } @else if (loginError) {
   <div class="fr-alert fr-alert--error" role="alert">
     <p>Veuillez vérifier la combinaison email et mot de passe</p>
   </div>

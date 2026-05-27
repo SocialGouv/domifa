@@ -20,7 +20,12 @@ import {
   structureRepository,
 } from "../../../../database";
 import { UsagerLoginDto } from "../../../users/dto";
-import { ExpressRequest, ExpressResponse } from "../../../../util/express";
+import {
+  ExpressRequest,
+  ExpressResponse,
+  getClientIp,
+  getClientUserAgent,
+} from "../../../../util/express";
 
 import { UsagersAuthService } from "../../services/usagers-auth.service";
 import {
@@ -32,6 +37,7 @@ import { AllowUserProfiles, CurrentUser } from "../../../../auth/decorators";
 import { AuthGuard } from "@nestjs/passport";
 import { AppUserGuard } from "../../../../auth/guards";
 import { userUsagerSecurityPasswordChecker } from "../../services/user-usager-security";
+import { logSecurityEvent } from "../../../app-logs/app-log-security-writer";
 
 @Controller("portail-usagers/auth")
 @ApiTags("auth")
@@ -41,6 +47,7 @@ export class PortailUsagersLoginController {
   @Post("login")
   @HttpCode(HttpStatus.OK)
   public async loginUser(
+    @Req() req: ExpressRequest,
     @Res() res: ExpressResponse,
     @Body() loginDto: UsagerLoginDto
   ) {
@@ -49,6 +56,10 @@ export class PortailUsagersLoginController {
         login: loginDto.login,
         password: loginDto.password,
         newPassword: loginDto.newPassword as string,
+        requestContext: {
+          ip: getClientIp(req),
+          userAgent: getClientUserAgent(req),
+        },
       });
 
       if (user.passwordType !== "PERSONAL") {
@@ -96,9 +107,7 @@ export class PortailUsagersLoginController {
       return res.status(HttpStatus.OK).json(response);
     } catch (err) {
       const message =
-        err?.message === "TOO_MANY_ATTEMPTS"
-          ? "TOO_MANY_ATTEMPTS"
-          : "USAGER_LOGIN_FAIL";
+        err?.message === "BLOCKED_TEMP" ? "BLOCKED_TEMP" : "USAGER_LOGIN_FAIL";
       return res.status(HttpStatus.UNAUTHORIZED).json({ message });
     }
   }
@@ -117,6 +126,18 @@ export class PortailUsagersLoginController {
       userProfile: user._userProfile,
     });
     await expiredTokenRepositiory.save(tokenToBlacklist);
+
+    await logSecurityEvent({
+      action: "LOGOUT",
+      profile: "usager",
+      userId: user.user.id,
+      structureId: user.user.structureId,
+      requestContext: {
+        ip: getClientIp(req),
+        userAgent: getClientUserAgent(req),
+      },
+    });
+
     return true;
   }
 

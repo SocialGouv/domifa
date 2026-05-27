@@ -48,6 +48,12 @@ export class AppLogTable
   @Column({ type: "text", nullable: true })
   public createdBy?: string;
 
+  // Display name of the actor ("prenom nom"), captured at write time so the
+  // structure-level activity listing can render a "Utilisateur" column
+  // without a runtime LEFT JOIN. NULL for system / anonymous events.
+  @Column({ type: "text", nullable: true })
+  public userName?: string;
+
   public constructor(entity?: Partial<AppLogTable>) {
     super(entity);
     Object.assign(this, entity);

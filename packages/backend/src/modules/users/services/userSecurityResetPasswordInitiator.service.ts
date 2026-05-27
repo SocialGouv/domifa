@@ -15,6 +15,7 @@ import {
 } from "./get-user-repository.service";
 import { userSecurityEventHistoryManager } from "./userSecurityEventHistoryManager.service";
 import { logUserSecurityEvent } from "./logUserSecurityEvent.service";
+import { logSecurityEvent } from "../../app-logs/app-log-security-writer";
 
 export const userSecurityResetPasswordInitiator = {
   buildResetPasswordLink,
@@ -51,10 +52,20 @@ async function generateResetPasswordToken({
   const repository = getUserRepository(userProfile);
   const securityRepository = getUserSecurityRepository(userProfile);
 
-  const user: Pick<CommonUser, "id" | "nom" | "prenom" | "email"> =
-    await repository.findOneByOrFail({
+  const user: Pick<CommonUser, "id" | "nom" | "prenom" | "email"> | null =
+    await repository.findOneBy({
       email,
     });
+  if (!user) {
+    await logSecurityEvent({
+      action: "RESET_PASSWORD_REQUEST",
+      userType: "anonymous",
+      identifier: email,
+      context: { userProfile },
+    });
+    throw new Error("Error");
+  }
+
   let userSecurity = await securityRepository.findOneByOrFail({
     userId: user.id,
   });
@@ -62,8 +73,8 @@ async function generateResetPasswordToken({
   if (
     await userSecurityEventHistoryManager.isAccountLockedForOperation({
       operation: "reset-password-request",
-      ...userSecurity,
       userProfile,
+      userId: user.id,
     })
   ) {
     throw new Error("Error");

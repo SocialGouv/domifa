@@ -169,6 +169,12 @@ function extractOriginFromReferer(
   }
 }
 
+const ALLOWED_ASSISTIVE_BOT_PATTERNS = [/Google-Read-Aloud/i];
+
+function isAllowedAssistiveBot(userAgent: string): boolean {
+  return ALLOWED_ASSISTIVE_BOT_PATTERNS.some((re) => re.test(userAgent));
+}
+
 export function getBlockReason(
   request: Request,
   allowedOrigins: Set<string>
@@ -177,7 +183,7 @@ export function getBlockReason(
   if (userAgent.trim() === "") {
     return "missing_ua";
   }
-  if (isbot(userAgent)) {
+  if (isbot(userAgent) && !isAllowedAssistiveBot(userAgent)) {
     return "bot_ua";
   }
 
@@ -196,7 +202,6 @@ export function getBlockReason(
 
   return null;
 }
-
 type AnyJwtPayload =
   | UserStructureJwtPayload
   | UserUsagerJwtPayload

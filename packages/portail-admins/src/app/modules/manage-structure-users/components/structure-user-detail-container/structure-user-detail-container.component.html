@@ -103,7 +103,24 @@
               #activityRla="routerLinkActive"
               [attr.aria-selected]="activityRla.isActive"
             >
-              Activité récente
+              Suivi de l'activité
+            </a>
+          </li>
+          <li role="presentation">
+            <a
+              type="button"
+              class="fr-tabs__tab"
+              role="link"
+              [routerLink]="[
+                '/manage-structure-users',
+                user.uuid,
+                'security-logs'
+              ]"
+              routerLinkActive
+              #securityLogsRla="routerLinkActive"
+              [attr.aria-selected]="securityLogsRla.isActive"
+            >
+              Suivi sécurité
             </a>
           </li>
           <li role="presentation">

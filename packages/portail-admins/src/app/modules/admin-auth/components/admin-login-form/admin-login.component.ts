@@ -74,9 +74,15 @@ export class AdminLoginComponent implements OnInit {
     this.loading = true;
 
     this.authService.login(loginForm).subscribe({
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.toastr.error("Login et / ou mot de passe incorrect");
+        if (err?.error?.message === "BLOCKED_TEMP") {
+          this.toastr.error(
+            "Compte temporairement bloqué (trop de tentatives). Réessayez dans 1h ou réinitialisez votre mot de passe."
+          );
+        } else {
+          this.toastr.error("Login et / ou mot de passe incorrect");
+        }
       },
       next: (apiAuthResponse: PortailAdminAuthApiResponse) => {
         this.toastr.success("Connexion réussie");

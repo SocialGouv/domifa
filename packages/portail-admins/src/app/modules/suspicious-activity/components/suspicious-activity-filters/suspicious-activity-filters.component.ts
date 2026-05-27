@@ -2,14 +2,13 @@ import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 
+import { SecurityLogAction } from "@domifa/common";
+
 import {
   SUSPICIOUS_ACTIONS,
   SUSPICIOUS_ACTION_LABELS,
 } from "../../constants/SUSPICIOUS_ACTIONS.const";
-import {
-  SuspiciousActivityFilters,
-  SuspiciousLogAction,
-} from "../../types/suspicious-activity-log";
+import { SuspiciousActivityFilters } from "../../types/suspicious-activity-log";
 
 @Component({
   selector: "app-suspicious-activity-filters",
@@ -22,7 +21,7 @@ export class SuspiciousActivityFiltersComponent implements OnInit {
     new EventEmitter<SuspiciousActivityFilters>();
 
   public readonly actions = SUSPICIOUS_ACTIONS;
-  public actionLabel(action: SuspiciousLogAction): string {
+  public actionLabel(action: SecurityLogAction): string {
     return SUSPICIOUS_ACTION_LABELS[action] ?? action;
   }
 
@@ -72,7 +71,7 @@ export class SuspiciousActivityFiltersComponent implements OnInit {
       (SUSPICIOUS_ACTIONS as string[]).includes(v.action);
 
     this.filtersChange.emit({
-      actions: isKnownAction ? [v.action as SuspiciousLogAction] : undefined,
+      actions: isKnownAction ? [v.action as SecurityLogAction] : undefined,
       dateFrom: v.dateFrom || undefined,
       dateTo: v.dateTo || undefined,
       ip: v.ip?.trim() || undefined,

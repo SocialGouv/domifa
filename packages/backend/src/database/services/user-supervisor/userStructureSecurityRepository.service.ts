@@ -7,24 +7,12 @@ export const userSupervisorSecurityRepository = myDataSource
   .extend({
     async findOneByTokenAttribute(
       tokenValue: string
-    ): Promise<
-      Pick<
-        UserSecurity,
-        "uuid" | "userId" | "temporaryTokens" | "eventsHistory"
-      >
-    > {
+    ): Promise<Pick<UserSecurity, "uuid" | "userId" | "temporaryTokens">> {
       return await this.createQueryBuilder("user_supervisor_security")
         .where(`"temporaryTokens"->>'token' = :tokenValue`, {
           tokenValue,
         })
-        .select(
-          joinSelectFields([
-            "uuid",
-            "userId",
-            "temporaryTokens",
-            "eventsHistory",
-          ])
-        )
+        .select(joinSelectFields(["uuid", "userId", "temporaryTokens"]))
         .getRawOne();
     },
   });

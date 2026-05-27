@@ -1,136 +1,117 @@
-import { addHours, differenceInMinutes, subHours, subWeeks } from "date-fns";
+import { addHours, differenceInMinutes } from "date-fns";
+import { FAILED_AUTH_ACTIONS } from "@domifa/common";
 
 import { domifaConfig } from "../../../config";
 import { appLogger } from "../../../util";
-import {
-  UserSecurityEventType,
-  UserSecurityEvent,
-  UserProfile,
-  UserSecurityLogError,
-} from "../../../_common/model";
+import { UserProfile, UserSecurityLogError } from "../../../_common/model";
+import { summarizeSecurityEventsForUser } from "../../app-logs/app-log-security-counters";
+import { logSecurityEvent } from "../../app-logs/app-log-security-writer";
 import { userStatusManager } from "./userStatusManager.service";
 
-export const SECURITY_HISTORY_MAX_EVENTS_ATTEMPT = 5;
+// After this many failed auth events within `LOCKOUT_WINDOW_HOURS`, the
+// account is soft-locked for `LOCKOUT_DURATION_HOURS`. A successful
+// RESET_PASSWORD_SUCCESS resets the counter (see app-log-security-counters).
+export const FAILED_AUTH_ATTEMPTS_BEFORE_LOCK = 3;
+export const LOCKOUT_WINDOW_HOURS = 1;
+export const LOCKOUT_DURATION_HOURS = 1;
 
 export const userSecurityEventHistoryManager = {
-  updateEventHistory,
   isAccountLockedForOperation,
   getBackoffTime,
 };
 
-function updateEventHistory({
-  eventType,
-  eventsHistory,
-  clearAllEvents,
+// Counts the failed-auth events on `app_log_security` over the lockout window
+// and returns the remaining minutes before the account is freed, or null when
+// no backoff is active.
+export async function getBackoffTime({
+  userProfile,
+  userId,
 }: {
-  eventType: UserSecurityEventType;
-  eventsHistory: UserSecurityEvent[];
-  clearAllEvents?: boolean;
-}): UserSecurityEvent[] {
-  const event: UserSecurityEvent = {
-    type: eventType,
-    date: new Date(),
-  };
+  userProfile: UserProfile;
+  userId: number;
+}): Promise<number | null> {
+  const { count, lastEventDate } = await summarizeSecurityEventsForUser({
+    profile: userProfile,
+    userId,
+    actions: FAILED_AUTH_ACTIONS,
+    sinceMinutes: LOCKOUT_WINDOW_HOURS * 60,
+    resetByActions: ["RESET_PASSWORD_SUCCESS"],
+  });
 
-  if (clearAllEvents) {
-    // clear all previous events
-    return [event];
-  }
-
-  const oneWeekAgo = subWeeks(new Date(), 1);
-  return [
-    ...eventsHistory.filter((x) => {
-      return new Date(x.date) > oneWeekAgo; // purge events older than one week;
-    }),
-    event,
-  ];
-}
-
-export function getBackoffTime(
-  eventsHistory: UserSecurityEvent[] | null
-): number | null {
-  if (!eventsHistory?.length) {
+  if (count < FAILED_AUTH_ATTEMPTS_BEFORE_LOCK || !lastEventDate) {
     return null;
   }
 
-  const lastEventType = eventsHistory[eventsHistory.length - 1].type;
-
-  if (
-    lastEventType === "login-success" ||
-    lastEventType === "change-password-success" ||
-    lastEventType === "reset-password-success"
-  ) {
+  const endBlockingDate = addHours(lastEventDate, LOCKOUT_DURATION_HOURS);
+  if (endBlockingDate < new Date()) {
     return null;
   }
-
-  const oneHourAgo = subHours(new Date(), 1);
-  const eventsRecentHistory = eventsHistory.filter(
-    (eh) =>
-      new Date(eh.date) > oneHourAgo &&
-      !["change-password-success", "reset-password-success"].includes(eh.type)
-  );
-
-  const eventHistoryMap = eventsRecentHistory.reduce((acc, event) => {
-    if (
-      [
-        "reset-password-request",
-        "reset-password-error",
-        "login-error",
-        "change-password-error",
-        "validate-account-error",
-      ].includes(event.type)
-    ) {
-      acc[event.type] = (acc[event.type] || 0) + 1;
-      return acc;
-    }
-    return acc;
-  }, {} as Record<string, number>);
-
-  const lastEventDate = new Date(eventsHistory[eventsHistory.length - 1].date);
-
-  if (
-    Object.keys(eventHistoryMap).some(
-      (key) => eventHistoryMap[key] >= SECURITY_HISTORY_MAX_EVENTS_ATTEMPT
-    )
-  ) {
-    const endBlockingDate = addHours(lastEventDate, 1);
-    if (endBlockingDate < new Date()) {
-      return null;
-    }
-    return differenceInMinutes(endBlockingDate, new Date());
-  }
-
-  return null;
+  return differenceInMinutes(endBlockingDate, new Date());
 }
 
 async function isAccountLockedForOperation({
   operation,
-  eventsHistory,
   userId,
-  userProfile = "structure", // Par défaut, pour la rétrocompatibilité
+  userProfile,
 }: {
   operation: string;
-  eventsHistory: UserSecurityEvent[];
   userId: number;
-  userProfile?: UserProfile;
+  userProfile: UserProfile;
 }): Promise<boolean> {
-  const backoffTime = getBackoffTime(eventsHistory);
+  const backoffTime = await getBackoffTime({ userProfile, userId });
   if (backoffTime !== null) {
     logOperationError({ operation, userId, userProfile });
-    // Soft lock: persist TEMPORARILY_BLOCKED so admin tools and guards can see it.
-    // Does not overwrite a definitive BLOCKED state (see markUserAsTemporarilyBlocked).
-    await userStatusManager.markUserAsTemporarilyBlocked({
+    await markAccountTemporarilyBlocked({
       userProfile,
       userId,
+      reason: "FAILED_AUTH_THRESHOLD",
+      operation,
+      backoffMinutes: backoffTime,
     });
     return true;
   }
-  // Backoff window expired — auto-clear the soft flag if it lingered, so the
+  // Window expired — auto-clear any lingering TEMPORARILY_BLOCKED so the
   // strict "only ACTIVE" check downstream sees the real state.
   await userStatusManager
     .clearTemporaryBlock({ userProfile, userId })
     .catch(() => undefined);
   return false;
+}
+
+// Marks the account as TEMPORARILY_BLOCKED and persists a BLOCK_USER row in
+// app_log_security so the lockout is auditable on the user's "Suivi sécurité"
+// tab. Exported because the OTP service hits the same path when its rate-
+// limit (OTP_MAX_REQUESTS_PER_HOUR) is reached.
+export async function markAccountTemporarilyBlocked({
+  userProfile,
+  userId,
+  reason,
+  operation,
+  structureId,
+  backoffMinutes,
+}: {
+  userProfile: UserProfile;
+  userId: number;
+  reason: "FAILED_AUTH_THRESHOLD" | "OTP_REQUEST_LIMIT";
+  operation?: string;
+  structureId?: number;
+  backoffMinutes?: number | null;
+}): Promise<void> {
+  await userStatusManager.markUserAsTemporarilyBlocked({
+    userProfile,
+    userId,
+  });
+  await logSecurityEvent({
+    action: "BLOCK_USER",
+    profile: userProfile,
+    userId,
+    structureId,
+    context: {
+      reason,
+      operation,
+      backoffMinutes: backoffMinutes ?? null,
+    },
+  });
 }
 
 function logOperationError(context: UserSecurityLogError) {

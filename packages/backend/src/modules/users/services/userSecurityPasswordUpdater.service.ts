@@ -6,6 +6,9 @@ import {
 } from "./get-user-repository.service";
 import { logUserSecurityEvent } from "./logUserSecurityEvent.service";
 import { userSecurityEventHistoryManager } from "./userSecurityEventHistoryManager.service";
+import { terminateUserSession } from "./userSessionTerminator.service";
+import { otpRepository } from "../../../database";
+import { OTP_MAX_ATTEMPTS } from "../../otp/otp.constants";
 
 export const userStructureSecurityPasswordUpdater = {
   updatePassword,
@@ -32,7 +35,7 @@ async function updatePassword({
     await userSecurityEventHistoryManager.isAccountLockedForOperation({
       operation: "change-password",
       userProfile,
-      ...userSecurity,
+      userId,
     })
   ) {
     throw new Error("Error");
@@ -84,4 +87,18 @@ async function updatePassword({
     userSecurity,
     eventType: "change-password-success",
   });
+
+  // A successful change-password invalidates the active session for the same
+  // reason as a reset: the credential changed, the JWT shouldn't survive.
+  await terminateUserSession({
+    userProfile,
+    userId,
+    reason: "PASSWORD_CHANGED",
+  });
+
+  // The user just typed their old password correctly, so any OTP lockout
+  // (3 bad codes → 1h block) accumulated earlier should be lifted.
+  if (user.uuid) {
+    await otpRepository.resetBlockedOtpsForUser(user.uuid, OTP_MAX_ATTEMPTS);
+  }
 }

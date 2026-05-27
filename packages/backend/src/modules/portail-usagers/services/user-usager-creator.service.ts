@@ -49,7 +49,6 @@ async function createUserWithTmpPassword(
   const userSecurityAttributes: UserSecurity = {
     userId: user.id,
     structureId: user.structureId,
-    eventsHistory: [],
     temporaryTokens: {},
   };
 

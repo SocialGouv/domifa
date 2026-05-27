@@ -1,10 +1,4 @@
-export type SuspiciousLogAction =
-  | "BLOCK_USER"
-  | "BLOCK_USER_BY_ADMIN"
-  | "THROTTLE_BLOCKED"
-  | "REQUEST_BLOCKED"
-  | "UNBLOCK_USER"
-  | "ACCESS_DENIED_NON_ACTIVE";
+import { SecurityLogAction } from "@domifa/common";
 
 export type SuspiciousUserProfile = "user_structure" | "user_supervisor";
 
@@ -21,7 +15,7 @@ export interface SuspiciousResolvedUser {
 
 export interface SuspiciousActivityLog {
   uuid: string;
-  action: SuspiciousLogAction;
+  action: SecurityLogAction;
   createdAt: string;
   userType?: string;
   context: Record<string, unknown> | null;
@@ -64,7 +58,7 @@ export interface UserSessionsView {
 }
 
 export interface SuspiciousActivityFilters {
-  actions?: SuspiciousLogAction[];
+  actions?: SecurityLogAction[];
   dateFrom?: string;
   dateTo?: string;
   ip?: string;

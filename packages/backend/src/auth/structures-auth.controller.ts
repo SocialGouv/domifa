@@ -37,6 +37,7 @@ import { userSecurityPasswordChecker } from "../modules/users/services";
 import { AllowUserStructureRoles } from "./decorators";
 import { ALL_USER_STRUCTURE_ROLES, UserStructure } from "@domifa/common";
 import { appLogger } from "../util";
+import { logSecurityEvent } from "../modules/app-logs/app-log-security-writer";
 
 const userProfile: UserProfile = "structure";
 
@@ -71,9 +72,11 @@ export class StructuresAuthController {
         error: err,
         context: { userProfile, email: loginDto?.email },
       });
-      return res
-        .status(HttpStatus.UNAUTHORIZED)
-        .json({ message: "LOGIN_FAILED" });
+      const message =
+        (err as Error)?.message === "BLOCKED_TEMP"
+          ? "BLOCKED_TEMP"
+          : "LOGIN_FAILED";
+      return res.status(HttpStatus.UNAUTHORIZED).json({ message });
     }
 
     try {
@@ -98,6 +101,7 @@ export class StructuresAuthController {
           uuid: user.uuid,
           email: user.email,
           prenom: user.prenom,
+          structureId: user.structureId,
         },
         ip,
         userAgent,
@@ -119,6 +123,16 @@ export class StructuresAuthController {
               ipAddress: ip,
               userAgent,
             });
+
+      await logSecurityEvent({
+        action: "LOGIN_SUCCESS",
+        profile: userProfile,
+        userId: user.id,
+        structureId: user.structureId,
+        role: user.role,
+        requestContext: { ip, userAgent },
+        context: { otpFlow: result.kind },
+      });
 
       return res.status(HttpStatus.OK).json(accessToken);
     } catch (err) {
@@ -154,6 +168,18 @@ export class StructuresAuthController {
       userProfile: user._userProfile,
     });
     await expiredTokenRepositiory.save(tokenToBlacklist);
+
+    await logSecurityEvent({
+      action: "LOGOUT",
+      profile: "structure",
+      userId: user.id,
+      structureId: user.structure.id,
+      role: user.role,
+      requestContext: {
+        ip: getClientIp(req),
+        userAgent: getClientUserAgent(req),
+      },
+    });
 
     return true;
   }

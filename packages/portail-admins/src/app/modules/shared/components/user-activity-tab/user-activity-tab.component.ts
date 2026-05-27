@@ -25,6 +25,38 @@ export type UserActivityLogsFetcher = (
   take: number
 ) => Observable<PageResults<UserActivityLog>>;
 
+// `activity` = rows from `app_log` (no IP/UA columns)
+// `security` = rows from `app_log_security` (IP + User-Agent shown as columns)
+export type UserActivityTabVariant = "activity" | "security";
+
+// Default labels per variant. Titles match the portail-admins tab naming so
+// the panel header stays in sync with the tab the user clicked through.
+const DEFAULT_TEXTS: Record<
+  UserActivityTabVariant,
+  {
+    title: string;
+    subtitle: string;
+    emptyMessage: string;
+    errorMessage: string;
+  }
+> = {
+  activity: {
+    title: "Suivi de l'activité",
+    subtitle:
+      "Liste des actions effectuées par cet utilisateur, du plus récent au plus ancien.",
+    emptyMessage: "Aucune activité enregistrée pour cet utilisateur.",
+    errorMessage: "Impossible de charger l'activité de l'utilisateur",
+  },
+  security: {
+    title: "Suivi sécurité",
+    subtitle:
+      "Événements de sécurité enregistrés pour cet utilisateur (connexions, OTP, blocages, etc.).",
+    emptyMessage:
+      "Aucun événement de sécurité enregistré pour cet utilisateur.",
+    errorMessage: "Impossible de charger le suivi sécurité",
+  },
+};
+
 const PAGE_SIZE = 20;
 
 @Component({
@@ -35,13 +67,14 @@ const PAGE_SIZE = 20;
 export class UserActivityTabComponent implements OnChanges, OnDestroy {
   @Input({ required: true }) public entityId!: string | undefined;
   @Input({ required: true }) public fetcher!: UserActivityLogsFetcher;
-  @Input() public title = "Activité récente";
-  @Input() public subtitle =
-    "Liste des actions effectuées par cet utilisateur, du plus récent au plus ancien.";
-  @Input() public emptyMessage =
-    "Aucune activité enregistrée pour cet utilisateur.";
-  @Input() public errorMessage =
-    "Impossible de charger l'activité de l'utilisateur";
+  @Input() public variant: UserActivityTabVariant = "activity";
+  // When true, an extra "Utilisateur" column is shown (used on structure-
+  // level views that aggregate the activity of every user in the structure).
+  @Input() public showUserColumn = false;
+  @Input() public title?: string;
+  @Input() public subtitle?: string;
+  @Input() public emptyMessage?: string;
+  @Input() public errorMessage?: string;
 
   public logs: UserActivityLog[] = [];
   public currentPage = 1;
@@ -53,6 +86,26 @@ export class UserActivityTabComponent implements OnChanges, OnDestroy {
   private readonly subscription = new Subscription();
 
   constructor(private readonly toastService: CustomToastService) {}
+
+  public get resolvedTitle(): string {
+    return this.title ?? DEFAULT_TEXTS[this.variant].title;
+  }
+
+  public get resolvedSubtitle(): string {
+    return this.subtitle ?? DEFAULT_TEXTS[this.variant].subtitle;
+  }
+
+  public get resolvedEmptyMessage(): string {
+    return this.emptyMessage ?? DEFAULT_TEXTS[this.variant].emptyMessage;
+  }
+
+  public get resolvedErrorMessage(): string {
+    return this.errorMessage ?? DEFAULT_TEXTS[this.variant].errorMessage;
+  }
+
+  public get showNetworkColumns(): boolean {
+    return this.variant === "security";
+  }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes["entityId"] && this.entityId) {
@@ -76,7 +129,7 @@ export class UserActivityTabComponent implements OnChanges, OnDestroy {
         },
         error: () => {
           this.loading = false;
-          this.toastService.error(this.errorMessage);
+          this.toastService.error(this.resolvedErrorMessage);
         },
       })
     );
