@@ -1,3 +1,10 @@
+# [2.249.0](https://github.com/SocialGouv/domifa/compare/v2.248.0...v2.249.0) (2026-05-27)
+
+
+### Features
+
+* **backend:** refactor logs for security, add 30min to otp ([550b976](https://github.com/SocialGouv/domifa/commit/550b976beda751cda6b3cf3363bde10a8028682f))
+
 # [2.248.0](https://github.com/SocialGouv/domifa/compare/v2.247.2...v2.248.0) (2026-05-26)
 
 
