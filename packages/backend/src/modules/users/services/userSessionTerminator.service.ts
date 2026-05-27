@@ -2,16 +2,9 @@ import { UserProfile } from "../../../_common/model";
 import {
   logSecurityEvent,
   SecurityLogRequestContext,
+  SessionTerminationReason,
 } from "../../app-logs/app-log-security-writer";
 import { getUserSecurityRepository } from "./get-user-repository.service";
-
-// Reason persisted in the LOGOUT row context. A successful password change
-// or reset always invalidates the active session: a fresh credential should
-// not coexist with a JWT signed against the previous fingerprint. Manual
-// logout is NOT a reason here — that flow only blacklists the JWT (handled
-// by the controllers), it does not clear the DB session, so trust-token
-// reconnect remains possible.
-export type SessionTerminationReason = "PASSWORD_RESET" | "PASSWORD_CHANGED";
 
 // Clears any active session and emits a LOGOUT entry in app_log_security.
 // Usagers don't have a server-side session row (portail-usagers login never
@@ -24,6 +17,7 @@ export async function terminateUserSession({
   structureId,
   role,
   requestContext,
+  userName,
 }: {
   userProfile: UserProfile;
   userId: number;
@@ -31,6 +25,7 @@ export async function terminateUserSession({
   structureId?: number;
   role?: string;
   requestContext?: SecurityLogRequestContext;
+  userName?: string;
 }): Promise<void> {
   if (userProfile !== "usager") {
     const securityRepository = getUserSecurityRepository(userProfile);
@@ -47,6 +42,7 @@ export async function terminateUserSession({
     structureId,
     role: role as never,
     requestContext,
+    userName,
     context: { reason },
   });
 }

@@ -1,15 +1,11 @@
 import { UserProfile, UserSecurity } from "../../../_common/model";
-import { passwordGenerator } from "../../../util";
 import {
-  getUserSecurityRepository,
   getUserRepository,
+  getUserSecurityRepository,
 } from "./get-user-repository.service";
-import { logUserSecurityEvent } from "./logUserSecurityEvent.service";
 import { userSecurityEventHistoryManager } from "./userSecurityEventHistoryManager.service";
-import { userStatusManager } from "./userStatusManager.service";
-import { terminateUserSession } from "./userSessionTerminator.service";
-import { otpRepository } from "../../../database";
-import { OTP_MAX_ATTEMPTS } from "../../otp/otp.constants";
+import { logSecurityEventForUser } from "../../app-logs/app-log-security-writer";
+import { userPasswordWriter } from "./userPasswordWriter.service";
 
 export const userSecurityResetPasswordUpdater = {
   checkResetPasswordToken,
@@ -24,37 +20,29 @@ async function checkResetPasswordToken({
   userId: number;
   token: string;
   userProfile: UserProfile;
-}): Promise<void> {
-  const securityRepository = getUserSecurityRepository(userProfile);
-
-  const userSecurity = await securityRepository.findOneByOrFail({
+}): Promise<UserSecurity> {
+  await userSecurityEventHistoryManager.assertOperationAllowed({
+    operation: "reset-password-confirm",
+    userProfile,
     userId,
   });
 
-  if (
-    await userSecurityEventHistoryManager.isAccountLockedForOperation({
-      operation: "reset-password-confirm",
-      userProfile,
-      userId,
-    })
-  ) {
-    throw new Error("Error");
-  }
+  const userSecurity = await getUserSecurityRepository(
+    userProfile
+  ).findOneByOrFail({ userId });
 
   if (
     !userSecurity.temporaryTokens?.token ||
     userSecurity.temporaryTokens.token !== token ||
     new Date(userSecurity.temporaryTokens.validity) < new Date()
   ) {
-    // update event history
-    await logUserSecurityEvent({
-      userProfile,
-      userId,
-      userSecurity,
-      eventType: "reset-password-error",
+    await logSecurityEventForUser("RESET_PASSWORD_ERROR", userProfile, {
+      id: userId,
     });
     throw new Error("Error");
   }
+
+  return userSecurity;
 }
 
 async function confirmResetPassword({
@@ -67,109 +55,25 @@ async function confirmResetPassword({
   token: string;
   newPassword: string;
   userProfile: UserProfile;
-}): Promise<{
-  user: any; // Type plus générique pour supporter les deux types d'utilisateurs
-  userSecurity: UserSecurity;
-}> {
+}): Promise<{ userId: number }> {
+  await checkResetPasswordToken({ userId, token, userProfile });
+
   const repository = getUserRepository(userProfile);
   const securityRepository = getUserSecurityRepository(userProfile);
 
-  let userSecurity = await securityRepository.findOneByOrFail({
-    userId,
-  });
+  // Single-use token: invalidate it before issuing the new password so a
+  // concurrent retry can't replay it.
+  await securityRepository.update({ userId }, { temporaryTokens: null });
 
-  if (
-    await userSecurityEventHistoryManager.isAccountLockedForOperation({
-      operation: "reset-password-confirm",
-      userProfile,
-      userId,
-    })
-  ) {
-    throw new Error("Error");
-  }
+  const user = await repository.findOneByOrFail({ id: userId });
 
-  if (
-    !userSecurity.temporaryTokens?.token ||
-    userSecurity.temporaryTokens.token !== token ||
-    new Date(userSecurity.temporaryTokens.validity) < new Date()
-  ) {
-    // update event history
-    await logUserSecurityEvent({
-      userProfile,
-      userId,
-      userSecurity,
-      eventType: "reset-password-error",
-    });
-    throw new Error("Error");
-  }
-
-  const hash = await passwordGenerator.generatePasswordHash({
-    password: newPassword,
-  });
-
-  await repository.update(
-    {
-      id: userId,
-    },
-    {
-      password: hash,
-      passwordLastUpdate: new Date(),
-    }
-  );
-
-  // Activate the account if it was in PENDING state (initial password set after creation).
-  // BLOCKED accounts stay BLOCKED — only an admin unblock can lift it.
-  await repository.update(
-    { id: userId, status: "PENDING" },
-    { status: "ACTIVE" }
-  );
-
-  // A successful reset also clears a TEMPORARILY_BLOCKED soft-lock (the
-  // backoff that fires after too many failed attempts). BLOCKED stays
-  // BLOCKED — clearTemporaryBlock is conditioned on TEMPORARILY_BLOCKED.
-  await userStatusManager.clearTemporaryBlock({ userProfile, userId });
-
-  const user = await repository.findOneBy({
-    id: userId,
-  });
-
-  await logUserSecurityEvent({
+  await userPasswordWriter.applyNewPassword({
+    user: user as never,
     userProfile,
-    userId,
-    userSecurity,
-    eventType: "reset-password-success",
-    clearAllEvents: true, // unlock account if locked
-    attributes: {
-      temporaryTokens: null,
-    },
+    newPassword,
+    successAction: "RESET_PASSWORD_SUCCESS",
+    sessionReason: "PASSWORD_RESET",
   });
 
-  // Invalidate any active session: a fresh credential must not coexist with
-  // a JWT signed against the previous session's fingerprint.
-  await terminateUserSession({
-    userProfile,
-    userId,
-    reason: "PASSWORD_RESET",
-  });
-
-  // A reset link is itself a proof of identity, so lift any OTP lockout this
-  // user may have accumulated (3 bad codes → 1h block). Rows are kept for
-  // audit; only `attempts` is reset to 0 so findRecentBlocked stops matching.
-  if (user?.uuid) {
-    await otpRepository.resetBlockedOtpsForUser(user.uuid, OTP_MAX_ATTEMPTS);
-  }
-
-  userSecurity = await securityRepository.findOne({
-    where: {
-      userId: user.id,
-    },
-    order: {
-      createdAt: "DESC",
-    },
-  });
-
-  return {
-    user,
-    userSecurity,
-  };
+  return { userId };
 }

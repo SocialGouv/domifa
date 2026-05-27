@@ -45,7 +45,6 @@ import {
   NewReferrerIdDto,
 } from "../dto";
 import {
-  usersDeletor,
   userStructureCreator,
   userStructureSecurityPasswordUpdater,
 } from "../services";
@@ -253,7 +252,7 @@ export class UsersController {
   ) {
     const userEmail = chosenUserStructure.email;
 
-    await usersDeletor.deleteUser({
+    await userStructureRepository.deleteWithSecurity({
       userId: chosenUserStructure.id,
       structureId: userStructureAuth.structureId,
     });

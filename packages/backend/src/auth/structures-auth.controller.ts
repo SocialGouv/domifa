@@ -37,7 +37,7 @@ import { userSecurityPasswordChecker } from "../modules/users/services";
 import { AllowUserStructureRoles } from "./decorators";
 import { ALL_USER_STRUCTURE_ROLES, UserStructure } from "@domifa/common";
 import { appLogger } from "../util";
-import { logSecurityEvent } from "../modules/app-logs/app-log-security-writer";
+import { logSecurityEventForUser } from "../modules/app-logs/app-log-security-writer";
 
 const userProfile: UserProfile = "structure";
 
@@ -124,12 +124,7 @@ export class StructuresAuthController {
               userAgent,
             });
 
-      await logSecurityEvent({
-        action: "LOGIN_SUCCESS",
-        profile: userProfile,
-        userId: user.id,
-        structureId: user.structureId,
-        role: user.role,
+      await logSecurityEventForUser("LOGIN_SUCCESS", userProfile, user, {
         requestContext: { ip, userAgent },
         context: { otpFlow: result.kind },
       });
@@ -169,17 +164,23 @@ export class StructuresAuthController {
     });
     await expiredTokenRepositiory.save(tokenToBlacklist);
 
-    await logSecurityEvent({
-      action: "LOGOUT",
-      profile: "structure",
-      userId: user.id,
-      structureId: user.structure.id,
-      role: user.role,
-      requestContext: {
-        ip: getClientIp(req),
-        userAgent: getClientUserAgent(req),
+    await logSecurityEventForUser(
+      "LOGOUT",
+      "structure",
+      {
+        id: user.id,
+        structureId: user.structure.id,
+        role: user.role,
+        nom: user.nom,
+        prenom: user.prenom,
       },
-    });
+      {
+        requestContext: {
+          ip: getClientIp(req),
+          userAgent: getClientUserAgent(req),
+        },
+      }
+    );
 
     return true;
   }

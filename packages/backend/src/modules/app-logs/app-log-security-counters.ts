@@ -3,68 +3,37 @@ import { SecurityLogAction } from "@domifa/common";
 import { appLogSecurityRepository } from "../../database";
 import { UserProfile } from "../../_common/model";
 import { userTypeFromProfile } from "./app-logs.helpers";
+import { AppLogActorType } from "./types";
 
-// Returns the count of app_log_security rows for the given user that match the
-// listed actions and were created within the last `sinceMinutes`. If
-// `resetByActions` is provided, rows older than the most recent occurrence of
-// any of these actions (for the same user) are excluded — this is how the
-// "RESET_PASSWORD_SUCCESS clears the lockout counter" semantic is enforced.
-export async function countSecurityEventsForUser({
-  profile,
-  userId,
-  actions,
-  sinceMinutes,
-  resetByActions,
-}: {
+// Strict whitelist: the column name is interpolated into the query, so it
+// must never come from anywhere other than this map.
+const USER_ID_COLUMN_BY_TYPE: Partial<
+  Record<
+    AppLogActorType,
+    "userStructureId" | "userSupervisorId" | "userUsagerId"
+  >
+> = {
+  user_structure: "userStructureId",
+  user_supervisor: "userSupervisorId",
+  usager: "userUsagerId",
+};
+
+type EventsSummary = { count: number; lastEventDate: Date | null };
+
+export async function countSecurityEventsForUser(args: {
   profile: UserProfile;
   userId: number;
   actions: readonly SecurityLogAction[];
   sinceMinutes: number;
   resetByActions?: readonly SecurityLogAction[];
 }): Promise<number> {
-  if (!userId || actions.length === 0) {
-    return 0;
-  }
-
-  const userType = userTypeFromProfile(profile);
-  const userColumn =
-    userType === "user_structure"
-      ? '"userStructureId"'
-      : userType === "user_supervisor"
-      ? '"userSupervisorId"'
-      : '"userUsagerId"';
-
-  const params: unknown[] = [userId, actions, sinceMinutes];
-  let query = `
-    SELECT COUNT(*)::int AS count
-    FROM app_log_security
-    WHERE ${userColumn} = $1
-      AND action = ANY($2)
-      AND "createdAt" > NOW() - ($3 || ' minutes')::interval
-  `;
-
-  if (resetByActions && resetByActions.length > 0) {
-    params.push(resetByActions);
-    query += `
-      AND "createdAt" > COALESCE(
-        (
-          SELECT MAX("createdAt") FROM app_log_security
-          WHERE ${userColumn} = $1
-            AND action = ANY($${params.length})
-        ),
-        '-infinity'::timestamptz
-      )
-    `;
-  }
-
-  const result = await appLogSecurityRepository.query(query, params);
-  return Number(result?.[0]?.count ?? 0);
+  const { count } = await summarizeSecurityEventsForUser(args);
+  return count;
 }
 
-// Returns count + the timestamp of the most recent matching row. Same
-// filtering rules as countSecurityEventsForUser (time window, optional
-// reset-by clause). Used by the lockout backoff so it can compute when the
-// block expires (= last failed event + lock duration).
+// `resetByActions` excludes rows older than the most recent occurrence of any
+// listed action for the same user — that's how RESET_PASSWORD_SUCCESS clears
+// the lockout counter.
 export async function summarizeSecurityEventsForUser({
   profile,
   userId,
@@ -77,44 +46,47 @@ export async function summarizeSecurityEventsForUser({
   actions: readonly SecurityLogAction[];
   sinceMinutes: number;
   resetByActions?: readonly SecurityLogAction[];
-}): Promise<{ count: number; lastEventDate: Date | null }> {
+}): Promise<EventsSummary> {
   if (!userId || actions.length === 0) {
     return { count: 0, lastEventDate: null };
   }
 
   const userType = userTypeFromProfile(profile);
-  const userColumn =
-    userType === "user_structure"
-      ? '"userStructureId"'
-      : userType === "user_supervisor"
-      ? '"userSupervisorId"'
-      : '"userUsagerId"';
-
-  const params: unknown[] = [userId, actions, sinceMinutes];
-  let query = `
-    SELECT COUNT(*)::int AS count, MAX("createdAt") AS "lastEventDate"
-    FROM app_log_security
-    WHERE ${userColumn} = $1
-      AND action = ANY($2)
-      AND "createdAt" > NOW() - ($3 || ' minutes')::interval
-  `;
-
-  if (resetByActions && resetByActions.length > 0) {
-    params.push(resetByActions);
-    query += `
-      AND "createdAt" > COALESCE(
-        (
-          SELECT MAX("createdAt") FROM app_log_security
-          WHERE ${userColumn} = $1
-            AND action = ANY($${params.length})
-        ),
-        '-infinity'::timestamptz
-      )
-    `;
+  const column = USER_ID_COLUMN_BY_TYPE[userType];
+  if (!column) {
+    return { count: 0, lastEventDate: null };
   }
 
-  const result = await appLogSecurityRepository.query(query, params);
-  const row = result?.[0];
+  const sinceDate = new Date(Date.now() - sinceMinutes * 60_000);
+
+  const qb = appLogSecurityRepository
+    .createQueryBuilder("log")
+    .select("COUNT(*)::int", "count")
+    .addSelect(`MAX(log."createdAt")`, "lastEventDate")
+    .where(`log."${column}" = :userId`, { userId })
+    .andWhere("log.action IN (:...actions)", { actions: [...actions] })
+    .andWhere(`log."createdAt" > :since`, { since: sinceDate });
+
+  if (resetByActions && resetByActions.length > 0) {
+    const resetSubQuery = appLogSecurityRepository
+      .createQueryBuilder("reset")
+      .select(`MAX(reset."createdAt")`)
+      .where(`reset."${column}" = :resetUserId`, { resetUserId: userId })
+      .andWhere("reset.action IN (:...resetActions)", {
+        resetActions: [...resetByActions],
+      })
+      .getQuery();
+
+    qb.andWhere(
+      `log."createdAt" > COALESCE((${resetSubQuery}), '-infinity'::timestamptz)`
+    );
+  }
+
+  const row = await qb.getRawOne<{
+    count: number | string;
+    lastEventDate: Date | string | null;
+  }>();
+
   return {
     count: Number(row?.count ?? 0),
     lastEventDate: row?.lastEventDate ? new Date(row.lastEventDate) : null,

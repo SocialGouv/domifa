@@ -13,6 +13,7 @@ export const userStatusManager = {
   clearTemporaryBlock,
   getUserStatusFromDb,
   unblockUser,
+  activateFromPending,
 };
 
 async function markUserAsBlocked({
@@ -65,6 +66,21 @@ async function unblockUser({
 }): Promise<void> {
   const repo = getRepoFor(userProfile);
   await repo.update({ id: userId }, { status: "ACTIVE" });
+}
+
+// Idempotent activation: PENDING accounts become ACTIVE on the first
+// password set (creation flow). BLOCKED and TEMPORARILY_BLOCKED stay as-is —
+// the `Equal("PENDING")` filter in WHERE makes this safe to call
+// unconditionally after any successful password write.
+async function activateFromPending({
+  userProfile,
+  userId,
+}: {
+  userProfile: UserProfile;
+  userId: number;
+}): Promise<void> {
+  const repo = getRepoFor(userProfile);
+  await repo.update({ id: userId, status: "PENDING" }, { status: "ACTIVE" });
 }
 
 async function getUserStatusFromDb({

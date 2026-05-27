@@ -40,7 +40,7 @@ import { OtpService } from "../../../otp/services/otp.service";
 import { normalizeUrl, readOtpCode } from "../../../otp/guards/otp.guard";
 import { computeOtpFingerprint } from "../../../otp/otp-fingerprint.helper";
 import { OtpRequestContext } from "../../../otp/otp.types";
-import { logSecurityEvent } from "../../../app-logs/app-log-security-writer";
+import { logSecurityEventForUser } from "../../../app-logs/app-log-security-writer";
 
 const userProfile: UserProfile = "supervisor";
 @Controller("portail-admins/auth")
@@ -113,11 +113,7 @@ export class PortailAdminLoginController {
       userAgent: getClientUserAgent(req),
     });
 
-    await logSecurityEvent({
-      action: "LOGIN_SUCCESS",
-      profile: userProfile,
-      userId: user.id,
-      role: user.role,
+    await logSecurityEventForUser("LOGIN_SUCCESS", userProfile, user, {
       requestContext: {
         ip: getClientIp(req),
         userAgent: getClientUserAgent(req),
@@ -143,16 +139,17 @@ export class PortailAdminLoginController {
     });
     await expiredTokenRepositiory.save(tokenToBlacklist);
 
-    await logSecurityEvent({
-      action: "LOGOUT",
-      profile: "supervisor",
-      userId: user.id,
-      role: user.role,
-      requestContext: {
-        ip: getClientIp(req),
-        userAgent: getClientUserAgent(req),
-      },
-    });
+    await logSecurityEventForUser(
+      "LOGOUT",
+      "supervisor",
+      { id: user.id, role: user.role, nom: user.nom, prenom: user.prenom },
+      {
+        requestContext: {
+          ip: getClientIp(req),
+          userAgent: getClientUserAgent(req),
+        },
+      }
+    );
 
     return true;
   }

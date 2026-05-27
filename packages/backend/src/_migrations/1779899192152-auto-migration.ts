@@ -1,16 +1,23 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { domifaConfig } from "../config";
 
 export class AutoMigration1779899192152 implements MigrationInterface {
   name = "AutoMigration1779899192152";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`ALTER TABLE "app_log" ADD "userName" text`);
-    await queryRunner.query(
-      `ALTER TABLE "app_log_security" ADD "userUsagerId" integer`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "app_log_security" ADD "userName" text`
-    );
+    if (
+      domifaConfig().envId === "prod" ||
+      domifaConfig().envId === "preprod" ||
+      domifaConfig().envId === "local"
+    ) {
+      await queryRunner.query(`ALTER TABLE "app_log" ADD "userName" text`);
+      await queryRunner.query(
+        `ALTER TABLE "app_log_security" ADD "userUsagerId" integer`
+      );
+      await queryRunner.query(
+        `ALTER TABLE "app_log_security" ADD "userName" text`
+      );
+    }
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

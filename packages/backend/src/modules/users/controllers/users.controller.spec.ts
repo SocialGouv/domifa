@@ -14,10 +14,9 @@ import {
 import { UsersController } from "./users.controller";
 import { POST_USER_STRUCTURE_BODY } from "../../../_common/mocks";
 import { TESTS_USERS_STRUCTURE, TestUserStructure } from "../../../_tests";
-import { usersDeletor } from "../services/users-deletor.service";
 import { MailsModule } from "../../mails/mails.module";
 import { AppLogsService } from "../../app-logs/app-logs.service";
-import { appLogsRepository } from "../../../database";
+import { appLogsRepository, userStructureRepository } from "../../../database";
 
 describe("Users Controller", () => {
   let controller: UsersController;
@@ -37,7 +36,7 @@ describe("Users Controller", () => {
   });
 
   afterAll(async () => {
-    await usersDeletor.deleteUserByEmail("test@test.com");
+    await userStructureRepository.deleteWithSecurityByEmail("test@test.com");
     await AppTestHelper.tearDownTestApp(context);
   });
 

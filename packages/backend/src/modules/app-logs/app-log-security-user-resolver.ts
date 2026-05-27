@@ -7,17 +7,14 @@ import {
 } from "../../database";
 import { AppLogActorType } from "./types";
 
-// Profile expected by the caller of resolveUserForSecurityLog. Maps 1:1 to
-// the matching AppLogActorType when a user is found.
 export type UserSecurityLogProfile =
   | "user_structure"
   | "user_supervisor"
   | "usager";
 
-// Shape ready to be spread into an AppLogSecurity row. When the identifier
-// does not match any user, `userType` falls back to "anonymous" and the
-// caller is expected to stash `identifier` in `context` so the failed attempt
-// can still be audited.
+// `userType` falls back to "anonymous" when the identifier matches no user —
+// the caller is expected to stash `identifier` in `context` so the failed
+// attempt can still be audited.
 export type ResolvedUserForSecurityLog = {
   userStructureId?: number;
   userSupervisorId?: number;

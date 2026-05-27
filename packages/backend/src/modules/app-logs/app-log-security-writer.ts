@@ -4,31 +4,23 @@ import {
   UserSupervisorRole,
 } from "@domifa/common";
 
-import {
-  appLogSecurityRepository,
-  AppLogSecurityTable,
-  userStructureRepository,
-  userSupervisorRepository,
-  userUsagerRepository,
-} from "../../database";
+import { appLogSecurityRepository, AppLogSecurityTable } from "../../database";
 import { appLogger } from "../../util";
 import { UserProfile } from "../../_common/model";
 import { userTypeFromProfile } from "./app-logs.helpers";
 import { AppLogActorType } from "./types";
 
-// Minimal request-bound context attached to every security log row. When the
-// caller has the Express request handy, both fields should be populated so the
-// row can be filtered by ip / user-agent without poking into `context`.
 export type SecurityLogRequestContext = {
   ip?: string;
   userAgent?: string;
 };
 
-// Single shape the rest of the codebase uses to record an event in
-// `app_log_security`. The subject of the event is either an identified user
-// (one of the three profiles + optional structure/role) or an anonymous actor
-// (typically a failed login on an unknown email — `identifier` is stashed in
-// `context` so the audit trail still surfaces *who* was being targeted).
+// PASSWORD_RESET and PASSWORD_CHANGED both invalidate the active session: a
+// fresh credential must not coexist with the previous JWT fingerprint. Manual
+// logout intentionally doesn't clear the DB session (so trust-token reconnect
+// stays possible) — that's why it's absent from this union.
+export type SessionTerminationReason = "PASSWORD_RESET" | "PASSWORD_CHANGED";
+
 export type LogSecurityEventParams = {
   action: SecurityLogAction;
   profile?: UserProfile;
@@ -37,16 +29,16 @@ export type LogSecurityEventParams = {
   structureId?: number;
   role?: UserStructureRole | UserSupervisorRole;
   requestContext?: SecurityLogRequestContext;
+  // Identifier (email/login) attempted by the caller. Only persisted in
+  // `context` when the user couldn't be resolved (userType=anonymous) — it's
+  // the only audit handle left for those rows.
   identifier?: string;
   context?: Record<string, unknown>;
-  // Display name of the subject snapshotted on the row. Resolved lazily from
-  // the matching user_* table when not provided.
   userName?: string;
 };
 
-// Writes a single row to `app_log_security`. Best-effort: a failure here must
-// never block the underlying flow (login, password change, etc.), so we
-// swallow the error and log it for diagnostics.
+// Best-effort: a failure here must never block the underlying flow (login,
+// password change, etc.).
 export async function logSecurityEvent(
   params: LogSecurityEventParams
 ): Promise<void> {
@@ -63,6 +55,7 @@ export async function logSecurityEvent(
       ip: params.requestContext?.ip,
       userAgent: params.requestContext?.userAgent,
       context: buildContext(params),
+      userName: params.userName,
     };
 
     if (params.userId) {
@@ -74,9 +67,6 @@ export async function logSecurityEvent(
         row.userUsagerId = params.userId;
       }
     }
-
-    row.userName =
-      params.userName ?? (await resolveUserName(userType, params.userId));
 
     await appLogSecurityRepository.save(new AppLogSecurityTable(row));
   } catch (err) {
@@ -92,48 +82,66 @@ function buildContext(
   params: LogSecurityEventParams
 ): Record<string, unknown> | undefined {
   const extra = params.context ?? {};
-  // Keep the failed-login identifier (email/login) when the user could not be
-  // resolved — it's the only audit handle left for that row.
   if (params.userType === "anonymous" && params.identifier) {
     return { identifier: params.identifier, ...extra };
   }
   return Object.keys(extra).length > 0 ? extra : undefined;
 }
 
-// Best-effort lookup so the `userName` column is populated without forcing
-// every call site to pass it. Returns undefined when the user can't be
-// resolved (system, anonymous, missing FK) so the column stays NULL.
-async function resolveUserName(
-  userType: AppLogActorType,
-  userId: number | undefined
-): Promise<string | undefined> {
-  if (!userId) {
+// Shape that any "user-like" object satisfies for log purposes — structures
+// and supervisors have prenom/nom, usagers have a `login`.
+type UserForLog = {
+  id?: number;
+  uuid?: string;
+  prenom?: string | null;
+  nom?: string | null;
+  login?: string | null;
+  structureId?: number;
+  role?: UserStructureRole | UserSupervisorRole | string;
+};
+
+// Shorthand for the most common call shape: action + already-resolved user.
+// Extracts userName / id / structureId / role / uuid from the user object so
+// callers don't have to spread them by hand at every site.
+export async function logSecurityEventForUser(
+  action: SecurityLogAction,
+  profile: UserProfile,
+  user: UserForLog | null | undefined,
+  options: {
+    requestContext?: SecurityLogRequestContext;
+    context?: Record<string, unknown>;
+  } = {}
+): Promise<void> {
+  await logSecurityEvent({
+    action,
+    profile,
+    userId: user?.id,
+    structureId: user?.structureId,
+    role: user?.role as UserStructureRole | UserSupervisorRole | undefined,
+    requestContext: options.requestContext,
+    context: options.context,
+    userName: formatUserNameForLog(user),
+  });
+}
+
+export function formatUserNameForLog(
+  user:
+    | { prenom?: string | null; nom?: string | null }
+    | { login?: string | null }
+    | null
+    | undefined
+): string | undefined {
+  if (!user) {
     return undefined;
   }
-  if (userType === "user_structure") {
-    const u = await userStructureRepository.findOne({
-      where: { id: userId },
-      select: { nom: true, prenom: true },
-    });
-    return u
-      ? `${u.prenom ?? ""} ${u.nom ?? ""}`.trim() || undefined
-      : undefined;
+  if ("login" in user && user.login) {
+    return user.login;
   }
-  if (userType === "user_supervisor") {
-    const u = await userSupervisorRepository.findOne({
-      where: { id: userId },
-      select: { nom: true, prenom: true },
-    });
-    return u
-      ? `${u.prenom ?? ""} ${u.nom ?? ""}`.trim() || undefined
-      : undefined;
-  }
-  if (userType === "usager") {
-    const u = await userUsagerRepository.findOne({
-      where: { id: userId },
-      select: { login: true },
-    });
-    return u?.login ?? undefined;
+  if ("prenom" in user || "nom" in user) {
+    const full = `${(user as { prenom?: string }).prenom ?? ""} ${
+      (user as { nom?: string }).nom ?? ""
+    }`.trim();
+    return full.length > 0 ? full : undefined;
   }
   return undefined;
 }

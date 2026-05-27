@@ -37,7 +37,7 @@ import { AllowUserProfiles, CurrentUser } from "../../../../auth/decorators";
 import { AuthGuard } from "@nestjs/passport";
 import { AppUserGuard } from "../../../../auth/guards";
 import { userUsagerSecurityPasswordChecker } from "../../services/user-usager-security";
-import { logSecurityEvent } from "../../../app-logs/app-log-security-writer";
+import { logSecurityEventForUser } from "../../../app-logs/app-log-security-writer";
 
 @Controller("portail-usagers/auth")
 @ApiTags("auth")
@@ -127,16 +127,21 @@ export class PortailUsagersLoginController {
     });
     await expiredTokenRepositiory.save(tokenToBlacklist);
 
-    await logSecurityEvent({
-      action: "LOGOUT",
-      profile: "usager",
-      userId: user.user.id,
-      structureId: user.user.structureId,
-      requestContext: {
-        ip: getClientIp(req),
-        userAgent: getClientUserAgent(req),
+    await logSecurityEventForUser(
+      "LOGOUT",
+      "usager",
+      {
+        id: user.user.id,
+        structureId: user.user.structureId,
+        login: user.user.login,
       },
-    });
+      {
+        requestContext: {
+          ip: getClientIp(req),
+          userAgent: getClientUserAgent(req),
+        },
+      }
+    );
 
     return true;
   }

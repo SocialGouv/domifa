@@ -1,15 +1,9 @@
 import { UserUsager } from "@domifa/common";
-import {
-  userUsagerSecurityRepository,
-  userUsagerRepository,
-} from "../../../../database";
+import { userUsagerRepository } from "../../../../database";
 import { passwordGenerator } from "../../../../util";
-import {
-  logUserSecurityEvent,
-  userSecurityEventHistoryManager,
-} from "../../../users/services";
-import { terminateUserSession } from "../../../users/services/userSessionTerminator.service";
-import { userStatusManager } from "../../../users/services";
+import { userSecurityEventHistoryManager } from "../../../users/services";
+import { userPasswordWriter } from "../../../users/services/userPasswordWriter.service";
+import { logSecurityEventForUser } from "../../../app-logs/app-log-security-writer";
 
 export const userUsagerSecurityPasswordUpdater = {
   updatePassword,
@@ -24,69 +18,36 @@ async function updatePassword({
   oldPassword: string;
   newPassword: string;
 }): Promise<UserUsager> {
-  const userSecurity = await userUsagerSecurityRepository.findOneOrFail({
-    where: { userId },
+  await userSecurityEventHistoryManager.assertOperationAllowed({
+    operation: "change-password",
+    userProfile: "usager",
+    userId,
   });
 
-  if (
-    await userSecurityEventHistoryManager.isAccountLockedForOperation({
-      operation: "change-password",
-      userProfile: "usager",
-      userId,
-    })
-  ) {
-    throw new Error("Error");
-  }
-  const user = await userUsagerRepository.findOneByOrFail({
-    id: userId,
-  });
-  const isValidPass: boolean = await passwordGenerator.checkPassword({
+  const user = await userUsagerRepository.findOneByOrFail({ id: userId });
+  const isValidPass = await passwordGenerator.checkPassword({
     password: oldPassword,
     hash: user.password,
   });
   if (!isValidPass) {
-    await logUserSecurityEvent({
-      userProfile: "usager",
-      userId,
-      userSecurity,
-      eventType: "change-password-error",
-    });
+    await logSecurityEventForUser("CHANGE_PASSWORD_ERROR", "usager", user);
     throw new Error("Error");
   }
 
-  const hash = await passwordGenerator.generatePasswordHash({
-    password: newPassword,
+  await userPasswordWriter.applyNewPassword({
+    user,
+    userProfile: "usager",
+    newPassword,
+    successAction: "CHANGE_PASSWORD_SUCCESS",
+    sessionReason: "PASSWORD_CHANGED",
   });
 
+  // `acceptTerms` is a usager-specific concern: every personal password set
+  // (re)stamps the consent date. Other profiles don't have this column.
   await userUsagerRepository.update(
     { id: userId },
-    { password: hash, passwordLastUpdate: new Date(), acceptTerms: new Date() }
+    { acceptTerms: new Date() }
   );
 
-  const updatedUser = await userUsagerRepository.findOneBy({
-    id: userId,
-  });
-
-  // A successful password change also lifts a TEMPORARILY_BLOCKED soft-lock
-  // (BLOCKED stays — clearTemporaryBlock is conditioned on the soft state).
-  await userStatusManager.clearTemporaryBlock({
-    userProfile: "usager",
-    userId,
-  });
-
-  await logUserSecurityEvent({
-    userProfile: "usager",
-    userId,
-    userSecurity,
-    eventType: "change-password-success",
-  });
-
-  // Audit-only on usager profile (no DB session to clear), but kept for
-  // parity with the structure / supervisor flows.
-  await terminateUserSession({
-    userProfile: "usager",
-    userId,
-    reason: "PASSWORD_CHANGED",
-  });
-  return updatedUser;
+  return userUsagerRepository.findOneByOrFail({ id: userId });
 }

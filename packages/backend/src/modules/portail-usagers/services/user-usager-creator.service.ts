@@ -4,7 +4,7 @@ import {
   userUsagerSecurityRepository,
   UserUsagerTable,
 } from "../../../database";
-import { logUserSecurityEvent } from "../../users/services";
+import { logSecurityEventForUser } from "../../app-logs/app-log-security-writer";
 import { userUsagerLoginPasswordGenerator } from "./user-usager-login-password-generator.service";
 import { Usager, UserStructure, UserUsager } from "@domifa/common";
 
@@ -84,17 +84,11 @@ async function resetUserUsagerPassword(
     usagerUUID: usager.uuid,
   });
 
-  const userSecurity = await userUsagerSecurityRepository.findOneByOrFail({
-    userId: updatedUser.id,
-  });
-
-  await logUserSecurityEvent({
-    userProfile: "usager",
-    userId: updatedUser.id,
-    userSecurity,
-    eventType: "reset-password-success",
-    clearAllEvents: true,
-  });
+  await logSecurityEventForUser(
+    "RESET_PASSWORD_SUCCESS",
+    "usager",
+    updatedUser
+  );
 
   return { userUsager: updatedUser, temporaryPassword };
 }

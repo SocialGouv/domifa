@@ -18,7 +18,20 @@ export const LOCKOUT_DURATION_HOURS = 1;
 export const userSecurityEventHistoryManager = {
   isAccountLockedForOperation,
   getBackoffTime,
+  assertOperationAllowed,
 };
+
+// Wrap the lockout check + throw with the unified `BLOCKED_TEMP` code so
+// every flow (login, change pwd, reset, OTP) surfaces the same error shape.
+async function assertOperationAllowed(args: {
+  operation: string;
+  userId: number;
+  userProfile: UserProfile;
+}): Promise<void> {
+  if (await isAccountLockedForOperation(args)) {
+    throw new Error("BLOCKED_TEMP");
+  }
+}
 
 // Counts the failed-auth events on `app_log_security` over the lockout window
 // and returns the remaining minutes before the account is freed, or null when

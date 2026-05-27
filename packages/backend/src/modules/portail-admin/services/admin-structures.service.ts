@@ -4,7 +4,6 @@ import { NotFoundException } from "@nestjs/common";
 
 import {
   userStructureRepository,
-  userStructureSecurityRepository,
   structureRepository,
 } from "../../../database";
 
@@ -19,10 +18,8 @@ import {
   CurrentUserSession,
   HistoricalUserSession,
 } from "../../../_common/model";
-import {
-  logUserSecurityEvent,
-  userSecurityEventHistoryManager,
-} from "../../users/services";
+import { userSecurityEventHistoryManager } from "../../users/services";
+import { logSecurityEvent } from "../../app-logs/app-log-security-writer";
 
 @Injectable()
 export class AdminStructuresService {
@@ -41,17 +38,11 @@ export class AdminStructuresService {
       { id: target.id, structureId },
       { status: "ACTIVE" }
     );
-    // Log the unblock as a fresh event with clearAllEvents so the throttler
-    // does not immediately re-block the account on the next login attempt.
-    const userSecurity = await userStructureSecurityRepository.findOneByOrFail({
+    await logSecurityEvent({
+      action: "UNBLOCK_USER",
+      profile: "structure",
       userId: target.id,
-    });
-    await logUserSecurityEvent({
-      userProfile: "structure",
-      userId: target.id,
-      userSecurity,
-      eventType: "account-unblocked",
-      clearAllEvents: true,
+      structureId,
     });
     return { userId: target.id };
   }
