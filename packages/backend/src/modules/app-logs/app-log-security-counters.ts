@@ -1,3 +1,5 @@
+import { In, MoreThan } from "typeorm";
+
 import { SecurityLogAction } from "@domifa/common";
 
 import { appLogSecurityRepository } from "../../database";
@@ -5,8 +7,7 @@ import { UserProfile } from "../../_common/model";
 import { userTypeFromProfile } from "./app-logs.helpers";
 import { AppLogActorType } from "./types";
 
-// Strict whitelist: the column name is interpolated into the query, so it
-// must never come from anywhere other than this map.
+// Strict whitelist of the FK column targeted per profile.
 const USER_ID_COLUMN_BY_TYPE: Partial<
   Record<
     AppLogActorType,
@@ -31,9 +32,9 @@ export async function countSecurityEventsForUser(args: {
   return count;
 }
 
-// `resetByActions` excludes rows older than the most recent occurrence of any
-// listed action for the same user — that's how RESET_PASSWORD_SUCCESS clears
-// the lockout counter.
+// Single TypeORM query that pulls every action of interest (failed + reset)
+// in the time window, then filters in JS: any row older than the most recent
+// reset doesn't count. Keeps the SQL trivial and the logic explicit.
 export async function summarizeSecurityEventsForUser({
   profile,
   userId,
@@ -51,44 +52,39 @@ export async function summarizeSecurityEventsForUser({
     return { count: 0, lastEventDate: null };
   }
 
-  const userType = userTypeFromProfile(profile);
-  const column = USER_ID_COLUMN_BY_TYPE[userType];
+  const column = USER_ID_COLUMN_BY_TYPE[userTypeFromProfile(profile)];
   if (!column) {
     return { count: 0, lastEventDate: null };
   }
 
+  const failedActions = new Set<string>(actions);
+  const resetActions = new Set<string>(resetByActions ?? []);
   const sinceDate = new Date(Date.now() - sinceMinutes * 60_000);
 
-  const qb = appLogSecurityRepository
-    .createQueryBuilder("log")
-    .select("COUNT(*)::int", "count")
-    .addSelect(`MAX(log."createdAt")`, "lastEventDate")
-    .where(`log."${column}" = :userId`, { userId })
-    .andWhere("log.action IN (:...actions)", { actions: [...actions] })
-    .andWhere(`log."createdAt" > :since`, { since: sinceDate });
+  const events = await appLogSecurityRepository.find({
+    where: {
+      [column]: userId,
+      action: In([...failedActions, ...resetActions]),
+      createdAt: MoreThan(sinceDate),
+    },
+    order: { createdAt: "DESC" },
+    select: { action: true, createdAt: true },
+  });
 
-  if (resetByActions && resetByActions.length > 0) {
-    const resetSubQuery = appLogSecurityRepository
-      .createQueryBuilder("reset")
-      .select(`MAX(reset."createdAt")`)
-      .where(`reset."${column}" = :resetUserId`, { resetUserId: userId })
-      .andWhere("reset.action IN (:...resetActions)", {
-        resetActions: [...resetByActions],
-      })
-      .getQuery();
-
-    qb.andWhere(
-      `log."createdAt" > COALESCE((${resetSubQuery}), '-infinity'::timestamptz)`
-    );
+  let count = 0;
+  let lastEventDate: Date | null = null;
+  for (const event of events) {
+    // Newest-first scan: stop counting failures as soon as we hit a reset.
+    if (resetActions.has(event.action)) {
+      break;
+    }
+    if (failedActions.has(event.action)) {
+      count += 1;
+      if (!lastEventDate) {
+        lastEventDate = event.createdAt!;
+      }
+    }
   }
 
-  const row = await qb.getRawOne<{
-    count: number | string;
-    lastEventDate: Date | string | null;
-  }>();
-
-  return {
-    count: Number(row?.count ?? 0),
-    lastEventDate: row?.lastEventDate ? new Date(row.lastEventDate) : null,
-  };
+  return { count, lastEventDate };
 }

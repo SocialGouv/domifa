@@ -1,3 +1,5 @@
+import { MoreThanOrEqual } from "typeorm";
+
 import { myDataSource } from "..";
 import { UserProfile } from "../../../_common/model";
 import { OtpPurpose } from "../../../modules/otp/otp.types";
@@ -137,20 +139,17 @@ export const otpRepository = myDataSource.getRepository(OtpTable).extend({
 
   // Resets the attempts counter on every blocking OTP row attributed to a
   // given user. Called after a successful password reset/change: the user
-  // has proven their identity via the reset link, so any prior lockout from
-  // bad OTP codes is lifted. The rows themselves are kept (audit trail);
-  // findRecentBlocked just won't match them anymore. Returns the number of
-  // rows actually unblocked.
+  // has proven their identity, so any prior lockout from bad OTP codes is
+  // lifted. Rows are kept for audit; `findRecentBlocked` just won't match
+  // them anymore.
   async resetBlockedOtpsForUser(
     userUuid: string,
     maxAttempts: number
   ): Promise<number> {
-    const result = await this.createQueryBuilder()
-      .update(OtpTable)
-      .set({ attempts: 0 })
-      .where(`"userUuid" = :userUuid`, { userUuid })
-      .andWhere("attempts >= :maxAttempts", { maxAttempts })
-      .execute();
+    const result = await this.update(
+      { userUuid, attempts: MoreThanOrEqual(maxAttempts) },
+      { attempts: 0 }
+    );
     return result.affected ?? 0;
   },
 });

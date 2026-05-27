@@ -41,6 +41,7 @@ import { normalizeUrl, readOtpCode } from "../../../otp/guards/otp.guard";
 import { computeOtpFingerprint } from "../../../otp/otp-fingerprint.helper";
 import { OtpRequestContext } from "../../../otp/otp.types";
 import { logSecurityEventForUser } from "../../../app-logs/app-log-security-writer";
+import { appLogger } from "../../../../util";
 
 const userProfile: UserProfile = "supervisor";
 @Controller("portail-admins/auth")
@@ -70,6 +71,10 @@ export class PortailAdminLoginController {
         },
       });
     } catch (err) {
+      appLogger.error("PortailAdminLoginController.loginUser failed", {
+        error: err,
+        context: { email: loginDto?.email },
+      });
       // Anti-enumeration: no OTP is generated when credentials fail, so
       // unknown emails and wrong passwords look the same to a caller.
       // The lockout branch is the only one we surface explicitly, since

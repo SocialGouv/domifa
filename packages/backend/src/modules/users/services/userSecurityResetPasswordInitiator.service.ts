@@ -1,12 +1,7 @@
 import { addDays } from "date-fns";
 
 import { CommonUser } from "@domifa/common";
-import {
-  UserProfile,
-  UserSecurity,
-  UserTokenType,
-  UserTokens,
-} from "../../../_common/model";
+import { UserProfile, UserTokenType, UserTokens } from "../../../_common/model";
 import { domifaConfig } from "../../../config";
 import { tokenGenerator } from "../../../util";
 import {
@@ -24,6 +19,7 @@ export const userSecurityResetPasswordInitiator = {
   generateResetPasswordToken,
   generateResetPasswordTokenAndValidity,
 };
+
 function buildResetPasswordLink({
   userId,
   token,
@@ -34,7 +30,6 @@ function buildResetPasswordLink({
   userProfile: UserProfile;
 }) {
   const config = domifaConfig().apps;
-  // Utiliser l'URL frontend pour les utilisateurs de structure, et adminFrontUrl pour les superviseurs
   return userProfile === "structure"
     ? `${config.frontendUrl}users/reset-password/${userId}/${token}`
     : `${config.portailAdminUrl}auth/reset-password/${userId}/${token}`;
@@ -48,16 +43,10 @@ async function generateResetPasswordToken({
   userProfile: UserProfile;
 }): Promise<{
   user: Pick<CommonUser, "id" | "nom" | "prenom" | "email">;
-  userSecurity: UserSecurity;
+  temporaryTokens: UserTokens;
   resetLink: string;
 }> {
-  const repository = getUserRepository(userProfile);
-  const securityRepository = getUserSecurityRepository(userProfile);
-
-  const user: Pick<CommonUser, "id" | "nom" | "prenom" | "email"> | null =
-    await repository.findOneBy({
-      email,
-    });
+  const user = await getUserRepository(userProfile).findOneBy({ email });
   if (!user) {
     await logSecurityEvent({
       action: "RESET_PASSWORD_REQUEST",
@@ -67,10 +56,6 @@ async function generateResetPasswordToken({
     });
     throw new Error("Error");
   }
-
-  let userSecurity = await securityRepository.findOneByOrFail({
-    userId: user.id,
-  });
 
   await userSecurityEventHistoryManager.assertOperationAllowed({
     operation: "reset-password-request",
@@ -82,30 +67,21 @@ async function generateResetPasswordToken({
     type: "reset-password",
   });
 
-  await securityRepository.update({ userId: user.id }, { temporaryTokens });
+  await getUserSecurityRepository(userProfile).update(
+    { userId: user.id },
+    { temporaryTokens }
+  );
 
   await logSecurityEventForUser("RESET_PASSWORD_REQUEST", userProfile, user);
 
-  userSecurity = await securityRepository.findOne({
-    where: {
-      userId: user.id,
-    },
-    order: {
-      createdAt: "DESC",
-    },
-  });
-
-  // Générer le lien de réinitialisation avec le bon type d'utilisateur
-  const resetLink = buildResetPasswordLink({
-    userId: user.id,
-    token: temporaryTokens.token,
-    userProfile,
-  });
-
   return {
     user,
-    userSecurity,
-    resetLink, // Retourner le lien directement pour faciliter son utilisation
+    temporaryTokens,
+    resetLink: buildResetPasswordLink({
+      userId: user.id,
+      token: temporaryTokens.token,
+      userProfile,
+    }),
   };
 }
 
