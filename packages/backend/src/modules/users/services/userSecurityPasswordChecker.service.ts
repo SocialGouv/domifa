@@ -1,6 +1,6 @@
 import { UserStatus, UserStructure, UserSupervisor } from "@domifa/common";
 
-import { passwordGenerator } from "../../../util";
+import { appLogger, passwordGenerator } from "../../../util";
 import { UserProfile } from "../../../_common/model";
 import {
   logSecurityEvent,
@@ -103,9 +103,18 @@ async function findUserForLogin<T extends UserStructure | UserSupervisor>({
   userProfile: UserProfile;
   requestContext: CheckPasswordRequestContext;
 }): Promise<T> {
-  const user = (await getUserRepository(userProfile)
-    .findOneBy({ email: email.toLowerCase() })
-    .catch(() => null)) as T | null;
+  let user: T | null = null;
+  try {
+    user = (await getUserRepository(userProfile).findOneBy({
+      email: email.toLowerCase(),
+    })) as T | null;
+  } catch (err) {
+    appLogger.error("findUserForLogin lookup failed", {
+      sentry: true,
+      err,
+      context: { email, userProfile },
+    });
+  }
 
   if (!user) {
     // Unknown email: anonymous LOGIN_ERROR keeps the failed attempt auditable

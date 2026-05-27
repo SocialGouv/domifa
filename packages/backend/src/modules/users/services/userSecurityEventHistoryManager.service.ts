@@ -85,9 +85,7 @@ async function isAccountLockedForOperation({
   }
   // Window expired — auto-clear any lingering TEMPORARILY_BLOCKED so the
   // strict "only ACTIVE" check downstream sees the real state.
-  await userStatusManager
-    .clearTemporaryBlock({ userProfile, userId })
-    .catch(() => undefined);
+  await userStatusManager.clearTemporaryBlock({ userProfile, userId });
   return false;
 }
 

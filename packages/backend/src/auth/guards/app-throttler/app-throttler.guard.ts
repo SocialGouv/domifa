@@ -291,16 +291,15 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       return;
     }
 
-    const currentStatus = await userStatusManager
-      .getUserStatusFromDb({ userProfile, userId })
-      .catch(() => null);
+    const currentStatus = await userStatusManager.getUserStatusFromDb({
+      userProfile,
+      userId,
+    });
     if (currentStatus === "BLOCKED") {
       return;
     }
 
-    await userStatusManager
-      .markUserAsBlocked({ userProfile, userId })
-      .catch(() => undefined);
+    await userStatusManager.markUserAsBlocked({ userProfile, userId });
 
     const userType = userTypeFromProfile(userProfile);
     const throttleCtx = (context["throttle"] ??
