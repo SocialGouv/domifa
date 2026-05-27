@@ -8,6 +8,14 @@ export const OTP_BLOCK_DURATION_MINUTES = 60;
 // scope is refused until the OTP expires.
 export const OTP_MAX_RESENDS = 5;
 
+// Per-user rolling cap on OTP_REQUESTED rows over a 1-hour window. Counted
+// across every purpose (LOGIN, EXPORT, etc.) since the limit is about email
+// volume — a single user can't trigger more than this many code emails per
+// hour. Hitting the cap temporarily blocks the account (TEMPORARILY_BLOCKED
+// + BLOCK_USER row in app_log_security). RESET_PASSWORD_SUCCESS resets the
+// counter (see app-log-security backoff query).
+export const OTP_MAX_REQUESTS_PER_HOUR = 10;
+
 // Header non-préfixé : RFC 6648 (2012) déprécie le préfixe `X-` pour les
 // headers custom. Express normalise toutes les clés en lowercase côté
 // `req.headers`, donc la lecture marche quelle que soit la casse envoyée.

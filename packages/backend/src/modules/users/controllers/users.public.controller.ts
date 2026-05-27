@@ -75,17 +75,11 @@ export class UsersPublicController {
     @Res() res: ExpressResponse
   ) {
     try {
-      const { user, userSecurity } =
+      const { user, resetLink: link } =
         await userSecurityResetPasswordInitiator.generateResetPasswordToken({
           email: emailDto.email,
           userProfile: "structure",
         });
-
-      const link = userSecurityResetPasswordInitiator.buildResetPasswordLink({
-        token: userSecurity.temporaryTokens.token,
-        userId: user.id,
-        userProfile,
-      });
 
       await this.brevoSenderService.sendEmailWithTemplate({
         templateId: domifaConfig().brevo.templates.userResetPassword,

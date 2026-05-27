@@ -9,4 +9,8 @@ export interface UserActivityLog {
   // rows, so the activity tab template guards on presence.
   ip?: string | null;
   userAgent?: string | null;
+  // Subject's display name. Populated by structure-level aggregate endpoints
+  // (logs across every user of the structure) and rendered in the optional
+  // "Utilisateur" column. Single-user views leave this undefined.
+  userName?: string | null;
 }

@@ -19,7 +19,6 @@ import {
   userSupervisorRepository,
   userSupervisorSecurityRepository,
 } from "../../../../database";
-import { SUSPICIOUS_LOG_ACTIONS } from "../../../security-monitoring/constants/SECURITY_LOG_ACTIONS.const";
 import { SuspiciousLogAction } from "../../../security-monitoring/types/security-alert.types";
 import {
   SuspiciousActivityQueryDto,
@@ -234,13 +233,14 @@ export class AdminSecurityService {
 function buildWhere(
   query: SuspiciousActivityQueryDto
 ): FindOptionsWhere<AppLogSecurityTable> {
-  const where: FindOptionsWhere<AppLogSecurityTable> = {
-    action: In(
-      query.actions && query.actions.length > 0
-        ? query.actions
-        : SUSPICIOUS_LOG_ACTIONS
-    ),
-  };
+  const where: FindOptionsWhere<AppLogSecurityTable> = {};
+
+  // `actions` filter is opt-in: when omitted (or empty), no `action` clause
+  // is added so the listing returns every security event. Previously we
+  // fell back to SUSPICIOUS_LOG_ACTIONS, which silently filtered the rows.
+  if (query.actions && query.actions.length > 0) {
+    where.action = In(query.actions);
+  }
 
   if (query.userType) {
     where.userType = query.userType;

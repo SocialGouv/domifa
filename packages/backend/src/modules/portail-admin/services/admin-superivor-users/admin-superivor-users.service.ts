@@ -6,10 +6,8 @@ import {
   userSupervisorRepository,
 } from "../../../../database";
 import { passwordGenerator } from "../../../../util";
-import {
-  logUserSecurityEvent,
-  userSecurityResetPasswordInitiator,
-} from "../../../users/services";
+import { userSecurityResetPasswordInitiator } from "../../../users/services";
+import { logSecurityEvent } from "../../../app-logs/app-log-security-writer";
 import { RegisterUserSupervisorDto } from "../../dto";
 import { UserStatus, UserSupervisorRole } from "@domifa/common";
 
@@ -33,7 +31,6 @@ export class AdminSuperivorUsersService {
             type: "create-user",
           }
         ),
-      eventsHistory: [],
     };
 
     const userSecurity = await userSupervisorSecurityRepository.save(
@@ -56,17 +53,10 @@ export class AdminSuperivorUsersService {
       { id: target.id },
       { status: "ACTIVE" }
     );
-    // Clear events history so the soft-lock (backoff) doesn't re-block the
-    // account on the next login attempt — mirrors unblockStructureUser.
-    const userSecurity = await userSupervisorSecurityRepository.findOneByOrFail(
-      { userId: target.id }
-    );
-    await logUserSecurityEvent({
-      userProfile: "supervisor",
+    await logSecurityEvent({
+      action: "UNBLOCK_USER",
+      profile: "supervisor",
       userId: target.id,
-      userSecurity,
-      eventType: "account-unblocked",
-      clearAllEvents: true,
     });
     return { userId: target.id };
   }

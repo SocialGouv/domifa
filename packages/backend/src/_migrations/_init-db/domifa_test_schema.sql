@@ -1,4 +1,4 @@
-\restrict bTmVwuGz6x0kjxSGiHo2ykNTOuZOZoO4o0vbuVrOqMWZfaSLMWeTwo25JGxqmqP
+\restrict cidBP0mbOVvGmcNZ7JicWiWVww2bXyXny3GzeyYyENj9jPEbgvwtBJAfVbN1CNE
 CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 CREATE TABLE public.app_log (
@@ -16,7 +16,8 @@ CREATE TABLE public.app_log (
     "userStructureId" integer,
     "userSupervisorId" integer,
     "userType" text,
-    "usagerUuid" uuid
+    "usagerUuid" uuid,
+    "userName" text
 );
 CREATE TABLE public.app_log_security (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
@@ -32,7 +33,9 @@ CREATE TABLE public.app_log_security (
     role text,
     "createdBy" text,
     ip text,
-    "userAgent" text
+    "userAgent" text,
+    "userUsagerId" integer,
+    "userName" text
 );
 CREATE TABLE public.contact_support (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
@@ -797,4 +800,4 @@ ALTER TABLE ONLY public.usager_notes
     ADD CONSTRAINT "FK_e8b75cd4ebe81d288a6ff7d4115" FOREIGN KEY ("structureId") REFERENCES public.structure(id) ON DELETE CASCADE;
 ALTER TABLE ONLY public.interactions
     ADD CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE;
-\unrestrict bTmVwuGz6x0kjxSGiHo2ykNTOuZOZoO4o0vbuVrOqMWZfaSLMWeTwo25JGxqmqP
+\unrestrict cidBP0mbOVvGmcNZ7JicWiWVww2bXyXny3GzeyYyENj9jPEbgvwtBJAfVbN1CNE

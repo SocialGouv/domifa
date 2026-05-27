@@ -1,11 +1,13 @@
 import { UserFonction, UserStructureRole } from "@domifa/common";
-import { userStructureSecurityRepository } from "../../../../database";
+import {
+  userStructureRepository,
+  userStructureSecurityRepository,
+} from "../../../../database";
 import { passwordGenerator } from "../../../../util/encoding/passwordGenerator.service";
 import { AppTestHelper } from "../../../../util/test";
 import { RegisterUserStructureAdminDto } from "../../../portail-admin/dto/register-user-structure-admin.dto";
 import { UserDto } from "../../dto/user.dto";
 import { userStructureCreator } from "../user-structure-creator.service";
-import { usersDeletor } from "../users-deletor.service";
 
 describe("userStructureCreator", () => {
   beforeAll(async () => {
@@ -48,7 +50,7 @@ describe("userStructureCreator", () => {
     ).toBeTruthy();
 
     // clean
-    await usersDeletor.deleteUser({
+    await userStructureRepository.deleteWithSecurity({
       userId: user.id,
       structureId,
     });
@@ -89,7 +91,7 @@ describe("userStructureCreator", () => {
     expect(useSecurityByToken.uuid).toEqual(userSecurity.uuid);
 
     // clean
-    await usersDeletor.deleteUser({
+    await userStructureRepository.deleteWithSecurity({
       userId: user.id,
       structureId,
     });

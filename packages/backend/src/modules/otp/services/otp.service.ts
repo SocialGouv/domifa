@@ -7,16 +7,21 @@ import {
   OTP_BLOCK_DURATION_MINUTES,
   OTP_EXPIRATION_MINUTES,
   OTP_MAX_ATTEMPTS,
+  OTP_MAX_REQUESTS_PER_HOUR,
   OTP_MAX_RESENDS,
 } from "../otp.constants";
 import { recordTestOtpCode } from "../otp-test-sink";
 import { OtpRequestContext } from "../otp.types";
 import { redactEmail } from "../otp.utils";
 import { OtpEmailService } from "./otp-email.service";
+import { logSecurityEvent } from "../../app-logs/app-log-security-writer";
+import { countSecurityEventsForUser } from "../../app-logs/app-log-security-counters";
+import { markAccountTemporarilyBlocked } from "../../users/services/userSecurityEventHistoryManager.service";
 
 export type GenerateOrResendResult =
   | { kind: "generated"; expiresAt: Date }
   | { kind: "resend_limit_reached"; expiresAt: Date }
+  | { kind: "request_limit_reached" }
   | { kind: "blocked"; retryAt: Date };
 
 export type ClaimResult =
@@ -92,6 +97,14 @@ export class OtpService {
       return { kind: "generated", expiresAt: existing.expiresAt };
     }
 
+    if (await this.isRequestLimitReached(context)) {
+      this.logger.warn(
+        `OTP refuse (${OTP_MAX_REQUESTS_PER_HOUR}/h) pour ${emailLog} (purpose=${context.purpose})`
+      );
+      await this.blockAccountForOtpFlood(context);
+      return { kind: "request_limit_reached" };
+    }
+
     const code = randomInt(100000, 1000000).toString();
     recordTestOtpCode(context.userUuid, code);
     const expiresAt = new Date(Date.now() + OTP_EXPIRATION_MINUTES * 60 * 1000);
@@ -119,6 +132,8 @@ export class OtpService {
       code,
       purpose: context.purpose,
     });
+
+    await this.logOtpEvent(context, "OTP_REQUESTED");
 
     return {
       kind: "generated",
@@ -157,6 +172,9 @@ export class OtpService {
     }
     if (result.kind === "resend_limit_reached") {
       throw otpHttpError("OTP_RESEND_LIMIT", HttpStatus.TOO_MANY_REQUESTS);
+    }
+    if (result.kind === "request_limit_reached") {
+      throw otpHttpError("BLOCKED_TEMP", HttpStatus.TOO_MANY_REQUESTS);
     }
     throw otpHttpError("OTP_REQUIRED", HttpStatus.UNAUTHORIZED);
   }
@@ -220,6 +238,14 @@ export class OtpService {
       return { kind: "resend_limit_reached", expiresAt: existing.expiresAt };
     }
 
+    if (await this.isRequestLimitReached(context)) {
+      this.logger.warn(
+        `OTP resend refuse (${OTP_MAX_REQUESTS_PER_HOUR}/h) pour ${emailLog} (purpose=${context.purpose})`
+      );
+      await this.blockAccountForOtpFlood(context);
+      return { kind: "request_limit_reached" };
+    }
+
     const code = randomInt(100000, 1000000).toString();
     recordTestOtpCode(context.userUuid, code);
     const refreshed = await otpRepository.refreshCodeAndIncrementResend(
@@ -242,6 +268,8 @@ export class OtpService {
       code,
       purpose: context.purpose,
     });
+
+    await this.logOtpEvent(context, "OTP_REQUESTED");
 
     return { kind: "generated", expiresAt: existing.expiresAt };
   }
@@ -306,6 +334,7 @@ export class OtpService {
         this.logger.log(
           `OTP claim OK pour ${emailLog} (purpose=${context.purpose})`
         );
+        await this.logOtpEvent(context, "OTP_SUCCESS");
         return { valid: true };
       }
     }
@@ -325,7 +354,74 @@ export class OtpService {
     } else {
       this.logger.debug(`OTP claim KO pour ${emailLog}: aucun OTP eligible`);
     }
+    await this.logOtpEvent(context, "OTP_ERROR");
     return { valid: false, reason: "invalid_or_expired" };
+  }
+
+  // Writes an app_log_security row for an OTP event. When the caller supplied
+  // `userId` in the context, the row is attributed to the matching numeric FK
+  // column (userStructureId / userSupervisorId / userUsagerId); otherwise the
+  // row is recorded under `anonymous` with the email preserved in `context`.
+  private async logOtpEvent(
+    context: OtpRequestContext,
+    action: "OTP_REQUESTED" | "OTP_SUCCESS" | "OTP_ERROR"
+  ): Promise<void> {
+    await logSecurityEvent({
+      action,
+      profile: context.userId ? context.userType : undefined,
+      userType: context.userId ? undefined : "anonymous",
+      userId: context.userId,
+      structureId: context.structureId,
+      identifier: context.email,
+      context: {
+        purpose: context.purpose,
+        url: context.url,
+        userUuid: context.userUuid,
+      },
+    });
+  }
+
+  // Marks the account as TEMPORARILY_BLOCKED and writes a BLOCK_USER row in
+  // app_log_security when the per-hour OTP cap is reached. Aligned with the
+  // failed-password backoff path (userSecurityEventHistoryManager) so both
+  // lockout triggers surface identically on the security audit tab. No-op
+  // when the OTP context wasn't resolved to a numeric user id (anonymous).
+  private async blockAccountForOtpFlood(
+    context: OtpRequestContext
+  ): Promise<void> {
+    if (!context.userId) {
+      return;
+    }
+    await markAccountTemporarilyBlocked({
+      userProfile: context.userType,
+      userId: context.userId,
+      structureId: context.structureId,
+      reason: "OTP_REQUEST_LIMIT",
+      operation: `otp:${context.purpose}`,
+    });
+  }
+
+  // Counts OTP_REQUESTED rows in app_log_security for this user over the last
+  // hour, ignoring entries older than the most recent RESET_PASSWORD_SUCCESS
+  // (so a fresh password reset clears the rate-limit). Returns true if the
+  // cap (OTP_MAX_REQUESTS_PER_HOUR) is reached.
+  private async isRequestLimitReached(
+    context: OtpRequestContext
+  ): Promise<boolean> {
+    if (!context.userId) {
+      // No user resolved (e.g. login OTP on an unknown account). The legacy
+      // OTP-row throttles still apply; we just can't enforce the per-user cap
+      // without an identity.
+      return false;
+    }
+    const count = await countSecurityEventsForUser({
+      profile: context.userType,
+      userId: context.userId,
+      actions: ["OTP_REQUESTED"],
+      sinceMinutes: 60,
+      resetByActions: ["RESET_PASSWORD_SUCCESS"],
+    });
+    return count >= OTP_MAX_REQUESTS_PER_HOUR;
   }
 
   // HMAC-SHA256 keyed with the server-side OTP secret. Refuses to run when

@@ -37,6 +37,7 @@ import { userSecurityPasswordChecker } from "../modules/users/services";
 import { AllowUserStructureRoles } from "./decorators";
 import { ALL_USER_STRUCTURE_ROLES, UserStructure } from "@domifa/common";
 import { appLogger } from "../util";
+import { logSecurityEventForUser } from "../modules/app-logs/app-log-security-writer";
 
 const userProfile: UserProfile = "structure";
 
@@ -71,9 +72,11 @@ export class StructuresAuthController {
         error: err,
         context: { userProfile, email: loginDto?.email },
       });
-      return res
-        .status(HttpStatus.UNAUTHORIZED)
-        .json({ message: "LOGIN_FAILED" });
+      const message =
+        (err as Error)?.message === "BLOCKED_TEMP"
+          ? "BLOCKED_TEMP"
+          : "LOGIN_FAILED";
+      return res.status(HttpStatus.UNAUTHORIZED).json({ message });
     }
 
     try {
@@ -98,6 +101,7 @@ export class StructuresAuthController {
           uuid: user.uuid,
           email: user.email,
           prenom: user.prenom,
+          structureId: user.structureId,
         },
         ip,
         userAgent,
@@ -119,6 +123,11 @@ export class StructuresAuthController {
               ipAddress: ip,
               userAgent,
             });
+
+      await logSecurityEventForUser("LOGIN_SUCCESS", userProfile, user, {
+        requestContext: { ip, userAgent },
+        context: { otpFlow: result.kind },
+      });
 
       return res.status(HttpStatus.OK).json(accessToken);
     } catch (err) {
@@ -154,6 +163,24 @@ export class StructuresAuthController {
       userProfile: user._userProfile,
     });
     await expiredTokenRepositiory.save(tokenToBlacklist);
+
+    await logSecurityEventForUser(
+      "LOGOUT",
+      "structure",
+      {
+        id: user.id,
+        structureId: user.structure.id,
+        role: user.role,
+        nom: user.nom,
+        prenom: user.prenom,
+      },
+      {
+        requestContext: {
+          ip: getClientIp(req),
+          userAgent: getClientUserAgent(req),
+        },
+      }
+    );
 
     return true;
   }

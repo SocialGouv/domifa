@@ -486,17 +486,32 @@
           <div
             id="authentification-error"
             aria-live="polite"
-            class="fr-alert fr-alert--error fr-mb-2w"
+            class="fr-alert fr-mb-2w"
+            [class.fr-alert--error]="!blockedTemp"
+            [class.fr-alert--warning]="blockedTemp"
             role="alert"
             *ngIf="displayLoginError"
           >
-            <span class="fr-alert__title">
-              Le couple identifiant et mot de passe saisi est invalide.
-            </span>
-            <p class="fr-my-1w" id="pwd-infos">
-              Veuillez vérifier les chiffres, majuscules et caractères spéciaux.
-              <br />
-            </p>
+            <ng-container *ngIf="blockedTemp; else loginErrorContent">
+              <span class="fr-alert__title">
+                Compte temporairement bloqué.
+              </span>
+              <p class="fr-my-1w">
+                Trop de tentatives ou de demandes de code. Réessayez dans 1
+                heure, ou réinitialisez votre mot de passe pour débloquer
+                l'accès immédiatement.
+              </p>
+            </ng-container>
+            <ng-template #loginErrorContent>
+              <span class="fr-alert__title">
+                Le couple identifiant et mot de passe saisi est invalide.
+              </span>
+              <p class="fr-my-1w" id="pwd-infos">
+                Veuillez vérifier les chiffres, majuscules et caractères
+                spéciaux.
+                <br />
+              </p>
+            </ng-template>
           </div>
 
           <dsfr-button

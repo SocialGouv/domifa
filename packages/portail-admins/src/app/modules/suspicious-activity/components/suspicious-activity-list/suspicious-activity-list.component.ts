@@ -10,6 +10,8 @@ import {
   getLogContextHumanSummary,
   getLogContextJson,
 } from "../../../manage-users/types/log-context-formatter";
+import { SecurityLogAction } from "@domifa/common";
+
 import {
   ACTION_BADGE_CLASS,
   SUSPICIOUS_ACTION_LABELS,
@@ -18,7 +20,6 @@ import { SuspiciousActivityService } from "../../services/suspicious-activity.se
 import {
   SuspiciousActivityFilters,
   SuspiciousActivityLog,
-  SuspiciousLogAction,
 } from "../../types/suspicious-activity-log";
 import { SuspiciousActivityFiltersComponent } from "../suspicious-activity-filters/suspicious-activity-filters.component";
 
@@ -91,11 +92,11 @@ export class SuspiciousActivityListComponent implements OnInit, OnDestroy {
     this.loadPage(page);
   }
 
-  public actionLabel(action: SuspiciousLogAction): string {
+  public actionLabel(action: SecurityLogAction): string {
     return SUSPICIOUS_ACTION_LABELS[action] ?? action;
   }
 
-  public actionBadgeClass(action: SuspiciousLogAction): string {
+  public actionBadgeClass(action: SecurityLogAction): string {
     return ACTION_BADGE_CLASS[action] ?? "fr-badge--info";
   }
 

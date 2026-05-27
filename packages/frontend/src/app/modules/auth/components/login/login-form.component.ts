@@ -31,6 +31,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   public loading: boolean;
   public submitted: boolean;
   public loginError: boolean;
+  public blockedTemp: boolean;
   private readonly subscription = new Subscription();
   public portailUsagerUrl = environment.portailUsagersUrl;
 
@@ -47,6 +48,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     this.loading = false;
     this.submitted = false;
     this.loginError = false;
+    this.blockedTemp = false;
     this.returnUrl = "/";
   }
 
@@ -78,6 +80,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   public login() {
     this.submitted = true;
     this.loginError = false;
+    this.blockedTemp = false;
 
     if (this.loginForm.invalid) {
       this.toastService.error("Veuillez vérifier les champs du formulaire");
@@ -97,9 +100,13 @@ export class LoginFormComponent implements OnInit, OnDestroy {
               ? this.router.navigateByUrl(this.returnUrl)
               : this.router.navigate(["/manage"]);
           },
-          error: () => {
+          error: (err) => {
             this.loading = false;
-            this.loginError = true;
+            if (err?.error?.message === "BLOCKED_TEMP") {
+              this.blockedTemp = true;
+            } else {
+              this.loginError = true;
+            }
             this.matomo.trackEvent("CONNEXION", "LOGIN_FAILED", "ERROR", 0);
           },
         })

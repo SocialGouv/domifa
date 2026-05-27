@@ -1,34 +1,26 @@
 import { UserStatus, UserStructure, UserSupervisor } from "@domifa/common";
 
 import { passwordGenerator } from "../../../util";
-import { userSecurityEventHistoryManager } from "./userSecurityEventHistoryManager.service";
 import { UserProfile } from "../../../_common/model";
 import {
-  getUserRepository,
-  getUserSecurityRepository,
-} from "./get-user-repository.service";
-import { logUserSecurityEvent } from "./logUserSecurityEvent.service";
+  logSecurityEvent,
+  logSecurityEventForUser,
+  SecurityLogRequestContext,
+} from "../../app-logs/app-log-security-writer";
+import { getUserRepository } from "./get-user-repository.service";
+import { userSecurityEventHistoryManager } from "./userSecurityEventHistoryManager.service";
 import { userStatusManager } from "./userStatusManager.service";
-import {
-  appLogSecurityRepository,
-  AppLogSecurityTable,
-} from "../../../database";
-import {
-  SYSTEM_ACTOR_FIELDS,
-  userTypeFromProfile,
-} from "../../app-logs/app-logs.helpers";
 
-// Target wall-clock duration for the login flow. We pad every response —
-// success or failure — up to this floor to neutralize the timing differential
-// between "unknown email" (DB miss, fast) and "wrong password" (bcrypt, slow).
-// Must comfortably exceed a single bcrypt compare at cost 10 (~100 ms on
-// commodity hardware).
+// Wall-clock floor on every login response — neutralises the timing gap
+// between "unknown email" (fast DB miss) and "wrong password" (slow bcrypt)
+// so an attacker can't distinguish the two from the network. Must exceed a
+// single bcrypt compare at cost 10 (~100 ms).
 const LOGIN_RESPONSE_TIME_TARGET_MS = 350;
 
-export interface CheckPasswordRequestContext {
+export type CheckPasswordRequestContext = SecurityLogRequestContext & {
   ip: string;
   userAgent: string;
-}
+};
 
 export const userSecurityPasswordChecker = {
   checkPassword,
@@ -64,116 +56,104 @@ async function checkPasswordImpl<T extends UserStructure | UserSupervisor>({
   userProfile: UserProfile;
   requestContext: CheckPasswordRequestContext;
 }): Promise<T> {
-  const repository = getUserRepository(userProfile);
-  const securityRepository = getUserSecurityRepository(userProfile);
+  const user = await findUserForLogin<T>({
+    email,
+    userProfile,
+    requestContext,
+  });
 
-  const user = (await repository.findOneByOrFail({
-    email: email.toLowerCase(),
-  })) as T;
-
-  const userSecurity = await securityRepository.findOneBy({
+  await userSecurityEventHistoryManager.assertOperationAllowed({
+    operation: "login",
+    userProfile,
     userId: user.id,
   });
 
-  if (!user || !userSecurity) {
-    throw new Error("WRONG_CREDENTIALS 1"); // don't give the real cause
-  }
-
-  if (
-    await userSecurityEventHistoryManager.isAccountLockedForOperation({
-      operation: "login",
-      userProfile,
-      ...userSecurity,
-    })
-  ) {
-    throw new Error("WRONG_CREDENTIALS 2"); // don't give the real cause
-  }
-
-  const isValidPass: boolean = await passwordGenerator.checkPassword({
+  const isValidPass = await passwordGenerator.checkPassword({
     password,
-    hash: user.password,
+    hash: (user as { password: string }).password,
   });
-
   if (!isValidPass) {
-    await logUserSecurityEvent({
-      userProfile,
-      userId: user.id,
-      userSecurity,
-      eventType: "login-error",
+    await logSecurityEventForUser("LOGIN_ERROR", userProfile, user, {
+      requestContext,
     });
     throw new Error("WRONG_CREDENTIALS 3"); // don't give the real cause
   }
 
-  // Whitelist: only ACTIVE accounts can authenticate. Re-fetch the status
-  // because isAccountLockedForOperation may have cleared TEMPORARILY_BLOCKED
-  // when the backoff window expired.
+  await assertStatusActive({ user, userProfile, requestContext });
+
+  // Password verified — for structure/supervisor the session is opened only
+  // after OTP validation, so emit LOGIN_OK here; the real LOGIN_SUCCESS is
+  // emitted by the controllers after enforceOrThrow.
+  await logSecurityEventForUser("LOGIN_OK", userProfile, user, {
+    requestContext,
+  });
+
+  const repository = getUserRepository(userProfile);
+  await repository.update({ id: user.id }, { lastLogin: new Date() });
+
+  return repository.findOneBy({ id: user.id }) as unknown as T;
+}
+
+async function findUserForLogin<T extends UserStructure | UserSupervisor>({
+  email,
+  userProfile,
+  requestContext,
+}: {
+  email: string;
+  userProfile: UserProfile;
+  requestContext: CheckPasswordRequestContext;
+}): Promise<T> {
+  const user = (await getUserRepository(userProfile).findOneBy({
+    email: email.toLowerCase(),
+  })) as T | null;
+
+  if (!user) {
+    // Unknown email: anonymous LOGIN_ERROR keeps the failed attempt auditable
+    // — `identifier` is stashed in context by the writer.
+    await logSecurityEvent({
+      action: "LOGIN_ERROR",
+      userType: "anonymous",
+      identifier: email,
+      requestContext,
+      context: { userProfile },
+    });
+    throw new Error("WRONG_CREDENTIALS 1");
+  }
+
+  return user;
+}
+
+async function assertStatusActive({
+  user,
+  userProfile,
+  requestContext,
+}: {
+  user: UserStructure | UserSupervisor;
+  userProfile: UserProfile;
+  requestContext: CheckPasswordRequestContext;
+}): Promise<void> {
+  // Re-fetch the status: a prior assertOperationAllowed call may have just
+  // cleared TEMPORARILY_BLOCKED if the backoff window expired.
   const currentStatus = await userStatusManager.getUserStatusFromDb({
     userProfile,
     userId: user.id,
   });
-
-  if (currentStatus !== "ACTIVE") {
-    await logAccessDeniedOnLogin({
-      userProfile,
-      userId: user.id,
-      status: currentStatus,
-      requestContext,
-    });
-    if (currentStatus === "BLOCKED") {
-      throw new Error("ACCOUNT_BLOCKED");
-    }
-    if (currentStatus === "PENDING") {
-      throw new Error("ACCOUNT_NOT_ACTIVATED");
-    }
-    // TEMPORARILY_BLOCKED and any other non-ACTIVE state fall through to a
-    // vague error so we don't leak account state to attackers.
-    throw new Error("ACCOUNT_NOT_ACTIVE");
+  if (currentStatus === "ACTIVE") {
+    return;
   }
 
-  await logUserSecurityEvent({
-    userProfile,
-    userId: user.id,
-    userSecurity,
-    eventType: "login-success",
+  await logSecurityEventForUser("ACCESS_DENIED_NON_ACTIVE", userProfile, user, {
+    requestContext,
+    context: { status: currentStatus, userProfile },
   });
 
-  await repository.update({ id: user.id }, { lastLogin: new Date() });
-
-  return repository.findOneBy({
-    id: user.id,
-  }) as unknown as T;
+  // Vague error on TEMPORARILY_BLOCKED so the attacker can't distinguish it
+  // from a wrong password.
+  throw new Error(errorForStatus(currentStatus));
 }
 
-async function logAccessDeniedOnLogin({
-  userProfile,
-  userId,
-  status,
-  requestContext,
-}: {
-  userProfile: UserProfile;
-  userId: number;
-  status: UserStatus | null;
-  requestContext: CheckPasswordRequestContext;
-}): Promise<void> {
-  const userType = userTypeFromProfile(userProfile);
-  try {
-    await appLogSecurityRepository.save(
-      new AppLogSecurityTable({
-        ...SYSTEM_ACTOR_FIELDS,
-        userStructureId: userType === "user_structure" ? userId : undefined,
-        userSupervisorId: userType === "user_supervisor" ? userId : undefined,
-        action: "ACCESS_DENIED_NON_ACTIVE",
-        ip: requestContext.ip,
-        userAgent: requestContext.userAgent,
-        context: {
-          triggeredBy: "userSecurityPasswordChecker",
-          status,
-          userProfile,
-        },
-      })
-    );
-  } catch {
-    // Best-effort logging — login flow keeps responding even if the audit row
-    // fails to persist.
-  }
+function errorForStatus(status: UserStatus | null): string {
+  if (status === "BLOCKED") return "ACCOUNT_BLOCKED";
+  if (status === "PENDING") return "ACCOUNT_NOT_ACTIVATED";
+  return "ACCOUNT_NOT_ACTIVE";
 }

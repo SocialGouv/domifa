@@ -26,4 +26,6 @@ export type AppLog<T = any> = AppEntity & {
   actionLevel?: string; // TODO: complete this (delete, update, add)
   role?: UserStructureRole | UserSupervisorRole;
   createdBy?: string;
+  // Display name of the actor ("prenom nom"), snapshotted at write time.
+  userName?: string;
 };

@@ -208,8 +208,7 @@ export class AdminStructuresController {
         user_structure.uuid,
         user_structure.fonction,
         user_structure."fonctionDetail",
-        uss."temporaryTokens",
-        uss."eventsHistory"
+        uss."temporaryTokens"
         FROM user_structure_security uss
         INNER JOIN user_structure
         ON user_structure.id = uss."userId"
@@ -217,12 +216,16 @@ export class AdminStructuresController {
 `,
       [structure.id]
     );
-    return usersStructure.map((user) => ({
-      ...user,
-      remainingBackoffMinutes:
-        userSecurityEventHistoryManager.getBackoffTime(user.eventsHistory) ??
-        null,
-    }));
+    return Promise.all(
+      usersStructure.map(async (user) => ({
+        ...user,
+        remainingBackoffMinutes:
+          (await userSecurityEventHistoryManager.getBackoffTime({
+            userProfile: "structure",
+            userId: user.id,
+          })) ?? null,
+      }))
+    );
   }
 
   @Patch("structure-decision/:structureUuid")

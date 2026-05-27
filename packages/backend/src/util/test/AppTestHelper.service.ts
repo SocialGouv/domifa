@@ -1,5 +1,9 @@
 import { myDataSource } from "../../database/services/_postgres/appTypeormManager.service";
-import { otpRepository } from "../../database";
+import {
+  appLogSecurityRepository,
+  otpRepository,
+  userUsagerRepository,
+} from "../../database";
 import {
   HttpStatus,
   INestApplication,
@@ -223,6 +227,13 @@ async function authenticateStructure(
   const { app } = context;
   expectAppToBeDefined(app);
 
+  // Make sure leftover security events from a previous Jest run (FAILED_AUTH
+  // counter) can't trip the lockout on this test user.
+  await clearSecurityEventsForUser({
+    column: "userStructureId",
+    userId: authInfo.id,
+  });
+
   const response = await supertest(app.getHttpServer())
     .post("/structures/auth/login")
     .send({
@@ -230,6 +241,13 @@ async function authenticateStructure(
       password: authInfo.password,
     });
 
+  if (response.status !== HttpStatus.OK) {
+    // eslint-disable-next-line no-console
+    console.error(
+      "[authenticateStructure] unexpected response:",
+      response.body
+    );
+  }
   expect(response.status).toBe(HttpStatus.OK);
   context.authToken = response.body.access_token;
   context.user = {
@@ -247,12 +265,27 @@ async function authenticateUsager(
 ) {
   const { app } = context;
   expectAppToBeDefined(app);
+
+  // Clear leftover security events so the per-user lockout counter starts
+  // from zero. Usager fixtures are keyed by uuid, look up the numeric id.
+  const usager = await userUsagerRepository.findOne({
+    where: { uuid: authInfo.uuid },
+    select: { id: true },
+  });
+  if (usager) {
+    await appLogSecurityRepository.delete({ userUsagerId: usager.id });
+  }
+
   const response = await supertest(app.getHttpServer())
     .post("/portail-usagers/auth/login")
     .send({
       login: authInfo.login,
       password: authInfo.password,
     });
+  if (response.status !== HttpStatus.OK) {
+    // eslint-disable-next-line no-console
+    console.error("[authenticateUsager] unexpected response:", response.body);
+  }
   expect(response.status).toBe(HttpStatus.OK);
   context.authToken = response.body.token;
   context.user = {
@@ -260,6 +293,19 @@ async function authenticateUsager(
     structureId: authInfo.structureId,
     userUUID: authInfo.uuid,
   };
+}
+
+// Wipes the security audit rows that would otherwise count toward the
+// lockout backoff on this user. Called from every test-helper login so a
+// freshly bootstrapped suite never inherits failures from previous runs.
+async function clearSecurityEventsForUser({
+  column,
+  userId,
+}: {
+  column: "userStructureId" | "userSupervisorId" | "userUsagerId";
+  userId: number;
+}): Promise<void> {
+  await appLogSecurityRepository.delete({ [column]: userId });
 }
 
 async function authenticateSupervisor(
@@ -273,8 +319,14 @@ async function authenticateSupervisor(
   // 401 OTP_REQUIRED, then we replay with the captured code from the test
   // sink to obtain the JWT. A leftover active OTP from a previous suite would
   // be silently reused by OtpService — bypassing recordTestOtpCode — so we
-  // wipe any prior OTP for this user before priming.
+  // wipe any prior OTP for this user before priming. Same goes for the
+  // security audit rows: a leftover FAILED_AUTH / OTP_REQUESTED stack would
+  // trip the per-user rate-limit and prevent a fresh OTP from being minted.
   await otpRepository.delete({ userUuid: authInfo.uuid });
+  await clearSecurityEventsForUser({
+    column: "userSupervisorId",
+    userId: authInfo.id,
+  });
 
   const primer = await supertest(app.getHttpServer())
     .post("/portail-admins/auth/login")

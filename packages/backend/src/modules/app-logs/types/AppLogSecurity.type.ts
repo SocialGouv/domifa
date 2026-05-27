@@ -15,6 +15,7 @@ import { AppLogActorType } from "./AppLog.type";
 export type AppLogSecurity<T = any> = AppEntity & {
   userStructureId?: number;
   userSupervisorId?: number;
+  userUsagerId?: number;
   userType?: AppLogActorType;
   structureId?: number;
   action: SecurityLogAction;
@@ -23,4 +24,6 @@ export type AppLogSecurity<T = any> = AppEntity & {
   createdBy?: string;
   ip?: string;
   userAgent?: string;
+  // Display name ("prenom nom") of the subject, captured at write time.
+  userName?: string;
 };

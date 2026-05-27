@@ -27,11 +27,24 @@ import { UserStructureBrevo } from "../../types/UserStructureBrevo.type";
 import { getStructureDecisionMotif } from "../../../portail-admin/services/get-structure-decision-motif";
 import { appLogger } from "../../../../util";
 import { UserProfile, UserSecurity } from "../../../../_common/model";
+import { DomifaConfig } from "../../../../config/model/DomifaConfig.type";
 import {
   userStructureRepository,
   userSupervisorRepository,
 } from "../../../../database";
 import { userSecurityResetPasswordInitiator } from "../../../users/services";
+
+// Environments where every Brevo call (send, list sync, contact read, etc.)
+// is replaced by an info log and a mocked response: `test` (CI suites must
+// stay offline) and `local` (developers shouldn't hammer the shared Brevo
+// account from their machine). All other environments hit the real API.
+function isBrevoCallSkipped(config: DomifaConfig): boolean {
+  return (
+    !config.email.emailsEnabled ||
+    config.envId === "test" ||
+    config.envId === "local"
+  );
+}
 
 @Injectable()
 export class BrevoSenderService {
@@ -52,7 +65,7 @@ export class BrevoSenderService {
   async syncStructureContactToBrevo(structure: Structure): Promise<void> {
     const config = domifaConfig();
 
-    if (!config.email.emailsEnabled || config.envId === "test") {
+    if (isBrevoCallSkipped(config)) {
       appLogger.info(
         `[EMAILS DISABLED] Synchronisation Brevo non effectuée pour la structure ${structure.id} (${structure.email})`
       );
@@ -121,12 +134,14 @@ export class BrevoSenderService {
   }) {
     const config = domifaConfig();
 
-    if (!config.email.emailsEnabled || config.envId === "test") {
+    if (isBrevoCallSkipped(config)) {
       appLogger.info(
         `[EMAILS DISABLED] Email non envoyé - Template ID: ${templateId}, To: ${JSON.stringify(
           to
         )}, Raison: ${
-          config.email.emailsEnabled ? "envId=test" : "emailsEnabled=false"
+          config.email.emailsEnabled
+            ? `envId=${config.envId}`
+            : "emailsEnabled=false"
         }`
       );
       return { messageId: "mock-message-id-emails-disabled" };
@@ -187,7 +202,7 @@ export class BrevoSenderService {
   async syncContactToBrevo(user: UserStructureBrevo): Promise<void> {
     const config = domifaConfig();
 
-    if (!config.email.emailsEnabled || config.envId === "test") {
+    if (isBrevoCallSkipped(config)) {
       appLogger.info(
         `[EMAILS DISABLED] Synchronisation Brevo non effectuée pour l'utilisateur ${user.id} (${user.email})`
       );
@@ -237,7 +252,7 @@ export class BrevoSenderService {
   async subscribeToNewsletter(email: string): Promise<void> {
     const config = domifaConfig();
 
-    if (!config.email.emailsEnabled || config.envId === "test") {
+    if (isBrevoCallSkipped(config)) {
       appLogger.info(
         `[EMAILS DISABLED] Inscription newsletter non effectuée pour l'email ${email}`
       );
@@ -273,7 +288,7 @@ export class BrevoSenderService {
   async deleteContactFromBrevo(email: string): Promise<void> {
     const config = domifaConfig();
 
-    if (!config.email.emailsEnabled || config.envId === "test") {
+    if (isBrevoCallSkipped(config)) {
       appLogger.info(
         `[EMAILS DISABLED] Suppression Brevo non effectuée pour l'email ${email}`
       );
@@ -356,7 +371,7 @@ export class BrevoSenderService {
   }): Promise<BrevoEmailEvent[]> {
     const config = domifaConfig();
 
-    if (!config.email.emailsEnabled || config.envId === "test") {
+    if (isBrevoCallSkipped(config)) {
       appLogger.info(
         `[EMAILS DISABLED] Lecture des événements Brevo non effectuée pour ${email}`
       );
@@ -394,7 +409,7 @@ export class BrevoSenderService {
   }): Promise<BrevoContactStatus> {
     const config = domifaConfig();
 
-    if (!config.email.emailsEnabled || config.envId === "test") {
+    if (isBrevoCallSkipped(config)) {
       appLogger.info(
         `[EMAILS DISABLED] Lecture du statut Brevo non effectuée pour ${email}`
       );
@@ -434,7 +449,7 @@ export class BrevoSenderService {
   }): Promise<void> {
     const config = domifaConfig();
 
-    if (!config.email.emailsEnabled || config.envId === "test") {
+    if (isBrevoCallSkipped(config)) {
       appLogger.info(
         `[EMAILS DISABLED] Déblocage Brevo non effectué pour ${email}`
       );

@@ -3,6 +3,7 @@ import { UserStructureTable } from "../../entities";
 import { myDataSource } from "../_postgres";
 import { UserStructureRole, UserStructureProfile } from "@domifa/common";
 import { UserStructureBrevo } from "../../../modules/mails/types/UserStructureBrevo.type";
+import { userStructureSecurityRepository } from "../user-structure-security";
 
 const PUBLIC_FIELDS_FOR_USER_STRUCTURE: FindOptionsSelect<UserStructureTable> =
   {
@@ -77,6 +78,28 @@ export const userStructureRepository = myDataSource
         : results[0] === null || results[0].length === 0
         ? 0
         : parseInt(results[0].count, 10);
+    },
+    // Deletes the security row + the user row in the right order so the FK
+    // doesn't complain. Restricted to the structure scope so the controller
+    // can't accidentally delete a user from another structure.
+    async deleteWithSecurity({
+      userId,
+      structureId,
+    }: {
+      userId: number;
+      structureId: number;
+    }): Promise<void> {
+      await userStructureSecurityRepository.delete({ userId });
+      await userStructureRepository.delete({ id: userId, structureId });
+    },
+    async deleteWithSecurityByEmail(email: string): Promise<void> {
+      const user = await userStructureRepository.findOneBy({ email });
+      if (user) {
+        await userStructureRepository.deleteWithSecurity({
+          userId: user.id,
+          structureId: user.structureId,
+        });
+      }
     },
     async getUserWithStructureByIdForSync(
       userId: number

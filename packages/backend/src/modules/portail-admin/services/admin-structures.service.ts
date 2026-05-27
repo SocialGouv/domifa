@@ -4,7 +4,6 @@ import { NotFoundException } from "@nestjs/common";
 
 import {
   userStructureRepository,
-  userStructureSecurityRepository,
   structureRepository,
 } from "../../../database";
 
@@ -19,11 +18,8 @@ import {
   CurrentUserSession,
   HistoricalUserSession,
 } from "../../../_common/model";
-import {
-  logUserSecurityEvent,
-  userSecurityEventHistoryManager,
-} from "../../users/services";
-import { UserSecurityEvent } from "../../../_common/model/users/user-security/UserSecurityEvent.interface";
+import { userSecurityEventHistoryManager } from "../../users/services";
+import { logSecurityEvent } from "../../app-logs/app-log-security-writer";
 
 @Injectable()
 export class AdminStructuresService {
@@ -42,17 +38,11 @@ export class AdminStructuresService {
       { id: target.id, structureId },
       { status: "ACTIVE" }
     );
-    // Log the unblock as a fresh event with clearAllEvents so the throttler
-    // does not immediately re-block the account on the next login attempt.
-    const userSecurity = await userStructureSecurityRepository.findOneByOrFail({
+    await logSecurityEvent({
+      action: "UNBLOCK_USER",
+      profile: "structure",
       userId: target.id,
-    });
-    await logUserSecurityEvent({
-      userProfile: "structure",
-      userId: target.id,
-      userSecurity,
-      eventType: "account-unblocked",
-      clearAllEvents: true,
+      structureId,
     });
     return { userId: target.id };
   }
@@ -123,20 +113,21 @@ export class AdminStructuresService {
         `user_structure."createdAt" AS "createdAt"`,
         `structure.uuid AS "structureUuid"`,
         `structure.nom AS "structureName"`,
-        `uss."eventsHistory" AS "eventsHistory"`,
         `uss."temporaryTokens" AS "temporaryTokens"`,
       ])
       .orderBy("user_structure.nom", "ASC")
       .getRawMany<UsersForAdminList>();
 
-    return users.map((user) => ({
-      ...user,
-      eventsHistory: user.eventsHistory ?? [],
-      remainingBackoffMinutes:
-        userSecurityEventHistoryManager.getBackoffTime(
-          (user.eventsHistory ?? []) as UserSecurityEvent[]
-        ) ?? null,
-    }));
+    return Promise.all(
+      users.map(async (user) => ({
+        ...user,
+        remainingBackoffMinutes:
+          (await userSecurityEventHistoryManager.getBackoffTime({
+            userProfile: "structure",
+            userId: user.id,
+          })) ?? null,
+      }))
+    );
   }
 
   public async getStructureSessions(

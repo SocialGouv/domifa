@@ -3,7 +3,6 @@ import {
   CurrentUserSession,
   HistoricalUserSession,
   UserSecurity,
-  UserSecurityEvent,
   UserTokens,
 } from "../../../_common/model";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
@@ -13,9 +12,6 @@ export abstract class BaseUserSecurityTable<TUserTable>
   implements UserSecurity
 {
   public abstract userId: number;
-
-  @Column({ type: "jsonb", default: () => "'[]'" })
-  eventsHistory: UserSecurityEvent[];
 
   @Column({ type: "jsonb", nullable: true })
   temporaryTokens: UserTokens;

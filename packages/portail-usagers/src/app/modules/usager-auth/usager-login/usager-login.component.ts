@@ -53,6 +53,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   public hidePasswordConfirm: boolean;
   public displayPasswordIndication: boolean;
   public displayLoginError: boolean;
+  public blockedTemp = false;
 
   public loading: boolean;
   public usagerProfile: PortailUsagerProfile | null;
@@ -210,6 +211,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
       this.reasetFormFocus();
       return;
     }
+    this.blockedTemp = false;
     const loginForm = this.loginForm.value as PortailUsagerAuthLoginForm;
     this.loading = true;
 
@@ -245,6 +247,16 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
             this.matomo.trackEvent(
               "login-portail-usagers",
               "login_success_first_time",
+              "null",
+              1,
+            );
+          } else if (err?.error?.message === "BLOCKED_TEMP") {
+            this.displayPasswordIndication = false;
+            this.displayLoginError = true;
+            this.blockedTemp = true;
+            this.matomo.trackEvent(
+              "login-portail-usagers",
+              "login_blocked_temp",
               "null",
               1,
             );

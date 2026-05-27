@@ -40,6 +40,8 @@ import { OtpService } from "../../../otp/services/otp.service";
 import { normalizeUrl, readOtpCode } from "../../../otp/guards/otp.guard";
 import { computeOtpFingerprint } from "../../../otp/otp-fingerprint.helper";
 import { OtpRequestContext } from "../../../otp/otp.types";
+import { logSecurityEventForUser } from "../../../app-logs/app-log-security-writer";
+import { appLogger } from "../../../../util";
 
 const userProfile: UserProfile = "supervisor";
 @Controller("portail-admins/auth")
@@ -69,11 +71,19 @@ export class PortailAdminLoginController {
         },
       });
     } catch (err) {
+      appLogger.error("PortailAdminLoginController.loginUser failed", {
+        error: err,
+        context: { email: loginDto?.email },
+      });
       // Anti-enumeration: no OTP is generated when credentials fail, so
       // unknown emails and wrong passwords look the same to a caller.
-      return res
-        .status(HttpStatus.UNAUTHORIZED)
-        .json({ message: "LOGIN_FAILED" });
+      // The lockout branch is the only one we surface explicitly, since
+      // the front-end needs to display "compte temporairement bloqué".
+      const message =
+        (err as Error)?.message === "BLOCKED_TEMP"
+          ? "BLOCKED_TEMP"
+          : "LOGIN_FAILED";
+      return res.status(HttpStatus.UNAUTHORIZED).json({ message });
     }
 
     const userUuid = user.uuid;
@@ -91,7 +101,8 @@ export class PortailAdminLoginController {
         req,
         user.email,
         userUuid,
-        user.prenom
+        user.prenom,
+        user.id
       );
       const code = readOtpCode(req);
       await this.otpService.enforceOrThrow(otpContext, code);
@@ -106,6 +117,14 @@ export class PortailAdminLoginController {
       ipAddress: getClientIp(req),
       userAgent: getClientUserAgent(req),
     });
+
+    await logSecurityEventForUser("LOGIN_SUCCESS", userProfile, user, {
+      requestContext: {
+        ip: getClientIp(req),
+        userAgent: getClientUserAgent(req),
+      },
+    });
+
     return res.status(HttpStatus.OK).json(accessToken);
   }
 
@@ -125,6 +144,18 @@ export class PortailAdminLoginController {
     });
     await expiredTokenRepositiory.save(tokenToBlacklist);
 
+    await logSecurityEventForUser(
+      "LOGOUT",
+      "supervisor",
+      { id: user.id, role: user.role, nom: user.nom, prenom: user.prenom },
+      {
+        requestContext: {
+          ip: getClientIp(req),
+          userAgent: getClientUserAgent(req),
+        },
+      }
+    );
+
     return true;
   }
 
@@ -143,7 +174,8 @@ function buildLoginOtpContext(
   req: ExpressRequest,
   email: string,
   uuid: string,
-  prenom: string
+  prenom: string,
+  userId: number
 ): OtpRequestContext {
   const url = normalizeUrl(req);
   return {
@@ -158,5 +190,6 @@ function buildLoginOtpContext(
     prenom,
     userType: userProfile,
     userUuid: uuid,
+    userId,
   };
 }
