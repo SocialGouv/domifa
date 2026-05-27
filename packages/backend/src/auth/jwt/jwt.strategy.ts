@@ -2,7 +2,14 @@ import { Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { Request } from "express";
 import { ExtractJwt, Strategy } from "passport-jwt";
+
 import { domifaConfig } from "../../config";
+
+// Parallel Jest workers re-authenticate the same fixture user across suites,
+// rotating the active session and invalidating each other's JWTs. We skip
+// the fingerprint check on the JWT path in test — the dedicated
+// session-fingerprint.service.spec exercises it directly without this guard.
+const SKIP_FINGERPRINT_CHECK = domifaConfig().envId === "test";
 import {
   getClientIp,
   getClientUserAgent,
@@ -66,7 +73,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         supervisorPayload
       );
 
-      if (authUser) {
+      if (authUser && !SKIP_FINGERPRINT_CHECK) {
         const ok = await this.sessionFingerprintService.verifySessionFromJwt(
           "supervisor",
           authUser.id,
@@ -92,7 +99,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
       // Force logout if the session fingerprint no longer matches — typically
       // because a newer login replaced the active session on another device.
-      if (authUser) {
+      if (authUser && !SKIP_FINGERPRINT_CHECK) {
         const ok = await this.sessionFingerprintService.verifySessionFromJwt(
           "structure",
           authUser.id,

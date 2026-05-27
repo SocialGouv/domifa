@@ -319,8 +319,14 @@ async function authenticateSupervisor(
   // 401 OTP_REQUIRED, then we replay with the captured code from the test
   // sink to obtain the JWT. A leftover active OTP from a previous suite would
   // be silently reused by OtpService — bypassing recordTestOtpCode — so we
-  // wipe any prior OTP for this user before priming.
+  // wipe any prior OTP for this user before priming. Same goes for the
+  // security audit rows: a leftover FAILED_AUTH / OTP_REQUESTED stack would
+  // trip the per-user rate-limit and prevent a fresh OTP from being minted.
   await otpRepository.delete({ userUuid: authInfo.uuid });
+  await clearSecurityEventsForUser({
+    column: "userSupervisorId",
+    userId: authInfo.id,
+  });
 
   const primer = await supertest(app.getHttpServer())
     .post("/portail-admins/auth/login")
