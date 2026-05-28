@@ -1,0 +1,17 @@
+<ng-container *ngIf="parsed; else empty">
+  <span class="fr-text--sm">
+    <i [class]="parsed.browserIcon" aria-hidden="true"></i>
+    {{ parsed.browser }}
+    <span class="fr-text--mention-grey">·</span>
+    <i [class]="parsed.osIcon" aria-hidden="true"></i>
+    {{ parsed.os }}
+    <span class="fr-text--mention-grey">·</span>
+    <i
+      [class]="parsed.deviceIcon"
+      aria-hidden="true"
+      [tooltip]="parsed.deviceLabel"
+    ></i>
+    <span class="fr-sr-only">{{ parsed.deviceLabel }}</span>
+  </span>
+</ng-container>
+<ng-template #empty>-</ng-template>

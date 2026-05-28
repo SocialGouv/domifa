@@ -6,11 +6,8 @@ import { PageResults } from "@domifa/common";
 
 import { environment } from "../../../../environments/environment";
 import {
-  SecurityUserSummary,
   SuspiciousActivityFilters,
   SuspiciousActivityLog,
-  SuspiciousUserProfile,
-  UserSessionsView,
 } from "../types/suspicious-activity-log";
 
 @Injectable({ providedIn: "root" })
@@ -53,24 +50,6 @@ export class SuspiciousActivityService {
     return this.http.get<PageResults<SuspiciousActivityLog>>(
       `${this.endPoint}/suspicious-activity`,
       { params }
-    );
-  }
-
-  public getUserSummary(
-    userType: SuspiciousUserProfile,
-    userUuid: string
-  ): Observable<SecurityUserSummary> {
-    return this.http.get<SecurityUserSummary>(
-      `${this.endPoint}/users/${userType}/${userUuid}`
-    );
-  }
-
-  public getUserSessions(
-    userType: SuspiciousUserProfile,
-    userUuid: string
-  ): Observable<UserSessionsView> {
-    return this.http.get<UserSessionsView>(
-      `${this.endPoint}/users/${userType}/${userUuid}/sessions`
     );
   }
 }

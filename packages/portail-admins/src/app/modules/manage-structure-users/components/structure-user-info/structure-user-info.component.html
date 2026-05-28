@@ -59,10 +59,10 @@
           Mot de passe mis à jour
         </dt>
         <dd class="fr-col-12 fr-col-md-8 fr-m-0">
-          <ng-container *ngIf="user.passwordLastUpdate; else neverUpd">
-            {{ user.passwordLastUpdate | date : "d MMMM y" }}
-          </ng-container>
-          <ng-template #neverUpd>Jamais</ng-template>
+          <app-display-password-age
+            [passwordLastUpdate]="user.passwordLastUpdate"
+            [createdAt]="user.createdAt"
+          ></app-display-password-age>
         </dd>
       </div>
     </dl>

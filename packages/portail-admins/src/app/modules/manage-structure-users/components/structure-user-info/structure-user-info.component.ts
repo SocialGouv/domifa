@@ -7,12 +7,18 @@ import { Subscription } from "rxjs";
 import { USER_STRUCTURE_ROLES_LABELS, UsersForAdminList } from "@domifa/common";
 
 import { DisplayLastLoginComponent } from "../../../shared/components/display-last-login/display-last-login.component";
+import { DisplayPasswordAgeComponent } from "../../../shared/components/display-password-age/display-password-age.component";
 import { selectAdminUserByUuid } from "../../../shared/store/users";
 
 @Component({
   selector: "app-structure-user-info",
   templateUrl: "./structure-user-info.component.html",
-  imports: [CommonModule, RouterModule, DisplayLastLoginComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    DisplayLastLoginComponent,
+    DisplayPasswordAgeComponent,
+  ],
 })
 export class StructureUserInfoComponent implements OnInit, OnDestroy {
   public user?: UsersForAdminList;

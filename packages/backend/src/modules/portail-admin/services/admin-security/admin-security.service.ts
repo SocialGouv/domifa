@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import {
   And,
   Between,
@@ -15,9 +15,7 @@ import {
   appLogSecurityRepository,
   AppLogSecurityTable,
   userStructureRepository,
-  userStructureSecurityRepository,
   userSupervisorRepository,
-  userSupervisorSecurityRepository,
 } from "../../../../database";
 import { SuspiciousLogAction } from "../../../security-monitoring/types/security-alert.types";
 import {
@@ -25,10 +23,8 @@ import {
   SuspiciousUserProfile,
 } from "../../dto/suspicious-activity-query.dto";
 import {
-  SecurityUserSummaryDto,
   SuspiciousActivityLogDto,
   SuspiciousResolvedUser,
-  UserSessionsViewDto,
 } from "../../dto/suspicious-activity-log.dto";
 
 @Injectable()
@@ -53,101 +49,6 @@ export class AdminSecurityService {
         pageOptions: new PageOptions({ page: query.page, take: query.take }),
       }),
     });
-  }
-
-  public async getUserSessions(
-    userType: SuspiciousUserProfile,
-    uuid: string
-  ): Promise<UserSessionsViewDto> {
-    const userId = await resolveUserIdByUuid(userType, uuid);
-
-    const repo =
-      userType === "user_supervisor"
-        ? userSupervisorSecurityRepository
-        : userStructureSecurityRepository;
-
-    const row = await repo.findOne({
-      where: { userId },
-      select: {
-        userId: true,
-        currentSession: true,
-        sessionsHistory: true,
-        fingerprintHash: true,
-      },
-    });
-    return {
-      userId,
-      currentSession: row?.currentSession ?? null,
-      sessionsHistory: row?.sessionsHistory ?? [],
-      fingerprintHash: row?.fingerprintHash ?? null,
-    };
-  }
-
-  public async getUserSummary(
-    userType: SuspiciousUserProfile,
-    uuid: string
-  ): Promise<SecurityUserSummaryDto> {
-    if (userType === "user_supervisor") {
-      const supervisor = await userSupervisorRepository.findOne({
-        where: { uuid },
-        select: {
-          id: true,
-          nom: true,
-          prenom: true,
-          email: true,
-          role: true,
-          status: true,
-          uuid: true,
-          lastLogin: true,
-          createdAt: true,
-        },
-      });
-      if (!supervisor) {
-        throw new NotFoundException("USER_NOT_FOUND");
-      }
-      return {
-        userType: "user_supervisor",
-        userId: supervisor.id,
-        fullName: formatFullName(supervisor.prenom, supervisor.nom),
-        email: supervisor.email,
-        role: supervisor.role ?? undefined,
-        status: supervisor.status ?? undefined,
-        uuid: supervisor.uuid ?? undefined,
-        lastLogin: supervisor.lastLogin ?? null,
-        createdAt: supervisor.createdAt ?? null,
-      };
-    }
-
-    const structureUser = await userStructureRepository.findOne({
-      where: { uuid },
-      select: {
-        id: true,
-        nom: true,
-        prenom: true,
-        email: true,
-        role: true,
-        status: true,
-        structureId: true,
-        uuid: true,
-        lastLogin: true,
-        createdAt: true,
-      },
-    });
-    if (!structureUser) {
-      throw new NotFoundException("USER_NOT_FOUND");
-    }
-    return {
-      userType: "user_structure",
-      userId: structureUser.id,
-      fullName: formatFullName(structureUser.prenom, structureUser.nom),
-      email: structureUser.email,
-      role: structureUser.role ?? undefined,
-      status: structureUser.status ?? undefined,
-      structureId: structureUser.structureId ?? undefined,
-      uuid: structureUser.uuid ?? undefined,
-      lastLogin: structureUser.lastLogin ?? null,
-      createdAt: structureUser.createdAt ?? null,
-    };
   }
 
   private async resolveUsers(
@@ -329,19 +230,4 @@ function pickTargetKey(
 
 function formatFullName(prenom?: string | null, nom?: string | null): string {
   return [prenom, nom].filter(Boolean).join(" ").trim();
-}
-
-async function resolveUserIdByUuid(
-  userType: SuspiciousUserProfile,
-  uuid: string
-): Promise<number> {
-  const repo =
-    userType === "user_supervisor"
-      ? userSupervisorRepository
-      : userStructureRepository;
-  const user = await repo.findOne({ where: { uuid }, select: { id: true } });
-  if (!user) {
-    throw new NotFoundException("USER_NOT_FOUND");
-  }
-  return user.id;
 }
