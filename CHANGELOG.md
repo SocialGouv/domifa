@@ -1,3 +1,10 @@
+## [2.249.1](https://github.com/SocialGouv/domifa/compare/v2.249.0...v2.249.1) (2026-05-28)
+
+
+### Bug Fixes
+
+* **backend:** merge sessions & security view ([#4152](https://github.com/SocialGouv/domifa/issues/4152)) ([6bd94b9](https://github.com/SocialGouv/domifa/commit/6bd94b9ece79f98e69926a7062717ac3ea1336df))
+
 # [2.249.0](https://github.com/SocialGouv/domifa/compare/v2.248.0...v2.249.0) (2026-05-27)
 
 
