@@ -1,3 +1,10 @@
+## [2.249.2](https://github.com/SocialGouv/domifa/compare/v2.249.1...v2.249.2) (2026-05-28)
+
+
+### Bug Fixes
+
+* **backend:** add brevo unlink ([ebfb731](https://github.com/SocialGouv/domifa/commit/ebfb73169aa3f0b6d80c7bed687472fc617c730d))
+
 ## [2.249.1](https://github.com/SocialGouv/domifa/compare/v2.249.0...v2.249.1) (2026-05-28)
 
 
