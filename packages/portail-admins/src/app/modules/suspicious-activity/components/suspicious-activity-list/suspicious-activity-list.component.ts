@@ -54,6 +54,10 @@ export class SuspiciousActivityListComponent implements OnInit, OnDestroy {
 
   private currentFilters: SuspiciousActivityFilters = {};
   private readonly subscription = new Subscription();
+  // Holds the in-flight load so a new search cancels the previous one. Without
+  // it, two quick "Rechercher" clicks raced and the older response could
+  // overwrite the newer (= "search works one click out of two" symptom).
+  private loadSubscription?: Subscription;
 
   constructor(
     private readonly service: SuspiciousActivityService,
@@ -72,8 +76,10 @@ export class SuspiciousActivityListComponent implements OnInit, OnDestroy {
 
   public loadPage(page: number): void {
     this.loading = true;
-    this.subscription.add(
-      this.service.list(this.currentFilters, page, this.pageSize).subscribe({
+    this.loadSubscription?.unsubscribe();
+    this.loadSubscription = this.service
+      .list(this.currentFilters, page, this.pageSize)
+      .subscribe({
         next: (results) => {
           this.logs = results.data;
           this.currentPage = results.meta.page;
@@ -85,8 +91,8 @@ export class SuspiciousActivityListComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.toast.error("Impossible de charger les événements de sécurité.");
         },
-      })
-    );
+      });
+    this.subscription.add(this.loadSubscription);
   }
 
   public onPageSelect(page: number): void {

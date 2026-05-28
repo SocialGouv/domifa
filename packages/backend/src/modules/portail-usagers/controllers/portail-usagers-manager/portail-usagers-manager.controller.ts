@@ -16,9 +16,12 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Req,
   Res,
   UseGuards,
 } from "@nestjs/common";
+import { Request as ExpressRequest } from "express";
+import { buildSecurityLogRequestContext } from "../../../../util/express";
 import { UserStructureAuthenticated } from "../../../../_common/model";
 import {
   AllowUserProfiles,
@@ -277,6 +280,7 @@ export class PortailUsagersManagerController {
   @AllowUserStructureRoles("simple", "responsable", "admin", "agent")
   @Post("enable-access/:usagerRef")
   public async enablePortailForUsager(
+    @Req() req: ExpressRequest,
     @Res() res: Response,
     @Body() dto: UpdatePortailUsagerOptionsDto,
     @CurrentUsager() usager: Usager,
@@ -307,7 +311,10 @@ export class PortailUsagersManagerController {
             dto.portailUsagerEnabled && dto.generateNewPassword;
 
           const { userUsager, temporaryPassword } =
-            await userUsagerCreator.resetUserUsagerPassword(usager);
+            await userUsagerCreator.resetUserUsagerPassword(
+              usager,
+              buildSecurityLogRequestContext(req)
+            );
 
           await this.appLogsService.create({
             ...buildStructureActorFields(user),

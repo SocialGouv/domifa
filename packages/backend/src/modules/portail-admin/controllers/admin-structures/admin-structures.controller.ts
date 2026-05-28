@@ -5,12 +5,15 @@ import {
   HttpStatus,
   NotFoundException,
   Query,
+  Req,
   Res,
   UseGuards,
   Param,
   ParseUUIDPipe,
   Patch,
 } from "@nestjs/common";
+import { Request as ExpressRequest } from "express";
+import { buildSecurityLogRequestContext } from "../../../../util/express";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 
@@ -149,7 +152,8 @@ export class AdminStructuresController {
   public async getStructureSecurityLogs(
     @CurrentSupervisor() _user: UserAdminAuthenticated,
     @Param("structureUuid", new ParseUUIDPipe()) structureUuid: string,
-    @Query() pageOptions: PageOptionsDto
+    @Query() pageOptions: PageOptionsDto,
+    @Query("userType") userType?: string
   ) {
     const structure = await structureRepository.findOne({
       where: { uuid: structureUuid },
@@ -158,10 +162,15 @@ export class AdminStructuresController {
     if (!structure) {
       throw new NotFoundException("STRUCTURE_NOT_FOUND");
     }
+    const userTypeFilter =
+      userType === "user_structure" || userType === "usager"
+        ? userType
+        : undefined;
     return this.appLogSecurityService.findStructureSecurityLogs({
       structureId: structure.id,
       page: pageOptions.page,
       take: pageOptions.take,
+      userType: userTypeFilter,
     });
   }
 
@@ -318,15 +327,18 @@ export class AdminStructuresController {
   @UseGuards(StructureAccessGuard, OtpGuard)
   @RequireOtp("UNBLOCK_USER")
   public async unblockStructureUser(
+    @Req() req: ExpressRequest,
     @CurrentSupervisor() user: UserAdminAuthenticated,
     @CurrentStructure() structure: Structure,
     @Param("uuid", new ParseUUIDPipe()) uuid: string,
     @Body() unblockDto: UnblockUserDto,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
+    const requestContext = buildSecurityLogRequestContext(req);
     const { userId } = await this.adminStructuresService.unblockStructureUser(
       uuid,
-      structure.id
+      structure.id,
+      requestContext
     );
 
     try {
@@ -336,6 +348,8 @@ export class AdminStructuresController {
         userType: "user_structure",
         structureId: structure.id,
         action: "UNBLOCK_USER",
+        ip: requestContext.ip,
+        userAgent: requestContext.userAgent,
         context: {
           motif: unblockDto.motif,
           actorSupervisorId: user.id,
@@ -352,11 +366,13 @@ export class AdminStructuresController {
   @Patch("structure/:structureUuid/users/:uuid/block")
   @UseGuards(StructureAccessGuard)
   public async blockStructureUser(
+    @Req() req: ExpressRequest,
     @CurrentSupervisor() user: UserAdminAuthenticated,
     @CurrentStructure() structure: Structure,
     @Param("uuid", new ParseUUIDPipe()) uuid: string,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
+    const requestContext = buildSecurityLogRequestContext(req);
     const previous = await this.adminStructuresService.blockStructureUser(
       uuid,
       structure.id
@@ -374,6 +390,8 @@ export class AdminStructuresController {
         userType: "user_structure",
         structureId: structure.id,
         action: "BLOCK_USER_BY_ADMIN",
+        ip: requestContext.ip,
+        userAgent: requestContext.userAgent,
         context: {
           previousStatus: previous.previousStatus,
           previousRole: previous.previousRole,

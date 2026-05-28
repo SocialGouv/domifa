@@ -3,7 +3,10 @@ import { userUsagerRepository } from "../../../../database";
 import { passwordGenerator } from "../../../../util";
 import { userSecurityEventHistoryManager } from "../../../users/services";
 import { userPasswordWriter } from "../../../users/services/userPasswordWriter.service";
-import { logSecurityEventForUser } from "../../../app-logs/app-log-security-writer";
+import {
+  logSecurityEventForUser,
+  SecurityLogRequestContext,
+} from "../../../app-logs/app-log-security-writer";
 
 export const userUsagerSecurityPasswordUpdater = {
   updatePassword,
@@ -13,15 +16,18 @@ async function updatePassword({
   userId,
   oldPassword,
   newPassword,
+  requestContext,
 }: {
   userId: number;
   oldPassword: string;
   newPassword: string;
+  requestContext?: SecurityLogRequestContext;
 }): Promise<UserUsager> {
   await userSecurityEventHistoryManager.assertOperationAllowed({
     operation: "change-password",
     userProfile: "usager",
     userId,
+    requestContext,
   });
 
   const user = await userUsagerRepository.findOneByOrFail({ id: userId });
@@ -30,7 +36,9 @@ async function updatePassword({
     hash: user.password,
   });
   if (!isValidPass) {
-    await logSecurityEventForUser("CHANGE_PASSWORD_ERROR", "usager", user);
+    await logSecurityEventForUser("CHANGE_PASSWORD_ERROR", "usager", user, {
+      requestContext,
+    });
     throw new Error("Error");
   }
 
@@ -40,6 +48,7 @@ async function updatePassword({
     newPassword,
     successAction: "CHANGE_PASSWORD_SUCCESS",
     sessionReason: "PASSWORD_CHANGED",
+    requestContext,
   });
 
   // `acceptTerms` is a usager-specific concern: every personal password set

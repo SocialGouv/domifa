@@ -66,6 +66,7 @@ async function checkPasswordImpl<T extends UserStructure | UserSupervisor>({
     operation: "login",
     userProfile,
     userId: user.id,
+    requestContext,
   });
 
   const isValidPass = await passwordGenerator.checkPassword({

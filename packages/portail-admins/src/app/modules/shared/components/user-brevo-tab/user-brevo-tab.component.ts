@@ -33,6 +33,7 @@ import {
   BrevoEventsFetcher,
   BrevoStatusFetcher,
   BrevoUnblockFetcher,
+  BrevoUnblockKind,
 } from "./user-brevo-tab.types";
 
 @Component({
@@ -56,6 +57,9 @@ export class UserBrevoTabComponent implements OnChanges, OnDestroy {
   public status: BrevoContactStatus | null = null;
   public statusLoading = false;
   public unblocking = false;
+  public pendingUnblockKind: BrevoUnblockKind | null = null;
+
+  public brevoContactUrl: string | null = null;
 
   public events: BrevoEmailEvent[] = [];
   public loading = false;
@@ -88,6 +92,10 @@ export class UserBrevoTabComponent implements OnChanges, OnDestroy {
       this.statusFetcher(this.entityUuid).subscribe({
         next: (status) => {
           this.status = status;
+          this.brevoContactUrl =
+            status.existsInBrevo && status.id
+              ? `https://app.brevo.com/contact/index/${status.id}`
+              : null;
           this.statusLoading = false;
         },
         error: () => {
@@ -100,25 +108,41 @@ export class UserBrevoTabComponent implements OnChanges, OnDestroy {
     );
   }
 
+  public askUnblock(
+    kind: BrevoUnblockKind,
+    confirmModal: DsfrModalComponent
+  ): void {
+    this.pendingUnblockKind = kind;
+    confirmModal.open();
+  }
+
   public unblockBrevo(confirmModal: DsfrModalComponent): void {
-    if (!this.entityUuid) {
+    if (!this.entityUuid || !this.pendingUnblockKind) {
       return;
     }
+    const kind = this.pendingUnblockKind;
     this.unblocking = true;
     this.subscription.add(
-      this.unblockFetcher(this.entityUuid).subscribe({
+      this.unblockFetcher(this.entityUuid, kind).subscribe({
         next: () => {
           this.unblocking = false;
           confirmModal.close();
           this.toastService.success(
-            "Contact retiré de la blocklist transactionnelle Brevo"
+            kind === "campaign"
+              ? "Contact débloqué côté campagnes Brevo"
+              : "Contact retiré de la blocklist transactionnelle Brevo"
           );
+          this.pendingUnblockKind = null;
           this.refreshStatus();
           this.reload();
         },
         error: () => {
           this.unblocking = false;
-          this.toastService.error("Impossible de débloquer le contact Brevo");
+          this.toastService.error(
+            kind === "campaign"
+              ? "Impossible de débloquer le contact côté campagnes"
+              : "Impossible de débloquer le contact côté transactionnel"
+          );
         },
       })
     );

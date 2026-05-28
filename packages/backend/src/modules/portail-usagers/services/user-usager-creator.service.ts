@@ -4,7 +4,10 @@ import {
   userUsagerSecurityRepository,
   UserUsagerTable,
 } from "../../../database";
-import { logSecurityEventForUser } from "../../app-logs/app-log-security-writer";
+import {
+  logSecurityEventForUser,
+  SecurityLogRequestContext,
+} from "../../app-logs/app-log-security-writer";
 import { userUsagerLoginPasswordGenerator } from "./user-usager-login-password-generator.service";
 import { Usager, UserStructure, UserUsager } from "@domifa/common";
 
@@ -59,7 +62,8 @@ async function createUserWithTmpPassword(
 }
 
 async function resetUserUsagerPassword(
-  usager: Pick<Usager, "uuid" | "dateNaissance">
+  usager: Pick<Usager, "uuid" | "dateNaissance">,
+  requestContext?: SecurityLogRequestContext
 ): Promise<{ userUsager: UserUsager; temporaryPassword: string }> {
   let temporaryPassword = "";
 
@@ -87,7 +91,8 @@ async function resetUserUsagerPassword(
   await logSecurityEventForUser(
     "RESET_PASSWORD_SUCCESS",
     "usager",
-    updatedUser
+    updatedUser,
+    { requestContext }
   );
 
   return { userUsager: updatedUser, temporaryPassword };

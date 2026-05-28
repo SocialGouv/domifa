@@ -6,11 +6,14 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Req,
   Res,
 } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { Request as ExpressRequest } from "express";
 import { ParseTokenPipe } from "../../../_common/decorators";
 import { appLogger, ExpressResponse } from "../../../util";
+import { buildSecurityLogRequestContext } from "../../../util/express";
 import { EmailDto, ResetPasswordDto } from "../dto";
 import { UserProfile } from "../../../_common/model";
 import {
@@ -34,6 +37,7 @@ export class UsersSupervisorController {
 
   @Get("check-password-token/:userId/:token")
   public async checkPasswordToken(
+    @Req() req: ExpressRequest,
     @Param("userId", new ParseIntPipe()) userId: number,
     @Param("token", new ParseTokenPipe()) token: string,
     @Res() res: ExpressResponse
@@ -43,6 +47,7 @@ export class UsersSupervisorController {
         token,
         userId,
         userProfile,
+        requestContext: buildSecurityLogRequestContext(req),
       });
       return res.status(HttpStatus.OK).json({ message: "OK" });
     } catch (err) {
@@ -54,6 +59,7 @@ export class UsersSupervisorController {
 
   @Post("reset-password")
   public async resetPassword(
+    @Req() req: ExpressRequest,
     @Body() resetPasswordDto: ResetPasswordDto,
     @Res() res: ExpressResponse
   ) {
@@ -63,6 +69,7 @@ export class UsersSupervisorController {
         token: resetPasswordDto.token,
         userId: resetPasswordDto.userId,
         userProfile,
+        requestContext: buildSecurityLogRequestContext(req),
       });
       return res.status(HttpStatus.OK).json({ message: "OK" });
     } catch (err) {
@@ -77,6 +84,7 @@ export class UsersSupervisorController {
   })
   @Post("get-password-token")
   public async generatePasswordToken(
+    @Req() req: ExpressRequest,
     @Body() emailDto: EmailDto,
     @Res() res: ExpressResponse
   ) {
@@ -85,6 +93,7 @@ export class UsersSupervisorController {
         await userSecurityResetPasswordInitiator.generateResetPasswordToken({
           email: emailDto.email,
           userProfile,
+          requestContext: buildSecurityLogRequestContext(req),
         });
 
       await this.brevoSenderService.sendEmailWithTemplate({

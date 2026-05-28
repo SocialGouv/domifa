@@ -46,11 +46,17 @@ export class AppLogSecurityService {
     structureId: number;
     page: number;
     take: number;
+    userType?: "user_structure" | "usager";
   }): Promise<PageResults<AppLogSecurityTable>> {
-    const { structureId, page, take } = options;
+    const { structureId, page, take, userType } = options;
+
+    const where: Record<string, unknown> = { structureId };
+    if (userType) {
+      where.userType = userType;
+    }
 
     const [data, itemCount] = await appLogSecurityRepository.findAndCount({
-      where: { structureId },
+      where,
       order: { createdAt: "DESC" },
       skip: (page - 1) * take,
       take,

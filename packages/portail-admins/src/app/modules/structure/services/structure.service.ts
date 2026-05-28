@@ -37,16 +37,6 @@ export class StructureService {
     });
   }
 
-  public unblockUser(
-    structureUuid: string,
-    userUuid: string
-  ): Observable<{ status: string }> {
-    return this.http.patch<{ status: string }>(
-      `${BASE_URL}/structure/${structureUuid}/users/${userUuid}/unblock`,
-      {}
-    );
-  }
-
   public blockUser(
     structureUuid: string,
     userUuid: string

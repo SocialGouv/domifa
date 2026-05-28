@@ -23,9 +23,15 @@ export class StructureSecurityLogsComponent implements OnInit {
   public readonly fetcher: UserActivityLogsFetcher = (
     structureUuid,
     page,
-    take
+    take,
+    userType
   ): Observable<PageResults<UserActivityLog>> =>
-    this.adminStructuresApi.getStructureSecurityLogs(structureUuid, page, take);
+    this.adminStructuresApi.getStructureSecurityLogs(
+      structureUuid,
+      page,
+      take,
+      userType
+    );
 
   constructor(
     private readonly route: ActivatedRoute,

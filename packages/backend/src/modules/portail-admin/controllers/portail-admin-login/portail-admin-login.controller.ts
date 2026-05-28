@@ -191,5 +191,7 @@ function buildLoginOtpContext(
     userType: userProfile,
     userUuid: uuid,
     userId,
+    ip: getClientIp(req),
+    userAgent: getClientUserAgent(req),
   };
 }

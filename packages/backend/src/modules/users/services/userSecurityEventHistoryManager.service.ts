@@ -5,7 +5,10 @@ import { domifaConfig } from "../../../config";
 import { appLogger } from "../../../util";
 import { UserProfile, UserSecurityLogError } from "../../../_common/model";
 import { summarizeSecurityEventsForUser } from "../../app-logs/app-log-security-counters";
-import { logSecurityEvent } from "../../app-logs/app-log-security-writer";
+import {
+  logSecurityEvent,
+  SecurityLogRequestContext,
+} from "../../app-logs/app-log-security-writer";
 import { userStatusManager } from "./userStatusManager.service";
 
 // After this many failed auth events within `LOCKOUT_WINDOW_HOURS`, the
@@ -27,6 +30,7 @@ async function assertOperationAllowed(args: {
   operation: string;
   userId: number;
   userProfile: UserProfile;
+  requestContext?: SecurityLogRequestContext;
 }): Promise<void> {
   if (await isAccountLockedForOperation(args)) {
     throw new Error("BLOCKED_TEMP");
@@ -68,10 +72,12 @@ async function isAccountLockedForOperation({
   operation,
   userId,
   userProfile,
+  requestContext,
 }: {
   operation: string;
   userId: number;
   userProfile: UserProfile;
+  requestContext?: SecurityLogRequestContext;
 }): Promise<boolean> {
   const backoffTime = await getBackoffTime({ userProfile, userId });
   if (backoffTime !== null) {
@@ -82,6 +88,7 @@ async function isAccountLockedForOperation({
       reason: "FAILED_AUTH_THRESHOLD",
       operation,
       backoffMinutes: backoffTime,
+      requestContext,
     });
     return true;
   }
@@ -102,6 +109,7 @@ export async function markAccountTemporarilyBlocked({
   operation,
   structureId,
   backoffMinutes,
+  requestContext,
 }: {
   userProfile: UserProfile;
   userId: number;
@@ -109,6 +117,7 @@ export async function markAccountTemporarilyBlocked({
   operation?: string;
   structureId?: number;
   backoffMinutes?: number | null;
+  requestContext?: SecurityLogRequestContext;
 }): Promise<void> {
   await userStatusManager.markUserAsTemporarilyBlocked({
     userProfile,
@@ -119,6 +128,7 @@ export async function markAccountTemporarilyBlocked({
     profile: userProfile,
     userId,
     structureId,
+    requestContext,
     context: {
       reason,
       operation,

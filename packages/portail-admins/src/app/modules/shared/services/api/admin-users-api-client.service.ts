@@ -143,10 +143,11 @@ export class AdminUsersApiClient {
   }
 
   public unblockStructureUserBrevoContact(
-    userUuid: string
+    userUuid: string,
+    kind: "campaign" | "transactional"
   ): Observable<ApiMessage> {
     return this.http.delete<ApiMessage>(
-      `${this.baseUrl}/structure-user/${userUuid}/brevo/blocklist`
+      `${this.baseUrl}/structure-user/${userUuid}/brevo/blocklist/${kind}`
     );
   }
 

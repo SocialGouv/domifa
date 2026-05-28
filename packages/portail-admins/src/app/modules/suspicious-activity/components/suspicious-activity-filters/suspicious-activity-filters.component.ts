@@ -36,7 +36,6 @@ export class SuspiciousActivityFiltersComponent implements OnInit {
       dateTo: this.fb.control<string | null>(null),
       ip: this.fb.control<string | null>(null),
       identifier: this.fb.control<string | null>(null),
-      userType: this.fb.control<string | null>(null),
     });
   }
 
@@ -51,7 +50,6 @@ export class SuspiciousActivityFiltersComponent implements OnInit {
       dateTo: null,
       ip: null,
       identifier: null,
-      userType: null,
     });
     this.emit();
   }
@@ -63,7 +61,6 @@ export class SuspiciousActivityFiltersComponent implements OnInit {
       dateTo: string | null;
       ip: string | null;
       identifier: string | null;
-      userType: string | null;
     };
 
     const isKnownAction =
@@ -76,10 +73,6 @@ export class SuspiciousActivityFiltersComponent implements OnInit {
       dateTo: v.dateTo || undefined,
       ip: v.ip?.trim() || undefined,
       identifier: v.identifier?.trim() || undefined,
-      userType:
-        v.userType === "user_structure" || v.userType === "user_supervisor"
-          ? v.userType
-          : undefined,
     });
   }
 }

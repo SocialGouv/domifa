@@ -4,7 +4,10 @@ import {
   getUserSecurityRepository,
 } from "./get-user-repository.service";
 import { userSecurityEventHistoryManager } from "./userSecurityEventHistoryManager.service";
-import { logSecurityEventForUser } from "../../app-logs/app-log-security-writer";
+import {
+  logSecurityEventForUser,
+  SecurityLogRequestContext,
+} from "../../app-logs/app-log-security-writer";
 import { userPasswordWriter } from "./userPasswordWriter.service";
 
 export const userSecurityResetPasswordUpdater = {
@@ -16,15 +19,18 @@ async function checkResetPasswordToken({
   userId,
   token,
   userProfile,
+  requestContext,
 }: {
   userId: number;
   token: string;
   userProfile: UserProfile;
+  requestContext?: SecurityLogRequestContext;
 }): Promise<UserSecurity> {
   await userSecurityEventHistoryManager.assertOperationAllowed({
     operation: "reset-password-confirm",
     userProfile,
     userId,
+    requestContext,
   });
 
   const userSecurity = await getUserSecurityRepository(
@@ -36,9 +42,12 @@ async function checkResetPasswordToken({
     userSecurity.temporaryTokens.token !== token ||
     new Date(userSecurity.temporaryTokens.validity) < new Date()
   ) {
-    await logSecurityEventForUser("RESET_PASSWORD_ERROR", userProfile, {
-      id: userId,
-    });
+    await logSecurityEventForUser(
+      "RESET_PASSWORD_ERROR",
+      userProfile,
+      { id: userId },
+      { requestContext }
+    );
     throw new Error("Error");
   }
 
@@ -50,13 +59,15 @@ async function confirmResetPassword({
   token,
   newPassword,
   userProfile,
+  requestContext,
 }: {
   userId: number;
   token: string;
   newPassword: string;
   userProfile: UserProfile;
+  requestContext?: SecurityLogRequestContext;
 }): Promise<{ userId: number }> {
-  await checkResetPasswordToken({ userId, token, userProfile });
+  await checkResetPasswordToken({ userId, token, userProfile, requestContext });
 
   const repository = getUserRepository(userProfile);
   const securityRepository = getUserSecurityRepository(userProfile);
@@ -73,6 +84,7 @@ async function confirmResetPassword({
     newPassword,
     successAction: "RESET_PASSWORD_SUCCESS",
     sessionReason: "PASSWORD_RESET",
+    requestContext,
   });
 
   return { userId };

@@ -18,6 +18,7 @@ import {
   OtpRequestContext,
 } from "../otp.types";
 import { OtpService } from "../services/otp.service";
+import { getClientIp, getClientUserAgent } from "../../../util/express";
 
 @Injectable()
 export class OtpGuard implements CanActivate {
@@ -63,6 +64,8 @@ export class OtpGuard implements CanActivate {
       prenom: user.prenom ?? "",
       userType: user._userProfile,
       userUuid: user.uuid,
+      ip: getClientIp(req) || undefined,
+      userAgent: getClientUserAgent(req) || undefined,
     };
   }
 }

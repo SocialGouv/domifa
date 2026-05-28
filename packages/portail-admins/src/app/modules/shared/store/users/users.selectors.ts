@@ -14,10 +14,6 @@ export const selectAllAdminUsers = createSelector(selectUsersList, (users) =>
       ? new Date(user.passwordLastUpdate)
       : null,
     createdAt: user?.createdAt ? new Date(user.createdAt) : null,
-    eventsHistory: (user?.eventsHistory ?? []).map((event) => ({
-      ...event,
-      date: new Date(event.date),
-    })),
   }))
 );
 

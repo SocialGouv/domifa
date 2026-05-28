@@ -374,6 +374,7 @@ export class OtpService {
       userId: context.userId,
       structureId: context.structureId,
       identifier: context.email,
+      requestContext: { ip: context.ip, userAgent: context.userAgent },
       context: {
         purpose: context.purpose,
         url: context.url,
@@ -399,6 +400,7 @@ export class OtpService {
       structureId: context.structureId,
       reason: "OTP_REQUEST_LIMIT",
       operation: `otp:${context.purpose}`,
+      requestContext: { ip: context.ip, userAgent: context.userAgent },
     });
   }
 

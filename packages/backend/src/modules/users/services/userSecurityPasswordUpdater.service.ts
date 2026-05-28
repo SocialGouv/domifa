@@ -2,7 +2,10 @@ import { UserStructure, UserSupervisor } from "@domifa/common";
 
 import { UserProfile } from "../../../_common/model";
 import { passwordGenerator } from "../../../util";
-import { logSecurityEventForUser } from "../../app-logs/app-log-security-writer";
+import {
+  logSecurityEventForUser,
+  SecurityLogRequestContext,
+} from "../../app-logs/app-log-security-writer";
 import { getUserRepository } from "./get-user-repository.service";
 import { userSecurityEventHistoryManager } from "./userSecurityEventHistoryManager.service";
 import { userPasswordWriter } from "./userPasswordWriter.service";
@@ -16,16 +19,19 @@ async function updatePassword({
   oldPassword,
   newPassword,
   userProfile,
+  requestContext,
 }: {
   userId: number;
   oldPassword: string;
   newPassword: string;
   userProfile: UserProfile;
+  requestContext?: SecurityLogRequestContext;
 }): Promise<void> {
   await userSecurityEventHistoryManager.assertOperationAllowed({
     operation: "change-password",
     userProfile,
     userId,
+    requestContext,
   });
 
   const repository = getUserRepository(userProfile);
@@ -39,7 +45,9 @@ async function updatePassword({
   });
 
   if (!isValidPass) {
-    await logSecurityEventForUser("CHANGE_PASSWORD_ERROR", userProfile, user);
+    await logSecurityEventForUser("CHANGE_PASSWORD_ERROR", userProfile, user, {
+      requestContext,
+    });
     throw new Error("Error");
   }
 
@@ -49,5 +57,6 @@ async function updatePassword({
     newPassword,
     successAction: "CHANGE_PASSWORD_SUCCESS",
     sessionReason: "PASSWORD_CHANGED",
+    requestContext,
   });
 }

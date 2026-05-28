@@ -37,4 +37,8 @@ export interface OtpRequestContext {
   // Optional structureId for additional context (only meaningful for
   // structure / usager profiles — supervisors are multi-structure).
   structureId?: number;
+  // HTTP client metadata captured at the call site (controller / guard). Kept
+  // optional so non-HTTP callers can still build a context.
+  ip?: string;
+  userAgent?: string;
 }

@@ -1,6 +1,19 @@
-import { Controller, Get, Query, UseGuards } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  Param,
+  ParseEnumPipe,
+  ParseUUIDPipe,
+  Query,
+  UseGuards,
+} from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiParam,
+  ApiTags,
+} from "@nestjs/swagger";
 
 import { PageResults } from "@domifa/common";
 
@@ -9,8 +22,15 @@ import {
   AllowUserSupervisorRoles,
 } from "../../../../auth/decorators";
 import { AppUserGuard } from "../../../../auth/guards";
-import { SuspiciousActivityQueryDto } from "../../dto/suspicious-activity-query.dto";
-import { SuspiciousActivityLogDto } from "../../dto/suspicious-activity-log.dto";
+import {
+  SUSPICIOUS_USER_PROFILES,
+  SuspiciousActivityQueryDto,
+  SuspiciousUserProfile,
+} from "../../dto/suspicious-activity-query.dto";
+import {
+  SuspiciousActivityLogDto,
+  UserSessionsViewDto,
+} from "../../dto/suspicious-activity-log.dto";
 import { AdminSecurityService } from "../../services/admin-security/admin-security.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -31,5 +51,18 @@ export class AdminSecurityController {
     @Query() query: SuspiciousActivityQueryDto
   ): Promise<PageResults<SuspiciousActivityLogDto>> {
     return this.adminSecurityService.findSuspiciousActivity(query);
+  }
+
+  @Get("users/:userType/:uuid/sessions")
+  @ApiOperation({
+    summary: "Sessions courante + historique d'un utilisateur",
+  })
+  @ApiParam({ name: "userType", enum: SUSPICIOUS_USER_PROFILES })
+  public async getUserSessions(
+    @Param("userType", new ParseEnumPipe(SUSPICIOUS_USER_PROFILES))
+    userType: SuspiciousUserProfile,
+    @Param("uuid", new ParseUUIDPipe()) uuid: string
+  ): Promise<UserSessionsViewDto> {
+    return this.adminSecurityService.getUserSessions(userType, uuid);
   }
 }

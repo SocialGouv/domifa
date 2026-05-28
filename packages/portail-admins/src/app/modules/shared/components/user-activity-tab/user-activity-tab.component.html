@@ -2,6 +2,24 @@
   <h2 class="fr-h4 fr-mb-2w">{{ resolvedTitle }}</h2>
   <p class="fr-text--sm fr-text--mention-grey">{{ resolvedSubtitle }}</p>
 
+  <div *ngIf="showUserTypeFilter" class="fr-grid-row fr-mb-2w">
+    <div class="fr-col-12 fr-col-md-4">
+      <div class="fr-select-group">
+        <label class="fr-label" for="user-type-filter">Type d'acteur</label>
+        <select
+          id="user-type-filter"
+          class="fr-select"
+          [(ngModel)]="userTypeFilter"
+          (ngModelChange)="onUserTypeFilterChange()"
+        >
+          <option value="all">Tous</option>
+          <option value="user_structure">Structures</option>
+          <option value="usager">Usagers</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
   <div
     *ngIf="loading"
     role="alert"

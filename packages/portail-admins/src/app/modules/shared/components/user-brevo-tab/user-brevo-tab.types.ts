@@ -23,4 +23,9 @@ export type BrevoEventsFetcher = (
   options: BrevoEventsFetcherOptions
 ) => Observable<BrevoEmailEvent[]>;
 
-export type BrevoUnblockFetcher = (uuid: string) => Observable<ApiMessage>;
+export type BrevoUnblockKind = "campaign" | "transactional";
+
+export type BrevoUnblockFetcher = (
+  uuid: string,
+  kind: BrevoUnblockKind
+) => Observable<ApiMessage>;

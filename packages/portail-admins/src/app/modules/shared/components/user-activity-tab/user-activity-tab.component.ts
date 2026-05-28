@@ -6,6 +6,7 @@ import {
   OnDestroy,
   SimpleChanges,
 } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { DsfrPaginationComponent } from "@edugouvfr/ngx-dsfr";
 import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 import { Observable, Subscription } from "rxjs";
@@ -21,10 +22,13 @@ import {
 } from "../../../manage-users/types/log-context-formatter";
 import { UserActivityLog } from "../../../manage-users/types/user-activity-log";
 
+export type UserTypeFilter = "all" | "user_structure" | "usager";
+
 export type UserActivityLogsFetcher = (
   entityUuid: string,
   page: number,
-  take: number
+  take: number,
+  userType?: string
 ) => Observable<PageResults<UserActivityLog>>;
 
 // `activity` = rows from `app_log` (no IP/UA columns)
@@ -66,6 +70,7 @@ const PAGE_SIZE = 20;
   templateUrl: "./user-activity-tab.component.html",
   imports: [
     CommonModule,
+    FormsModule,
     DsfrPaginationComponent,
     DsfrSpinnerComponent,
     DisplayIpComponent,
@@ -79,10 +84,15 @@ export class UserActivityTabComponent implements OnChanges, OnDestroy {
   // When true, an extra "Utilisateur" column is shown (used on structure-
   // level views that aggregate the activity of every user in the structure).
   @Input() public showUserColumn = false;
+  // When true, render a "Structures / Usagers / Tous" selector on top of the
+  // table. The selected value is passed to the fetcher as the 4th argument.
+  @Input() public showUserTypeFilter = false;
   @Input() public title?: string;
   @Input() public subtitle?: string;
   @Input() public emptyMessage?: string;
   @Input() public errorMessage?: string;
+
+  public userTypeFilter: UserTypeFilter = "all";
 
   public logs: UserActivityLog[] = [];
   public currentPage = 1;
@@ -126,8 +136,10 @@ export class UserActivityTabComponent implements OnChanges, OnDestroy {
       return;
     }
     this.loading = true;
+    const userTypeArg =
+      this.userTypeFilter === "all" ? undefined : this.userTypeFilter;
     this.subscription.add(
-      this.fetcher(this.entityId, page, this.pageSize).subscribe({
+      this.fetcher(this.entityId, page, this.pageSize, userTypeArg).subscribe({
         next: (results) => {
           this.logs = results.data;
           this.currentPage = results.meta.page;
@@ -145,6 +157,10 @@ export class UserActivityTabComponent implements OnChanges, OnDestroy {
 
   public onPageSelect(page: number): void {
     this.loadPage(page);
+  }
+
+  public onUserTypeFilterChange(): void {
+    this.loadPage(1);
   }
 
   public actionLabel(action: string): string {

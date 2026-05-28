@@ -49,16 +49,15 @@ export class LoginOtpService {
   // (OTP_REQUIRED / OTP_INVALID / OTP_BLOCKED).
   async evaluate(params: {
     user: LoginUserPrincipal;
-    // `ip` / `userAgent` are accepted for backwards-compat with the
-    // controller signature but no longer consumed here — the trust-token
-    // check is now a pure opaque-token compare and doesn't need them.
+    // Forwarded into the OtpRequestContext so OTP_* security log rows carry
+    // the client metadata (the trust-token check itself doesn't read them).
     ip?: string;
     userAgent?: string;
     trustToken?: string;
     otpCode?: string;
     forceResend?: boolean;
   }): Promise<LoginOtpResult> {
-    const { user, trustToken, otpCode, forceResend } = params;
+    const { user, ip, userAgent, trustToken, otpCode, forceResend } = params;
     const emailLog = redactEmail(user.email);
 
     // Domain-level bypass: when the org's mail filter quarantines our OTP
@@ -81,7 +80,7 @@ export class LoginOtpService {
     // OTP modal asking for a fresh email, not trying to authenticate. Skip
     // straight to the OTP mint step.
     if (forceResend) {
-      const otpContext = this.buildOtpContext(user);
+      const otpContext = this.buildOtpContext(user, { ip, userAgent });
       await this.otpService.enforceOrThrow(otpContext, null, {
         forceResend: true,
       });
@@ -106,7 +105,7 @@ export class LoginOtpService {
       );
     }
 
-    const otpContext = this.buildOtpContext(user);
+    const otpContext = this.buildOtpContext(user, { ip, userAgent });
 
     if (otpCode) {
       // enforceOrThrow handles OTP_INVALID / OTP_BLOCKED by throwing. On
@@ -180,7 +179,10 @@ export class LoginOtpService {
     return session;
   }
 
-  private buildOtpContext(user: LoginUserPrincipal): OtpRequestContext {
+  private buildOtpContext(
+    user: LoginUserPrincipal,
+    request: { ip?: string; userAgent?: string }
+  ): OtpRequestContext {
     return {
       fingerprintHash: computeOtpFingerprint(
         {
@@ -200,6 +202,8 @@ export class LoginOtpService {
       userUuid: user.uuid,
       userId: user.id,
       structureId: user.structureId,
+      ip: request.ip,
+      userAgent: request.userAgent,
     };
   }
 }

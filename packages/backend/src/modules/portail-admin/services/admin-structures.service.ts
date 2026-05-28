@@ -19,13 +19,17 @@ import {
   HistoricalUserSession,
 } from "../../../_common/model";
 import { userSecurityEventHistoryManager } from "../../users/services";
-import { logSecurityEvent } from "../../app-logs/app-log-security-writer";
+import {
+  logSecurityEvent,
+  SecurityLogRequestContext,
+} from "../../app-logs/app-log-security-writer";
 
 @Injectable()
 export class AdminStructuresService {
   public async unblockStructureUser(
     uuid: string,
-    structureId: number
+    structureId: number,
+    requestContext?: SecurityLogRequestContext
   ): Promise<{ userId: number }> {
     const target = await userStructureRepository.findOne({
       where: { uuid, structureId },
@@ -43,6 +47,7 @@ export class AdminStructuresService {
       profile: "structure",
       userId: target.id,
       structureId,
+      requestContext,
     });
     return { userId: target.id };
   }

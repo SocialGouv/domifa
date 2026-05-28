@@ -16,8 +16,6 @@ import { environment } from "../../../../../environments/environment";
 import { subMonths } from "date-fns";
 import { CustomToastService } from "../../../shared/services";
 import { Clipboard } from "@angular/cdk/clipboard";
-import { UserStructureEventHistoryLabels } from "../../../admin-auth/types/event-history";
-import { UserSecurityEventType } from "../../../shared/types/UserSecurityEvent.type";
 import { UserStructureWithSecurity } from "../../../admin-auth/types/UserStructureWithSecurity.type";
 import { selectStructureByUuid } from "../../../shared/store/structures";
 import {
@@ -38,23 +36,6 @@ export enum MODAL_ACTION {
   REINIT_USER_PASSWORD = "REINIT_USER_PASSWORD",
 }
 
-const EVENT_CONFIG: {
-  [key in UserSecurityEventType]: {
-    class: "success" | "error";
-    label: "Succès" | "Erreur";
-  };
-} = {
-  "login-success": { class: "success", label: "Succès" },
-  "change-password-success": { class: "success", label: "Succès" },
-  "reset-password-success": { class: "success", label: "Succès" },
-  "reset-password-request": { class: "success", label: "Succès" },
-  "validate-account-success": { class: "success", label: "Succès" },
-  "validate-account-error": { class: "error", label: "Erreur" },
-  "login-error": { class: "error", label: "Erreur" },
-  "change-password-error": { class: "error", label: "Erreur" },
-  "reset-password-error": { class: "error", label: "Erreur" },
-} as const;
-
 export interface ConfirmModalContext {
   actionText: string;
   action: (user: UserWithSecurityViewModel) => void;
@@ -67,12 +48,6 @@ type UserWithSecurityViewModel = UserStructure & {
     token?: string;
     validity?: Date;
   };
-  eventsHistory: {
-    type: UserSecurityEventType;
-    date: Date;
-    eventLevel: string;
-    eventLabel: string;
-  }[];
 };
 
 @Component({
@@ -98,7 +73,6 @@ export class UsersComponent implements OnInit, OnDestroy {
   public readonly frontendUrl = environment.frontendUrl;
   public readonly USER_FONCTION = UserFonction;
   public readonly _USER_FONCTION_LABELS = USER_FONCTION_LABELS;
-  public readonly USER_ACTIVITY_LABELS = UserStructureEventHistoryLabels;
   public readonly MODAL_ACTION = MODAL_ACTION;
   public structureUuid: string;
   public structure?: StructureAdmin;
@@ -106,8 +80,6 @@ export class UsersComponent implements OnInit, OnDestroy {
   public searching = true;
   @ViewChild("confirmModal")
   public confirmModal!: DsfrModalComponent;
-  @ViewChild("infoModal")
-  public informationModal!: DsfrModalComponent;
   @ViewChild("addUserModal")
   public addUserModal!: DsfrModalComponent;
   @ViewChild("blockModal")
@@ -172,11 +144,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.setConfirmModalContext(user, modalAction);
     this.userForModal = user;
     this.confirmModal.open();
-  }
-
-  public openInformationModal(user: UserWithSecurityViewModel): void {
-    this.userForModal = user;
-    this.informationModal.open();
   }
 
   public openAddUserModal(): void {
@@ -266,29 +233,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.confirmModal.close();
   }
 
-  public unblockUser(user: UserWithSecurityViewModel): void {
-    if (!this.structure?.uuid || !user.uuid) {
-      return;
-    }
-    this.subscription.add(
-      this.structureService
-        .unblockUser(this.structure.uuid, user.uuid)
-        .subscribe({
-          next: () => {
-            this.reloadUsersSubject$.next();
-            this.toastService.success("L'utilisateur a été débloqué");
-            this.userForModal = null;
-            this.informationModal?.close();
-          },
-          error: () => {
-            this.toastService.error(
-              "Erreur lors du déblocage de l'utilisateur"
-            );
-          },
-        })
-    );
-  }
-
   public generateResetPasswordLink(user: UserStructureWithSecurity): string {
     if (
       !user?.id ||
@@ -358,7 +302,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     const resetLink = this.generateResetPasswordLink(user);
 
     if (resetLink) {
-      // Link is ok, we can copy in the clipbaoard !
       this.clipboard.copy(resetLink);
       this.toastService.success(
         "Le lien de réinitialisation a été copié dans le presse-papier"
@@ -392,15 +335,4 @@ const mapUserStructureToViewModel = (
   passwordLastUpdate: user?.passwordLastUpdate
     ? new Date(user.passwordLastUpdate)
     : null,
-  eventsHistory: user.eventsHistory
-    .map((eventHistory) => ({
-      ...eventHistory,
-      eventLevel: EVENT_CONFIG[eventHistory.type].class,
-      eventLabel: EVENT_CONFIG[eventHistory.type].label,
-    }))
-    .sort((a, b) => {
-      const aDate = new Date(a.date);
-      const bDate = new Date(b.date);
-      return bDate.getTime() - aDate.getTime();
-    }),
 });

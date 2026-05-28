@@ -7,6 +7,7 @@ import {
   ContactsApi,
   CreateContact,
   SendSmtpEmailReplyTo,
+  UpdateContact,
 } from "@getbrevo/brevo";
 import { readFileSync } from "node:fs";
 import { basename } from "node:path";
@@ -425,6 +426,7 @@ export class BrevoSenderService {
         listIds: body.listIds,
         createdAt: body.createdAt,
         modifiedAt: body.modifiedAt,
+        id: typeof body.id === "number" ? body.id : undefined,
       };
     } catch (error: any) {
       // Brevo returns 404 when the contact does not exist — that's an expected
@@ -442,24 +444,144 @@ export class BrevoSenderService {
     }
   }
 
-  async removeFromTransactionalBlocklist({
-    email,
-  }: {
-    email: string;
-  }): Promise<void> {
+  // Clears the contact-level `emailBlacklisted` flag (Brevo Contacts API).
+  // Set when a contact unsubscribes from a campaign or is manually blacklisted
+  // — this is what blocks marketing/campaign sends. Transactional sends are
+  // governed by a separate list (see `unblockBrevoTransactional`).
+  // Brevo answers 204 No Content on success.
+  async unblockBrevoCampaign({ email }: { email: string }): Promise<void> {
     const config = domifaConfig();
 
     if (isBrevoCallSkipped(config)) {
       appLogger.info(
-        `[EMAILS DISABLED] Déblocage Brevo non effectué pour ${email}`
+        `[EMAILS DISABLED] Déblocage campagne non effectué pour ${email}`
       );
       return;
     }
 
-    await this.transactionalEmailsApi.smtpBlockedContactsEmailDelete(email);
-    appLogger.info(
-      `Contact Brevo retiré de la blocklist transactionnelle: ${email}`
+    const update = new UpdateContact();
+    update.emailBlacklisted = false;
+    try {
+      await this.contactsApi.updateContact(email, update);
+      appLogger.info(`Contact Brevo débloqué côté campagnes: ${email}`);
+    } catch (error: any) {
+      const status =
+        error?.response?.statusCode ?? error?.response?.status ?? error?.status;
+      appLogger.warn(
+        `Échec PUT /contacts/${email} (status=${status}): ${
+          error?.message ?? String(error)
+        }`
+      );
+      throw error;
+    }
+  }
+
+  // Removes the email from the SMTP transactional blocklist (hard bounces,
+  // spam complaints, manual ops blocks). A 404 means "not on the list" which
+  // is the expected outcome when an admin pre-emptively unblocks — we swallow
+  // it so the UI sees a successful operation.
+  async unblockBrevoTransactional({ email }: { email: string }): Promise<void> {
+    const config = domifaConfig();
+
+    if (isBrevoCallSkipped(config)) {
+      appLogger.info(
+        `[EMAILS DISABLED] Déblocage transactionnel non effectué pour ${email}`
+      );
+      return;
+    }
+
+    try {
+      await this.transactionalEmailsApi.smtpBlockedContactsEmailDelete(email);
+      appLogger.info(`Contact Brevo retiré de la blocklist SMTP: ${email}`);
+    } catch (error: any) {
+      const status =
+        error?.response?.statusCode ?? error?.response?.status ?? error?.status;
+      if (status === 404) {
+        appLogger.info(
+          `Email ${email} absent de la blocklist SMTP (déjà débloqué)`
+        );
+        return;
+      }
+      appLogger.warn(
+        `Échec DELETE /smtp/blockedContacts/${email} (status=${status}): ${
+          error?.message ?? String(error)
+        }`
+      );
+      throw error;
+    }
+  }
+
+  // Paginated read of the SMTP transactional blocklist. Returns one page of
+  // emails. Used by the bulk-unblock migration to walk the full list (Brevo
+  // doesn't expose a "is X in the list" check, so the migration paginates).
+  async listTransactionalBlockedContacts(
+    offset: number,
+    limit: number
+  ): Promise<string[]> {
+    const config = domifaConfig();
+
+    if (isBrevoCallSkipped(config)) {
+      return [];
+    }
+
+    const { body } =
+      await this.transactionalEmailsApi.getTransacBlockedContacts(
+        undefined,
+        undefined,
+        limit,
+        offset,
+        undefined,
+        "desc"
+      );
+    const contacts = (body as { contacts?: Array<{ email?: string }> })
+      .contacts;
+    return (contacts ?? [])
+      .map((c) => c?.email)
+      .filter((e): e is string => typeof e === "string" && e.length > 0);
+  }
+
+  // Brevo returns the total count in the paginated response envelope, so we
+  // ask for the smallest page possible and read `body.count`.
+  // Returns null when the call is skipped (offline env) so the caller can
+  // distinguish "Brevo disabled" from a real zero.
+  async countTransactionalBlocked(): Promise<number | null> {
+    const config = domifaConfig();
+    if (isBrevoCallSkipped(config)) {
+      return null;
+    }
+
+    const { body } =
+      await this.transactionalEmailsApi.getTransacBlockedContacts(
+        undefined,
+        undefined,
+        1,
+        0,
+        undefined,
+        "desc"
+      );
+    return typeof body.count === "number" ? body.count : 0;
+  }
+
+  // `filter=blacklisted` is Brevo's documented way to narrow GET /contacts to
+  // contacts with `emailBlacklisted=true`. We don't need the rows, only the
+  // envelope `count`.
+  async countCampaignBlacklisted(): Promise<number | null> {
+    const config = domifaConfig();
+    if (isBrevoCallSkipped(config)) {
+      return null;
+    }
+
+    const { body } = await this.contactsApi.getContacts(
+      1,
+      0,
+      undefined,
+      undefined,
+      "desc",
+      undefined,
+      undefined,
+      "blacklisted"
     );
+    return typeof body.count === "number" ? body.count : 0;
   }
 
   private parseTextToBrevoDate(

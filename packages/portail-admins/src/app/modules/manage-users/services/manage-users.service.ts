@@ -129,10 +129,11 @@ export class ManageUsersService {
   }
 
   public unblockSupervisorBrevoContact(
-    userUuid: string
+    userUuid: string,
+    kind: "campaign" | "transactional"
   ): Observable<ApiMessage> {
     return this.http.delete<ApiMessage>(
-      `${this.endPoint}/supervisor/${userUuid}/brevo/blocklist`
+      `${this.endPoint}/supervisor/${userUuid}/brevo/blocklist/${kind}`
     );
   }
 
