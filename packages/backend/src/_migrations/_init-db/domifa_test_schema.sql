@@ -1,4 +1,4 @@
-\restrict cidBP0mbOVvGmcNZ7JicWiWVww2bXyXny3GzeyYyENj9jPEbgvwtBJAfVbN1CNE
+\restrict fUwsDax9fU4G75iJIxkO7hcwzbhs50YDrxBATrp5AxCLdoHLsoz70hfVqUZMGMF
 CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 CREATE TABLE public.app_log (
@@ -485,7 +485,6 @@ CREATE TABLE public.user_structure_security (
     version integer NOT NULL,
     "userId" integer NOT NULL,
     "temporaryTokens" jsonb,
-    "eventsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL,
     "structureId" integer,
     "fingerprintHash" text,
     "currentSession" jsonb,
@@ -524,7 +523,6 @@ CREATE TABLE public.user_supervisor_security (
     version integer NOT NULL,
     "userId" integer NOT NULL,
     "temporaryTokens" jsonb,
-    "eventsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL,
     "fingerprintHash" text,
     "currentSession" jsonb,
     "sessionsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL
@@ -571,7 +569,6 @@ CREATE TABLE public.user_usager_security (
     version integer NOT NULL,
     "userId" integer NOT NULL,
     "structureId" integer NOT NULL,
-    "eventsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL,
     "temporaryTokens" jsonb,
     "fingerprintHash" text,
     "currentSession" jsonb,
@@ -800,4 +797,4 @@ ALTER TABLE ONLY public.usager_notes
     ADD CONSTRAINT "FK_e8b75cd4ebe81d288a6ff7d4115" FOREIGN KEY ("structureId") REFERENCES public.structure(id) ON DELETE CASCADE;
 ALTER TABLE ONLY public.interactions
     ADD CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE;
-\unrestrict cidBP0mbOVvGmcNZ7JicWiWVww2bXyXny3GzeyYyENj9jPEbgvwtBJAfVbN1CNE
+\unrestrict fUwsDax9fU4G75iJIxkO7hcwzbhs50YDrxBATrp5AxCLdoHLsoz70hfVqUZMGMF

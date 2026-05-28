@@ -3,7 +3,6 @@ import { utcToZonedTime } from "date-fns-tz";
 import { fr } from "date-fns/locale";
 
 import {
-  PermanentlyBlockedAccount,
   EmailAlertingLogAction,
   SuspiciousActivitySummary,
 } from "../types/security-alert.types";
@@ -176,8 +175,8 @@ function renderUserHighlight(
 }
 
 // Surfaces the trigger event (IP, URL, attempted identifier, quota) directly in
-// the email so operators don't need to open app_log to understand "blocked by
-// what?". Only renders when at least one trigger field is present.
+// the email so operators don't need to open app_log_security to understand
+// "blocked by what?". Only renders when at least one trigger field is present.
 function renderUserTriggerBlock(
   user: SuspiciousActivitySummary["blockedUsers"][0]
 ): string {
@@ -404,63 +403,6 @@ function renderStructureCell(
   return `<div style="font-weight: 700;">${label}</div>${namePart}${cityPart}`;
 }
 
-function renderPermanentlyBlockedTable(
-  accounts: PermanentlyBlockedAccount[]
-): string {
-  if (accounts.length === 0) {
-    return `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border-collapse: collapse; background-color: ${COLORS.background};">
-      <tr><td style="${emptyRowStyle}">Aucun compte avec un statut BLOCKED en base</td></tr>
-    </table>`;
-  }
-
-  const rows = accounts
-    .map(
-      (account) =>
-        `<tr>
-          <td style="${cellStyle} font-weight: 700;">#${account.userId}</td>
-          <td style="${cellStyle}">${escapeHtml(account.userProfile)}</td>
-          <td style="${cellStyle}">${escapeHtml(account.role ?? "-")}</td>
-          <td style="${cellStyle}">${escapeHtml(account.email)}</td>
-          <td style="${cellStyle}">${renderPermanentStructureCell(account)}</td>
-        </tr>`
-    )
-    .join("");
-
-  return `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border-collapse: collapse; background-color: ${COLORS.background};">
-    <thead>
-      <tr>
-        <th style="${headerCellStyle}">ID</th>
-        <th style="${headerCellStyle}">Profil</th>
-        <th style="${headerCellStyle}">Role</th>
-        <th style="${headerCellStyle}">Email</th>
-        <th style="${headerCellStyle}">Structure</th>
-      </tr>
-    </thead>
-    <tbody>${rows}</tbody>
-  </table>`;
-}
-
-function renderPermanentStructureCell(
-  account: PermanentlyBlockedAccount
-): string {
-  if (account.structureId === undefined) {
-    return "-";
-  }
-  const label = `#${account.structureId}`;
-  if (!account.structureName && !account.structureCity) {
-    return label;
-  }
-  const namePart = account.structureName
-    ? `<div>${escapeHtml(account.structureName)}</div>`
-    : "";
-  const cityPart = account.structureCity
-    ? `<div style="color: ${
-        COLORS.textSecondary
-      }; font-size: 12px;">${escapeHtml(account.structureCity)}</div>`
-    : "";
-  return `<div style="font-weight: 700;">${label}</div>${namePart}${cityPart}`;
-}
-
 function renderBlockedIpsTable(
   blockedIps: SuspiciousActivitySummary["blockedIps"]
 ): string {
@@ -530,14 +472,7 @@ export function generateSecurityAlertEmailHtml(
   summary: SuspiciousActivitySummary,
   envId: string
 ): string {
-  const {
-    windowStart,
-    windowEnd,
-    totals,
-    blockedUsers,
-    blockedIps,
-    permanentlyBlockedAccounts,
-  } = summary;
+  const { windowStart, windowEnd, totals, blockedUsers, blockedIps } = summary;
   const sectionTitleStyle = `font-family: ${FONT_STACK}; font-size: 16px; font-weight: 700; color: ${COLORS.blueFrance}; margin: 0 0 12px 0;`;
   const bodyTextStyle = `font-family: ${FONT_STACK}; font-size: 14px; line-height: 1.5; color: ${COLORS.textPrimary}; margin: 0 0 12px 0;`;
 
@@ -668,23 +603,15 @@ export function generateSecurityAlertEmailHtml(
             </td>
           </tr>
 
-          <!-- Permanently blocked accounts (current DB state) -->
-          <tr>
-            <td style="padding: 24px 24px 0 24px;">
-              <h2 style="${sectionTitleStyle}">Comptes actuellement bloques (statut BLOCKED)</h2>
-              ${renderPermanentlyBlockedTable(permanentlyBlockedAccounts ?? [])}
-            </td>
-          </tr>
-
           <!-- Footnote -->
           <tr>
             <td style="padding: 28px 24px 8px 24px;">
               <p style="font-family: ${FONT_STACK}; font-size: 12px; line-height: 1.5; color: ${
     COLORS.textSecondary
   }; margin: 0;">
-                Cet email est genere automatiquement par DomiFa. Consultez le tableau de bord et la table <code style="font-family: monospace; background-color: ${
+                Cet email est genere automatiquement par DomiFa. Consultez l'onglet <em>Activite suspecte</em> du portail admin et la table <code style="font-family: monospace; background-color: ${
                   COLORS.surfaceAlt
-                }; padding: 1px 4px; border-radius: 2px;">app_log</code> pour plus de details.
+                }; padding: 1px 4px; border-radius: 2px;">app_log_security</code> pour plus de details.
               </p>
             </td>
           </tr>

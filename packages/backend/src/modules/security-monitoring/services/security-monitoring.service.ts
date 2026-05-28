@@ -8,8 +8,6 @@ import {
   appLogSecurityRepository,
   AppLogSecurityTable,
   structureRepository,
-  userStructureRepository,
-  userSupervisorRepository,
 } from "../../../database";
 import { appLogger } from "../../../util";
 import { formatThrottleWindow } from "../../../auth/guards/app-throttler/app-throttler.utils";
@@ -17,7 +15,6 @@ import {
   BlockedIpSummary,
   BlockedUserSummary,
   EmailAlertingLogAction,
-  PermanentlyBlockedAccount,
   SuspiciousActivitySummary,
 } from "../types/security-alert.types";
 import { EMAIL_ALERTING_LOG_ACTIONS } from "../constants/SECURITY_LOG_ACTIONS.const";
@@ -61,19 +58,32 @@ export class SecurityMonitoringService {
       order: { createdAt: "DESC" },
     });
 
-    // FAILED_AUTH_THRESHOLD = a user typed bad credentials / clicked a stale
-    // magic link 3x in an hour. Triggered routinely by legit users mistyping
-    // or by email scanners (Outlook SafeLinks, AV prefetch) hitting reset /
-    // activation URLs — it's operational noise, not an attack. Drop it from
-    // the alert pipeline (the row stays in app_log_security for audit).
-    const recentLogs = rawLogs.filter(
-      (log) =>
-        !(
-          log.action === "BLOCK_USER" &&
-          (log.context as Record<string, unknown> | null)?.["reason"] ===
-            "FAILED_AUTH_THRESHOLD"
-        )
-    );
+    // The alert email only carries genuinely new, actionable events:
+    //   * definitive BLOCK_USER on bot/UA / throttle violations (autoBlocked)
+    //   * REQUEST_BLOCKED (bot detection, missing UA, bad origin, …)
+    //   * THROTTLE_BLOCKED (spam / brute force)
+    // Temporary lockouts driven by harmless operational noise are filtered
+    // out — they fire many times a day on prod and would drown the signal:
+    //   * FAILED_AUTH_THRESHOLD : 3 bad credentials in an hour. Legit users
+    //     mistyping, plus email scanners (SafeLinks, AV prefetch) hitting
+    //     stale reset / activation URLs.
+    //   * OTP_REQUEST_LIMIT : 10 OTP requests in an hour. Legit users hitting
+    //     "Renvoyer le code".
+    // Both rows stay in app_log_security for audit — only the alert pipeline
+    // is silenced.
+    const NOISY_TEMP_BLOCK_REASONS = new Set([
+      "FAILED_AUTH_THRESHOLD",
+      "OTP_REQUEST_LIMIT",
+    ]);
+    const recentLogs = rawLogs.filter((log) => {
+      if (log.action !== "BLOCK_USER") return true;
+      const reason = (log.context as Record<string, unknown> | null)?.[
+        "reason"
+      ];
+      return (
+        typeof reason !== "string" || !NOISY_TEMP_BLOCK_REASONS.has(reason)
+      );
+    });
 
     if (recentLogs.length === 0) {
       appLogger.debug(
@@ -84,21 +94,9 @@ export class SecurityMonitoringService {
 
     const summary = buildSummary({ recentLogs, windowStart, windowEnd });
     await enrichBlockedUsersWithStructure(summary.blockedUsers);
-    summary.permanentlyBlockedAccounts = await loadPermanentlyBlockedAccounts();
 
-    const blockedEmails = summary.permanentlyBlockedAccounts
-      .map((account) => account.email)
-      .filter((email): email is string => !!email);
     appLogger.warn(
-      `[CRON] [securityMonitoring] Detected ${
-        recentLogs.length
-      } suspicious event(s) (blocked users: ${
-        summary.blockedUsers.length
-      }, blocked IPs: ${
-        summary.blockedIps.length
-      }, permanently blocked accounts: ${
-        summary.permanentlyBlockedAccounts.length
-      }${blockedEmails.length > 0 ? ` [${blockedEmails.join(", ")}]` : ""})`
+      `[CRON] [securityMonitoring] Detected ${recentLogs.length} suspicious event(s) (blocked users: ${summary.blockedUsers.length}, blocked IPs: ${summary.blockedIps.length})`
     );
 
     try {
@@ -188,7 +186,6 @@ function buildSummary({
     totals,
     blockedUsers,
     blockedIps,
-    permanentlyBlockedAccounts: [],
   };
 }
 
@@ -341,77 +338,6 @@ function appendIdentifier(
     return;
   }
   entry.attemptedIdentifiers.push(identifier);
-}
-
-// Snapshot of every account currently in status='BLOCKED' across structure and
-// supervisor tables. Surfaced in the alert email so operators can see the
-// cumulative blocked state (not only what fired in the 5-min window).
-async function loadPermanentlyBlockedAccounts(): Promise<
-  PermanentlyBlockedAccount[]
-> {
-  try {
-    const [structureRows, supervisorRows] = await Promise.all([
-      userStructureRepository.find({
-        where: { status: "BLOCKED" },
-        select: {
-          id: true,
-          email: true,
-          role: true,
-          structureId: true,
-        },
-      }),
-      userSupervisorRepository.find({
-        where: { status: "BLOCKED" },
-        select: { id: true, email: true, role: true },
-      }),
-    ]);
-
-    const accounts: PermanentlyBlockedAccount[] = [
-      ...structureRows.map((row) => ({
-        userId: row.id,
-        userProfile: "structure" as const,
-        email: row.email,
-        role: row.role,
-        structureId: row.structureId,
-      })),
-      ...supervisorRows.map((row) => ({
-        userId: row.id,
-        userProfile: "supervisor" as const,
-        email: row.email,
-        role: row.role,
-      })),
-    ];
-
-    const structureIds = [
-      ...new Set(
-        accounts
-          .map((a) => a.structureId)
-          .filter((id): id is number => typeof id === "number")
-      ),
-    ];
-    if (structureIds.length > 0) {
-      const rows = await structureRepository.find({
-        where: { id: In(structureIds) },
-        select: { id: true, nom: true, ville: true },
-      });
-      const byId = new Map(rows.map((r) => [r.id, r]));
-      for (const account of accounts) {
-        if (account.structureId === undefined) continue;
-        const row = byId.get(account.structureId);
-        if (!row) continue;
-        account.structureName = row.nom;
-        account.structureCity = row.ville;
-      }
-    }
-
-    return accounts;
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    appLogger.warn(
-      `[CRON] [securityMonitoring] Failed to load permanently blocked accounts: ${message}`
-    );
-    return [];
-  }
 }
 
 async function enrichBlockedUsersWithStructure(

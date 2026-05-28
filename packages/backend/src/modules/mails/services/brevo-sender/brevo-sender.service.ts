@@ -25,7 +25,7 @@ import {
 import { isValid } from "date-fns";
 
 import { UserStructureBrevo } from "../../types/UserStructureBrevo.type";
-import { getStructureDecisionMotif } from "../../../portail-admin/services/get-structure-decision-motif";
+import { getStructureDecisionMotif } from "@domifa/common";
 import { appLogger } from "../../../../util";
 import { UserProfile, UserSecurity } from "../../../../_common/model";
 import { DomifaConfig } from "../../../../config/model/DomifaConfig.type";

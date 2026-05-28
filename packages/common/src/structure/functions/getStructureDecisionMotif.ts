@@ -1,24 +1,27 @@
 import {
   MOTIFS_REFUS_STRUCTURE_LABELS,
   MOTIFS_SUPPRESSION_STRUCTURE_LABELS,
+} from "../constants";
+import {
   StructureDecisionRefusMotif,
-  StructureDecisionStatut,
   StructureDecisionSuppressionMotif,
-} from "@domifa/common";
+} from "../enums";
+import { StructureDecisionStatut } from "../types";
 
-export const getStructureDecisionMotif = (
+export function getStructureDecisionMotif(
   statut: StructureDecisionStatut,
   motif?: StructureDecisionRefusMotif | StructureDecisionSuppressionMotif
-): string => {
+): string {
   if (statut === "VALIDE" || statut === "EN_ATTENTE") {
     return "";
   }
-
   if (statut === "REFUS") {
-    return MOTIFS_REFUS_STRUCTURE_LABELS[motif];
-  } else if (statut === "SUPPRIME") {
-    return MOTIFS_SUPPRESSION_STRUCTURE_LABELS[motif];
+    return MOTIFS_REFUS_STRUCTURE_LABELS[motif as StructureDecisionRefusMotif];
   }
-
+  if (statut === "SUPPRIME") {
+    return MOTIFS_SUPPRESSION_STRUCTURE_LABELS[
+      motif as StructureDecisionSuppressionMotif
+    ];
+  }
   return "";
-};
+}
