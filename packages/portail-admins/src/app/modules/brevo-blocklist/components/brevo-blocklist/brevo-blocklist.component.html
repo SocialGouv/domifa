@@ -1,0 +1,98 @@
+<dsfr-ext-spinner
+  *ngIf="loading"
+  typeLoader="quarter"
+  [overlay]="true"
+  label="Chargement des emails bloqués..."
+></dsfr-ext-spinner>
+
+<div class="head-page fr-pt-4w">
+  <div class="fr-grid-row">
+    <div
+      class="fr-container fr-col-md-12 fr-col-12 fr-display-flex fr-justify-content-between fr-align-items-center"
+    >
+      <h1 class="fr-text-title--blue-france fr-mb-0">
+        Emails bloqués (Brevo transactionnel)
+        <span *ngIf="total !== null">({{ total }} entrées)</span>
+      </h1>
+    </div>
+  </div>
+</div>
+
+<div class="fr-container fr-pt-4w">
+  <p class="fr-text--sm fr-text--mention-grey">
+    Liste paginée des emails présents dans la blocklist transactionnelle Brevo
+    (hard bounces, plaintes spam, blocages manuels). Débloquer un email le
+    retire de la blocklist et autorise à nouveau l'envoi de mails
+    transactionnels (lien d'activation, OTP, notifications).
+  </p>
+
+  <div *ngIf="!loading && emails.length === 0" class="fr-alert fr-alert--info">
+    <p>Aucun email bloqué côté transactionnel.</p>
+  </div>
+
+  <div *ngIf="emails.length > 0" class="fr-table fr-table--no-outer-border">
+    <div class="fr-table__wrapper">
+      <div class="fr-table__container">
+        <div class="fr-table__content">
+          <table>
+            <caption class="fr-sr-only">
+              Emails bloqués transactionnellement sur Brevo
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Email</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let email of emails">
+                <td style="word-break: break-all">{{ email }}</td>
+                <td>
+                  <button
+                    type="button"
+                    class="fr-btn fr-btn--sm fr-icon-lock-unlock-fill fr-btn--icon-left"
+                    [disabled]="unblockingEmail === email"
+                    (click)="unblock(email)"
+                  >
+                    {{
+                      unblockingEmail === email ? "Déblocage..." : "Débloquer"
+                    }}
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="emails.length > 0"
+    class="fr-mt-2w fr-display-flex fr-flex-wrap fr-align-items-center"
+    style="gap: 1rem"
+  >
+    <div class="fr-display-flex fr-align-items-center" style="gap: 0.5rem">
+      <label class="fr-label fr-mb-0" for="brevo-blocklist-page-size">
+        Résultats par page
+      </label>
+      <select
+        id="brevo-blocklist-page-size"
+        name="brevo-blocklist-page-size"
+        [(ngModel)]="pageSize"
+        (ngModelChange)="onPageSizeChange($event)"
+      >
+        <option *ngFor="let size of pageSizeOptions" [ngValue]="size">
+          {{ size }}
+        </option>
+      </select>
+    </div>
+    <dsfr-pagination
+      *ngIf="totalPages > 1"
+      [pageCount]="totalPages"
+      [currentPage]="currentPage"
+      (pageSelect)="onPageSelect($event)"
+      ariaLabel="Pagination des emails bloqués"
+    ></dsfr-pagination>
+  </div>
+</div>

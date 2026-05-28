@@ -106,8 +106,28 @@
       </div>
     </div>
 
-    <div *ngIf="totalPages > 1" class="fr-mt-2w">
+    <div
+      *ngIf="logs.length > 0"
+      class="fr-mt-2w fr-display-flex fr-flex-wrap fr-align-items-center"
+      style="gap: 1rem"
+    >
+      <div class="fr-display-flex fr-align-items-center" style="gap: 0.5rem">
+        <label class="fr-label fr-mb-0" for="user-activity-page-size">
+          Résultats par page
+        </label>
+        <select
+          id="user-activity-page-size"
+          name="user-activity-page-size"
+          [(ngModel)]="pageSize"
+          (ngModelChange)="onPageSizeChange($event)"
+        >
+          <option *ngFor="let size of pageSizeOptions" [ngValue]="size">
+            {{ size }}
+          </option>
+        </select>
+      </div>
       <dsfr-pagination
+        *ngIf="totalPages > 1"
         [pageCount]="totalPages"
         [currentPage]="currentPage"
         (pageSelect)="onPageSelect($event)"

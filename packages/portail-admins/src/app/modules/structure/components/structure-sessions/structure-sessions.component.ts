@@ -8,12 +8,19 @@ import { StructureSessionRecord } from "@domifa/common";
 
 import { AdminStructuresApiClient } from "../../../shared/services/api/admin-structures-api-client.service";
 import { CustomToastService } from "../../../shared/services";
+import { DisplayIpComponent } from "../../../shared/components/display-ip/display-ip.component";
+import { DisplayUserAgentComponent } from "../../../shared/components/display-user-agent/display-user-agent.component";
 import { SESSION_CLOSED_REASON_LABELS } from "../../../shared/components/user-sessions-tab/user-sessions.types";
 
 @Component({
   selector: "app-structure-sessions",
   templateUrl: "./structure-sessions.component.html",
-  imports: [CommonModule, DsfrSpinnerComponent],
+  imports: [
+    CommonModule,
+    DsfrSpinnerComponent,
+    DisplayIpComponent,
+    DisplayUserAgentComponent,
+  ],
 })
 export class StructureSessionsComponent implements OnInit, OnDestroy {
   public sessions: StructureSessionRecord[] = [];

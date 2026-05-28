@@ -4,17 +4,26 @@ import {
   SecurityLogAction,
 } from "@domifa/common";
 
-// Full set of security actions surfaced by the "Activité suspecte" view.
-// Sourced from @domifa/common so the enum stays in sync with the backend
-// SecurityLogAction union.
+// Actions surfaced in the "Activité suspecte" filter — kept aligned with the
+// backend `SUSPICIOUS_LOG_ACTIONS` whitelist (admin-security.service). Only
+// the actions that reflect a real blocking/denial event are exposed; the rest
+// of the SecurityLogAction union (LOGIN_OK, OTP_*, RESET_*…) lives in user
+// fiches but would only add noise to the global suspicious view.
 export const SUSPICIOUS_ACTIONS: SecurityLogAction[] = [
-  ...SECURITY_LOG_ACTIONS,
+  "BLOCK_USER",
+  "BLOCK_USER_BY_ADMIN",
+  "THROTTLE_BLOCKED",
+  "REQUEST_BLOCKED",
+  "UNBLOCK_USER",
+  "ACCESS_DENIED_NON_ACTIVE",
 ];
 
-// French labels for the suspicious-activity view. Re-exported from
-// @domifa/common so we don't maintain a parallel copy.
+// Labels for the full SecurityLogAction union — needed when a row pre-dates
+// the current SUSPICIOUS_ACTIONS whitelist and we still want to render its
+// badge. Sourced from @domifa/common (LOG_ACTION_LABELS) so we don't
+// maintain a parallel copy.
 export const SUSPICIOUS_ACTION_LABELS: Record<SecurityLogAction, string> =
-  SUSPICIOUS_ACTIONS.reduce((acc, action) => {
+  SECURITY_LOG_ACTIONS.reduce((acc, action) => {
     acc[action] = LOG_ACTION_LABELS[action];
     return acc;
   }, {} as Record<SecurityLogAction, string>);
@@ -55,3 +64,54 @@ export const SESSION_CLOSED_REASON_LABELS: Record<string, string> = {
   ADMIN_REVOKED: "Révoquée par un administrateur",
   OTP_REQUIRED: "OTP requis (session abandonnée)",
 };
+
+// Bucket the AppLogActorType values into the human kinds displayed in the
+// "Type d'utilisateur" column. Supervisor labels are role-specific (Admin
+// DomiFa / DGCS / DDETS / DREETS) — see `resolveUserKindLabel` below.
+const USER_KIND_LABELS: Record<string, string> = {
+  usager: "Domicilié",
+  user_structure: "Utilisateur",
+  user_supervisor: "Utilisateur",
+  anonymous: "Anonyme",
+};
+
+// Supervisor role → official agency name. Kept frontend-side because this
+// admin view is the only one that surfaces this naming; the rest of the
+// codebase uses USER_SUPERVISOR_ROLES_LABELS (Région/Département/DGCS/…).
+const USER_SUPERVISOR_AGENCY_LABELS: Record<string, string> = {
+  "super-admin-domifa": "Admin DomiFa",
+  national: "DGCS",
+  department: "DDETS",
+  region: "DREETS",
+};
+
+// Mirrors @domifa/common's USER_STRUCTURE_ROLES_LABELS — inlined to keep the
+// label-resolution helper self-contained.
+const USER_STRUCTURE_ROLE_LABELS: Record<string, string> = {
+  admin: "Administrateur",
+  responsable: "Gestionnaire",
+  simple: "Instructeur",
+  facteur: "Facteur",
+  agent: "Agent d'accueil",
+};
+
+// Returns the cell content for the "Type d'utilisateur" column. Falls back to
+// the bucket label when we don't have a role-specific override.
+export function resolveUserKindLabel(
+  userType: string | undefined,
+  role: string | undefined
+): string {
+  if (userType === "user_supervisor") {
+    const agency = role ? USER_SUPERVISOR_AGENCY_LABELS[role] : undefined;
+    return agency ?? USER_KIND_LABELS.user_supervisor;
+  }
+  const kind = USER_KIND_LABELS[userType ?? ""];
+  if (!kind) {
+    return "—";
+  }
+  if (userType === "user_structure" && role) {
+    const roleLabel = USER_STRUCTURE_ROLE_LABELS[role] ?? role;
+    return `${kind} (${roleLabel})`;
+  }
+  return kind;
+}

@@ -1,11 +1,13 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
 import { DsfrPaginationComponent } from "@edugouvfr/ngx-dsfr";
 import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 import { Subscription } from "rxjs";
 
 import { CustomToastService } from "../../../shared/services";
+import { DisplayUserAgentComponent } from "../../../shared/components/display-user-agent/display-user-agent.component";
 import {
   getLogContextHumanSummary,
   getLogContextJson,
@@ -13,7 +15,12 @@ import {
 import { SecurityLogAction } from "@domifa/common";
 
 import {
+  DEFAULT_PAGE_SIZE,
+  PAGE_SIZE_OPTIONS,
+} from "../../../../shared/constants";
+import {
   ACTION_BADGE_CLASS,
+  resolveUserKindLabel,
   SUSPICIOUS_ACTION_LABELS,
 } from "../../constants/SUSPICIOUS_ACTIONS.const";
 import { SuspiciousActivityService } from "../../services/suspicious-activity.service";
@@ -24,15 +31,15 @@ import {
 } from "../../types/suspicious-activity-log";
 import { SuspiciousActivityFiltersComponent } from "../suspicious-activity-filters/suspicious-activity-filters.component";
 
-const PAGE_SIZE = 25;
-
 @Component({
   selector: "app-suspicious-activity-list",
   standalone: true,
   templateUrl: "./suspicious-activity-list.component.html",
   imports: [
     CommonModule,
+    FormsModule,
     RouterLink,
+    DisplayUserAgentComponent,
     DsfrPaginationComponent,
     DsfrSpinnerComponent,
     SuspiciousActivityFiltersComponent,
@@ -50,7 +57,13 @@ export class SuspiciousActivityListComponent implements OnInit, OnDestroy {
   public totalPages = 1;
   public currentPage = 1;
   public loading = false;
-  public readonly pageSize = PAGE_SIZE;
+  public pageSize: number = DEFAULT_PAGE_SIZE;
+  public readonly pageSizeOptions = PAGE_SIZE_OPTIONS;
+  public readonly userKindLabel = resolveUserKindLabel;
+  public readonly encodeURIComponent = encodeURIComponent;
+
+  @ViewChild(SuspiciousActivityFiltersComponent)
+  private readonly filtersComponent?: SuspiciousActivityFiltersComponent;
 
   private currentFilters: SuspiciousActivityFilters = {};
   private readonly subscription = new Subscription();
@@ -99,6 +112,34 @@ export class SuspiciousActivityListComponent implements OnInit, OnDestroy {
     this.loadPage(page);
   }
 
+  public onPageSizeChange(value: number): void {
+    const next = Number(value);
+    if (!Number.isFinite(next) || next <= 0 || next === this.pageSize) {
+      return;
+    }
+    this.pageSize = next;
+    this.loadPage(1);
+  }
+
+  public onIpClick(ip: string | null | undefined): void {
+    if (!ip) {
+      return;
+    }
+    // Delegate to the filter component so the form input mirrors the active
+    // filter. setIp() emits filtersChange, which triggers loadPage(1).
+    if (this.filtersComponent) {
+      this.filtersComponent.setIp(ip);
+      return;
+    }
+    // Embedded mode (no filters component) — apply the filter directly.
+    this.currentFilters = {
+      ...this.currentFilters,
+      ip,
+      ...this.lockedFilters,
+    };
+    this.loadPage(1);
+  }
+
   public actionLabel(action: SecurityLogAction): string {
     return SUSPICIOUS_ACTION_LABELS[action] ?? action;
   }
@@ -115,12 +156,20 @@ export class SuspiciousActivityListComponent implements OnInit, OnDestroy {
     return getLogContextJson(context);
   }
 
-  public userDetailLink(user: SuspiciousResolvedUser): (string | number)[] {
-    const base =
-      user.userType === "user_supervisor"
-        ? "/manage-users"
-        : "/manage-structure-users";
-    return [base, user.uuid as string];
+  public userDetailLink(
+    user: SuspiciousResolvedUser
+  ): (string | number)[] | null {
+    if (!user.uuid) {
+      return null;
+    }
+    if (user.userType === "user_supervisor") {
+      return ["/manage-users", user.uuid];
+    }
+    if (user.userType === "user_structure") {
+      return ["/manage-structure-users", user.uuid];
+    }
+    // No admin detail page for usagers — render plain text instead.
+    return null;
   }
 
   public contextString(

@@ -13,6 +13,10 @@ import { Observable, Subscription } from "rxjs";
 
 import { LOG_ACTION_LABELS, PageResults } from "@domifa/common";
 
+import {
+  DEFAULT_PAGE_SIZE,
+  PAGE_SIZE_OPTIONS,
+} from "../../../../shared/constants";
 import { CustomToastService } from "../../services";
 import { DisplayIpComponent } from "../display-ip/display-ip.component";
 import { DisplayUserAgentComponent } from "../display-user-agent/display-user-agent.component";
@@ -63,8 +67,6 @@ const DEFAULT_TEXTS: Record<
   },
 };
 
-const PAGE_SIZE = 20;
-
 @Component({
   selector: "app-user-activity-tab",
   templateUrl: "./user-activity-tab.component.html",
@@ -99,7 +101,8 @@ export class UserActivityTabComponent implements OnChanges, OnDestroy {
   public totalPages = 1;
   public itemCount = 0;
   public loading = false;
-  public readonly pageSize = PAGE_SIZE;
+  public pageSize: number = DEFAULT_PAGE_SIZE;
+  public readonly pageSizeOptions = PAGE_SIZE_OPTIONS;
 
   private readonly subscription = new Subscription();
 
@@ -157,6 +160,15 @@ export class UserActivityTabComponent implements OnChanges, OnDestroy {
 
   public onPageSelect(page: number): void {
     this.loadPage(page);
+  }
+
+  public onPageSizeChange(value: number): void {
+    const next = Number(value);
+    if (!Number.isFinite(next) || next <= 0 || next === this.pageSize) {
+      return;
+    }
+    this.pageSize = next;
+    this.loadPage(1);
   }
 
   public onUserTypeFilterChange(): void {

@@ -207,6 +207,61 @@ export class AdminUsersController {
   }
 
   @ApiBearerAuth()
+  @ApiOperation({
+    summary:
+      "Liste paginée des contacts Brevo bloqués transactionnellement (hard bounces, plaintes spam).",
+  })
+  @Get("brevo/blocked-contacts")
+  public async getBrevoBlockedContacts(
+    @Query() pageOptions: PageOptionsDto
+  ): Promise<{ data: string[]; total: number | null }> {
+    const take = pageOptions.take ?? 50;
+    const skip = ((pageOptions.page ?? 1) - 1) * take;
+    const [data, total] = await Promise.all([
+      this.brevoSenderService.listTransactionalBlockedContacts(skip, take),
+      this.brevoSenderService.countTransactionalBlocked(),
+    ]);
+    return { data, total };
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary:
+      "Débloque un email de la blocklist transactionnelle Brevo (utilisé par la page d'administration).",
+  })
+  @Delete("brevo/blocked-contacts/:email")
+  public async unblockBrevoBlockedContact(
+    @Req() req: ExpressRequest,
+    @CurrentSupervisor() user: UserAdminAuthenticated,
+    @Param("email") email: string,
+    @Res() res: ExpressResponse
+  ): Promise<ExpressResponse> {
+    if (!email || !email.includes("@")) {
+      throw new BadRequestException("INVALID_EMAIL");
+    }
+    await this.brevoSenderService.unblockBrevoTransactional({ email });
+    try {
+      const requestContext = buildSecurityLogRequestContext(req);
+      await this.appLogSecurityService.create({
+        userType: "anonymous",
+        action: "UNBLOCK_BREVO_CONTACT",
+        ip: requestContext.ip,
+        userAgent: requestContext.userAgent,
+        context: {
+          email,
+          kind: "transactional",
+          source: "brevo-blocklist-admin-page",
+          actorSupervisorId: user.id,
+          actorRole: user.role,
+        },
+      });
+    } catch {
+      // Best-effort audit.
+    }
+    return res.status(HttpStatus.OK).json({ message: "OK" });
+  }
+
+  @ApiBearerAuth()
   @ApiOperation({ summary: "Débloquer un utilisateur supervisor (OTP requis)" })
   @Patch("supervisor/:uuid/unblock")
   @UseGuards(OtpGuard)

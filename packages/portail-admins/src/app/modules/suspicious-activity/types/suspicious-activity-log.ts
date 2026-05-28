@@ -2,14 +2,17 @@ import { SecurityLogAction } from "@domifa/common";
 
 export type SuspiciousUserProfile = "user_structure" | "user_supervisor";
 
+export type ResolvedUserType = SuspiciousUserProfile | "usager";
+
 export interface SuspiciousResolvedUser {
-  userType: SuspiciousUserProfile;
+  userType: ResolvedUserType;
   userId: number;
   fullName: string;
-  email: string;
+  email?: string;
   role?: string;
   status?: string;
   structureId?: number;
+  structureName?: string;
   uuid?: string;
 }
 
@@ -18,6 +21,8 @@ export interface SuspiciousActivityLog {
   action: SecurityLogAction;
   createdAt: string;
   userType?: string;
+  ip?: string | null;
+  userAgent?: string | null;
   context: Record<string, unknown> | null;
   resolvedUser?: SuspiciousResolvedUser;
 }

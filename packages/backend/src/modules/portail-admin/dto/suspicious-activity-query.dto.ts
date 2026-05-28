@@ -1,5 +1,5 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
-import { Type } from "class-transformer";
+import { Transform, Type } from "class-transformer";
 import {
   IsArray,
   IsDate,
@@ -24,6 +24,16 @@ export type SuspiciousUserProfile = (typeof SUSPICIOUS_USER_PROFILES)[number];
 export class SuspiciousActivityQueryDto extends PageOptionsDto {
   @ApiPropertyOptional({ enum: SUSPICIOUS_LOG_ACTIONS, isArray: true })
   @IsOptional()
+  // ?actions=X (single value) is parsed as a string by Express's qs parser —
+  // coerce it back to an array so @IsArray + @IsIn(each) work consistently
+  // whether the caller sends one or several `actions=` params.
+  @Transform(({ value }) =>
+    value === undefined || value === null
+      ? value
+      : Array.isArray(value)
+      ? value
+      : [value]
+  )
   @IsArray()
   @IsIn(SUSPICIOUS_LOG_ACTIONS, { each: true })
   readonly actions?: SuspiciousLogAction[];
