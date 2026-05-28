@@ -22,6 +22,10 @@ import {
 
 import { DsfrPaginationComponent } from "@edugouvfr/ngx-dsfr";
 
+import {
+  DEFAULT_PAGE_SIZE,
+  PAGE_SIZE_OPTIONS,
+} from "../../../../shared/constants";
 import { TableHeadSortComponent } from "../table-head-sort/table-head-sort.component";
 import { DisplayLastLoginComponent } from "../display-last-login/display-last-login.component";
 import { DisplayPasswordAgeComponent } from "../display-password-age/display-password-age.component";
@@ -32,7 +36,6 @@ import {
   UsersTableRow,
 } from "./users-table.types";
 
-const DEFAULT_PAGE_SIZE = 25;
 const STORAGE_KEY_PREFIX = "users-table:state:";
 
 type StoredTableState = {
@@ -41,6 +44,7 @@ type StoredTableState = {
   sortKey?: string;
   sortValue?: SortValues;
   page?: number;
+  pageSize?: number;
 };
 
 @Component({
@@ -67,7 +71,12 @@ export class UsersTableComponent implements OnChanges, OnInit {
   @Input() public searchPlaceholder =
     "Rechercher par ID, nom, email ou structure";
   @Input() public initialSortKey: keyof UsersTableRow = "nom";
-  @Input() public pageSize = DEFAULT_PAGE_SIZE;
+  @Input() public pageSize: number = DEFAULT_PAGE_SIZE;
+  // Embedded views (e.g. the per-structure users list) don't want their
+  // sort / page / filter state to bleed across navigations or to inherit from
+  // a previous visit. Set false to skip both restoreState() and persist().
+  @Input() public persistState = true;
+  public readonly pageSizeOptions = PAGE_SIZE_OPTIONS;
 
   @ContentChild("actionsCell", { read: TemplateRef })
   public actionsTemplate?: TemplateRef<{ $implicit: UsersTableRow }>;
@@ -99,6 +108,9 @@ export class UsersTableComponent implements OnChanges, OnInit {
   public readonly USER_STATUS_BADGE_CLASS = USER_STATUS_BADGE_CLASS;
 
   public ngOnInit(): void {
+    if (!this.persistState) {
+      return;
+    }
     // Restore filters / pagination from the previous visit to this table on
     // the same tab. Keyed by `tableId` so distinct tables stay independent.
     this.restoreState();
@@ -134,6 +146,16 @@ export class UsersTableComponent implements OnChanges, OnInit {
     this.persist();
   }
 
+  public onPageSizeChange(value: number): void {
+    const next = Number(value);
+    if (!Number.isFinite(next) || next <= 0 || next === this.pageSize) {
+      return;
+    }
+    this.pageSize = next;
+    this.refreshFilteredUsers({ resetPage: true });
+    this.persist();
+  }
+
   public userTrackBy(_index: number, user: UsersTableRow): string {
     return user.uuid;
   }
@@ -150,8 +172,11 @@ export class UsersTableComponent implements OnChanges, OnInit {
   }
 
   private refreshFilteredUsers({ resetPage }: { resetPage: boolean }): void {
-    const term = this.searchTerm.trim().toLowerCase();
-    const statusFilter = this.statusFilter;
+    // When showSearch=false the search/status UI is hidden, so any value
+    // persisted from a previous visit would silently filter the list with no
+    // way for the user to clear it. Ignore those filters in that case.
+    const term = this.showSearch ? this.searchTerm.trim().toLowerCase() : "";
+    const statusFilter = this.showSearch ? this.statusFilter : "";
 
     const filtered = this.users.filter((user) => {
       if (statusFilter && user.status !== statusFilter) {
@@ -238,16 +263,28 @@ export class UsersTableComponent implements OnChanges, OnInit {
     ) {
       this.currentPage = parsed.page;
     }
+    if (
+      typeof parsed.pageSize === "number" &&
+      Number.isFinite(parsed.pageSize) &&
+      parsed.pageSize > 0 &&
+      (PAGE_SIZE_OPTIONS as readonly number[]).includes(parsed.pageSize)
+    ) {
+      this.pageSize = parsed.pageSize;
+    }
     this.refreshFilteredUsers({ resetPage: false });
   }
 
   private persist(): void {
+    if (!this.persistState) {
+      return;
+    }
     const state: StoredTableState = {
       q: this.searchTerm,
       status: this.statusFilter,
       sortKey: this.currentKey,
       sortValue: this.sortValue,
       page: this.currentPage,
+      pageSize: this.pageSize,
     };
     try {
       window.sessionStorage.setItem(this.storageKey, JSON.stringify(state));

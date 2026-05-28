@@ -74,6 +74,15 @@ const routes: Routes = [
       ),
   },
   {
+    path: "brevo-blocklist",
+    canActivate: [AuthGuard],
+    data: { roles: ["super-admin-domifa"] },
+    loadChildren: () =>
+      import("./modules/brevo-blocklist/brevo-blocklist.module").then(
+        (m) => m.BrevoBlocklistModule
+      ),
+  },
+  {
     path: "",
     canActivate: [RoleRedirectGuard],
     pathMatch: "full",

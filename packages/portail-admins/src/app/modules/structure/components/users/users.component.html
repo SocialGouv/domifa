@@ -25,10 +25,11 @@
 
   <app-users-table
     *ngIf="users.length > 0"
-    tableId="structure-users-table"
+    tableId="single-structure-users-table"
     caption="Liste des utilisateurs enregistrés"
     [users]="users"
     [showSearch]="false"
+    [persistState]="false"
     initialSortKey="id"
   >
     <ng-template #actionsCell let-user>

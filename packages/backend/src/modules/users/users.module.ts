@@ -8,6 +8,7 @@ import { UsersPublicController } from "./controllers/users.public.controller";
 import { MailsModule } from "../mails/mails.module";
 import { UsersSupervisorController } from "./controllers/users-supervisor.controller";
 import { AppLogsService } from "../app-logs/app-logs.service";
+import { ExpiredTemporaryBlockCleaner } from "./services/crons/expired-temporary-block-cleaner.service";
 import { ExpiredTokenCleaner } from "./services/crons/expired-token-cleaner.service";
 
 @Module({
@@ -23,6 +24,10 @@ import { ExpiredTokenCleaner } from "./services/crons/expired-token-cleaner.serv
     forwardRef(() => MailsModule),
     forwardRef(() => StructuresModule),
   ],
-  providers: [AppLogsService, ExpiredTokenCleaner],
+  providers: [
+    AppLogsService,
+    ExpiredTemporaryBlockCleaner,
+    ExpiredTokenCleaner,
+  ],
 })
 export class UsersModule {}

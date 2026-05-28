@@ -54,6 +54,14 @@ export class SuspiciousActivityFiltersComponent implements OnInit {
     this.emit();
   }
 
+  // Called by the parent when an IP cell is clicked in the table — keeps the
+  // form in sync with the active filter so a subsequent "Rechercher" submit
+  // doesn't reset the IP back to empty.
+  public setIp(ip: string): void {
+    this.form.patchValue({ ip });
+    this.emit();
+  }
+
   private emit(): void {
     const v = this.form.value as {
       action: string | null;

@@ -47,8 +47,9 @@ export class DisplayPasswordAgeComponent implements OnChanges {
     }
 
     this.label = format(refDate, "d MMMM y", { locale: fr });
+    const fullDate = format(refDate, "d MMMM y 'à' HH:mm", { locale: fr });
     this.tooltip = this.passwordLastUpdate
-      ? ""
-      : "Mot de passe défini à l'inscription";
+      ? `Mot de passe mis à jour le ${fullDate}`
+      : `Mot de passe défini à l'inscription le ${fullDate}`;
   }
 }

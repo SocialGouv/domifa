@@ -6,14 +6,17 @@ import { AppLogActorType } from "../../app-logs/types";
 import { SuspiciousLogAction } from "../../security-monitoring/types/security-alert.types";
 import { SuspiciousUserProfile } from "./suspicious-activity-query.dto";
 
+export type ResolvedUserType = SuspiciousUserProfile | "usager";
+
 export interface SuspiciousResolvedUser {
-  userType: SuspiciousUserProfile;
+  userType: ResolvedUserType;
   userId: number;
   fullName: string;
-  email: string;
+  email?: string;
   role?: string;
   status?: string;
   structureId?: number;
+  structureName?: string;
   uuid?: string;
 }
 
@@ -22,6 +25,8 @@ export interface SuspiciousActivityLogDto {
   action: SuspiciousLogAction;
   createdAt: Date;
   userType?: AppLogActorType;
+  ip?: string | null;
+  userAgent?: string | null;
   context: Record<string, unknown> | null;
   resolvedUser?: SuspiciousResolvedUser;
 }

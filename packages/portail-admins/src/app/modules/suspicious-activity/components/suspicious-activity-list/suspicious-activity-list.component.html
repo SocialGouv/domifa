@@ -57,8 +57,10 @@
               <tr>
                 <th scope="col">Date</th>
                 <th scope="col">Action</th>
+                <th scope="col">Type d'utilisateur</th>
                 <th scope="col">Utilisateur</th>
                 <th scope="col">IP</th>
+                <th scope="col">Navigateur</th>
                 <th scope="col">Identifiant tenté</th>
                 <th scope="col">Détails</th>
               </tr>
@@ -75,13 +77,21 @@
                   </p>
                 </td>
                 <td>
+                  {{
+                    userKindLabel(
+                      log.resolvedUser?.userType || log.userType,
+                      log.resolvedUser?.role
+                    )
+                  }}
+                </td>
+                <td>
                   <ng-container
                     *ngIf="log.resolvedUser as user; else anonymousCell"
                   >
                     <a
                       class="fr-link"
-                      *ngIf="user.uuid; else userIdOnly"
-                      [routerLink]="userDetailLink(user)"
+                      *ngIf="userDetailLink(user) as link; else userIdOnly"
+                      [routerLink]="link"
                     >
                       {{ user.fullName || user.email }}
                     </a>
@@ -90,16 +100,18 @@
                     </ng-template>
                     <br />
                     <span class="fr-text--xs fr-text--mention-grey">
-                      {{
-                        user.userType === "user_supervisor"
-                          ? "Superviseur"
-                          : "Structure"
-                      }}
                       <ng-container *ngIf="user.role">
-                        · {{ user.role }}
+                        {{ user.role }}
                       </ng-container>
-                      <ng-container *ngIf="user.structureId">
-                        · structure #{{ user.structureId }}
+                      <ng-container *ngIf="user.structureName">
+                        <ng-container *ngIf="user.role"> · </ng-container>
+                        {{ user.structureName }}
+                      </ng-container>
+                      <ng-container
+                        *ngIf="!user.structureName && user.structureId"
+                      >
+                        <ng-container *ngIf="user.role"> · </ng-container>
+                        structure #{{ user.structureId }}
                       </ng-container>
                     </span>
                   </ng-container>
@@ -109,7 +121,39 @@
                     </span>
                   </ng-template>
                 </td>
-                <td>{{ contextString(log.context, "ip") }}</td>
+                <td>
+                  <ng-container *ngIf="log.ip; else emptyCell">
+                    <button
+                      type="button"
+                      class="fr-link fr-link--sm"
+                      title="Filtrer par cette IP"
+                      (click)="onIpClick(log.ip)"
+                    >
+                      {{ log.ip }}
+                    </button>
+                    <br />
+                    <a
+                      [href]="
+                        'https://www.abuseipdb.com/check/' +
+                        encodeURIComponent(log.ip)
+                      "
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="fr-link fr-link--sm fr-link--icon-right fr-icon-external-link-line"
+                      title="Voir sur AbuseIPDB"
+                    >
+                      AbuseIPDB
+                    </a>
+                  </ng-container>
+                  <ng-template #emptyCell>—</ng-template>
+                </td>
+                <td>
+                  <app-display-user-agent
+                    *ngIf="log.userAgent; else uaEmpty"
+                    [userAgent]="log.userAgent"
+                  ></app-display-user-agent>
+                  <ng-template #uaEmpty>—</ng-template>
+                </td>
                 <td>
                   {{ contextString(log.context, "attemptedIdentifier") }}
                 </td>
@@ -139,8 +183,28 @@
     </div>
   </div>
 
-  <div *ngIf="totalPages > 1" class="fr-mt-2w">
+  <div
+    *ngIf="logs.length > 0"
+    class="fr-mt-2w fr-display-flex fr-flex-wrap fr-align-items-center"
+    style="gap: 1rem"
+  >
+    <div class="fr-display-flex fr-align-items-center" style="gap: 0.5rem">
+      <label class="fr-label fr-mb-0" for="suspicious-page-size"
+        >Résultats par page</label
+      >
+      <select
+        id="suspicious-page-size"
+        name="suspicious-page-size"
+        [(ngModel)]="pageSize"
+        (ngModelChange)="onPageSizeChange($event)"
+      >
+        <option *ngFor="let size of pageSizeOptions" [ngValue]="size">
+          {{ size }}
+        </option>
+      </select>
+    </div>
     <dsfr-pagination
+      *ngIf="totalPages > 1"
       [pageCount]="totalPages"
       [currentPage]="currentPage"
       (pageSelect)="onPageSelect($event)"

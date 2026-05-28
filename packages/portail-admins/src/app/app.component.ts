@@ -89,6 +89,11 @@ export class AppComponent implements OnInit {
               label: "Activité suspecte",
               routerLink: "/suspicious-activity",
             },
+            {
+              linkId: "brevo-blocklist",
+              label: "Emails bloqués",
+              routerLink: "/brevo-blocklist",
+            },
             statsItem,
           ];
         } else {

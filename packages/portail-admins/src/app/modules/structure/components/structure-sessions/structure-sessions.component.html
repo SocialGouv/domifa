@@ -90,18 +90,18 @@
                     </ng-container>
                     <ng-template #expiresTpl>
                       <span class="fr-text--mention-grey">
-                        expire
                         {{ session.expiresAt | date : "dd/MM/yyyy HH:mm" }}
                       </span>
                     </ng-template>
                   </td>
                   <td>{{ reasonLabel(session.closedReason) }}</td>
-                  <td>{{ session.ipAddress }}</td>
-                  <td
-                    class="fr-text--xs"
-                    style="word-break: break-word; max-width: 280px"
-                  >
-                    {{ session.userAgent }}
+                  <td>
+                    <app-display-ip [ip]="session.ipAddress"></app-display-ip>
+                  </td>
+                  <td style="max-width: 280px">
+                    <app-display-user-agent
+                      [userAgent]="session.userAgent"
+                    ></app-display-user-agent>
                   </td>
                 </tr>
               </tbody>
