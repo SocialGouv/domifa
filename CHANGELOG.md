@@ -1,3 +1,11 @@
+## [2.249.3](https://github.com/SocialGouv/domifa/compare/v2.249.2...v2.249.3) (2026-05-28)
+
+
+### Bug Fixes
+
+* **backend:** fix user-agent display ([8f6ced6](https://github.com/SocialGouv/domifa/commit/8f6ced68cfd2efd5aa9684e3e774e8824808d752))
+* **backend:** update dump and security alerts ([c744e96](https://github.com/SocialGouv/domifa/commit/c744e9687719d43db4fe5c71f3413f995439a221))
+
 ## [2.249.2](https://github.com/SocialGouv/domifa/compare/v2.249.1...v2.249.2) (2026-05-28)
 
 
