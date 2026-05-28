@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import {
   And,
   Between,
@@ -15,8 +15,11 @@ import {
   appLogSecurityRepository,
   AppLogSecurityTable,
   userStructureRepository,
+  userStructureSecurityRepository,
   userSupervisorRepository,
+  userSupervisorSecurityRepository,
 } from "../../../../database";
+import { SUSPICIOUS_LOG_ACTIONS } from "../../../security-monitoring/constants/SECURITY_LOG_ACTIONS.const";
 import { SuspiciousLogAction } from "../../../security-monitoring/types/security-alert.types";
 import {
   SuspiciousActivityQueryDto,
@@ -25,10 +28,39 @@ import {
 import {
   SuspiciousActivityLogDto,
   SuspiciousResolvedUser,
+  UserSessionsViewDto,
 } from "../../dto/suspicious-activity-log.dto";
 
 @Injectable()
 export class AdminSecurityService {
+  public async getUserSessions(
+    userType: SuspiciousUserProfile,
+    uuid: string
+  ): Promise<UserSessionsViewDto> {
+    const userId = await resolveUserIdByUuid(userType, uuid);
+
+    const repo =
+      userType === "user_supervisor"
+        ? userSupervisorSecurityRepository
+        : userStructureSecurityRepository;
+
+    const row = await repo.findOne({
+      where: { userId },
+      select: {
+        userId: true,
+        currentSession: true,
+        sessionsHistory: true,
+        fingerprintHash: true,
+      },
+    });
+    return {
+      userId,
+      currentSession: row?.currentSession ?? null,
+      sessionsHistory: row?.sessionsHistory ?? [],
+      fingerprintHash: row?.fingerprintHash ?? null,
+    };
+  }
+
   public async findSuspiciousActivity(
     query: SuspiciousActivityQueryDto
   ): Promise<PageResults<SuspiciousActivityLogDto>> {
@@ -136,12 +168,18 @@ function buildWhere(
 ): FindOptionsWhere<AppLogSecurityTable> {
   const where: FindOptionsWhere<AppLogSecurityTable> = {};
 
-  // `actions` filter is opt-in: when omitted (or empty), no `action` clause
-  // is added so the listing returns every security event. Previously we
-  // fell back to SUSPICIOUS_LOG_ACTIONS, which silently filtered the rows.
-  if (query.actions && query.actions.length > 0) {
-    where.action = In(query.actions);
-  }
+  // "Activité suspecte" only shows the genuinely suspicious actions
+  // (BLOCK_USER, REQUEST_BLOCKED, THROTTLE_BLOCKED, …). When the caller
+  // narrows it further via `actions`, intersect to keep both invariants:
+  // the user filter is honored AND no LOGIN_SUCCESS / OTP_REQUESTED noise
+  // leaks in.
+  const baseActions: SuspiciousLogAction[] = SUSPICIOUS_LOG_ACTIONS;
+  const requestedActions = query.actions ?? [];
+  const allowed =
+    requestedActions.length > 0
+      ? requestedActions.filter((a) => baseActions.includes(a))
+      : baseActions;
+  where.action = In(allowed);
 
   if (query.userType) {
     where.userType = query.userType;
@@ -217,12 +255,20 @@ function toDto(
 function pickTargetKey(
   row: AppLogSecurityTable
 ): { userType: SuspiciousUserProfile; userId: number } | null {
-  // Security rows write the SUBJECT in userStructureId / userSupervisorId
-  // depending on userType.
+  // Security rows write the SUBJECT in userStructureId / userSupervisorId /
+  // userUsagerId depending on userType. We accept the legacy mismatch where
+  // `userType` was not yet set on older rows: fall back to whichever FK
+  // column carries a value so the admin UI can still attribute the event.
   if (row.userType === "user_structure" && row.userStructureId) {
     return { userType: "user_structure", userId: row.userStructureId };
   }
   if (row.userType === "user_supervisor" && row.userSupervisorId) {
+    return { userType: "user_supervisor", userId: row.userSupervisorId };
+  }
+  if (row.userStructureId) {
+    return { userType: "user_structure", userId: row.userStructureId };
+  }
+  if (row.userSupervisorId) {
     return { userType: "user_supervisor", userId: row.userSupervisorId };
   }
   return null;
@@ -230,4 +276,19 @@ function pickTargetKey(
 
 function formatFullName(prenom?: string | null, nom?: string | null): string {
   return [prenom, nom].filter(Boolean).join(" ").trim();
+}
+
+async function resolveUserIdByUuid(
+  userType: SuspiciousUserProfile,
+  uuid: string
+): Promise<number> {
+  const repo =
+    userType === "user_supervisor"
+      ? userSupervisorRepository
+      : userStructureRepository;
+  const user = await repo.findOne({ where: { uuid }, select: { id: true } });
+  if (!user) {
+    throw new NotFoundException("USER_NOT_FOUND");
+  }
+  return user.id;
 }

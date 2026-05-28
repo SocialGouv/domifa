@@ -24,8 +24,8 @@ export class SupervisorBrevoComponent implements OnInit {
   public readonly eventsFetcher: BrevoEventsFetcher = (uuid, options) =>
     this.manageUsersService.getSupervisorEmailEvents(uuid, options);
 
-  public readonly unblockFetcher: BrevoUnblockFetcher = (uuid) =>
-    this.manageUsersService.unblockSupervisorBrevoContact(uuid);
+  public readonly unblockFetcher: BrevoUnblockFetcher = (uuid, kind) =>
+    this.manageUsersService.unblockSupervisorBrevoContact(uuid, kind);
 
   constructor(
     private readonly route: ActivatedRoute,

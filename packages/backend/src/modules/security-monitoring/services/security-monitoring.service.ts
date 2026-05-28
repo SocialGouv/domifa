@@ -53,13 +53,27 @@ export class SecurityMonitoringService {
     const windowEnd = new Date();
     const windowStart = new Date(windowEnd.getTime() - WINDOW_MS);
 
-    const recentLogs = await appLogSecurityRepository.find({
+    const rawLogs = await appLogSecurityRepository.find({
       where: {
         action: In(EMAIL_ALERTING_LOG_ACTIONS),
         createdAt: MoreThanOrEqual(windowStart),
       },
       order: { createdAt: "DESC" },
     });
+
+    // FAILED_AUTH_THRESHOLD = a user typed bad credentials / clicked a stale
+    // magic link 3x in an hour. Triggered routinely by legit users mistyping
+    // or by email scanners (Outlook SafeLinks, AV prefetch) hitting reset /
+    // activation URLs — it's operational noise, not an attack. Drop it from
+    // the alert pipeline (the row stays in app_log_security for audit).
+    const recentLogs = rawLogs.filter(
+      (log) =>
+        !(
+          log.action === "BLOCK_USER" &&
+          (log.context as Record<string, unknown> | null)?.["reason"] ===
+            "FAILED_AUTH_THRESHOLD"
+        )
+    );
 
     if (recentLogs.length === 0) {
       appLogger.debug(

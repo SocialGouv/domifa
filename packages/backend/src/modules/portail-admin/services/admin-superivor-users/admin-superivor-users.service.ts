@@ -7,7 +7,10 @@ import {
 } from "../../../../database";
 import { passwordGenerator } from "../../../../util";
 import { userSecurityResetPasswordInitiator } from "../../../users/services";
-import { logSecurityEvent } from "../../../app-logs/app-log-security-writer";
+import {
+  logSecurityEvent,
+  SecurityLogRequestContext,
+} from "../../../app-logs/app-log-security-writer";
 import { RegisterUserSupervisorDto } from "../../dto";
 import { UserStatus, UserSupervisorRole } from "@domifa/common";
 
@@ -40,7 +43,8 @@ export class AdminSuperivorUsersService {
   }
 
   public async unblockSupervisorUser(
-    uuid: string
+    uuid: string,
+    requestContext?: SecurityLogRequestContext
   ): Promise<{ userId: number }> {
     const target = await userSupervisorRepository.findOne({
       where: { uuid },
@@ -57,6 +61,7 @@ export class AdminSuperivorUsersService {
       action: "UNBLOCK_USER",
       profile: "supervisor",
       userId: target.id,
+      requestContext,
     });
     return { userId: target.id };
   }

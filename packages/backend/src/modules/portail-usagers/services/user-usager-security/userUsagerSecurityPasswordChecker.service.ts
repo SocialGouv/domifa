@@ -54,6 +54,7 @@ async function checkPassword({
     operation: "login",
     userProfile: "usager",
     userId: user.id,
+    requestContext,
   });
 
   const isValidPass = await passwordGenerator.checkPassword({
@@ -86,6 +87,7 @@ async function checkPassword({
       userId: user.id,
       oldPassword: password,
       newPassword,
+      requestContext,
     });
     // First personal password set: stamp `passwordType` + activate the
     // account if it was still PENDING. The password write itself + session

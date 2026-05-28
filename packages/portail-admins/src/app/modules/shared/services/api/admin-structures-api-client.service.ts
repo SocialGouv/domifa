@@ -144,11 +144,15 @@ export class AdminStructuresApiClient {
   public getStructureSecurityLogs(
     structureUuid: string,
     page: number,
-    take: number
+    take: number,
+    userType?: string
   ): Observable<PageResults<UserActivityLog>> {
-    const params = new HttpParams()
+    let params = new HttpParams()
       .set("page", String(page))
       .set("take", String(take));
+    if (userType) {
+      params = params.set("userType", userType);
+    }
     return this.http.get<PageResults<UserActivityLog>>(
       `${BASE_URL}/${structureUuid}/security-logs`,
       { params }

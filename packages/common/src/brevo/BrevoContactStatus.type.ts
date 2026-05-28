@@ -7,4 +7,7 @@ export type BrevoContactStatus = {
   listIds?: number[];
   createdAt?: string;
   modifiedAt?: string;
+  // Brevo internal contact id, used to deep-link to the contact page in the
+  // Brevo back-office (https://app.brevo.com/contact/index/<id>).
+  id?: number;
 };

@@ -15,12 +15,14 @@ import {
   Patch,
   Post,
   Query,
+  Req,
   Res,
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
-import { Response } from "express";
+import { Request as ExpressRequest, Response } from "express";
+import { buildSecurityLogRequestContext } from "../../../util/express";
 import {
   UserAdminAuthenticated,
   UserProfile,
@@ -380,6 +382,7 @@ export class UsersController {
   @Post("edit-my-password")
   @ApiOperation({ summary: "Edition du mot de passe depuis le compte user" })
   public async editPassword(
+    @Req() req: ExpressRequest,
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response,
     @Body() editPasswordDto: EditMyPasswordDto
@@ -390,6 +393,7 @@ export class UsersController {
         oldPassword: editPasswordDto.oldPassword,
         newPassword: editPasswordDto.password,
         userProfile,
+        requestContext: buildSecurityLogRequestContext(req),
       });
       return res.status(HttpStatus.OK).json({ message: "OK" });
     } catch (err) {

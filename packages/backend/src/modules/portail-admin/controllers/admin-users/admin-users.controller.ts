@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -10,9 +11,12 @@ import {
   Patch,
   Post,
   Query,
+  Req,
   Res,
   UseGuards,
 } from "@nestjs/common";
+import { Request as ExpressRequest } from "express";
+import { buildSecurityLogRequestContext } from "../../../../util/express";
 import { OtpGuard } from "../../../otp/guards/otp.guard";
 import { RequireOtp } from "../../../otp/decorators/require-otp.decorator";
 import { AuthGuard } from "@nestjs/passport";
@@ -186,18 +190,40 @@ export class AdminUsersController {
   }
 
   @ApiBearerAuth()
+  @ApiOperation({
+    summary:
+      "Compte les contacts Brevo bloqués (campagnes + transactionnel). Lecture seule.",
+  })
+  @Get("brevo/blocked-counts")
+  public async getBrevoBlockedCounts(): Promise<{
+    campaignBlocked: number | null;
+    transactionalBlocked: number | null;
+  }> {
+    const [campaignBlocked, transactionalBlocked] = await Promise.all([
+      this.brevoSenderService.countCampaignBlacklisted(),
+      this.brevoSenderService.countTransactionalBlocked(),
+    ]);
+    return { campaignBlocked, transactionalBlocked };
+  }
+
+  @ApiBearerAuth()
   @ApiOperation({ summary: "Débloquer un utilisateur supervisor (OTP requis)" })
   @Patch("supervisor/:uuid/unblock")
   @UseGuards(OtpGuard)
   @RequireOtp("UNBLOCK_USER")
   public async unblockSupervisorUser(
+    @Req() req: ExpressRequest,
     @CurrentSupervisor() user: UserAdminAuthenticated,
     @Param("uuid", new ParseUUIDPipe()) uuid: string,
     @Body() unblockDto: UnblockUserDto,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
+    const requestContext = buildSecurityLogRequestContext(req);
     const { userId } =
-      await this.adminSuperivorUsersService.unblockSupervisorUser(uuid);
+      await this.adminSuperivorUsersService.unblockSupervisorUser(
+        uuid,
+        requestContext
+      );
 
     try {
       await this.appLogSecurityService.create({
@@ -205,6 +231,8 @@ export class AdminUsersController {
         userSupervisorId: userId,
         userType: "user_supervisor",
         action: "UNBLOCK_USER",
+        ip: requestContext.ip,
+        userAgent: requestContext.userAgent,
         context: {
           motif: unblockDto.motif,
           actorSupervisorId: user.id,
@@ -312,14 +340,14 @@ export class AdminUsersController {
   @ApiBearerAuth()
   @ApiOperation({
     summary:
-      "Retire le contact d'un utilisateur supervisor de la blocklist transactionnelle Brevo (OTP requis)",
+      "Débloque le contact d'un superviseur côté Brevo (kind=campaign : flag emailBlacklisted, kind=transactional : blocklist SMTP)",
   })
-  @Delete("supervisor/:uuid/brevo/blocklist")
-  @UseGuards(OtpGuard)
-  @RequireOtp("UNBLOCK_BREVO_CONTACT")
+  @Delete("supervisor/:uuid/brevo/blocklist/:kind")
   public async unblockSupervisorBrevoContact(
+    @Req() req: ExpressRequest,
     @CurrentSupervisor() user: UserAdminAuthenticated,
     @Param("uuid", new ParseUUIDPipe()) uuid: string,
+    @Param("kind") kind: string,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
     const target = await userSupervisorRepository.findOne({
@@ -330,17 +358,19 @@ export class AdminUsersController {
       throw new NotFoundException("USER_NOT_FOUND");
     }
 
-    await this.brevoSenderService.removeFromTransactionalBlocklist({
-      email: target.email,
-    });
+    await this.runBrevoUnblock(kind, target.email);
 
     try {
+      const requestContext = buildSecurityLogRequestContext(req);
       await this.appLogSecurityService.create({
         userSupervisorId: target.id,
         userType: "user_supervisor",
         action: "UNBLOCK_BREVO_CONTACT",
+        ip: requestContext.ip,
+        userAgent: requestContext.userAgent,
         context: {
           email: target.email,
+          kind,
           actorSupervisorId: user.id,
           actorRole: user.role,
         },
@@ -446,14 +476,14 @@ export class AdminUsersController {
   @ApiBearerAuth()
   @ApiOperation({
     summary:
-      "Retire le contact d'un utilisateur de structure de la blocklist transactionnelle Brevo (OTP requis)",
+      "Débloque le contact d'un utilisateur de structure côté Brevo (kind=campaign|transactional)",
   })
-  @Delete("structure-user/:uuid/brevo/blocklist")
-  @UseGuards(OtpGuard)
-  @RequireOtp("UNBLOCK_BREVO_CONTACT")
+  @Delete("structure-user/:uuid/brevo/blocklist/:kind")
   public async unblockStructureUserBrevoContact(
+    @Req() req: ExpressRequest,
     @CurrentSupervisor() user: UserAdminAuthenticated,
     @Param("uuid", new ParseUUIDPipe()) uuid: string,
+    @Param("kind") kind: string,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
     const target = await userStructureRepository.findOne({
@@ -464,18 +494,20 @@ export class AdminUsersController {
       throw new NotFoundException("USER_NOT_FOUND");
     }
 
-    await this.brevoSenderService.removeFromTransactionalBlocklist({
-      email: target.email,
-    });
+    await this.runBrevoUnblock(kind, target.email);
 
     try {
+      const requestContext = buildSecurityLogRequestContext(req);
       await this.appLogSecurityService.create({
         userStructureId: target.id,
         userType: "user_structure",
         structureId: target.structureId,
         action: "UNBLOCK_BREVO_CONTACT",
+        ip: requestContext.ip,
+        userAgent: requestContext.userAgent,
         context: {
           email: target.email,
+          kind,
           actorSupervisorId: user.id,
           actorRole: user.role,
         },
@@ -487,12 +519,27 @@ export class AdminUsersController {
     return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 
+  private async runBrevoUnblock(kind: string, email: string): Promise<void> {
+    if (kind === "campaign") {
+      await this.brevoSenderService.unblockBrevoCampaign({ email });
+      return;
+    }
+    if (kind === "transactional") {
+      await this.brevoSenderService.unblockBrevoTransactional({ email });
+      return;
+    }
+    throw new BadRequestException(
+      `INVALID_BREVO_BLOCKLIST_KIND: ${kind} (expected "campaign" or "transactional")`
+    );
+  }
+
   @ApiBearerAuth()
   @ApiOperation({ summary: "Bloquer un utilisateur supervisor (OTP requis)" })
   @Patch("supervisor/:uuid/block")
   @UseGuards(OtpGuard)
   @RequireOtp("BLOCK_USER_BY_ADMIN")
   public async blockSupervisorUser(
+    @Req() req: ExpressRequest,
     @CurrentSupervisor() user: UserAdminAuthenticated,
     @Param("uuid", new ParseUUIDPipe()) uuid: string,
     @Res() res: ExpressResponse
@@ -508,6 +555,7 @@ export class AdminUsersController {
     );
 
     try {
+      const requestContext = buildSecurityLogRequestContext(req);
       await this.appLogSecurityService.create<
         BlockUserByAdminLogContext & {
           actorSupervisorId: number;
@@ -518,6 +566,8 @@ export class AdminUsersController {
         userSupervisorId: previous.userId,
         userType: "user_supervisor",
         action: "BLOCK_USER_BY_ADMIN",
+        ip: requestContext.ip,
+        userAgent: requestContext.userAgent,
         context: {
           previousStatus: previous.previousStatus,
           previousRole: previous.previousRole,

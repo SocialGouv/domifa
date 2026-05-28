@@ -1,5 +1,4 @@
 import { UserStructure } from "@domifa/common";
-import { UserSecurityEventType } from "../../shared/types/UserSecurityEvent.type";
 
 export type UserStructureWithSecurity = UserStructure & {
   remainingBackoffMinutes: number | null;
@@ -8,9 +7,4 @@ export type UserStructureWithSecurity = UserStructure & {
     token?: string;
     validity?: Date;
   };
-  eventsHistory: {
-    type: UserSecurityEventType;
-    date: Date;
-    eventLevel: string;
-  }[];
 };

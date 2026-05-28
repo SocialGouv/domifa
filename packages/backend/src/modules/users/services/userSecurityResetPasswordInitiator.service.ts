@@ -17,6 +17,7 @@ import { userSecurityEventHistoryManager } from "./userSecurityEventHistoryManag
 import {
   logSecurityEvent,
   logSecurityEventForUser,
+  SecurityLogRequestContext,
 } from "../../app-logs/app-log-security-writer";
 
 export const userSecurityResetPasswordInitiator = {
@@ -43,9 +44,11 @@ function buildResetPasswordLink({
 async function generateResetPasswordToken({
   email,
   userProfile,
+  requestContext,
 }: {
   email: string;
   userProfile: UserProfile;
+  requestContext?: SecurityLogRequestContext;
 }): Promise<{
   user: Pick<CommonUser, "id" | "nom" | "prenom" | "email">;
   userSecurity: UserSecurity;
@@ -59,6 +62,7 @@ async function generateResetPasswordToken({
       action: "RESET_PASSWORD_REQUEST",
       userType: "anonymous",
       identifier: email,
+      requestContext,
       context: { userProfile },
     });
     throw new Error("Error");
@@ -68,6 +72,7 @@ async function generateResetPasswordToken({
     operation: "reset-password-request",
     userProfile,
     userId: user.id,
+    requestContext,
   });
 
   const temporaryTokens = generateResetPasswordTokenAndValidity({
@@ -75,7 +80,9 @@ async function generateResetPasswordToken({
   });
 
   await securityRepository.update({ userId: user.id }, { temporaryTokens });
-  await logSecurityEventForUser("RESET_PASSWORD_REQUEST", userProfile, user);
+  await logSecurityEventForUser("RESET_PASSWORD_REQUEST", userProfile, user, {
+    requestContext,
+  });
 
   const userSecurity = await securityRepository.findOneByOrFail({
     userId: user.id,

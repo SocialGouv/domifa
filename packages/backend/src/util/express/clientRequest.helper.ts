@@ -74,3 +74,19 @@ export function getClientUserAgent(req: Request): string {
   }
   return cleaned;
 }
+
+// Shortcut for log-writing callers: returns a SecurityLogRequestContext-shaped
+// object that can be forwarded as-is. Empty strings (when the helpers reject
+// the header value) are converted to undefined so the resulting columns stay
+// null instead of "".
+export function buildSecurityLogRequestContext(req: Request): {
+  ip?: string;
+  userAgent?: string;
+} {
+  const ip = getClientIp(req);
+  const userAgent = getClientUserAgent(req);
+  return {
+    ip: ip.length > 0 ? ip : undefined,
+    userAgent: userAgent.length > 0 ? userAgent : undefined,
+  };
+}

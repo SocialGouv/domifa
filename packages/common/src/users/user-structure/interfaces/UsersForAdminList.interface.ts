@@ -16,10 +16,6 @@ export type UsersForAdminList = Pick<
 > & {
   structureUuid: string;
   structureName: string;
-  eventsHistory?: {
-    type: string;
-    date: Date;
-  }[];
   temporaryTokens?: {
     type?: string;
     token?: string;

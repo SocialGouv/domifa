@@ -24,8 +24,8 @@ export class StructureUserBrevoComponent implements OnInit {
   public readonly eventsFetcher: BrevoEventsFetcher = (uuid, options) =>
     this.adminUsersApi.getStructureUserEmailEvents(uuid, options);
 
-  public readonly unblockFetcher: BrevoUnblockFetcher = (uuid) =>
-    this.adminUsersApi.unblockStructureUserBrevoContact(uuid);
+  public readonly unblockFetcher: BrevoUnblockFetcher = (uuid, kind) =>
+    this.adminUsersApi.unblockStructureUserBrevoContact(uuid, kind);
 
   constructor(
     private readonly route: ActivatedRoute,
