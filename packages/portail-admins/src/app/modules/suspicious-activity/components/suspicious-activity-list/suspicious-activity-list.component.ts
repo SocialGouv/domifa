@@ -20,6 +20,7 @@ import { SuspiciousActivityService } from "../../services/suspicious-activity.se
 import {
   SuspiciousActivityFilters,
   SuspiciousActivityLog,
+  SuspiciousResolvedUser,
 } from "../../types/suspicious-activity-log";
 import { SuspiciousActivityFiltersComponent } from "../suspicious-activity-filters/suspicious-activity-filters.component";
 
@@ -106,6 +107,14 @@ export class SuspiciousActivityListComponent implements OnInit, OnDestroy {
 
   public contextJson(context: unknown): string {
     return getLogContextJson(context);
+  }
+
+  public userDetailLink(user: SuspiciousResolvedUser): (string | number)[] {
+    const base =
+      user.userType === "user_supervisor"
+        ? "/manage-users"
+        : "/manage-structure-users";
+    return [base, user.uuid as string];
   }
 
   public contextString(

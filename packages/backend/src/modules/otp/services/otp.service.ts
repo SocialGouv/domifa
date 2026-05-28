@@ -334,7 +334,8 @@ export class OtpService {
         this.logger.log(
           `OTP claim OK pour ${emailLog} (purpose=${context.purpose})`
         );
-        await this.logOtpEvent(context, "OTP_SUCCESS");
+        // No OTP_SUCCESS audit row: the controller's LOGIN_SUCCESS that
+        // follows already attests "OTP step passed, session opened".
         return { valid: true };
       }
     }
@@ -364,7 +365,7 @@ export class OtpService {
   // row is recorded under `anonymous` with the email preserved in `context`.
   private async logOtpEvent(
     context: OtpRequestContext,
-    action: "OTP_REQUESTED" | "OTP_SUCCESS" | "OTP_ERROR"
+    action: "OTP_REQUESTED" | "OTP_ERROR"
   ): Promise<void> {
     await logSecurityEvent({
       action,

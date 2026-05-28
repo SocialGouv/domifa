@@ -6,7 +6,6 @@ import {
 } from "@angular/common/http";
 
 import { SuspiciousActivityListComponent } from "./components/suspicious-activity-list/suspicious-activity-list.component";
-import { SuspiciousActivityUserDetailComponent } from "./components/suspicious-activity-user-detail/suspicious-activity-user-detail.component";
 import { SuspiciousActivityRoutingModule } from "./suspicious-activity-routing.module";
 
 @NgModule({
@@ -15,7 +14,6 @@ import { SuspiciousActivityRoutingModule } from "./suspicious-activity-routing.m
     CommonModule,
     SuspiciousActivityRoutingModule,
     SuspiciousActivityListComponent,
-    SuspiciousActivityUserDetailComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

@@ -81,12 +81,7 @@
                     <a
                       class="fr-link"
                       *ngIf="user.uuid; else userIdOnly"
-                      [routerLink]="[
-                        '/suspicious-activity',
-                        'users',
-                        user.userType,
-                        user.uuid
-                      ]"
+                      [routerLink]="userDetailLink(user)"
                     >
                       {{ user.fullName || user.email }}
                     </a>

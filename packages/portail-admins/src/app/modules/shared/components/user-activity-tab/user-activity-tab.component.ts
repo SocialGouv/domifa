@@ -13,6 +13,8 @@ import { Observable, Subscription } from "rxjs";
 import { LOG_ACTION_LABELS, PageResults } from "@domifa/common";
 
 import { CustomToastService } from "../../services";
+import { DisplayIpComponent } from "../display-ip/display-ip.component";
+import { DisplayUserAgentComponent } from "../display-user-agent/display-user-agent.component";
 import {
   getLogContextHumanSummary,
   getLogContextJson,
@@ -62,7 +64,13 @@ const PAGE_SIZE = 20;
 @Component({
   selector: "app-user-activity-tab",
   templateUrl: "./user-activity-tab.component.html",
-  imports: [CommonModule, DsfrPaginationComponent, DsfrSpinnerComponent],
+  imports: [
+    CommonModule,
+    DsfrPaginationComponent,
+    DsfrSpinnerComponent,
+    DisplayIpComponent,
+    DisplayUserAgentComponent,
+  ],
 })
 export class UserActivityTabComponent implements OnChanges, OnDestroy {
   @Input({ required: true }) public entityId!: string | undefined;

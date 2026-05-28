@@ -1,7 +1,3 @@
-import {
-  CurrentUserSession,
-  HistoricalUserSession,
-} from "../../../_common/model";
 import { AppLogActorType } from "../../app-logs/types";
 import { SuspiciousLogAction } from "../../security-monitoring/types/security-alert.types";
 import { SuspiciousUserProfile } from "./suspicious-activity-query.dto";
@@ -24,24 +20,4 @@ export interface SuspiciousActivityLogDto {
   userType?: AppLogActorType;
   context: Record<string, unknown> | null;
   resolvedUser?: SuspiciousResolvedUser;
-}
-
-export interface SecurityUserSummaryDto {
-  userType: SuspiciousUserProfile;
-  userId: number;
-  fullName: string;
-  email: string;
-  role?: string;
-  status?: string;
-  structureId?: number;
-  uuid?: string;
-  lastLogin?: Date | null;
-  createdAt?: Date | null;
-}
-
-export interface UserSessionsViewDto {
-  userId: number;
-  currentSession: CurrentUserSession | null;
-  sessionsHistory: HistoricalUserSession[];
-  fingerprintHash: string | null;
 }

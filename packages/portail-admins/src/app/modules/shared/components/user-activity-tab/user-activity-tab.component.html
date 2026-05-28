@@ -51,9 +51,13 @@
                   <td class="fr-text--bold">{{ actionLabel(log.action) }}</td>
                   <td *ngIf="showUserColumn">{{ log.userName ?? "-" }}</td>
                   <td>{{ log.role ?? "-" }}</td>
-                  <td *ngIf="showNetworkColumns">{{ log.ip ?? "-" }}</td>
+                  <td *ngIf="showNetworkColumns">
+                    <app-display-ip [ip]="log.ip"></app-display-ip>
+                  </td>
                   <td *ngIf="showNetworkColumns" style="word-break: break-word">
-                    {{ log.userAgent ?? "-" }}
+                    <app-display-user-agent
+                      [userAgent]="log.userAgent"
+                    ></app-display-user-agent>
                   </td>
                   <td class="fr-text--xs">
                     <ng-container *ngIf="log.context; else noContext">
