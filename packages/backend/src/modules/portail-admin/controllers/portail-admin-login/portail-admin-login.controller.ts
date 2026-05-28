@@ -31,10 +31,10 @@ import {
   CurrentUser,
 } from "../../../../auth/decorators";
 import { AppUserGuard } from "../../../../auth/guards";
-import { portailAdminProfilBuilder } from "../../services/portail-admin-profil-builder.service";
 import {
   ExpiredTokenTable,
   expiredTokenRepositiory,
+  userSupervisorRepository,
 } from "../../../../database";
 import { OtpService } from "../../../otp/services/otp.service";
 import { normalizeUrl, readOtpCode } from "../../../otp/guards/otp.guard";
@@ -164,9 +164,7 @@ export class PortailAdminLoginController {
   @AllowUserProfiles("supervisor")
   @AllowUserSupervisorRoles(...USER_SUPERVISOR_ROLES)
   public async meAdmin(@CurrentUser() currentUser: UserAdminAuthenticated) {
-    return await portailAdminProfilBuilder.build({
-      userId: currentUser._userId,
-    });
+    return userSupervisorRepository.getAdminProfile(currentUser._userId);
   }
 }
 

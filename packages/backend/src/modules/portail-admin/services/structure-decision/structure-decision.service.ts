@@ -8,6 +8,7 @@ import {
   messageSmsRepository,
 } from "../../../../database";
 import {
+  getStructureDecisionMotif,
   StructureDecisionRefusMotif,
   StructureDecisionSuppressionMotif,
   StructureDecisionStatut,
@@ -25,7 +26,6 @@ import { BrevoSenderService } from "../../../mails/services/brevo-sender/brevo-s
 import { domifaConfig } from "../../../../config";
 import { join } from "node:path";
 import { LogAction } from "../../../app-logs/types";
-import { getStructureDecisionMotif } from "../get-structure-decision-motif";
 
 interface MotifConfig {
   motifEnum?: Record<string, string>;
