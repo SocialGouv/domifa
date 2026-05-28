@@ -12,13 +12,6 @@ export class AddUserNameOnAppLogs1780200000000 implements MigrationInterface {
   name = "AddUserNameOnAppLogs1780200000000";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `ALTER TABLE "app_log" ADD COLUMN IF NOT EXISTS "userName" text`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "app_log_security" ADD COLUMN IF NOT EXISTS "userName" text`
-    );
-
     // app_log: structure actors
     await queryRunner.query(`
       UPDATE "app_log" log

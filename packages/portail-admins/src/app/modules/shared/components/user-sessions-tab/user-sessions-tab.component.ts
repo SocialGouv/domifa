@@ -11,6 +11,8 @@ import { Subscription } from "rxjs";
 
 import { AdminUsersApiClient } from "../../services/api/admin-users-api-client.service";
 import { CustomToastService } from "../../services/custom-toast.service";
+import { DisplayIpComponent } from "../display-ip/display-ip.component";
+import { DisplayUserAgentComponent } from "../display-user-agent/display-user-agent.component";
 import {
   SESSION_CLOSED_REASON_LABELS,
   SessionsUserProfile,
@@ -20,7 +22,12 @@ import {
 @Component({
   selector: "app-user-sessions-tab",
   templateUrl: "./user-sessions-tab.component.html",
-  imports: [CommonModule, DsfrSpinnerComponent],
+  imports: [
+    CommonModule,
+    DsfrSpinnerComponent,
+    DisplayIpComponent,
+    DisplayUserAgentComponent,
+  ],
 })
 export class UserSessionsTabComponent implements OnChanges, OnDestroy {
   @Input({ required: true }) public userType!: SessionsUserProfile;

@@ -33,15 +33,16 @@
         <dl class="fr-mt-1w">
           <div class="fr-grid-row fr-py-1w">
             <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Adresse IP</dt>
-            <dd class="fr-col-12 fr-col-md-8 fr-m-0">{{ cur.ipAddress }}</dd>
+            <dd class="fr-col-12 fr-col-md-8 fr-m-0">
+              <app-display-ip [ip]="cur.ipAddress"></app-display-ip>
+            </dd>
           </div>
           <div class="fr-grid-row fr-py-1w">
             <dt class="fr-col-12 fr-col-md-4 fr-text--bold">User-Agent</dt>
-            <dd
-              class="fr-col-12 fr-col-md-8 fr-m-0 fr-text--xs"
-              style="word-break: break-word"
-            >
-              {{ cur.userAgent }}
+            <dd class="fr-col-12 fr-col-md-8 fr-m-0">
+              <app-display-user-agent
+                [userAgent]="cur.userAgent"
+              ></app-display-user-agent>
             </dd>
           </div>
           <div class="fr-grid-row fr-py-1w">
@@ -112,8 +113,14 @@
                     <td class="fr-text--bold">
                       {{ reasonLabel(session.closedReason) }}
                     </td>
-                    <td>{{ session.ipAddress }}</td>
-                    <td class="fr-text--xs">{{ session.userAgent }}</td>
+                    <td>
+                      <app-display-ip [ip]="session.ipAddress"></app-display-ip>
+                    </td>
+                    <td>
+                      <app-display-user-agent
+                        [userAgent]="session.userAgent"
+                      ></app-display-user-agent>
+                    </td>
                   </tr>
                 </tbody>
               </table>

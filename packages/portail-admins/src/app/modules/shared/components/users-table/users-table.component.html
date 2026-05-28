@@ -212,16 +212,10 @@
                 ></app-display-last-login>
               </td>
               <td>
-                <ng-container
-                  *ngIf="user.passwordLastUpdate; else neverUpdated"
-                >
-                  {{ user.passwordLastUpdate | date : "d MMMM y" }}
-                </ng-container>
-                <ng-template #neverUpdated>
-                  <span class="fr-badge fr-badge--sm fr-badge--no-icon">
-                    Jamais
-                  </span>
-                </ng-template>
+                <app-display-password-age
+                  [passwordLastUpdate]="user.passwordLastUpdate"
+                  [createdAt]="user.createdAt"
+                ></app-display-password-age>
               </td>
               <td *ngIf="actionsTemplate">
                 <ng-container

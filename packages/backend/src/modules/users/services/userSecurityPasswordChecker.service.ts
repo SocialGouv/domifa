@@ -81,13 +81,8 @@ async function checkPasswordImpl<T extends UserStructure | UserSupervisor>({
 
   await assertStatusActive({ user, userProfile, requestContext });
 
-  // Password verified — for structure/supervisor the session is opened only
-  // after OTP validation, so emit LOGIN_OK here; the real LOGIN_SUCCESS is
-  // emitted by the controllers after enforceOrThrow.
-  await logSecurityEventForUser("LOGIN_OK", userProfile, user, {
-    requestContext,
-  });
-
+  // No LOGIN_OK intermediate log: the LOGIN_SUCCESS emitted by the
+  // controller after `enforceOrThrow` covers the whole flow.
   const repository = getUserRepository(userProfile);
   await repository.update({ id: user.id }, { lastLogin: new Date() });
 

@@ -1,0 +1,12 @@
+<ng-container *ngIf="ip; else empty">
+  <a
+    [href]="lookupUrl"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="fr-link fr-link--sm fr-link--icon-right fr-icon-external-link-line"
+    [tooltip]="tooltip"
+  >
+    {{ ip }}
+  </a>
+</ng-container>
+<ng-template #empty>-</ng-template>
