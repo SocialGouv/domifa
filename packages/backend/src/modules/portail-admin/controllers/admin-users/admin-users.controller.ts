@@ -34,6 +34,7 @@ import { AppLogsService } from "../../../app-logs/app-logs.service";
 import { AppLogSecurityService } from "../../../app-logs/app-log-security.service";
 import { buildSupervisorActorFields } from "../../../app-logs/app-logs.helpers";
 import {
+  BrevoBlockedContact,
   BrevoContactStatus,
   BrevoEmailEvent,
   UserSupervisor,
@@ -214,7 +215,7 @@ export class AdminUsersController {
   @Get("brevo/blocked-contacts")
   public async getBrevoBlockedContacts(
     @Query() pageOptions: PageOptionsDto
-  ): Promise<{ data: string[]; total: number | null }> {
+  ): Promise<{ data: BrevoBlockedContact[]; total: number | null }> {
     const take = pageOptions.take ?? 50;
     const skip = ((pageOptions.page ?? 1) - 1) * take;
     const [data, total] = await Promise.all([
@@ -222,6 +223,25 @@ export class AdminUsersController {
       this.brevoSenderService.countTransactionalBlocked(),
     ]);
     return { data, total };
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary:
+      "Résout l'URL de fiche Brevo d'un contact à partir de son email (pour deep-link admin).",
+  })
+  @Get("brevo/contact-link")
+  public async getBrevoContactLink(
+    @Query("email") email: string
+  ): Promise<{ url: string | null }> {
+    if (!email || !email.includes("@")) {
+      throw new BadRequestException("INVALID_EMAIL");
+    }
+    const status = await this.brevoSenderService.getContactStatus({ email });
+    if (!status.existsInBrevo || !status.id) {
+      return { url: null };
+    }
+    return { url: `https://app.brevo.com/contact/index/${status.id}` };
   }
 
   @ApiBearerAuth()

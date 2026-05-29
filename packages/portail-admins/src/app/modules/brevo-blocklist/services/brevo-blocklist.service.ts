@@ -2,10 +2,12 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
+import { BrevoBlockedContact } from "@domifa/common";
+
 import { environment } from "../../../../environments/environment";
 
 export interface BrevoBlocklistPage {
-  data: string[];
+  data: BrevoBlockedContact[];
   total: number | null;
 }
 
@@ -26,6 +28,16 @@ export class BrevoBlocklistService {
   public unblock(email: string): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(
       `${this.endPoint}/brevo/blocked-contacts/${encodeURIComponent(email)}`
+    );
+  }
+
+  public resolveBrevoContactUrl(
+    email: string
+  ): Observable<{ url: string | null }> {
+    const params = new HttpParams().set("email", email);
+    return this.http.get<{ url: string | null }>(
+      `${this.endPoint}/brevo/contact-link`,
+      { params }
     );
   }
 }

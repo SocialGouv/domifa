@@ -13,7 +13,6 @@ import {
   getUserRepository,
   getUserSecurityRepository,
 } from "./get-user-repository.service";
-import { userSecurityEventHistoryManager } from "./userSecurityEventHistoryManager.service";
 import {
   logSecurityEvent,
   logSecurityEventForUser,
@@ -68,13 +67,9 @@ async function generateResetPasswordToken({
     throw new Error("Error");
   }
 
-  await userSecurityEventHistoryManager.assertOperationAllowed({
-    operation: "reset-password-request",
-    userProfile,
-    userId: user.id,
-    requestContext,
-  });
-
+  // Lockout is intentionally not checked here: a temporarily-blocked user must
+  // be able to request a reset to recover their account. The account is only
+  // unlocked once the reset is actually completed (see userPasswordWriter).
   const temporaryTokens = generateResetPasswordTokenAndValidity({
     type: "reset-password",
   });

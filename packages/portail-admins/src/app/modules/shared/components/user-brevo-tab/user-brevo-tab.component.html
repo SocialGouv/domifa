@@ -18,31 +18,6 @@
     </div>
 
     <ng-container *ngIf="status.existsInBrevo">
-      <div
-        *ngIf="status.emailBlacklisted"
-        class="fr-alert fr-alert--error fr-mb-3w"
-      >
-        <h3 class="fr-alert__title">Campagnes : contact désinscrit / bloqué</h3>
-        <p>
-          L'email a été désinscrit ou marqué comme bloqué côté contact Brevo
-          (newsletters, relances). Débloquer remet le flag
-          <code>emailBlacklisted</code> à false sur le contact.
-        </p>
-      </div>
-      <div
-        *ngIf="!status.emailBlacklisted"
-        class="fr-alert fr-alert--success fr-mb-3w"
-      >
-        <h3 class="fr-alert__title">Campagnes : contact actif</h3>
-        <p>
-          Le contact n'est pas désinscrit des campagnes Brevo.
-          <ng-container *ngIf="status.modifiedAt">
-            Dernière modification :
-            {{ status.modifiedAt | date : "dd/MM/yyyy HH:mm" }}.
-          </ng-container>
-        </p>
-      </div>
-
       <div class="fr-alert fr-alert--info fr-mb-3w">
         <h3 class="fr-alert__title">Transactionnel : statut non exposé</h3>
         <p>
@@ -59,19 +34,9 @@
             type="button"
             class="fr-btn fr-icon-lock-unlock-fill fr-btn--icon-left"
             [disabled]="unblocking"
-            (click)="askUnblock('campaign', unblockConfirmModal)"
-          >
-            Débloquer campagne
-          </button>
-        </li>
-        <li>
-          <button
-            type="button"
-            class="fr-btn fr-btn--secondary fr-icon-lock-unlock-fill fr-btn--icon-left"
-            [disabled]="unblocking"
             (click)="askUnblock('transactional', unblockConfirmModal)"
           >
-            Débloquer transactionnel
+            Débloquer l'envoi transactionnel
           </button>
         </li>
       </ul>
@@ -234,20 +199,12 @@
     icon="fr-icon-lock-unlock-fill"
     #unblockConfirmModal
     dialogId="unblockBrevoConfirm"
-    [titleModal]="
-      pendingUnblockKind === 'campaign'
-        ? 'Débloquer le contact Brevo — campagnes'
-        : 'Débloquer le contact Brevo — transactionnel'
-    "
+    titleModal="Débloquer le contact Brevo — transactionnel"
     [concealingBackdrop]="false"
     [autoCloseOnAction]="false"
     size="MD"
   >
-    <p *ngIf="pendingUnblockKind === 'campaign'">
-      Confirmer la remise à zéro du flag <code>emailBlacklisted</code> sur le
-      contact Brevo ? L'utilisateur recevra à nouveau les campagnes.
-    </p>
-    <p *ngIf="pendingUnblockKind === 'transactional'">
+    <p>
       Confirmer le retrait de cet email de la blocklist transactionnelle Brevo
       (hard bounces, plaintes spam) ?
     </p>

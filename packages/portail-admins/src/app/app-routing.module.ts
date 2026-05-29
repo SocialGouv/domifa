@@ -11,6 +11,7 @@ import { RoleRedirectGuard } from "./guards/redirect-guard";
 const routes: Routes = [
   {
     path: "auth",
+    title: "Connexion - Admin DomiFa",
     loadChildren: () =>
       import("./modules/admin-auth/admin-auth.module").then(
         (m) => m.AdminAuthModule
@@ -18,6 +19,7 @@ const routes: Routes = [
   },
   {
     path: "structure",
+    title: "Structures - Admin DomiFa",
     canActivate: [AuthGuard],
     data: { roles: ["super-admin-domifa"] },
     loadChildren: () =>
@@ -27,6 +29,7 @@ const routes: Routes = [
   },
   {
     path: "structure/:structureUuid",
+    title: "Fiche structure - Admin DomiFa",
     canActivate: [AuthGuard],
     data: {
       roles: ["super-admin-domifa"],
@@ -38,12 +41,14 @@ const routes: Routes = [
   },
   {
     path: "stats",
+    title: "Statistiques nationales - Admin DomiFa",
     canActivate: [AuthGuard],
     loadChildren: () =>
       import("./modules/stats/stats.module").then((m) => m.StatsModule),
   },
   {
     path: "manage-users",
+    title: "Utilisateurs Pilotage - Admin DomiFa",
     canActivate: [AuthGuard],
     data: {
       roles: ["super-admin-domifa"],
@@ -55,6 +60,7 @@ const routes: Routes = [
   },
   {
     path: "manage-structure-users",
+    title: "Utilisateurs des structures - Admin DomiFa",
     canActivate: [AuthGuard],
     data: {
       roles: ["super-admin-domifa"],
@@ -66,6 +72,7 @@ const routes: Routes = [
   },
   {
     path: "suspicious-activity",
+    title: "Activités suspectes - Admin DomiFa",
     canActivate: [AuthGuard],
     data: { roles: ["super-admin-domifa"] },
     loadChildren: () =>
@@ -75,6 +82,7 @@ const routes: Routes = [
   },
   {
     path: "brevo-blocklist",
+    title: "Emails bloqués Brevo - Admin DomiFa",
     canActivate: [AuthGuard],
     data: { roles: ["super-admin-domifa"] },
     loadChildren: () =>
@@ -88,11 +96,27 @@ const routes: Routes = [
     pathMatch: "full",
     children: [],
   },
-  { path: "mentions-legales", component: MentionsLegalesComponent },
-  { path: "plan-site", component: PlanSiteComponent },
-  { path: "confidentialite", component: PolitiqueComponent },
-  { path: "cgu", component: CguComponent },
-  { path: "404", component: NotFoundComponent },
+  {
+    path: "mentions-legales",
+    title: "Mentions légales - Admin DomiFa",
+    component: MentionsLegalesComponent,
+  },
+  {
+    path: "plan-site",
+    title: "Plan du site - Admin DomiFa",
+    component: PlanSiteComponent,
+  },
+  {
+    path: "confidentialite",
+    title: "Politique de confidentialité - Admin DomiFa",
+    component: PolitiqueComponent,
+  },
+  { path: "cgu", title: "CGU - Admin DomiFa", component: CguComponent },
+  {
+    path: "404",
+    title: "Page introuvable - Admin DomiFa",
+    component: NotFoundComponent,
+  },
   { path: "**", redirectTo: "404" },
 ];
 

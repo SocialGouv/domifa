@@ -26,11 +26,14 @@
     transactionnels (lien d'activation, OTP, notifications).
   </p>
 
-  <div *ngIf="!loading && emails.length === 0" class="fr-alert fr-alert--info">
+  <div
+    *ngIf="!loading && contacts.length === 0"
+    class="fr-alert fr-alert--info"
+  >
     <p>Aucun email bloqué côté transactionnel.</p>
   </div>
 
-  <div *ngIf="emails.length > 0" class="fr-table fr-table--no-outer-border">
+  <div *ngIf="contacts.length > 0" class="fr-table fr-table--no-outer-border">
     <div class="fr-table__wrapper">
       <div class="fr-table__container">
         <div class="fr-table__content">
@@ -41,23 +44,76 @@
             <thead>
               <tr>
                 <th scope="col">Email</th>
-                <th scope="col">Action</th>
+                <th scope="col">Expéditeur</th>
+                <th scope="col">Raison</th>
+                <th scope="col">Bloqué le</th>
+                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let email of emails">
-                <td style="word-break: break-all">{{ email }}</td>
-                <td>
-                  <button
-                    type="button"
-                    class="fr-btn fr-btn--sm fr-icon-lock-unlock-fill fr-btn--icon-left"
-                    [disabled]="unblockingEmail === email"
-                    (click)="unblock(email)"
+              <tr *ngFor="let contact of contacts">
+                <td style="word-break: break-all">{{ contact.email }}</td>
+                <td class="fr-text--sm" style="word-break: break-all">
+                  {{ contact.senderEmail ?? "-" }}
+                </td>
+                <td class="fr-text--sm">
+                  <ng-container *ngIf="contact.reasonCode; else rawReason">
+                    {{ reasonLabels[contact.reasonCode] }}
+                  </ng-container>
+                  <ng-template #rawReason>
+                    {{ contact.reasonMessage ?? "-" }}
+                  </ng-template>
+                  <p
+                    *ngIf="
+                      contact.reasonCode &&
+                      contact.reasonMessage &&
+                      contact.reasonMessage !== reasonLabels[contact.reasonCode]
+                    "
+                    class="fr-text--xs fr-text--mention-grey fr-m-0 fr-mt-1v"
                   >
-                    {{
-                      unblockingEmail === email ? "Déblocage..." : "Débloquer"
-                    }}
-                  </button>
+                    {{ contact.reasonMessage }}
+                  </p>
+                </td>
+                <td class="fr-text--sm">
+                  {{
+                    contact.blockedAt
+                      ? (contact.blockedAt | date : "dd/MM/yyyy HH:mm")
+                      : "-"
+                  }}
+                </td>
+                <td>
+                  <ul
+                    class="fr-btns-group fr-btns-group--sm fr-btns-group--inline fr-m-0"
+                  >
+                    <li>
+                      <button
+                        type="button"
+                        class="fr-btn fr-btn--sm fr-icon-lock-unlock-fill fr-btn--icon-left"
+                        [disabled]="unblockingEmail === contact.email"
+                        (click)="unblock(contact.email)"
+                      >
+                        {{
+                          unblockingEmail === contact.email
+                            ? "Déblocage..."
+                            : "Débloquer"
+                        }}
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        type="button"
+                        class="fr-btn fr-btn--sm fr-btn--secondary fr-icon-external-link-line fr-btn--icon-left"
+                        [disabled]="resolvingLinkEmail === contact.email"
+                        (click)="openBrevoContact(contact.email)"
+                      >
+                        {{
+                          resolvingLinkEmail === contact.email
+                            ? "Ouverture..."
+                            : "Fiche Brevo"
+                        }}
+                      </button>
+                    </li>
+                  </ul>
                 </td>
               </tr>
             </tbody>
@@ -68,7 +124,7 @@
   </div>
 
   <div
-    *ngIf="emails.length > 0"
+    *ngIf="contacts.length > 0"
     class="fr-mt-2w fr-display-flex fr-flex-wrap fr-align-items-center"
     style="gap: 1rem"
   >

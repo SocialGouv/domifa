@@ -33,7 +33,6 @@ import {
   BrevoEventsFetcher,
   BrevoStatusFetcher,
   BrevoUnblockFetcher,
-  BrevoUnblockKind,
 } from "./user-brevo-tab.types";
 
 @Component({
@@ -57,7 +56,6 @@ export class UserBrevoTabComponent implements OnChanges, OnDestroy {
   public status: BrevoContactStatus | null = null;
   public statusLoading = false;
   public unblocking = false;
-  public pendingUnblockKind: BrevoUnblockKind | null = null;
 
   public brevoContactUrl: string | null = null;
 
@@ -109,39 +107,32 @@ export class UserBrevoTabComponent implements OnChanges, OnDestroy {
   }
 
   public askUnblock(
-    kind: BrevoUnblockKind,
+    _kind: "transactional",
     confirmModal: DsfrModalComponent
   ): void {
-    this.pendingUnblockKind = kind;
     confirmModal.open();
   }
 
   public unblockBrevo(confirmModal: DsfrModalComponent): void {
-    if (!this.entityUuid || !this.pendingUnblockKind) {
+    if (!this.entityUuid) {
       return;
     }
-    const kind = this.pendingUnblockKind;
     this.unblocking = true;
     this.subscription.add(
-      this.unblockFetcher(this.entityUuid, kind).subscribe({
+      this.unblockFetcher(this.entityUuid, "transactional").subscribe({
         next: () => {
           this.unblocking = false;
           confirmModal.close();
           this.toastService.success(
-            kind === "campaign"
-              ? "Contact débloqué côté campagnes Brevo"
-              : "Contact retiré de la blocklist transactionnelle Brevo"
+            "Contact retiré de la blocklist transactionnelle Brevo"
           );
-          this.pendingUnblockKind = null;
           this.refreshStatus();
           this.reload();
         },
         error: () => {
           this.unblocking = false;
           this.toastService.error(
-            kind === "campaign"
-              ? "Impossible de débloquer le contact côté campagnes"
-              : "Impossible de débloquer le contact côté transactionnel"
+            "Impossible de débloquer le contact côté transactionnel"
           );
         },
       })

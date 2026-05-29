@@ -12,6 +12,8 @@ import {
 import { readFileSync } from "node:fs";
 import { basename } from "node:path";
 import {
+  BrevoBlockedContact,
+  BrevoBlockedContactReasonCode,
   BrevoContactStatus,
   BrevoEmailEvent,
   BrevoEmailEventType,
@@ -511,13 +513,14 @@ export class BrevoSenderService {
     }
   }
 
-  // Paginated read of the SMTP transactional blocklist. Returns one page of
-  // emails. Used by the bulk-unblock migration to walk the full list (Brevo
-  // doesn't expose a "is X in the list" check, so the migration paginates).
+  // Paginated read of the SMTP transactional blocklist. Returns the full row
+  // (email + sender + reason + blockedAt) so the admin UI can show why each
+  // contact ended up there. Also used by the bulk-unblock migration which only
+  // reads `.email`.
   async listTransactionalBlockedContacts(
     offset: number,
     limit: number
-  ): Promise<string[]> {
+  ): Promise<BrevoBlockedContact[]> {
     const config = domifaConfig();
 
     if (isBrevoCallSkipped(config)) {
@@ -533,11 +536,38 @@ export class BrevoSenderService {
         undefined,
         "desc"
       );
-    const contacts = (body as { contacts?: Array<{ email?: string }> })
-      .contacts;
+    const contacts = (
+      body as unknown as {
+        contacts?: Array<{
+          email?: string;
+          senderEmail?: string;
+          reason?: { code?: string; message?: string };
+          blockedAt?: string;
+        }>;
+      }
+    ).contacts;
     return (contacts ?? [])
-      .map((c) => c?.email)
-      .filter((e): e is string => typeof e === "string" && e.length > 0);
+      .filter(
+        (c): c is { email: string } & Record<string, unknown> =>
+          typeof c?.email === "string" && c.email.length > 0
+      )
+      .map((c) => ({
+        email: c.email as string,
+        senderEmail:
+          typeof c.senderEmail === "string" && c.senderEmail.length > 0
+            ? (c.senderEmail as string)
+            : null,
+        reasonCode:
+          ((c.reason as { code?: string } | undefined)?.code as
+            | BrevoBlockedContactReasonCode
+            | undefined) ?? null,
+        reasonMessage:
+          (c.reason as { message?: string } | undefined)?.message ?? null,
+        blockedAt:
+          typeof c.blockedAt === "string" && c.blockedAt.length > 0
+            ? (c.blockedAt as string)
+            : null,
+      }));
   }
 
   // Brevo returns the total count in the paginated response envelope, so we
