@@ -3,7 +3,6 @@ import {
   getUserRepository,
   getUserSecurityRepository,
 } from "./get-user-repository.service";
-import { userSecurityEventHistoryManager } from "./userSecurityEventHistoryManager.service";
 import {
   logSecurityEventForUser,
   SecurityLogRequestContext,
@@ -26,13 +25,9 @@ async function checkResetPasswordToken({
   userProfile: UserProfile;
   requestContext?: SecurityLogRequestContext;
 }): Promise<UserSecurity> {
-  await userSecurityEventHistoryManager.assertOperationAllowed({
-    operation: "reset-password-confirm",
-    userProfile,
-    userId,
-    requestContext,
-  });
-
+  // Lockout is intentionally not checked here: a temporarily-blocked user must
+  // be able to follow the reset link from their email. The account is only
+  // unlocked once the reset is actually completed (see userPasswordWriter).
   const userSecurity = await getUserSecurityRepository(
     userProfile
   ).findOneByOrFail({ userId });

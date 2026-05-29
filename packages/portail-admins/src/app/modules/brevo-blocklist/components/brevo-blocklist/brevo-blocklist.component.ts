@@ -6,6 +6,11 @@ import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 import { Subscription } from "rxjs";
 
 import {
+  BREVO_BLOCKED_CONTACT_REASON_LABELS,
+  BrevoBlockedContact,
+} from "@domifa/common";
+
+import {
   DEFAULT_PAGE_SIZE,
   PAGE_SIZE_OPTIONS,
 } from "../../../../shared/constants";
@@ -24,14 +29,16 @@ import { BrevoBlocklistService } from "../../services/brevo-blocklist.service";
   ],
 })
 export class BrevoBlocklistComponent implements OnInit, OnDestroy {
-  public emails: string[] = [];
+  public contacts: BrevoBlockedContact[] = [];
   public total: number | null = null;
   public currentPage = 1;
   public totalPages = 1;
   public loading = false;
   public unblockingEmail: string | null = null;
+  public resolvingLinkEmail: string | null = null;
   public pageSize: number = DEFAULT_PAGE_SIZE;
   public readonly pageSizeOptions = PAGE_SIZE_OPTIONS;
+  public readonly reasonLabels = BREVO_BLOCKED_CONTACT_REASON_LABELS;
 
   private readonly subscription = new Subscription();
 
@@ -49,7 +56,7 @@ export class BrevoBlocklistComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.service.list(page, this.pageSize).subscribe({
         next: (results) => {
-          this.emails = results.data;
+          this.contacts = results.data;
           this.total = results.total;
           this.currentPage = page;
           this.totalPages =
@@ -96,6 +103,33 @@ export class BrevoBlocklistComponent implements OnInit, OnDestroy {
         error: () => {
           this.unblockingEmail = null;
           this.toast.error(`Échec du déblocage de ${email}.`);
+        },
+      })
+    );
+  }
+
+  public openBrevoContact(email: string): void {
+    if (this.resolvingLinkEmail) {
+      return;
+    }
+    this.resolvingLinkEmail = email;
+    this.subscription.add(
+      this.service.resolveBrevoContactUrl(email).subscribe({
+        next: ({ url }) => {
+          this.resolvingLinkEmail = null;
+          if (url) {
+            window.open(url, "_blank", "noopener,noreferrer");
+          } else {
+            this.toast.warning(
+              `Aucune fiche Brevo trouvée pour ${email} (contact inexistant ou supprimé).`
+            );
+          }
+        },
+        error: () => {
+          this.resolvingLinkEmail = null;
+          this.toast.error(
+            `Impossible de récupérer la fiche Brevo pour ${email}.`
+          );
         },
       })
     );
