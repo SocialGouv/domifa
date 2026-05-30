@@ -234,7 +234,7 @@ export class AdminUsersController {
   public async getBrevoContactLink(
     @Query("email") email: string
   ): Promise<{ url: string | null }> {
-    if (!email || !email.includes("@")) {
+    if (typeof email !== "string" || !email.includes("@")) {
       throw new BadRequestException("INVALID_EMAIL");
     }
     const status = await this.brevoSenderService.getContactStatus({ email });
