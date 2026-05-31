@@ -14,7 +14,7 @@ export type BrevoBlockedContact = {
   senderEmail: string | null;
   reasonCode: BrevoBlockedContactReasonCode | null;
   reasonMessage: string | null;
-  blockedAt: string | null;
+  blockedAt: Date | null;
 };
 
 export const BREVO_BLOCKED_CONTACT_REASON_LABELS: Record<

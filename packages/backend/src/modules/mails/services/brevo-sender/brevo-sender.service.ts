@@ -565,7 +565,7 @@ export class BrevoSenderService {
           (c.reason as { message?: string } | undefined)?.message ?? null,
         blockedAt:
           typeof c.blockedAt === "string" && c.blockedAt.length > 0
-            ? (c.blockedAt as string)
+            ? new Date(c.blockedAt)
             : null,
       }));
   }
