@@ -1,3 +1,10 @@
+## [2.249.4](https://github.com/SocialGouv/domifa/compare/v2.249.3...v2.249.4) (2026-05-31)
+
+
+### Bug Fixes
+
+* **backend:** add titles & page ([38b5786](https://github.com/SocialGouv/domifa/commit/38b5786bfe1465ecdee54d2eea9c368dc7c2f28c))
+
 ## [2.249.3](https://github.com/SocialGouv/domifa/compare/v2.249.2...v2.249.3) (2026-05-28)
 
 
