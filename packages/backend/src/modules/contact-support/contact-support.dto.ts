@@ -106,7 +106,7 @@ export class ContactSupportDto {
   })
   public subject!: string;
 
-  @IsValidPhone("phone", false, false)
+  @IsValidPhone("phone", true, false)
   public phone!: Telephone;
 
   @IsEmpty()
