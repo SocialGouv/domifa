@@ -104,10 +104,12 @@ async function findUserForLogin<T extends UserStructure | UserSupervisor>({
   })) as T | null;
 
   if (!user) {
-    // Unknown email: anonymous LOGIN_ERROR keeps the failed attempt auditable
-    // — `identifier` is stashed in context by the writer.
+    // Unknown email: dedicated LOGIN_UNKNOWN_USER action so enumeration
+    // attempts surface distinctly from wrong-password attempts on known
+    // accounts. `identifier` (the email tried) is stashed in context by
+    // the writer — only audit handle left for an anonymous row.
     await logSecurityEvent({
-      action: "LOGIN_ERROR",
+      action: "LOGIN_UNKNOWN_USER",
       userType: "anonymous",
       identifier: email,
       requestContext,

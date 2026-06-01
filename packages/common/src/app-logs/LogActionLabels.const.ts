@@ -83,6 +83,7 @@ export const LOG_ACTION_LABELS: Record<LogAction, string> = {
     "Mot de passe correct : en attente du code de vérification reçu par mail",
   LOGIN_SUCCESS: "Connexion réussie",
   LOGIN_ERROR: "Tentative de connexion échouée",
+  LOGIN_UNKNOWN_USER: "Tentative de connexion sur un compte inconnu",
   LOGOUT: "Déconnexion",
   CHANGE_PASSWORD_SUCCESS: "Mot de passe modifié",
   CHANGE_PASSWORD_ERROR: "Tentative de modification du mot de passe échouée",

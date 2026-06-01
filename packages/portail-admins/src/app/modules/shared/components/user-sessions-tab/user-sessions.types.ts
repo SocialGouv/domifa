@@ -34,5 +34,9 @@ export const SESSION_CLOSED_REASON_LABELS: Record<string, string> = {
   UA_MISMATCH: "Navigateur différent",
   MANUAL_LOGOUT: "Déconnexion manuelle",
   ADMIN_REVOKED: "Révoquée par un administrateur",
-  OTP_REQUIRED: "OTP requis (session abandonnée)",
+  // Legacy reason (no longer emitted): historically posed on the previous
+  // session when a fresh login required OTP. Sequence on the timeline:
+  // this row = "OTP envoyé", suivi du REPLACED suivant = "Nouvelle session
+  // ouverte".
+  OTP_REQUIRED: "Envoi d'OTP pour ouvrir une nouvelle session",
 };

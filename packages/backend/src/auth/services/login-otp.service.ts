@@ -116,16 +116,11 @@ export class LoginOtpService {
     }
 
     // No trust token (or rejected) and no OTP code → first leg of the OTP
-    // cycle: drop the current session (so any straggling JWT can't keep the
-    // door open) and ask OtpService to mint+send a fresh code.
-    await this.sessionFingerprintService.closeActiveSession(
-      "structure",
-      user.id,
-      "OTP_REQUIRED"
-    );
-    // enforceOrThrow with code=null always throws (OTP_REQUIRED on the happy
-    // path, OTP_BLOCKED / OTP_RESEND_LIMIT otherwise). The throw is what the
-    // controller surfaces to the client.
+    // cycle: mint+send a fresh code. The current session (if any) is kept
+    // intact: rotation only happens once the new OTP is validated, via
+    // StructuresAuthService.login → startNewSession (closes the previous one
+    // with reason REPLACED). This avoids logging the legitimate user out
+    // before the new attempt has proven itself.
     await this.otpService.enforceOrThrow(otpContext, null);
     // Unreachable: kept for type narrowing.
     throw otpHttpError("OTP_REQUIRED", HttpStatus.UNAUTHORIZED);

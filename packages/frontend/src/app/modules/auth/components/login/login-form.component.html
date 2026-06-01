@@ -12,9 +12,30 @@
       pour le débloquer immédiatement.
     </p>
   </div>
+  } @else if (otpFailed) {
+  <div class="fr-alert fr-alert--error" role="alert">
+    <p>
+      La vérification par code à usage unique a échoué. Veuillez réessayer dans
+      quelques instants.
+    </p>
+  </div>
   } @else if (loginError) {
   <div class="fr-alert fr-alert--error" role="alert">
     <p>Veuillez vérifier la combinaison email et mot de passe</p>
+  </div>
+  } @if (loginError || blockedTemp || otpFailed) {
+  <div class="fr-alert fr-alert--info" role="alert">
+    <h3 class="fr-alert__title">Besoin d'aide ?</h3>
+    <p>
+      Si le problème persiste (mot de passe oublié, code de vérification non
+      reçu, blocage répété), demandez à votre service informatique d'ajouter
+      l'adresse
+      <a href="mailto:contact.domifa@fabrique.social.gouv.fr"
+        ><b>contact.domifa@fabrique.social.gouv.fr</b></a
+      >
+      à la liste blanche (whitelist) de votre messagerie afin de recevoir les
+      emails de DomiFa.
+    </p>
   </div>
   }
   <div
