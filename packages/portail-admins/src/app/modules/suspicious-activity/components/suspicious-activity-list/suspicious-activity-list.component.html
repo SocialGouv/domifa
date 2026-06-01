@@ -157,10 +157,10 @@
                 <td>
                   {{ contextString(log.context, "attemptedIdentifier") }}
                 </td>
-                <td class="fr-text--xs">
+                <td>
                   <p
                     *ngIf="contextHuman(log.action, log.context) as human"
-                    class="fr-m-0 fr-mb-1w fr-text--sm"
+                    class="fr-m-0 fr-mb-1w"
                   >
                     {{ human }}
                   </p>
