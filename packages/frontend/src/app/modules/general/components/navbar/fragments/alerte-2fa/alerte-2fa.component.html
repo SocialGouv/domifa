@@ -1,29 +1,30 @@
 <div class="fr-container fr-py-2w" *ngIf="!hidden">
   <div class="fr-alert fr-alert--warning">
-    <h3 class="fr-alert__title">Déploiement de la double authentification</h3>
+    <h3 class="fr-alert__title">Double authentification : ce qui change</h3>
     <p>
-      Dans un contexte de recrudescence des piratages, la double
-      authentification est en cours de déploiement et peut entraîner quelques
-      désagréments temporaires.
-      <b
-        >Ces mesures de sécurité sont nécessaires afin de protéger les accès des
-        utilisateurs et garantir la sécurité des données domiciliées.</b
+      Pour renforcer la sécurité des accès et protéger les données des personnes
+      domiciliées, DomiFa déploie progressivement la
+      <b>double authentification</b> (code de vérification envoyé par email).
+    </p>
+    <p>
+      Un code de vérification est désormais demandé
+      <b>tous les 30 jours, par utilisateur</b>, sur un compte nominatif (mail
+      avec nom et prénom) et depuis un même ordinateur. En cas de compte partagé
+      sur des appareils différents, un nouveau code sera requis à chaque
+      reconnexion.
+    </p>
+    <p>
+      Les comptes génériques (mail sans nom et prénom) et/ou partagés ne sont
+      plus autorisés et seront supprimés d'ici le <b>30 juin</b> afin de laisser
+      le temps aux structures de s'organiser.
+    </p>
+    <p>
+      <b>Vous ne recevez pas le code par email ?</b> Si le problème persiste,
+      demandez à votre service informatique d'ajouter l'adresse
+      <a href="mailto:contact.domifa@fabrique.social.gouv.fr"
+        ><b>contact.domifa@fabrique.social.gouv.fr</b></a
       >
-    </p>
-    <p>
-      Désormais, <b>un code de vérification sera demandé tous les 7 jours</b>,
-      par utilisateur, sur un compte nominatif (mail avec nom et prénom) et
-      depuis un même ordinateur.
-    </p>
-    <p>
-      En cas de compte partagé entre plusieurs utilisateurs sur des appareils
-      différents, un nouveau code sera requis à chaque reconnexion.
-    </p>
-    <p>
-      Les comptes génériques (mail sans nom et prénom) et/ou partagés (un même
-      compte utilisé sur plusieurs ordinateurs) ne sont plus autorisés et seront
-      supprimés d'ici le 30 juin afin de laisser le temps aux structures de
-      s'organiser.
+      à la liste blanche (whitelist) de votre messagerie.
     </p>
     <button (click)="close()" type="button" class="fr-btn--close fr-btn">
       Masquer le message

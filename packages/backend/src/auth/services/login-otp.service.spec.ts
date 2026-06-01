@@ -128,11 +128,12 @@ describe("LoginOtpService", () => {
         status: HttpStatus.UNAUTHORIZED,
         response: { code: "OTP_REQUIRED" },
       });
-      expect(sessionFingerprintService.closeActiveSession).toHaveBeenCalledWith(
-        "structure",
-        USER.id,
-        "OTP_REQUIRED"
-      );
+      // The previous valid session is preserved: it will only be rotated
+      // when the new login actually completes (startNewSession on OTP
+      // success).
+      expect(
+        sessionFingerprintService.closeActiveSession
+      ).not.toHaveBeenCalled();
     });
 
     it("falls back to OTP when the trust token sub is not structure-trust", async () => {
@@ -268,7 +269,7 @@ describe("LoginOtpService", () => {
   });
 
   describe("no token + no code", () => {
-    it("closes the session, asks otpService to send a code, throws OTP_REQUIRED", async () => {
+    it("asks otpService to send a code, throws OTP_REQUIRED, and keeps the current session alive", async () => {
       otpService.enforceOrThrow.mockRejectedValue(
         new HttpException({ code: "OTP_REQUIRED" }, HttpStatus.UNAUTHORIZED)
       );
@@ -277,11 +278,13 @@ describe("LoginOtpService", () => {
         service.evaluate({ user: USER, ip: IP, userAgent: UA })
       ).rejects.toMatchObject({ response: { code: "OTP_REQUIRED" } });
 
-      expect(sessionFingerprintService.closeActiveSession).toHaveBeenCalledWith(
-        "structure",
-        USER.id,
-        "OTP_REQUIRED"
-      );
+      // The active session is preserved during the OTP cycle: rotation is
+      // deferred to startNewSession once OTP is validated (with reason
+      // REPLACED). Closing here would log out the legitimate user before
+      // the new attempt proves itself.
+      expect(
+        sessionFingerprintService.closeActiveSession
+      ).not.toHaveBeenCalled();
       // enforceOrThrow called with null → generate+send path.
       expect(otpService.enforceOrThrow.mock.calls[0][1]).toBeNull();
     });
@@ -307,8 +310,8 @@ describe("LoginOtpService", () => {
       expect(otpService.enforceOrThrow.mock.calls[0][2]).toEqual({
         forceResend: true,
       });
-      // Resend on an OTP cycle that is already in progress: the session was
-      // already closed on the initial login leg, no need to close it again.
+      // Resend does not touch the active session — rotation only happens
+      // on OTP success via startNewSession.
       expect(
         sessionFingerprintService.closeActiveSession
       ).not.toHaveBeenCalled();

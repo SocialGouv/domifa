@@ -12,6 +12,7 @@ export const SUSPICIOUS_LOG_ACTIONS: SuspiciousLogAction[] = [
   "REQUEST_BLOCKED",
   "UNBLOCK_USER",
   "ACCESS_DENIED_NON_ACTIVE",
+  "LOGIN_UNKNOWN_USER",
 ];
 
 // Subset that the 5-min CRON aggregates into alert emails. UNBLOCK_USER and

@@ -17,6 +17,7 @@ export type SecurityLogAction = Extract<
   | "LOGIN_OK"
   | "LOGIN_SUCCESS"
   | "LOGIN_ERROR"
+  | "LOGIN_UNKNOWN_USER"
   | "LOGOUT"
   | "CHANGE_PASSWORD_SUCCESS"
   | "CHANGE_PASSWORD_ERROR"
@@ -41,6 +42,7 @@ export const SECURITY_LOG_ACTIONS: readonly SecurityLogAction[] = [
   "LOGIN_OK",
   "LOGIN_SUCCESS",
   "LOGIN_ERROR",
+  "LOGIN_UNKNOWN_USER",
   "LOGOUT",
   "CHANGE_PASSWORD_SUCCESS",
   "CHANGE_PASSWORD_ERROR",

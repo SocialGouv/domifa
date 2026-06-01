@@ -32,6 +32,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   public submitted: boolean;
   public loginError: boolean;
   public blockedTemp: boolean;
+  public otpFailed: boolean;
   private readonly subscription = new Subscription();
   public portailUsagerUrl = environment.portailUsagersUrl;
 
@@ -49,6 +50,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     this.submitted = false;
     this.loginError = false;
     this.blockedTemp = false;
+    this.otpFailed = false;
     this.returnUrl = "/";
   }
 
@@ -81,6 +83,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     this.submitted = true;
     this.loginError = false;
     this.blockedTemp = false;
+    this.otpFailed = false;
 
     if (this.loginForm.invalid) {
       this.toastService.error("Veuillez vérifier les champs du formulaire");
@@ -102,8 +105,14 @@ export class LoginFormComponent implements OnInit, OnDestroy {
           },
           error: (err) => {
             this.loading = false;
+            const errorCode = err?.error?.code;
             if (err?.error?.message === "BLOCKED_TEMP") {
               this.blockedTemp = true;
+            } else if (
+              errorCode === "OTP_FAILED" ||
+              errorCode === "OTP_CANCELLED"
+            ) {
+              this.otpFailed = true;
             } else {
               this.loginError = true;
             }

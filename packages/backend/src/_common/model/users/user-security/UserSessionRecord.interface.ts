@@ -1,8 +1,9 @@
 // Closing reasons. Persisted on each historical session entry.
 // REPLACED is emitted when a new login rotates the active session.
-// OTP_REQUIRED is emitted when a login attempt without a valid trust token
-// forces a fresh OTP cycle (current session is dropped so the old JWT and
-// trust token cannot resurrect it).
+// OTP_REQUIRED is legacy: it used to be posed on the previous session at
+// the start of a login that needed OTP, before any rotation had actually
+// happened. The flow now defers rotation to OTP success (REPLACED), so no
+// new rows carry this reason — kept in the union for old DB entries.
 // IP_MISMATCH / UA_MISMATCH / ADMIN_REVOKED are reserved for phase 3
 // (post-2FA, blocking mode) and not produced by the current flow.
 export type SessionClosedReason =

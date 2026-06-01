@@ -40,8 +40,11 @@ async function checkPassword({
   });
 
   if (!user) {
+    // Unknown login: dedicated LOGIN_UNKNOWN_USER action so enumeration
+    // attempts surface distinctly from wrong-password attempts on known
+    // accounts.
     await logSecurityEvent({
-      action: "LOGIN_ERROR",
+      action: "LOGIN_UNKNOWN_USER",
       userType: "anonymous",
       identifier: login,
       requestContext,

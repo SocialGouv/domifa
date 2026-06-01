@@ -16,6 +16,7 @@ export const SUSPICIOUS_ACTIONS: SecurityLogAction[] = [
   "REQUEST_BLOCKED",
   "UNBLOCK_USER",
   "ACCESS_DENIED_NON_ACTIVE",
+  "LOGIN_UNKNOWN_USER",
 ];
 
 // Labels for the full SecurityLogAction union — needed when a row pre-dates
@@ -40,6 +41,7 @@ export const ACTION_BADGE_CLASS: Record<SecurityLogAction, string> = {
   LOGIN_OK: "fr-badge--info",
   LOGIN_SUCCESS: "fr-badge--success",
   LOGIN_ERROR: "fr-badge--warning",
+  LOGIN_UNKNOWN_USER: "fr-badge--warning",
   LOGOUT: "fr-badge--info",
   CHANGE_PASSWORD_SUCCESS: "fr-badge--success",
   CHANGE_PASSWORD_ERROR: "fr-badge--warning",
@@ -62,7 +64,11 @@ export const SESSION_CLOSED_REASON_LABELS: Record<string, string> = {
   UA_MISMATCH: "Navigateur différent",
   MANUAL_LOGOUT: "Déconnexion manuelle",
   ADMIN_REVOKED: "Révoquée par un administrateur",
-  OTP_REQUIRED: "OTP requis (session abandonnée)",
+  // Legacy reason (no longer emitted): historically posed on the previous
+  // session when a fresh login required OTP. Sequence on the timeline:
+  // this row = "OTP envoyé", suivi du REPLACED suivant = "Nouvelle session
+  // ouverte".
+  OTP_REQUIRED: "Envoi d'OTP pour ouvrir une nouvelle session",
 };
 
 // Bucket the AppLogActorType values into the human kinds displayed in the
