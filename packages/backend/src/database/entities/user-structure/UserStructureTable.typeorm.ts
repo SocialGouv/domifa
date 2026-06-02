@@ -12,6 +12,7 @@ import {
   UserStructureRole,
   UserStructureMails,
   UserStructure,
+  UserStructureEmailStatus,
   UserFonction,
   UserStatus,
 } from "@domifa/common";
@@ -71,6 +72,9 @@ export class UserStructureTable
 
   @Column({ type: "timestamptz", nullable: true })
   acceptTerms: Date;
+
+  @Column({ type: "text", nullable: true })
+  emailStatus: UserStructureEmailStatus | null;
 
   public constructor(entity?: Partial<UserStructureTable>) {
     super(entity);

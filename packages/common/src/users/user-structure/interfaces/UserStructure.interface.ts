@@ -1,6 +1,9 @@
 import { type StructureCommon } from "../../../structure";
 import { CommonUser } from "../../common-user/interfaces/common-user.interface";
-import { type UserStructureRole } from "../types";
+import {
+  type UserStructureEmailStatus,
+  type UserStructureRole,
+} from "../types";
 import { type UserStructureMails } from "./UserStructureMails.interface";
 
 export type UserStructure = CommonUser & {
@@ -10,6 +13,8 @@ export type UserStructure = CommonUser & {
   passwordLastUpdate: Date | null;
 
   role: UserStructureRole | null; // security profile
+
+  emailStatus: UserStructureEmailStatus | null;
 
   mails: UserStructureMails;
   structure?: StructureCommon;

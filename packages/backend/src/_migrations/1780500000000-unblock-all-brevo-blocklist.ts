@@ -2,6 +2,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { TransactionalEmailsApi } from "@getbrevo/brevo";
 import { domifaConfig } from "../config";
+import { appLogSecurityRepository, AppLogSecurityTable } from "../database";
 import { appLogger } from "../util";
 
 // Empties Brevo's SMTP transactional blocklist (the list shown on the
@@ -69,6 +70,7 @@ export class UnblockAllBrevoBlocklist1780500000000
           await api.smtpBlockedContactsEmailDelete(email);
           unblocked++;
           pageProgressed = true;
+          await writeUnblockAuditLog(email);
         } catch (error: any) {
           const status =
             error?.response?.statusCode ??
@@ -78,6 +80,7 @@ export class UnblockAllBrevoBlocklist1780500000000
             // Already absent — count as success and move on.
             unblocked++;
             pageProgressed = true;
+            await writeUnblockAuditLog(email);
             continue;
           }
           failed++;
@@ -101,5 +104,29 @@ export class UnblockAllBrevoBlocklist1780500000000
 
   public async down(_queryRunner: QueryRunner): Promise<void> {
     // No-op: re-blocking contacts on Brevo is not desirable.
+  }
+}
+
+// Best-effort: the unblock has already succeeded on Brevo's side, so a
+// failure to persist the audit row must not abort the migration.
+async function writeUnblockAuditLog(email: string): Promise<void> {
+  try {
+    await appLogSecurityRepository.save(
+      new AppLogSecurityTable({
+        userType: "system",
+        action: "UNBLOCK_BREVO_CONTACT",
+        context: {
+          email,
+          kind: "transactional",
+          source: "migration-unblock-all-brevo-blocklist",
+        },
+      })
+    );
+  } catch (error: any) {
+    appLogger.warn(
+      `Échec écriture audit log déblocage Brevo pour ${email}: ${
+        error?.message ?? error
+      }`
+    );
   }
 }
