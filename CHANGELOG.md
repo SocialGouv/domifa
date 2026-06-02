@@ -1,3 +1,10 @@
+## [2.249.7](https://github.com/SocialGouv/domifa/compare/v2.249.6...v2.249.7) (2026-06-02)
+
+
+### Bug Fixes
+
+* **frontend:** fix building app ([3b5876d](https://github.com/SocialGouv/domifa/commit/3b5876d875351049f4926f2e287236a74f6027c9))
+
 ## [2.249.6](https://github.com/SocialGouv/domifa/compare/v2.249.5...v2.249.6) (2026-06-02)
 
 
