@@ -102,15 +102,9 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public submit(): void {
-    if (this.isLocked || this.submitting) {
-      return;
-    }
     this.submitted = true;
-    if (this.codeControl.invalid) {
-      this.cdr.markForCheck();
-      return;
-    }
     this.promptService.submit(this.codeControl.value);
+    this.cdr.markForCheck();
   }
 
   public cancel(): void {

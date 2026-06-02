@@ -1,4 +1,4 @@
-\restrict fUwsDax9fU4G75iJIxkO7hcwzbhs50YDrxBATrp5AxCLdoHLsoz70hfVqUZMGMF
+\restrict euOXpL1qH2utF7x6QT2lInbr5FsvFkYvVTkNoniGdU4hVU86agT84VSibaLwINW
 CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 CREATE TABLE public.app_log (
@@ -469,7 +469,8 @@ CREATE TABLE public.user_structure (
     "passwordLastUpdate" timestamp with time zone,
     "acceptTerms" timestamp with time zone,
     "fonctionDetail" character varying(255),
-    status character varying DEFAULT 'PENDING'::character varying NOT NULL
+    status character varying DEFAULT 'PENDING'::character varying NOT NULL,
+    "emailStatus" text
 );
 CREATE SEQUENCE public.user_structure_id_seq
     START WITH 1
@@ -797,4 +798,4 @@ ALTER TABLE ONLY public.usager_notes
     ADD CONSTRAINT "FK_e8b75cd4ebe81d288a6ff7d4115" FOREIGN KEY ("structureId") REFERENCES public.structure(id) ON DELETE CASCADE;
 ALTER TABLE ONLY public.interactions
     ADD CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE;
-\unrestrict fUwsDax9fU4G75iJIxkO7hcwzbhs50YDrxBATrp5AxCLdoHLsoz70hfVqUZMGMF
+\unrestrict euOXpL1qH2utF7x6QT2lInbr5FsvFkYvVTkNoniGdU4hVU86agT84VSibaLwINW
