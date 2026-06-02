@@ -1,3 +1,13 @@
+## [2.249.5](https://github.com/SocialGouv/domifa/compare/v2.249.4...v2.249.5) (2026-06-02)
+
+
+### Bug Fixes
+
+* **backend:** add generic mail tester ([c4f0bdc](https://github.com/SocialGouv/domifa/commit/c4f0bdce48edc1c037f796717af8a6c9020ec93d))
+* **backend:** fix blocked users ([56c4b3e](https://github.com/SocialGouv/domifa/commit/56c4b3e7f7d5462f1621dc207405672d13ead217))
+* **backend:** fix logs for unknown logins ([7ee02b7](https://github.com/SocialGouv/domifa/commit/7ee02b71e00a788c9cf913d9c060c618daa32bad))
+* **backend:** fix typing ([adc22b0](https://github.com/SocialGouv/domifa/commit/adc22b0962cfc85d5f6bb03e3da184a8fcccc77d))
+
 ## [2.249.4](https://github.com/SocialGouv/domifa/compare/v2.249.3...v2.249.4) (2026-05-31)
 
 
