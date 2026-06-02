@@ -1,0 +1,26 @@
+<div class="fr-container fr-py-2w" *ngIf="!hidden">
+  <div class="fr-alert fr-alert--warning">
+    <h3 class="fr-alert__title">Adresse email générique détectée</h3>
+    <p>
+      Votre compte utilise une adresse email
+      <b>générique ou partagée</b> (sans nom et prénom).
+    </p>
+    <p>
+      Pour des raisons de sécurité, ces adresses ne sont
+      <b>plus autorisées</b> et seront supprimées d'ici le <b>30 juin</b>. Merci
+      de remplacer cette adresse par un mail <b>nominatif</b> (avec nom et
+      prénom) avant cette date.
+    </p>
+    <p>
+      Si le problème persiste, demandez à votre service informatique d'ajouter
+      l'adresse
+      <a href="mailto:contact.domifa@fabrique.social.gouv.fr"
+        ><b>contact.domifa&#64;fabrique.social.gouv.fr</b></a
+      >
+      à la liste blanche (whitelist) de votre messagerie.
+    </p>
+    <button (click)="close()" type="button" class="fr-btn--close fr-btn">
+      Masquer le message
+    </button>
+  </div>
+</div>
