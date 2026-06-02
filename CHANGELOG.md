@@ -1,3 +1,11 @@
+## [2.249.6](https://github.com/SocialGouv/domifa/compare/v2.249.5...v2.249.6) (2026-06-02)
+
+
+### Bug Fixes
+
+* **backend:** disable button in otp ([6771c32](https://github.com/SocialGouv/domifa/commit/6771c320a0c449b463cb05c71c881acd04aff303))
+* **frontend:** fix arobase in text ([75c839c](https://github.com/SocialGouv/domifa/commit/75c839cb815b41c12dd7f5730c0c236d98ae62e8))
+
 ## [2.249.5](https://github.com/SocialGouv/domifa/compare/v2.249.4...v2.249.5) (2026-06-02)
 
 
