@@ -40,6 +40,7 @@ import {
   DsfrModalComponent,
 } from "@edugouvfr/ngx-dsfr";
 import { LoginDropdownComponent } from "./components/navbar/fragments/login-dropdown/login-dropdown.component";
+import { AlerteMailGeneriqueComponent } from "./components/navbar/fragments/alerte-mail-generique/alerte-mail-generique.component";
 import { DsfrTimelineComponent } from "@edugouvfr/ngx-dsfr-ext";
 
 @NgModule({
@@ -67,6 +68,7 @@ import { DsfrTimelineComponent } from "@edugouvfr/ngx-dsfr-ext";
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    AlerteMailGeneriqueComponent,
     RouterModule.forChild([]),
     HomeStatsComponent,
     FaqSectionComponent,
