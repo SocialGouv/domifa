@@ -25,6 +25,7 @@ import {
 } from "@domifa/common";
 
 import { CustomToastService } from "../../services";
+import { DisplayIpComponent } from "../display-ip/display-ip.component";
 import {
   brevoEventBadgeClass,
   BREVO_TAB_PAGE_SIZE,
@@ -41,6 +42,7 @@ import {
   imports: [
     CommonModule,
     FormsModule,
+    DisplayIpComponent,
     DsfrSpinnerComponent,
     DsfrModalModule,
     DsfrButtonsGroupModule,

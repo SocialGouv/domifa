@@ -1,0 +1,81 @@
+<div class="fr-mb-3w">
+  <div
+    *ngIf="loading"
+    role="alert"
+    aria-busy="true"
+    aria-label="Chargement des statistiques de sessions..."
+    class="text-center fr-py-3w"
+  >
+    <dsfr-ext-spinner
+      typeLoader="quarter"
+      label="Chargement des statistiques..."
+    ></dsfr-ext-spinner>
+  </div>
+
+  <div *ngIf="errored && !loading" class="fr-alert fr-alert--warning fr-mb-2w">
+    <p>Statistiques de sessions indisponibles.</p>
+    <button
+      type="button"
+      class="fr-btn fr-btn--secondary fr-btn--sm fr-icon-refresh-line fr-btn--icon-left fr-mt-1w"
+      (click)="refresh()"
+    >
+      Réessayer
+    </button>
+  </div>
+
+  <ng-container *ngIf="!loading && stats as data">
+    <ul
+      class="fr-grid-row fr-grid-row--gutters stat-cards-list"
+      aria-label="Volumétrie des sessions"
+    >
+      <li class="fr-col-12 fr-col-sm-6 fr-col-md-4 fr-col-lg">
+        <app-stat-card
+          [label]="
+            data.structureId
+              ? 'Utilisateurs de la structure'
+              : 'Utilisateurs structure (plateforme)'
+          "
+          [value]="data.total"
+          icon="fr-icon-team-line"
+          status="neutral"
+        ></app-stat-card>
+      </li>
+      <li class="fr-col-12 fr-col-sm-6 fr-col-md-4 fr-col-lg">
+        <app-stat-card
+          label="Actifs dans les 24h"
+          [value]="data.activeWithin24h"
+          icon="fr-icon-flashlight-line"
+          status="success"
+        ></app-stat-card>
+      </li>
+      <li class="fr-col-12 fr-col-sm-6 fr-col-md-4 fr-col-lg">
+        <app-stat-card
+          label="Actifs dans les 48h"
+          [value]="data.activeWithin48h"
+          icon="fr-icon-time-line"
+          status="info"
+        ></app-stat-card>
+      </li>
+      <li class="fr-col-12 fr-col-sm-6 fr-col-md-4 fr-col-lg">
+        <app-stat-card
+          label="Actifs sur 7 jours"
+          [value]="data.activeWithin7d"
+          icon="fr-icon-calendar-line"
+          status="info"
+        ></app-stat-card>
+      </li>
+      <li class="fr-col-12 fr-col-sm-6 fr-col-md-4 fr-col-lg">
+        <app-stat-card
+          label="Jamais connectés"
+          [value]="data.neverConnected"
+          icon="fr-icon-user-forbid-line"
+          status="warning"
+        ></app-stat-card>
+      </li>
+    </ul>
+    <p class="fr-text--xs fr-text--mention-grey fr-mt-2w fr-mb-0">
+      Buckets cumulatifs (24h ⊂ 48h ⊂ 7j). Données générées le
+      {{ data.generatedAt | date : "dd/MM/yyyy HH:mm:ss" }}.
+    </p>
+  </ng-container>
+</div>

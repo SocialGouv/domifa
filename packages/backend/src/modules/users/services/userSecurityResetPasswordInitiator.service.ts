@@ -57,10 +57,13 @@ async function generateResetPasswordToken({
 
   const user = await getUserRepository(userProfile).findOneBy({ email });
   if (!user) {
+    // Email inconnu : on garde le userType du portail (structure/supervisor)
+    // pour que l'audit scope la tentative au bon portail; l'email tenté est
+    // conservé dans context.attemptedIdentifier.
     await logSecurityEvent({
       action: "RESET_PASSWORD_REQUEST",
-      userType: "anonymous",
-      identifier: email,
+      profile: userProfile,
+      attemptedIdentifier: email,
       requestContext,
       context: { userProfile },
     });

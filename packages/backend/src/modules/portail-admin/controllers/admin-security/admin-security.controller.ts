@@ -14,6 +14,7 @@ import {
   ApiParam,
   ApiTags,
 } from "@nestjs/swagger";
+import { Throttle } from "@nestjs/throttler";
 
 import { PageResults } from "@domifa/common";
 
@@ -31,6 +32,10 @@ import {
   SuspiciousActivityLogDto,
   UserSessionsViewDto,
 } from "../../dto/suspicious-activity-log.dto";
+import {
+  SessionsStats,
+  SessionsStatsQueryDto,
+} from "../../dto/sessions-stats.dto";
 import { AdminSecurityService } from "../../services/admin-security/admin-security.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -64,5 +69,23 @@ export class AdminSecurityController {
     @Param("uuid", new ParseUUIDPipe()) uuid: string
   ): Promise<UserSessionsViewDto> {
     return this.adminSecurityService.getUserSessions(userType, uuid);
+  }
+
+  // Réservé super-admin-domifa (guards de classe). Throttle aligné sur
+  // /metabase-stats : court/moyen/long pour neutraliser le scraping.
+  @Throttle({
+    short: { limit: 5, ttl: 1_000, blockDuration: 300_000 },
+    medium: { limit: 30, ttl: 60_000, blockDuration: 900_000 },
+    long: { limit: 300, ttl: 3_600_000, blockDuration: 3_600_000 },
+  })
+  @Get("sessions/stats")
+  @ApiOperation({
+    summary:
+      "Volumétrie des sessions structure (actifs 24h / 48h / 7j / jamais)",
+  })
+  public async getSessionsStats(
+    @Query() query: SessionsStatsQueryDto
+  ): Promise<SessionsStats> {
+    return this.adminSecurityService.getSessionsStats(query);
   }
 }

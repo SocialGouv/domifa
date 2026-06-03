@@ -106,12 +106,13 @@ async function findUserForLogin<T extends UserStructure | UserSupervisor>({
   if (!user) {
     // Unknown email: dedicated LOGIN_UNKNOWN_USER action so enumeration
     // attempts surface distinctly from wrong-password attempts on known
-    // accounts. `identifier` (the email tried) is stashed in context by
-    // the writer — only audit handle left for an anonymous row.
+    // accounts. The portal-derived userType is kept (user_structure /
+    // user_supervisor) so admin filters can scope these probes per portal;
+    // the email tried is stashed in `context.attemptedIdentifier`.
     await logSecurityEvent({
       action: "LOGIN_UNKNOWN_USER",
-      userType: "anonymous",
-      identifier: email,
+      profile: userProfile,
+      attemptedIdentifier: email,
       requestContext,
       context: { userProfile },
     });

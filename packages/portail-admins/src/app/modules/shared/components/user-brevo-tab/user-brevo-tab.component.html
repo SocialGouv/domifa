@@ -142,11 +142,16 @@
                       {{ eventLabels[evt.event] ?? evt.event }}
                     </span>
                   </td>
-                  <td class="fr-text--sm">{{ evt.subject ?? "-" }}</td>
+                  <td
+                    class="fr-text--sm"
+                    style="max-width: 240px; word-break: break-word"
+                  >
+                    {{ evt.subject ?? "-" }}
+                  </td>
                   <td class="fr-text--sm">
                     {{ evt.templateId ? "#" + evt.templateId : "-" }}
                   </td>
-                  <td>
+                  <td style="max-width: 360px; word-break: break-word">
                     <p *ngIf="evt.reason" class="fr-m-0 fr-mb-1w">
                       <span class="fr-text--bold">Raison&nbsp;:</span>
                       {{ evt.reason }}
@@ -165,7 +170,8 @@
                       >
                     </p>
                     <p *ngIf="evt.ip" class="fr-m-0 fr-mb-1w">
-                      <span class="fr-text--bold">IP&nbsp;:</span> {{ evt.ip }}
+                      <span class="fr-text--bold">IP&nbsp;:</span>
+                      <app-display-ip [ip]="evt.ip"></app-display-ip>
                     </p>
                     <p
                       class="fr-m-0 fr-text--mention-grey"

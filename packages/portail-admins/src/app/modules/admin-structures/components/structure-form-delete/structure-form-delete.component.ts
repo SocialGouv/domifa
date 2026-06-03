@@ -116,6 +116,14 @@ export class StructureFormDeleteComponent
   }
 
   public closeModal(): void {
+    // Opening the OTP modal makes DSFR conceal this dialog (one modal at a
+    // time). Without this guard, the resulting closeModals.emit() destroys the
+    // component via *ngIf, unsubscribes the in-flight HTTP request, and leaves
+    // the OTP prompt with no subscriber. Annuler is disabled while loading, so
+    // any closeModal call in that state can only come from DSFR.
+    if (this.loading) {
+      return;
+    }
     this.resetForm();
     if (this.deleteStructureModal) {
       this.closeModals.emit();

@@ -80,7 +80,8 @@
                   {{
                     userKindLabel(
                       log.resolvedUser?.userType || log.userType,
-                      log.resolvedUser?.role
+                      log.resolvedUser?.role,
+                      !!log.resolvedUser
                     )
                   }}
                 </td>
@@ -116,48 +117,39 @@
                     </span>
                   </ng-container>
                   <ng-template #anonymousCell>
-                    <span class="fr-text--mention-grey">
-                      {{ log.userType === "anonymous" ? "Anonyme" : "Système" }}
-                    </span>
+                    <ng-container
+                      *ngIf="
+                        attemptedIdentifier(log.context) as attempted;
+                        else fallbackUserCell
+                      "
+                    >
+                      <span>{{ attempted }}</span>
+                      <br />
+                      <span class="fr-text--xs fr-text--mention-grey">
+                        Compte inconnu
+                      </span>
+                    </ng-container>
+                    <ng-template #fallbackUserCell>
+                      <span class="fr-text--mention-grey">
+                        {{ log.userType === "system" ? "Système" : "Anonyme" }}
+                      </span>
+                    </ng-template>
                   </ng-template>
                 </td>
                 <td>
-                  <ng-container *ngIf="log.ip; else emptyCell">
-                    <button
-                      type="button"
-                      class="fr-link fr-link--sm"
-                      title="Filtrer par cette IP"
-                      (click)="onIpClick(log.ip)"
-                    >
-                      {{ log.ip }}
-                    </button>
-                    <br />
-                    <a
-                      [href]="
-                        'https://www.abuseipdb.com/check/' +
-                        encodeURIComponent(log.ip)
-                      "
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="fr-link fr-link--sm fr-link--icon-right fr-icon-external-link-line"
-                      title="Voir sur AbuseIPDB"
-                    >
-                      AbuseIPDB
-                    </a>
-                  </ng-container>
-                  <ng-template #emptyCell>—</ng-template>
+                  <app-display-ip [ip]="log.ip"></app-display-ip>
                 </td>
-                <td>
+                <td style="max-width: 240px; word-break: break-word">
                   <app-display-user-agent
                     *ngIf="log.userAgent; else uaEmpty"
                     [userAgent]="log.userAgent"
                   ></app-display-user-agent>
                   <ng-template #uaEmpty>—</ng-template>
                 </td>
-                <td>
+                <td style="max-width: 200px; word-break: break-word">
                   {{ contextString(log.context, "attemptedIdentifier") }}
                 </td>
-                <td>
+                <td style="max-width: 360px; word-break: break-word">
                   <p
                     *ngIf="contextHuman(log.action, log.context) as human"
                     class="fr-m-0 fr-mb-1w"

@@ -72,12 +72,18 @@
                   <td *ngIf="showNetworkColumns">
                     <app-display-ip [ip]="log.ip"></app-display-ip>
                   </td>
-                  <td *ngIf="showNetworkColumns" style="word-break: break-word">
+                  <td
+                    *ngIf="showNetworkColumns"
+                    style="max-width: 240px; word-break: break-word"
+                  >
                     <app-display-user-agent
                       [userAgent]="log.userAgent"
                     ></app-display-user-agent>
                   </td>
-                  <td class="fr-text--xs">
+                  <td
+                    class="fr-text--xs"
+                    style="max-width: 360px; word-break: break-word"
+                  >
                     <ng-container *ngIf="log.context; else noContext">
                       <p
                         *ngIf="contextHuman(log.action, log.context) as human"
