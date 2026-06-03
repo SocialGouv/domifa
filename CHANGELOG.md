@@ -1,3 +1,10 @@
+## [2.249.8](https://github.com/SocialGouv/domifa/compare/v2.249.7...v2.249.8) (2026-06-03)
+
+
+### Bug Fixes
+
+* **backend:** add session stats ([ac1dba4](https://github.com/SocialGouv/domifa/commit/ac1dba439d756904e1b267f175554b3d5518d430))
+
 ## [2.249.7](https://github.com/SocialGouv/domifa/compare/v2.249.6...v2.249.7) (2026-06-02)
 
 
