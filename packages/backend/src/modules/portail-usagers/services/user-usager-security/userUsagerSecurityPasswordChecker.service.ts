@@ -42,11 +42,13 @@ async function checkPassword({
   if (!user) {
     // Unknown login: dedicated LOGIN_UNKNOWN_USER action so enumeration
     // attempts surface distinctly from wrong-password attempts on known
-    // accounts.
+    // accounts. Keep the `usager` userType so admin filters can scope the
+    // probe to the bénéficiaire portal; the login tried lands in
+    // context.attemptedIdentifier.
     await logSecurityEvent({
       action: "LOGIN_UNKNOWN_USER",
-      userType: "anonymous",
-      identifier: login,
+      profile: "usager",
+      attemptedIdentifier: login,
       requestContext,
       context: { userProfile: "usager" },
     });

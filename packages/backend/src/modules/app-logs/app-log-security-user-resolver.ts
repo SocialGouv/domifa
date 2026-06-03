@@ -13,8 +13,8 @@ export type UserSecurityLogProfile =
   | "usager";
 
 // `userType` falls back to "anonymous" when the identifier matches no user —
-// the caller is expected to stash `identifier` in `context` so the failed
-// attempt can still be audited.
+// the caller is expected to stash `attemptedIdentifier` in `context` so the
+// failed attempt can still be audited.
 export type ResolvedUserForSecurityLog = {
   userStructureId?: number;
   userSupervisorId?: number;

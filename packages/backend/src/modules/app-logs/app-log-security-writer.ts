@@ -29,10 +29,11 @@ export type LogSecurityEventParams = {
   structureId?: number;
   role?: UserStructureRole | UserSupervisorRole;
   requestContext?: SecurityLogRequestContext;
-  // Identifier (email/login) attempted by the caller. Only persisted in
-  // `context` when the user couldn't be resolved (userType=anonymous) — it's
-  // the only audit handle left for those rows.
-  identifier?: string;
+  // Identifier (email/login) attempted by the caller. Persisted in `context`
+  // as `attemptedIdentifier` so the admin suspicious-activity table + filter
+  // (which already share that key with the throttler guard) can surface it
+  // — even when the row carries a portal-derived userType.
+  attemptedIdentifier?: string;
   context?: Record<string, unknown>;
   userName?: string;
 };
@@ -82,8 +83,8 @@ function buildContext(
   params: LogSecurityEventParams
 ): Record<string, unknown> | undefined {
   const extra = params.context ?? {};
-  if (params.userType === "anonymous" && params.identifier) {
-    return { identifier: params.identifier, ...extra };
+  if (params.attemptedIdentifier) {
+    return { attemptedIdentifier: params.attemptedIdentifier, ...extra };
   }
   return Object.keys(extra).length > 0 ? extra : undefined;
 }

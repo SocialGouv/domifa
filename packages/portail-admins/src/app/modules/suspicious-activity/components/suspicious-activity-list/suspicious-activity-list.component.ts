@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
 import { DsfrPaginationComponent } from "@edugouvfr/ngx-dsfr";
@@ -7,6 +7,7 @@ import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 import { Subscription } from "rxjs";
 
 import { CustomToastService } from "../../../shared/services";
+import { DisplayIpComponent } from "../../../shared/components/display-ip/display-ip.component";
 import { DisplayUserAgentComponent } from "../../../shared/components/display-user-agent/display-user-agent.component";
 import {
   getLogContextHumanSummary,
@@ -39,6 +40,7 @@ import { SuspiciousActivityFiltersComponent } from "../suspicious-activity-filte
     CommonModule,
     FormsModule,
     RouterLink,
+    DisplayIpComponent,
     DisplayUserAgentComponent,
     DsfrPaginationComponent,
     DsfrSpinnerComponent,
@@ -60,10 +62,6 @@ export class SuspiciousActivityListComponent implements OnInit, OnDestroy {
   public pageSize: number = DEFAULT_PAGE_SIZE;
   public readonly pageSizeOptions = PAGE_SIZE_OPTIONS;
   public readonly userKindLabel = resolveUserKindLabel;
-  public readonly encodeURIComponent = encodeURIComponent;
-
-  @ViewChild(SuspiciousActivityFiltersComponent)
-  private readonly filtersComponent?: SuspiciousActivityFiltersComponent;
 
   private currentFilters: SuspiciousActivityFilters = {};
   private readonly subscription = new Subscription();
@@ -121,25 +119,6 @@ export class SuspiciousActivityListComponent implements OnInit, OnDestroy {
     this.loadPage(1);
   }
 
-  public onIpClick(ip: string | null | undefined): void {
-    if (!ip) {
-      return;
-    }
-    // Delegate to the filter component so the form input mirrors the active
-    // filter. setIp() emits filtersChange, which triggers loadPage(1).
-    if (this.filtersComponent) {
-      this.filtersComponent.setIp(ip);
-      return;
-    }
-    // Embedded mode (no filters component) — apply the filter directly.
-    this.currentFilters = {
-      ...this.currentFilters,
-      ip,
-      ...this.lockedFilters,
-    };
-    this.loadPage(1);
-  }
-
   public actionLabel(action: SecurityLogAction): string {
     return SUSPICIOUS_ACTION_LABELS[action] ?? action;
   }
@@ -181,6 +160,18 @@ export class SuspiciousActivityListComponent implements OnInit, OnDestroy {
     }
     const value = context[key];
     return typeof value === "string" && value.length > 0 ? value : "—";
+  }
+
+  // Variante de `contextString` qui renvoie `null` plutôt que "—" pour
+  // qu'un *ngIf="… as attempted" puisse basculer vers un fallback.
+  public attemptedIdentifier(
+    context: Record<string, unknown> | null
+  ): string | null {
+    if (!context) {
+      return null;
+    }
+    const value = context["attemptedIdentifier"];
+    return typeof value === "string" && value.length > 0 ? value : null;
   }
 
   public ngOnDestroy(): void {

@@ -11,6 +11,11 @@
     </button>
   </div>
 
+  <app-sessions-stats-tiles
+    *ngIf="structureId"
+    [structureId]="structureId"
+  ></app-sessions-stats-tiles>
+
   <p class="fr-text--sm fr-text--mention-grey">
     Les 100 sessions les plus récentes des utilisateurs de la structure (actives
     et fermées), du plus récent au plus ancien.

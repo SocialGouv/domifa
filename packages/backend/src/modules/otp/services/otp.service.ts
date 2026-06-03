@@ -369,11 +369,14 @@ export class OtpService {
   ): Promise<void> {
     await logSecurityEvent({
       action,
-      profile: context.userId ? context.userType : undefined,
-      userType: context.userId ? undefined : "anonymous",
+      // Toujours porter le userType du portail tenté (OTP, structure,
+      // supervisor, usager) même quand `userId` n'est pas résolu — l'admin
+      // peut ainsi filtrer ces tentatives par portail au lieu de les voir
+      // confondues sous "anonyme".
+      profile: context.userType,
       userId: context.userId,
       structureId: context.structureId,
-      identifier: context.email,
+      attemptedIdentifier: context.email,
       requestContext: { ip: context.ip, userAgent: context.userAgent },
       context: {
         purpose: context.purpose,

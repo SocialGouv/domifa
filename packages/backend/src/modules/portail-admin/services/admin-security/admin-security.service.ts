@@ -34,6 +34,10 @@ import {
   SuspiciousResolvedUser,
   UserSessionsViewDto,
 } from "../../dto/suspicious-activity-log.dto";
+import {
+  SessionsStats,
+  SessionsStatsQueryDto,
+} from "../../dto/sessions-stats.dto";
 
 @Injectable()
 export class AdminSecurityService {
@@ -62,6 +66,49 @@ export class AdminSecurityService {
       currentSession: row?.currentSession ?? null,
       sessionsHistory: row?.sessionsHistory ?? [],
       fingerprintHash: row?.fingerprintHash ?? null,
+    };
+  }
+
+  // Volumétrie d'authentification : combien d'utilisateurs structure ont eu
+  // une session démarrée dans les dernières 24 h, 48 h, 7 j (buckets
+  // cumulatifs — 24 h ⊂ 48 h ⊂ 7 j) et combien n'ont jamais ouvert de
+  // session (lastLogin IS NULL). Filtrable par structure.
+  public async getSessionsStats(
+    query: SessionsStatsQueryDto
+  ): Promise<SessionsStats> {
+    const generatedAt = new Date();
+    const threshold24h = new Date(generatedAt.getTime() - 24 * 60 * 60 * 1000);
+    const threshold48h = new Date(generatedAt.getTime() - 48 * 60 * 60 * 1000);
+    const threshold7d = new Date(
+      generatedAt.getTime() - 7 * 24 * 60 * 60 * 1000
+    );
+
+    const structureId = query.structureId ?? null;
+    const sql = `
+      SELECT
+        COUNT(*) AS total,
+        COUNT(*) FILTER (WHERE "lastLogin" >= $1) AS active_within_24h,
+        COUNT(*) FILTER (WHERE "lastLogin" >= $2) AS active_within_48h,
+        COUNT(*) FILTER (WHERE "lastLogin" >= $3) AS active_within_7d,
+        COUNT(*) FILTER (WHERE "lastLogin" IS NULL) AS never_connected
+      FROM "user_structure"
+      ${structureId !== null ? `WHERE "structureId" = $4` : ""}
+    `;
+    const params: (Date | number)[] =
+      structureId !== null
+        ? [threshold24h, threshold48h, threshold7d, structureId]
+        : [threshold24h, threshold48h, threshold7d];
+
+    const [row] = await userStructureRepository.query(sql, params);
+
+    return {
+      structureId,
+      generatedAt: generatedAt.toISOString(),
+      total: parseInt(row?.total ?? "0", 10),
+      activeWithin24h: parseInt(row?.active_within_24h ?? "0", 10),
+      activeWithin48h: parseInt(row?.active_within_48h ?? "0", 10),
+      activeWithin7d: parseInt(row?.active_within_7d ?? "0", 10),
+      neverConnected: parseInt(row?.never_connected ?? "0", 10),
     };
   }
 

@@ -90,6 +90,11 @@ export class AppComponent implements OnInit {
               routerLink: "/suspicious-activity",
             },
             {
+              linkId: "sessions",
+              label: "Sessions",
+              routerLink: "/sessions",
+            },
+            {
               linkId: "brevo-blocklist",
               label: "Emails bloqués",
               routerLink: "/brevo-blocklist",

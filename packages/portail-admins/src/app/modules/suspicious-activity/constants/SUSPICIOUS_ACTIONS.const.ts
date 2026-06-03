@@ -81,6 +81,15 @@ const USER_KIND_LABELS: Record<string, string> = {
   anonymous: "Anonyme",
 };
 
+// Quand le row porte un userType de portail mais qu'aucun utilisateur n'a pu
+// être résolu (ex. LOGIN_UNKNOWN_USER), on remplace "Utilisateur"/"Domicilié"
+// par le portail tenté pour ne pas suggérer qu'il s'agit d'un compte réel.
+const UNRESOLVED_PORTAL_LABELS: Record<string, string> = {
+  user_structure: "Portail Structures",
+  user_supervisor: "Portail Admin",
+  usager: "Portail Bénéficiaires",
+};
+
 // Supervisor role → official agency name. Kept frontend-side because this
 // admin view is the only one that surfaces this naming; the rest of the
 // codebase uses USER_SUPERVISOR_ROLES_LABELS (Région/Département/DGCS/…).
@@ -102,11 +111,18 @@ const USER_STRUCTURE_ROLE_LABELS: Record<string, string> = {
 };
 
 // Returns the cell content for the "Type d'utilisateur" column. Falls back to
-// the bucket label when we don't have a role-specific override.
+// the bucket label when we don't have a role-specific override. When the row
+// has a portal userType but no resolved user (LOGIN_UNKNOWN_USER on an
+// unknown email/login), we surface the portal name instead of "Utilisateur"
+// so the row isn't read as a real account.
 export function resolveUserKindLabel(
   userType: string | undefined,
-  role: string | undefined
+  role: string | undefined,
+  hasResolvedUser: boolean = true
 ): string {
+  if (!hasResolvedUser && userType && UNRESOLVED_PORTAL_LABELS[userType]) {
+    return UNRESOLVED_PORTAL_LABELS[userType];
+  }
   if (userType === "user_supervisor") {
     const agency = role ? USER_SUPERVISOR_AGENCY_LABELS[role] : undefined;
     return agency ?? USER_KIND_LABELS.user_supervisor;

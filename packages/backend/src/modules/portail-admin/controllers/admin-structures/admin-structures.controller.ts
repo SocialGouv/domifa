@@ -290,8 +290,10 @@ export class AdminStructuresController {
         action: config.logAction,
       });
 
-      // Retourner les données mises à jour
-      const updatedStructure =
+      // Return the updated row. getAdminStructuresListData returns an array
+      // even when filtered by id; the frontend stores it via NgRx updateOne
+      // which matches on id, so it must receive a single object.
+      const [updatedStructure] =
         await structureRepository.getAdminStructuresListData(structure.id);
 
       return res.status(HttpStatus.OK).json(updatedStructure);
