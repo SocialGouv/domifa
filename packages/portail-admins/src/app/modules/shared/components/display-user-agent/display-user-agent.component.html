@@ -13,5 +13,14 @@
     ></i>
     <span class="fr-sr-only">{{ parsed.deviceLabel }}</span>
   </span>
+  <button
+    type="button"
+    class="fr-btn fr-btn--sm fr-btn--tertiary-no-outline fr-btn--icon-left fr-icon-clipboard-line fr-ml-1w"
+    (click)="copyUserAgent()"
+    [tooltip]="'Copier le User-Agent brut'"
+    aria-label="Copier le User-Agent dans le presse-papier"
+  >
+    Copier
+  </button>
 </ng-container>
 <ng-template #empty>-</ng-template>

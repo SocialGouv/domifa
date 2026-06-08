@@ -2,3 +2,4 @@
 export * from "./ApiMessage.interface";
 export * from "./AppEntity.interface";
 export * from "./CommonDoc.interface";
+export * from "./EntityDecision.interface";

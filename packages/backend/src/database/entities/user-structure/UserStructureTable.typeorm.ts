@@ -15,6 +15,7 @@ import {
   UserStructureEmailStatus,
   UserFonction,
   UserStatus,
+  UserStructureDecision,
 } from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
@@ -75,6 +76,9 @@ export class UserStructureTable
 
   @Column({ type: "text", nullable: true })
   emailStatus: UserStructureEmailStatus | null;
+
+  @Column({ type: "jsonb", nullable: true })
+  decision: UserStructureDecision | null;
 
   public constructor(entity?: Partial<UserStructureTable>) {
     super(entity);

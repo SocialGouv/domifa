@@ -41,6 +41,7 @@ import {
   usagerRepository,
 } from "../../../database";
 import {
+  DeleteUserDto,
   UpdateRoleDto,
   UserEditDto,
   EditMyPasswordDto,
@@ -50,6 +51,9 @@ import {
   userStructureCreator,
   userStructureSecurityPasswordUpdater,
 } from "../services";
+import { UserStructureDecisionService } from "../services/user-structure-decision/user-structure-decision.service";
+import { OtpGuard } from "../../otp/guards/otp.guard";
+import { RequireOtp } from "../../otp/decorators/require-otp.decorator";
 // Direct path (not via the `portail-admin` barrel): the barrel re-exports
 // `portail-admin.module.ts`, which imports `AuthModule`. UsersModule is
 // transitively loaded from AuthModule via OtpModule → MailsModule → UsersModule,
@@ -80,7 +84,8 @@ const userProfile: UserProfile = "structure";
 export class UsersController {
   constructor(
     private readonly appLogService: AppLogsService,
-    private readonly brevoSenderService: BrevoSenderService
+    private readonly brevoSenderService: BrevoSenderService,
+    private readonly userStructureDecisionService: UserStructureDecisionService
   ) {}
 
   @Get("")
@@ -244,37 +249,23 @@ export class UsersController {
   @AllowUserStructureRoles("admin")
   @ApiBearerAuth("Administrateurs")
   @ApiOperation({ summary: "Supprimer un utilisateur" })
-  @UseGuards(CanGetUserStructureGuard)
+  @UseGuards(CanGetUserStructureGuard, OtpGuard)
+  @RequireOtp("DELETE_USER_BY_ADMIN")
   @Delete(":userUuid")
   public async delete(
     @CurrentUser() userStructureAuth: UserStructureAuthenticated,
     @CurrentChosenUserStructure() chosenUserStructure: UserStructure,
     @Param("userUuid", new ParseUUIDPipe()) _userUuid: string,
+    @Body() body: DeleteUserDto,
     @Res() res: Response
   ) {
-    const userEmail = chosenUserStructure.email;
-
-    await userStructureRepository.deleteWithSecurity({
-      userId: chosenUserStructure.id,
+    await this.userStructureDecisionService.softDelete({
+      targetUserId: chosenUserStructure.id,
+      targetUserEmail: chosenUserStructure.email,
+      targetUserRole: chosenUserStructure.role,
       structureId: userStructureAuth.structureId,
-    });
-
-    try {
-      await this.brevoSenderService.deleteContactFromBrevo(userEmail);
-    } catch (error) {
-      appLogger.warn(
-        `Échec de la suppression du contact Brevo pour ${userEmail}`,
-        error
-      );
-    }
-
-    await this.appLogService.create<UserStructureCreateLogContext>({
-      ...buildStructureActorFields(userStructureAuth),
-      action: "USER_DELETE",
-      context: {
-        role: chosenUserStructure.role,
-        userId: chosenUserStructure.id,
-      },
+      motif: body.motif,
+      actor: { kind: "structure", user: userStructureAuth },
     });
 
     return res.status(HttpStatus.OK).json({ message: "OK" });

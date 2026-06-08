@@ -1,54 +1,119 @@
 <div class="fr-alert fr-alert--warning fr-mb-2w">
   <p>
-    Cette personne ne pourra plus se connecter à l'espace de pilotage. Elle ne
-    sera pas informée que son compte a été supprimé. Un code de confirmation par
-    email vous sera demandé. Recopiez ci-dessous son nom et prénom pour
-    confirmer.
+    Vous êtes sur le point de supprimer le compte de
+    <span class="fr-text--bold">{{ expectedDeleteName }}</span
+    >. <br />
+    Cette personne ne pourra plus se connecter à l'espace de pilotage. <br />
+    Elle ne sera pas informée que son compte a été supprimé. <br />
   </p>
 </div>
 
-<p class="fr-text--bold fr-mb-1w">Nom et prénom à recopier :</p>
-<p class="fr-text--bold fr-text-title--blue-france fr-mb-2w">
-  {{ expectedDeleteName }}
-</p>
+<form [formGroup]="deleteForm" (ngSubmit)="deleteUser()">
+  <div class="fr-grid-row fr-grid-row--gutters">
+    <div class="fr-col-12 fr-col-md-6">
+      <div
+        class="fr-select-group"
+        [class.fr-select-group--error]="
+          deleteForm.controls['motif'].touched &&
+          deleteForm.controls['motif'].invalid
+        "
+      >
+        <label class="fr-label" for="supervisor-delete-motif">
+          Motif de la suppression
+        </label>
+        <select
+          class="fr-select"
+          id="supervisor-delete-motif"
+          formControlName="motif"
+          required
+          [class.fr-select--error]="
+            deleteForm.controls['motif'].touched &&
+            deleteForm.controls['motif'].invalid
+          "
+        >
+          <option value="">Sélectionnez un motif</option>
+          <option *ngFor="let option of motifOptions" [ngValue]="option.key">
+            {{ option.label }}
+          </option>
+        </select>
+        <p
+          *ngIf="
+            deleteForm.controls['motif'].touched &&
+            deleteForm.controls['motif'].invalid
+          "
+          class="fr-error-text"
+        >
+          Veuillez sélectionner un motif
+        </p>
+      </div>
+    </div>
 
-<div class="fr-input-group">
-  <label class="fr-label" for="supervisor-delete-confirm-input">
-    Recopiez ici le nom et prénom
-  </label>
-  <input
-    class="fr-input"
-    type="text"
-    id="supervisor-delete-confirm-input"
-    name="supervisor-delete-confirm-input"
-    autocomplete="off"
-    [(ngModel)]="deleteConfirmationInput"
-    placeholder="Nom Prénom"
-  />
-</div>
+    <div class="fr-col-12 fr-col-md-6">
+      <div
+        class="fr-input-group"
+        [class.fr-input-group--error]="
+          deleteForm.controls['confirmation'].touched &&
+          deleteForm.controls['confirmation'].invalid
+        "
+      >
+        <label class="fr-label" for="supervisor-delete-confirm-input">
+          Recopiez ici le nom et prénom
+        </label>
+        <input
+          class="fr-input"
+          type="text"
+          id="supervisor-delete-confirm-input"
+          autocomplete="off"
+          formControlName="confirmation"
+          placeholder="Nom Prénom"
+          required
+          [class.fr-input--error]="
+            deleteForm.controls['confirmation'].touched &&
+            deleteForm.controls['confirmation'].invalid
+          "
+        />
+        <p
+          *ngIf="
+            deleteForm.controls['confirmation'].touched &&
+            deleteForm.controls['confirmation'].errors?.['required']
+          "
+          class="fr-error-text"
+        >
+          Veuillez recopier le nom et prénom
+        </p>
+        <p
+          *ngIf="
+            deleteForm.controls['confirmation'].touched &&
+            deleteForm.controls['confirmation'].errors?.['nameMismatch']
+          "
+          class="fr-error-text"
+        >
+          Le nom et prénom saisis ne correspondent pas
+        </p>
+      </div>
+    </div>
+  </div>
 
-<div class="fr-modal__footer">
-  <div
-    class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left"
+  <ul
+    class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left fr-mt-3w"
   >
-    <div>
+    <li>
       <app-button
         type="submit"
         label="Confirmer la suppression"
         loadingText="Veuillez patienter..."
         [loading]="loading"
-        [disabled]="!isDeleteNameConfirmed"
         (action)="deleteUser()"
       ></app-button>
-    </div>
-    <div>
+    </li>
+    <li>
       <button
         class="fr-btn fr-btn--secondary"
         type="button"
-        (click)="deleteComplete.emit()"
+        (click)="cancelAction.emit()"
       >
         Annuler
       </button>
-    </div>
-  </div>
-</div>
+    </li>
+  </ul>
+</form>

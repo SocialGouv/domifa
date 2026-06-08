@@ -5,6 +5,7 @@ export type UsersForAdminList = Pick<
   | "id"
   | "uuid"
   | "email"
+  | "emailStatus"
   | "nom"
   | "prenom"
   | "role"

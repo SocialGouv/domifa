@@ -108,6 +108,7 @@ export class AdminStructuresService {
         "user_structure.id AS id",
         "user_structure.uuid AS uuid",
         "user_structure.email AS email",
+        `user_structure."emailStatus" AS "emailStatus"`,
         "user_structure.nom AS nom",
         "prenom",
         "role",

@@ -19,7 +19,7 @@ export function userTypeFromProfile(profile: UserProfile): AppLogActorType {
   return USER_TYPE_BY_PROFILE[profile];
 }
 
-type ActorFields = Pick<
+export type ActorFields = Pick<
   AppLog,
   | "userId"
   | "userStructureId"

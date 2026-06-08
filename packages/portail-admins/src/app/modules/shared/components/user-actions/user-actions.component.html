@@ -92,11 +92,8 @@
         </button>
       </dsfrx-dropdownmenu-item>
 
-      <!-- Supervisor-only delete -->
-      <dsfrx-dropdownmenu-item
-        *ngIf="isSupervisor"
-        (selectItem)="openDeleteModal()"
-      >
+      <!-- Delete (both structure & supervisor) -->
+      <dsfrx-dropdownmenu-item (selectItem)="openDeleteModal()">
         <button
           type="button"
           class="fr-btn fr-btn--tertiary-no-outline fr-btn--icon-left w-max d-block"
@@ -272,21 +269,20 @@
   </dsfr-modal>
 
   <dsfr-modal
-    *ngIf="isSupervisor"
     class="text-start"
     #deleteUserConfirmationModal
     icon="fr-icon-delete-fill"
-    [dialogId]="'deleteSupervisor-' + user.uuid"
-    titleModal="Vous êtes sur le point de supprimer le compte de {{
-      user.nom
-    }} {{ user.prenom }}"
+    [dialogId]="'deleteUser-' + userKind + '-' + user.uuid"
+    [titleModal]="'Supprimer ' + user.nom + ' ' + user.prenom"
     [concealingBackdrop]="false"
-    (conceal)="deleteUserConfirmationModal?.close()"
-    size="MD"
+    [autoCloseOnAction]="false"
+    (conceal)="closeDeleteModal()"
+    size="LG"
   >
     <app-delete-user
-      [selectedUser]="$any(user)"
+      [target]="deleteTarget"
       (deleteComplete)="onDeleteComplete()"
+      (cancelAction)="closeDeleteModal()"
     ></app-delete-user>
   </dsfr-modal>
 </ng-container>

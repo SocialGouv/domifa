@@ -7,13 +7,22 @@ import { RouterModule } from "@angular/router";
 
 import {
   DEPARTEMENTS_LISTE,
+  getUserStructureEmailStatus,
   PortailAdminUser,
   REGIONS_LISTE,
   SortValues,
+  USER_STRUCTURE_EMAIL_STATUS_LABELS,
   USER_SUPERVISOR_ROLES_LABELS,
+  UserStatus,
+  UserStructureEmailStatus,
   UserSupervisor,
   UserSupervisorRole,
 } from "@domifa/common";
+import { USER_STRUCTURE_EMAIL_STATUS_BADGE_CLASS } from "../../../shared/components/users-table/users-table.types";
+
+type SupervisorListRow = UserSupervisor & {
+  emailStatus: UserStructureEmailStatus;
+};
 import { ManageUsersService } from "../../services/manage-users.service";
 import { AdminAuthService } from "../../../admin-auth/services/admin-auth.service";
 import { subMonths } from "date-fns";
@@ -45,19 +54,50 @@ import { FullNamePipe, SortArrayPipe } from "../../../shared/pipes";
   ],
 })
 export class SupervisorListComponent implements OnInit, OnDestroy {
-  public users: UserSupervisor[];
-  public filteredUsers: UserSupervisor[] = [];
+  public users: SupervisorListRow[];
+  public filteredUsers: SupervisorListRow[] = [];
   public searchTerm = "";
+  public emailStatusFilter: UserStructureEmailStatus | "" = "";
   public me!: PortailAdminUser | null;
+
+  public readonly EMAIL_STATUS_OPTIONS: {
+    value: UserStructureEmailStatus | "";
+    label: string;
+  }[] = [
+    { value: "", label: "Tous les emails" },
+    {
+      value: "PERSONAL",
+      label: USER_STRUCTURE_EMAIL_STATUS_LABELS.PERSONAL,
+    },
+    {
+      value: "GENERIC_SUSPECTED",
+      label: USER_STRUCTURE_EMAIL_STATUS_LABELS.GENERIC_SUSPECTED,
+    },
+    {
+      value: "GENERIC_CONFIRMED",
+      label: USER_STRUCTURE_EMAIL_STATUS_LABELS.GENERIC_CONFIRMED,
+    },
+  ];
+  public readonly USER_STRUCTURE_EMAIL_STATUS_LABELS =
+    USER_STRUCTURE_EMAIL_STATUS_LABELS;
+  public readonly USER_STRUCTURE_EMAIL_STATUS_BADGE_CLASS =
+    USER_STRUCTURE_EMAIL_STATUS_BADGE_CLASS;
 
   public loading: boolean;
   public sortValue: SortValues;
-  public currentKey: keyof UserSupervisor;
+  public currentKey: keyof SupervisorListRow;
   public roleCounts: Record<UserSupervisorRole, number> = {
     "super-admin-domifa": 0,
     national: 0,
     region: 0,
     department: 0,
+  };
+  public statusCounts: Record<UserStatus, number> = {
+    ACTIVE: 0,
+    PENDING: 0,
+    BLOCKED: 0,
+    TEMPORARILY_BLOCKED: 0,
+    DELETE: 0,
   };
   private readonly subscription = new Subscription();
 
@@ -99,8 +139,10 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
         this.users = users.map((user) => ({
           ...user,
           lastLogin: user?.lastLogin ? new Date(user.lastLogin) : null,
+          emailStatus: getUserStructureEmailStatus(user.email),
         }));
         this.computeRoleCounts(this.users);
+        this.computeStatusCounts(this.users);
         this.applyFilter();
       })
     );
@@ -108,11 +150,14 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
 
   public applyFilter(): void {
     const term = this.searchTerm.trim().toLowerCase();
-    if (!term) {
-      this.filteredUsers = [...this.users];
-      return;
-    }
+    const emailStatusFilter = this.emailStatusFilter;
     this.filteredUsers = this.users.filter((user) => {
+      if (emailStatusFilter && user.emailStatus !== emailStatusFilter) {
+        return false;
+      }
+      if (!term) {
+        return true;
+      }
       const haystack = [
         String(user.id),
         user.uuid,
@@ -127,7 +172,7 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
     });
   }
 
-  private computeRoleCounts(users: UserSupervisor[]): void {
+  private computeRoleCounts(users: SupervisorListRow[]): void {
     const counts: Record<UserSupervisorRole, number> = {
       "super-admin-domifa": 0,
       national: 0,
@@ -140,6 +185,22 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
       }
     }
     this.roleCounts = counts;
+  }
+
+  private computeStatusCounts(users: SupervisorListRow[]): void {
+    const counts: Record<UserStatus, number> = {
+      ACTIVE: 0,
+      PENDING: 0,
+      BLOCKED: 0,
+      TEMPORARILY_BLOCKED: 0,
+      DELETE: 0,
+    };
+    for (const user of users) {
+      if (counts[user.status] !== undefined) {
+        counts[user.status]++;
+      }
+    }
+    this.statusCounts = counts;
   }
 
   public openUpdateUserModal(user: UserSupervisor): void {
@@ -167,7 +228,7 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
     this.manageUsersService.loadUsers();
   }
 
-  public userIdTrackBy(_index: number, user: UserSupervisor) {
+  public userIdTrackBy(_index: number, user: SupervisorListRow) {
     return user.uuid;
   }
 

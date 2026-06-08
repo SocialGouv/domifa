@@ -171,6 +171,17 @@ label {
 }
 
 // ============================================================
+// 5c. Alerts — DSFR doesn't set overflow-wrap on fr-alert, so
+// long unbreakable content (emails, motifs, names) overflows
+// horizontally instead of wrapping. Same fix as for tables.
+// ============================================================
+.fr-alert,
+.fr-alert p {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+// ============================================================
 // 6. Components (modal, links, dropdown menus)
 // ============================================================
 

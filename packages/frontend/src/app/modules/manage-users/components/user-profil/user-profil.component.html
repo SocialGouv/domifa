@@ -870,8 +870,27 @@
 >
   <p>
     Attention, cette action est irréversible. Une fois supprimé, l'utilisateur
-    ne pourra plus se connecter et accéder à DomiFa.
+    ne pourra plus se connecter et accéder à DomiFa. Un code de confirmation par
+    email vous sera demandé.
   </p>
+
+  <div class="fr-select-group">
+    <label class="fr-label" for="delete-user-motif">
+      Motif de la suppression
+      <span class="fr-hint-text">Obligatoire</span>
+    </label>
+    <select
+      class="fr-select"
+      id="delete-user-motif"
+      name="delete-user-motif"
+      [(ngModel)]="deleteMotif"
+    >
+      <option value="" disabled>Sélectionnez un motif</option>
+      @for (option of deleteMotifOptions; track option.key) {
+      <option [ngValue]="option.key">{{ option.label }}</option>
+      }
+    </select>
+  </div>
 
   <app-assign-referrers
     [(newReferrerId)]="newReferrerId"
@@ -886,7 +905,7 @@
         type="button"
         class="fr-btn"
         (click)="deleteUser()"
-        [disabled]="loading"
+        [disabled]="loading || !deleteMotif"
         [attr.aria-busy]="loading"
       >
         @if (!loading) { Confirmer la suppression } @else { Veuillez

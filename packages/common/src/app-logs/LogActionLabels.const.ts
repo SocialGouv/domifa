@@ -45,12 +45,16 @@ export const LOG_ACTION_LABELS: Record<LogAction, string> = {
   USER_CREATE: "Création d'un utilisateur",
   USER_DELETE: "Suppression d'un utilisateur",
   ADMIN_CREATE_USER_STRUCTURE: "Création d'un utilisateur de structure",
+  ADMIN_SOFT_DELETE_USER_STRUCTURE:
+    "Suppression (archivage) d'un utilisateur de structure",
   ADMIN_CREATE_USER_SUPERVISOR:
     "Création d'un utilisateur du portail de pilotage",
   ADMIN_PATCH_USER_SUPERVISOR:
     "Modification d'un utilisateur du portail de pilotage",
   ADMIN_DELETE_USER_SUPERVISOR:
     "Suppression d'un utilisateur du portail de pilotage",
+  ADMIN_SOFT_DELETE_USER_SUPERVISOR:
+    "Suppression (archivage) d'un utilisateur du portail de pilotage",
   ADMIN_ELEVATE_ROLE_USER_SUPERVISOR: "Promotion en administrateur",
   ADMIN_USER_ROLE_CHANGE: "Changement de rôle d'un utilisateur",
   ADMIN_USER_CREATE: "Création d'un utilisateur",

@@ -25,7 +25,7 @@ describe("DeleteUserComponent", () => {
 
     fixture = TestBed.createComponent(DeleteUserComponent);
     component = fixture.componentInstance;
-    component.selectedUser = USER_SUPERVISOR_MOCK;
+    component.target = { kind: "supervisor", user: USER_SUPERVISOR_MOCK };
     fixture.detectChanges();
   });
 

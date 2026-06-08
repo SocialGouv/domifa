@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Body,
+  Delete,
   HttpStatus,
   NotFoundException,
   Query,
@@ -27,6 +28,7 @@ import {
 import { AppUserGuard, StructureAccessGuard } from "../../../../auth/guards";
 import {
   structureRepository,
+  userStructureRepository,
   userStructureSecurityRepository,
 } from "../../../../database";
 import { statsDeploiementExporter } from "../../../../excel/export-stats-deploiement";
@@ -57,9 +59,11 @@ import { userSecurityEventHistoryManager } from "../../../users/services";
 import { CurrentSupervisor } from "../../../../auth/decorators/current-supervisor.decorator";
 import { StructureDecisionEmailService } from "../../services/structure-decision-email/structure-decision-email.service";
 import { StructureDecisionService } from "../../services/structure-decision/structure-decision.service";
+import { UserStructureDecisionService } from "../../../users/services/user-structure-decision/user-structure-decision.service";
 import { OtpGuard } from "../../../otp/guards/otp.guard";
 import { RequireOtp } from "../../../otp/decorators/require-otp.decorator";
 import { BlockUserByAdminLogContext } from "../../../app-logs/types/app-log-context.types";
+import { DeleteUserDto } from "../../../users/dto";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
@@ -73,7 +77,8 @@ export class AdminStructuresController {
     private readonly appLogsService: AppLogsService,
     private readonly appLogSecurityService: AppLogSecurityService,
     private readonly structureDecisionService: StructureDecisionService,
-    private readonly structureDecisionEmailService: StructureDecisionEmailService
+    private readonly structureDecisionEmailService: StructureDecisionEmailService,
+    private readonly userStructureDecisionService: UserStructureDecisionService
   ) {}
 
   @Get("export")
@@ -406,6 +411,36 @@ export class AdminStructuresController {
     }
 
     return res.status(HttpStatus.OK).json({ status: "BLOCKED" });
+  }
+
+  @Delete("structure/:structureUuid/users/:uuid")
+  @UseGuards(StructureAccessGuard, OtpGuard)
+  @RequireOtp("DELETE_USER_BY_ADMIN")
+  public async softDeleteStructureUser(
+    @CurrentSupervisor() user: UserAdminAuthenticated,
+    @CurrentStructure() structure: Structure,
+    @Param("uuid", new ParseUUIDPipe()) uuid: string,
+    @Body() body: DeleteUserDto,
+    @Res() res: ExpressResponse
+  ): Promise<ExpressResponse> {
+    const target = await userStructureRepository.findOne({
+      where: { uuid, structureId: structure.id },
+      select: { id: true, email: true, role: true },
+    });
+    if (!target) {
+      throw new NotFoundException("USER_NOT_FOUND");
+    }
+
+    await this.userStructureDecisionService.softDelete({
+      targetUserId: target.id,
+      targetUserEmail: target.email,
+      targetUserRole: target.role,
+      structureId: structure.id,
+      motif: body.motif,
+      actor: { kind: "supervisor", user },
+    });
+
+    return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 
   private async handleStatutSpecificActions(

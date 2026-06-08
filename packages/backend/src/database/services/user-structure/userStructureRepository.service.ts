@@ -1,4 +1,4 @@
-import { FindOptionsSelect, In } from "typeorm";
+import { FindOptionsSelect, In, Not } from "typeorm";
 import { UserStructureTable } from "../../entities";
 import { myDataSource } from "../_postgres";
 import { UserStructureRole, UserStructureProfile } from "@domifa/common";
@@ -45,6 +45,7 @@ export const userStructureRepository = myDataSource
       return userStructureRepository.find({
         where: {
           structureId,
+          status: Not("DELETE"),
         },
         select: {
           ...PUBLIC_FIELDS_FOR_USER_STRUCTURE,

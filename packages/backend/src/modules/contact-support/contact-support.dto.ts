@@ -106,6 +106,26 @@ export class ContactSupportDto {
   })
   public subject!: string;
 
+  @Transform(({ value }: TransformFnParams) => {
+    // Multipart/form-data delivers JSON-encoded objects as strings — parse
+    // safely so downstream code receives a real Telephone object.
+    if (typeof value === "string") {
+      try {
+        value = JSON.parse(value);
+      } catch {
+        return value;
+      }
+    }
+    if (!value || typeof value !== "object" || Array.isArray(value)) {
+      return value;
+    }
+    // Explicit allowlist: blocks prototype pollution and strips junk keys.
+    return {
+      numero: typeof value.numero === "string" ? value.numero : undefined,
+      countryCode:
+        typeof value.countryCode === "string" ? value.countryCode : undefined,
+    };
+  })
   @IsValidPhone("phone", true, false)
   public phone!: Telephone;
 

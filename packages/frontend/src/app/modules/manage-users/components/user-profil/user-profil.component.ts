@@ -14,6 +14,9 @@ import {
   UserStructureRole,
   USER_STRUCTURE_ROLES_LABELS,
   USER_FONCTION_LABELS,
+  UserDeleteMotif,
+  USER_DELETE_MOTIF_LABELS,
+  USER_DELETE_MOTIF_VALUES,
 } from "@domifa/common";
 import { ManageUsersService } from "../../services/manage-users.service";
 import { concatMap } from "rxjs";
@@ -36,9 +39,14 @@ export class UserProfilComponent implements OnInit, OnDestroy {
   public selectedUser: UserStructureProfile | null;
   public newReferrerId: number | null = null;
   public selectedRole: UserStructureRole | null = null;
+  public deleteMotif: UserDeleteMotif | "" = "";
 
   public readonly USER_STRUCTURE_ROLES_LABELS = USER_STRUCTURE_ROLES_LABELS;
   public readonly USER_FONCTION_LABELS = USER_FONCTION_LABELS;
+  public readonly deleteMotifOptions = USER_DELETE_MOTIF_VALUES.map((key) => ({
+    key,
+    label: USER_DELETE_MOTIF_LABELS[key],
+  }));
 
   @ViewChild("deleteUserConfirmationModal")
   public deleteUserConfirmationModal!: DsfrModalComponent;
@@ -80,35 +88,44 @@ export class UserProfilComponent implements OnInit, OnDestroy {
 
   public openDeleteConfirmation(user: UserStructure): void {
     this.selectedUser = user;
+    this.deleteMotif = "";
+    this.newReferrerId = null;
     this.deleteUserConfirmationModal.open();
   }
 
   public deleteUser(): void {
-    if (this.selectedUser?.uuid) {
-      this.loading = true;
-      this.subscription.add(
-        this.manageUsersService
-          .reassignReferrers(this.selectedUser, this.newReferrerId)
-          .pipe(
-            concatMap(() =>
-              this.manageUsersService.deleteUser(this.selectedUser!.uuid)
-            )
-          )
-          .subscribe({
-            next: () => {
-              this.toastService.success("Utilisateur supprimé avec succès");
-              this.getUsers();
-            },
-            error: () => {
-              this.loading = false;
-              this.toastService.error("Impossible de supprimer l'utilisateur");
-            },
-            complete: () => {
-              this.loading = false;
-            },
-          })
-      );
+    if (!this.selectedUser?.uuid || !this.deleteMotif) {
+      return;
     }
+    const motif = this.deleteMotif;
+    this.loading = true;
+    this.subscription.add(
+      this.manageUsersService
+        .reassignReferrers(this.selectedUser, this.newReferrerId)
+        .pipe(
+          concatMap(() =>
+            this.manageUsersService.deleteUser(this.selectedUser!.uuid, motif)
+          )
+        )
+        .subscribe({
+          next: () => {
+            this.toastService.success("Utilisateur supprimé avec succès");
+            this.getUsers();
+          },
+          error: (error) => {
+            this.loading = false;
+            // The OTP interceptor opens the OTP modal and re-tries the call
+            // when it sees an OTP_* error code; swallow the toast in that case.
+            if (error?.error?.code?.startsWith?.("OTP_")) {
+              return;
+            }
+            this.toastService.error("Impossible de supprimer l'utilisateur");
+          },
+          complete: () => {
+            this.loading = false;
+          },
+        })
+    );
   }
 
   public openUpdateUserModal(user: UserStructureProfile): void {

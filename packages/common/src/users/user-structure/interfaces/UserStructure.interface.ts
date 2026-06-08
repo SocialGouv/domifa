@@ -4,6 +4,7 @@ import {
   type UserStructureEmailStatus,
   type UserStructureRole,
 } from "../types";
+import { type UserStructureDecision } from "./UserStructureDecision.interface";
 import { type UserStructureMails } from "./UserStructureMails.interface";
 
 export type UserStructure = CommonUser & {
@@ -19,6 +20,8 @@ export type UserStructure = CommonUser & {
   mails: UserStructureMails;
   structure?: StructureCommon;
   acceptTerms: Date | null;
+
+  decision?: UserStructureDecision | null;
 
   // frontend only
   domifaVersion?: string;

@@ -25,6 +25,23 @@
         <dd class="fr-col-12 fr-col-md-8 fr-m-0">{{ user.email }}</dd>
       </div>
       <div class="fr-grid-row fr-py-1w">
+        <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Type d'email</dt>
+        <dd class="fr-col-12 fr-col-md-8 fr-m-0">
+          <span
+            *ngIf="user.emailStatus; else noEmailStatus"
+            class="fr-badge fr-badge--sm fr-badge--no-icon"
+            [ngClass]="
+              USER_STRUCTURE_EMAIL_STATUS_BADGE_CLASS[user.emailStatus]
+            "
+          >
+            {{ USER_STRUCTURE_EMAIL_STATUS_LABELS[user.emailStatus] }}
+          </span>
+          <ng-template #noEmailStatus>
+            <span class="fr-text-mention--grey">Non renseigné</span>
+          </ng-template>
+        </dd>
+      </div>
+      <div class="fr-grid-row fr-py-1w">
         <dt class="fr-col-12 fr-col-md-4 fr-text--bold">Rôle</dt>
         <dd class="fr-col-12 fr-col-md-8 fr-m-0">
           {{
