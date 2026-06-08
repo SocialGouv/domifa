@@ -67,9 +67,7 @@ export class ContactSupportController {
     @Res() res: ExpressResponse
   ) {
     const phone = contactSupportDto?.phone
-      ? getPhoneString(
-          JSON.parse(contactSupportDto?.phone as unknown as string)
-        )
+      ? getPhoneString(contactSupportDto.phone) || null
       : null;
 
     const dataToSave = new ContactSupportTable({ ...contactSupportDto, phone });
@@ -89,9 +87,7 @@ export class ContactSupportController {
       structure: contactSupportDto?.structureId
         ? `Oui: ${contactSupportDto.structureId}`
         : "Non",
-      phone: contactSupportDto?.phone
-        ? getPhoneString(contactSupportDto?.phone)
-        : "Non renseigné",
+      phone: phone || "Non renseigné",
       content: contactSupportDto.content,
       email: contactSupportDto.email,
       name: contactSupportDto.name,

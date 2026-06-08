@@ -1,0 +1,47 @@
+// "Action" cell — icon + colored label, replaces the cramped DSFR badge.
+// Stays compact in the column header but reads at a glance thanks to the
+// severity tone (error / warning / success / info / neutral).
+.action-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.25;
+
+  i {
+    flex-shrink: 0;
+    font-size: 1rem;
+    &::before {
+      --icon-size: 1rem;
+    }
+  }
+}
+
+.action-row--error {
+  color: var(--text-default-error);
+}
+.action-row--warning {
+  color: var(--text-default-warning);
+}
+.action-row--success {
+  color: var(--text-default-success);
+}
+.action-row--info {
+  color: var(--text-default-info);
+}
+.action-row--neutral {
+  color: var(--text-mention-grey);
+}
+
+// JSON inspector — kept inside the modal so long payloads stay readable
+// (wrap on the right edge, but keep newlines/indent as authored).
+.json-modal__pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  background-color: var(--background-alt-grey);
+  padding: 1rem;
+  border-radius: 0.25rem;
+  max-height: 70vh;
+  overflow: auto;
+}

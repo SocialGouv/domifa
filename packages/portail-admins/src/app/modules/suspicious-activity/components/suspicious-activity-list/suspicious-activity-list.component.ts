@@ -1,8 +1,12 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
-import { DsfrPaginationComponent } from "@edugouvfr/ngx-dsfr";
+import {
+  DsfrModalComponent,
+  DsfrModalModule,
+  DsfrPaginationComponent,
+} from "@edugouvfr/ngx-dsfr";
 import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 import { Subscription } from "rxjs";
 
@@ -20,7 +24,9 @@ import {
   PAGE_SIZE_OPTIONS,
 } from "../../../../shared/constants";
 import {
-  ACTION_BADGE_CLASS,
+  ACTION_ICON,
+  ACTION_TONE,
+  ActionTone,
   resolveUserKindLabel,
   SUSPICIOUS_ACTION_LABELS,
 } from "../../constants/SUSPICIOUS_ACTIONS.const";
@@ -36,12 +42,14 @@ import { SuspiciousActivityFiltersComponent } from "../suspicious-activity-filte
   selector: "app-suspicious-activity-list",
   standalone: true,
   templateUrl: "./suspicious-activity-list.component.html",
+  styleUrl: "./suspicious-activity-list.component.scss",
   imports: [
     CommonModule,
     FormsModule,
     RouterLink,
     DisplayIpComponent,
     DisplayUserAgentComponent,
+    DsfrModalModule,
     DsfrPaginationComponent,
     DsfrSpinnerComponent,
     SuspiciousActivityFiltersComponent,
@@ -62,6 +70,13 @@ export class SuspiciousActivityListComponent implements OnInit, OnDestroy {
   public pageSize: number = DEFAULT_PAGE_SIZE;
   public readonly pageSizeOptions = PAGE_SIZE_OPTIONS;
   public readonly userKindLabel = resolveUserKindLabel;
+
+  // Inspector modal: a single shared modal across all rows. Holds both the
+  // human summary and the raw JSON payload of the row that was clicked last.
+  @ViewChild("jsonModal") public jsonModal?: DsfrModalComponent;
+  public selectedJson = "";
+  public selectedJsonAction = "";
+  public selectedHumanSummary = "";
 
   private currentFilters: SuspiciousActivityFilters = {};
   private readonly subscription = new Subscription();
@@ -123,8 +138,12 @@ export class SuspiciousActivityListComponent implements OnInit, OnDestroy {
     return SUSPICIOUS_ACTION_LABELS[action] ?? action;
   }
 
-  public actionBadgeClass(action: SecurityLogAction): string {
-    return ACTION_BADGE_CLASS[action] ?? "fr-badge--info";
+  public actionTone(action: SecurityLogAction): ActionTone {
+    return ACTION_TONE[action] ?? "info";
+  }
+
+  public actionIcon(action: SecurityLogAction): string {
+    return ACTION_ICON[action] ?? "fr-icon-information-fill";
   }
 
   public contextHuman(action: string, context: unknown): string {
@@ -133,6 +152,13 @@ export class SuspiciousActivityListComponent implements OnInit, OnDestroy {
 
   public contextJson(context: unknown): string {
     return getLogContextJson(context);
+  }
+
+  public openJsonModal(log: SuspiciousActivityLog): void {
+    this.selectedJson = this.contextJson(log.context);
+    this.selectedJsonAction = this.actionLabel(log.action);
+    this.selectedHumanSummary = this.contextHuman(log.action, log.context);
+    this.jsonModal?.open();
   }
 
   public userDetailLink(

@@ -16,6 +16,7 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { Request as ExpressRequest } from "express";
+import { Not } from "typeorm";
 import { buildSecurityLogRequestContext } from "../../../../util/express";
 import { OtpGuard } from "../../../otp/guards/otp.guard";
 import { RequireOtp } from "../../../otp/decorators/require-otp.decorator";
@@ -51,6 +52,9 @@ import {
   RegisterUserSupervisorDto,
   UnblockUserDto,
 } from "../../dto";
+import { DeleteUserDto } from "../../../users/dto";
+import { UserStructureDecisionService } from "../../../users/services/user-structure-decision/user-structure-decision.service";
+import { UserSupervisorDecisionService } from "../../services/user-supervisor-decision/user-supervisor-decision.service";
 import { PageOptionsDto } from "../../../../usagers/dto/pagination/page-options.dto";
 import { AdminStructuresService } from "../../services";
 import { AdminSuperivorUsersService } from "../../services/admin-superivor-users/admin-superivor-users.service";
@@ -76,7 +80,9 @@ export class AdminUsersController {
     private readonly appLogSecurityService: AppLogSecurityService,
     private readonly adminSuperivorUsersService: AdminSuperivorUsersService,
     private readonly adminStructuresService: AdminStructuresService,
-    private readonly brevoSenderService: BrevoSenderService
+    private readonly brevoSenderService: BrevoSenderService,
+    private readonly userStructureDecisionService: UserStructureDecisionService,
+    private readonly userSupervisorDecisionService: UserSupervisorDecisionService
   ) {}
 
   @Post("register-user-structure")
@@ -87,7 +93,8 @@ export class AdminUsersController {
   ): Promise<ExpressResponse> {
     const userController = new UsersController(
       this.appLogsService,
-      this.brevoSenderService
+      this.brevoSenderService,
+      this.userStructureDecisionService
     );
     await this.appLogsService.create({
       ...buildSupervisorActorFields(user),
@@ -662,6 +669,7 @@ export class AdminUsersController {
   @Get("")
   public async getUsersSupervisors(): Promise<UserSupervisor[]> {
     return userSupervisorRepository.find({
+      where: { status: Not("DELETE") },
       select: {
         nom: true,
         prenom: true,
@@ -720,31 +728,24 @@ export class AdminUsersController {
   public async deleteUserSupervisor(
     @CurrentSupervisor() user: UserAdminAuthenticated,
     @Res() res: ExpressResponse,
-    @Param("uuid", new ParseUUIDPipe()) uuid: string
+    @Param("uuid", new ParseUUIDPipe()) uuid: string,
+    @Body() body: DeleteUserDto
   ): Promise<ExpressResponse> {
-    await this.appLogsService.create({
-      ...buildSupervisorActorFields(user),
-      action: "ADMIN_DELETE_USER_SUPERVISOR",
-    });
+    const userExist = await userSupervisorRepository.findOneBy({ uuid });
 
-    const userExist = await userSupervisorRepository.findOneBy({
-      uuid,
-    });
-
-    if (!userExist || userExist?.uuid === user.uuid) {
+    if (!userExist || userExist.uuid === user.uuid) {
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "CANNOT_PATCH_USER_SUPERVISOR" });
     }
-    await userSupervisorRepository.delete({ uuid });
-    await this.appLogsService.create<UserSupervisorCrudLogContext>({
-      ...buildSupervisorActorFields(user),
-      action: "ADMIN_USER_DELETE",
-      context: {
-        userId: userExist.id,
-        role: userExist.role,
-      },
+
+    await this.userSupervisorDecisionService.softDelete({
+      targetUserId: userExist.id,
+      targetUserRole: userExist.role,
+      motif: body.motif,
+      admin: user,
     });
+
     return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 }

@@ -13,7 +13,7 @@
       >
         <h1 class="fr-text-title--blue-france fr-mb-0">
           {{ title }}
-          <span *ngIf="itemCount > 0">({{ itemCount }} résultats)</span>
+          <span *ngIf="itemCount > 0">&nbsp;({{ itemCount }} résultats)</span>
         </h1>
       </div>
     </div>
@@ -42,7 +42,10 @@
     <p>Aucun événement suspect ne correspond aux filtres.</p>
   </div>
 
-  <div *ngIf="logs.length > 0" class="fr-table fr-table--no-outer-border">
+  <div
+    *ngIf="logs.length > 0"
+    class="fr-table fr-table--no-outer-border fr-table--multiline"
+  >
     <div class="fr-table__wrapper">
       <div class="fr-table__container">
         <div class="fr-table__content">
@@ -69,12 +72,13 @@
               <tr *ngFor="let log of logs">
                 <td>{{ log.createdAt | date : "dd/MM/yyyy HH:mm:ss" }}</td>
                 <td>
-                  <p
-                    class="fr-badge fr-badge--sm"
-                    [ngClass]="actionBadgeClass(log.action)"
+                  <span
+                    class="action-row"
+                    [ngClass]="'action-row--' + actionTone(log.action)"
                   >
+                    <i [class]="actionIcon(log.action)" aria-hidden="true"></i>
                     {{ actionLabel(log.action) }}
-                  </p>
+                  </span>
                 </td>
                 <td>
                   {{
@@ -139,33 +143,25 @@
                 <td>
                   <app-display-ip [ip]="log.ip"></app-display-ip>
                 </td>
-                <td style="max-width: 240px; word-break: break-word">
+                <td>
                   <app-display-user-agent
                     *ngIf="log.userAgent; else uaEmpty"
                     [userAgent]="log.userAgent"
                   ></app-display-user-agent>
                   <ng-template #uaEmpty>—</ng-template>
                 </td>
-                <td style="max-width: 200px; word-break: break-word">
+                <td>
                   {{ contextString(log.context, "attemptedIdentifier") }}
                 </td>
-                <td style="max-width: 360px; word-break: break-word">
-                  <p
-                    *ngIf="contextHuman(log.action, log.context) as human"
-                    class="fr-m-0 fr-mb-1w"
+                <td>
+                  <button
+                    type="button"
+                    class="fr-btn fr-btn--sm fr-btn--tertiary-no-outline fr-btn--icon-left fr-icon-search-line"
+                    (click)="openJsonModal(log)"
+                    aria-label="Voir les détails de l'événement"
                   >
-                    {{ human }}
-                  </p>
-                  <details>
-                    <summary class="fr-text--xs fr-text--mention-grey">
-                      JSON brut
-                    </summary>
-                    <pre
-                      class="fr-m-0 fr-mt-1w fr-text--xs"
-                      style="white-space: pre-wrap; word-break: break-word"
-                      >{{ contextJson(log.context) }}</pre
-                    >
-                  </details>
+                    Inspecter
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -203,4 +199,29 @@
       ariaLabel="Pagination des événements de sécurité"
     ></dsfr-pagination>
   </div>
+
+  <dsfr-modal
+    #jsonModal
+    class="text-start"
+    icon="fr-icon-search-line"
+    dialogId="suspicious-activity-inspector"
+    [titleModal]="'Détails — ' + selectedJsonAction"
+    [concealingBackdrop]="false"
+    size="LG"
+  >
+    <p
+      *ngIf="selectedHumanSummary; else noSummary"
+      class="fr-text--md fr-mb-2w"
+    >
+      {{ selectedHumanSummary }}
+    </p>
+    <ng-template #noSummary>
+      <p class="fr-text--md fr-text--mention-grey fr-mb-2w">
+        Aucun résumé disponible pour cette action.
+      </p>
+    </ng-template>
+
+    <h6 class="fr-h6 fr-mb-1w">Contexte JSON brut</h6>
+    <pre class="fr-m-0 fr-text--sm json-modal__pre">{{ selectedJson }}</pre>
+  </dsfr-modal>
 </ng-template>

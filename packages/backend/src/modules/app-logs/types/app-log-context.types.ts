@@ -1,4 +1,5 @@
 import {
+  UserDeleteMotif,
   UserStatus,
   UserStructureRole,
   UserSupervisorRole,
@@ -54,4 +55,11 @@ export type BlockUserByAdminLogContext = {
   // BLOCK_USER_BY_ADMIN — snapshot taken before mutation
   previousStatus: UserStatus;
   previousRole: UserStructureRole | UserSupervisorRole;
+};
+
+export type UserSoftDeleteLogContext = {
+  // ADMIN_SOFT_DELETE_USER_STRUCTURE | ADMIN_SOFT_DELETE_USER_SUPERVISOR
+  userId: number;
+  role: UserStructureRole | UserSupervisorRole;
+  motif: UserDeleteMotif;
 };

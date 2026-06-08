@@ -24,7 +24,10 @@ import {
 } from "@domifa/common";
 
 import { environment } from "../../../../../environments/environment";
-import { DeleteUserComponent } from "../../../manage-users/components/delete-user/delete-user.component";
+import {
+  DeleteUserComponent,
+  DeleteUserTarget,
+} from "../../../manage-users/components/delete-user/delete-user.component";
 import { ManageUsersService } from "../../../manage-users/services/manage-users.service";
 import { AdminUsersApiClient, CustomToastService } from "../../services";
 import { UsersActions } from "../../store/users";
@@ -294,10 +297,23 @@ export class UserActionsComponent implements OnDestroy {
     );
   }
 
-  // ---- Delete (supervisor) ----------------------------------------------
+  // ---- Delete (both structure & supervisor) -----------------------------
+
+  public get deleteTarget(): DeleteUserTarget | null {
+    if (!this.user) {
+      return null;
+    }
+    return this.isStructure
+      ? { kind: "structure", user: this.user as UsersForAdminList }
+      : { kind: "supervisor", user: this.user as UserSupervisor };
+  }
 
   public openDeleteModal(): void {
     this.deleteUserConfirmationModal?.open();
+  }
+
+  public closeDeleteModal(): void {
+    this.deleteUserConfirmationModal?.close();
   }
 
   public onDeleteComplete(): void {

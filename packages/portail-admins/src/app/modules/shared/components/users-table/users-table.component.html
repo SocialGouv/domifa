@@ -1,6 +1,6 @@
 <div *ngIf="showSearch" class="fr-mb-2w">
   <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--bottom">
-    <div class="fr-col-12 fr-col-md-8">
+    <div class="fr-col-12 fr-col-md-6">
       <label class="fr-label" [attr.for]="tableId + '-search'">
         Rechercher
       </label>
@@ -24,7 +24,7 @@
         </button>
       </div>
     </div>
-    <div class="fr-col-12 fr-col-md-4">
+    <div class="fr-col-12 fr-col-md-3">
       <div class="fr-select-group fr-mb-0w">
         <label class="fr-label" [attr.for]="tableId + '-status-filter'">
           Filtrer par statut
@@ -38,6 +38,27 @@
         >
           <option
             *ngFor="let option of STATUS_OPTIONS"
+            [ngValue]="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="fr-col-12 fr-col-md-3">
+      <div class="fr-select-group fr-mb-0w">
+        <label class="fr-label" [attr.for]="tableId + '-email-status-filter'">
+          Statut de l'email
+        </label>
+        <select
+          class="fr-select"
+          [attr.id]="tableId + '-email-status-filter'"
+          name="email-status-filter"
+          [(ngModel)]="emailStatusFilter"
+          (ngModelChange)="onEmailStatusFilterChange()"
+        >
+          <option
+            *ngFor="let option of EMAIL_STATUS_OPTIONS"
             [ngValue]="option.value"
           >
             {{ option.label }}
@@ -93,6 +114,16 @@
                   [(currentKey)]="currentKey"
                   (sortArray)="onSortChange()"
                   columnName="Email"
+                >
+                </app-table-head-sort>
+              </th>
+              <th scope="col">
+                <app-table-head-sort
+                  sortKey="emailStatus"
+                  [(sortValue)]="sortValue"
+                  [(currentKey)]="currentKey"
+                  (sortArray)="onSortChange()"
+                  columnName="Type d'email"
                 >
                 </app-table-head-sort>
               </th>
@@ -181,6 +212,20 @@
                 </a>
               </td>
               <td>{{ user.email }}</td>
+              <td>
+                <span
+                  *ngIf="user.emailStatus; else noEmailStatus"
+                  class="fr-badge fr-badge--sm fr-badge--no-icon"
+                  [ngClass]="
+                    USER_STRUCTURE_EMAIL_STATUS_BADGE_CLASS[user.emailStatus]
+                  "
+                >
+                  {{ USER_STRUCTURE_EMAIL_STATUS_LABELS[user.emailStatus] }}
+                </span>
+                <ng-template #noEmailStatus>
+                  <span class="fr-text-mention--grey">—</span>
+                </ng-template>
+              </td>
               <td *ngIf="showStructure">
                 <a
                   *ngIf="user.structureUuid"

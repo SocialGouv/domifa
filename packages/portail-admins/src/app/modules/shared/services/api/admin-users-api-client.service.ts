@@ -8,6 +8,7 @@ import {
   BrevoEmailEvent,
   BrevoEmailEventType,
   PageResults,
+  UserDeleteMotif,
   UsersForAdminList,
 } from "@domifa/common";
 
@@ -79,6 +80,17 @@ export class AdminUsersApiClient {
     return this.http.patch<{ status: string }>(
       `${this.structuresUrl}/structure/${structureUuid}/users/${userUuid}/unblock`,
       { motif }
+    );
+  }
+
+  public deleteStructureUser(
+    structureUuid: string,
+    userUuid: string,
+    motif: UserDeleteMotif
+  ): Observable<ApiMessage> {
+    return this.http.delete<ApiMessage>(
+      `${this.structuresUrl}/structure/${structureUuid}/users/${userUuid}`,
+      { body: { motif } }
     );
   }
 

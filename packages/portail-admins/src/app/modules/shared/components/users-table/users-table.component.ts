@@ -18,6 +18,8 @@ import {
   SortValues,
   USER_STRUCTURE_ROLES_LABELS,
   UserStatus,
+  USER_STRUCTURE_EMAIL_STATUS_LABELS,
+  UserStructureEmailStatus,
 } from "@domifa/common";
 
 import { DsfrPaginationComponent } from "@edugouvfr/ngx-dsfr";
@@ -33,6 +35,7 @@ import { FullNamePipe } from "../../pipes";
 import {
   USER_STATUS_BADGE_CLASS,
   USER_STATUS_LABELS,
+  USER_STRUCTURE_EMAIL_STATUS_BADGE_CLASS,
   UsersTableRow,
 } from "./users-table.types";
 
@@ -41,6 +44,7 @@ const STORAGE_KEY_PREFIX = "users-table:state:";
 type StoredTableState = {
   q?: string;
   status?: UserStatus | "";
+  emailStatus?: UserStructureEmailStatus | "";
   sortKey?: string;
   sortValue?: SortValues;
   page?: number;
@@ -85,6 +89,7 @@ export class UsersTableComponent implements OnChanges, OnInit {
   public currentKey: keyof UsersTableRow = "nom";
   public searchTerm = "";
   public statusFilter: UserStatus | "" = "";
+  public emailStatusFilter: UserStructureEmailStatus | "" = "";
   public currentPage = 1;
 
   public filteredUsers: UsersTableRow[] = [];
@@ -103,9 +108,32 @@ export class UsersTableComponent implements OnChanges, OnInit {
       },
     ];
 
+  public readonly EMAIL_STATUS_OPTIONS: {
+    value: UserStructureEmailStatus | "";
+    label: string;
+  }[] = [
+    { value: "", label: "Tous les emails" },
+    {
+      value: "PERSONAL",
+      label: USER_STRUCTURE_EMAIL_STATUS_LABELS.PERSONAL,
+    },
+    {
+      value: "GENERIC_SUSPECTED",
+      label: USER_STRUCTURE_EMAIL_STATUS_LABELS.GENERIC_SUSPECTED,
+    },
+    {
+      value: "GENERIC_CONFIRMED",
+      label: USER_STRUCTURE_EMAIL_STATUS_LABELS.GENERIC_CONFIRMED,
+    },
+  ];
+
   public readonly USER_STRUCTURE_ROLES_LABELS = USER_STRUCTURE_ROLES_LABELS;
   public readonly USER_STATUS_LABELS = USER_STATUS_LABELS;
   public readonly USER_STATUS_BADGE_CLASS = USER_STATUS_BADGE_CLASS;
+  public readonly USER_STRUCTURE_EMAIL_STATUS_LABELS =
+    USER_STRUCTURE_EMAIL_STATUS_LABELS;
+  public readonly USER_STRUCTURE_EMAIL_STATUS_BADGE_CLASS =
+    USER_STRUCTURE_EMAIL_STATUS_BADGE_CLASS;
 
   public ngOnInit(): void {
     if (!this.persistState) {
@@ -131,6 +159,11 @@ export class UsersTableComponent implements OnChanges, OnInit {
   }
 
   public onStatusFilterChange(): void {
+    this.refreshFilteredUsers({ resetPage: true });
+    this.persist();
+  }
+
+  public onEmailStatusFilterChange(): void {
     this.refreshFilteredUsers({ resetPage: true });
     this.persist();
   }
@@ -161,11 +194,11 @@ export class UsersTableComponent implements OnChanges, OnInit {
   }
 
   public get hasActiveFilters(): boolean {
-    return !!this.searchTerm || !!this.statusFilter;
+    return !!this.searchTerm || !!this.statusFilter || !!this.emailStatusFilter;
   }
 
   public get columnsCount(): number {
-    let count = 8;
+    let count = 9;
     if (this.showStructure) count++;
     if (this.actionsTemplate) count++;
     return count;
@@ -177,9 +210,13 @@ export class UsersTableComponent implements OnChanges, OnInit {
     // way for the user to clear it. Ignore those filters in that case.
     const term = this.showSearch ? this.searchTerm.trim().toLowerCase() : "";
     const statusFilter = this.showSearch ? this.statusFilter : "";
+    const emailStatusFilter = this.showSearch ? this.emailStatusFilter : "";
 
     const filtered = this.users.filter((user) => {
       if (statusFilter && user.status !== statusFilter) {
+        return false;
+      }
+      if (emailStatusFilter && user.emailStatus !== emailStatusFilter) {
         return false;
       }
       if (!term) return true;
@@ -250,6 +287,14 @@ export class UsersTableComponent implements OnChanges, OnInit {
     ) {
       this.statusFilter = parsed.status;
     }
+    if (
+      parsed.emailStatus === "" ||
+      parsed.emailStatus === "PERSONAL" ||
+      parsed.emailStatus === "GENERIC_SUSPECTED" ||
+      parsed.emailStatus === "GENERIC_CONFIRMED"
+    ) {
+      this.emailStatusFilter = parsed.emailStatus;
+    }
     if (typeof parsed.sortKey === "string") {
       this.currentKey = parsed.sortKey as keyof UsersTableRow;
     }
@@ -281,6 +326,7 @@ export class UsersTableComponent implements OnChanges, OnInit {
     const state: StoredTableState = {
       q: this.searchTerm,
       status: this.statusFilter,
+      emailStatus: this.emailStatusFilter,
       sortKey: this.currentKey,
       sortValue: this.sortValue,
       page: this.currentPage,

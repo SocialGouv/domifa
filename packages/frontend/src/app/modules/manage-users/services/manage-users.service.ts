@@ -5,6 +5,7 @@ import {
   UserStructureRole,
   ApiMessage,
   UserStructureProfile,
+  UserDeleteMotif,
 } from "@domifa/common";
 import { BehaviorSubject, Observable, map } from "rxjs";
 import {
@@ -81,8 +82,13 @@ export class ManageUsersService {
     );
   }
 
-  public deleteUser(uuid: string): Observable<ApiMessage> {
-    return this.http.delete<ApiMessage>(`${this.endPoint}/${uuid}`);
+  public deleteUser(
+    uuid: string,
+    motif: UserDeleteMotif
+  ): Observable<ApiMessage> {
+    return this.http.delete<ApiMessage>(`${this.endPoint}/${uuid}`, {
+      body: { motif },
+    });
   }
 
   public getLastPasswordUpdate(): Observable<Date | null> {

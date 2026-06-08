@@ -29,30 +29,63 @@ export const SUSPICIOUS_ACTION_LABELS: Record<SecurityLogAction, string> =
     return acc;
   }, {} as Record<SecurityLogAction, string>);
 
-// DSFR badge severity per action. UI-only concern, kept frontend-side.
-export const ACTION_BADGE_CLASS: Record<SecurityLogAction, string> = {
-  THROTTLE_BLOCKED: "fr-badge--warning",
-  REQUEST_BLOCKED: "fr-badge--warning",
-  BLOCK_USER: "fr-badge--error",
-  BLOCK_USER_BY_ADMIN: "fr-badge--error",
-  UNBLOCK_USER: "fr-badge--success",
-  ACCESS_DENIED_NON_ACTIVE: "fr-badge--warning",
-  UNBLOCK_BREVO_CONTACT: "fr-badge--info",
-  LOGIN_OK: "fr-badge--info",
-  LOGIN_SUCCESS: "fr-badge--success",
-  LOGIN_ERROR: "fr-badge--warning",
-  LOGIN_UNKNOWN_USER: "fr-badge--warning",
-  LOGOUT: "fr-badge--info",
-  CHANGE_PASSWORD_SUCCESS: "fr-badge--success",
-  CHANGE_PASSWORD_ERROR: "fr-badge--warning",
-  RESET_PASSWORD_REQUEST: "fr-badge--info",
-  RESET_PASSWORD_SUCCESS: "fr-badge--success",
-  RESET_PASSWORD_ERROR: "fr-badge--warning",
-  VALIDATE_ACCOUNT_SUCCESS: "fr-badge--success",
-  VALIDATE_ACCOUNT_ERROR: "fr-badge--warning",
-  OTP_REQUESTED: "fr-badge--info",
-  OTP_SUCCESS: "fr-badge--success",
-  OTP_ERROR: "fr-badge--warning",
+export type ActionTone = "error" | "warning" | "success" | "info" | "neutral";
+
+// Severity tone per action. Only events that genuinely signal an attack
+// (anti-bruteforce kicking in, a request rejected for suspicious shape)
+// are flagged "error" — admin/auto blocks of an individual account, failed
+// logins, password retries are normal friction and stay warning/neutral.
+export const ACTION_TONE: Record<SecurityLogAction, ActionTone> = {
+  THROTTLE_BLOCKED: "error",
+  REQUEST_BLOCKED: "error",
+  BLOCK_USER: "warning",
+  BLOCK_USER_BY_ADMIN: "warning",
+  UNBLOCK_USER: "success",
+  ACCESS_DENIED_NON_ACTIVE: "neutral",
+  UNBLOCK_BREVO_CONTACT: "info",
+  LOGIN_OK: "info",
+  LOGIN_SUCCESS: "success",
+  LOGIN_ERROR: "neutral",
+  LOGIN_UNKNOWN_USER: "warning",
+  LOGOUT: "neutral",
+  CHANGE_PASSWORD_SUCCESS: "success",
+  CHANGE_PASSWORD_ERROR: "warning",
+  RESET_PASSWORD_REQUEST: "info",
+  RESET_PASSWORD_SUCCESS: "success",
+  RESET_PASSWORD_ERROR: "warning",
+  VALIDATE_ACCOUNT_SUCCESS: "success",
+  VALIDATE_ACCOUNT_ERROR: "warning",
+  OTP_REQUESTED: "info",
+  OTP_SUCCESS: "success",
+  OTP_ERROR: "warning",
+};
+
+// DSFR icon per action. DSFR's icon set is limited (no shield-flash, no
+// login-box, no forbid) — only classes confirmed present in
+// @gouvfr/dsfr/dist/utility/icons are used here.
+export const ACTION_ICON: Record<SecurityLogAction, string> = {
+  THROTTLE_BLOCKED: "fr-icon-alarm-warning-fill",
+  REQUEST_BLOCKED: "fr-icon-error-fill",
+  BLOCK_USER: "fr-icon-lock-fill",
+  BLOCK_USER_BY_ADMIN: "fr-icon-lock-fill",
+  UNBLOCK_USER: "fr-icon-lock-unlock-fill",
+  ACCESS_DENIED_NON_ACTIVE: "fr-icon-lock-fill",
+  UNBLOCK_BREVO_CONTACT: "fr-icon-mail-fill",
+  LOGIN_OK: "fr-icon-account-circle-fill",
+  LOGIN_SUCCESS: "fr-icon-account-circle-fill",
+  LOGIN_ERROR: "fr-icon-error-warning-fill",
+  LOGIN_UNKNOWN_USER: "fr-icon-user-search-fill",
+  LOGOUT: "fr-icon-logout-box-r-fill",
+  CHANGE_PASSWORD_SUCCESS: "fr-icon-lock-fill",
+  CHANGE_PASSWORD_ERROR: "fr-icon-error-warning-fill",
+  RESET_PASSWORD_REQUEST: "fr-icon-refresh-fill",
+  RESET_PASSWORD_SUCCESS: "fr-icon-refresh-fill",
+  RESET_PASSWORD_ERROR: "fr-icon-error-warning-fill",
+  VALIDATE_ACCOUNT_SUCCESS: "fr-icon-checkbox-circle-fill",
+  VALIDATE_ACCOUNT_ERROR: "fr-icon-error-warning-fill",
+  OTP_REQUESTED: "fr-icon-mail-fill",
+  OTP_SUCCESS: "fr-icon-mail-check-fill",
+  OTP_ERROR: "fr-icon-mail-forbid-fill",
 };
 
 // French labels for session-closure reasons (kept here so the suspicious view

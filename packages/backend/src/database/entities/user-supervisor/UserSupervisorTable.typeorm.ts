@@ -4,6 +4,7 @@ import {
   UserFonction,
   UserStatus,
   UserSupervisor,
+  UserSupervisorDecision,
   UserSupervisorRole,
 } from "@domifa/common";
 
@@ -51,6 +52,9 @@ export class UserSupervisorTable
 
   @Column({ type: "text", nullable: false })
   role: UserSupervisorRole;
+
+  @Column({ type: "jsonb", nullable: true })
+  decision: UserSupervisorDecision | null;
 
   public constructor(entity?: Partial<UserSupervisorTable>) {
     super(entity);

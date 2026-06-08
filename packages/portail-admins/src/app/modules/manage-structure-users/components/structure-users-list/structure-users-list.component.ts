@@ -34,6 +34,7 @@ export class StructureUsersListComponent implements OnInit, OnDestroy {
     PENDING: 0,
     BLOCKED: 0,
     TEMPORARILY_BLOCKED: 0,
+    DELETE: 0,
   };
   public readonly loading$: Observable<boolean>;
 
@@ -69,6 +70,7 @@ export class StructureUsersListComponent implements OnInit, OnDestroy {
       PENDING: 0,
       BLOCKED: 0,
       TEMPORARILY_BLOCKED: 0,
+      DELETE: 0,
     };
     for (const user of users) {
       if (counts[user.status] !== undefined) {

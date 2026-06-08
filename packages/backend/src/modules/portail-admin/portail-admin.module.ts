@@ -16,6 +16,8 @@ import { AdminSuperivorUsersService } from "./services/admin-superivor-users/adm
 import { MailsModule } from "../mails/mails.module";
 import { StructureDecisionEmailService } from "./services/structure-decision-email/structure-decision-email.service";
 import { StructureDecisionService } from "./services/structure-decision/structure-decision.service";
+import { UserSupervisorDecisionService } from "./services/user-supervisor-decision/user-supervisor-decision.service";
+import { UserStructureDecisionService } from "../users/services/user-structure-decision/user-structure-decision.service";
 import { OtpModule } from "../otp/otp.module";
 
 @Module({
@@ -37,6 +39,8 @@ import { OtpModule } from "../otp/otp.module";
     AdminSuperivorUsersService,
     StructureDecisionEmailService,
     StructureDecisionService,
+    UserStructureDecisionService,
+    UserSupervisorDecisionService,
   ],
 })
 export class PortailAdminModule {}

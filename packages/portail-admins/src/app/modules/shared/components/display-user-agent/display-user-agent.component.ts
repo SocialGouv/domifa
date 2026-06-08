@@ -1,4 +1,5 @@
 import { NgIf } from "@angular/common";
+import { Clipboard } from "@angular/cdk/clipboard";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,6 +8,8 @@ import {
 } from "@angular/core";
 import { DsfrTooltipDirective } from "@edugouvfr/ngx-dsfr";
 import { UAParser } from "ua-parser-js";
+
+import { CustomToastService } from "../../services";
 
 type ParsedAgent = {
   browserIcon: string;
@@ -54,6 +57,11 @@ export class DisplayUserAgentComponent implements OnChanges {
 
   public parsed: ParsedAgent | null = null;
 
+  constructor(
+    private readonly clipboard: Clipboard,
+    private readonly toast: CustomToastService
+  ) {}
+
   public ngOnChanges(): void {
     if (!this.userAgent) {
       this.parsed = null;
@@ -84,5 +92,18 @@ export class DisplayUserAgentComponent implements OnChanges {
           ? "Tablette"
           : "Ordinateur",
     };
+  }
+
+  // Public UA parsers don't expose a stable share-by-URL pattern (POST forms
+  // only). The simplest, friction-free option is to copy the raw UA so the
+  // admin can paste it into whatismybrowser.com, udger.com, etc.
+  public copyUserAgent(): void {
+    if (!this.userAgent) {
+      return;
+    }
+    this.clipboard.copy(this.userAgent);
+    this.toast.success(
+      "User-Agent copié. Collez-le dans whatismybrowser.com ou udger.com pour l'analyser."
+    );
   }
 }

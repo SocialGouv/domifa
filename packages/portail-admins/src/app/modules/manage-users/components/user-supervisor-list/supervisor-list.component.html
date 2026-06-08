@@ -17,7 +17,7 @@
             !!users && !!filteredUsers && users.length !== filteredUsers.length
           "
         >
-          ({{ filteredUsers.length }} résultats)
+          &nbsp;({{ filteredUsers.length }} résultats)
         </span>
       </h1>
       <button
@@ -72,31 +72,96 @@
           ></app-stat-card>
         </li>
       </ul>
+
+      <ul
+        class="fr-grid-row fr-grid-row--gutters fr-mt-3w stat-cards-list"
+        aria-label="Répartition des utilisateurs par statut"
+      >
+        <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
+          <app-stat-card
+            label="Actifs"
+            [value]="statusCounts.ACTIVE"
+            icon="fr-icon-checkbox-circle-line"
+            status="success"
+          ></app-stat-card>
+        </li>
+        <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
+          <app-stat-card
+            label="En attente"
+            [value]="statusCounts.PENDING"
+            icon="fr-icon-time-line"
+            status="info"
+          ></app-stat-card>
+        </li>
+        <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
+          <app-stat-card
+            label="Blocage temporaire"
+            [value]="statusCounts.TEMPORARILY_BLOCKED"
+            icon="fr-icon-lock-line"
+            status="warning"
+          ></app-stat-card>
+        </li>
+        <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
+          <app-stat-card
+            label="Bloqués"
+            [value]="statusCounts.BLOCKED"
+            icon="fr-icon-lock-fill"
+            status="error"
+          ></app-stat-card>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
 
 <div class="fr-container" *ngIf="me">
   <div class="fr-mb-2w">
-    <label class="fr-label" for="supervisor-list-search"> Rechercher </label>
-    <div class="fr-search-bar" role="search">
-      <input
-        class="fr-input"
-        id="supervisor-list-search"
-        type="search"
-        name="search"
-        placeholder="Rechercher par ID, nom ou email"
-        [(ngModel)]="searchTerm"
-        (ngModelChange)="applyFilter()"
-      />
-      <button
-        type="button"
-        class="fr-btn"
-        title="Rechercher"
-        (click)="applyFilter()"
-      >
-        Rechercher
-      </button>
+    <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--bottom">
+      <div class="fr-col-12 fr-col-md-8">
+        <label class="fr-label" for="supervisor-list-search">
+          Rechercher
+        </label>
+        <div class="fr-search-bar" role="search">
+          <input
+            class="fr-input"
+            id="supervisor-list-search"
+            type="search"
+            name="search"
+            placeholder="Rechercher par ID, nom ou email"
+            [(ngModel)]="searchTerm"
+            (ngModelChange)="applyFilter()"
+          />
+          <button
+            type="button"
+            class="fr-btn"
+            title="Rechercher"
+            (click)="applyFilter()"
+          >
+            Rechercher
+          </button>
+        </div>
+      </div>
+      <div class="fr-col-12 fr-col-md-4">
+        <div class="fr-select-group fr-mb-0w">
+          <label class="fr-label" for="supervisor-list-email-status-filter">
+            Statut de l'email
+          </label>
+          <select
+            class="fr-select"
+            id="supervisor-list-email-status-filter"
+            name="email-status-filter"
+            [(ngModel)]="emailStatusFilter"
+            (ngModelChange)="applyFilter()"
+          >
+            <option
+              *ngFor="let option of EMAIL_STATUS_OPTIONS"
+              [ngValue]="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -139,6 +204,15 @@
                 </th>
                 <th scope="col">
                   <app-table-head-sort
+                    sortKey="emailStatus"
+                    [(sortValue)]="sortValue"
+                    [(currentKey)]="currentKey"
+                    columnName="Type d'email"
+                  >
+                  </app-table-head-sort>
+                </th>
+                <th scope="col">
+                  <app-table-head-sort
                     sortKey="createdAt"
                     [(sortValue)]="sortValue"
                     [(currentKey)]="currentKey"
@@ -166,8 +240,7 @@
                 </th>
                 <th scope="col">Territoire d'action</th>
                 <th scope="col">Statut</th>
-
-                <th scope="col" *ngIf="me.role === 'super-admin-domifa'"></th>
+                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -193,6 +266,16 @@
                   </a>
                 </td>
                 <td>{{ user.email }}</td>
+                <td>
+                  <span
+                    class="fr-badge fr-badge--sm fr-badge--no-icon"
+                    [ngClass]="
+                      USER_STRUCTURE_EMAIL_STATUS_BADGE_CLASS[user.emailStatus]
+                    "
+                  >
+                    {{ USER_STRUCTURE_EMAIL_STATUS_LABELS[user.emailStatus] }}
+                  </span>
+                </td>
                 <td>{{ user.createdAt | date : "d MMMM y" }}</td>
 
                 <td>
@@ -245,7 +328,7 @@
                     >Bloqué</span
                   >
                 </td>
-                <td *ngIf="me.role === 'super-admin-domifa'">
+                <td>
                   <app-user-actions
                     [user]="user"
                     userKind="supervisor"

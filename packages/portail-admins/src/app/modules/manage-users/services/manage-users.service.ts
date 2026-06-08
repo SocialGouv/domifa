@@ -6,6 +6,7 @@ import {
   BrevoEmailEvent,
   BrevoEmailEventType,
   PageResults,
+  UserDeleteMotif,
   UserSupervisor,
 } from "@domifa/common";
 import { BehaviorSubject, Observable, map } from "rxjs";
@@ -47,8 +48,13 @@ export class ManageUsersService {
     return this.http.patch<UserSupervisor>(`${this.endPoint}/${uuid}`, data);
   }
 
-  public deleteUser(uuid: string): Observable<ApiMessage> {
-    return this.http.delete<ApiMessage>(`${this.endPoint}/${uuid}`);
+  public deleteUser(
+    uuid: string,
+    motif: UserDeleteMotif
+  ): Observable<ApiMessage> {
+    return this.http.delete<ApiMessage>(`${this.endPoint}/${uuid}`, {
+      body: { motif },
+    });
   }
 
   public blockSupervisorUser(userUuid: string): Observable<{ status: string }> {
