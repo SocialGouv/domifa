@@ -12,6 +12,8 @@ import { TESTS_USERS_STRUCTURE } from "../../../../_tests";
 import { AppTestHelper } from "../../../../util/test";
 import { userStructureRepository } from "../../../../database";
 import { OtpModule } from "../../../otp/otp.module";
+import { UserStructureDecisionService } from "../../../users/services/user-structure-decision/user-structure-decision.service";
+import { UserSupervisorDecisionService } from "../../services/user-supervisor-decision/user-supervisor-decision.service";
 
 // envId=test short-circuits all BrevoSenderService.* methods to no-op
 // (see brevo-sender.service.ts), so the real provider is safe in tests and
@@ -47,6 +49,8 @@ describe("AdminUsersController", () => {
         AdminSuperivorUsersService,
         AdminStructuresService,
         BrevoSenderService,
+        UserStructureDecisionService,
+        UserSupervisorDecisionService,
       ],
     }).compile();
 
