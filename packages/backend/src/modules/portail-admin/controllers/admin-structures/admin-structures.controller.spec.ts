@@ -14,6 +14,7 @@ import { StructureDecisionService } from "../../services/structure-decision/stru
 import { FileManagerService } from "../../../../util";
 import { StructureDecisionEmailService } from "../../services/structure-decision-email/structure-decision-email.service";
 import { OtpModule } from "../../../otp/otp.module";
+import { UserStructureDecisionService } from "../../../users/services/user-structure-decision/user-structure-decision.service";
 
 describe("Dashboard AdminStructuresController", () => {
   let controller: AdminStructuresController;
@@ -37,6 +38,7 @@ describe("Dashboard AdminStructuresController", () => {
         StructureDecisionService,
         FileManagerService,
         StructureDecisionEmailService,
+        UserStructureDecisionService,
       ],
     });
     controller = context.module.get<AdminStructuresController>(
