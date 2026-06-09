@@ -12,7 +12,6 @@ import { Store } from "@ngrx/store";
 import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 
 import { AdminStructuresExportComponent } from "../../../shared/components/admin-structures-export/admin-structures-export.component";
-import { StatCardComponent } from "../../../shared/components/stat-card/stat-card.component";
 import { StructureFiltersComponent } from "../structure-filters/structure-filters.component";
 import { AdminStructuresTableComponent } from "../admin-structures-table/admin-structures-table.component";
 import {
@@ -59,7 +58,6 @@ export type FilterOutput = {
     CommonModule,
     DsfrSpinnerComponent,
     AdminStructuresExportComponent,
-    StatCardComponent,
     StructureFiltersComponent,
     AdminStructuresTableComponent,
   ],

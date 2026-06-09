@@ -9,43 +9,99 @@
 </div>
 
 <div class="fr-container fr-pt-2w">
-  <ul
-    class="fr-grid-row fr-grid-row--gutters fr-mb-3w stat-cards-list"
-    aria-label="Répartition des utilisateurs par statut"
-  >
-    <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
-      <app-stat-card
-        label="Actifs"
-        [value]="statusCounts.ACTIVE"
-        icon="fr-icon-checkbox-circle-line"
-        status="success"
-      ></app-stat-card>
-    </li>
-    <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
-      <app-stat-card
-        label="En attente"
-        [value]="statusCounts.PENDING"
-        icon="fr-icon-time-line"
-        status="info"
-      ></app-stat-card>
-    </li>
-    <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
-      <app-stat-card
-        label="Blocage temporaire"
-        [value]="statusCounts.TEMPORARILY_BLOCKED"
-        icon="fr-icon-lock-line"
-        status="warning"
-      ></app-stat-card>
-    </li>
-    <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
-      <app-stat-card
-        label="Bloqués"
-        [value]="statusCounts.BLOCKED"
-        icon="fr-icon-lock-fill"
-        status="error"
-      ></app-stat-card>
-    </li>
-  </ul>
+  <div class="fr-tabs fr-mb-3w">
+    <ul
+      class="fr-tabs__list"
+      role="tablist"
+      aria-label="Répartition des utilisateurs par statut"
+    >
+      <li role="presentation">
+        <button
+          type="button"
+          class="fr-tabs__tab"
+          role="tab"
+          [attr.tabindex]="selectedStatus === 'ALL' ? 0 : -1"
+          [attr.aria-selected]="selectedStatus === 'ALL'"
+          (click)="selectStatus('ALL')"
+        >
+          Tous ({{ users.length }})
+        </button>
+      </li>
+      <li role="presentation">
+        <button
+          type="button"
+          class="fr-tabs__tab"
+          role="tab"
+          [attr.tabindex]="selectedStatus === 'ACTIVE' ? 0 : -1"
+          [attr.aria-selected]="selectedStatus === 'ACTIVE'"
+          (click)="selectStatus('ACTIVE')"
+        >
+          Actifs ({{ statusCounts.ACTIVE }})
+        </button>
+      </li>
+      <li role="presentation">
+        <button
+          type="button"
+          class="fr-tabs__tab"
+          role="tab"
+          [attr.tabindex]="selectedStatus === 'PENDING' ? 0 : -1"
+          [attr.aria-selected]="selectedStatus === 'PENDING'"
+          (click)="selectStatus('PENDING')"
+        >
+          En attente ({{ statusCounts.PENDING }})
+        </button>
+      </li>
+      <li role="presentation">
+        <button
+          type="button"
+          class="fr-tabs__tab"
+          role="tab"
+          [attr.tabindex]="selectedStatus === 'TEMPORARILY_BLOCKED' ? 0 : -1"
+          [attr.aria-selected]="selectedStatus === 'TEMPORARILY_BLOCKED'"
+          (click)="selectStatus('TEMPORARILY_BLOCKED')"
+        >
+          Blocage temporaire ({{ statusCounts.TEMPORARILY_BLOCKED }})
+        </button>
+      </li>
+      <li role="presentation">
+        <button
+          type="button"
+          class="fr-tabs__tab"
+          role="tab"
+          [attr.tabindex]="selectedStatus === 'BLOCKED' ? 0 : -1"
+          [attr.aria-selected]="selectedStatus === 'BLOCKED'"
+          (click)="selectStatus('BLOCKED')"
+        >
+          Bloqués ({{ statusCounts.BLOCKED }})
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="fr-grid-row fr-mb-2w">
+    <div class="fr-col-12 fr-col-md-4">
+      <div class="fr-select-group fr-mb-0w">
+        <label class="fr-label" for="structure-users-obsolete-filter">
+          Ancienneté du compte
+        </label>
+        <select
+          class="fr-select"
+          id="structure-users-obsolete-filter"
+          name="obsoleteFilter"
+          [(ngModel)]="obsoleteFilter"
+          (ngModelChange)="applyFilter()"
+        >
+          <option value="ALL">Tous les comptes</option>
+          <option value="OBSOLETE">
+            Comptes obsolètes ({{ obsoleteCount }})
+          </option>
+        </select>
+        <p class="fr-hint-text">
+          Inscription &gt; 1 an et aucune connexion depuis 12 mois
+        </p>
+      </div>
+    </div>
+  </div>
 
   <dsfr-ext-spinner
     *ngIf="loading$ | async"
@@ -57,7 +113,7 @@
   <app-users-table
     tableId="structure-users-table"
     caption="Liste des utilisateurs des structures"
-    [users]="users"
+    [users]="filteredUsers"
     [showStructure]="true"
   >
     <ng-template #actionsCell let-user>

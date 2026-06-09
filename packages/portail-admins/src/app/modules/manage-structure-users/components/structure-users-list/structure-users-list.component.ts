@@ -1,4 +1,5 @@
 import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { Store } from "@ngrx/store";
@@ -13,22 +14,29 @@ import {
   UsersActions,
 } from "../../../shared/store/users";
 import { UsersTableComponent } from "../../../shared/components/users-table/users-table.component";
-import { StatCardComponent } from "../../../shared/components/stat-card/stat-card.component";
 import { UserActionsComponent } from "../../../shared/components/user-actions/user-actions.component";
+import { isObsoleteUser } from "../../utils/is-obsolete-user";
+
+export type StructureUserStatusFilter = UserStatus | "ALL";
+export type ObsoleteFilter = "ALL" | "OBSOLETE";
 
 @Component({
   selector: "app-structure-users-list",
   templateUrl: "./structure-users-list.component.html",
   imports: [
     CommonModule,
+    FormsModule,
     DsfrSpinnerComponent,
     UsersTableComponent,
-    StatCardComponent,
     UserActionsComponent,
   ],
 })
 export class StructureUsersListComponent implements OnInit, OnDestroy {
   public users: UsersForAdminList[] = [];
+  public filteredUsers: UsersForAdminList[] = [];
+  public selectedStatus: StructureUserStatusFilter = "ALL";
+  public obsoleteFilter: ObsoleteFilter = "ALL";
+  public obsoleteCount = 0;
   public statusCounts: Record<UserStatus, number> = {
     ACTIVE: 0,
     PENDING: 0,
@@ -54,14 +62,36 @@ export class StructureUsersListComponent implements OnInit, OnDestroy {
       this.store.select(selectAllAdminUsers).subscribe((users) => {
         this.users = users;
         this.computeStatusCounts(users);
+        this.obsoleteCount = users.filter(isObsoleteUser).length;
+        this.applyFilter();
       })
     );
 
     this.store.dispatch(UsersActions.load());
   }
 
+  public selectStatus(status: StructureUserStatusFilter): void {
+    this.selectedStatus = status;
+    this.applyFilter();
+  }
+
   public onActionsRefresh(): void {
     this.store.dispatch(UsersActions.load());
+  }
+
+  public applyFilter(): void {
+    this.filteredUsers = this.users.filter((user) => {
+      if (
+        this.selectedStatus !== "ALL" &&
+        user.status !== this.selectedStatus
+      ) {
+        return false;
+      }
+      if (this.obsoleteFilter === "OBSOLETE" && !isObsoleteUser(user)) {
+        return false;
+      }
+      return true;
+    });
   }
 
   private computeStatusCounts(users: UsersForAdminList[]): void {

@@ -108,19 +108,10 @@ export const SESSION_CLOSED_REASON_LABELS: Record<string, string> = {
 // "Type d'utilisateur" column. Supervisor labels are role-specific (Admin
 // DomiFa / DGCS / DDETS / DREETS) — see `resolveUserKindLabel` below.
 const USER_KIND_LABELS: Record<string, string> = {
-  usager: "Domicilié",
-  user_structure: "Utilisateur",
+  usager: "Domicilié (Mon DomiFa)",
+  user_structure: "Structure (DomiFa)",
   user_supervisor: "Utilisateur",
   anonymous: "Anonyme",
-};
-
-// Quand le row porte un userType de portail mais qu'aucun utilisateur n'a pu
-// être résolu (ex. LOGIN_UNKNOWN_USER), on remplace "Utilisateur"/"Domicilié"
-// par le portail tenté pour ne pas suggérer qu'il s'agit d'un compte réel.
-const UNRESOLVED_PORTAL_LABELS: Record<string, string> = {
-  user_structure: "Portail Structures",
-  user_supervisor: "Portail Admin",
-  usager: "Portail Bénéficiaires",
 };
 
 // Supervisor role → official agency name. Kept frontend-side because this
@@ -143,30 +134,21 @@ const USER_STRUCTURE_ROLE_LABELS: Record<string, string> = {
   agent: "Agent d'accueil",
 };
 
-// Returns the cell content for the "Type d'utilisateur" column. Falls back to
-// the bucket label when we don't have a role-specific override. When the row
-// has a portal userType but no resolved user (LOGIN_UNKNOWN_USER on an
-// unknown email/login), we surface the portal name instead of "Utilisateur"
-// so the row isn't read as a real account.
+// Returns the cell content for the "Type d'utilisateur" column. The label
+// always reflects the user type/portal — whether the row resolved to a real
+// account or not is conveyed by the identity column, not by mutating this
+// label.
 export function resolveUserKindLabel(
   userType: string | undefined,
-  role: string | undefined,
-  hasResolvedUser: boolean = true
+  role: string | undefined
 ): string {
-  if (!hasResolvedUser && userType && UNRESOLVED_PORTAL_LABELS[userType]) {
-    return UNRESOLVED_PORTAL_LABELS[userType];
-  }
   if (userType === "user_supervisor") {
     const agency = role ? USER_SUPERVISOR_AGENCY_LABELS[role] : undefined;
     return agency ?? USER_KIND_LABELS.user_supervisor;
   }
-  const kind = USER_KIND_LABELS[userType ?? ""];
-  if (!kind) {
-    return "—";
-  }
   if (userType === "user_structure" && role) {
     const roleLabel = USER_STRUCTURE_ROLE_LABELS[role] ?? role;
-    return `${kind} (${roleLabel})`;
+    return `${roleLabel} (DomiFa)`;
   }
-  return kind;
+  return USER_KIND_LABELS[userType ?? ""] ?? "—";
 }

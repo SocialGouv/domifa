@@ -97,26 +97,5 @@
         </select>
       </div>
     </div>
-
-    <div class="fr-col-12 fr-col-md">
-      <div class="fr-select-group">
-        <label class="fr-label" for="select-statut"> Statut </label>
-        <select
-          class="fr-select"
-          id="select-statut"
-          [disabled]="searching"
-          [value]="filters.statut ?? ''"
-          (change)="onStatutChange($event)"
-        >
-          <option value="">Tous les statuts</option>
-          <option
-            *ngFor="let statut of statutOptions | keyvalue"
-            [value]="statut.key"
-          >
-            {{ statut.value }}
-          </option>
-        </select>
-      </div>
-    </div>
   </div>
 </div>
