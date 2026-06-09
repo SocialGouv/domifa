@@ -12,6 +12,7 @@ import { appHolder } from "./appHolder";
 import { domifaConfig } from "./config";
 import { appTypeormManager } from "./database";
 import { appLogger, setupLog } from "./util";
+import { HttpExceptionFilter } from "./util/filters";
 import { AppSentryInterceptor } from "./util/sentry";
 import compression from "compression";
 
@@ -43,6 +44,8 @@ export async function bootstrapApplication(): Promise<{
     if (domifaConfig().dev.sentry.enabled) {
       app.useGlobalInterceptors(new AppSentryInterceptor());
     }
+
+    app.useGlobalFilters(new HttpExceptionFilter());
 
     appHolder.app = app;
 

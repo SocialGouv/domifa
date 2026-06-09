@@ -69,7 +69,6 @@ export class StructuresPublicController {
 
   @Post("code-postal")
   public async getByCity(@Body() codePostalDto: CodePostalDto) {
-    console.log("codePostalDto", codePostalDto);
     return await this.structureService.findAllLight(codePostalDto);
   }
 }

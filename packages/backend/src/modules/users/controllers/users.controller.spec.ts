@@ -17,6 +17,7 @@ import { TESTS_USERS_STRUCTURE, TestUserStructure } from "../../../_tests";
 import { MailsModule } from "../../mails/mails.module";
 import { AppLogsService } from "../../app-logs/app-logs.service";
 import { appLogsRepository, userStructureRepository } from "../../../database";
+import { OtpModule } from "../../otp/otp.module";
 
 describe("Users Controller", () => {
   let controller: UsersController;
@@ -25,7 +26,16 @@ describe("Users Controller", () => {
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [UsersController],
-      imports: [MailsModule, StructuresModule, UsagersModule, HttpModule],
+      // OtpModule needed because UsersController has methods decorated with
+      // `@UseGuards(OtpGuard)`; Nest resolves the guard's deps (OtpService)
+      // at module compile time even when the protected routes aren't tested.
+      imports: [
+        MailsModule,
+        StructuresModule,
+        UsagersModule,
+        HttpModule,
+        OtpModule,
+      ],
       providers: [AppLogsService],
     });
 
