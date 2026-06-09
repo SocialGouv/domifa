@@ -1,3 +1,18 @@
+# [2.250.0](https://github.com/SocialGouv/domifa/compare/v2.249.8...v2.250.0) (2026-06-09)
+
+
+### Bug Fixes
+
+* **backend:** add exception filter ([d41fbb4](https://github.com/SocialGouv/domifa/commit/d41fbb4a325a99714c4b550762b2b01fbf21f1e4))
+* **backend:** fix import test ([891e267](https://github.com/SocialGouv/domifa/commit/891e26776abbdfc0dba6fde146c2e5da0b51ec60))
+* **backend:** fix unit test ([f74ac59](https://github.com/SocialGouv/domifa/commit/f74ac59c1148e38ec011142dcbd1bc7db592ca30))
+* **backend:** fix unit tests ([aa0b288](https://github.com/SocialGouv/domifa/commit/aa0b288fa35457674cb85052acfeb5df0c11d3e5))
+
+
+### Features
+
+* **backend:** add delete of users ([2f06a72](https://github.com/SocialGouv/domifa/commit/2f06a72456d56f4826c6eb7e56b3078fd24b7d04))
+
 ## [2.249.8](https://github.com/SocialGouv/domifa/compare/v2.249.7...v2.249.8) (2026-06-03)
 
 
