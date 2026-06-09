@@ -33,81 +33,80 @@
 </div>
 
 <div *ngIf="me?.role === 'super-admin-domifa'" class="fr-pt-4w">
-  <div class="fr-grid-row fr-mt-2w">
-    <div class="fr-container fr-col-12">
+  <div class="fr-container fr-col-12">
+    <div class="fr-tabs">
       <ul
-        class="fr-grid-row fr-grid-row--gutters stat-cards-list"
+        class="fr-tabs__list"
+        role="tablist"
         aria-label="Répartition des utilisateurs par rôle"
       >
-        <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
-          <app-stat-card
-            [label]="USER_SUPERVISOR_ROLES_LABELS['super-admin-domifa']"
-            [value]="roleCounts['super-admin-domifa']"
-            icon="fr-icon-user-heart-line"
-            status="info"
-          ></app-stat-card>
+        <li role="presentation">
+          <button
+            type="button"
+            class="fr-tabs__tab"
+            role="tab"
+            [attr.tabindex]="roleFilter === 'ALL' ? 0 : -1"
+            [attr.aria-selected]="roleFilter === 'ALL'"
+            (click)="selectRole('ALL')"
+          >
+            Tous ({{ users.length }})
+          </button>
         </li>
-        <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
-          <app-stat-card
-            [label]="USER_SUPERVISOR_ROLES_LABELS['national']"
-            [value]="roleCounts['national']"
-            icon="fr-icon-france-line"
-            status="neutral"
-          ></app-stat-card>
+        <li role="presentation">
+          <button
+            type="button"
+            class="fr-tabs__tab"
+            role="tab"
+            [attr.tabindex]="roleFilter === 'super-admin-domifa' ? 0 : -1"
+            [attr.aria-selected]="roleFilter === 'super-admin-domifa'"
+            (click)="selectRole('super-admin-domifa')"
+          >
+            {{ USER_SUPERVISOR_ROLES_LABELS["super-admin-domifa"] }} ({{
+              roleCounts["super-admin-domifa"]
+            }})
+          </button>
         </li>
-        <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
-          <app-stat-card
-            [label]="USER_SUPERVISOR_ROLES_LABELS['region']"
-            [value]="roleCounts['region']"
-            icon="fr-icon-map-pin-2-line"
-            status="success"
-          ></app-stat-card>
+        <li role="presentation">
+          <button
+            type="button"
+            class="fr-tabs__tab"
+            role="tab"
+            [attr.tabindex]="roleFilter === 'national' ? 0 : -1"
+            [attr.aria-selected]="roleFilter === 'national'"
+            (click)="selectRole('national')"
+          >
+            {{ USER_SUPERVISOR_ROLES_LABELS["national"] }} ({{
+              roleCounts["national"]
+            }})
+          </button>
         </li>
-        <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
-          <app-stat-card
-            [label]="USER_SUPERVISOR_ROLES_LABELS['department']"
-            [value]="roleCounts['department']"
-            icon="fr-icon-community-line"
-            status="warning"
-          ></app-stat-card>
+        <li role="presentation">
+          <button
+            type="button"
+            class="fr-tabs__tab"
+            role="tab"
+            [attr.tabindex]="roleFilter === 'region' ? 0 : -1"
+            [attr.aria-selected]="roleFilter === 'region'"
+            (click)="selectRole('region')"
+          >
+            {{ USER_SUPERVISOR_ROLES_LABELS["region"] }} ({{
+              roleCounts["region"]
+            }})
+          </button>
         </li>
-      </ul>
-
-      <ul
-        class="fr-grid-row fr-grid-row--gutters fr-mt-3w stat-cards-list"
-        aria-label="Répartition des utilisateurs par statut"
-      >
-        <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
-          <app-stat-card
-            label="Actifs"
-            [value]="statusCounts.ACTIVE"
-            icon="fr-icon-checkbox-circle-line"
-            status="success"
-          ></app-stat-card>
-        </li>
-        <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
-          <app-stat-card
-            label="En attente"
-            [value]="statusCounts.PENDING"
-            icon="fr-icon-time-line"
-            status="info"
-          ></app-stat-card>
-        </li>
-        <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
-          <app-stat-card
-            label="Blocage temporaire"
-            [value]="statusCounts.TEMPORARILY_BLOCKED"
-            icon="fr-icon-lock-line"
-            status="warning"
-          ></app-stat-card>
-        </li>
-        <li class="fr-col-12 fr-col-sm-6 fr-col-md-3">
-          <app-stat-card
-            label="Bloqués"
-            [value]="statusCounts.BLOCKED"
-            icon="fr-icon-lock-fill"
-            status="error"
-          ></app-stat-card>
+        <li role="presentation">
+          <button
+            type="button"
+            class="fr-tabs__tab"
+            role="tab"
+            [attr.tabindex]="roleFilter === 'department' ? 0 : -1"
+            [attr.aria-selected]="roleFilter === 'department'"
+            (click)="selectRole('department')"
+          >
+            {{ USER_SUPERVISOR_ROLES_LABELS["department"] }} ({{
+              roleCounts["department"]
+            }})
+          </button>
         </li>
       </ul>
     </div>
@@ -117,7 +116,7 @@
 <div class="fr-container" *ngIf="me">
   <div class="fr-mb-2w">
     <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--bottom">
-      <div class="fr-col-12 fr-col-md-8">
+      <div class="fr-col-12 fr-col-md">
         <label class="fr-label" for="supervisor-list-search">
           Rechercher
         </label>
@@ -141,7 +140,7 @@
           </button>
         </div>
       </div>
-      <div class="fr-col-12 fr-col-md-4">
+      <div class="fr-col-12 fr-col-md">
         <div class="fr-select-group fr-mb-0w">
           <label class="fr-label" for="supervisor-list-email-status-filter">
             Statut de l'email
@@ -159,6 +158,23 @@
             >
               {{ option.label }}
             </option>
+          </select>
+        </div>
+      </div>
+      <div class="fr-col-12 fr-col-md">
+        <div class="fr-select-group fr-mb-0w">
+          <label class="fr-label" for="supervisor-obsolete-filter">
+            Ancienneté du compte
+          </label>
+          <select
+            class="fr-select"
+            id="supervisor-obsolete-filter"
+            name="obsoleteFilter"
+            [(ngModel)]="obsoleteFilter"
+            (ngModelChange)="applyFilter()"
+          >
+            <option value="ALL">Tous les comptes</option>
+            <option value="OBSOLETE">Obsolètes ({{ obsoleteCount }})</option>
           </select>
         </div>
       </div>

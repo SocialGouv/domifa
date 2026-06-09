@@ -19,7 +19,6 @@ import {
   REGIONS_DEF,
   REGIONS_LISTE,
   RegionsLabels,
-  STRUCTURE_DECISION_LABELS,
   STRUCTURE_TYPE_LABELS,
 } from "@domifa/common";
 import { FilterOutput } from "../admin-structures-list/admin-structures-list.component";
@@ -38,7 +37,6 @@ export class StructureFiltersComponent implements OnChanges {
   @Output() public readonly updateFilters = new EventEmitter<FilterOutput>();
 
   public structureTypeOptions = STRUCTURE_TYPE_LABELS;
-  public statutOptions = STRUCTURE_DECISION_LABELS;
   public segmentUsagersOptions = DomiciliesSegmentEnum;
   public readonly REGIONS_LISTE = REGIONS_LISTE;
   public DEPARTEMENTS_LISTE = { ...DEPARTEMENTS_LISTE };
@@ -106,15 +104,6 @@ export class StructureFiltersComponent implements OnChanges {
     const target = event.target as HTMLSelectElement;
     this.updateFilters.emit({
       element: "domicilieSegment",
-      value: target.value,
-      sortValue: this.filters.sortValue,
-    });
-  }
-
-  public onStatutChange(event: Event): void {
-    const target = event.target as HTMLSelectElement;
-    this.updateFilters.emit({
-      element: "statut",
       value: target.value,
       sortValue: this.filters.sortValue,
     });

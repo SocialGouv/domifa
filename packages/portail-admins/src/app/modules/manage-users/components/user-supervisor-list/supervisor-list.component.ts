@@ -13,12 +13,12 @@ import {
   SortValues,
   USER_STRUCTURE_EMAIL_STATUS_LABELS,
   USER_SUPERVISOR_ROLES_LABELS,
-  UserStatus,
   UserStructureEmailStatus,
   UserSupervisor,
   UserSupervisorRole,
 } from "@domifa/common";
 import { USER_STRUCTURE_EMAIL_STATUS_BADGE_CLASS } from "../../../shared/components/users-table/users-table.types";
+import { isObsoleteUser } from "../../../manage-structure-users/utils/is-obsolete-user";
 
 type SupervisorListRow = UserSupervisor & {
   emailStatus: UserStructureEmailStatus;
@@ -30,7 +30,6 @@ import { DsfrModalComponent, DsfrModalModule } from "@edugouvfr/ngx-dsfr";
 import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 import { TableHeadSortComponent } from "../../../shared/components/table-head-sort/table-head-sort.component";
 import { DisplayLastLoginComponent } from "../../../shared/components/display-last-login/display-last-login.component";
-import { StatCardComponent } from "../../../shared/components/stat-card/stat-card.component";
 import { RegisterUserSupervisorComponent } from "../register-user-supervisor/register-user-supervisor.component";
 import { UserActionsComponent } from "../../../shared/components/user-actions/user-actions.component";
 import { FullNamePipe, SortArrayPipe } from "../../../shared/pipes";
@@ -46,7 +45,6 @@ import { FullNamePipe, SortArrayPipe } from "../../../shared/pipes";
     DsfrSpinnerComponent,
     TableHeadSortComponent,
     DisplayLastLoginComponent,
-    StatCardComponent,
     RegisterUserSupervisorComponent,
     UserActionsComponent,
     FullNamePipe,
@@ -58,6 +56,9 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
   public filteredUsers: SupervisorListRow[] = [];
   public searchTerm = "";
   public emailStatusFilter: UserStructureEmailStatus | "" = "";
+  public roleFilter: UserSupervisorRole | "ALL" = "ALL";
+  public obsoleteFilter: "ALL" | "OBSOLETE" = "ALL";
+  public obsoleteCount = 0;
   public me!: PortailAdminUser | null;
 
   public readonly EMAIL_STATUS_OPTIONS: {
@@ -91,13 +92,6 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
     national: 0,
     region: 0,
     department: 0,
-  };
-  public statusCounts: Record<UserStatus, number> = {
-    ACTIVE: 0,
-    PENDING: 0,
-    BLOCKED: 0,
-    TEMPORARILY_BLOCKED: 0,
-    DELETE: 0,
   };
   private readonly subscription = new Subscription();
 
@@ -142,7 +136,7 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
           emailStatus: getUserStructureEmailStatus(user.email),
         }));
         this.computeRoleCounts(this.users);
-        this.computeStatusCounts(this.users);
+        this.obsoleteCount = this.users.filter(isObsoleteUser).length;
         this.applyFilter();
       })
     );
@@ -151,7 +145,15 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
   public applyFilter(): void {
     const term = this.searchTerm.trim().toLowerCase();
     const emailStatusFilter = this.emailStatusFilter;
+    const roleFilter = this.roleFilter;
+    const obsoleteFilter = this.obsoleteFilter;
     this.filteredUsers = this.users.filter((user) => {
+      if (roleFilter !== "ALL" && user.role !== roleFilter) {
+        return false;
+      }
+      if (obsoleteFilter === "OBSOLETE" && !isObsoleteUser(user)) {
+        return false;
+      }
       if (emailStatusFilter && user.emailStatus !== emailStatusFilter) {
         return false;
       }
@@ -172,6 +174,11 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
     });
   }
 
+  public selectRole(role: UserSupervisorRole | "ALL"): void {
+    this.roleFilter = role;
+    this.applyFilter();
+  }
+
   private computeRoleCounts(users: SupervisorListRow[]): void {
     const counts: Record<UserSupervisorRole, number> = {
       "super-admin-domifa": 0,
@@ -185,22 +192,6 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
       }
     }
     this.roleCounts = counts;
-  }
-
-  private computeStatusCounts(users: SupervisorListRow[]): void {
-    const counts: Record<UserStatus, number> = {
-      ACTIVE: 0,
-      PENDING: 0,
-      BLOCKED: 0,
-      TEMPORARILY_BLOCKED: 0,
-      DELETE: 0,
-    };
-    for (const user of users) {
-      if (counts[user.status] !== undefined) {
-        counts[user.status]++;
-      }
-    }
-    this.statusCounts = counts;
   }
 
   public openUpdateUserModal(user: UserSupervisor): void {

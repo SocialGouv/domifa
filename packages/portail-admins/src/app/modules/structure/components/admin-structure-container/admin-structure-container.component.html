@@ -31,7 +31,7 @@
                 : 'fr-text-title--blue-france fr-p-0w fr-m-0w'
             "
           >
-            {{ structure.id }} - {{ structure.nom }}
+            {{ structure.id }} - {{ structure.nom }} - {{ structure.ville }}
             <ng-container *ngIf="structure.statut === 'SUPPRIME'">
               (supprimée)</ng-container
             >

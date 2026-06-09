@@ -196,11 +196,7 @@
                 <a [routerLink]="['/structure', structure.uuid]">{{
                   structure.nom
                 }}</a>
-                {{
-                  structure.structureType === "ccas"
-                    ? " - " + structure.ville
-                    : ""
-                }}
+                - {{ structure.ville }}
               </td>
               <td>
                 <span
