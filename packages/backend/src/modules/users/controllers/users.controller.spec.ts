@@ -18,6 +18,7 @@ import { MailsModule } from "../../mails/mails.module";
 import { AppLogsService } from "../../app-logs/app-logs.service";
 import { appLogsRepository, userStructureRepository } from "../../../database";
 import { OtpModule } from "../../otp/otp.module";
+import { UserStructureDecisionService } from "../services/user-structure-decision/user-structure-decision.service";
 
 describe("Users Controller", () => {
   let controller: UsersController;
@@ -36,7 +37,7 @@ describe("Users Controller", () => {
         HttpModule,
         OtpModule,
       ],
-      providers: [AppLogsService],
+      providers: [AppLogsService, UserStructureDecisionService],
     });
 
     authInfo =
