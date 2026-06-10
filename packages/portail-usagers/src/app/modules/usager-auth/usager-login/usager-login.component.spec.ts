@@ -36,7 +36,7 @@ describe("UsagerLoginComponent", () => {
 
   it("submitting a form emits a user", () => {
     expect(component.loginForm.valid).toBeFalsy();
-    component.loginForm.controls.login.setValue("MyName");
+    component.loginForm.controls.login.setValue("ABCDEFGH");
     component.loginForm.controls.password.setValue("123456789");
     expect(component.loginForm.valid).toBeTruthy();
   });
