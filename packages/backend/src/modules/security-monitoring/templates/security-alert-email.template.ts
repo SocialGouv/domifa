@@ -4,6 +4,8 @@ import { fr } from "date-fns/locale";
 
 import {
   EmailAlertingLogAction,
+  QuotaExceededEntry,
+  QuotaKind,
   SuspiciousActivitySummary,
 } from "../types/security-alert.types";
 
@@ -468,11 +470,93 @@ function renderIdentifiersCell(
   return overflow > 0 ? `${list} (+${overflow})` : list;
 }
 
+// Section title used by the per-kind quota tables. Kept short to match the
+// neighbouring "Comptes bloques" / "IP bloquees" headings.
+const QUOTA_SECTION_TITLES: Record<QuotaKind, string> = {
+  USAGERS_DOCS_DOWNLOAD: "Quota de telechargement de documents depasse",
+  USAGERS_DOCS_UPLOAD: "Quota d'upload de documents depasse",
+  USAGERS_DELETE: "Quota de suppression de domicilies depasse",
+};
+
+function renderQuotaTable(entries: QuotaExceededEntry[]): string {
+  const rows = entries
+    .map((entry) => {
+      const structureLabel = [
+        `#${entry.structureId}`,
+        entry.structureName ? escapeHtml(entry.structureName) : null,
+        entry.structureCity ? `(${escapeHtml(entry.structureCity)})` : null,
+      ]
+        .filter(Boolean)
+        .join(" ");
+      return `<tr>
+          <td style="${cellStyle} font-weight: 700;">${structureLabel}</td>
+          <td style="${cellRightStyle} font-weight: 700;">${entry.count}</td>
+          <td style="${cellRightStyle}">${entry.threshold}</td>
+        </tr>`;
+    })
+    .join("");
+
+  return `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border-collapse: collapse; background-color: ${COLORS.background};">
+    <thead>
+      <tr>
+        <th style="${headerCellStyle}">Structure</th>
+        <th style="${headerCellRightStyle}">Volume du jour</th>
+        <th style="${headerCellRightStyle}">Seuil</th>
+      </tr>
+    </thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+// Groups quota entries by kind and renders one titled table per kind that has
+// entries. Returns the empty string when nothing crossed — the caller skips
+// the surrounding section in that case.
+function renderQuotaSections(
+  quotaExceedances: QuotaExceededEntry[],
+  sectionTitleStyle: string
+): string {
+  if (quotaExceedances.length === 0) return "";
+
+  const byKind = new Map<QuotaKind, QuotaExceededEntry[]>();
+  for (const entry of quotaExceedances) {
+    const bucket = byKind.get(entry.kind) ?? [];
+    bucket.push(entry);
+    byKind.set(entry.kind, bucket);
+  }
+
+  const kinds: QuotaKind[] = [
+    "USAGERS_DOCS_DOWNLOAD",
+    "USAGERS_DOCS_UPLOAD",
+    "USAGERS_DELETE",
+  ];
+  return kinds
+    .map((kind) => {
+      const entries = byKind.get(kind);
+      if (!entries || entries.length === 0) return "";
+      return `<tr>
+            <td style="padding: 24px 24px 0 24px;">
+              <h2 style="${sectionTitleStyle}">${escapeHtml(
+        QUOTA_SECTION_TITLES[kind]
+      )}</h2>
+              ${renderQuotaTable(entries)}
+            </td>
+          </tr>`;
+    })
+    .join("");
+}
+
 export function generateSecurityAlertEmailHtml(
   summary: SuspiciousActivitySummary,
   envId: string
 ): string {
-  const { windowStart, windowEnd, totals, blockedUsers, blockedIps } = summary;
+  const {
+    windowStart,
+    windowEnd,
+    totals,
+    blockedUsers,
+    blockedIps,
+    quotaExceedances,
+  } = summary;
   const sectionTitleStyle = `font-family: ${FONT_STACK}; font-size: 16px; font-weight: 700; color: ${COLORS.blueFrance}; margin: 0 0 12px 0;`;
   const bodyTextStyle = `font-family: ${FONT_STACK}; font-size: 14px; line-height: 1.5; color: ${COLORS.textPrimary}; margin: 0 0 12px 0;`;
 
@@ -602,6 +686,9 @@ export function generateSecurityAlertEmailHtml(
               ${renderBlockedIpsTable(blockedIps)}
             </td>
           </tr>
+
+          <!-- Behavioural quota exceedances (one section per kind, only when non-empty) -->
+          ${renderQuotaSections(quotaExceedances, sectionTitleStyle)}
 
           <!-- Footnote -->
           <tr>

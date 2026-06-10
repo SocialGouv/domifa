@@ -361,6 +361,23 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         required: true,
       }),
     },
+    quotas: {
+      usagersDocsDownloadPerDay: configParser.parseInteger(
+        x,
+        "DOMIFA_QUOTA_USAGERS_DOCS_DOWNLOAD_PER_DAY",
+        { required: false, defaultValue: 100 }
+      ),
+      usagersDocsUploadPerDay: configParser.parseInteger(
+        x,
+        "DOMIFA_QUOTA_USAGERS_DOCS_UPLOAD_PER_DAY",
+        { required: false, defaultValue: 100 }
+      ),
+      usagersDeletePerDay: configParser.parseInteger(
+        x,
+        "DOMIFA_QUOTA_USAGERS_DELETE_PER_DAY",
+        { required: false, defaultValue: 100 }
+      ),
+    },
   };
   return config;
 }
