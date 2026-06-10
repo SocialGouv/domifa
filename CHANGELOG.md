@@ -1,3 +1,11 @@
+## [2.250.1](https://github.com/SocialGouv/domifa/compare/v2.250.0...v2.250.1) (2026-06-10)
+
+
+### Bug Fixes
+
+* **admin:** add filters ([b13fead](https://github.com/SocialGouv/domifa/commit/b13feadb4a2c2160a94340d194db7bf73ab50be5))
+* **backend:** fix http filter ([2986c2e](https://github.com/SocialGouv/domifa/commit/2986c2e29c4d982941c172311ac5485f8a51809e))
+
 # [2.250.0](https://github.com/SocialGouv/domifa/compare/v2.249.8...v2.250.0) (2026-06-09)
 
 
