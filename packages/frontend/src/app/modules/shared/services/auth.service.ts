@@ -56,7 +56,7 @@ export class AuthService {
 
     return this.http
       .post<{ access_token: string }>(`${this.endPoint}/login`, {
-        email,
+        email: email.trim().toLowerCase(),
         password,
         ...(trustToken ? { trustToken } : {}),
       })

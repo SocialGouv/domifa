@@ -31,6 +31,9 @@ export class AssignReferrersComponent implements OnInit, OnDestroy {
   constructor(private readonly manageUsersService: ManageUsersService) {}
 
   ngOnInit() {
+    if (!this.currentUser?.uuid) {
+      return;
+    }
     this.subscription.add(
       this.manageUsersService
         .countReferrers(this.currentUser)

@@ -29,7 +29,7 @@ import {
 } from "@domifa/common";
 import { SeoService } from "../../shared/services/seo.service";
 import { DsfrButtonModule } from "@edugouvfr/ngx-dsfr";
-import { UppercaseDirective } from "../../shared/directives/uppercase.directive";
+import { TrimUppercaseDirective } from "../../shared/directives/trim-uppercase.directive";
 import { FaqComponent } from "../../shared/components/faq/faq.component";
 
 @Component({
@@ -41,7 +41,7 @@ import { FaqComponent } from "../../shared/components/faq/faq.component";
     ReactiveFormsModule,
     RouterModule,
     DsfrButtonModule,
-    UppercaseDirective,
+    TrimUppercaseDirective,
     FaqComponent,
   ],
 })

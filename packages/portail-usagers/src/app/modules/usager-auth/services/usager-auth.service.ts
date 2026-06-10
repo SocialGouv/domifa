@@ -48,7 +48,10 @@ export class UsagerAuthService {
   ): Observable<PortailUsagerAuthApiResponse> {
     return this.http.post<PortailUsagerAuthApiResponse>(
       `${END_POINT_AUTH}/login`,
-      loginForm,
+      {
+        ...loginForm,
+        login: loginForm.login?.trim().toUpperCase(),
+      },
     );
   }
 
@@ -91,7 +94,6 @@ export class UsagerAuthService {
     this.logout(sessionExpired);
 
     const matomoParams = this.getMatomoParams();
-    console.log({ matomoParams });
     const queryParams: Record<string, string> = { ...matomoParams };
 
     this.router.navigate(["/auth/login"], { queryParams }).then(() => {

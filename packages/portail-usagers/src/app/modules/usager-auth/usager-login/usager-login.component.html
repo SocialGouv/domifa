@@ -16,17 +16,31 @@
           (ngSubmit)="doLogin()"
         >
           <h1 class="fr-align-self-start">Connexion à Mon Domifa</h1>
+          <p class="fr-text--sm fr-mb-2w">
+            Ce portail est réservé aux personnes domiciliées. Vous êtes
+            domicilié dans une structure qui utilise DomiFa ? Consultez votre
+            dossier en ligne.
+          </p>
           <div
             [class.fr-input-group--error]="f.login.dirty && f.login.errors"
             class="fr-input-group required fr-mb-0"
           >
-            <label class="fr-label" for="login">Votre identifiant</label>
+            <label class="fr-label" for="login">
+              Votre identifiant
+              <span class="fr-hint-text">
+                Format : 8 lettres (exemple : ABCDEFGH). Ce n'est pas votre
+                adresse e-mail.
+              </span>
+            </label>
             <input
               #login
               type="text"
               formControlName="login"
               autocomplete="username"
-              appUppercase
+              appTrimUppercase
+              inputmode="text"
+              maxlength="8"
+              pattern="[A-Za-z]{8}"
               id="login"
               class="fr-input"
               [attr.aria-invalid]="

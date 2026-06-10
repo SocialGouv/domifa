@@ -108,7 +108,6 @@ export class EtatCivilParentFormComponent implements OnDestroy {
   }
 
   public initForm(): void {
-    console.info(formatDateToFr(this?.usager?.dateNaissance));
     this.ayantsDroitsExist = this.usager.ayantsDroits?.length > 0;
 
     this.usagerForm = this.formBuilder.group({

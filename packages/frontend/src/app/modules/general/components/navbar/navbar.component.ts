@@ -72,7 +72,6 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
       window["dsfr"] &&
       typeof window["dsfr"].start === "function"
     ) {
-      console.log("LLOKOK");
       window["dsfr"].start();
     }
   }

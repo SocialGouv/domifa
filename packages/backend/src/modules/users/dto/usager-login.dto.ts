@@ -2,6 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
 import {
   IsValidPassword,
+  Trim,
   UpperCaseTransform,
 } from "../../../_common/decorators";
 
@@ -10,10 +11,11 @@ export class UsagerLoginDto {
     type: String,
     required: true,
   })
+  @Trim()
+  @UpperCaseTransform()
   @IsNotEmpty()
   @IsString()
   @MinLength(2)
-  @UpperCaseTransform()
   public readonly login!: string;
 
   @ApiProperty({

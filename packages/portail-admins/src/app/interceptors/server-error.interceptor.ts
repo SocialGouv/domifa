@@ -42,10 +42,8 @@ export class ServerErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       retry({
         count: MAX_RETRIES,
-        delay: (error, retryCount) => {
+        delay: (error) => {
           if (this.isRetryable(error)) {
-            console.log(error);
-            console.log(`Tentative de nouvelle requête ${retryCount}`);
             return timer(RETRY_DELAY);
           }
           return throwError(() => error);

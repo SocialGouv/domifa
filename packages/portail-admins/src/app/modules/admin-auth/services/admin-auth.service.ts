@@ -52,7 +52,10 @@ export class AdminAuthService {
   ): Observable<PortailAdminAuthApiResponse> {
     return this.http.post<PortailAdminAuthApiResponse>(
       `${END_POINT_AUTH}/login`,
-      loginForm
+      {
+        ...loginForm,
+        email: loginForm.email?.trim().toLowerCase(),
+      }
     );
   }
 

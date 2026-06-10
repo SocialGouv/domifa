@@ -7,13 +7,19 @@ import {
   IsString,
   MaxLength,
 } from "class-validator";
-import { IsValidPassword } from "../../../_common/decorators";
+import {
+  IsValidPassword,
+  LowerCaseTransform,
+  Trim,
+} from "../../../_common/decorators";
 
 export class StructureLoginDto {
   @ApiProperty({
     type: String,
     required: true,
   })
+  @Trim()
+  @LowerCaseTransform()
   @IsNotEmpty()
   @IsEmail()
   public readonly email!: string;
