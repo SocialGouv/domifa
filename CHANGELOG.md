@@ -1,3 +1,12 @@
+## [2.250.4](https://github.com/SocialGouv/domifa/compare/v2.250.3...v2.250.4) (2026-06-10)
+
+
+### Bug Fixes
+
+* **backend:** add logs of download ([eda5bc8](https://github.com/SocialGouv/domifa/commit/eda5bc848829a30cbd185aeb3f266a44b859cb34))
+* **backend:** add mailing from tipimail ([f71ca66](https://github.com/SocialGouv/domifa/commit/f71ca66cc1edff03a621546c629f09fa81c9e58e))
+* **frontend:** add trim for login ([bc47fd7](https://github.com/SocialGouv/domifa/commit/bc47fd728b86673bcec241e7c1d1ff60a468c153))
+
 ## [2.250.3](https://github.com/SocialGouv/domifa/compare/v2.250.2...v2.250.3) (2026-06-10)
 
 
