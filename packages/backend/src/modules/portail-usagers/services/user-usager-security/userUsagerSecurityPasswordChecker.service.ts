@@ -28,7 +28,7 @@ async function checkPassword({
   requestContext?: SecurityLogRequestContext;
 }): Promise<UserUsager> {
   const user = await userUsagerRepository.findOne({
-    where: { login: login.toUpperCase() },
+    where: { login: login.trim().toUpperCase() },
     select: {
       password: true,
       salt: true,

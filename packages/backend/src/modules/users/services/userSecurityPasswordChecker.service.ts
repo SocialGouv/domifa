@@ -100,7 +100,7 @@ async function findUserForLogin<T extends UserStructure | UserSupervisor>({
   requestContext: CheckPasswordRequestContext;
 }): Promise<T> {
   const user = (await getUserRepository(userProfile).findOneBy({
-    email: email.toLowerCase(),
+    email: email.trim().toLowerCase(),
   })) as T | null;
 
   if (!user) {

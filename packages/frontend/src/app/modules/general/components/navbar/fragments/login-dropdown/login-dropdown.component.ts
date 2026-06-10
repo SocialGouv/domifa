@@ -34,8 +34,6 @@ export class LoginDropdownComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildLoginLinks();
-
-    console.log("dd");
   }
 
   private updateLinks(): void {

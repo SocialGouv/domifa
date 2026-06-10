@@ -239,8 +239,7 @@ export class PhoneInputComponent
       } else {
         this.isValid = true;
       }
-    } catch (e) {
-      console.log(e);
+    } catch {
       this.isValid = false;
     }
   }
@@ -270,8 +269,8 @@ export class PhoneInputComponent
           this.phoneUtil.getNationalSignificantNumber(exampleNumber);
         return;
       }
-    } catch (e) {
-      console.log("Cannot generate placeholder", e);
+    } catch {
+      // Fallback to the default placeholder below
     }
 
     this.currentPlaceholder = this.isMobileOnly

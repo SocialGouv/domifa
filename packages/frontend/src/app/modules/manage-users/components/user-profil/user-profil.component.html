@@ -892,10 +892,12 @@
     </select>
   </div>
 
+  @if (selectedUser) {
   <app-assign-referrers
     [(newReferrerId)]="newReferrerId"
     [currentUser]="selectedUser"
   />
+  }
 
   <ng-template #modalFooterTemplate>
     <div
