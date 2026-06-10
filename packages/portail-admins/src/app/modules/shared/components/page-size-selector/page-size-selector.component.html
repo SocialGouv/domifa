@@ -1,0 +1,12 @@
+<div class="page-size-selector">
+  <label class="fr-label" [attr.for]="fieldId">{{ label }}</label>
+  <select
+    class="fr-select"
+    [id]="fieldId"
+    [name]="fieldId"
+    [ngModel]="pageSize"
+    (ngModelChange)="onChange($event)"
+  >
+    <option *ngFor="let size of options" [ngValue]="size">{{ size }}</option>
+  </select>
+</div>

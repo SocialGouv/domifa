@@ -34,4 +34,8 @@ export interface ThrottleBlockedLogContext {
   // Captured only when the blocked request targets a login endpoint. Surfaces
   // brute-force patterns aimed at a specific account in the security alert.
   attemptedIdentifier?: string;
+
+  // Curated subset of request headers preserved for forensic inspection
+  // (UA spoofing, proxy chain, sec-fetch metadata). See extractRequestHeaders.
+  headers?: Record<string, string>;
 }

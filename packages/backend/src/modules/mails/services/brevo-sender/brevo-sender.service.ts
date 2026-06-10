@@ -23,11 +23,12 @@ import {
   STRUCTURE_DECISION_LABELS,
   USER_STRUCTURE_ROLES_LABELS,
   STRUCTURE_TYPE_LABELS,
+  getStructureDecisionMotif,
 } from "@domifa/common";
 import { isValid } from "date-fns";
 
 import { UserStructureBrevo } from "../../types/UserStructureBrevo.type";
-import { getStructureDecisionMotif } from "@domifa/common";
+
 import { appLogger } from "../../../../util";
 import { UserProfile, UserSecurity } from "../../../../_common/model";
 import { DomifaConfig } from "../../../../config/model/DomifaConfig.type";
@@ -36,6 +37,7 @@ import {
   userSupervisorRepository,
 } from "../../../../database";
 import { userSecurityResetPasswordInitiator } from "../../../users/services";
+import { isDeletedEmail } from "./deleted-email.guard";
 
 // Environments where every Brevo call (send, list sync, contact read, etc.)
 // is replaced by an info log and a mocked response: `test` (CI suites must
@@ -75,6 +77,13 @@ export class BrevoSenderService {
       return;
     }
 
+    if (isDeletedEmail(structure.email)) {
+      appLogger.info(
+        `[BREVO SKIP] Structure ${structure.id} a un email préfixé "deleted-", sync Brevo ignorée`
+      );
+      return;
+    }
+
     try {
       const createContactBody = new CreateContact();
       createContactBody.email = structure.email;
@@ -99,7 +108,7 @@ export class BrevoSenderService {
         TYPE_STRUCTURE: STRUCTURE_TYPE_LABELS[structure.structureType],
       };
       createContactBody.listIds = [
-        parseInt(domifaConfig().brevo.contactsStructuresListId, 10),
+        Number.parseInt(domifaConfig().brevo.contactsStructuresListId, 10),
       ];
       createContactBody.updateEnabled = true;
 
@@ -150,6 +159,14 @@ export class BrevoSenderService {
       return { messageId: "mock-message-id-emails-disabled" };
     }
 
+    const cleanRecipients = to.filter((t) => !isDeletedEmail(t.email));
+    if (cleanRecipients.length === 0) {
+      appLogger.info(
+        `[BREVO SKIP] Tous les destinataires sont préfixés "deleted-", envoi ignoré (template=${templateId})`
+      );
+      return { messageId: "mock-message-id-deleted-recipients" };
+    }
+
     try {
       const sendSmtpEmail = new SendSmtpEmail();
 
@@ -160,7 +177,7 @@ export class BrevoSenderService {
       sendSmtpEmail.templateId = templateId;
       sendSmtpEmail.to =
         domifaConfig().envId === "prod"
-          ? to
+          ? cleanRecipients
           : [
               {
                 email: domifaConfig().email.emailAddressRedirectAllTo,
@@ -212,6 +229,13 @@ export class BrevoSenderService {
       return;
     }
 
+    if (isDeletedEmail(user.email)) {
+      appLogger.info(
+        `[BREVO SKIP] Utilisateur ${user.id} a un email préfixé "deleted-", sync Brevo ignorée`
+      );
+      return;
+    }
+
     try {
       const createContactBody = new CreateContact();
       createContactBody.email = user.email;
@@ -258,6 +282,13 @@ export class BrevoSenderService {
     if (isBrevoCallSkipped(config)) {
       appLogger.info(
         `[EMAILS DISABLED] Inscription newsletter non effectuée pour l'email ${email}`
+      );
+      return;
+    }
+
+    if (isDeletedEmail(email)) {
+      appLogger.info(
+        `[BREVO SKIP] Email préfixé "deleted-", inscription newsletter ignorée`
       );
       return;
     }

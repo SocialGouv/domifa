@@ -14,6 +14,7 @@ import {
   DEFAULT_PAGE_SIZE,
   PAGE_SIZE_OPTIONS,
 } from "../../../../shared/constants";
+import { PageSizeSelectorComponent } from "../../../shared/components/page-size-selector/page-size-selector.component";
 import { CustomToastService } from "../../../shared/services";
 import { BrevoBlocklistService } from "../../services/brevo-blocklist.service";
 
@@ -26,6 +27,7 @@ import { BrevoBlocklistService } from "../../services/brevo-blocklist.service";
     FormsModule,
     DsfrPaginationComponent,
     DsfrSpinnerComponent,
+    PageSizeSelectorComponent,
   ],
 })
 export class BrevoBlocklistComponent implements OnInit, OnDestroy {

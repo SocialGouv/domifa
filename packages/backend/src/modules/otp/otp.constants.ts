@@ -21,3 +21,13 @@ export const OTP_MAX_REQUESTS_PER_HOUR = 10;
 // `req.headers`, donc la lecture marche quelle que soit la casse envoyée.
 export const OTP_CODE_HEADER = "otp-code";
 export const OTP_RESEND_HEADER = "otp-resend";
+
+// Brevo's deliverability on these consumer ISP domains (Orange/Wanadoo) and
+// on fabrique.social.gouv.fr is unreliable — codes routinely never arrive.
+// For these recipients we bypass Brevo and hand the OTP to Tipimail via the
+// existing SMTP relay (DOMIFA_SMTP_* config), regardless of otpProvider.
+export const OTP_FORCED_SMTP_DOMAINS: readonly string[] = [
+  "wanadoo.fr",
+  "orange.fr",
+  "fabrique.social.gouv.fr",
+];

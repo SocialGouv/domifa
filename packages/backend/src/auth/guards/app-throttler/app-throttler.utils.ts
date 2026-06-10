@@ -122,6 +122,51 @@ export function sanitizeForLog(value: unknown): string | undefined {
     : cleaned;
 }
 
+// Headers preserved on REQUEST_BLOCKED / THROTTLE_BLOCKED log rows so an
+// admin can tell a genuine bot from a UA-spoofed browser:
+//  - host: target hostname (catches misrouted requests)
+//  - accept / accept-language / accept-encoding: real browsers always send
+//    these — a `Chrome` UA without them is suspicious
+//  - sec-fetch-*, sec-ch-ua-*: client hints; modern browsers send them on
+//    every navigation/fetch — absence is a strong spoof signal
+//  - upgrade-insecure-requests, dnt: small but help characterise the client
+//  - x-forwarded-for / x-real-ip / x-forwarded-proto: full proxy chain so we
+//    can compare with the IP the throttler computed
+// Authorization / Cookie / CSRF headers are intentionally excluded.
+const CAPTURED_HEADER_KEYS: ReadonlyArray<readonly [string, string]> = [
+  ["host", "host"],
+  ["accept", "accept"],
+  ["accept-language", "acceptLanguage"],
+  ["accept-encoding", "acceptEncoding"],
+  ["sec-fetch-site", "secFetchSite"],
+  ["sec-fetch-mode", "secFetchMode"],
+  ["sec-fetch-dest", "secFetchDest"],
+  ["sec-fetch-user", "secFetchUser"],
+  ["sec-ch-ua", "secChUa"],
+  ["sec-ch-ua-mobile", "secChUaMobile"],
+  ["sec-ch-ua-platform", "secChUaPlatform"],
+  ["upgrade-insecure-requests", "upgradeInsecureRequests"],
+  ["dnt", "dnt"],
+  ["x-forwarded-for", "xForwardedFor"],
+  ["x-real-ip", "xRealIp"],
+  ["x-forwarded-proto", "xForwardedProto"],
+];
+
+export function extractRequestHeaders(
+  request: Request
+): Record<string, string> | undefined {
+  const out: Record<string, string> = {};
+  for (const [header, key] of CAPTURED_HEADER_KEYS) {
+    const raw = request.headers[header];
+    const joined = Array.isArray(raw) ? raw.join(", ") : raw;
+    const cleaned = sanitizeForLog(joined);
+    if (cleaned) {
+      out[key] = cleaned;
+    }
+  }
+  return Object.keys(out).length > 0 ? out : undefined;
+}
+
 // Routes that bypass the whole throttler (bot filter + rate limit).
 // - /healthz : k8s liveness/readiness probes
 // - /stats/public-stats : cached public dashboard, no auth, no PII
