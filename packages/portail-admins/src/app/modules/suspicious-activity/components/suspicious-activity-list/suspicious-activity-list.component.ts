@@ -13,6 +13,7 @@ import { Subscription } from "rxjs";
 import { CustomToastService } from "../../../shared/services";
 import { DisplayIpComponent } from "../../../shared/components/display-ip/display-ip.component";
 import { DisplayUserAgentComponent } from "../../../shared/components/display-user-agent/display-user-agent.component";
+import { PageSizeSelectorComponent } from "../../../shared/components/page-size-selector/page-size-selector.component";
 import {
   getLogContextHumanSummary,
   getLogContextJson,
@@ -52,6 +53,7 @@ import { SuspiciousActivityFiltersComponent } from "../suspicious-activity-filte
     DsfrModalModule,
     DsfrPaginationComponent,
     DsfrSpinnerComponent,
+    PageSizeSelectorComponent,
     SuspiciousActivityFiltersComponent,
   ],
 })

@@ -26,6 +26,7 @@ import {
   extractAttemptedTarget,
   extractJwtUser,
   extractLoginIdentifier,
+  extractRequestHeaders,
   formatThrottleWindow,
   getAllowedOrigins,
   getBlockReason,
@@ -149,6 +150,7 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       url: sanitizeForLog(request.url) ?? "",
       jwtUser,
       attemptedIdentifier,
+      headers: extractRequestHeaders(request),
     };
 
     // totalHits is the current TTL-window counter for the tier that reports the
@@ -393,6 +395,7 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       origin: sanitizeForLog(request.headers["origin"]),
       referer: sanitizeForLog(request.headers["referer"]),
       attemptedIdentifier: extractLoginIdentifier(request),
+      headers: extractRequestHeaders(request),
     };
 
     const existingLogUuid = this.activeBlocks.get(dedupKey);

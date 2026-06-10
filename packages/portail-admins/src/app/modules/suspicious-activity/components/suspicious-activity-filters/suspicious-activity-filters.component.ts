@@ -1,6 +1,14 @@
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { Subscription } from "rxjs";
+import { debounceTime } from "rxjs/operators";
 
 import { SecurityLogAction } from "@domifa/common";
 
@@ -10,13 +18,18 @@ import {
 } from "../../constants/SUSPICIOUS_ACTIONS.const";
 import { SuspiciousActivityFilters } from "../../types/suspicious-activity-log";
 
+// Debounce window for free-text inputs (IP, identifier). Selects/dates emit
+// through the same pipe so they pay this delay too — at 300 ms it's below
+// the perceptual threshold and avoids a second emission path.
+const FILTER_DEBOUNCE_MS = 300;
+
 @Component({
   selector: "app-suspicious-activity-filters",
   standalone: true,
   templateUrl: "./suspicious-activity-filters.component.html",
   imports: [CommonModule, ReactiveFormsModule],
 })
-export class SuspiciousActivityFiltersComponent implements OnInit {
+export class SuspiciousActivityFiltersComponent implements OnInit, OnDestroy {
   @Output() public readonly filtersChange =
     new EventEmitter<SuspiciousActivityFilters>();
 
@@ -26,6 +39,8 @@ export class SuspiciousActivityFiltersComponent implements OnInit {
   }
 
   public form!: FormGroup;
+
+  private readonly subscription = new Subscription();
 
   constructor(private readonly fb: FormBuilder) {}
 
@@ -37,29 +52,24 @@ export class SuspiciousActivityFiltersComponent implements OnInit {
       ip: this.fb.control<string | null>(null),
       identifier: this.fb.control<string | null>(null),
     });
+
+    this.subscription.add(
+      this.form.valueChanges
+        .pipe(debounceTime(FILTER_DEBOUNCE_MS))
+        .subscribe(() => this.emit())
+    );
   }
 
-  public submit(): void {
-    this.emit();
-  }
-
-  public reset(): void {
-    this.form.reset({
-      action: null,
-      dateFrom: null,
-      dateTo: null,
-      ip: null,
-      identifier: null,
-    });
-    this.emit();
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   // Called by the parent when an IP cell is clicked in the table — keeps the
-  // form in sync with the active filter so a subsequent "Rechercher" submit
-  // doesn't reset the IP back to empty.
+  // form in sync with the active filter so a subsequent user edit doesn't
+  // reset the IP back to empty. The patch triggers `valueChanges` which
+  // re-emits through the debounced pipeline.
   public setIp(ip: string): void {
     this.form.patchValue({ ip });
-    this.emit();
   }
 
   private emit(): void {

@@ -1,6 +1,8 @@
-<form [formGroup]="form" class="fr-mb-3w" (ngSubmit)="submit()">
-  <div class="fr-grid-row fr-grid-row--gutters">
-    <div class="fr-col-12 fr-col-md-4">
+<form [formGroup]="form" class="fr-mb-3w">
+  <div
+    class="fr-grid-row fr-grid-row--gutters fr-grid-row--bottom text-md-start text-center"
+  >
+    <div class="fr-col-12 fr-col-md">
       <div class="fr-select-group">
         <label class="fr-label" for="sa-action">Type d'événement</label>
         <select class="fr-select" id="sa-action" formControlName="action">
@@ -11,7 +13,7 @@
         </select>
       </div>
     </div>
-    <div class="fr-col-12 fr-col-md-3">
+    <div class="fr-col-12 fr-col-md">
       <div class="fr-input-group">
         <label class="fr-label" for="sa-date-from">Date de début</label>
         <input
@@ -22,7 +24,7 @@
         />
       </div>
     </div>
-    <div class="fr-col-12 fr-col-md-3">
+    <div class="fr-col-12 fr-col-md">
       <div class="fr-input-group">
         <label class="fr-label" for="sa-date-to">Date de fin</label>
         <input
@@ -33,7 +35,7 @@
         />
       </div>
     </div>
-    <div class="fr-col-12 fr-col-md-4">
+    <div class="fr-col-12 fr-col-md">
       <div class="fr-input-group">
         <label class="fr-label" for="sa-ip">Adresse IP</label>
         <input
@@ -45,7 +47,7 @@
         />
       </div>
     </div>
-    <div class="fr-col-12 fr-col-md-4">
+    <div class="fr-col-12 fr-col-md">
       <div class="fr-input-group">
         <label class="fr-label" for="sa-identifier">Identifiant tenté</label>
         <input
@@ -56,27 +58,6 @@
           placeholder="email ou login"
         />
       </div>
-    </div>
-    <div class="fr-col-12 fr-col-md-4 fr-display-flex fr-align-items-end">
-      <ul class="fr-btns-group fr-btns-group--inline fr-btns-group--sm fr-mb-0">
-        <li>
-          <button
-            type="submit"
-            class="fr-btn fr-icon-search-line fr-btn--icon-left"
-          >
-            Rechercher
-          </button>
-        </li>
-        <li>
-          <button
-            type="button"
-            class="fr-btn fr-btn--secondary"
-            (click)="reset()"
-          >
-            Réinitialiser
-          </button>
-        </li>
-      </ul>
     </div>
   </div>
 </form>

@@ -336,6 +336,44 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
       expect(logs[0].context.attempts).toBe(6);
     });
 
+    it("persists curated request headers on REQUEST_BLOCKED context", async () => {
+      const res = await supertest(context.app.getHttpServer())
+        .get("/test-bot-guard/ping")
+        .set("User-Agent", "curl/8.6.0")
+        .set("Origin", validOrigin)
+        .set("Accept", "application/json")
+        .set("Accept-Language", "fr-FR,fr;q=0.9")
+        .set("Accept-Encoding", "gzip, deflate, br")
+        .set("Sec-Fetch-Site", "cross-site")
+        .set("Sec-Fetch-Mode", "navigate")
+        .set("Sec-Fetch-Dest", "document")
+        .set("X-Forwarded-For", "203.0.113.7, 10.0.0.1")
+        .set("X-Real-IP", "203.0.113.7")
+        .set("X-Forwarded-Proto", "https");
+      expect(res.status).toBe(403);
+
+      const logs = await appLogSecurityRepository.find({
+        where: { action: "REQUEST_BLOCKED", ...recentLogsFilter() },
+      });
+      expect(logs).toHaveLength(1);
+      const headers = logs[0].context.headers;
+      expect(headers).toBeDefined();
+      expect(headers).toMatchObject({
+        accept: "application/json",
+        acceptLanguage: "fr-FR,fr;q=0.9",
+        acceptEncoding: "gzip, deflate, br",
+        secFetchSite: "cross-site",
+        secFetchMode: "navigate",
+        secFetchDest: "document",
+        xForwardedFor: "203.0.113.7, 10.0.0.1",
+        xRealIp: "203.0.113.7",
+        xForwardedProto: "https",
+      });
+      // Sensitive headers must NOT leak into the log row.
+      expect(headers).not.toHaveProperty("authorization");
+      expect(headers).not.toHaveProperty("cookie");
+    });
+
     it("loop of 7 invalid-origin requests = 1 log with invalid_origin and attempts=7", async () => {
       for (let i = 0; i < 7; i++) {
         const res = await supertest(context.app.getHttpServer())

@@ -9,9 +9,10 @@ import { Transporter } from "nodemailer";
 
 import { domifaConfig } from "../../../config";
 import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
+import { isDeletedEmail } from "../../mails/services/brevo-sender/deleted-email.guard";
 import { OTP_ACTION_MOTIF_LABELS } from "../otp.labels";
 import { OtpPurpose } from "../otp.types";
-import { redactEmail } from "../otp.utils";
+import { redactEmail, shouldForceSmtpForDomain } from "../otp.utils";
 import { generateOtpActionEmailHtml } from "../templates/otp-action-email.template";
 import { generateOtpEmailHtml } from "../templates/otp-email.template";
 
@@ -56,6 +57,13 @@ export class OtpEmailService implements OnModuleInit {
     const config = domifaConfig();
     const emailLog = redactEmail(email);
 
+    if (isDeletedEmail(email)) {
+      this.logger.warn(
+        `[OTP SKIP] Destinataire préfixé "deleted-" (${emailLog}), envoi ignoré`
+      );
+      return;
+    }
+
     if (config.envId === "local") {
       this.logger.log(
         `[OTP LOCAL] code=${code} purpose=${purpose} to=${emailLog} (envoi reel ignore en local)`
@@ -78,13 +86,20 @@ export class OtpEmailService implements OnModuleInit {
         : config.email.emailAddressRedirectAllTo || email;
     const recipientLog = redactEmail(recipient);
     const isLogin = purpose === "LOGIN";
+    const forceSmtp = shouldForceSmtpForDomain(recipient);
 
-    if (config.email.otpProvider === "brevo") {
+    if (config.email.otpProvider === "brevo" && !forceSmtp) {
       await this.sendViaBrevo({ recipient, code, prenom, purpose, isLogin });
       this.logger.log(
         `OTP email envoye via Brevo a ${recipientLog} (original: ${emailLog}, purpose=${purpose})`
       );
       return;
+    }
+
+    if (forceSmtp) {
+      this.logger.log(
+        `OTP recipient ${recipientLog} on forced-SMTP domain — bypass Brevo, send via Tipimail SMTP`
+      );
     }
 
     await this.sendViaSmtp({ recipient, code, isLogin, purpose, emailLog });

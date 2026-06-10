@@ -378,9 +378,16 @@ function parseSmtpConfig(x: Partial<DomifaEnv>): DomifaConfig["smtp"] {
       required: false,
       defaultValue: 587,
     }),
+    // Tipimail DKIM/SPF are configured on diffusion.fabrique.social.gouv.fr.
+    // The FROM must stay on this domain otherwise deliverability tanks on
+    // ISPs that enforce DMARC alignment (the whole reason we route around
+    // Brevo for these recipients). The "DomiFa <…>" display name matches
+    // what Brevo shows in the inbox preview so users see the same sender
+    // identity regardless of which provider routed the email.
     from: configParser.parseString(x, "DOMIFA_SMTP_FROM", {
       required: false,
-      defaultValue: "ne-pas-repondre@domifa.fabrique.social.gouv.fr",
+      defaultValue:
+        "DomiFa <ne-pas-repondre@diffusion.fabrique.social.gouv.fr>",
     }),
     timeoutMs: configParser.parseInteger(x, "DOMIFA_SMTP_TIMEOUT_MS", {
       required: false,

@@ -20,6 +20,7 @@ import {
 import { CustomToastService } from "../../services";
 import { DisplayIpComponent } from "../display-ip/display-ip.component";
 import { DisplayUserAgentComponent } from "../display-user-agent/display-user-agent.component";
+import { PageSizeSelectorComponent } from "../page-size-selector/page-size-selector.component";
 import {
   getLogContextHumanSummary,
   getLogContextJson,
@@ -77,6 +78,7 @@ const DEFAULT_TEXTS: Record<
     DsfrSpinnerComponent,
     DisplayIpComponent,
     DisplayUserAgentComponent,
+    PageSizeSelectorComponent,
   ],
 })
 export class UserActivityTabComponent implements OnChanges, OnDestroy {

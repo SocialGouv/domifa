@@ -31,6 +31,7 @@ import {
 import { TableHeadSortComponent } from "../table-head-sort/table-head-sort.component";
 import { DisplayLastLoginComponent } from "../display-last-login/display-last-login.component";
 import { DisplayPasswordAgeComponent } from "../display-password-age/display-password-age.component";
+import { PageSizeSelectorComponent } from "../page-size-selector/page-size-selector.component";
 import { FullNamePipe } from "../../pipes";
 import {
   USER_STATUS_BADGE_CLASS,
@@ -63,6 +64,7 @@ type StoredTableState = {
     DisplayLastLoginComponent,
     DisplayPasswordAgeComponent,
     DsfrPaginationComponent,
+    PageSizeSelectorComponent,
     FullNamePipe,
   ],
 })
