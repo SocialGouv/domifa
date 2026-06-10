@@ -60,10 +60,30 @@ export interface BlockedIpSummary {
   attemptedIdentifiersOverflow?: number;
 }
 
+// Per-structure behavioural quota kinds tracked daily. The string values map
+// 1:1 to the `app_log.action` rows the cron counts to detect a crossing.
+export type QuotaKind =
+  | "USAGERS_DOCS_DOWNLOAD"
+  | "USAGERS_DOCS_UPLOAD"
+  | "USAGERS_DELETE";
+
+export interface QuotaExceededEntry {
+  kind: QuotaKind;
+  structureId: number;
+  structureName?: string;
+  structureCity?: string;
+  count: number;
+  threshold: number;
+}
+
 export interface SuspiciousActivitySummary {
   windowStart: Date;
   windowEnd: Date;
   totals: Record<EmailAlertingLogAction, number>;
   blockedUsers: BlockedUserSummary[];
   blockedIps: BlockedIpSummary[];
+  // Structures that crossed a behavioural quota since the last cron tick.
+  // Empty when nothing new — the dedup is kept in-memory on the singleton
+  // backend-cron pod (one alert per (structure, kind) per Paris day).
+  quotaExceedances: QuotaExceededEntry[];
 }

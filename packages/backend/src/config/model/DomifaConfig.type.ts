@@ -114,4 +114,12 @@ export type DomifaConfig = {
     url: string;
     token: string;
   };
+  // Per-structure behavioural quotas evaluated on a Paris calendar day. The
+  // backend-cron pod alerts (no blocking, phase 1) when a structure crosses one
+  // of these thresholds.
+  quotas: {
+    usagersDocsDownloadPerDay: number; // DOMIFA_QUOTA_USAGERS_DOCS_DOWNLOAD_PER_DAY
+    usagersDocsUploadPerDay: number; // DOMIFA_QUOTA_USAGERS_DOCS_UPLOAD_PER_DAY
+    usagersDeletePerDay: number; // DOMIFA_QUOTA_USAGERS_DELETE_PER_DAY
+  };
 };

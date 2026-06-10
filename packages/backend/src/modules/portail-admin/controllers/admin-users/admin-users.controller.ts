@@ -723,8 +723,6 @@ export class AdminUsersController {
   }
 
   @Delete(":uuid")
-  @UseGuards(OtpGuard)
-  @RequireOtp("DELETE_USER_BY_ADMIN")
   public async deleteUserSupervisor(
     @CurrentSupervisor() user: UserAdminAuthenticated,
     @Res() res: ExpressResponse,

@@ -311,8 +311,7 @@ export class AdminStructuresController {
   }
 
   @Patch("structure-decision/:structureUuid/delete")
-  @UseGuards(StructureAccessGuard, OtpGuard)
-  @RequireOtp("DELETE_STRUCTURE")
+  @UseGuards(StructureAccessGuard)
   public async deleteStructure(
     @CurrentSupervisor() user: UserAdminAuthenticated,
     @CurrentStructure() structure: Structure,
@@ -414,8 +413,7 @@ export class AdminStructuresController {
   }
 
   @Delete("structure/:structureUuid/users/:uuid")
-  @UseGuards(StructureAccessGuard, OtpGuard)
-  @RequireOtp("DELETE_USER_BY_ADMIN")
+  @UseGuards(StructureAccessGuard)
   public async softDeleteStructureUser(
     @CurrentSupervisor() user: UserAdminAuthenticated,
     @CurrentStructure() structure: Structure,

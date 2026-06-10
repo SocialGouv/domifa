@@ -1,10 +1,14 @@
 import { Injectable } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { SentryCron } from "@sentry/nestjs";
+import { format } from "date-fns";
+import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 import { MoreThanOrEqual, In } from "typeorm";
 
+import { domifaConfig } from "../../../config";
 import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 import {
+  appLogsRepository,
   appLogSecurityRepository,
   AppLogSecurityTable,
   structureRepository,
@@ -15,6 +19,8 @@ import {
   BlockedIpSummary,
   BlockedUserSummary,
   EmailAlertingLogAction,
+  QuotaExceededEntry,
+  QuotaKind,
   SuspiciousActivitySummary,
 } from "../types/security-alert.types";
 import { EMAIL_ALERTING_LOG_ACTIONS } from "../constants/SECURITY_LOG_ACTIONS.const";
@@ -25,8 +31,26 @@ const MAX_USERS_IN_REPORT = 20;
 const MAX_IPS_IN_REPORT = 20;
 const MAX_IDENTIFIERS_PER_IP = 10;
 
+const PARIS_TZ = "Europe/Paris";
+// app_log.action values matching each QuotaKind. Kept colocated so the count
+// query and the dedup key stay aligned with the existing controller log calls
+// (usager-docs.controller.ts, usagers.controller.ts).
+const QUOTA_ACTION_BY_KIND: Record<QuotaKind, string> = {
+  USAGERS_DOCS_DOWNLOAD: "USAGERS_DOCS_DOWNLOAD",
+  USAGERS_DOCS_UPLOAD: "USAGERS_DOCS_UPLOAD",
+  USAGERS_DELETE: "USAGERS_DELETE",
+};
+
 @Injectable()
 export class SecurityMonitoringService {
+  // In-memory dedup of quota alerts already fired today. Safe because
+  // backend-cron runs as a single long-lived pod (k8s Deployment, 1 replica).
+  // A pod restart loses the set and may re-fire alerts for structures already
+  // over quota — acceptable on phase 1 (observation only). Reset on Paris day
+  // rollover so old keys don't accumulate.
+  private quotaAlertedDayKey = "";
+  private readonly quotaAlertedToday = new Set<string>();
+
   public constructor(
     private readonly alertEmailService: SecurityAlertEmailService
   ) {}
@@ -85,18 +109,25 @@ export class SecurityMonitoringService {
       );
     });
 
-    if (recentLogs.length === 0) {
+    const quotaExceedances = await this.scanBehavioralQuotas();
+
+    if (recentLogs.length === 0 && quotaExceedances.length === 0) {
       appLogger.debug(
         "[CRON] [securityMonitoring] No suspicious activity in the last 5 minutes"
       );
       return;
     }
 
-    const summary = buildSummary({ recentLogs, windowStart, windowEnd });
+    const summary = buildSummary({
+      recentLogs,
+      windowStart,
+      windowEnd,
+      quotaExceedances,
+    });
     await enrichBlockedUsersWithStructure(summary.blockedUsers);
 
     appLogger.warn(
-      `[CRON] [securityMonitoring] Detected ${recentLogs.length} suspicious event(s) (blocked users: ${summary.blockedUsers.length}, blocked IPs: ${summary.blockedIps.length})`
+      `[CRON] [securityMonitoring] Detected ${recentLogs.length} suspicious event(s) (blocked users: ${summary.blockedUsers.length}, blocked IPs: ${summary.blockedIps.length}, quota exceedances: ${quotaExceedances.length})`
     );
 
     try {
@@ -114,6 +145,74 @@ export class SecurityMonitoringService {
         `[CRON] [securityMonitoring] Failed to send security alert: ${message}`
       );
     }
+  }
+
+  // Detects structures that crossed a daily behavioural quota (download /
+  // upload / delete) since the last cron tick. The dedup set is reset whenever
+  // the Paris calendar day rolls over so each (structure, kind) yields a
+  // single alert per day.
+  private async scanBehavioralQuotas(): Promise<QuotaExceededEntry[]> {
+    const { quotas } = domifaConfig();
+    const thresholds: Record<QuotaKind, number> = {
+      USAGERS_DOCS_DOWNLOAD: quotas.usagersDocsDownloadPerDay,
+      USAGERS_DOCS_UPLOAD: quotas.usagersDocsUploadPerDay,
+      USAGERS_DELETE: quotas.usagersDeletePerDay,
+    };
+
+    const now = new Date();
+    const parisNow = utcToZonedTime(now, PARIS_TZ);
+    const dayKey = format(parisNow, "yyyy-MM-dd");
+    if (dayKey !== this.quotaAlertedDayKey) {
+      this.quotaAlertedDayKey = dayKey;
+      this.quotaAlertedToday.clear();
+    }
+    const startOfDayUtc = zonedTimeToUtc(`${dayKey}T00:00:00`, PARIS_TZ);
+
+    // Single SQL: counts per (structureId, action) over today's actions, kept
+    // only when the structure crossed at least one quota. The HAVING relies on
+    // the smallest threshold to keep the result set tight; the per-kind check
+    // below filters out rows that crossed a different (lower) threshold but
+    // not the one currently being processed.
+    const minThreshold = Math.min(...Object.values(thresholds));
+    const rows = await appLogsRepository
+      .createQueryBuilder("log")
+      .select("log.structureId", "structureId")
+      .addSelect("log.action", "action")
+      .addSelect("COUNT(*)", "count")
+      .where("log.action IN (:...actions)", {
+        actions: Object.values(QUOTA_ACTION_BY_KIND),
+      })
+      .andWhere("log.createdAt >= :start", { start: startOfDayUtc })
+      .andWhere("log.structureId IS NOT NULL")
+      .groupBy("log.structureId")
+      .addGroupBy("log.action")
+      .having("COUNT(*) > :min", { min: minThreshold })
+      .getRawMany<{ structureId: number; action: string; count: string }>();
+
+    const newEntries: QuotaExceededEntry[] = [];
+    for (const row of rows) {
+      const kind = (Object.keys(QUOTA_ACTION_BY_KIND) as QuotaKind[]).find(
+        (k) => QUOTA_ACTION_BY_KIND[k] === row.action
+      );
+      if (!kind) continue;
+      const count = Number(row.count);
+      const threshold = thresholds[kind];
+      if (!Number.isFinite(count) || count <= threshold) continue;
+
+      const dedupKey = `${row.structureId}:${kind}`;
+      if (this.quotaAlertedToday.has(dedupKey)) continue;
+      this.quotaAlertedToday.add(dedupKey);
+
+      newEntries.push({
+        kind,
+        structureId: Number(row.structureId),
+        count,
+        threshold,
+      });
+    }
+
+    await enrichQuotaEntriesWithStructure(newEntries);
+    return newEntries;
   }
 }
 
@@ -143,10 +242,12 @@ function buildSummary({
   recentLogs,
   windowStart,
   windowEnd,
+  quotaExceedances,
 }: {
   recentLogs: AppLogSecurityTable[];
   windowStart: Date;
   windowEnd: Date;
+  quotaExceedances: QuotaExceededEntry[];
 }): SuspiciousActivitySummary {
   const totals: Record<EmailAlertingLogAction, number> = {
     BLOCK_USER: 0,
@@ -186,6 +287,7 @@ function buildSummary({
     totals,
     blockedUsers,
     blockedIps,
+    quotaExceedances,
   };
 }
 
@@ -338,6 +440,31 @@ function appendIdentifier(
     return;
   }
   entry.attemptedIdentifiers.push(identifier);
+}
+
+async function enrichQuotaEntriesWithStructure(
+  entries: QuotaExceededEntry[]
+): Promise<void> {
+  const structureIds = [...new Set(entries.map((e) => e.structureId))];
+  if (structureIds.length === 0) return;
+  try {
+    const rows = await structureRepository.find({
+      where: { id: In(structureIds) },
+      select: { id: true, nom: true, ville: true },
+    });
+    const byId = new Map(rows.map((r) => [r.id, r]));
+    for (const entry of entries) {
+      const row = byId.get(entry.structureId);
+      if (!row) continue;
+      entry.structureName = row.nom;
+      entry.structureCity = row.ville;
+    }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    appLogger.warn(
+      `[CRON] [securityMonitoring] Failed to enrich quota entries with structure info: ${message}`
+    );
+  }
 }
 
 async function enrichBlockedUsersWithStructure(
