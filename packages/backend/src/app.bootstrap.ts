@@ -14,6 +14,7 @@ import { appTypeormManager } from "./database";
 
 import { AppSentryInterceptor } from "./util/sentry";
 import compression from "compression";
+import { setupLog, appLogger } from "./util";
 
 export async function tearDownApplication({
   app,
