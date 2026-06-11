@@ -7,6 +7,7 @@ import { TESTS_USERS_USAGER } from "../../../../_tests";
 import { PortailUsagersModule } from "../../portail-usagers.module";
 import { PortailUsagersLoginController } from "./portail-usagers-login.controller";
 import { userUsagerRepository } from "../../../../database";
+import { passwordGenerator } from "../../../../util";
 
 // We keep the login/password fixtures in code, but the actual DB dump can
 // change over time (passwordType flags may drift). We pick the correct fixture
@@ -105,15 +106,54 @@ describe("Usagers Login Controller", () => {
     expect(response.status).toBe(HttpStatus.BAD_REQUEST);
   });
 
-  it("should accept login for valid usager login/password with temporary password and new password", async () => {
+  it("should persist the new personal password on first-time password set", async () => {
+    // Regression test for the bug where `userPasswordWriter.applyNewPassword`
+    // routed usager hashes through `getUserRepository("usager")` and silently
+    // wrote them into `user_supervisor`. End result: temp password stayed
+    // valid on user_usager and the chosen personal password never worked.
+    const NEW_PASSWORD = "MonNouveau2026!#";
+
+    const before = await userUsagerRepository.findOneByOrFail({
+      login: TEMPORARY_PASS_USER.login,
+    });
+    expect(before.passwordType).not.toBe("PERSONAL");
+
     const response = await supertest(context.app.getHttpServer())
       .post("/portail-usagers/auth/login")
       .send({
         login: TEMPORARY_PASS_USER.login,
         password: TEMPORARY_PASS_USER.password,
-        newPassword: TEMPORARY_PASS_USER.password, // ici on garde le même mot de passe pour ne pas casser les tests
+        newPassword: NEW_PASSWORD,
       });
     expect(response.status).toBe(HttpStatus.OK);
+    expect(response.body.token).toBeDefined();
+
+    const after = await userUsagerRepository.findOneByOrFail({
+      login: TEMPORARY_PASS_USER.login,
+    });
+    expect(after.passwordType).toBe("PERSONAL");
+    expect(after.status).toBe("ACTIVE");
+    expect(after.password).not.toBe(before.password);
+    expect(
+      await passwordGenerator.checkPassword({
+        password: NEW_PASSWORD,
+        hash: after.password,
+      })
+    ).toBe(true);
+    expect(
+      await passwordGenerator.checkPassword({
+        password: TEMPORARY_PASS_USER.password,
+        hash: after.password,
+      })
+    ).toBe(false);
+
+    const loginAgain = await supertest(context.app.getHttpServer())
+      .post("/portail-usagers/auth/login")
+      .send({
+        login: TEMPORARY_PASS_USER.login,
+        password: NEW_PASSWORD,
+      });
+    expect(loginAgain.status).toBe(HttpStatus.OK);
   });
 
   it("should deny login for invalid usager login/password", async () => {

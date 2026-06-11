@@ -209,6 +209,16 @@ export class PortailUsagersManagerController {
     @CurrentUser() user: UserStructureAuthenticated
   ) {
     try {
+      const portailUsager = user.structure.portailUsager;
+      if (
+        !portailUsager?.enabledByDomifa ||
+        !portailUsager?.enabledByStructure
+      ) {
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: "PORTAIL_NOT_ENABLED_FOR_STRUCTURE" });
+      }
+
       const usagersWithoutAccounts = await usagerRepository
         .createQueryBuilder("usager")
         .where("usager.structureId = :structureId", {
@@ -226,12 +236,15 @@ export class PortailUsagersManagerController {
 
       for (const usager of usagersWithoutAccounts) {
         try {
+          // Invariant: `portailUsagerEnabled === true` ⇒ user_usager exists.
+          // Create the user_usager first; if it throws, the flag stays at
+          // false and the usager is picked up on the next bulk run.
+          await userUsagerCreator.createUserWithTmpPassword(usager, user);
           usager.options.portailUsagerEnabled = true;
           await usagerRepository.update(
             { uuid: usager.uuid },
             { options: usager.options }
           );
-          await userUsagerCreator.createUserWithTmpPassword(usager, user);
         } catch (error) {
           console.error(error);
           appLogger.warn(
@@ -287,50 +300,62 @@ export class PortailUsagersManagerController {
     @CurrentUser() user: UserStructureAuthenticated
   ) {
     try {
-      usager.options.portailUsagerEnabled = dto.portailUsagerEnabled;
+      // The portail has to be activated at structure level (both DomiFa-side
+      // and structure-side) before we can hand out individual accesses.
+      const portailUsager = user.structure.portailUsager;
+      if (
+        !portailUsager?.enabledByDomifa ||
+        !portailUsager?.enabledByStructure
+      ) {
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: "PORTAIL_NOT_ENABLED_FOR_STRUCTURE" });
+      }
+
+      // Ensure user_usager exists BEFORE flipping the flag.
+      // Invariant: `portailUsagerEnabled === true` ⇒ a user_usager row exists.
+      // If creation throws, the flag stays at false and the next call retries.
+      const existing = await userUsagerRepository.findOneBy({
+        usagerUUID: usager.uuid,
+      });
+
+      if (!existing) {
+        const { login, temporaryPassword } =
+          await userUsagerCreator.createUserWithTmpPassword(usager, user);
+        usager.options.portailUsagerEnabled = true;
+        await usagerRepository.update(
+          { uuid: usager.uuid },
+          { options: usager.options }
+        );
+        return res
+          .status(HttpStatus.CREATED)
+          .json({ usager, login, temporaryPassword });
+      }
+
+      const { userUsager, temporaryPassword } =
+        await userUsagerCreator.resetUserUsagerPassword(
+          usager,
+          buildSecurityLogRequestContext(req)
+        );
+
+      usager.options.portailUsagerEnabled = true;
       await usagerRepository.update(
         { uuid: usager.uuid },
-        {
-          options: usager.options,
-        }
+        { options: usager.options }
       );
 
-      if (usager.options.portailUsagerEnabled) {
-        const userUsager = await userUsagerRepository.findOneBy({
-          usagerUUID: usager.uuid,
-        });
+      await this.appLogsService.create({
+        ...buildStructureActorFields(user),
+        ...buildUsagerFields(usager),
+        structureId: user.structureId,
+        action: "RESET_PASSWORD_PORTAIL",
+      });
 
-        if (!userUsager) {
-          const { login, temporaryPassword } =
-            await userUsagerCreator.createUserWithTmpPassword(usager, user);
-          return res
-            .status(HttpStatus.CREATED)
-            .json({ usager, login, temporaryPassword });
-        } else {
-          const generateNewPassword =
-            dto.portailUsagerEnabled && dto.generateNewPassword;
-
-          const { userUsager, temporaryPassword } =
-            await userUsagerCreator.resetUserUsagerPassword(
-              usager,
-              buildSecurityLogRequestContext(req)
-            );
-
-          await this.appLogsService.create({
-            ...buildStructureActorFields(user),
-            ...buildUsagerFields(usager),
-            structureId: user.structureId,
-            action: "RESET_PASSWORD_PORTAIL",
-          });
-
-          return res.status(HttpStatus.CREATED).json({
-            usager,
-            login: generateNewPassword ? userUsager.login : undefined,
-            temporaryPassword,
-          });
-        }
-      }
-      return res.status(HttpStatus.OK).json({ usager });
+      return res.status(HttpStatus.CREATED).json({
+        usager,
+        login: dto.generateNewPassword ? userUsager.login : undefined,
+        temporaryPassword,
+      });
     } catch (error) {
       appLogger.error("Error updating usager options", {
         error,
