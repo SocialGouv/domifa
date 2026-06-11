@@ -1,6 +1,6 @@
 import { SecurityLogAction } from "@domifa/common";
 
-import { otpRepository } from "../../../database";
+import { otpRepository, userUsagerRepository } from "../../../database";
 import { passwordGenerator } from "../../../util";
 import { UserProfile } from "../../../_common/model";
 import {
@@ -46,7 +46,14 @@ async function applyNewPassword({
   sessionReason: SessionTerminationReason;
   requestContext?: SecurityLogRequestContext;
 }): Promise<void> {
-  const repository = getUserRepository(userProfile);
+  // `getUserRepository` only covers structure / supervisor; for usager we go
+  // straight to `userUsagerRepository`, otherwise the hash would be written
+  // to the wrong table (silent failure on user side, possible cross-write on
+  // any supervisor sharing the numeric id).
+  const repository =
+    userProfile === "usager"
+      ? userUsagerRepository
+      : getUserRepository(userProfile);
 
   const hash = await passwordGenerator.generatePasswordHash({
     password: newPassword,

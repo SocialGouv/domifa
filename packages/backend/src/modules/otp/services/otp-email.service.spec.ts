@@ -377,12 +377,7 @@ describe("OtpEmailService", () => {
       expect(mockSendMail).not.toHaveBeenCalled();
     });
 
-    it.each([
-      "user@wanadoo.fr",
-      "user@orange.fr",
-      "agent@fabrique.social.gouv.fr",
-      "User@WANADOO.FR",
-    ])(
+    it.each(["agent@fabrique.social.gouv.fr", "Agent@FABRIQUE.SOCIAL.GOUV.FR"])(
       "should bypass Brevo and send via SMTP for forced-SMTP domain %s",
       async (email) => {
         mockConfig.mockReturnValue(

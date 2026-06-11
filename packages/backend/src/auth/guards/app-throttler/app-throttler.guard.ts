@@ -14,6 +14,7 @@ import {
   AppLogSecurityTable,
   userStructureRepository,
   userSupervisorRepository,
+  userUsagerRepository,
 } from "../../../database";
 import { domifaConfig } from "../../../config";
 import {
@@ -247,8 +248,10 @@ export class AppThrottlerGuard extends ThrottlerGuard {
     if (!attempted) {
       return;
     }
-    // Skip the DB lookup for profiles we never auto-block (e.g. usager —
-    // random logins, brute force not viable). Filter is also enforced in
+    // Usagers are intentionally excluded: per-user temp lockout already kicks
+    // in after FAILED_AUTH_ATTEMPTS_BEFORE_LOCK failed attempts (see
+    // userSecurityEventHistoryManager). The hard auto-block status is
+    // reserved for structure/supervisor. Filter is also enforced in
     // applyAutoBlock as defense-in-depth.
     if (!AUTO_BLOCK_PROFILES.has(attempted.route.userProfile)) {
       return;
@@ -340,21 +343,29 @@ export class AppThrottlerGuard extends ThrottlerGuard {
     identifier: string;
   }): Promise<number | null> {
     const { route, identifier } = attempted;
-    // Caller is expected to filter usager out before calling this (see
-    // applyThrottleAutoBlock) — keep the explicit guard so a refactor can't
-    // introduce a silent block on a profile we deliberately exclude.
-    if (route.userProfile === "usager") {
-      return null;
-    }
     try {
-      const repo =
-        route.userProfile === "supervisor"
-          ? userSupervisorRepository
-          : userStructureRepository;
-      const row = await repo.findOne({
-        where: { email: identifier.toLowerCase() },
-        select: { id: true },
-      });
+      // Explicit dispatch: a silent fallback would route a typo or a future
+      // 4th profile to the wrong table. The lookup column also differs per
+      // profile (email for structure/supervisor, login for usager).
+      let row: { id: number } | null;
+      if (route.userProfile === "supervisor") {
+        row = await userSupervisorRepository.findOne({
+          where: { email: identifier.toLowerCase() },
+          select: { id: true },
+        });
+      } else if (route.userProfile === "structure") {
+        row = await userStructureRepository.findOne({
+          where: { email: identifier.toLowerCase() },
+          select: { id: true },
+        });
+      } else if (route.userProfile === "usager") {
+        row = await userUsagerRepository.findOne({
+          where: { login: identifier.trim().toUpperCase() },
+          select: { id: true },
+        });
+      } else {
+        return null;
+      }
       return row?.id ?? null;
     } catch {
       return null;
