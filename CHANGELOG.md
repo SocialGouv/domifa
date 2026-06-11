@@ -1,3 +1,11 @@
+## [2.250.5](https://github.com/SocialGouv/domifa/compare/v2.250.4...v2.250.5) (2026-06-11)
+
+
+### Bug Fixes
+
+* **backend:** fix update password ([46ee479](https://github.com/SocialGouv/domifa/commit/46ee4790827e7a2fe3d033244d689431de9f72e2))
+* **portail-usagers:** fix test ([7a75508](https://github.com/SocialGouv/domifa/commit/7a75508add6a0567ef0eb3205f16e2c941ae1132))
+
 ## [2.250.4](https://github.com/SocialGouv/domifa/compare/v2.250.3...v2.250.4) (2026-06-10)
 
 
