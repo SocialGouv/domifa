@@ -1,3 +1,10 @@
+## [2.250.6](https://github.com/SocialGouv/domifa/compare/v2.250.5...v2.250.6) (2026-06-11)
+
+
+### Bug Fixes
+
+* **portail:** update required ([e470f70](https://github.com/SocialGouv/domifa/commit/e470f70f2da56adcce995f9af74a0efda5c34e08))
+
 ## [2.250.5](https://github.com/SocialGouv/domifa/compare/v2.250.4...v2.250.5) (2026-06-11)
 
 
