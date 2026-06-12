@@ -1,3 +1,10 @@
+## [2.250.8](https://github.com/SocialGouv/domifa/compare/v2.250.7...v2.250.8) (2026-06-12)
+
+
+### Bug Fixes
+
+* **backend:** fix auth by delete ([98fad17](https://github.com/SocialGouv/domifa/commit/98fad17ec3c06fec606dc4a37e914233fddd409e))
+
 ## [2.250.7](https://github.com/SocialGouv/domifa/compare/v2.250.6...v2.250.7) (2026-06-12)
 
 
