@@ -8,6 +8,7 @@ import {
 
 import { appLogger } from "../../util";
 import { isInt, isUUID } from "class-validator";
+import { Not } from "typeorm";
 import { userStructureRepository } from "../../database";
 
 @Injectable()
@@ -36,6 +37,7 @@ export class CanGetUserStructureGuard implements CanActivate {
     const chosenUserStructure = await userStructureRepository.findOneBy({
       uuid: userUuid,
       structureId,
+      status: Not("DELETE"),
     });
 
     if (!chosenUserStructure) {

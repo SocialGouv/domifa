@@ -3,6 +3,7 @@ import {
   UserStructure,
   ALL_USER_STRUCTURE_ROLES,
 } from "@domifa/common";
+import { Not } from "typeorm";
 import {
   BadRequestException,
   Body,
@@ -135,7 +136,7 @@ export class UsersController {
     @Res() res: Response
   ) {
     const newUser = await userStructureRepository.findOne({
-      where: { id: user.id },
+      where: { id: user.id, status: Not("DELETE") },
       select: ["passwordLastUpdate"],
     });
 
@@ -160,6 +161,7 @@ export class UsersController {
         const targetUser = await userStructureRepository.findOneBy({
           id: updateRoleDto.newReferrerId,
           structureId: userStructureAuth.structureId,
+          status: Not("DELETE"),
         });
 
         if (!targetUser) {
@@ -191,6 +193,7 @@ export class UsersController {
     });
     return userStructureRepository.findOneBy({
       uuid: chosenUserStructure.uuid,
+      status: Not("DELETE"),
     });
   }
 
@@ -212,6 +215,7 @@ export class UsersController {
       const user = await userStructureRepository.findOneBy({
         id: query.newReferrerId,
         structureId: userStructureAuth.structureId,
+        status: Not("DELETE"),
       });
 
       if (!user) {
@@ -287,7 +291,7 @@ export class UsersController {
     );
 
     const userToUpdate = await userStructureRepository.findOne({
-      where: { id: user.id },
+      where: { id: user.id, status: Not("DELETE") },
       select: {
         uuid: true,
         role: true,
@@ -311,6 +315,7 @@ export class UsersController {
   ): Promise<any> {
     const userExist = await userStructureRepository.findOneBy({
       email: registerUserDto.email.toLowerCase(),
+      status: Not("DELETE"),
     });
 
     if (userExist) {

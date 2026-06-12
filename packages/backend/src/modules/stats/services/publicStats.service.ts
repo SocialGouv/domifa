@@ -10,6 +10,7 @@ import {
 import { Injectable, OnModuleInit } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { SentryCron } from "@sentry/nestjs";
+import { Not } from "typeorm";
 
 import { startOfMonth, subYears, subMonths } from "date-fns";
 import { domifaConfig } from "../../../config";
@@ -141,7 +142,9 @@ export class PublicStatsService implements OnModuleInit {
       publicStats.structuresCountByRegion =
         await this.getStructuresCountByRegion();
 
-      publicStats.usersCount = await userStructureRepository.count();
+      publicStats.usersCount = await userStructureRepository.count({
+        where: { status: Not("DELETE") },
+      });
     }
 
     publicStats.usagersCount = await usagerRepository.countTotalUsagers(

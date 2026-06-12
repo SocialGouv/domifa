@@ -1,4 +1,5 @@
 import { UserStatus, UserStructure, UserSupervisor } from "@domifa/common";
+import { Not } from "typeorm";
 
 import { passwordGenerator } from "../../../util";
 import { UserProfile } from "../../../_common/model";
@@ -101,6 +102,7 @@ async function findUserForLogin<T extends UserStructure | UserSupervisor>({
 }): Promise<T> {
   const user = (await getUserRepository(userProfile).findOneBy({
     email: email.trim().toLowerCase(),
+    status: Not("DELETE"),
   })) as T | null;
 
   if (!user) {

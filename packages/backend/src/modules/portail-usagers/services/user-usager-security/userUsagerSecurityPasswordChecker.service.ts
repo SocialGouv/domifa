@@ -1,4 +1,5 @@
 import { UserUsager } from "@domifa/common";
+import { Not } from "typeorm";
 import { userUsagerRepository } from "../../../../database";
 import { passwordGenerator } from "../../../../util";
 import { userUsagerSecurityPasswordUpdater } from "./userUsagerSecurityPasswordUpdater.service";
@@ -28,7 +29,7 @@ async function checkPassword({
   requestContext?: SecurityLogRequestContext;
 }): Promise<UserUsager> {
   const user = await userUsagerRepository.findOne({
-    where: { login: login.trim().toUpperCase() },
+    where: { login: login.trim().toUpperCase(), status: Not("DELETE") },
     select: {
       password: true,
       salt: true,

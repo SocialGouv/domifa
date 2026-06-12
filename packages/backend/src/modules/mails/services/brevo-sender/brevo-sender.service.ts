@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { Not } from "typeorm";
 import { domifaConfig } from "../../../../config";
 
 import {
@@ -352,8 +353,14 @@ export class BrevoSenderService {
   }): Promise<void> {
     const user =
       userProfile === "structure"
-        ? await userStructureRepository.findOneBy({ id: userId })
-        : await userSupervisorRepository.findOneBy({ id: userId });
+        ? await userStructureRepository.findOneBy({
+            id: userId,
+            status: Not("DELETE"),
+          })
+        : await userSupervisorRepository.findOneBy({
+            id: userId,
+            status: Not("DELETE"),
+          });
 
     if (!user) {
       throw new Error(
