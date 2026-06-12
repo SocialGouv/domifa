@@ -737,6 +737,7 @@ export class AdminUsersController {
 
     await this.userSupervisorDecisionService.softDelete({
       targetUserId: userExist.id,
+      targetUserEmail: userExist.email,
       targetUserRole: userExist.role,
       motif: body.motif,
       admin: user,

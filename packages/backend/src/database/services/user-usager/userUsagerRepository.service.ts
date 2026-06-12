@@ -24,6 +24,7 @@ export const userUsagerRepository = myDataSource
         .where("user_usager.structureId = :structureId", {
           structureId: currentUser.structureId,
         })
+        .andWhere("user_usager.status <> 'DELETE'")
         .select([
           `user_usager.createdAt as "createdAt"`,
           `user_usager.updatedAt as "updatedAt"`,

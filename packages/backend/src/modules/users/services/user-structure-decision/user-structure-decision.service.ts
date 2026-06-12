@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
+import { format } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
 import {
   UserDeleteMotif,
@@ -7,10 +8,7 @@ import {
   UserStructureRole,
 } from "@domifa/common";
 
-import {
-  userStructureRepository,
-  userStructureSecurityRepository,
-} from "../../../../database";
+import { userStructureRepository } from "../../../../database";
 import { BrevoSenderService } from "../../../mails/services/brevo-sender/brevo-sender.service";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
 import {
@@ -64,13 +62,13 @@ export class UserStructureDecisionService {
       userName: `${actor.user.prenom} ${actor.user.nom}`,
     };
 
-    // Wipe the security row so any active session / reset token is invalidated.
-    // The user row stays around (status=DELETE) for future archival.
-    await userStructureSecurityRepository.delete({ userId: targetUserId });
-
     await userStructureRepository.update(
       { id: targetUserId, structureId },
-      { status: "DELETE", decision }
+      {
+        status: "DELETE",
+        decision,
+        email: `deleted-${format(new Date(), "ddMMyyyy")}-${targetUserEmail}`,
+      }
     );
 
     try {

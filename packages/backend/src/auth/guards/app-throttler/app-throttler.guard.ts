@@ -9,6 +9,7 @@ import {
 import { ThrottlerGuard, ThrottlerLimitDetail } from "@nestjs/throttler";
 import { createHash } from "node:crypto";
 import { Request } from "express";
+import { Not } from "typeorm";
 import {
   appLogSecurityRepository,
   AppLogSecurityTable,
@@ -350,17 +351,20 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       let row: { id: number } | null;
       if (route.userProfile === "supervisor") {
         row = await userSupervisorRepository.findOne({
-          where: { email: identifier.toLowerCase() },
+          where: { email: identifier.toLowerCase(), status: Not("DELETE") },
           select: { id: true },
         });
       } else if (route.userProfile === "structure") {
         row = await userStructureRepository.findOne({
-          where: { email: identifier.toLowerCase() },
+          where: { email: identifier.toLowerCase(), status: Not("DELETE") },
           select: { id: true },
         });
       } else if (route.userProfile === "usager") {
         row = await userUsagerRepository.findOne({
-          where: { login: identifier.trim().toUpperCase() },
+          where: {
+            login: identifier.trim().toUpperCase(),
+            status: Not("DELETE"),
+          },
           select: { id: true },
         });
       } else {

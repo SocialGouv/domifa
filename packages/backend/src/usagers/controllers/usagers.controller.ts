@@ -64,7 +64,7 @@ import { UsagerHistoryStateService } from "../services/usagerHistoryState.servic
 import { domifaConfig } from "../../config";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
 import { AssignReferrersDto } from "../dto/assign-referrers.dto";
-import { In } from "typeorm";
+import { In, Not } from "typeorm";
 import { UsagersLogsService } from "../services/usagers-logs.service";
 @Controller("usagers")
 @ApiTags("usagers")
@@ -93,6 +93,7 @@ export class UsagersController {
         const user = await userStructureRepository.findOneBy({
           id: usagerDto.referrerId,
           structureId: currentUser.structureId,
+          status: Not("DELETE"),
         });
 
         if (!user) {
@@ -399,6 +400,7 @@ export class UsagersController {
       const user = await userStructureRepository.findOneBy({
         id: body.newReferrerId,
         structureId: userStructureAuth.structureId,
+        status: Not("DELETE"),
       });
 
       if (!user) {

@@ -9,6 +9,7 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { Not } from "typeorm";
 
 import {
   AllowUserProfiles,
@@ -75,6 +76,7 @@ export class AgendaController {
       const selectedUser = await userStructureRepository.findOneBy({
         id: rdvDto.userId,
         structureId: currentUser.structureId,
+        status: Not("DELETE"),
       });
 
       if (!selectedUser) {

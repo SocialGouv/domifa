@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { differenceInCalendarDays } from "date-fns";
+import { Not } from "typeorm";
 import { domifaConfig } from "../../config";
 import {
   userStructureRepository,
@@ -254,7 +255,7 @@ export class StructuresAuthService {
     payload: Pick<UserStructureJwtPayload, "_userId" | "_userProfile">
   ): Promise<UserStructureAuthenticated> {
     const user = await userStructureRepository.findOne({
-      where: { id: payload._userId },
+      where: { id: payload._userId, status: Not("DELETE") },
       select: APP_USER_PUBLIC_ATTRIBUTES,
     });
 
