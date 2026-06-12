@@ -1,9 +1,10 @@
-import { Subscription } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { CommonModule } from "@angular/common";
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
+import { Store } from "@ngrx/store";
 
 import {
   DEPARTEMENTS_LISTE,
@@ -13,18 +14,26 @@ import {
   SortValues,
   USER_STRUCTURE_EMAIL_STATUS_LABELS,
   USER_SUPERVISOR_ROLES_LABELS,
+  UserStatus,
   UserStructureEmailStatus,
   UserSupervisor,
   UserSupervisorRole,
 } from "@domifa/common";
-import { USER_STRUCTURE_EMAIL_STATUS_BADGE_CLASS } from "../../../shared/components/users-table/users-table.types";
+import {
+  USER_STATUS_LABELS,
+  USER_STRUCTURE_EMAIL_STATUS_BADGE_CLASS,
+} from "../../../shared/components/users-table/users-table.types";
 import { isObsoleteUser } from "../../../manage-structure-users/utils/is-obsolete-user";
 
 type SupervisorListRow = UserSupervisor & {
   emailStatus: UserStructureEmailStatus;
 };
-import { ManageUsersService } from "../../services/manage-users.service";
 import { AdminAuthService } from "../../../admin-auth/services/admin-auth.service";
+import {
+  selectAllSupervisors,
+  selectIsSupervisorsLoading,
+  SupervisorsActions,
+} from "../../../shared/store/supervisors";
 import { subMonths } from "date-fns";
 import { DsfrModalComponent, DsfrModalModule } from "@edugouvfr/ngx-dsfr";
 import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
@@ -32,7 +41,13 @@ import { TableHeadSortComponent } from "../../../shared/components/table-head-so
 import { DisplayLastLoginComponent } from "../../../shared/components/display-last-login/display-last-login.component";
 import { RegisterUserSupervisorComponent } from "../register-user-supervisor/register-user-supervisor.component";
 import { UserActionsComponent } from "../../../shared/components/user-actions/user-actions.component";
+import {
+  FilterTab,
+  FilterTabsComponent,
+} from "../../../shared/components/filter-tabs/filter-tabs.component";
+import { UserStatusBadgeComponent } from "../../../shared/components/user-status-badge/user-status-badge.component";
 import { FullNamePipe, SortArrayPipe } from "../../../shared/pipes";
+import { matchesSearchTerm } from "../../../shared/utils/matches-search-term";
 
 @Component({
   selector: "app-supervisor-list",
@@ -47,6 +62,8 @@ import { FullNamePipe, SortArrayPipe } from "../../../shared/pipes";
     DisplayLastLoginComponent,
     RegisterUserSupervisorComponent,
     UserActionsComponent,
+    FilterTabsComponent,
+    UserStatusBadgeComponent,
     FullNamePipe,
     SortArrayPipe,
   ],
@@ -57,9 +74,23 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
   public searchTerm = "";
   public emailStatusFilter: UserStructureEmailStatus | "" = "";
   public roleFilter: UserSupervisorRole | "ALL" = "ALL";
+  public statusFilter: UserStatus | "" = "";
   public obsoleteFilter: "ALL" | "OBSOLETE" = "ALL";
   public obsoleteCount = 0;
   public me!: PortailAdminUser | null;
+
+  public readonly STATUS_OPTIONS: { value: UserStatus | ""; label: string }[] =
+    [
+      { value: "", label: "Tous les statuts" },
+      { value: "ACTIVE", label: USER_STATUS_LABELS.ACTIVE },
+      { value: "PENDING", label: USER_STATUS_LABELS.PENDING },
+      {
+        value: "TEMPORARILY_BLOCKED",
+        label: USER_STATUS_LABELS.TEMPORARILY_BLOCKED,
+      },
+      { value: "BLOCKED", label: USER_STATUS_LABELS.BLOCKED },
+      { value: "DELETE", label: USER_STATUS_LABELS.DELETE },
+    ];
 
   public readonly EMAIL_STATUS_OPTIONS: {
     value: UserStructureEmailStatus | "";
@@ -84,7 +115,7 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
   public readonly USER_STRUCTURE_EMAIL_STATUS_BADGE_CLASS =
     USER_STRUCTURE_EMAIL_STATUS_BADGE_CLASS;
 
-  public loading: boolean;
+  public readonly loading$: Observable<boolean>;
   public sortValue: SortValues;
   public currentKey: keyof SupervisorListRow;
   public roleCounts: Record<UserSupervisorRole, number> = {
@@ -111,28 +142,25 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly authService: AdminAuthService,
-    private readonly manageUsersService: ManageUsersService,
+    private readonly store: Store,
     private readonly titleService: Title
   ) {
     this.users = [];
     this.sortValue = "asc";
     this.currentKey = "nom";
-    this.loading = false;
     this.selectedUser = null;
+    this.loading$ = this.store.select(selectIsSupervisorsLoading);
   }
 
   public ngOnInit(): void {
     this.titleService.setTitle("Gérer les utilisateurs de DomiFa");
 
     this.me = this.authService.currentUserValue;
-    this.getUsers();
 
     this.subscription.add(
-      this.manageUsersService.users$.subscribe((users) => {
-        this.loading = false;
+      this.store.select(selectAllSupervisors).subscribe((users) => {
         this.users = users.map((user) => ({
           ...user,
-          lastLogin: user?.lastLogin ? new Date(user.lastLogin) : null,
           emailStatus: getUserStructureEmailStatus(user.email),
         }));
         this.computeRoleCounts(this.users);
@@ -140,14 +168,17 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
         this.applyFilter();
       })
     );
+
+    this.store.dispatch(SupervisorsActions.loadIfNeeded());
   }
 
   public applyFilter(): void {
-    const term = this.searchTerm.trim().toLowerCase();
-    const emailStatusFilter = this.emailStatusFilter;
-    const roleFilter = this.roleFilter;
-    const obsoleteFilter = this.obsoleteFilter;
+    const { searchTerm, emailStatusFilter, roleFilter, obsoleteFilter } = this;
+    const statusFilter = this.statusFilter;
     this.filteredUsers = this.users.filter((user) => {
+      if (statusFilter && user.status !== statusFilter) {
+        return false;
+      }
       if (roleFilter !== "ALL" && user.role !== roleFilter) {
         return false;
       }
@@ -157,26 +188,45 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
       if (emailStatusFilter && user.emailStatus !== emailStatusFilter) {
         return false;
       }
-      if (!term) {
-        return true;
-      }
-      const haystack = [
-        String(user.id),
-        user.uuid,
-        user.nom,
-        user.prenom,
-        user.email,
-      ]
-        .filter((v): v is string => !!v)
-        .join(" ")
-        .toLowerCase();
-      return haystack.includes(term);
+      return matchesSearchTerm(user, searchTerm, [
+        "id",
+        "uuid",
+        "nom",
+        "prenom",
+        "email",
+      ]);
     });
   }
 
-  public selectRole(role: UserSupervisorRole | "ALL"): void {
-    this.roleFilter = role;
+  public selectRole(role: string): void {
+    this.roleFilter = role as UserSupervisorRole | "ALL";
     this.applyFilter();
+  }
+
+  public get roleTabs(): FilterTab[] {
+    return [
+      { key: "ALL", label: "Tous", count: this.users.length },
+      {
+        key: "super-admin-domifa",
+        label: USER_SUPERVISOR_ROLES_LABELS["super-admin-domifa"],
+        count: this.roleCounts["super-admin-domifa"],
+      },
+      {
+        key: "national",
+        label: USER_SUPERVISOR_ROLES_LABELS["national"],
+        count: this.roleCounts["national"],
+      },
+      {
+        key: "region",
+        label: USER_SUPERVISOR_ROLES_LABELS["region"],
+        count: this.roleCounts["region"],
+      },
+      {
+        key: "department",
+        label: USER_SUPERVISOR_ROLES_LABELS["department"],
+        count: this.roleCounts["department"],
+      },
+    ];
   }
 
   private computeRoleCounts(users: SupervisorListRow[]): void {
@@ -215,8 +265,7 @@ export class SupervisorListComponent implements OnInit, OnDestroy {
   }
 
   public getUsers(): void {
-    this.loading = true;
-    this.manageUsersService.loadUsers();
+    this.store.dispatch(SupervisorsActions.load());
   }
 
   public userIdTrackBy(_index: number, user: SupervisorListRow) {

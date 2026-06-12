@@ -15,6 +15,10 @@ import { AdminStructuresExportComponent } from "../../../shared/components/admin
 import { StructureFiltersComponent } from "../structure-filters/structure-filters.component";
 import { AdminStructuresTableComponent } from "../admin-structures-table/admin-structures-table.component";
 import {
+  FilterTab,
+  FilterTabsComponent,
+} from "../../../shared/components/filter-tabs/filter-tabs.component";
+import {
   BehaviorSubject,
   combineLatest,
   debounceTime,
@@ -60,6 +64,7 @@ export type FilterOutput = {
     AdminStructuresExportComponent,
     StructureFiltersComponent,
     AdminStructuresTableComponent,
+    FilterTabsComponent,
   ],
 })
 export class AdminStructuresListComponent
@@ -108,7 +113,7 @@ export class AdminStructuresListComponent
   public ngOnInit(): void {
     this.initFiltersFromStorage();
 
-    this.store.dispatch(StructuresActions.load());
+    this.store.dispatch(StructuresActions.loadIfNeeded());
 
     this.subscription.add(
       this.loading$.subscribe((loading) => {
@@ -225,6 +230,28 @@ export class AdminStructuresListComponent
     this.filters.sortKey = name as StructureFilterCriteriaSortEnum;
     this.filters.page = 1;
     this.applySorting();
+  }
+
+  public get statutTabs(): FilterTab[] {
+    return [
+      { key: "", label: "Toutes", count: this.totalStructures },
+      { key: "VALIDE", label: "Actives", count: this.statusCounts.VALIDE },
+      {
+        key: "EN_ATTENTE",
+        label: "Non validées",
+        count: this.statusCounts.EN_ATTENTE,
+      },
+      { key: "REFUS", label: "Refusées", count: this.statusCounts.REFUS },
+      {
+        key: "SUPPRIME",
+        label: "Supprimées",
+        count: this.statusCounts.SUPPRIME,
+      },
+    ];
+  }
+
+  public selectStatutTab(value: string): void {
+    this.updateFilters({ element: "statut", value });
   }
 
   public updateFilters(filterOutput: FilterOutput): void {

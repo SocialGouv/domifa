@@ -9,7 +9,7 @@ import {
   UserDeleteMotif,
   UserSupervisor,
 } from "@domifa/common";
-import { BehaviorSubject, Observable, map } from "rxjs";
+import { Observable } from "rxjs";
 
 import { environment } from "../../../../environments/environment";
 import { UserActivityLog } from "../types/user-activity-log";
@@ -19,27 +19,8 @@ import { UserActivityLog } from "../types/user-activity-log";
 })
 export class ManageUsersService {
   private readonly endPoint = environment.apiUrl + "admin/users";
-  private readonly usersSubject = new BehaviorSubject<UserSupervisor[]>([]);
 
-  // Observables dérivés
-  readonly users$ = this.usersSubject.pipe(
-    map((users) =>
-      users.map((user) => ({
-        ...user,
-        lastLogin: user?.lastLogin ? new Date(user.lastLogin) : null,
-      }))
-    )
-  );
-
-  constructor(private readonly http: HttpClient) {
-    this.loadUsers();
-  }
-
-  public loadUsers(): void {
-    this.http.get<UserSupervisor[]>(this.endPoint).subscribe((users) => {
-      this.usersSubject.next(users);
-    });
-  }
+  constructor(private readonly http: HttpClient) {}
 
   public updateUser(
     uuid: string,

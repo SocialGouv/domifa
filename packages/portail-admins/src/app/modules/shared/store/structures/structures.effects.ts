@@ -1,13 +1,24 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { catchError, map, of, switchMap } from "rxjs";
+import { Store } from "@ngrx/store";
+import { catchError, filter, map, of, switchMap, withLatestFrom } from "rxjs";
 
 import { AdminStructuresApiClient } from "../../services/api/admin-structures-api-client.service";
 
 import { StructuresActions } from "./structures.actions";
+import { selectAreStructuresLoaded } from "./structures.selectors";
 
 @Injectable()
 export class StructuresEffects {
+  public readonly loadIfNeeded$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(StructuresActions.loadIfNeeded),
+      withLatestFrom(this.store.select(selectAreStructuresLoaded)),
+      filter(([, loaded]) => !loaded),
+      map(() => StructuresActions.load())
+    )
+  );
+
   public readonly loadStructures$ = createEffect(() =>
     this.actions$.pipe(
       ofType(StructuresActions.load),
@@ -30,6 +41,7 @@ export class StructuresEffects {
 
   constructor(
     private readonly actions$: Actions,
+    private readonly store: Store,
     private readonly adminStructuresApiClient: AdminStructuresApiClient
   ) {}
 }

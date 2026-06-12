@@ -1,13 +1,32 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { catchError, map, mergeMap, of, switchMap } from "rxjs";
+import { Store } from "@ngrx/store";
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  of,
+  switchMap,
+  withLatestFrom,
+} from "rxjs";
 
 import { AdminUsersApiClient } from "../../services/api/admin-users-api-client.service";
 
 import { UsersActions } from "./users.actions";
+import { selectAreAdminUsersLoaded } from "./users.selectors";
 
 @Injectable()
 export class UsersEffects {
+  public readonly loadIfNeeded$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UsersActions.loadIfNeeded),
+      withLatestFrom(this.store.select(selectAreAdminUsersLoaded)),
+      filter(([, loaded]) => !loaded),
+      map(() => UsersActions.load())
+    )
+  );
+
   public readonly loadUsers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UsersActions.load),
@@ -113,6 +132,7 @@ export class UsersEffects {
 
   constructor(
     private readonly actions$: Actions,
+    private readonly store: Store,
     private readonly adminUsersApiClient: AdminUsersApiClient
   ) {}
 }

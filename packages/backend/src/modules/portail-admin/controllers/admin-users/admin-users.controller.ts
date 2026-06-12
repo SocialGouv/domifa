@@ -16,7 +16,6 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { Request as ExpressRequest } from "express";
-import { Not } from "typeorm";
 import { buildSecurityLogRequestContext } from "../../../../util/express";
 import { OtpGuard } from "../../../otp/guards/otp.guard";
 import { RequireOtp } from "../../../otp/decorators/require-otp.decorator";
@@ -669,7 +668,6 @@ export class AdminUsersController {
   @Get("")
   public async getUsersSupervisors(): Promise<UserSupervisor[]> {
     return userSupervisorRepository.find({
-      where: { status: Not("DELETE") },
       select: {
         nom: true,
         prenom: true,

@@ -43,20 +43,10 @@
             <h1 class="fr-text-title--blue-france fr-p-0w fr-m-0w">
               {{ user.id }} - {{ user.nom }} {{ user.prenom }}
             </h1>
-            <span class="fr-ml-2w" *ngIf="user.status === 'ACTIVE'">
-              <span class="fr-badge fr-badge--success">Actif</span>
-            </span>
-            <span class="fr-ml-2w" *ngIf="user.status === 'PENDING'">
-              <span class="fr-badge fr-badge--info">En attente</span>
-            </span>
-            <span
-              class="fr-ml-2w"
-              *ngIf="user.status === 'TEMPORARILY_BLOCKED'"
-            >
-              <span class="fr-badge fr-badge--warning">Blocage temporaire</span>
-            </span>
-            <span class="fr-ml-2w" *ngIf="user.status === 'BLOCKED'">
-              <span class="fr-badge fr-badge--error">Bloqué</span>
+            <span class="fr-ml-2w">
+              <app-user-status-badge
+                [status]="user.status"
+              ></app-user-status-badge>
             </span>
           </div>
           <div
