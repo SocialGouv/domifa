@@ -39,7 +39,7 @@
         ariaLabel="Répartition des utilisateurs par rôle"
         [tabs]="roleTabs"
         [selectedKey]="roleFilter"
-        (select)="selectRole($event)"
+        (selectKey)="selectRole($event)"
       ></app-filter-tabs>
     </div>
   </div>

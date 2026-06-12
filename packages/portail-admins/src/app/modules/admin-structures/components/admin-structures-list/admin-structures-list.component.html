@@ -32,7 +32,7 @@
       ariaLabel="Répartition des structures par statut"
       [tabs]="statutTabs"
       [selectedKey]="filters.statut || ''"
-      (select)="selectStatutTab($event)"
+      (selectKey)="selectStatutTab($event)"
     ></app-filter-tabs>
   </div>
 

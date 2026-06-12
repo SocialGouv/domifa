@@ -23,11 +23,11 @@ export class FilterTabsComponent {
   @Input({ required: true }) public tabs: FilterTab[] = [];
   @Input({ required: true }) public selectedKey!: string;
   @Input({ required: true }) public ariaLabel!: string;
-  @Output() public readonly select = new EventEmitter<string>();
+  @Output() public readonly selectKey = new EventEmitter<string>();
 
   public onSelect(key: string): void {
     if (key !== this.selectedKey) {
-      this.select.emit(key);
+      this.selectKey.emit(key);
     }
   }
 
