@@ -10,72 +10,12 @@
 
 <div class="fr-container fr-pt-2w">
   <div class="fr-tabs fr-mb-3w">
-    <ul
-      class="fr-tabs__list"
-      role="tablist"
-      aria-label="Répartition des utilisateurs par statut"
-    >
-      <li role="presentation">
-        <button
-          type="button"
-          class="fr-tabs__tab"
-          role="tab"
-          [attr.tabindex]="selectedStatus === 'ALL' ? 0 : -1"
-          [attr.aria-selected]="selectedStatus === 'ALL'"
-          (click)="selectStatus('ALL')"
-        >
-          Tous ({{ users.length }})
-        </button>
-      </li>
-      <li role="presentation">
-        <button
-          type="button"
-          class="fr-tabs__tab"
-          role="tab"
-          [attr.tabindex]="selectedStatus === 'ACTIVE' ? 0 : -1"
-          [attr.aria-selected]="selectedStatus === 'ACTIVE'"
-          (click)="selectStatus('ACTIVE')"
-        >
-          Actifs ({{ statusCounts.ACTIVE }})
-        </button>
-      </li>
-      <li role="presentation">
-        <button
-          type="button"
-          class="fr-tabs__tab"
-          role="tab"
-          [attr.tabindex]="selectedStatus === 'PENDING' ? 0 : -1"
-          [attr.aria-selected]="selectedStatus === 'PENDING'"
-          (click)="selectStatus('PENDING')"
-        >
-          En attente ({{ statusCounts.PENDING }})
-        </button>
-      </li>
-      <li role="presentation">
-        <button
-          type="button"
-          class="fr-tabs__tab"
-          role="tab"
-          [attr.tabindex]="selectedStatus === 'TEMPORARILY_BLOCKED' ? 0 : -1"
-          [attr.aria-selected]="selectedStatus === 'TEMPORARILY_BLOCKED'"
-          (click)="selectStatus('TEMPORARILY_BLOCKED')"
-        >
-          Blocage temporaire ({{ statusCounts.TEMPORARILY_BLOCKED }})
-        </button>
-      </li>
-      <li role="presentation">
-        <button
-          type="button"
-          class="fr-tabs__tab"
-          role="tab"
-          [attr.tabindex]="selectedStatus === 'BLOCKED' ? 0 : -1"
-          [attr.aria-selected]="selectedStatus === 'BLOCKED'"
-          (click)="selectStatus('BLOCKED')"
-        >
-          Bloqués ({{ statusCounts.BLOCKED }})
-        </button>
-      </li>
-    </ul>
+    <app-filter-tabs
+      ariaLabel="Répartition des utilisateurs par statut"
+      [tabs]="statusTabs"
+      [selectedKey]="selectedStatus"
+      (select)="selectStatus($event)"
+    ></app-filter-tabs>
   </div>
 
   <div class="fr-grid-row fr-mb-2w">

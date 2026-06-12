@@ -1,0 +1,14 @@
+<ul class="fr-tabs__list" role="tablist" [attr.aria-label]="ariaLabel">
+  <li *ngFor="let tab of tabs; trackBy: trackByKey" role="presentation">
+    <button
+      type="button"
+      class="fr-tabs__tab"
+      role="tab"
+      [attr.tabindex]="tab.key === selectedKey ? 0 : -1"
+      [attr.aria-selected]="tab.key === selectedKey"
+      (click)="onSelect(tab.key)"
+    >
+      {{ tab.label }} ({{ tab.count }})
+    </button>
+  </li>
+</ul>

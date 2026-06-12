@@ -9,6 +9,7 @@ import {
   BrevoEmailEventType,
   PageResults,
   UserDeleteMotif,
+  UserSupervisor,
   UsersForAdminList,
 } from "@domifa/common";
 
@@ -32,6 +33,10 @@ export class AdminUsersApiClient {
     return this.http.get<UsersForAdminList[]>(
       `${this.baseUrl}/structure-users`
     );
+  }
+
+  public getSupervisors(): Observable<UserSupervisor[]> {
+    return this.http.get<UserSupervisor[]>(this.baseUrl);
   }
 
   public resetPassword(email: string): Observable<void> {

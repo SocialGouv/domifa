@@ -14,6 +14,7 @@ import {
   UsersActions,
 } from "../../../shared/store/users";
 import { UserActionsComponent } from "../../../shared/components/user-actions/user-actions.component";
+import { UserStatusBadgeComponent } from "../../../shared/components/user-status-badge/user-status-badge.component";
 
 @Component({
   selector: "app-structure-user-detail-container",
@@ -23,6 +24,7 @@ import { UserActionsComponent } from "../../../shared/components/user-actions/us
     RouterModule,
     DsfrSpinnerComponent,
     UserActionsComponent,
+    UserStatusBadgeComponent,
   ],
 })
 export class StructureUserDetailContainerComponent
@@ -43,14 +45,7 @@ export class StructureUserDetailContainerComponent
   public ngOnInit(): void {
     const uuid = this.activatedRoute.snapshot.params["uuid"];
 
-    this.store
-      .select(selectAreAdminUsersLoaded)
-      .pipe(take(1))
-      .subscribe((loaded) => {
-        if (!loaded) {
-          this.store.dispatch(UsersActions.load());
-        }
-      });
+    this.store.dispatch(UsersActions.loadIfNeeded());
 
     this.subscription.add(
       this.store.select(selectAdminUserByUuid(uuid)).subscribe((user) => {

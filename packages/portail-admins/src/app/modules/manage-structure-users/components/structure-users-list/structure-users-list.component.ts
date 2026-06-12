@@ -15,6 +15,10 @@ import {
 } from "../../../shared/store/users";
 import { UsersTableComponent } from "../../../shared/components/users-table/users-table.component";
 import { UserActionsComponent } from "../../../shared/components/user-actions/user-actions.component";
+import {
+  FilterTab,
+  FilterTabsComponent,
+} from "../../../shared/components/filter-tabs/filter-tabs.component";
 import { isObsoleteUser } from "../../utils/is-obsolete-user";
 
 export type StructureUserStatusFilter = UserStatus | "ALL";
@@ -29,6 +33,7 @@ export type ObsoleteFilter = "ALL" | "OBSOLETE";
     DsfrSpinnerComponent,
     UsersTableComponent,
     UserActionsComponent,
+    FilterTabsComponent,
   ],
 })
 export class StructureUsersListComponent implements OnInit, OnDestroy {
@@ -67,12 +72,31 @@ export class StructureUsersListComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.store.dispatch(UsersActions.load());
+    this.store.dispatch(UsersActions.loadIfNeeded());
   }
 
-  public selectStatus(status: StructureUserStatusFilter): void {
-    this.selectedStatus = status;
+  public selectStatus(status: string): void {
+    this.selectedStatus = status as StructureUserStatusFilter;
     this.applyFilter();
+  }
+
+  public get statusTabs(): FilterTab[] {
+    return [
+      { key: "ALL", label: "Tous", count: this.users.length },
+      { key: "ACTIVE", label: "Actifs", count: this.statusCounts.ACTIVE },
+      {
+        key: "PENDING",
+        label: "En attente",
+        count: this.statusCounts.PENDING,
+      },
+      {
+        key: "TEMPORARILY_BLOCKED",
+        label: "Blocage temporaire",
+        count: this.statusCounts.TEMPORARILY_BLOCKED,
+      },
+      { key: "BLOCKED", label: "Bloqués", count: this.statusCounts.BLOCKED },
+      { key: "DELETE", label: "Supprimés", count: this.statusCounts.DELETE },
+    ];
   }
 
   public onActionsRefresh(): void {

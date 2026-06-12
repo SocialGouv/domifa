@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { Store } from "@ngrx/store";
 import { Subscription } from "rxjs";
 
 import {
@@ -10,8 +11,11 @@ import {
   UserSupervisor,
 } from "@domifa/common";
 
-import { ManageUsersService } from "../../services/manage-users.service";
 import { DisplayLastLoginComponent } from "../../../shared/components/display-last-login/display-last-login.component";
+import {
+  selectSupervisorByUuid,
+  SupervisorsActions,
+} from "../../../shared/store/supervisors";
 
 @Component({
   selector: "app-supervisor-info",
@@ -29,17 +33,22 @@ export class SupervisorInfoComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly manageUsersService: ManageUsersService
+    private readonly store: Store
   ) {}
 
   public ngOnInit(): void {
     const uuid = this.route.parent?.snapshot.params["uuid"];
+    if (!uuid) {
+      return;
+    }
 
     this.subscription.add(
-      this.manageUsersService.users$.subscribe((users) => {
-        this.supervisor = users.find((u) => u.uuid === uuid);
+      this.store.select(selectSupervisorByUuid(uuid)).subscribe((found) => {
+        this.supervisor = found;
       })
     );
+
+    this.store.dispatch(SupervisorsActions.loadIfNeeded());
   }
 
   public ngOnDestroy(): void {

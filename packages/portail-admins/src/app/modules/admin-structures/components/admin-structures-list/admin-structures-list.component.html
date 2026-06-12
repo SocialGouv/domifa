@@ -28,72 +28,12 @@
 
 <div class="fr-container fr-pt-2w">
   <div class="fr-tabs fr-mb-3w">
-    <ul
-      class="fr-tabs__list"
-      role="tablist"
-      aria-label="Répartition des structures par statut"
-    >
-      <li role="presentation">
-        <button
-          type="button"
-          class="fr-tabs__tab"
-          role="tab"
-          [attr.tabindex]="!filters.statut ? 0 : -1"
-          [attr.aria-selected]="!filters.statut"
-          (click)="updateFilters({ element: 'statut', value: '' })"
-        >
-          Toutes ({{ totalStructures }})
-        </button>
-      </li>
-      <li role="presentation">
-        <button
-          type="button"
-          class="fr-tabs__tab"
-          role="tab"
-          [attr.tabindex]="filters.statut === 'VALIDE' ? 0 : -1"
-          [attr.aria-selected]="filters.statut === 'VALIDE'"
-          (click)="updateFilters({ element: 'statut', value: 'VALIDE' })"
-        >
-          Actives ({{ statusCounts.VALIDE }})
-        </button>
-      </li>
-      <li role="presentation">
-        <button
-          type="button"
-          class="fr-tabs__tab"
-          role="tab"
-          [attr.tabindex]="filters.statut === 'EN_ATTENTE' ? 0 : -1"
-          [attr.aria-selected]="filters.statut === 'EN_ATTENTE'"
-          (click)="updateFilters({ element: 'statut', value: 'EN_ATTENTE' })"
-        >
-          Non validées ({{ statusCounts.EN_ATTENTE }})
-        </button>
-      </li>
-      <li role="presentation">
-        <button
-          type="button"
-          class="fr-tabs__tab"
-          role="tab"
-          [attr.tabindex]="filters.statut === 'REFUS' ? 0 : -1"
-          [attr.aria-selected]="filters.statut === 'REFUS'"
-          (click)="updateFilters({ element: 'statut', value: 'REFUS' })"
-        >
-          Refusées ({{ statusCounts.REFUS }})
-        </button>
-      </li>
-      <li role="presentation">
-        <button
-          type="button"
-          class="fr-tabs__tab"
-          role="tab"
-          [attr.tabindex]="filters.statut === 'SUPPRIME' ? 0 : -1"
-          [attr.aria-selected]="filters.statut === 'SUPPRIME'"
-          (click)="updateFilters({ element: 'statut', value: 'SUPPRIME' })"
-        >
-          Supprimées ({{ statusCounts.SUPPRIME }})
-        </button>
-      </li>
-    </ul>
+    <app-filter-tabs
+      ariaLabel="Répartition des structures par statut"
+      [tabs]="statutTabs"
+      [selectedKey]="filters.statut || ''"
+      (select)="selectStatutTab($event)"
+    ></app-filter-tabs>
   </div>
 
   <div class="fr-grid-row fr-mb-2w">

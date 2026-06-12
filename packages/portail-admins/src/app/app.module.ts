@@ -40,6 +40,8 @@ import { provideStoreDevtools } from "@ngrx/store-devtools";
 import {
   structuresFeature,
   StructuresEffects,
+  supervisorsFeature,
+  SupervisorsEffects,
   usersFeature,
   UsersEffects,
 } from "./modules/shared/store";
@@ -81,8 +83,9 @@ registerLocaleData(localeFr, "fr");
     provideStore({
       [structuresFeature.name]: structuresFeature.reducer,
       [usersFeature.name]: usersFeature.reducer,
+      [supervisorsFeature.name]: supervisorsFeature.reducer,
     }),
-    provideEffects([StructuresEffects, UsersEffects]),
+    provideEffects([StructuresEffects, UsersEffects, SupervisorsEffects]),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: environment.production,

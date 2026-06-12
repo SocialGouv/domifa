@@ -4,6 +4,7 @@ import { UsersForAdminList } from "@domifa/common";
 export const UsersActions = createActionGroup({
   source: "Admin Users",
   events: {
+    "Load If Needed": emptyProps(),
     Load: emptyProps(),
     "Load Success": props<{ users: UsersForAdminList[] }>(),
     "Load Failure": props<{ error: string }>(),
