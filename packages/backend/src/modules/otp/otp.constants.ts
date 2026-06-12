@@ -22,10 +22,7 @@ export const OTP_MAX_REQUESTS_PER_HOUR = 10;
 export const OTP_CODE_HEADER = "otp-code";
 export const OTP_RESEND_HEADER = "otp-resend";
 
-// Brevo's deliverability on fabrique.social.gouv.fr is unreliable — codes
-// routinely never arrive. For these recipients we bypass Brevo and hand the
-// OTP to Tipimail via the existing SMTP relay (DOMIFA_SMTP_* config),
-// regardless of otpProvider.
-export const OTP_FORCED_SMTP_DOMAINS: readonly string[] = [
-  "fabrique.social.gouv.fr",
-];
+// Domains for which we bypass Brevo and hand the OTP to Tipimail via the
+// existing SMTP relay (DOMIFA_SMTP_* config), regardless of otpProvider.
+// Empty by default — all recipients go through Brevo.
+export const OTP_FORCED_SMTP_DOMAINS: readonly string[] = [];

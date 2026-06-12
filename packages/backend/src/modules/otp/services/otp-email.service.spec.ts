@@ -377,35 +377,6 @@ describe("OtpEmailService", () => {
       expect(mockSendMail).not.toHaveBeenCalled();
     });
 
-    it.each(["agent@fabrique.social.gouv.fr", "Agent@FABRIQUE.SOCIAL.GOUV.FR"])(
-      "should bypass Brevo and send via SMTP for forced-SMTP domain %s",
-      async (email) => {
-        mockConfig.mockReturnValue(
-          buildConfig({
-            envId: "prod",
-            email: {
-              emailsEnabled: true,
-              emailAddressRedirectAllTo: "",
-              otpProvider: "brevo",
-            },
-          })
-        );
-        mockSendMail.mockResolvedValue({ messageId: "<smtp-forced>" });
-
-        await service.sendOtpEmail({
-          email,
-          prenom: "Alice",
-          code: "424242",
-          purpose: "LOGIN",
-        });
-
-        expect(mockBrevoSendEmailWithTemplate).not.toHaveBeenCalled();
-        expect(mockSendMail).toHaveBeenCalledTimes(1);
-        expect(mockSendMail.mock.calls[0][0].to).toBe(email);
-        expect(mockSendMail.mock.calls[0][0].html).toContain("424242");
-      }
-    );
-
     it("should throw when Brevo template id is missing", async () => {
       mockConfig.mockReturnValue(
         buildConfig({
