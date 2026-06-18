@@ -1,6 +1,17 @@
-\restrict 25qyM428QaAd1hPPLOXwMLY3hOvHeOHQoeCpQhedEyMl2zbcdIQymnGIV4AgsAF
+\restrict sCuCeZjtA1qbD92uw27H2fYs1u1W71bxGeOecSf6rK4SEBln8bFjcZzIRRykP6K
 CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
+CREATE TABLE public.app_ip_ban (
+    uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
+    "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
+    version integer NOT NULL,
+    ip text NOT NULL,
+    reason text NOT NULL,
+    "expiresAt" timestamp with time zone,
+    context jsonb,
+    "createdBy" text
+);
 CREATE TABLE public.app_log (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
@@ -585,6 +596,8 @@ ALTER TABLE ONLY public.user_supervisor ALTER COLUMN id SET DEFAULT nextval('pub
 ALTER TABLE ONLY public.user_usager ALTER COLUMN id SET DEFAULT nextval('public.user_usager_id_seq'::regclass);
 ALTER TABLE ONLY public.interactions
     ADD CONSTRAINT "PK_006113a10247f411c459d62a5b3" PRIMARY KEY (uuid);
+ALTER TABLE ONLY public.app_ip_ban
+    ADD CONSTRAINT "PK_04573b7a34e89e9f886ed17458c" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.structure_stats_reporting
     ADD CONSTRAINT "PK_088645fe9378647c20b38ab935f" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.usager_notes
@@ -800,4 +813,4 @@ ALTER TABLE ONLY public.usager_notes
     ADD CONSTRAINT "FK_e8b75cd4ebe81d288a6ff7d4115" FOREIGN KEY ("structureId") REFERENCES public.structure(id) ON DELETE CASCADE;
 ALTER TABLE ONLY public.interactions
     ADD CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE;
-\unrestrict 25qyM428QaAd1hPPLOXwMLY3hOvHeOHQoeCpQhedEyMl2zbcdIQymnGIV4AgsAF
+\unrestrict sCuCeZjtA1qbD92uw27H2fYs1u1W71bxGeOecSf6rK4SEBln8bFjcZzIRRykP6K

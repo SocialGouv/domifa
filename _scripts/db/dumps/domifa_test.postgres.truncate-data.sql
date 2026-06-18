@@ -5,6 +5,7 @@
 -- Pour générer les truncates:
 -- SELECT 'TRUNCATE TABLE public.' ||  tablename || ' RESTART IDENTITY CASCADE;' FROM pg_tables WHERE tableowner='domifa_user' and tablename not like 'pg_%' and tablename not like 'sql_%' and tablename <> 'migrations';
 
+ TRUNCATE TABLE public.app_ip_ban RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.app_log RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.app_log_security RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.contact_support RESTART IDENTITY CASCADE;

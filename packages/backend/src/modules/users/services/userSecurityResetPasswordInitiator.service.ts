@@ -56,9 +56,10 @@ async function generateResetPasswordToken({
   const securityRepository = getUserSecurityRepository(userProfile);
 
   const user = await getUserRepository(userProfile).findOneBy({ email });
-  if (!user || user.status === "DELETE") {
-    // Unknown or soft-deleted account: do not leak the difference. Audit the
-    // attempted email so ops can spot password-spray on archived accounts.
+  if (!user || user.status === "DELETE" || user.status === "BLOCKED") {
+    // Unknown, soft-deleted or blocked account: do not leak the difference.
+    // A BLOCKED account stays frozen until a DomiFa admin acts on it — it can
+    // never be recovered through the public reset flow.
     await logSecurityEvent({
       action: "RESET_PASSWORD_REQUEST",
       profile: userProfile,

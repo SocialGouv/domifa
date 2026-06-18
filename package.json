@@ -11,15 +11,15 @@
     "start": "lerna run start",
     "test": "lerna run test ",
     "seal-secrets": "sre-secrets --from=./.secrets.yaml --to=./.k8s",
-    "prepare": "husky"
+    "prepare": "lefthook install"
   },
   "devDependencies": {
     "@babel/runtime": "^7.29.2",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@socialgouv/sre-secrets": "^1.14.5",
-    "husky": "^9.1.7",
     "is-ci": "^4.1.0",
+    "lefthook": "^2.1.9",
     "lerna": "^8.2.4",
     "lint-staged": "^16.4.0",
     "node-talisman": "^1.29.22"
