@@ -1,8 +1,9 @@
 import { validate } from "class-validator";
 import { RegisterUserSupervisorDto } from "../register-user-supervisor.dto";
 
-describe("IsSocialGouvEmailIfSuperAdmin Validator", () => {
-  // Utility function to create a base DTO
+// Le rôle `super-admin-domifa` est volontairement absent du DTO. Sa
+// création/promotion se fait hors UI (migration SQL).
+describe("RegisterUserSupervisorDto — super-admin-domifa role assignment", () => {
   const createBaseDto = (): RegisterUserSupervisorDto => {
     const dto = new RegisterUserSupervisorDto();
     dto.nom = "Smith";
@@ -13,128 +14,44 @@ describe("IsSocialGouvEmailIfSuperAdmin Validator", () => {
     return dto;
   };
 
-  describe("Super Admin with valid email", () => {
-    it("should validate with an email ending with @fabrique.social.gouv.fr", async () => {
-      const dto = createBaseDto();
-      dto.email = "john.smith@fabrique.social.gouv.fr";
-      dto.role = "super-admin-domifa";
-
-      const errors = await validate(dto);
-      expect(errors.length).toBe(0);
-    });
-
-    it("should validate with an email ending with @externes.social.gouv.fr", async () => {
-      const dto = createBaseDto();
-      dto.email = "contractor@externes.social.gouv.fr";
-      dto.role = "super-admin-domifa";
-
-      const errors = await validate(dto);
-      expect(errors.length).toBe(0);
-    });
-
-    it("should validate with an uppercase email that will be transformed to lowercase", async () => {
-      const dto = createBaseDto();
-      dto.email = "TEST@FABRIQUE.SOCIAL.GOUV.FR";
-      dto.role = "super-admin-domifa";
-
-      const errors = await validate(dto);
-      expect(errors.length).toBe(0);
-    });
+  it("accepts a valid `national` role", async () => {
+    const dto = createBaseDto();
+    dto.role = "national";
+    const errors = await validate(dto);
+    const roleErrors = errors.filter((e) => e.property === "role");
+    expect(roleErrors).toHaveLength(0);
   });
 
-  describe("Super Admin with invalid email", () => {
-    it("should fail with a domain different from @fabrique.social.gouv.fr or @externes.social.gouv.fr", async () => {
+  it("accepts `region` and `department` roles", async () => {
+    for (const role of ["region", "department"] as const) {
       const dto = createBaseDto();
-      dto.email = "test@example.com";
-      dto.role = "super-admin-domifa";
-
+      dto.role = role;
+      dto.territories = role === "region" ? ["75"] : ["75"];
       const errors = await validate(dto);
-      expect(errors.length).toBeGreaterThan(0);
-
-      const emailError = errors.find((error) => error.property === "email");
-      expect(emailError).toBeDefined();
-      expect(
-        emailError?.constraints?.isSocialGouvEmailIfSuperAdmin
-      ).toBeDefined();
-    });
-
-    it("should fail with an incorrect subdomain of social.gouv.fr", async () => {
-      const dto = createBaseDto();
-      dto.email = "test@other.social.gouv.fr";
-      dto.role = "super-admin-domifa";
-
-      const errors = await validate(dto);
-      expect(errors.length).toBeGreaterThan(0);
-
-      const emailError = errors.find((error) => error.property === "email");
-      expect(emailError).toBeDefined();
-      expect(
-        emailError?.constraints?.isSocialGouvEmailIfSuperAdmin
-      ).toBeDefined();
-    });
-
-    it("should fail with a malformed email even with the correct domain", async () => {
-      const dto = createBaseDto();
-      dto.email = "test@fabrique.social.gouv.fr@invalid";
-      dto.role = "super-admin-domifa";
-
-      const errors = await validate(dto);
-      expect(errors.length).toBeGreaterThan(0);
-    });
+      const roleErrors = errors.filter((e) => e.property === "role");
+      expect(roleErrors).toHaveLength(0);
+    }
   });
 
-  describe("Other roles with different emails", () => {
-    it("should validate an email from social.gouv.fr domain for other roles", async () => {
-      const dto = createBaseDto();
-      dto.email = "test@fabrique.social.gouv.fr";
-      dto.role = "admin" as any;
+  it("rejects `super-admin-domifa` even with a valid social.gouv email", async () => {
+    const dto = createBaseDto();
+    dto.email = "john.smith@fabrique.social.gouv.fr";
+    dto.role = "super-admin-domifa";
 
-      const errors = await validate(dto);
+    const errors = await validate(dto);
+    const roleError = errors.find((e) => e.property === "role");
 
-      const emailErrors = errors.filter(
-        (error) =>
-          error.property === "email" &&
-          error.constraints?.isSocialGouvEmailIfSuperAdmin
-      );
-
-      expect(emailErrors.length).toBe(0);
-    });
+    expect(roleError).toBeDefined();
+    expect(roleError?.constraints?.isIn).toBeDefined();
   });
 
-  describe("Role and territory combinations", () => {
-    it("should validate when super-admin-domifa role has valid email and empty territories", async () => {
-      const dto = createBaseDto();
-      dto.email = "admin@fabrique.social.gouv.fr";
-      dto.role = "super-admin-domifa";
-      dto.territories = [];
+  it("rejects `super-admin-domifa` with any email", async () => {
+    const dto = createBaseDto();
+    dto.role = "super-admin-domifa";
 
-      const errors = await validate(dto);
+    const errors = await validate(dto);
+    const roleError = errors.find((e) => e.property === "role");
 
-      // Filter to find only errors related to our email validator
-      const emailErrors = errors.filter(
-        (error) =>
-          error.property === "email" &&
-          error.constraints?.isSocialGouvEmailIfSuperAdmin
-      );
-
-      expect(emailErrors.length).toBe(0);
-    });
-
-    it("should not validate when super-admin-domifa role has invalid email even with valid territories", async () => {
-      const dto = createBaseDto();
-      dto.email = "admin@example.com";
-      dto.role = "super-admin-domifa";
-      dto.territories = [];
-
-      const errors = await validate(dto);
-
-      const emailError = errors.find(
-        (error) =>
-          error.property === "email" &&
-          error.constraints?.isSocialGouvEmailIfSuperAdmin
-      );
-
-      expect(emailError).toBeDefined();
-    });
+    expect(roleError).toBeDefined();
   });
 });

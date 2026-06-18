@@ -10,7 +10,7 @@ import {
 import { Transform, TransformFnParams } from "class-transformer";
 import { IsValidGeographicRole } from "../../../_common/decorators";
 import { UserSupervisorRole } from "@domifa/common";
-import { USER_SUPERVISOR_ROLES } from "../../../_common/model/users/user-supervisor";
+import { USER_SUPERVISOR_ASSIGNABLE_ROLES } from "../../../_common/model/users/user-supervisor";
 
 export class PatchUserSupervisorDto {
   @ApiProperty({
@@ -42,10 +42,10 @@ export class PatchUserSupervisorDto {
   @ApiProperty({
     type: String,
     required: true,
-    enum: USER_SUPERVISOR_ROLES,
+    enum: USER_SUPERVISOR_ASSIGNABLE_ROLES,
   })
   @IsNotEmpty()
-  @IsIn(USER_SUPERVISOR_ROLES)
+  @IsIn(USER_SUPERVISOR_ASSIGNABLE_ROLES)
   public role!: UserSupervisorRole;
 
   @ApiProperty({

@@ -324,6 +324,8 @@ function buildWhere(
       where.userSupervisorId = query.userId;
     } else if (query.userType === "user_structure") {
       where.userStructureId = query.userId;
+    } else if (query.userType === "usager") {
+      where.userUsagerId = query.userId;
     }
   }
 

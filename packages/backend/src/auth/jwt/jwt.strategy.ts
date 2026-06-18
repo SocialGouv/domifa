@@ -5,10 +5,6 @@ import { ExtractJwt, Strategy } from "passport-jwt";
 
 import { domifaConfig } from "../../config";
 
-// Parallel Jest workers re-authenticate the same fixture user across suites,
-// rotating the active session and invalidating each other's JWTs. We skip
-// the fingerprint check on the JWT path in test — the dedicated
-// session-fingerprint.service.spec exercises it directly without this guard.
 const SKIP_FINGERPRINT_CHECK = domifaConfig().envId === "test";
 import {
   getClientIp,
@@ -39,8 +35,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: domifaConfig().security.jwtSecret,
-      // Forward the raw request to `validate` so we can read the client IP
-      // and User-Agent for the session fingerprint check.
       passReqToCallback: true,
     });
   }
@@ -58,14 +52,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     | UserAdminAuthenticated
   > {
     if (CURRENT_JWT_PAYLOAD_VERSION !== payload?._jwtPayloadVersion) {
-      // revoke old payloads (= force to logout)
       return false;
     }
 
     if (payload?._userProfile === "supervisor") {
       const supervisorPayload = payload as UserSupervisorJwtPayload;
-      // fingerprintHash is mandatory for structure/supervisor tokens.
-      // Pre-feature JWTs lack the claim and are forced into a re-login.
       if (!supervisorPayload.fingerprintHash) {
         return false;
       }
@@ -97,8 +88,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         structurePayload
       );
 
-      // Force logout if the session fingerprint no longer matches — typically
-      // because a newer login replaced the active session on another device.
       if (authUser && !SKIP_FINGERPRINT_CHECK) {
         const ok = await this.sessionFingerprintService.verifySessionFromJwt(
           "structure",

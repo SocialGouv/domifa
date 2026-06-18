@@ -2,6 +2,12 @@ import { SecurityLogAction } from "@domifa/common";
 
 export type SuspiciousUserProfile = "user_structure" | "user_supervisor";
 
+export type SuspiciousFilterUserType =
+  | SuspiciousUserProfile
+  | "usager"
+  | "anonymous"
+  | "system";
+
 export type ResolvedUserType = SuspiciousUserProfile | "usager";
 
 export interface SuspiciousResolvedUser {
@@ -34,7 +40,7 @@ export interface SuspiciousActivityFilters {
   ip?: string;
   identifier?: string;
   userId?: number;
-  userType?: SuspiciousUserProfile;
+  userType?: SuspiciousFilterUserType;
 }
 // Kept here for backwards-compat. The "Activité suspecte" filters bar no
 // longer surfaces a userType selector; the lockedFilters input (used when the

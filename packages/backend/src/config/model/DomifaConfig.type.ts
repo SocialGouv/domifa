@@ -4,9 +4,6 @@ import { DomifaEnvId } from "./DomifaEnvId.type";
 export type DomifaConfigSecurity = {
   mainSecret: Uint8Array; // DOMIFA_SECURITY_FILES_MAIN_SECRET
   jwtSecret: string; // DOMIFA_SECURITY_JWT_SECRET
-  // Exact User-Agent string used by internal probes (e.g. blackbox monitoring)
-  // that should bypass the throttler entirely. Empty disables the bypass.
-  internalUserAgent: string; // DOMIFA_INTERNAL_USER_AGENT
   sessionDurationDays: number; // SESSION_DURATION_DAYS
   sessionPurgeAfterDays: number; // SESSION_PURGE_AFTER_DAYS
   // Server-side secret used as the HMAC-SHA256 key when storing OTP codes.

@@ -38,6 +38,7 @@ export type ActionTone = "error" | "warning" | "success" | "info" | "neutral";
 export const ACTION_TONE: Record<SecurityLogAction, ActionTone> = {
   THROTTLE_BLOCKED: "error",
   REQUEST_BLOCKED: "error",
+  IP_BANNED: "error",
   BLOCK_USER: "warning",
   BLOCK_USER_BY_ADMIN: "warning",
   UNBLOCK_USER: "success",
@@ -66,6 +67,7 @@ export const ACTION_TONE: Record<SecurityLogAction, ActionTone> = {
 export const ACTION_ICON: Record<SecurityLogAction, string> = {
   THROTTLE_BLOCKED: "fr-icon-alarm-warning-fill",
   REQUEST_BLOCKED: "fr-icon-error-fill",
+  IP_BANNED: "fr-icon-alarm-warning-fill",
   BLOCK_USER: "fr-icon-lock-fill",
   BLOCK_USER_BY_ADMIN: "fr-icon-lock-fill",
   UNBLOCK_USER: "fr-icon-lock-unlock-fill",

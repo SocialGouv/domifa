@@ -99,6 +99,7 @@ export const LOG_ACTION_LABELS: Record<LogAction, string> = {
   OTP_REQUESTED: "Code de vérification envoyé par mail",
   OTP_SUCCESS: "Code de vérification correct",
   OTP_ERROR: "Code de vérification incorrect",
+  IP_BANNED: "Adresse IP bannie",
 };
 
 export function getLogActionLabel(action: string): string {
