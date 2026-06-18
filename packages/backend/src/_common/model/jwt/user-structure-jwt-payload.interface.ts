@@ -13,20 +13,10 @@ export type UserStructureJwtPayload = UseBaseJwtPayload<"structure"> & {
   acceptTerms: Date | null;
   structureId: number;
   domifaVersion: string;
-  // Hash of (userUUID|ip|ua) captured at login. Required: any JWT without
-  // this claim is rejected at validation time, forcing a re-login. In v1
-  // the hash comparison itself only logs mismatches; phase 2 will block.
   fingerprintHash: string;
-  // Nested signed token (own exp 30d) that lets a subsequent login skip the
-  // OTP step if presented in the next StructureLoginDto.trustToken field.
-  // Bound to currentSession.uuid + salt so it's invalidated automatically
-  // when the session is rotated or closed (logout, OTP re-prompt).
   trustToken?: string;
 };
 
-// Trust token payload. Lives 30 days. Signed with the same jwtSecret as the
-// access JWT, but identified by sub="structure-trust" so it can never be
-// mistaken for an access JWT.
 export interface StructureTrustJwtPayload {
   sub: "structure-trust";
   userUuid: string;

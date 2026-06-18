@@ -16,7 +16,14 @@ import {
   SUSPICIOUS_ACTIONS,
   SUSPICIOUS_ACTION_LABELS,
 } from "../../constants/SUSPICIOUS_ACTIONS.const";
-import { SuspiciousActivityFilters } from "../../types/suspicious-activity-log";
+import {
+  SUSPICIOUS_FILTER_USER_TYPES,
+  SUSPICIOUS_FILTER_USER_TYPE_LABELS,
+} from "../../constants/SUSPICIOUS_FILTER_USER_TYPES.const";
+import {
+  SuspiciousActivityFilters,
+  SuspiciousFilterUserType,
+} from "../../types/suspicious-activity-log";
 
 // Debounce window for free-text inputs (IP, identifier). Selects/dates emit
 // through the same pipe so they pay this delay too — at 300 ms it's below
@@ -34,8 +41,14 @@ export class SuspiciousActivityFiltersComponent implements OnInit, OnDestroy {
     new EventEmitter<SuspiciousActivityFilters>();
 
   public readonly actions = SUSPICIOUS_ACTIONS;
+  public readonly userTypes = SUSPICIOUS_FILTER_USER_TYPES;
+
   public actionLabel(action: SecurityLogAction): string {
     return SUSPICIOUS_ACTION_LABELS[action] ?? action;
+  }
+
+  public userTypeLabel(userType: SuspiciousFilterUserType): string {
+    return SUSPICIOUS_FILTER_USER_TYPE_LABELS[userType] ?? userType;
   }
 
   public form!: FormGroup;
@@ -47,6 +60,7 @@ export class SuspiciousActivityFiltersComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.form = this.fb.group({
       action: this.fb.control<string | null>(null),
+      userType: this.fb.control<string | null>(null),
       dateFrom: this.fb.control<string | null>(null),
       dateTo: this.fb.control<string | null>(null),
       ip: this.fb.control<string | null>(null),
@@ -75,6 +89,7 @@ export class SuspiciousActivityFiltersComponent implements OnInit, OnDestroy {
   private emit(): void {
     const v = this.form.value as {
       action: string | null;
+      userType: string | null;
       dateFrom: string | null;
       dateTo: string | null;
       ip: string | null;
@@ -84,9 +99,15 @@ export class SuspiciousActivityFiltersComponent implements OnInit, OnDestroy {
     const isKnownAction =
       typeof v.action === "string" &&
       (SUSPICIOUS_ACTIONS as string[]).includes(v.action);
+    const isKnownUserType =
+      typeof v.userType === "string" &&
+      (SUSPICIOUS_FILTER_USER_TYPES as string[]).includes(v.userType);
 
     this.filtersChange.emit({
       actions: isKnownAction ? [v.action as SecurityLogAction] : undefined,
+      userType: isKnownUserType
+        ? (v.userType as SuspiciousFilterUserType)
+        : undefined,
       dateFrom: v.dateFrom || undefined,
       dateTo: v.dateTo || undefined,
       ip: v.ip?.trim() || undefined,

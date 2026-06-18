@@ -10,13 +10,10 @@ import {
 } from "class-validator";
 import { Transform, TransformFnParams } from "class-transformer";
 
-import {
-  IsSocialGouvEmailIfSuperAdmin,
-  IsValidGeographicRole,
-} from "../decorators";
+import { IsValidGeographicRole } from "../decorators";
 import { UserSupervisorRole } from "@domifa/common";
 import { LowerCaseTransform } from "../../../_common/decorators";
-import { USER_SUPERVISOR_ROLES } from "../../../_common/model/users/user-supervisor";
+import { USER_SUPERVISOR_ASSIGNABLE_ROLES } from "../../../_common/model/users/user-supervisor";
 
 export class RegisterUserSupervisorDto {
   @ApiProperty({
@@ -52,19 +49,15 @@ export class RegisterUserSupervisorDto {
   @IsNotEmpty()
   @IsEmail()
   @LowerCaseTransform()
-  @IsSocialGouvEmailIfSuperAdmin({
-    message:
-      "Pour le rôle super-admin-domifa, l'email doit se terminer par @fabrique.social.gouv.fr ou @externes.social.gouv.fr",
-  })
   public email!: string;
 
   @ApiProperty({
     type: String,
     required: true,
-    enum: USER_SUPERVISOR_ROLES,
+    enum: USER_SUPERVISOR_ASSIGNABLE_ROLES,
   })
   @IsNotEmpty()
-  @IsIn(USER_SUPERVISOR_ROLES)
+  @IsIn(USER_SUPERVISOR_ASSIGNABLE_ROLES)
   public role!: UserSupervisorRole;
 
   @ApiProperty({

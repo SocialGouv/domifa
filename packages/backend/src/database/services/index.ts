@@ -1,5 +1,6 @@
 // @index('./*', f => `export * from '${f.path}'`)
 export * from "./_postgres";
+export * from "./app-ip-ban";
 export * from "./app-log";
 export * from "./app-log-security";
 export * from "./contact";

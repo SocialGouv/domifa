@@ -2,7 +2,10 @@ import { Module, Logger } from "@nestjs/common";
 import { SentryModule } from "@sentry/nestjs/setup";
 import { ScheduleModule } from "@nestjs/schedule";
 import { ThrottlerModule } from "@nestjs/throttler";
-import { AppThrottlerGuard } from "./auth/guards/app-throttler";
+import {
+  APP_THROTTLER_TIERS,
+  AppThrottlerGuard,
+} from "./auth/guards/app-throttler";
 import { domifaConfig } from "./config";
 
 import { PortailAdminModule } from "./modules/portail-admin";
@@ -19,6 +22,7 @@ import { InteractionsService } from "./modules/interactions/services";
 import { SmsModule } from "./modules/sms/sms.module";
 import { OpenDataPlacesModule } from "./modules/open-data/open-data-places.module";
 import { OtpModule } from "./modules/otp/otp.module";
+import { IpBanCacheService, IpBanGuard } from "./modules/ip-ban";
 import { SecurityMonitoringModule } from "./modules/security-monitoring/security-monitoring.module";
 import { UsersModule } from "./modules/users/users.module";
 import { HealthModule } from "./modules/health/health.module";
@@ -39,22 +43,18 @@ appModuleLogger.log(
 );
 
 const throttlerImports = isThrottled
-  ? [
-      ThrottlerModule.forRoot([
-        { name: "short", ttl: 1_000, limit: 15, blockDuration: 1_800_000 }, // 15 req/s, block 30min
-        { name: "medium", ttl: 60_000, limit: 125, blockDuration: 3_600_000 }, // 125 req/min, block 1h
-        {
-          name: "long",
-          ttl: 3_600_000,
-          limit: 9_000,
-          blockDuration: 7_200_000,
-        }, // 9000 req/h (+20%), block 2h
-      ]),
-    ]
+  ? [ThrottlerModule.forRoot([...APP_THROTTLER_TIERS])]
   : [];
 
 const throttlerProviders = isThrottled
   ? [
+      // IpBanGuard runs before AppThrottlerGuard so a banned IP never reaches
+      // the rate limiter or downstream auth. NestJS resolves APP_GUARD
+      // providers in registration order.
+      {
+        provide: APP_GUARD,
+        useClass: IpBanGuard,
+      },
       {
         provide: APP_GUARD,
         useClass: AppThrottlerGuard,
@@ -94,6 +94,7 @@ appModuleLogger.log(
   providers: [
     FileManagerService,
     InteractionsService,
+    IpBanCacheService,
     ...throttlerProviders,
     {
       provide: APP_INTERCEPTOR,

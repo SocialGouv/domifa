@@ -7,7 +7,6 @@ export type DomifaEnv = {
   DOMIFA_PORTAIL_ADMINS_URL: string;
   DOMIFA_BACKEND_URL: string;
   DOMIFA_SECURITY_JWT_SECRET: string;
-  DOMIFA_INTERNAL_USER_AGENT: string;
   SESSION_DURATION_DAYS: string;
   SESSION_PURGE_AFTER_DAYS: string;
 

@@ -1,6 +1,3 @@
-import { Controller, Get, ModuleMetadata } from "@nestjs/common";
-import { APP_GUARD } from "@nestjs/core";
-import { ThrottlerModule } from "@nestjs/throttler";
 import supertest from "supertest";
 import { MoreThanOrEqual } from "typeorm";
 
@@ -12,73 +9,16 @@ import {
   appLogSecurityRepository,
 } from "../../../database";
 import { userStatusManager } from "../../../modules/users/services";
-
-@Controller("test-bot-guard")
-class TestBotGuardController {
-  @Get("ping")
-  ping() {
-    return { ok: true };
-  }
-}
-
-@Controller("healthz")
-class HealthzMockController {
-  @Get("")
-  root() {
-    return { ok: true };
-  }
-}
-
-const TEST_BOT_GUARD_NEST_MODULE: ModuleMetadata = {
-  controllers: [TestBotGuardController, HealthzMockController],
-  imports: [
-    // Permissive limits — throttler is not what we test here.
-    ThrottlerModule.forRoot([{ name: "short", ttl: 60_000, limit: 10_000 }]),
-  ],
-  // Expose the guard as a class provider too so tests can retrieve the
-  // singleton via module.get(AppThrottlerGuard) and reset its in-memory
-  // dedup state between tests.
-  providers: [
-    AppThrottlerGuard,
-    { provide: APP_GUARD, useExisting: AppThrottlerGuard },
-  ],
-};
-
-// Fictional UAs that mirror real bot patterns — used to confirm the filter
-// catches unknown/custom bots, not just the well-known ones.
-const FICTIONAL_BOT_UAS = [
-  "Mozilla/5.0 (compatible; FakeBot/1.0; +http://example.com/bot)",
-  "Mozilla/5.0 (compatible; EvilScraper/2.0)",
-  "Mozilla/5.0 (compatible; CustomCrawler/3.14; +http://example.com/crawl)",
-];
-
-// Low-impact structure user from the test dump (s1-agent, structureId=1).
-// We touch its status in the auto-block tests and always restore to ACTIVE.
-const TEST_STRUCTURE_USER_ID = 12;
-const TEST_STRUCTURE_USER_EMAIL = "s1-agent@yopmail.com";
-
-function forgeJwt(payload: Record<string, unknown>): string {
-  // extractJwtUser uses jwtDecode (no signature check), so we can forge.
-  const header = Buffer.from(
-    JSON.stringify({ alg: "HS256", typ: "JWT" })
-  ).toString("base64url");
-  const body = Buffer.from(JSON.stringify(payload)).toString("base64url");
-  return `${header}.${body}.fakesig`;
-}
-
-const REAL_BROWSER_UA =
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) " +
-  "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
-
-const BOT_USER_AGENTS = [
-  "curl/8.4.0",
-  "Wget/1.21.3",
-  "python-requests/2.31.0",
-  "Go-http-client/1.1",
-  "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
-  "Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot/)",
-  "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)",
-];
+import {
+  BOT_USER_AGENTS,
+  FICTIONAL_BOT_UAS,
+  forgeUnsignedJwt,
+  REAL_BROWSER_UA,
+  signJwt,
+  TEST_BOT_GUARD_NEST_MODULE,
+  TEST_STRUCTURE_USER_EMAIL,
+  TEST_STRUCTURE_USER_ID,
+} from "./app-throttler.bot-guard.spec-helpers";
 
 describe("AppThrottlerGuard - bot/origin filter", () => {
   let context: AppTestContext;
@@ -195,20 +135,6 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
       const res = await supertest(context.app.getHttpServer())
         .get("/healthz")
         .set("User-Agent", "curl/8.4.0");
-      expect(res.status).toBe(200);
-    });
-  });
-
-  describe("bypasses internal probes", () => {
-    it("allows the configured internal UA even with no Origin", async () => {
-      const internalUa = domifaConfig().security.internalUserAgent;
-      if (!internalUa) {
-        // Env not configured for this test run — nothing to assert.
-        return;
-      }
-      const res = await supertest(context.app.getHttpServer())
-        .get("/test-bot-guard/ping")
-        .set("User-Agent", internalUa);
       expect(res.status).toBe(200);
     });
   });
@@ -392,7 +318,7 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
     });
 
     it("auto-blocks an authenticated structure user on the very first bot request; 10 attempts produce a single BLOCK_USER log", async () => {
-      const jwt = forgeJwt({
+      const jwt = signJwt({
         _userId: TEST_STRUCTURE_USER_ID,
         _userProfile: "structure",
         email: TEST_STRUCTURE_USER_EMAIL,
@@ -424,6 +350,10 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
       expect(blockLogs[0].context.autoBlocked).toBe(true);
       expect(blockLogs[0].context.triggeredBy).toBe("AppThrottlerGuard");
       expect(blockLogs[0].context.reason).toBe("bot_ua");
+      // Régression : `ip` et `userAgent` doivent toujours être présents dans
+      // les colonnes dédiées (pas seulement dans le JSON `context`).
+      expect(blockLogs[0].ip).toBeTruthy();
+      expect(blockLogs[0].userAgent).toBe("curl/8.0.0");
       // SUBJECT = target user — split into userStructureId / userSupervisorId
       // on AppLogSecurityTable (no shared userId column).
       expect(blockLogs[0].userStructureId).toBe(TEST_STRUCTURE_USER_ID);
@@ -440,7 +370,7 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
     });
 
     it("never auto-blocks a usager profile even after 10 bot requests", async () => {
-      const jwt = forgeJwt({
+      const jwt = signJwt({
         _userId: 999,
         _userProfile: "usager",
         structureId: 1,
@@ -462,7 +392,7 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
     });
 
     it("does not auto-block on invalid_origin — only bot_ua and missing_ua trigger account lock", async () => {
-      const jwt = forgeJwt({
+      const jwt = signJwt({
         _userId: TEST_STRUCTURE_USER_ID,
         _userProfile: "structure",
         email: TEST_STRUCTURE_USER_EMAIL,
@@ -489,6 +419,47 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
         where: { action: "BLOCK_USER", ...recentLogsFilter() },
       });
       expect(blockLogs).toHaveLength(0);
+    });
+
+    // Régression sécurité : un JWT à signature invalide ne doit pas
+    // déclencher l'auto-block du compte revendiqué. Sinon n'importe qui
+    // peut bloquer n'importe quel compte structure/supervisor connu.
+    it("ignores a forged (unsigned) JWT — does not auto-block the claimed account", async () => {
+      const jwt = forgeUnsignedJwt({
+        _userId: TEST_STRUCTURE_USER_ID,
+        _userProfile: "structure",
+        email: TEST_STRUCTURE_USER_EMAIL,
+        role: "agent",
+        structureId: 1,
+      });
+
+      for (let i = 0; i < 10; i++) {
+        const res = await supertest(context.app.getHttpServer())
+          .get("/test-bot-guard/ping")
+          .set("User-Agent", "curl/8.0.0")
+          .set("Authorization", `Bearer ${jwt}`)
+          .set("Origin", validOrigin);
+        expect(res.status).toBe(403);
+      }
+
+      const status = await userStatusManager.getUserStatusFromDb({
+        userProfile: "structure",
+        userId: TEST_STRUCTURE_USER_ID,
+      });
+      expect(status).not.toBe("BLOCKED");
+
+      const blockLogs = await appLogSecurityRepository.find({
+        where: { action: "BLOCK_USER", ...recentLogsFilter() },
+      });
+      expect(blockLogs).toHaveLength(0);
+
+      // Le log REQUEST_BLOCKED doit exister (la requête a été refusée pour
+      // bot_ua), mais sans champ jwtUser (signature KO → traité anonyme).
+      const reqLogs = await appLogSecurityRepository.find({
+        where: { action: "REQUEST_BLOCKED", ...recentLogsFilter() },
+      });
+      expect(reqLogs).toHaveLength(1);
+      expect(reqLogs[0].context.jwtUser).toBeUndefined();
     });
   });
 });

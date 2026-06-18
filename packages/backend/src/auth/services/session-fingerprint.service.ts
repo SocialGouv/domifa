@@ -22,8 +22,6 @@ type SessionSecurityRow = {
   sessionsHistory: HistoricalUserSession[];
 };
 
-// `fingerprintHash` column is denormalized from currentSession on every
-// write. Always derive it here to keep the two in sync.
 function syncFingerprintHash(
   currentSession: CurrentUserSession | null
 ): string | null {
@@ -32,12 +30,6 @@ function syncFingerprintHash(
 
 @Injectable()
 export class SessionFingerprintService {
-  // SHA-256 of "userUUID|ipAddress|userAgent|salt". Computed once at login
-  // (the inputs are the request that opened the session) and then treated as
-  // an opaque session token: stored on the session row, embedded in the JWT,
-  // and compared verbatim by `verifySessionFromJwt` — we never recompute it
-  // from the current request. So a later request from a different IP or
-  // browser does NOT invalidate the session.
   public computeFingerprint(
     userUUID: string,
     ipAddress: string,
@@ -49,10 +41,6 @@ export class SessionFingerprintService {
       .digest("hex");
   }
 
-  // Every login starts a fresh session. Any prior active session is closed
-  // and pushed to history with reason `REPLACED`. The new JWT carries the
-  // new fingerprint hash, so the previous device's JWT (still holding the
-  // old hash) will mismatch on subsequent verifications.
   public async startNewSession(
     profile: SessionProfile,
     userId: number,
@@ -83,7 +71,6 @@ export class SessionFingerprintService {
         ipChanged: previous.ipAddress !== ipAddress,
         userAgentChanged: previous.userAgent !== userAgent,
       });
-      // Most recent first to keep lookups cheap in the array.
       row.sessionsHistory = [closed, ...row.sessionsHistory];
       row.currentSession = null;
     }
@@ -125,15 +112,6 @@ export class SessionFingerprintService {
     return row?.currentSession ?? null;
   }
 
-  // Returns true if the JWT's fingerprint matches the active session.
-  // Returns false (and logs) on any condition that should force the caller
-  // to log out: no security row, no active session, or a hash mismatch.
-  // The fingerprint is treated as an opaque token here — we compare it
-  // verbatim against the stored value, we never recompute it from the
-  // current request. A mismatch therefore means the session was replaced
-  // (newer login on another device) or revoked — the old JWT must be
-  // rejected. `currentIp` / `currentUserAgent` are kept on the signature
-  // for structured logging on mismatch.
   public async verifySessionFromJwt(
     profile: SessionProfile,
     userId: number,
@@ -163,7 +141,6 @@ export class SessionFingerprintService {
     }
 
     if (!constantTimeStringEqual(session.fingerprintHash, jwtFingerprintHash)) {
-      // Mismatch: log structured context, never the full hash (session secret).
       appLogger.warn({
         event: "session_fingerprint_mismatch",
         profile,
@@ -215,7 +192,6 @@ export class SessionFingerprintService {
     });
 
     row.currentSession = null;
-    // Most recent first to keep lookups cheap in the array.
     row.sessionsHistory = [closed, ...row.sessionsHistory];
     await this.persistRow(profile, row);
   }
@@ -260,9 +236,6 @@ export class SessionFingerprintService {
     if (existing) {
       return existing;
     }
-    // A login without a pre-existing security row is a legacy case (the row
-    // is normally created at user creation). We backfill on the fly rather
-    // than failing the login.
     return {
       userId,
       structureId: profile === "structure" ? structureId ?? null : undefined,
@@ -297,9 +270,6 @@ export class SessionFingerprintService {
   }
 }
 
-// Constant-time equality on two strings. `timingSafeEqual` requires buffers
-// of identical length, so we short-circuit on length mismatch (which is
-// itself non-secret information — the stored hash length is fixed).
 function constantTimeStringEqual(a: string, b: string): boolean {
   const ab = Buffer.from(a);
   const bb = Buffer.from(b);

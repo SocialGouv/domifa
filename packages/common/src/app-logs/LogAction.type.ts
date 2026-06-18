@@ -90,4 +90,5 @@ export type LogAction =
   | "VALIDATE_ACCOUNT_ERROR"
   | "OTP_REQUESTED"
   | "OTP_SUCCESS"
-  | "OTP_ERROR";
+  | "OTP_ERROR"
+  | "IP_BANNED";

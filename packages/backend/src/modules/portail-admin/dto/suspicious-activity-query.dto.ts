@@ -21,6 +21,16 @@ export const SUSPICIOUS_USER_PROFILES = [
 ] as const;
 export type SuspiciousUserProfile = (typeof SUSPICIOUS_USER_PROFILES)[number];
 
+export const SUSPICIOUS_FILTER_USER_TYPES = [
+  "user_structure",
+  "user_supervisor",
+  "usager",
+  "anonymous",
+  "system",
+] as const;
+export type SuspiciousFilterUserType =
+  (typeof SUSPICIOUS_FILTER_USER_TYPES)[number];
+
 export class SuspiciousActivityQueryDto extends PageOptionsDto {
   @ApiPropertyOptional({ enum: SUSPICIOUS_LOG_ACTIONS, isArray: true })
   @IsOptional()
@@ -69,8 +79,8 @@ export class SuspiciousActivityQueryDto extends PageOptionsDto {
   @Min(1)
   readonly userId?: number;
 
-  @ApiPropertyOptional({ enum: SUSPICIOUS_USER_PROFILES })
+  @ApiPropertyOptional({ enum: SUSPICIOUS_FILTER_USER_TYPES })
   @IsOptional()
-  @IsIn(SUSPICIOUS_USER_PROFILES)
-  readonly userType?: SuspiciousUserProfile;
+  @IsIn(SUSPICIOUS_FILTER_USER_TYPES)
+  readonly userType?: SuspiciousFilterUserType;
 }

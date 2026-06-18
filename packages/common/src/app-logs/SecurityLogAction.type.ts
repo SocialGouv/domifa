@@ -29,6 +29,7 @@ export type SecurityLogAction = Extract<
   | "OTP_REQUESTED"
   | "OTP_SUCCESS"
   | "OTP_ERROR"
+  | "IP_BANNED"
 >;
 
 export const SECURITY_LOG_ACTIONS: readonly SecurityLogAction[] = [
@@ -54,6 +55,7 @@ export const SECURITY_LOG_ACTIONS: readonly SecurityLogAction[] = [
   "OTP_REQUESTED",
   "OTP_SUCCESS",
   "OTP_ERROR",
+  "IP_BANNED",
 ] as const;
 
 // Subset that counts as a failed authentication attempt for the lockout

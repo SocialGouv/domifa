@@ -14,6 +14,17 @@
       </div>
     </div>
     <div class="fr-col-12 fr-col-md">
+      <div class="fr-select-group">
+        <label class="fr-label" for="sa-user-type">Type d'utilisateur</label>
+        <select class="fr-select" id="sa-user-type" formControlName="userType">
+          <option [ngValue]="null">Tous</option>
+          <option *ngFor="let ut of userTypes" [ngValue]="ut">
+            {{ userTypeLabel(ut) }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="fr-col-12 fr-col-md">
       <div class="fr-input-group">
         <label class="fr-label" for="sa-date-from">Date de début</label>
         <input
