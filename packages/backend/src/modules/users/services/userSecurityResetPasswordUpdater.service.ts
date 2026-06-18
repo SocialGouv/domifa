@@ -28,11 +28,15 @@ async function checkResetPasswordToken({
   // Lockout is intentionally not checked here: a temporarily-blocked user must
   // be able to follow the reset link from their email. The account is only
   // unlocked once the reset is actually completed (see userPasswordWriter).
+  const user = await getUserRepository(userProfile).findOneBy({ id: userId });
   const userSecurity = await getUserSecurityRepository(
     userProfile
   ).findOneByOrFail({ userId });
 
   if (
+    !user ||
+    user.status === "DELETE" ||
+    user.status === "BLOCKED" ||
     !userSecurity.temporaryTokens?.token ||
     userSecurity.temporaryTokens.token !== token ||
     new Date(userSecurity.temporaryTokens.validity) < new Date()

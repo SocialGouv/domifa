@@ -150,8 +150,15 @@ export class UsersController {
     @Body() updateRoleDto: UpdateRoleDto,
     @CurrentUser() userStructureAuth: UserStructureAuthenticated,
     @Param("userUuid", new ParseUUIDPipe()) _userUuid: string,
-    @CurrentChosenUserStructure() chosenUserStructure: UserStructure
-  ): Promise<UserStructureProfile> {
+    @CurrentChosenUserStructure() chosenUserStructure: UserStructure,
+    @Res() res: Response
+  ): Promise<Response> {
+    if (
+      chosenUserStructure.status === "BLOCKED" ||
+      chosenUserStructure.status === "DELETE"
+    ) {
+      return res.status(HttpStatus.FORBIDDEN).json({ message: "USER_BLOCKED" });
+    }
     // Reassign referrers if needed (role downgrade to facteur/agent, or explicit newReferrerId)
     if (
       updateRoleDto.newReferrerId !== undefined &&
@@ -191,10 +198,11 @@ export class UsersController {
         userId: chosenUserStructure.id,
       },
     });
-    return userStructureRepository.findOneBy({
+    const updatedUser = await userStructureRepository.findOneBy({
       uuid: chosenUserStructure.uuid,
       status: Not("DELETE"),
     });
+    return res.status(HttpStatus.OK).json(updatedUser);
   }
 
   @AllowUserStructureRoles("admin")
@@ -263,6 +271,13 @@ export class UsersController {
     @Body() body: DeleteUserDto,
     @Res() res: Response
   ) {
+    if (
+      chosenUserStructure.status === "BLOCKED" ||
+      chosenUserStructure.status === "DELETE"
+    ) {
+      return res.status(HttpStatus.FORBIDDEN).json({ message: "USER_BLOCKED" });
+    }
+
     await this.userStructureDecisionService.softDelete({
       targetUserId: chosenUserStructure.id,
       targetUserEmail: chosenUserStructure.email,

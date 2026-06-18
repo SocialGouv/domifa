@@ -42,14 +42,8 @@ export class SuspiciousActivityFiltersComponent implements OnInit, OnDestroy {
 
   public readonly actions = SUSPICIOUS_ACTIONS;
   public readonly userTypes = SUSPICIOUS_FILTER_USER_TYPES;
-
-  public actionLabel(action: SecurityLogAction): string {
-    return SUSPICIOUS_ACTION_LABELS[action] ?? action;
-  }
-
-  public userTypeLabel(userType: SuspiciousFilterUserType): string {
-    return SUSPICIOUS_FILTER_USER_TYPE_LABELS[userType] ?? userType;
-  }
+  public readonly actionLabels = SUSPICIOUS_ACTION_LABELS;
+  public readonly userTypeLabels = SUSPICIOUS_FILTER_USER_TYPE_LABELS;
 
   public form!: FormGroup;
 

@@ -8,7 +8,7 @@
         <select class="fr-select" id="sa-action" formControlName="action">
           <option [ngValue]="null">Tous</option>
           <option *ngFor="let action of actions" [ngValue]="action">
-            {{ actionLabel(action) }}
+            {{ actionLabels[action] }}
           </option>
         </select>
       </div>
@@ -19,7 +19,7 @@
         <select class="fr-select" id="sa-user-type" formControlName="userType">
           <option [ngValue]="null">Tous</option>
           <option *ngFor="let ut of userTypes" [ngValue]="ut">
-            {{ userTypeLabel(ut) }}
+            {{ userTypeLabels[ut] }}
           </option>
         </select>
       </div>
