@@ -17,6 +17,7 @@ import {
   UserDeleteMotif,
   USER_DELETE_MOTIF_LABELS,
   USER_DELETE_MOTIF_VALUES,
+  USER_STATUS_CAN_BE_MANAGED,
 } from "@domifa/common";
 import { ManageUsersService } from "../../services/manage-users.service";
 import { concatMap } from "rxjs";
@@ -43,6 +44,7 @@ export class UserProfilComponent implements OnInit, OnDestroy {
 
   public readonly USER_STRUCTURE_ROLES_LABELS = USER_STRUCTURE_ROLES_LABELS;
   public readonly USER_FONCTION_LABELS = USER_FONCTION_LABELS;
+  public readonly USER_STATUS_CAN_BE_MANAGED = USER_STATUS_CAN_BE_MANAGED;
   public readonly deleteMotifOptions = USER_DELETE_MOTIF_VALUES.map((key) => ({
     key,
     label: USER_DELETE_MOTIF_LABELS[key],
