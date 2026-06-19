@@ -119,7 +119,8 @@
                     <td>{{ user | fonctionFormat }}</td>
                     @if (me?.role === 'admin') {
                     <td>
-                      @if (me.uuid !== user.uuid) {
+                      @if (me.uuid !== user.uuid &&
+                      USER_STATUS_CAN_BE_MANAGED[user.status]) {
                       <dsfrx-dropdownmenu
                         [ariaLabelMenu]="
                           'Modifier  l\'utilisateur ' +
