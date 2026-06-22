@@ -47,15 +47,19 @@ const REASON_LABELS: Record<string, string> = {
     "Compte authentifie : trop de requetes en peu de temps",
   throttle_targeted:
     "Tentatives de connexion repetees sur ce compte depuis une meme IP (defense anti-bruteforce)",
+  quota_docs_download:
+    "Quota de telechargement de documents dépassé pour la structure (compte bloque)",
+  quota_usagers_delete:
+    "Quota de suppression de domicilies dépassé pour la structure (compte bloque)",
   BLOCK_USER: "Compte bloque automatiquement",
   REQUEST_BLOCKED: "Requete rejetee (filtre bot ou origine)",
-  THROTTLE_BLOCKED: "Quota de requetes depasse pour cette IP",
+  THROTTLE_BLOCKED: "Quota de requetes dépassé pour cette IP",
 };
 
 const ACTION_LABELS: Record<string, string> = {
   BLOCK_USER: "Comptes bloques automatiquement",
   REQUEST_BLOCKED: "Requetes rejetees (filtre bot ou origine)",
-  THROTTLE_BLOCKED: "IP bloquees pour quota de requetes depasse",
+  THROTTLE_BLOCKED: "IP bloquees pour quota de requetes dépassé",
 };
 
 const humanizeReason = (code: string | undefined): string => {
@@ -236,7 +240,7 @@ function renderIpHighlight(
 ): string {
   const reasons = ip.reasons.map(humanizeReason).join(", ");
   const throttleLine = ip.throttle
-    ? `<div>Quota depasse : <strong>${ip.throttle.limit} requete${
+    ? `<div>Quota dépassé : <strong>${ip.throttle.limit} requete${
         ip.throttle.limit > 1 ? "s" : ""
       } / ${escapeHtml(ip.throttle.windowLabel)}</strong></div>`
     : "";
@@ -450,7 +454,7 @@ function renderBlockedIpsTable(
         <th style="${headerCellStyle}">IP</th>
         <th style="${headerCellRightStyle}">Tentatives</th>
         <th style="${headerCellStyle}">Motifs</th>
-        <th style="${headerCellStyle}">Quota depasse</th>
+        <th style="${headerCellStyle}">Quota dépassé</th>
         <th style="${headerCellStyle}">Identifiants tentes (login)</th>
         <th style="${headerCellStyle}">Derniere URL</th>
       </tr>
@@ -473,9 +477,9 @@ function renderIdentifiersCell(
 // Section title used by the per-kind quota tables. Kept short to match the
 // neighbouring "Comptes bloques" / "IP bloquees" headings.
 const QUOTA_SECTION_TITLES: Record<QuotaKind, string> = {
-  USAGERS_DOCS_DOWNLOAD: "Quota de telechargement de documents depasse",
-  USAGERS_DOCS_UPLOAD: "Quota d'upload de documents depasse",
-  USAGERS_DELETE: "Quota de suppression de domicilies depasse",
+  USAGERS_DOCS_DOWNLOAD: "Quota de telechargement de documents dépassé",
+  USAGERS_DOCS_UPLOAD: "Quota d'upload de documents dépassé",
+  USAGERS_DELETE: "Quota de suppression de domicilies dépassé",
 };
 
 function renderQuotaTable(entries: QuotaExceededEntry[]): string {

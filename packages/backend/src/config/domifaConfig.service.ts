@@ -367,6 +367,11 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         "DOMIFA_QUOTA_USAGERS_DOCS_DOWNLOAD_PER_DAY",
         { required: false, defaultValue: 100 }
       ),
+      usagersDocsDownloadBlockPerDay: configParser.parseInteger(
+        x,
+        "DOMIFA_QUOTA_USAGERS_DOCS_DOWNLOAD_BLOCK_PER_DAY",
+        { required: false, defaultValue: 200 }
+      ),
       usagersDocsUploadPerDay: configParser.parseInteger(
         x,
         "DOMIFA_QUOTA_USAGERS_DOCS_UPLOAD_PER_DAY",
@@ -376,6 +381,11 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
         x,
         "DOMIFA_QUOTA_USAGERS_DELETE_PER_DAY",
         { required: false, defaultValue: 100 }
+      ),
+      usagersDeleteBlockPerDay: configParser.parseInteger(
+        x,
+        "DOMIFA_QUOTA_USAGERS_DELETE_BLOCK_PER_DAY",
+        { required: false, defaultValue: 200 }
       ),
     },
   };

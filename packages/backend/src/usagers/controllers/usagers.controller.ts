@@ -48,6 +48,7 @@ import {
 } from "../dto";
 import { UsagersService } from "../services";
 import { AppLogsService } from "../../modules/app-logs/app-logs.service";
+import { BehavioralQuotaEnforcerService } from "../../modules/security-monitoring/services/behavioral-quota-enforcer.service";
 import {
   buildStructureActorFields,
   buildUsagerFields,
@@ -78,7 +79,8 @@ export class UsagersController {
     private readonly appLogsService: AppLogsService,
     private readonly usagerHistoryStateService: UsagerHistoryStateService,
     private readonly fileManagerService: FileManagerService,
-    private readonly usagersLogsService: UsagersLogsService
+    private readonly usagersLogsService: UsagersLogsService,
+    private readonly quotaEnforcer: BehavioralQuotaEnforcerService
   ) {}
 
   @Post()
@@ -319,6 +321,16 @@ export class UsagersController {
     @CurrentUsager() usager: Usager,
     @Res() res: ExpressResponse
   ): Promise<ExpressResponse> {
+    const enforcement = await this.quotaEnforcer.enforceBeforeAction({
+      action: "USAGERS_DELETE",
+      user,
+    });
+    if (!enforcement.allowed) {
+      return res
+        .status(HttpStatus.TOO_MANY_REQUESTS)
+        .json({ message: "QUOTA_EXCEEDED" });
+    }
+
     // Suppression des Documents
     await usagerDocsRepository.delete({
       usagerRef: usager.ref,
