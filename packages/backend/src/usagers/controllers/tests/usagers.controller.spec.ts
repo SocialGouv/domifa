@@ -19,6 +19,7 @@ import { FileManagerService } from "../../../util/file-manager/file-manager.serv
 import { Usager } from "@domifa/common";
 import { UsagersLogsService } from "../../services/usagers-logs.service";
 import { AppLogsModule } from "../../../modules/app-logs/app-logs.module";
+import { SecurityMonitoringModule } from "../../../modules/security-monitoring/security-monitoring.module";
 
 const ENDPOINT = "/usagers";
 
@@ -44,6 +45,7 @@ describe("Usagers Controller", () => {
           UsersModule,
           InteractionsModule,
           AppLogsModule,
+          SecurityMonitoringModule,
         ],
         providers: [
           UsagersService,

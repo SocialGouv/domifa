@@ -2,6 +2,7 @@ import { InteractionsModule } from "../../../modules/interactions/interactions.m
 import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
 import { StructuresModule } from "../../../modules/structures/structure.module";
 import { UsersModule } from "../../../modules/users/users.module";
+import { SecurityMonitoringModule } from "../../../modules/security-monitoring/security-monitoring.module";
 import { AppTestContext, AppTestHelper } from "../../../util/test";
 import { UsagerDocsController } from "../usager-docs.controller";
 import { TESTS_USERS_STRUCTURE } from "../../../_tests";
@@ -15,7 +16,12 @@ describe("Document Controller", () => {
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [UsagerDocsController],
-      imports: [UsersModule, InteractionsModule, StructuresModule],
+      imports: [
+        UsersModule,
+        InteractionsModule,
+        StructuresModule,
+        SecurityMonitoringModule,
+      ],
       providers: [AppLogsService, FileManagerService],
     });
     controller = context.module.get<UsagerDocsController>(UsagerDocsController);

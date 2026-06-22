@@ -48,6 +48,7 @@ import { ExpressRequest } from "../../util/express";
 import { FILES_SIZE_LIMIT } from "../../util/file-manager";
 import { join, resolve } from "node:path";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
+import { BehavioralQuotaEnforcerService } from "../../modules/security-monitoring/services/behavioral-quota-enforcer.service";
 import { CerfaDocType, Usager, UsagerDoc } from "@domifa/common";
 import {
   USAGER_DOCS_FIELDS_TO_SELECT,
@@ -69,7 +70,8 @@ import { readFile } from "fs-extra";
 export class UsagerDocsController {
   constructor(
     private readonly appLogsService: AppLogsService,
-    private readonly fileManagerService: FileManagerService
+    private readonly fileManagerService: FileManagerService,
+    private readonly quotaEnforcer: BehavioralQuotaEnforcerService
   ) {}
 
   @ApiOperation({
@@ -321,6 +323,16 @@ export class UsagerDocsController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager
   ) {
+    const enforcement = await this.quotaEnforcer.enforceBeforeAction({
+      action: "USAGERS_DOCS_DOWNLOAD",
+      user,
+    });
+    if (!enforcement.allowed) {
+      return res
+        .status(HttpStatus.TOO_MANY_REQUESTS)
+        .json({ message: "QUOTA_EXCEEDED" });
+    }
+
     const doc = await usagerDocsRepository.findOneBy({
       uuid: docUuid,
       usagerRef,

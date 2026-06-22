@@ -4,6 +4,7 @@ import { ThrottlerModule } from "@nestjs/throttler";
 import { sign as jwtSign } from "jsonwebtoken";
 
 import { domifaConfig } from "../../../config";
+import { IpBanCacheService } from "../../../modules/ip-ban";
 import { AppThrottlerGuard } from "./app-throttler.guard";
 
 @Controller("test-bot-guard")
@@ -28,6 +29,7 @@ export const TEST_BOT_GUARD_NEST_MODULE: ModuleMetadata = {
     ThrottlerModule.forRoot([{ name: "short", ttl: 60_000, limit: 10_000 }]),
   ],
   providers: [
+    IpBanCacheService,
     AppThrottlerGuard,
     { provide: APP_GUARD, useExisting: AppThrottlerGuard },
   ],

@@ -82,10 +82,13 @@ export type DomifaEnv = {
   // an org's mail filter quarantines OTP emails — those users still authenticate
   // by password but no second factor is enforced.
   DOMIFA_LOGIN_OTP_BYPASS_DOMAINS: string;
-  // Behavioural daily quotas per structure. Phase 1: alert only (no blocking).
-  // The cron flags any structure crossing the threshold over a Paris calendar
-  // day for the matching action and surfaces a row in the security alert email.
+  // Behavioural daily quotas per structure. `_PER_DAY` thresholds drive the
+  // alert email (5-min cron). `_BLOCK_PER_DAY` thresholds drive in-line
+  // enforcement: the agent who crosses the threshold is BLOCKED, and every
+  // subsequent attempt from the structure is 429 until midnight Europe/Paris.
   DOMIFA_QUOTA_USAGERS_DOCS_DOWNLOAD_PER_DAY: string;
+  DOMIFA_QUOTA_USAGERS_DOCS_DOWNLOAD_BLOCK_PER_DAY: string;
   DOMIFA_QUOTA_USAGERS_DOCS_UPLOAD_PER_DAY: string;
   DOMIFA_QUOTA_USAGERS_DELETE_PER_DAY: string;
+  DOMIFA_QUOTA_USAGERS_DELETE_BLOCK_PER_DAY: string;
 };
