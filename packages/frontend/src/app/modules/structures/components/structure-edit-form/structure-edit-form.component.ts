@@ -14,6 +14,8 @@ import { StructureService } from "../../services";
 
 import {
   isInvalidStructureName,
+  updateCurrentToolQuestion,
+  updateMarketToolQuestion,
   updateSourceQuestion,
 } from "../../utils/structure-validators";
 import {
@@ -92,6 +94,16 @@ export class StructureEditFormComponent implements OnInit, OnDestroy {
     this.showsourceDetail = updateSourceQuestion(
       this.structureForm,
       this.structure.registrationData?.source
+    );
+
+    updateCurrentToolQuestion(
+      this.structureForm,
+      this.structure.registrationData?.currentTool
+    );
+
+    updateMarketToolQuestion(
+      this.structureForm,
+      this.structure.registrationData?.marketTool
     );
 
     setupFormSubscriptions(this.structureForm, this.subscription);

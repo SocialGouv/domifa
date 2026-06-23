@@ -1,8 +1,8 @@
 import {
-  IsOptional,
   IsString,
   IsNumber,
   IsBoolean,
+  IsNotEmpty,
   MaxLength,
   Min,
   ValidateIf,
@@ -17,6 +17,7 @@ import {
   CURRENT_TOOL_VALUES,
   MARKET_TOOL_VALUES,
   REGISTRATION_SOURCES_VALUES,
+  SOURCES_OPTIONS,
 } from "@domifa/common";
 export class StructureRegistrationDto {
   @ApiProperty({
@@ -26,7 +27,12 @@ export class StructureRegistrationDto {
   @IsIn(REGISTRATION_SOURCES_VALUES)
   source: RegistrationSources;
 
-  @IsOptional()
+  @ValidateIf(
+    (obj) =>
+      SOURCES_OPTIONS.find((o) => o.value === obj.source)?.requiresDetail ===
+      true
+  )
+  @IsNotEmpty()
   @IsString()
   @MaxLength(500)
   sourceDetail?: string;
@@ -44,12 +50,14 @@ export class StructureRegistrationDto {
   currentTool: CurrentTool;
 
   @ValidateIf((obj) => obj.currentTool === "OUTIL_MARCHE")
+  @IsNotEmpty()
   @IsIn(MARKET_TOOL_VALUES)
   marketTool?: MarketTool;
 
   @ValidateIf(
     (obj) => obj.currentTool === "OUTIL_MARCHE" && obj.marketTool === "AUTRE"
   )
+  @IsNotEmpty()
   @IsString()
   @MaxLength(200)
   marketToolOther?: string;

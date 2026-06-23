@@ -438,7 +438,6 @@
               (submitted || f.reseau?.dirty) && f.reseau?.errors ? true : null
             "
           >
-            <option [ngValue]="null">Non renseigné</option>
             <option value="Pas de réseau">Pas de réseau</option>
             <option value="Autre réseau">Autre réseau</option>
             @for (reseau of NETWORKS; track reseau.canonicalName) {
@@ -1186,9 +1185,6 @@
             "
             required
           >
-            <option [ngValue]="null" selected disabled hidden>
-              Sélectionnez une option
-            </option>
             @for (option of SOURCES_OPTIONS; track option.value) {
             <option [value]="option.value">{{ option.label }}</option>
             }
@@ -1336,9 +1332,6 @@
             "
             required
           >
-            <option [ngValue]="null" selected disabled hidden>
-              Sélectionnez une option
-            </option>
             @for (option of CURRENT_TOOL_OPTIONS; track option.value) {
             <option [value]="option.value">{{ option.label }}</option>
             }
@@ -1383,9 +1376,6 @@
             "
             required
           >
-            <option [ngValue]="null" selected disabled hidden>
-              Sélectionnez une option
-            </option>
             @for (option of MARKET_TOOLS_OPTIONS; track option.value) {
             <option [value]="option.value">{{ option.label }}</option>
             }

@@ -572,7 +572,6 @@
                 "
                 class="fr-select"
               >
-                <option [ngValue]="null">Non renseigné</option>
                 <option value="Pas de réseau">Pas de réseau</option>
                 <option value="Autre réseau">Autre réseau</option>
                 @for (reseau of NETWORKS; track reseau.canonicalName) {
@@ -1402,7 +1401,6 @@
                   "
                   required
                 >
-                  <option [ngValue]="null">Sélectionnez une option</option>
                   @for (option of SOURCES_OPTIONS; track option.value) {
                   <option [value]="option.value">
                     {{ option.label }}
@@ -1493,7 +1491,6 @@
                   "
                   required
                 >
-                  <option [ngValue]="null">Sélectionnez une option</option>
                   @for ( option of CURRENT_TOOL_OPTIONS; track option.value ) {
                   <option [value]="option.value">
                     {{ option.label }}
@@ -1546,7 +1543,6 @@
                   "
                   required
                 >
-                  <option [ngValue]="null">Sélectionnez une option</option>
                   @for ( option of MARKET_TOOLS_OPTIONS; track option.value ) {
                   <option [value]="option.value">
                     {{ option.label }}

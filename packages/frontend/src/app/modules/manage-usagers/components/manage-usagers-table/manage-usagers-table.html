@@ -313,9 +313,9 @@
                   [class]="'statut-signal ' + usager?.decisionDeadline?.color"
                 ></span>
                 @if (usager?.decisionDeadline?.color === 'bg-danger') {
-                <span class="fr-sr-only">Moins de 2 mois</span>
-                } @else {
                 <span class="fr-sr-only">Moins de 2 semaines ou dépassée</span>
+                } @else {
+                <span class="fr-sr-only">Moins de 2 mois</span>
                 } } @if (usager?.decisionDeadline?.dateToDisplay) {
                 <span
                   >{{ usager.decisionDeadline?.dateToDisplay | date : "dd/MM/yy"

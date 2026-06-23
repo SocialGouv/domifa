@@ -235,15 +235,6 @@ export const setupFormSubscriptions = (
   );
 
   subscription.add(
-    form
-      .get("registrationData")
-      ?.get("currentDomiciliationManagement")
-      ?.valueChanges.subscribe((value: CurrentTool) => {
-        updateCurrentToolQuestion(form, value);
-      })
-  );
-
-  subscription.add(
     form.get("noSiret")?.valueChanges.subscribe((value) => {
       const siretFormControl = form.get("siret");
       if (value) {
