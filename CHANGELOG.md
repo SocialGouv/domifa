@@ -1,3 +1,10 @@
+## [2.250.10](https://github.com/SocialGouv/domifa/compare/v2.250.9...v2.250.10) (2026-06-23)
+
+
+### Bug Fixes
+
+* **backend:** fix 'other' answer ([a832797](https://github.com/SocialGouv/domifa/commit/a83279788f48f2046e490015a66c43e5e7e59d39))
+
 ## [2.250.9](https://github.com/SocialGouv/domifa/compare/v2.250.8...v2.250.9) (2026-06-23)
 
 
