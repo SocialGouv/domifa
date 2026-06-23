@@ -1,3 +1,13 @@
+## [2.250.9](https://github.com/SocialGouv/domifa/compare/v2.250.8...v2.250.9) (2026-06-23)
+
+
+### Bug Fixes
+
+* **backend:** add block for downloads ([181fea4](https://github.com/SocialGouv/domifa/commit/181fea49f019f768843914516ee3a3cb8c0ccd2f))
+* **backend:** add ip table to manage ([a8b16a8](https://github.com/SocialGouv/domifa/commit/a8b16a82095a790d7738a5b111ace7149bca77bb))
+* **backend:** fix talisman ([f881388](https://github.com/SocialGouv/domifa/commit/f881388fe8168a681fc3f7ee34c0a674d57e8876))
+* **frontend:** delete edition of user blocked ([99a5392](https://github.com/SocialGouv/domifa/commit/99a5392e5030cd874accde9f1da0ab4fa84ac331))
+
 ## [2.250.8](https://github.com/SocialGouv/domifa/compare/v2.250.7...v2.250.8) (2026-06-12)
 
 
