@@ -25,13 +25,10 @@
   display: inline-block;
   width: 10px;
   height: 10px;
+}
 
-  .statut-date {
-    font-weight: bold;
-  }
-  .d-none {
-    display: none;
-  }
+.statut-date {
+  font-weight: bold;
 }
 
 .bg-danger {
@@ -39,7 +36,7 @@
 }
 
 .bg-warning {
-  background-color: var(--background-action-high-warning);
+  background-color: var(--border-default-orange-terre-battue);
 }
 
 .is-sticky {
