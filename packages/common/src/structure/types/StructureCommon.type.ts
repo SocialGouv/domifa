@@ -15,6 +15,7 @@ export type StructureCommon = Pick<
   | "region"
   | "capacite"
   | "organismeType"
+  | "organismeTypeDetail"
   | "codePostal"
   | "agrement"
   | "telephone"

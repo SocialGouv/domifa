@@ -25,6 +25,7 @@ export const STRUCTURE_MOCK: StructureCommon = {
     countryCode: "fr" as Iso2,
   },
   organismeType: null,
+  organismeTypeDetail: null,
   acceptTerms: new Date(),
   timeZone: "Europe/Paris",
   responsable: { nom: "Jean", prenom: "Thomson", fonction: "PDG" },
