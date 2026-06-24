@@ -1,3 +1,14 @@
+## [2.250.11](https://github.com/SocialGouv/domifa/compare/v2.250.10...v2.250.11) (2026-06-24)
+
+
+### Bug Fixes
+
+* **backend:** add other for organisme type ([70f5721](https://github.com/SocialGouv/domifa/commit/70f5721eee8b01b50de3da23bd445a866d172095))
+* **backend:** add other reaseon to organisme ([676c038](https://github.com/SocialGouv/domifa/commit/676c038dfc5ca005fc311c2318476644c19cf9be))
+* **backend:** fix add organisme detail ([ad802b2](https://github.com/SocialGouv/domifa/commit/ad802b2b68273a2b56fadde2a9274b959a614dc1))
+* **backend:** fix anon ([f297389](https://github.com/SocialGouv/domifa/commit/f297389a9d5539ec9b9000180ab1f30999b39798))
+* **frontend:** fix type of structure ([d1c52f1](https://github.com/SocialGouv/domifa/commit/d1c52f12235409b8e4ee4b65bc2b90b38f700ddd))
+
 ## [2.250.10](https://github.com/SocialGouv/domifa/compare/v2.250.9...v2.250.10) (2026-06-23)
 
 
