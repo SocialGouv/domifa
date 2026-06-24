@@ -1,0 +1,6 @@
+# Marks .anonymizer as its own workspace root so pnpm does NOT climb up
+# to the monorepo's root workspace. Standalone install.
+packages: []
+
+engineStrict: true
+nodeVersion: 22.22.0
