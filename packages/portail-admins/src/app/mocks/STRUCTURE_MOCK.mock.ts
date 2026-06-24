@@ -87,6 +87,7 @@ export const STRUCTURE_MOCK: StructureCommon = {
     countryCode: "fr",
   },
   organismeType: null,
+  organismeTypeDetail: null,
   acceptTerms: new Date(),
   timeZone: "Europe/Paris",
   responsable: { nom: "Jean", prenom: "Thomson", fonction: "PDG" },

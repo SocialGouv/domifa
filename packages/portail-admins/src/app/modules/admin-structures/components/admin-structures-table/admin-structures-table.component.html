@@ -334,24 +334,10 @@
   </div>
 </div>
 
-<dsfr-modal
-  class="text-start"
-  icon="fr-icon-user-add-fill"
-  #addUserModal
-  dialogId="refuseStructureModal"
-  titleModal="Création d'un utilisateur admin pour la structure :
-      {{ currentStructure?.nom }}"
-  [concealingBackdrop]="false"
-  [autoCloseOnAction]="false"
-  (conceal)="addUserModal.close()"
-  size="LG"
->
-  <app-register-user
-    (getUsers)="addUserModal.close(); reloadStructures$.next()"
-    (cancelAction)="addUserModal.close()"
-    [currentStructure]="currentStructure"
-  ></app-register-user>
-</dsfr-modal>
+<app-register-user
+  #registerUser
+  (getUsers)="reloadStructures$.next()"
+></app-register-user>
 
 <app-structure-form-delete
   (closeModals)="cancelForm()"
