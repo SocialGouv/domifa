@@ -1,4 +1,6 @@
 fileignoreconfig:
+- filename: .anonymizer/pnpm-lock.yaml
+  checksum: 89bd0cc1f61243028529083c16a0c38ab77834e4be6220449b544fdda62bb3b1
 - filename: .anonymizer/yarn.lock
   checksum: adf574ab2b9fc5e21891b802504438b9f7738c8854047dbc7ca628cd3994ef5f
 - filename: .kontinuous/env/dev/templates/backend.sealed-secret.yaml
