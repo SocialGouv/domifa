@@ -1,127 +1,140 @@
-<div>
+<dsfr-modal
+  class="fr-text--left"
+  #addUserModal
+  icon="fr-icon-user-add-fill"
+  dialogId="addUserModal"
+  [titleModal]="
+    currentStructure?.nom
+      ? 'Création d\'un utilisateur admin pour la structure : ' +
+        currentStructure.nom
+      : 'Création d\'un utilisateur admin'
+  "
+  [concealingBackdrop]="false"
+  [autoCloseOnAction]="false"
+  (conceal)="onConceal()"
+  modalSize="LG"
+>
   <form
     id="newAdminForm"
     [formGroup]="newAdminForm"
     (ngSubmit)="submitNewAdmin()"
   >
-    <div class="modal-body">
-      <div class="fr-grid-row">
+    <div class="fr-grid-row">
+      <div
+        [class.fr-input-group--error]="submitted && f.nom.errors"
+        class="fr-col-12 fr-col-md-6 fr-input-group fr-pr-md-2w required"
+      >
+        <label class="fr-label" for="nom">Nom </label>
+        <input
+          type="text"
+          class="fr-input"
+          id="nom"
+          formControlName="nom"
+          name="nom"
+          placeholder="Nom"
+          [ngClass]="{
+            'is-invalid': submitted && f.nom.errors
+          }"
+          required
+        />
         <div
-          [class.fr-input-group--error]="submitted && f.nom.errors"
-          class="fr-col-12 fr-input-group required"
+          *ngIf="submitted && f.nom.errors"
+          class="fr-messages-group"
+          aria-live="polite"
         >
-          <label class="fr-label" for="nom">Nom </label>
-          <input
-            type="text"
-            class="fr-input"
-            id="nom"
-            formControlName="nom"
-            name="nom"
-            placeholder="Nom"
-            [ngClass]="{
-              'is-invalid': submitted && f.nom.errors
-            }"
-            required
-          />
-          <div
-            *ngIf="submitted && f.nom.errors"
-            class="fr-messages-group"
-            id="invalid-feedback"
-            aria-live="polite"
-          >
-            <p class="fr-message fr-message--error">Veuillez vérifier le nom</p>
-          </div>
-        </div>
-
-        <div
-          [class.fr-input-group--error]="submitted && f.prenom.errors"
-          class="fr-col-12 fr-input-group required"
-        >
-          <label class="fr-label" for="prenom">Prénom</label>
-          <input
-            type="text"
-            class="fr-input"
-            id="prenom"
-            formControlName="prenom"
-            name="prenom"
-            placeholder="Prénom"
-            [ngClass]="{
-              'is-invalid': submitted && f.prenom.errors
-            }"
-            required
-          />
-          <div
-            *ngIf="submitted && f.prenom.errors"
-            class="fr-messages-group"
-            id="invalid-feedback"
-            aria-live="polite"
-          >
-            <p class="fr-message fr-message--error">
-              Veuillez vérifier le prénom
-            </p>
-          </div>
-        </div>
-
-        <div
-          [class.fr-input-group--error]="submitted && f.email.errors"
-          class="fr-col-12 fr-input-group required"
-        >
-          <label class="fr-label" for="email">Email :</label>
-          <input
-            type="text"
-            class="fr-input"
-            id="email"
-            formControlName="email"
-            name="email"
-            placeholder="Email"
-            [ngClass]="{
-              'is-invalid': submitted && f.email.errors
-            }"
-            required
-          />
-          <div
-            *ngIf="submitted && f.email.errors"
-            class="fr-messages-group"
-            id="invalid-feedback"
-            aria-live="polite"
-          >
-            <p class="fr-message fr-message--error">Vérifiez l'adresse email</p>
-          </div>
-        </div>
-        <div class="fr-col-12 fr-input-group required">
-          <app-fonction-selection
-            [parentFormGroup]="newAdminForm"
-            [fonctionDetailFormControl]="fonctionDetailControl"
-            [fonctionFormControl]="fonctionFormControl"
-            [submitted]="submitted"
-            invalidFeedbackText="La fonction de l'administrateur est obligatoire"
-          ></app-fonction-selection>
+          <p class="fr-message fr-message--error">Veuillez vérifier le nom</p>
         </div>
       </div>
-    </div>
 
-    <div class="fr-modal__footer">
-      <ul
-        class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left"
+      <div
+        [class.fr-input-group--error]="submitted && f.prenom.errors"
+        class="fr-col-12 fr-col-md-6 fr-input-group required"
       >
-        <li>
-          <button
-            type="button"
-            class="fr-btn fr-btn--secondary"
-            (click)="cancelForm()"
-          >
-            Annuler
-          </button>
-        </li>
-        <li>
-          <app-button
-            type="submit"
-            label="Ajouter l'utilisateur"
-            loadingText="Veuillez patienter..."
-            [loading]="loading"
-          ></app-button>
-        </li>
-      </ul>
+        <label class="fr-label" for="prenom">Prénom</label>
+        <input
+          type="text"
+          class="fr-input"
+          id="prenom"
+          formControlName="prenom"
+          name="prenom"
+          placeholder="Prénom"
+          [ngClass]="{
+            'is-invalid': submitted && f.prenom.errors
+          }"
+          required
+        />
+        <div
+          *ngIf="submitted && f.prenom.errors"
+          class="fr-messages-group"
+          aria-live="polite"
+        >
+          <p class="fr-message fr-message--error">
+            Veuillez vérifier le prénom
+          </p>
+        </div>
+      </div>
+
+      <div
+        [class.fr-input-group--error]="submitted && f.email.errors"
+        class="fr-col-12 fr-input-group required"
+      >
+        <label class="fr-label" for="email">Email :</label>
+        <input
+          type="text"
+          class="fr-input"
+          id="email"
+          formControlName="email"
+          name="email"
+          placeholder="Email"
+          [ngClass]="{
+            'is-invalid': submitted && f.email.errors
+          }"
+          required
+        />
+        <div
+          *ngIf="submitted && f.email.errors"
+          class="fr-messages-group"
+          aria-live="polite"
+        >
+          <p class="fr-message fr-message--error">Vérifiez l'adresse email</p>
+        </div>
+      </div>
+      <div class="fr-col-12 fr-input-group required">
+        <app-fonction-selection
+          [parentFormGroup]="newAdminForm"
+          [fonctionDetailFormControl]="fonctionDetailControl"
+          [fonctionFormControl]="fonctionFormControl"
+          [submitted]="submitted"
+          invalidFeedbackText="La fonction de l'administrateur est obligatoire"
+        ></app-fonction-selection>
+      </div>
     </div>
+    <button type="submit" hidden aria-hidden="true" tabindex="-1"></button>
   </form>
-</div>
+
+  <ng-template #modalFooterTemplate>
+    <ul
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left"
+    >
+      <li>
+        <app-button
+          type="button"
+          label="Ajouter l'utilisateur"
+          loadingText="Veuillez patienter..."
+          [loading]="loading"
+          (action)="submitNewAdmin()"
+        ></app-button>
+      </li>
+      <li>
+        <button
+          type="button"
+          class="fr-btn fr-btn--secondary"
+          (click)="cancelForm()"
+          [disabled]="loading"
+        >
+          Annuler
+        </button>
+      </li>
+    </ul>
+  </ng-template>
+</dsfr-modal>

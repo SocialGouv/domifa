@@ -1,6 +1,5 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
@@ -14,8 +13,6 @@ import {
   ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
 } from "@angular/forms";
 
@@ -36,11 +33,12 @@ import {
 } from "@domifa/common";
 import { CommonModule } from "@angular/common";
 import { SharedModule } from "../../../shared/shared.module";
+import { DsfrModalComponent, DsfrModalModule } from "@edugouvfr/ngx-dsfr";
 
 @Component({
   selector: "app-register-user",
   templateUrl: "./register-user.component.html",
-  imports: [ReactiveFormsModule, CommonModule, SharedModule],
+  imports: [ReactiveFormsModule, CommonModule, SharedModule, DsfrModalModule],
 })
 export class RegisterUserComponent implements OnInit, OnDestroy {
   public user: UserStructure | null;
@@ -59,12 +57,11 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   public showTerritories = false;
   public territoriesList: RegionsLabels = DEPARTEMENTS_LISTE;
 
-  @Input() currentStructure!: StructureAdmin;
-  @Output() public readonly cancelAction = new EventEmitter<void>();
+  @Input() public currentStructure?: StructureAdmin;
   @Output() public readonly getUsers = new EventEmitter<void>();
 
-  @ViewChild("form", { static: true })
-  public form!: ElementRef<HTMLFormElement>;
+  @ViewChild("addUserModal")
+  public addUserModal!: DsfrModalComponent;
 
   get f(): { [key: string]: AbstractControl } {
     return this.newAdminForm.controls;
@@ -88,7 +85,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
     return this.newAdminForm.get("fonctionDetail");
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.initForm();
   }
 
@@ -105,29 +102,10 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
     });
   }
 
-  public SuperAdminEmailValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      if (!control.parent) {
-        return null;
-      }
-
-      const email = control.value;
-      const roleControl = control.parent.get("role");
-
-      if (!roleControl?.value) {
-        return null;
-      }
-
-      const role = roleControl.value;
-
-      if (role === "super-admin-domifa" && email) {
-        if (!email.endsWith("@fabrique.social.gouv.fr")) {
-          return { invalidSuperAdminEmail: true };
-        }
-      }
-
-      return null;
-    };
+  public open(structure: StructureAdmin): void {
+    this.currentStructure = structure;
+    this.resetForm();
+    this.addUserModal.open();
   }
 
   public submitNewAdmin(): void {
@@ -149,12 +127,10 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
         })
         .subscribe({
           next: () => {
-            this.newAdminForm.reset();
-            this.submitted = false;
+            this.resetForm();
             this.loading = false;
-
-            this.currentStructure = undefined;
             this.getUsers.emit();
+            this.addUserModal.close();
             this.toastService.success("Un email a été envoyé à l'utilisateur.");
           },
           error: () => {
@@ -167,7 +143,16 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   }
 
   public cancelForm(): void {
+    this.addUserModal.close();
+  }
+
+  public onConceal(): void {
+    this.resetForm();
+  }
+
+  private resetForm(): void {
     this.newAdminForm.reset();
+    this.submitted = false;
   }
 
   public ngOnDestroy(): void {

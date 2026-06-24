@@ -150,23 +150,10 @@
   </dsfr-modal>
 </div>
 
-<dsfr-modal
-  class="text-start"
-  icon="fr-icon-user-add-fill"
-  #addUserModal
-  dialogId="addUserModal"
-  titleModal="Création d'un utilisateur admin pour la structure :
-      {{ structure?.nom }}"
-  [concealingBackdrop]="false"
-  [autoCloseOnAction]="false"
-  size="LG"
->
-  <app-register-user
-    (cancelAction)="addUserModal.close()"
-    (getUsers)="addUserModal.close(); reloadUsersSubject$.next()"
-    [currentStructure]="structure"
-  ></app-register-user>
-</dsfr-modal>
+<app-register-user
+  #registerUser
+  (getUsers)="reloadUsersSubject$.next()"
+></app-register-user>
 
 <dsfr-modal
   class="text-start"

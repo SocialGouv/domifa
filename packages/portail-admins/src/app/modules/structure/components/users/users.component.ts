@@ -80,8 +80,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   public searching = true;
   @ViewChild("confirmModal")
   public confirmModal!: DsfrModalComponent;
-  @ViewChild("addUserModal")
-  public addUserModal!: DsfrModalComponent;
+  @ViewChild("registerUser")
+  public registerUser!: RegisterUserComponent;
   @ViewChild("blockModal")
   public blockModal!: DsfrModalComponent;
   public confirmModalContext?: ConfirmModalContext;
@@ -147,7 +147,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   public openAddUserModal(): void {
-    this.addUserModal.open();
+    this.registerUser.open(this.structure);
   }
 
   public openBlockModal(user: UserWithSecurityViewModel): void {

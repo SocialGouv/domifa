@@ -18,7 +18,6 @@ import {
 } from "../../../shared/services";
 import { StructureFilterCriteria } from "../../utils";
 import { FilterOutput } from "../admin-structures-list/admin-structures-list.component";
-import { DsfrModalComponent, DsfrModalModule } from "@edugouvfr/ngx-dsfr";
 import {
   DsfrDropdownMenuComponent,
   DsfrDropdownMenuItemComponent,
@@ -35,7 +34,6 @@ import { StructureFormRefuseComponent } from "../structure-form-refuse/structure
   imports: [
     CommonModule,
     RouterModule,
-    DsfrModalModule,
     DsfrDropdownMenuComponent,
     DsfrDropdownMenuItemComponent,
     TableHeadSortComponent,
@@ -54,10 +52,9 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   @Output()
   public readonly sort = new EventEmitter<FilterOutput>();
 
-  @ViewChild("addUserModal")
-  public addUserModal!: DsfrModalComponent;
+  @ViewChild("registerUser")
+  public registerUser!: RegisterUserComponent;
 
-  public currentStructure: StructureAdmin | undefined = undefined;
   public structureToDelete: StructureAdmin | undefined = undefined;
   public structureToRefuse: StructureAdmin | undefined = undefined;
 
@@ -134,16 +131,13 @@ export class AdminStructuresTableComponent implements OnInit, OnDestroy {
   }
 
   public openAddAdminModal(structure: StructureAdmin): void {
-    this.addUserModal.open();
-    this.currentStructure = structure;
+    this.registerUser.open(structure);
   }
 
   public cancelForm(): void {
-    this.currentStructure = undefined;
     this.structureToDelete = undefined;
     this.structureToRefuse = undefined;
     this.submitted = false;
-    this.addUserModal?.close();
   }
 
   public ngOnDestroy(): void {
