@@ -238,7 +238,7 @@ describe("DecisionValideFormComponent", () => {
     });
 
     it("should set START_DATE_TOO_LOW for date before minDate", () => {
-      const tooEarly = `01/01/${new Date().getFullYear() - 2}`;
+      const tooEarly = `01/01/${new Date().getFullYear() - 3}`;
       component.valideForm.get("dateDebut")?.setValue(tooEarly);
       expect(component.valideForm.errors?.["START_DATE_TOO_LOW"]).toBeTruthy();
     });

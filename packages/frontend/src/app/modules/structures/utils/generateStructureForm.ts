@@ -5,7 +5,12 @@ import {
   UntypedFormControl,
   UntypedFormGroup,
 } from "@angular/forms";
-import { CurrentTool, MarketTool, StructureCommon } from "@domifa/common";
+import {
+  CurrentTool,
+  MarketTool,
+  StructureCommon,
+  StructureOrganismeType,
+} from "@domifa/common";
 import { Subscription } from "rxjs";
 
 import { setFormPhone, anyPhoneValidator } from "../../../shared/phone";
@@ -15,6 +20,7 @@ import {
   updateComplementAdress,
   updateCurrentToolQuestion,
   updateMarketToolQuestion,
+  updateOrganismeTypeQuestion,
 } from "./structure-validators";
 import { NoWhiteSpaceValidator } from "../../../shared";
 
@@ -106,6 +112,12 @@ export function createform(
     organismeType: [
       structure.organismeType,
       structure.structureType === "asso" ? [Validators.required] : [],
+    ],
+    organismeTypeDetail: [
+      structure.organismeTypeDetail,
+      structure.structureType === "asso" && structure.organismeType === "AUTRE"
+        ? [Validators.required, Validators.maxLength(200)]
+        : [Validators.maxLength(200)],
     ],
     ville: [structure.ville, [Validators.required, Validators.maxLength(255)]],
     acceptCgu: [null, []],
@@ -213,6 +225,10 @@ export const setupFormSubscriptions = (
       );
       form.get("registrationData")?.get("dsp")?.updateValueAndValidity();
       updateReseauDetailValidator(form);
+      updateOrganismeTypeQuestion(
+        form,
+        form.get("organismeType")?.value as StructureOrganismeType | null
+      );
     })
   );
 
@@ -262,6 +278,14 @@ export const setupFormSubscriptions = (
       ?.get("marketTool")
       ?.valueChanges.subscribe((value: MarketTool) => {
         updateMarketToolQuestion(form, value);
+      })
+  );
+
+  subscription.add(
+    form
+      .get("organismeType")
+      ?.valueChanges.subscribe((value: StructureOrganismeType | null) => {
+        updateOrganismeTypeQuestion(form, value);
       })
   );
 };

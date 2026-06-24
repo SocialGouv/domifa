@@ -24,6 +24,7 @@ import { StructureAdresseCourrierDto, StructureResponsableDto } from ".";
 import {
   IsSIRET,
   IsValidPhone,
+  StripTagsTransform,
   Trim,
   TrimOrNullTransform,
 } from "../../../_common/decorators";
@@ -193,6 +194,13 @@ export class StructureDto {
   @IsIn(Object.keys(STRUCTURE_ORGANISME_TYPE_LABELS))
   @IsNotEmpty()
   public organismeType: StructureOrganismeType;
+
+  @ValidateIf((o) => o.structureType === "asso" && o.organismeType === "AUTRE")
+  @StripTagsTransform()
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(200)
+  public organismeTypeDetail?: string | null;
 
   @IsBoolean()
   @Equals(true)

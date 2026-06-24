@@ -13,6 +13,7 @@ import {
   MarketTool,
   RegistrationSources,
   SOURCES_OPTIONS,
+  StructureOrganismeType,
 } from "@domifa/common";
 import slug from "slug";
 import { NoWhiteSpaceValidator } from "../../../shared";
@@ -96,6 +97,25 @@ export const updateCurrentToolQuestion = (
   }
   marketToolField?.updateValueAndValidity();
   marketToolOtherField?.updateValueAndValidity();
+};
+
+export const updateOrganismeTypeQuestion = (
+  structureForm: FormGroup,
+  value: StructureOrganismeType | null
+) => {
+  const detailField = structureForm.get("organismeTypeDetail");
+  const isAsso = structureForm.get("structureType")?.value === "asso";
+
+  if (isAsso && value === "AUTRE") {
+    detailField?.setValidators([
+      Validators.required,
+      Validators.maxLength(200),
+    ]);
+  } else {
+    detailField?.setValidators([Validators.maxLength(200)]);
+    detailField?.setValue(null);
+  }
+  detailField?.updateValueAndValidity();
 };
 
 export const updateMarketToolQuestion = (

@@ -147,6 +147,9 @@ export class StructureTable
   organismeType: StructureOrganismeType;
 
   @Column({ type: "text", nullable: true })
+  organismeTypeDetail: string | null;
+
+  @Column({ type: "text", nullable: true })
   reseau: string;
 
   @Column({ type: "text", nullable: true })

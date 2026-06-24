@@ -416,6 +416,55 @@
         </div>
       </div>
 
+      <!-- Type d'organisme agréé : préciser (si Autre) -->
+      @if (f.organismeType?.value === 'AUTRE') {
+      <div class="fr-col-12 fr-col-md-6">
+        <div
+          class="fr-input-group"
+          [class.fr-input-group--error]="
+            (submitted || f.organismeTypeDetail?.dirty) &&
+            f.organismeTypeDetail?.errors
+          "
+        >
+          <label class="fr-label" for="organismeTypeDetail">
+            Préciser le type d'organisme agréé
+          </label>
+          <input
+            type="text"
+            class="fr-input"
+            [class.fr-input--error]="
+              (submitted || f.organismeTypeDetail?.dirty) &&
+              f.organismeTypeDetail?.errors
+            "
+            id="organismeTypeDetail"
+            formControlName="organismeTypeDetail"
+            name="organismeTypeDetail"
+            maxlength="200"
+            aria-describedby="organismeTypeDetail-messages"
+            [attr.aria-invalid]="
+              (submitted || f.organismeTypeDetail?.dirty) &&
+              f.organismeTypeDetail?.errors
+                ? true
+                : null
+            "
+            required
+          />
+          <div
+            class="fr-messages-group"
+            id="organismeTypeDetail-messages"
+            aria-live="polite"
+          >
+            @if ((submitted || f.organismeTypeDetail?.dirty) &&
+            f.organismeTypeDetail?.errors) {
+            <p class="fr-message fr-message--error">
+              Veuillez préciser le type d'organisme
+            </p>
+            }
+          </div>
+        </div>
+      </div>
+      }
+
       <!-- Réseau -->
       <div class="fr-col-12 fr-col-md-6">
         <div
