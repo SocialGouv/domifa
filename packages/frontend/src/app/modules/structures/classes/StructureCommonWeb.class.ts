@@ -31,6 +31,7 @@ export class StructureCommonWeb implements StructureCommon {
   public codePostal = "";
   public agrement: string | null = "";
   public organismeType: StructureOrganismeType | null = null;
+  public organismeTypeDetail: string | null = null;
   public telephone: Telephone = {
     numero: "",
     countryCode: "fr" as Iso2,
@@ -102,6 +103,8 @@ export class StructureCommonWeb implements StructureCommon {
       this.email = structure.email ?? this.email;
       this.timeZone = structure.timeZone ?? this.timeZone;
       this.organismeType = structure.organismeType ?? this.organismeType;
+      this.organismeTypeDetail =
+        structure.organismeTypeDetail ?? this.organismeTypeDetail;
       this.responsable = structure.responsable ?? this.responsable;
       this.options = structure.options ?? this.options;
       this.adresseCourrier = structure.adresseCourrier ?? this.adresseCourrier;

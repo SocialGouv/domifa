@@ -42,6 +42,3 @@ export interface SuspiciousActivityFilters {
   userId?: number;
   userType?: SuspiciousFilterUserType;
 }
-// Kept here for backwards-compat. The "Activité suspecte" filters bar no
-// longer surfaces a userType selector; the lockedFilters input (used when the
-// list is embedded on a user fiche) still passes it through.

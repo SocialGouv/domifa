@@ -105,7 +105,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly toastService: CustomToastService
   ) {
-    this.minDate = `${new Date().getFullYear() - 1}-01-01`;
+    this.minDate = `${new Date().getFullYear() - 2}-01-01`;
     this.maxDate = `${new Date().getFullYear() + 1}-12-31`;
     this.maxEndDate = formatDateToIso(getNextYear(getToday()));
   }

@@ -40,6 +40,7 @@ export interface Structure extends AppEntity {
   acceptTerms: Date | null;
   responsable: StructureResponsable;
   organismeType: StructureOrganismeType | null;
+  organismeTypeDetail: string | null;
   hardReset: {
     token: string;
     expireAt?: Date;

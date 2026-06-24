@@ -1,4 +1,4 @@
-\restrict sCuCeZjtA1qbD92uw27H2fYs1u1W71bxGeOecSf6rK4SEBln8bFjcZzIRRykP6K
+\restrict bhrrAIdAofOmzYLZcg8R1YelSxC3aaCSnfxUzhpbxFP8UcrjST4OYbTXLQHfUsr
 CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 CREATE TABLE public.app_ip_ban (
@@ -246,7 +246,8 @@ CREATE TABLE public.structure (
     statut text DEFAULT 'EN_ATTENTE'::text NOT NULL,
     decision jsonb NOT NULL,
     "noSiret" boolean,
-    "reseauDetail" text
+    "reseauDetail" text,
+    "organismeTypeDetail" text
 );
 CREATE TABLE public.structure_doc (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
@@ -813,4 +814,4 @@ ALTER TABLE ONLY public.usager_notes
     ADD CONSTRAINT "FK_e8b75cd4ebe81d288a6ff7d4115" FOREIGN KEY ("structureId") REFERENCES public.structure(id) ON DELETE CASCADE;
 ALTER TABLE ONLY public.interactions
     ADD CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE;
-\unrestrict sCuCeZjtA1qbD92uw27H2fYs1u1W71bxGeOecSf6rK4SEBln8bFjcZzIRRykP6K
+\unrestrict bhrrAIdAofOmzYLZcg8R1YelSxC3aaCSnfxUzhpbxFP8UcrjST4OYbTXLQHfUsr

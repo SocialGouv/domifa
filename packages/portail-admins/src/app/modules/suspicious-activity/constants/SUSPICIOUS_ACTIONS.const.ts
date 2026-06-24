@@ -112,7 +112,7 @@ export const SESSION_CLOSED_REASON_LABELS: Record<string, string> = {
 const USER_KIND_LABELS: Record<string, string> = {
   usager: "Domicilié (Mon DomiFa)",
   user_structure: "Structure (DomiFa)",
-  user_supervisor: "Utilisateur",
+  user_supervisor: "Admin / DGCS / Région",
   anonymous: "Anonyme",
 };
 

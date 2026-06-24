@@ -67,7 +67,7 @@ export class DecisionRefusFormComponent implements OnInit, OnDestroy {
   ) {
     this.loading = false;
     this.submitted = false;
-    this.minDate = `${new Date().getFullYear() - 1}-01-01`;
+    this.minDate = `${new Date().getFullYear() - 2}-01-01`;
     this.maxDateRefus = getTodayIso();
   }
 
