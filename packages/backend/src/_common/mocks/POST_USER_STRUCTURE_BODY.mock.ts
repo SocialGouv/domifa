@@ -55,6 +55,7 @@ export const POST_USER_STRUCTURE_BODY: Partial<UserStructure> = {
       usagerLoginUpdateLastInteraction: false,
     },
     organismeType: null,
+    organismeTypeDetail: null,
     lastLogin: null,
     timeZone: "Europe/Paris",
     acceptTerms: new Date(),

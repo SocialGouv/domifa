@@ -58,6 +58,7 @@ export const USER_STRUCTURE_AUTH: UserStructureAuthenticated = {
       usagerLoginUpdateLastInteraction: false,
     },
     organismeType: null,
+    organismeTypeDetail: null,
     lastLogin: null,
     timeZone: "Europe/Paris",
     acceptTerms: new Date(),

@@ -41,6 +41,7 @@ export const STRUCTURE_MOCK: StructureCommon = {
     },
   },
   organismeType: null,
+  organismeTypeDetail: null,
   lastLogin: null,
   timeZone: "Europe/Paris",
   portailUsager: {
