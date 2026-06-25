@@ -52,6 +52,6 @@ RUN corepack enable \
 
 FROM ghcr.io/socialgouv/docker/nginx4spa:8.2.4
 
-COPY ./packages/portail-admins/nginx.conf /etc/nginx/nginx.conf
+COPY ./packages/nginx.conf /etc/nginx/nginx.conf
 COPY ./packages/portail-admins/security-headers.conf /etc/nginx/security-headers.conf
 COPY --from=builder --chown=101:101 /app/packages/portail-admins/dist/domifa-portail-admins /usr/share/nginx/html
