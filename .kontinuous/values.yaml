@@ -171,14 +171,8 @@ frontend:
   imagePackage: frontend
   host: "{{ .Values.global.host }}"
   containerPort: 8080
-  ingress:
-    customHeaders:
-      "Content-Security-Policy": "default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr https://api.tally.so https://*.tally.so; font-src 'self' https://fonts.gstatic.com https://tally.so https://*.tally.so; img-src 'self' https://tally.so https://*.tally.so data:; script-src 'self' https://*.gouv.fr https://tally.so https://*.tally.so; frame-src 'self' https://*.gouv.fr https://tally.so https://*.tally.so; style-src 'self' 'unsafe-inline' https://*.gouv.fr https://tally.so https://*.tally.so"
-      "X-Frame-Options": "deny"
-      "X-Content-Type-Options": "nosniff"
-      "X-XSS-Protection": "0"
-      "Referrer-Policy": "strict-origin-when-cross-origin"
-      "Cache-Control": "no-store"
+  # Security headers are now set by the app's nginx (packages/frontend/nginx.conf)
+  # so they no longer depend on the ingress controller's custom-headers support.
   resources:
     requests:
       cpu: 0.2
@@ -195,15 +189,7 @@ portail-admins:
   ~chart: app
   imagePackage: portail-admins
   host: "admin-{{ .Values.global.host }}"
-  ingress:
-    customHeaders:
-      "Content-Security-Policy": "default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr; font-src 'self'; img-src 'self' data:; script-src 'self' https://*.gouv.fr; frame-src 'self' https://*.gouv.fr; style-src 'self' 'unsafe-inline' https://*.gouv.fr"
-      "X-Frame-Options": "deny"
-      "X-Robots-Tag": "noindex, nofollow, nosnippet, noarchive"
-      "X-Content-Type-Options": "nosniff"
-      "X-XSS-Protection": "0"
-      "Referrer-Policy": "strict-origin-when-cross-origin"
-      "Cache-Control": "no-store"
+  # Security headers are now set by the app's nginx (packages/portail-admins/nginx.conf).
   containerPort: 8080
   securityContext:
     fsGroup: 101
@@ -214,14 +200,7 @@ portail-usagers:
   ~chart: app
   imagePackage: portail-usagers
   host: "mon-{{ .Values.global.host }}"
-  ingress:
-    customHeaders:
-      "Content-Security-Policy": "default-src 'none'; manifest-src 'self' https://*.gouv.fr; connect-src 'self' https://*.gouv.fr https://api.tally.so https://*.tally.so; font-src 'self' https://fonts.gstatic.com https://tally.so https://*.tally.so; img-src 'self' https://tally.so https://*.tally.so data:; script-src 'self' https://*.gouv.fr https://tally.so https://*.tally.so; frame-src 'self' https://*.gouv.fr https://tally.so https://*.tally.so; style-src 'self' 'unsafe-inline' https://*.gouv.fr https://tally.so https://*.tally.so"
-      "X-Frame-Options": "deny"
-      "X-Content-Type-Options": "nosniff"
-      "X-XSS-Protection": "0"
-      "Referrer-Policy": "strict-origin-when-cross-origin"
-      "Cache-Control": "no-store"
+  # Security headers are now set by the app's nginx (packages/portail-usagers/nginx.conf).
   containerPort: 8080
   securityContext:
     fsGroup: 101
