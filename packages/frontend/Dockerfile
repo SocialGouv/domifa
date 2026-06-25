@@ -63,4 +63,5 @@ RUN corepack enable \
 
 FROM ghcr.io/socialgouv/docker/nginx4spa:8.2.4
 
+COPY ./packages/frontend/nginx.conf /etc/nginx/nginx.conf
 COPY --from=builder --chown=101:101 /app/packages/frontend/dist/domifa /usr/share/nginx/html
