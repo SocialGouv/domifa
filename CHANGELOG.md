@@ -1,3 +1,11 @@
+## [2.250.12](https://github.com/SocialGouv/domifa/compare/v2.250.11...v2.250.12) (2026-06-26)
+
+
+### Bug Fixes
+
+* **backend:** fix UA internal ([2ca3cff](https://github.com/SocialGouv/domifa/commit/2ca3cff5007d018dc91e855885e7c635e03f97df))
+* **backend:** fix UA internal ([fe8712a](https://github.com/SocialGouv/domifa/commit/fe8712acaac591ae425c8fd749770f21089d51e4))
+
 ## [2.250.11](https://github.com/SocialGouv/domifa/compare/v2.250.10...v2.250.11) (2026-06-24)
 
 
