@@ -4,6 +4,9 @@ import { DomifaEnvId } from "./DomifaEnvId.type";
 export type DomifaConfigSecurity = {
   mainSecret: Uint8Array; // DOMIFA_SECURITY_FILES_MAIN_SECRET
   jwtSecret: string; // DOMIFA_SECURITY_JWT_SECRET
+  // Shared user-agent used by internal probes (e.g. fabnum blackbox monitoring)
+  // to bypass the throttler/bot filter. Empty string disables the bypass.
+  internalUserAgent: string; // DOMIFA_INTERNAL_USER_AGENT
   sessionDurationDays: number; // SESSION_DURATION_DAYS
   sessionPurgeAfterDays: number; // SESSION_PURGE_AFTER_DAYS
   // Server-side secret used as the HMAC-SHA256 key when storing OTP codes.
@@ -113,7 +116,8 @@ export type DomifaConfig = {
   };
   // Per-structure behavioural quotas evaluated on a Paris calendar day.
   // `*PerDay` = alert-only threshold (cron email). `*BlockPerDay` = in-line
-  // enforcement threshold: crosser is BLOCKED, structure-wide 429 until reset.
+  // enforcement threshold: any agent acting past the structure count is
+  // BLOCKED on the spot; subsequent attempts from the same agent are 429.
   quotas: {
     usagersDocsDownloadPerDay: number; // DOMIFA_QUOTA_USAGERS_DOCS_DOWNLOAD_PER_DAY
     usagersDocsDownloadBlockPerDay: number; // DOMIFA_QUOTA_USAGERS_DOCS_DOWNLOAD_BLOCK_PER_DAY

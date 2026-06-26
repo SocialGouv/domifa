@@ -46,9 +46,10 @@ export class BehavioralQuotaEnforcerService {
       return { allowed: true };
     }
 
-    const alreadyBlocked = await this.hasStructureAlreadyBlockedToday({
+    const alreadyBlocked = await this.hasUserAlreadyBlockedToday({
       action,
       structureId: user.structureId,
+      userId: user.id,
       since: startOfDayUtc,
     });
     if (alreadyBlocked) {
@@ -81,9 +82,10 @@ export class BehavioralQuotaEnforcerService {
     return zonedTimeToUtc(`${dayKey}T00:00:00`, PARIS_TZ);
   }
 
-  private async hasStructureAlreadyBlockedToday(params: {
+  private async hasUserAlreadyBlockedToday(params: {
     action: EnforceableQuotaKind;
     structureId: number;
+    userId: number;
     since: Date;
   }): Promise<boolean> {
     const reason = QUOTA_BLOCK_REASON[params.action];
@@ -93,6 +95,7 @@ export class BehavioralQuotaEnforcerService {
       .andWhere(`log."structureId" = :structureId`, {
         structureId: params.structureId,
       })
+      .andWhere(`log."userStructureId" = :userId`, { userId: params.userId })
       .andWhere(`log."createdAt" >= :since`, { since: params.since })
       .andWhere(`log.context->>'reason' = :reason`, { reason })
       .getCount();

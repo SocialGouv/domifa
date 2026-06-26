@@ -46,6 +46,7 @@ import {
   getAllowedOrigins,
   getBlockReason,
   isBypassedRoute,
+  isInternalProbeRoute,
   sanitizeForLog,
 } from "./app-throttler.utils";
 import { getIpBanPolicyForTtl } from "./throttler.config";
@@ -69,6 +70,8 @@ export class AppThrottlerGuard extends ThrottlerGuard {
   private readonly activeBlocks = new Map<string, string>();
   private readonly allowedOrigins = getAllowedOrigins();
   private readonly jwtSecret = domifaConfig().security.jwtSecret;
+  private readonly internalUserAgent =
+    domifaConfig().security.internalUserAgent;
 
   public constructor(
     @Inject(getOptionsToken()) options: ThrottlerModuleOptions,
@@ -83,6 +86,13 @@ export class AppThrottlerGuard extends ThrottlerGuard {
     const request = context.switchToHttp().getRequest<Request>();
 
     if (isBypassedRoute(request.url)) {
+      return true;
+    }
+
+    if (
+      isInternalProbeRoute(request.url) &&
+      this.isInternalProbe(request.headers["user-agent"])
+    ) {
       return true;
     }
 
@@ -109,6 +119,13 @@ export class AppThrottlerGuard extends ThrottlerGuard {
     );
 
     return super.canActivate(context);
+  }
+
+  private isInternalProbe(userAgent: string | string[] | undefined): boolean {
+    if (!this.internalUserAgent || typeof userAgent !== "string") {
+      return false;
+    }
+    return userAgent === this.internalUserAgent;
   }
 
   protected override async getTracker(
