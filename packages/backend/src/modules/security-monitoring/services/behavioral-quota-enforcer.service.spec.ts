@@ -14,8 +14,8 @@ import { AppTestHelper } from "../../../util/test";
 import { BehavioralQuotaEnforcerService } from "./behavioral-quota-enforcer.service";
 
 // Reuses two seeded users from the same structure so we can assert that
-// blocking the first crosser does not leak to the second agent (only the
-// download path is enforced for him — his account stays ACTIVE).
+// every agent who tries to act past the quota is blocked individually —
+// the structure-wide threshold does NOT shield later crossers.
 const STRUCTURE_ID = 1;
 const FIRST_CROSSER_USER_ID = 12; // s1-agent
 const FIRST_CROSSER_EMAIL = "s1-agent@yopmail.com";
@@ -177,7 +177,7 @@ describe("BehavioralQuotaEnforcerService", () => {
       expect(blocks[0].context.threshold).toBe(blockThreshold());
     });
 
-    it("refuses subsequent agents from the same structure without re-blocking", async () => {
+    it("blocks every distinct agent who acts past the structure-wide threshold", async () => {
       await seedAppLogs("USAGERS_DOCS_DOWNLOAD", blockThreshold());
 
       // First call: crosser is blocked.
@@ -190,7 +190,7 @@ describe("BehavioralQuotaEnforcerService", () => {
         }),
       });
 
-      // Second call from another agent of the same structure: 429, no block.
+      // Second call from another agent of the same structure: also blocked.
       const result = await service.enforceBeforeAction({
         action: "USAGERS_DOCS_DOWNLOAD",
         user: buildAuthUser({
@@ -200,12 +200,37 @@ describe("BehavioralQuotaEnforcerService", () => {
         }),
       });
 
-      expect(result).toEqual({ allowed: false, blockedNow: false });
+      expect(result).toEqual({ allowed: false, blockedNow: true });
       const secondStatus = await userStatusManager.getUserStatusFromDb({
         userProfile: "structure",
         userId: SECOND_AGENT_USER_ID,
       });
-      expect(secondStatus).toBe("ACTIVE");
+      expect(secondStatus).toBe("BLOCKED");
+      expect(await recentBlockLogs()).toHaveLength(2);
+    });
+
+    it("does not re-block the same user on a subsequent attempt past the threshold", async () => {
+      await seedAppLogs("USAGERS_DOCS_DOWNLOAD", blockThreshold());
+
+      const user = buildAuthUser({
+        id: FIRST_CROSSER_USER_ID,
+        email: FIRST_CROSSER_EMAIL,
+        role: "agent",
+      });
+
+      // First call: this user is blocked.
+      await service.enforceBeforeAction({
+        action: "USAGERS_DOCS_DOWNLOAD",
+        user,
+      });
+
+      // Same user retries (e.g. concurrent request): idempotent, no new log.
+      const result = await service.enforceBeforeAction({
+        action: "USAGERS_DOCS_DOWNLOAD",
+        user,
+      });
+
+      expect(result).toEqual({ allowed: false, blockedNow: false });
       expect(await recentBlockLogs()).toHaveLength(1);
     });
   });

@@ -10,6 +10,8 @@ import {
   ALLOWED_FETCH_SITE_VALUES,
   BYPASS_PREFIXES,
   CAPTURED_HEADER_KEYS,
+  INTERNAL_PROBE_EXACT_PATHS,
+  INTERNAL_PROBE_PREFIXES,
   LOGIN_IDENTIFIER_ENDPOINTS,
   MAX_LOG_FIELD_LENGTH,
 } from "./app-throttler.constants";
@@ -86,6 +88,20 @@ export function isBypassedRoute(url: string): boolean {
     return false;
   }
   return BYPASS_PREFIXES.some((prefix) => matchesPrefix(url, prefix));
+}
+
+export function isInternalProbeRoute(url: string): boolean {
+  if (!url) {
+    return false;
+  }
+  const queryStart = url.indexOf("?");
+  const path = (
+    queryStart === -1 ? url : url.slice(0, queryStart)
+  ).toLowerCase();
+  if (INTERNAL_PROBE_EXACT_PATHS.has(path)) {
+    return true;
+  }
+  return INTERNAL_PROBE_PREFIXES.some((prefix) => matchesPrefix(url, prefix));
 }
 
 function findAttemptedTargetRoute(

@@ -7,6 +7,7 @@ export type DomifaEnv = {
   DOMIFA_PORTAIL_ADMINS_URL: string;
   DOMIFA_BACKEND_URL: string;
   DOMIFA_SECURITY_JWT_SECRET: string;
+  DOMIFA_INTERNAL_USER_AGENT: string;
   SESSION_DURATION_DAYS: string;
   SESSION_PURGE_AFTER_DAYS: string;
 
@@ -84,8 +85,9 @@ export type DomifaEnv = {
   DOMIFA_LOGIN_OTP_BYPASS_DOMAINS: string;
   // Behavioural daily quotas per structure. `_PER_DAY` thresholds drive the
   // alert email (5-min cron). `_BLOCK_PER_DAY` thresholds drive in-line
-  // enforcement: the agent who crosses the threshold is BLOCKED, and every
-  // subsequent attempt from the structure is 429 until midnight Europe/Paris.
+  // enforcement: every agent that acts past the structure count is BLOCKED
+  // on the spot (no shielding from a prior crosser). Per-agent attempts that
+  // hit the lock are 429 until midnight Europe/Paris.
   DOMIFA_QUOTA_USAGERS_DOCS_DOWNLOAD_PER_DAY: string;
   DOMIFA_QUOTA_USAGERS_DOCS_DOWNLOAD_BLOCK_PER_DAY: string;
   DOMIFA_QUOTA_USAGERS_DOCS_UPLOAD_PER_DAY: string;

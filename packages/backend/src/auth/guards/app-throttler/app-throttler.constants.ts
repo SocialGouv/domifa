@@ -7,6 +7,18 @@ export const BYPASS_PREFIXES: ReadonlyArray<string> = [
   "/stats/public-stats",
 ];
 
+// Whitelist stricte des paths cités dans l'ingress `backend-export`
+// (cf. .kontinuous/values.yaml). Le bypass via DOMIFA_INTERNAL_USER_AGENT
+// n'est accepté que sur ces URLs — rien d'autre.
+export const INTERNAL_PROBE_PREFIXES: ReadonlyArray<string> = [
+  "/export",
+  "/stats",
+  "/admin/structures/export",
+];
+
+// Bypass UA accepté sur la racine exacte uniquement.
+export const INTERNAL_PROBE_EXACT_PATHS: ReadonlySet<string> = new Set(["/"]);
+
 export const LOGIN_IDENTIFIER_ENDPOINTS: ReadonlyArray<AttemptedTargetRoute> = [
   {
     prefix: "/structures/auth/login",
