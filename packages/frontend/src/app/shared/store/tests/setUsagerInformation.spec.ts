@@ -49,7 +49,7 @@ describe("setUsagerInformation", () => {
     it("Should complete 'statusInfo' for 'REFUS': dateToDisplay is 'dateDebut'", () => {
       const result = setUsagerInformation({ ...USAGER_REFUS_MOCK });
       expect(result.decisionDeadline.isActive).toEqual(false);
-      expect(result.decisionDeadline.color).toEqual("d-none");
+      expect(result.decisionDeadline.color).toBeNull();
       expect(result.decisionDeadline.dateToDisplay).toEqual(
         USAGER_REFUS_MOCK.decision.dateDebut
       );
