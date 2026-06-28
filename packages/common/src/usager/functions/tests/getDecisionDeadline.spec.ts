@@ -45,7 +45,7 @@ describe("[getDecisionDeadline] Display the decision deadline info", () => {
     usager.decision.dateFin = addDays(dateFinForTest, 65);
     expect(getDecisionDeadline(usager)).toEqual({
       isActive: true,
-      color: "d-none",
+      color: null,
       dateToDisplay: new Date("2020-07-04T00:00:00.000Z"),
       daysBeforeEnd: 65,
     });
@@ -66,11 +66,11 @@ describe("[getDecisionDeadline] Display the decision deadline info", () => {
     usager.typeDom = "PREMIERE_DOM";
     usager.decision.statut = "ATTENTE_DECISION";
     expect(getDecisionDeadline(usager).isActive).toEqual(false);
-    expect(getDecisionDeadline(usager).color).toEqual("d-none");
+    expect(getDecisionDeadline(usager).color).toBeNull();
 
     usager.decision.statut = "INSTRUCTION";
     expect(getDecisionDeadline(usager).isActive).toEqual(false);
-    expect(getDecisionDeadline(usager).color).toEqual("d-none");
+    expect(getDecisionDeadline(usager).color).toBeNull();
   });
 
   it("Other statuses: refus, radies", () => {
@@ -85,7 +85,7 @@ describe("[getDecisionDeadline] Display the decision deadline info", () => {
       isActive: false,
       dateToDisplay: new Date("2020-02-02T00:00:00.000Z"),
       daysBeforeEnd: 365,
-      color: "d-none",
+      color: null,
     });
 
     usager.decision.statut = "RADIE";
@@ -94,7 +94,7 @@ describe("[getDecisionDeadline] Display the decision deadline info", () => {
       isActive: false,
       dateToDisplay: new Date("2020-02-02T00:00:00.000Z"),
       daysBeforeEnd: 365,
-      color: "d-none",
+      color: null,
     });
 
     expect(
@@ -106,7 +106,7 @@ describe("[getDecisionDeadline] Display the decision deadline info", () => {
       isActive: false,
       dateToDisplay: null,
       daysBeforeEnd: 365,
-      color: "d-none",
+      color: null,
     });
   });
 });

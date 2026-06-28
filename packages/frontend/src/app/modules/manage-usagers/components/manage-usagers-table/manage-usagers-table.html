@@ -308,9 +308,10 @@
                 tabindex="0"
                 (click)="goToProfil(usager)"
               >
-                @if (usager?.decisionDeadline?.isActive) {
+                @if (usager?.decisionDeadline?.isActive &&
+                usager?.decisionDeadline?.color) {
                 <span
-                  [class]="'statut-signal ' + usager?.decisionDeadline?.color"
+                  [class]="'statut-signal ' + usager.decisionDeadline.color"
                 ></span>
                 @if (usager?.decisionDeadline?.color === 'bg-danger') {
                 <span class="fr-sr-only">Moins de 2 semaines ou dépassée</span>

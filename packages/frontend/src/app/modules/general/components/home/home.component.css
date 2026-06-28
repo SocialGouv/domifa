@@ -18,10 +18,6 @@ ul {
   margin: 1rem;
 }
 
-.bg-secondary-light {
-  background: rgba(80, 227, 194, 0.1);
-}
-
 @media only screen and (max-width: 600px) {
   .partenaires img {
     height: 66px !important;

@@ -8,7 +8,7 @@ export const getDecisionDeadline = (
     isActive: false,
     dateToDisplay: null,
     daysBeforeEnd: 365,
-    color: "d-none",
+    color: null,
   };
 
   if (
