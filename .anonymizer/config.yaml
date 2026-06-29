@@ -375,24 +375,6 @@ dump:
         - name: SetNull
           params:
             column: temporaryTokens
-        - name: "TemplateRecord"
-          params:
-            columns:
-              - "eventsHistory"
-            template: |
-              {{ .SetColumnValue "eventsHistory" "[]" }}
-            validate: true
-
-    - schema: public
-      name: user_usager_security
-      transformers:
-        - name: "TemplateRecord"
-          params:
-            columns:
-              - "eventsHistory"
-            template: |
-              {{ .SetColumnValue "eventsHistory" "[]" }}
-            validate: true
 
     - schema: public
       name: message_sms
