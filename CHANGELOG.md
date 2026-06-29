@@ -1,3 +1,10 @@
+## [2.250.15](https://github.com/SocialGouv/domifa/compare/v2.250.14...v2.250.15) (2026-06-29)
+
+
+### Bug Fixes
+
+* **backend:** fix anon ([46a5411](https://github.com/SocialGouv/domifa/commit/46a54116107742e6ca23c314d5ba78d607ae251b))
+
 ## [2.250.14](https://github.com/SocialGouv/domifa/compare/v2.250.13...v2.250.14) (2026-06-29)
 
 
