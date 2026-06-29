@@ -1,3 +1,10 @@
+## [2.250.14](https://github.com/SocialGouv/domifa/compare/v2.250.13...v2.250.14) (2026-06-29)
+
+
+### Bug Fixes
+
+* **frontend:** fix password form & text ([2104ae6](https://github.com/SocialGouv/domifa/commit/2104ae6b11a461e77cf31fa28dffc12c1ecd4653))
+
 ## [2.250.13](https://github.com/SocialGouv/domifa/compare/v2.250.12...v2.250.13) (2026-06-28)
 
 
