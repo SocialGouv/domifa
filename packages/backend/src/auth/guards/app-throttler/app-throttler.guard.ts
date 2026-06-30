@@ -364,6 +364,8 @@ export class AppThrottlerGuard extends ThrottlerGuard {
         expiresAt: params.expiresAt,
         context: params.context,
         createdBy: `system:${params.triggeredBy}`,
+        triggeredBy: params.triggeredBy,
+        userAgent: params.userAgent,
       });
     } catch (err) {
       appLogger.error("[IP_BAN] failed to persist ban", {

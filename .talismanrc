@@ -10,17 +10,19 @@ fileignoreconfig:
 - filename: .kontinuous/env/prod/templates/backend.sealed-secret.yaml
   checksum: 5205a6aa11256a5de11dd54ad0cba1d9b115c4e4fa60006a91365b15463f5254
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
-  checksum: a245a7f4ff31f47d8878b32657aa6bf8b622704940b8e7c7ab07959691577462
+  checksum: 18c7c81914ab87ee80621746712b943ad7cafd322e1b94c4d7bc1c87b66b8a4c
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
-  checksum: f2adf884dab31ccec84b625f491306053f1f6c61fc4e22887d2f65f9d592368a
+  checksum: 19359089405671e8a8ddb4b3e960b08c72d1e87b141879da4ef5c5d3b83193b9
 - filename: package.json
   checksum: 9f1a88fbfc8cd4e19d5e8ef253d5ddbf174bdfd6ff252ee26df4e9b370294646
 - filename: packages/backend/src/_migrations/1781813895170-auto-migration.ts
   checksum: a06e0eaf9a6a41d1ebbf8a6eda4046b42bc116694f7cbad88f66dc889267eadd
 - filename: packages/backend/src/_migrations/1782293071088-auto-migration.ts
   checksum: 0b70bd0ee11b139bd667c5d4db95a1781703898377aa99633804141c694df876
+- filename: packages/backend/src/_migrations/1782820564935-auto-migration.ts
+  checksum: 569cea2b8baf6c5159c29e7f94036534318c51a9800299107b9c3cbc7fd6a542
 - filename: packages/backend/src/_migrations/_init-db/domifa_test_schema.sql
-  checksum: 291af36daee11695f6cf6bb6bbf8d9b27d665f702e524c1ee98710cfabbad303
+  checksum: 8a8f9a18c94a77d7400f256c230eceb0a040e87c51b2a20398ed2b61348ec6b6
 - filename: packages/frontend/src/app/modules/general/components/static-pages/politique/politique.component.html
   checksum: 5a51711775b228a5086ca5f40eac5f971a09d9a6837b115f0cb81db16938b8e2
 - filename: packages/frontend/src/app/modules/general/components/static-pages/temoignages/temoignages.component.html

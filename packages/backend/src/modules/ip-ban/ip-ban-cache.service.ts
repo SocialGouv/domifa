@@ -4,6 +4,7 @@ import { Cron, CronExpression } from "@nestjs/schedule";
 import { appIpBanRepository } from "../../database";
 import {
   AppIpBanReason,
+  AppIpBanSource,
   AppIpBanTable,
 } from "../../database/entities/app-ip-ban/AppIpBanTable.typeorm";
 import { appLogger } from "../../util";
@@ -44,17 +45,45 @@ export class IpBanCacheService implements OnModuleInit {
     expiresAt?: Date | null;
     context?: Record<string, unknown> | null;
     createdBy?: string | null;
+    triggeredBy?: string | null;
+    userAgent?: string | null;
   }): Promise<void> {
     if (!params.ip) {
+      return;
+    }
+    const expiresAt = params.expiresAt ?? null;
+    const context = (params.context ?? null) as Record<string, unknown> | null;
+    const source: AppIpBanSource = {
+      reason: params.reason,
+      occurredAt: new Date().toISOString(),
+      triggeredBy: params.triggeredBy ?? params.createdBy ?? null,
+      userAgent: params.userAgent ?? null,
+      context,
+    };
+    const existing = await appIpBanRepository.findOneBy({ ip: params.ip });
+    if (existing) {
+      existing.reason = params.reason;
+      existing.expiresAt =
+        existing.expiresAt === null || expiresAt === null
+          ? null
+          : new Date(
+              Math.max(existing.expiresAt.getTime(), expiresAt.getTime())
+            );
+      existing.context = context as any;
+      existing.createdBy = params.createdBy ?? null;
+      existing.sources = [...(existing.sources ?? []), source];
+      const persisted = await appIpBanRepository.save(existing);
+      this.cache.set(persisted.ip, persisted);
       return;
     }
     const persisted = await appIpBanRepository.save(
       new AppIpBanTable({
         ip: params.ip,
         reason: params.reason,
-        expiresAt: params.expiresAt ?? null,
-        context: (params.context ?? null) as any,
+        expiresAt,
+        context: context as any,
         createdBy: params.createdBy ?? null,
+        sources: [source],
       })
     );
     this.cache.set(persisted.ip, persisted);
