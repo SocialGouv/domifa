@@ -28,12 +28,17 @@ import {
   ANONYMOUS_ACTOR_FIELDS,
   userTypeFromProfile,
 } from "../../../modules/app-logs/app-logs.helpers";
+import {
+  resolveUserForSecurityLog,
+  UserSecurityLogProfile,
+} from "../../../modules/app-logs/app-log-security-user-resolver";
 import { IpBanCacheService } from "../../../modules/ip-ban";
 import { userStatusManager } from "../../../modules/users/services";
 import { UserProfile } from "../../../_common/model";
 import { appLogger } from "../../../util";
 import { getClientIp } from "../../../util/express/clientRequest.helper";
 import {
+  AttemptedTargetRoute,
   RequestBlockReason,
   ThrottleBlockedJwtUser,
   ThrottleBlockedLogContext,
@@ -52,8 +57,23 @@ import {
 import { getIpBanPolicyForTtl } from "./throttler.config";
 import { AppIpBanReason } from "../../../database/entities/app-ip-ban/AppIpBanTable.typeorm";
 
+const ROUTE_PROFILE_TO_RESOLVER: Record<
+  AttemptedTargetRoute["userProfile"],
+  UserSecurityLogProfile
+> = {
+  structure: "user_structure",
+  supervisor: "user_supervisor",
+  usager: "usager",
+};
+
+type AttemptedTarget = { route: AttemptedTargetRoute; identifier: string };
+
 const SKIP_THROTTLE_ENVS: ReadonlySet<string> = new Set(["test"]);
 const REQUEST_BLOCK_DEDUP_TTL_MS = 5 * 60 * 1000;
+// Auto-block lifted by the expired-temporary-block cron once this window has
+// elapsed (see expired-temporary-block-cleaner.service.ts which honors the
+// `lockUntil` we stamp in the BLOCK_USER log context).
+const THROTTLE_LOCKOUT_DURATION_MS = 60 * 60 * 1000;
 
 const AUTO_BLOCK_REQUEST_REASONS: ReadonlySet<RequestBlockReason> = new Set([
   "bot_ua",
@@ -162,6 +182,7 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       request.headers["authorization"],
       this.jwtSecret
     );
+    const attemptedTarget = extractAttemptedTarget(request);
 
     const logContext: ThrottleBlockedLogContext = {
       ...throttlerLimitDetail,
@@ -170,7 +191,7 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       method: sanitizeForLog(request.method) ?? "",
       url: sanitizeForLog(request.url) ?? "",
       jwtUser,
-      attemptedIdentifier: extractAttemptedTarget(request)?.identifier,
+      attemptedIdentifier: attemptedTarget?.identifier,
       headers: extractRequestHeaders(request),
     };
 
@@ -201,7 +222,7 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       ...this.buildThrottleBanPayload(throttlerLimitDetail, logContext),
     });
 
-    await this.applyThrottleAutoBlock(jwtUser, logContext);
+    await this.applyThrottleAutoBlock(jwtUser, attemptedTarget, logContext);
 
     throw new HttpException(
       { statusCode: HttpStatus.TOO_MANY_REQUESTS },
@@ -219,6 +240,7 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       request.headers["authorization"],
       this.jwtSecret
     );
+    const attemptedTarget = extractAttemptedTarget(request);
 
     const dedupKey = jwtUser?.userId
       ? `request-block:${reason}:user:${jwtUser.userProfile}:${jwtUser.userId}`
@@ -233,7 +255,7 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       reason,
       origin: sanitizeForLog(request.headers["origin"]),
       referer: sanitizeForLog(request.headers["referer"]),
-      attemptedIdentifier: extractAttemptedTarget(request)?.identifier,
+      attemptedIdentifier: attemptedTarget?.identifier,
       headers: extractRequestHeaders(request),
     };
 
@@ -247,7 +269,12 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       incrementAttempts: true,
     });
 
-    await this.maybeAutoBlockUser(reason, jwtUser, baseContext);
+    await this.maybeAutoBlockUser(
+      reason,
+      jwtUser,
+      attemptedTarget,
+      baseContext
+    );
 
     if (AUTO_BLOCK_REQUEST_REASONS.has(reason) && clientIp) {
       await this.banAndAuditIp({
@@ -397,43 +424,108 @@ export class AppThrottlerGuard extends ThrottlerGuard {
 
   private async applyThrottleAutoBlock(
     jwtUser: ThrottleBlockedJwtUser | undefined,
+    attemptedTarget: AttemptedTarget | undefined,
     logContext: ThrottleBlockedLogContext
   ): Promise<void> {
-    if (!jwtUser?.userId) {
+    if (jwtUser?.userId) {
+      await this.applyAutoBlock({
+        userProfile: jwtUser.userProfile as UserProfile,
+        userId: jwtUser.userId,
+        reason: "throttle_authenticated",
+        ip: logContext.ip,
+        userAgent: logContext.userAgent,
+        blockedUserExtra: this.buildBlockedUserExtra(jwtUser),
+        extra: { throttle: logContext },
+      });
       return;
     }
-    await this.applyAutoBlock({
-      userProfile: jwtUser.userProfile as UserProfile,
-      userId: jwtUser.userId,
-      reason: "throttle_authenticated",
-      ip: logContext.ip,
-      userAgent: logContext.userAgent,
-      blockedUserExtra: this.buildBlockedUserExtra(jwtUser),
-      extra: { throttle: logContext },
-    });
+    if (attemptedTarget) {
+      await this.applyAutoBlockForTarget(
+        attemptedTarget,
+        "throttle_targeted",
+        logContext,
+        "temporary"
+      );
+    }
   }
 
   private async maybeAutoBlockUser(
     reason: RequestBlockReason,
     jwtUser: ThrottleBlockedJwtUser | undefined,
+    attemptedTarget: AttemptedTarget | undefined,
     requestContext: ThrottleBlockedLogContext
   ): Promise<void> {
-    if (!jwtUser?.userId || !AUTO_BLOCK_REQUEST_REASONS.has(reason)) {
+    if (!AUTO_BLOCK_REQUEST_REASONS.has(reason)) {
+      return;
+    }
+    if (jwtUser?.userId) {
+      await this.applyAutoBlock({
+        userProfile: jwtUser.userProfile as UserProfile,
+        userId: jwtUser.userId,
+        reason,
+        ip: requestContext.ip,
+        userAgent: requestContext.userAgent,
+        blockedUserExtra: this.buildBlockedUserExtra(jwtUser),
+        extra: {
+          method: requestContext.method,
+          url: requestContext.url,
+          origin: requestContext.origin,
+          referer: requestContext.referer,
+        },
+      });
+      return;
+    }
+    if (attemptedTarget) {
+      await this.applyAutoBlockForTarget(
+        attemptedTarget,
+        `${reason}_targeted`,
+        requestContext,
+        "temporary"
+      );
+    }
+  }
+
+  // Resolves the email/login submitted in the request body to the matching
+  // user row and applies the auto-block. Unknown identifiers are ignored
+  // (resolver returns "anonymous").
+  private async applyAutoBlockForTarget(
+    attemptedTarget: AttemptedTarget,
+    reason: string,
+    requestContext: ThrottleBlockedLogContext,
+    lockType: "permanent" | "temporary"
+  ): Promise<void> {
+    const resolverProfile =
+      ROUTE_PROFILE_TO_RESOLVER[attemptedTarget.route.userProfile];
+    const resolved = await resolveUserForSecurityLog(
+      resolverProfile,
+      attemptedTarget.identifier
+    );
+    const userId =
+      resolved.userStructureId ??
+      resolved.userSupervisorId ??
+      resolved.userUsagerId;
+    if (!userId) {
       return;
     }
     await this.applyAutoBlock({
-      userProfile: jwtUser.userProfile as UserProfile,
-      userId: jwtUser.userId,
+      userProfile: attemptedTarget.route.userProfile as UserProfile,
+      userId,
       reason,
       ip: requestContext.ip,
       userAgent: requestContext.userAgent,
-      blockedUserExtra: this.buildBlockedUserExtra(jwtUser),
+      blockedUserExtra: {
+        email: attemptedTarget.identifier,
+        structureId: resolved.structureId,
+        role: resolved.role,
+      },
       extra: {
         method: requestContext.method,
         url: requestContext.url,
         origin: requestContext.origin,
         referer: requestContext.referer,
+        attemptedIdentifier: attemptedTarget.identifier,
       },
+      lockType,
     });
   }
 
@@ -457,6 +549,7 @@ export class AppThrottlerGuard extends ThrottlerGuard {
     userAgent,
     blockedUserExtra,
     extra,
+    lockType = "permanent",
   }: {
     userProfile: UserProfile;
     userId: number;
@@ -469,6 +562,7 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       role?: string;
     };
     extra?: Record<string, unknown>;
+    lockType?: "permanent" | "temporary";
   }): Promise<void> {
     if (!AUTO_BLOCK_PROFILES.has(userProfile)) {
       return;
@@ -482,7 +576,18 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       return;
     }
 
-    await userStatusManager.markUserAsBlocked({ userProfile, userId });
+    let lockUntil: string | undefined;
+    if (lockType === "temporary") {
+      await userStatusManager.markUserAsTemporarilyBlocked({
+        userProfile,
+        userId,
+      });
+      lockUntil = new Date(
+        Date.now() + THROTTLE_LOCKOUT_DURATION_MS
+      ).toISOString();
+    } else {
+      await userStatusManager.markUserAsBlocked({ userProfile, userId });
+    }
 
     const userType = userTypeFromProfile(userProfile);
     try {
@@ -498,6 +603,8 @@ export class AppThrottlerGuard extends ThrottlerGuard {
           context: {
             autoBlocked: true,
             triggeredBy: "AppThrottlerGuard",
+            lockType,
+            ...(lockUntil ? { lockUntil } : {}),
             reason,
             ...blockedUserExtra,
             ...extra,
@@ -505,11 +612,13 @@ export class AppThrottlerGuard extends ThrottlerGuard {
         })
       );
     } catch {
-      // best-effort: status BLOCKED is already persisted
+      // best-effort: status change is already persisted
     }
 
     this.logger.warn(
-      `[AUTO_BLOCK] ${userProfile} user ${userId} blocked (reason=${reason})`
+      `[AUTO_BLOCK] ${userProfile} user ${userId} ${
+        lockType === "temporary" ? "temporarily " : ""
+      }blocked (reason=${reason})`
     );
   }
 }

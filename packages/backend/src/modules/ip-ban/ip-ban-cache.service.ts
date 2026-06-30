@@ -48,22 +48,16 @@ export class IpBanCacheService implements OnModuleInit {
     if (!params.ip) {
       return;
     }
-    await appIpBanRepository.upsert(
-      {
+    const persisted = await appIpBanRepository.save(
+      new AppIpBanTable({
         ip: params.ip,
         reason: params.reason,
         expiresAt: params.expiresAt ?? null,
         context: (params.context ?? null) as any,
         createdBy: params.createdBy ?? null,
-      },
-      ["ip"]
+      })
     );
-    const persisted = await appIpBanRepository.findOne({
-      where: { ip: params.ip },
-    });
-    if (persisted) {
-      this.cache.set(persisted.ip, persisted);
-    }
+    this.cache.set(persisted.ip, persisted);
   }
 
   public async unbanIp(ip: string): Promise<void> {
@@ -88,7 +82,9 @@ export class IpBanCacheService implements OnModuleInit {
       const bans = await appIpBanRepository
         .createQueryBuilder("ban")
         .where(`ban."expiresAt" IS NULL OR ban."expiresAt" > NOW()`)
+        .orderBy(`ban."createdAt"`, "ASC")
         .getMany();
+      // Iterating ASC then `set()` means the most recent ban wins for a given IP.
       const next = new Map<string, AppIpBanTable>();
       for (const ban of bans) {
         next.set(ban.ip, ban);

@@ -1,4 +1,4 @@
-import { Column, Entity } from "typeorm";
+import { Column, Entity, Index } from "typeorm";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 
 export type AppIpBanReason =
@@ -9,6 +9,7 @@ export type AppIpBanReason =
 
 @Entity({ name: "app_ip_ban" })
 export class AppIpBanTable extends AppTypeormTable<AppIpBanTable> {
+  @Index()
   @Column({ type: "text" })
   public ip!: string;
 
