@@ -116,15 +116,3 @@ async function hasActiveThrottleLock(
 
   return row !== null;
 }
-
-  const row = await appLogSecurityRepository
-    .createQueryBuilder("log")
-    .where(`log."${idColumn}" = :userId`, { userId })
-    .andWhere(`log.action = 'BLOCK_USER'`)
-    .andWhere(`log.context->>'lockType' = 'temporary'`)
-    .andWhere(`(log.context->>'lockUntil')::timestamptz > NOW()`)
-    .limit(1)
-    .getOne();
-
-  return row !== null;
-}
