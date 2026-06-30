@@ -11,7 +11,19 @@ import { computeOtpFingerprint } from "../../modules/otp/otp-fingerprint.helper"
 import { OtpService } from "../../modules/otp/services/otp.service";
 import { OtpRequestContext } from "../../modules/otp/otp.types";
 import { redactEmail } from "../../modules/otp/otp.utils";
+import { appLogger } from "../../util";
 import { SessionFingerprintService } from "./session-fingerprint.service";
+
+type TrustTokenRejectReason =
+  | "jwt_invalid"
+  | "scope_mismatch"
+  | "no_session"
+  | "session_uuid_mismatch"
+  | "hash_mismatch";
+
+type TrustTokenResult =
+  | { kind: "accepted"; session: CurrentUserSession }
+  | { kind: "rejected"; reason: TrustTokenRejectReason };
 
 // Scoping values for the login OTP. Stable across all login OTP requests so
 // generateOrResend / claim hit the same row.
@@ -87,21 +99,46 @@ export class LoginOtpService {
       throw otpHttpError("OTP_REQUIRED", HttpStatus.UNAUTHORIZED);
     }
 
+    appLogger.info({
+      event: "login_attempt",
+      emailRedacted: emailLog,
+      userId: user.id,
+      structureId: user.structureId ?? null,
+      hasTrustToken: Boolean(trustToken),
+      hasOtpCode: Boolean(otpCode),
+      forceResend: Boolean(forceResend),
+      ip,
+      userAgent,
+    });
+
     if (trustToken) {
-      const trusted = await this.tryTrustToken({
+      const verdict = await this.tryTrustToken({
         user,
         trustToken,
       });
-      if (trusted) {
+      if (verdict.kind === "accepted") {
+        appLogger.info({
+          event: "trust_token_accepted",
+          userId: user.id,
+          structureId: user.structureId ?? null,
+          sessionUuid: verdict.session.uuid,
+        });
         this.logger.log(`login OK via trust token pour ${emailLog}`);
-        return { kind: "trusted", session: trusted };
+        return { kind: "trusted", session: verdict.session };
       }
+      appLogger.warn({
+        event: "trust_token_rejected",
+        reason: verdict.reason,
+        userId: user.id,
+        structureId: user.structureId ?? null,
+        hasOtpCode: Boolean(otpCode),
+      });
       // trust token rejected (bad sig / expired / mismatch). Fall through to
       // the OTP path so the user can still log in by entering a fresh code.
       this.logger.warn(
-        `trust token KO pour ${emailLog}, fallback OTP (code fourni=${Boolean(
-          otpCode
-        )})`
+        `trust token KO pour ${emailLog} (reason=${
+          verdict.reason
+        }), fallback OTP (code fourni=${Boolean(otpCode)})`
       );
     }
 
@@ -129,7 +166,7 @@ export class LoginOtpService {
   private async tryTrustToken(params: {
     user: LoginUserPrincipal;
     trustToken: string;
-  }): Promise<CurrentUserSession | null> {
+  }): Promise<TrustTokenResult> {
     const { user, trustToken } = params;
 
     let payload: StructureTrustJwtPayload;
@@ -138,7 +175,7 @@ export class LoginOtpService {
     } catch {
       // Bad signature / expired — both surface as a generic rejection. We
       // never tell the client why so a brute-forcer can't distinguish.
-      return null;
+      return { kind: "rejected", reason: "jwt_invalid" };
     }
 
     if (
@@ -146,7 +183,7 @@ export class LoginOtpService {
       payload.userUuid !== user.uuid ||
       payload.userId !== user.id
     ) {
-      return null;
+      return { kind: "rejected", reason: "scope_mismatch" };
     }
 
     const session = await this.sessionFingerprintService.findActiveSession(
@@ -155,11 +192,11 @@ export class LoginOtpService {
     );
     if (!session) {
       // No live session → logout happened or admin revoked. Trust is gone.
-      return null;
+      return { kind: "rejected", reason: "no_session" };
     }
     if (session.uuid !== payload.sessionUuid) {
       // Token bound to an older (rotated) session.
-      return null;
+      return { kind: "rejected", reason: "session_uuid_mismatch" };
     }
     if (session.fingerprintHash !== payload.fingerprintHash) {
       // Fingerprint is treated as an opaque token: the trust JWT carries the
@@ -168,10 +205,10 @@ export class LoginOtpService {
       // revoked since the trust token was issued → fall back to OTP. We no
       // longer recompute the hash from current IP/UA: a device-relocation
       // (mobile data ↔ wifi, browser update) should not break the trust.
-      return null;
+      return { kind: "rejected", reason: "hash_mismatch" };
     }
 
-    return session;
+    return { kind: "accepted", session };
   }
 
   private buildOtpContext(
