@@ -1,3 +1,12 @@
+## [2.250.17](https://github.com/SocialGouv/domifa/compare/v2.250.16...v2.250.17) (2026-06-30)
+
+
+### Bug Fixes
+
+* **backend:** add type forgotten ([9a880b5](https://github.com/SocialGouv/domifa/commit/9a880b520200a57204adc5140124f05f5fa3a4a6))
+* **backend:** fix linter & imports ([5352630](https://github.com/SocialGouv/domifa/commit/53526305cbd0c1f7f6acb70cde0836185c82621a))
+* **backend:** fix unique ip ([c358003](https://github.com/SocialGouv/domifa/commit/c358003b6b0db4b6542368d04e9f11e4c777cbf1))
+
 ## [2.250.16](https://github.com/SocialGouv/domifa/compare/v2.250.15...v2.250.16) (2026-06-30)
 
 
