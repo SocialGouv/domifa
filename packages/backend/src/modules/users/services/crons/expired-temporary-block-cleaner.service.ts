@@ -95,12 +95,27 @@ async function hasActiveThrottleLock(
   userProfile: UserProfile,
   userId: number
 ): Promise<boolean> {
-  const idColumn =
-    userProfile === "structure"
-      ? "userStructureId"
-      : userProfile === "supervisor"
-      ? "userSupervisorId"
-      : "userUsagerId";
+  const ID_COLUMN_MAP: Record<UserProfile, string> = {
+    structure: "userStructureId",
+    supervisor: "userSupervisorId",
+    usager: "userUsagerId",
+  };
+  const idColumn = ID_COLUMN_MAP[userProfile];
+  if (!idColumn) {
+    return false;
+  }
+
+  const row = await appLogSecurityRepository
+    .createQueryBuilder("log")
+    .where(`log."${idColumn}" = :userId`, { userId })
+    .andWhere(`log.action = 'BLOCK_USER'`)
+    .andWhere(`log.context->>'lockType' = 'temporary'`)
+    .andWhere(`(log.context->>'lockUntil')::timestamptz > NOW()`)
+    .limit(1)
+    .getOne();
+
+  return row !== null;
+}
 
   const row = await appLogSecurityRepository
     .createQueryBuilder("log")
