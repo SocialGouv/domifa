@@ -1,3 +1,10 @@
+## [2.250.16](https://github.com/SocialGouv/domifa/compare/v2.250.15...v2.250.16) (2026-06-30)
+
+
+### Bug Fixes
+
+* **backend:** fix save of ips ([458bc5f](https://github.com/SocialGouv/domifa/commit/458bc5f179e4ff9b05be3c446e687b2fbf802b76))
+
 ## [2.250.15](https://github.com/SocialGouv/domifa/compare/v2.250.14...v2.250.15) (2026-06-29)
 
 
