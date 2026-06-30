@@ -3,6 +3,7 @@ import { Cron, CronExpression } from "@nestjs/schedule";
 import { SentryCron } from "@sentry/nestjs";
 
 import {
+  appLogSecurityRepository,
   userStructureRepository,
   userSupervisorRepository,
   userUsagerRepository,
@@ -71,6 +72,9 @@ async function sweepProfile(userProfile: UserProfile): Promise<number> {
 
   let cleared = 0;
   for (const user of blocked) {
+    if (await hasActiveThrottleLock(userProfile, user.id)) {
+      continue;
+    }
     const backoff = await getBackoffTime({ userProfile, userId: user.id });
     if (backoff !== null) {
       continue;
@@ -82,4 +86,30 @@ async function sweepProfile(userProfile: UserProfile): Promise<number> {
     cleared++;
   }
   return cleared;
+}
+
+// Throttler-induced lockouts (suspect UA / quota on a login endpoint) are not
+// counted in `getBackoffTime` since they don't write FAILED_AUTH events. They
+// stamp a `lockUntil` in the BLOCK_USER log context instead; honor it here.
+async function hasActiveThrottleLock(
+  userProfile: UserProfile,
+  userId: number
+): Promise<boolean> {
+  const idColumn =
+    userProfile === "structure"
+      ? "userStructureId"
+      : userProfile === "supervisor"
+      ? "userSupervisorId"
+      : "userUsagerId";
+
+  const row = await appLogSecurityRepository
+    .createQueryBuilder("log")
+    .where(`log."${idColumn}" = :userId`, { userId })
+    .andWhere(`log.action = 'BLOCK_USER'`)
+    .andWhere(`log.context->>'lockType' = 'temporary'`)
+    .andWhere(`(log.context->>'lockUntil')::timestamptz > NOW()`)
+    .limit(1)
+    .getOne();
+
+  return row !== null;
 }
