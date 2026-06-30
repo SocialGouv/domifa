@@ -7,9 +7,17 @@ export type AppIpBanReason =
   | "MISSING_UA"
   | "MANUAL";
 
+export type AppIpBanSource = {
+  reason: AppIpBanReason;
+  occurredAt: string;
+  triggeredBy?: string | null;
+  userAgent?: string | null;
+  context?: Record<string, unknown> | null;
+};
+
 @Entity({ name: "app_ip_ban" })
 export class AppIpBanTable extends AppTypeormTable<AppIpBanTable> {
-  @Index()
+  @Index({ unique: true })
   @Column({ type: "text" })
   public ip!: string;
 
@@ -26,6 +34,9 @@ export class AppIpBanTable extends AppTypeormTable<AppIpBanTable> {
 
   @Column({ type: "text", nullable: true })
   public createdBy?: string | null;
+
+  @Column({ type: "jsonb", default: () => "'[]'::jsonb" })
+  public sources!: AppIpBanSource[];
 
   public constructor(entity?: Partial<AppIpBanTable>) {
     super(entity);

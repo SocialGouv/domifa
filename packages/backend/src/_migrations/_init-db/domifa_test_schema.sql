@@ -1,4 +1,4 @@
-\restrict uoMBEKC0PaxNcJMEZPMNEJehr07oht3hEbbkW7CfSeHGxW6ao7qDlqqxgYtwb5U
+\restrict tQ6c6weVjeOkHoi0DKfDLRiNBVIehe5eCjWkLD90nfyR45X4mDrKsvox86IM8SU
 CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 CREATE TABLE public.app_ip_ban (
@@ -10,7 +10,8 @@ CREATE TABLE public.app_ip_ban (
     reason text NOT NULL,
     "expiresAt" timestamp with time zone,
     context jsonb,
-    "createdBy" text
+    "createdBy" text,
+    sources jsonb DEFAULT '[]'::jsonb NOT NULL
 );
 CREATE TABLE public.app_log (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
@@ -744,7 +745,7 @@ CREATE INDEX "IDX_d85d3252e11effca2f6b652fde" ON public.open_data_places USING b
 CREATE INDEX "IDX_d9c81cf63a13921c118dfda46b" ON public.message_sms USING btree ("phoneNumber");
 CREATE INDEX "IDX_dae89d90feda082fad814da8a4" ON public.message_sms USING btree ("structureId");
 CREATE INDEX "IDX_e2828c51dc4d023377f256c980" ON public.user_structure USING btree (email);
-CREATE INDEX "IDX_e558fc76d371ee63af47d7bb3c" ON public.app_ip_ban USING btree (ip);
+CREATE UNIQUE INDEX "IDX_e558fc76d371ee63af47d7bb3c" ON public.app_ip_ban USING btree (ip);
 CREATE INDEX "IDX_e5bcedcfa5f895f9908832a959" ON public.structure_stats_reporting USING btree (year);
 CREATE INDEX "IDX_e819c8b113a23a4a0c13a741da" ON public.usager_history_states USING btree ("usagerUUID");
 CREATE INDEX "IDX_e848a2cfbd611ec5edc18074e2" ON public.structure USING btree (region);
@@ -815,4 +816,4 @@ ALTER TABLE ONLY public.usager_notes
     ADD CONSTRAINT "FK_e8b75cd4ebe81d288a6ff7d4115" FOREIGN KEY ("structureId") REFERENCES public.structure(id) ON DELETE CASCADE;
 ALTER TABLE ONLY public.interactions
     ADD CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE;
-\unrestrict uoMBEKC0PaxNcJMEZPMNEJehr07oht3hEbbkW7CfSeHGxW6ao7qDlqqxgYtwb5U
+\unrestrict tQ6c6weVjeOkHoi0DKfDLRiNBVIehe5eCjWkLD90nfyR45X4mDrKsvox86IM8SU
