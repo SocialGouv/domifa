@@ -13,6 +13,9 @@ concurrency:
 
 jobs:
   build-backend:
+    permissions:
+      contents: read
+      id-token: write # OIDC identity for buildkit-operator /route auth
     environment: build-review-auto
     outputs:
       tags: ${{ steps.meta.outputs.tags }}
@@ -52,29 +55,37 @@ jobs:
         with:
           subdomain: api,admin,mon
 
-      - name: 📦 Build and push Docker image for backend
-        uses: socialgouv/workflows/actions/buildkit@v1
+      - name: 🔑 Login to registry
+        uses: docker/login-action@v4
         with:
+          registry: ${{ vars.REGISTRY_URL }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: 📦 Build and push Docker image for backend
+        uses: socialgouv/buildkit-operator@v1
+        with:
+          buildd-url: ${{ vars.BUILDKIT_OPERATOR_BUILDD_URL }}
+          gateway-host: ${{ vars.BUILDKIT_OPERATOR_GATEWAY_HOST }}
+          ca: ${{ secrets.BUILDKIT_OPERATOR_CA }}
+          cert: ${{ secrets.BUILDKIT_OPERATOR_CERT }}
+          key: ${{ secrets.BUILDKIT_OPERATOR_KEY }}
           context: "."
-          dockerfile: "packages/backend/Dockerfile"
+          file: "packages/backend/Dockerfile"
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          registry: "${{ vars.REGISTRY_URL }}"
-          registry-username: "${{ secrets.REGISTRY_USERNAME }}"
-          registry-password: "${{ secrets.REGISTRY_PASSWORD }}"
-          buildkit-cert-ca: "${{ secrets.BUILDKIT_CERT_CA }}"
-          buildkit-cert: "${{ secrets.BUILDKIT_CERT }}"
-          buildkit-cert-key: "${{ secrets.BUILDKIT_CERT_KEY }}"
-          buildkit-svc-count: ${{ vars.BUILDKIT_SVC_COUNT }}
-          buildkit-daemon-address: ${{ vars.BUILDKIT_DAEMON_ADDRESS }}
           build-args: |
             DOMIFA_ENV_ID=dev
             DOMIFA_BACKEND_URL=https://${{ steps.env.outputs.subdomain_api }}.ovh.fabrique.social.gouv.fr/
             DOMIFA_PORTAIL_ADMINS_URL=https://${{ steps.env.outputs.subdomain_admin }}.ovh.fabrique.social.gouv.fr/
             DOMIFA_PORTAIL_USAGERS_URL=https://${{ steps.env.outputs.subdomain_mon }}.ovh.fabrique.social.gouv.fr/
             DOMIFA_FRONTEND_URL=https://${{ steps.env.outputs.subdomain }}.ovh.fabrique.social.gouv.fr/
+          push: true
 
   build-frontend:
+    permissions:
+      contents: read
+      id-token: write # OIDC identity for buildkit-operator /route auth
     environment: build-review-auto
     outputs:
       tags: ${{ steps.meta.outputs.tags }}
@@ -114,21 +125,25 @@ jobs:
         with:
           subdomain: api,admin,mon
 
-      - name: 📦 Build and push Docker image for frontend
-        uses: socialgouv/workflows/actions/buildkit@v1
+      - name: 🔑 Login to registry
+        uses: docker/login-action@v4
         with:
+          registry: ${{ vars.REGISTRY_URL }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: 📦 Build and push Docker image for frontend
+        uses: socialgouv/buildkit-operator@v1
+        with:
+          buildd-url: ${{ vars.BUILDKIT_OPERATOR_BUILDD_URL }}
+          gateway-host: ${{ vars.BUILDKIT_OPERATOR_GATEWAY_HOST }}
+          ca: ${{ secrets.BUILDKIT_OPERATOR_CA }}
+          cert: ${{ secrets.BUILDKIT_OPERATOR_CERT }}
+          key: ${{ secrets.BUILDKIT_OPERATOR_KEY }}
           context: "."
-          dockerfile: "packages/frontend/Dockerfile"
+          file: "packages/frontend/Dockerfile"
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          registry: "${{ vars.REGISTRY_URL }}"
-          registry-username: "${{ secrets.REGISTRY_USERNAME }}"
-          registry-password: "${{ secrets.REGISTRY_PASSWORD }}"
-          buildkit-cert-ca: "${{ secrets.BUILDKIT_CERT_CA }}"
-          buildkit-cert: "${{ secrets.BUILDKIT_CERT }}"
-          buildkit-cert-key: "${{ secrets.BUILDKIT_CERT_KEY }}"
-          buildkit-svc-count: ${{ vars.BUILDKIT_SVC_COUNT }}
-          buildkit-daemon-address: ${{ vars.BUILDKIT_DAEMON_ADDRESS }}
           build-args: |
             DOMIFA_ENV_ID=dev
             DOMIFA_BACKEND_URL=https://${{ steps.env.outputs.subdomain_api }}.ovh.fabrique.social.gouv.fr/
@@ -137,8 +152,12 @@ jobs:
             DOMIFA_FRONTEND_URL=https://${{ steps.env.outputs.subdomain }}.ovh.fabrique.social.gouv.fr/
             DOMIFA_FRONTEND_META_ROBOTS=noindex,nofollow
             DOMIFA_SENTRY_DSN_FRONTEND=https://f06e9e7c06ee8a2bae5318db1e60ffc7@sentry2.fabrique.social.gouv.fr/3
+          push: true
 
   build-portail-admins:
+    permissions:
+      contents: read
+      id-token: write # OIDC identity for buildkit-operator /route auth
     environment: build-review-auto
     outputs:
       tags: ${{ steps.meta.outputs.tags }}
@@ -178,28 +197,36 @@ jobs:
         with:
           subdomain: api
 
-      - name: 📦 Build and push Docker image for portail-admins
-        uses: socialgouv/workflows/actions/buildkit@v1
+      - name: 🔑 Login to registry
+        uses: docker/login-action@v4
         with:
+          registry: ${{ vars.REGISTRY_URL }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: 📦 Build and push Docker image for portail-admins
+        uses: socialgouv/buildkit-operator@v1
+        with:
+          buildd-url: ${{ vars.BUILDKIT_OPERATOR_BUILDD_URL }}
+          gateway-host: ${{ vars.BUILDKIT_OPERATOR_GATEWAY_HOST }}
+          ca: ${{ secrets.BUILDKIT_OPERATOR_CA }}
+          cert: ${{ secrets.BUILDKIT_OPERATOR_CERT }}
+          key: ${{ secrets.BUILDKIT_OPERATOR_KEY }}
           context: "."
-          dockerfile: "packages/portail-admins/Dockerfile"
+          file: "packages/portail-admins/Dockerfile"
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          registry: "${{ vars.REGISTRY_URL }}"
-          registry-username: "${{ secrets.REGISTRY_USERNAME }}"
-          registry-password: "${{ secrets.REGISTRY_PASSWORD }}"
-          buildkit-cert-ca: "${{ secrets.BUILDKIT_CERT_CA }}"
-          buildkit-cert: "${{ secrets.BUILDKIT_CERT }}"
-          buildkit-cert-key: "${{ secrets.BUILDKIT_CERT_KEY }}"
-          buildkit-svc-count: ${{ vars.BUILDKIT_SVC_COUNT }}
-          buildkit-daemon-address: ${{ vars.BUILDKIT_DAEMON_ADDRESS }}
           build-args: |
             DOMIFA_ENV_ID=dev
             DOMIFA_BACKEND_URL=https://${{ steps.env.outputs.subdomain_api }}.ovh.fabrique.social.gouv.fr/
             DOMIFA_FRONTEND_URL=https://${{ steps.env.outputs.subdomain }}.ovh.fabrique.social.gouv.fr/
             DOMIFA_SENTRY_DSN_PORTAIL_ADMIN=https://dc9ede612eba2fcb6abf404bd44b9b3b@sentry2.fabrique.social.gouv.fr/11
+          push: true
 
   build-portail-usagers:
+    permissions:
+      contents: read
+      id-token: write # OIDC identity for buildkit-operator /route auth
     environment: build-review-auto
     outputs:
       tags: ${{ steps.meta.outputs.tags }}
@@ -239,26 +266,31 @@ jobs:
         with:
           subdomain: api
 
-      - name: 📦 Build and push Docker image for portail-usagers
-        uses: socialgouv/workflows/actions/buildkit@v1
+      - name: 🔑 Login to registry
+        uses: docker/login-action@v4
         with:
+          registry: ${{ vars.REGISTRY_URL }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: 📦 Build and push Docker image for portail-usagers
+        uses: socialgouv/buildkit-operator@v1
+        with:
+          buildd-url: ${{ vars.BUILDKIT_OPERATOR_BUILDD_URL }}
+          gateway-host: ${{ vars.BUILDKIT_OPERATOR_GATEWAY_HOST }}
+          ca: ${{ secrets.BUILDKIT_OPERATOR_CA }}
+          cert: ${{ secrets.BUILDKIT_OPERATOR_CERT }}
+          key: ${{ secrets.BUILDKIT_OPERATOR_KEY }}
           context: "."
-          dockerfile: "packages/portail-usagers/Dockerfile"
+          file: "packages/portail-usagers/Dockerfile"
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          registry: "${{ vars.REGISTRY_URL }}"
-          registry-username: "${{ secrets.REGISTRY_USERNAME }}"
-          registry-password: "${{ secrets.REGISTRY_PASSWORD }}"
-          buildkit-cert-ca: "${{ secrets.BUILDKIT_CERT_CA }}"
-          buildkit-cert: "${{ secrets.BUILDKIT_CERT }}"
-          buildkit-cert-key: "${{ secrets.BUILDKIT_CERT_KEY }}"
-          buildkit-svc-count: ${{ vars.BUILDKIT_SVC_COUNT }}
-          buildkit-daemon-address: ${{ vars.BUILDKIT_DAEMON_ADDRESS }}
           build-args: |
             DOMIFA_ENV_ID=dev
             DOMIFA_BACKEND_URL=https://${{ steps.env.outputs.subdomain_api }}.ovh.fabrique.social.gouv.fr/
             DOMIFA_SENTRY_DSN_PORTAIL=https://69e6fc82a5ef491392aba6c58303af18@sentry2.fabrique.social.gouv.fr/5
             DOMIFA_FRONTEND_META_ROBOTS=noindex,nofollow
+          push: true
 
   kontinuous:
     needs:
