@@ -1,3 +1,12 @@
+## [2.250.18](https://github.com/SocialGouv/domifa/compare/v2.250.17...v2.250.18) (2026-07-07)
+
+
+### Bug Fixes
+
+* **backend:** add domains to whitelist ([f35c878](https://github.com/SocialGouv/domifa/commit/f35c8787e6b2a11da126807c81d48e9964d2a8c6))
+* **backend:** add emails for some domains ([af45969](https://github.com/SocialGouv/domifa/commit/af45969a717774f95a7087a1b97e7f40b929c9f8))
+* **backend:** update build ([d15ca38](https://github.com/SocialGouv/domifa/commit/d15ca38a096f87869c2ae8b85d3bfabf716431a8))
+
 ## [2.250.17](https://github.com/SocialGouv/domifa/compare/v2.250.16...v2.250.17) (2026-06-30)
 
 
