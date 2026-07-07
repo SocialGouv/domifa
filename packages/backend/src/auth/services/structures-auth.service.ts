@@ -117,6 +117,7 @@ export class StructuresAuthService {
     };
     return {
       access_token: this.jwtService.sign(payload),
+      trustToken,
     };
   }
 

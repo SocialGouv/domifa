@@ -42,9 +42,9 @@ import { logSecurityEventForUser } from "../modules/app-logs/app-log-security-wr
 const userProfile: UserProfile = "structure";
 
 // Duplicate of the trust JWT stored client-side. Kept aligned with
-// STRUCTURE_TRUST_JWT_EXPIRES_IN ("30d") so a browser that clears
-// localStorage but keeps cookies (and vice-versa) still finds the token
-// on the next login.
+// STRUCTURE_TRUST_JWT_TTL_SECONDS so a browser that clears localStorage
+// but keeps cookies (and vice-versa) still finds the token on the next
+// login.
 const TRUST_COOKIE_NAME = "dm_trust";
 const TRUST_COOKIE_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000;
 
@@ -57,35 +57,6 @@ function trustCookieOptions() {
     path: "/structures/auth",
     maxAge: TRUST_COOKIE_MAX_AGE_MS,
   };
-}
-
-// Reads the trustToken embedded in the freshly-issued access JWT and mirrors
-// it into an httpOnly cookie. Kept as a pure side-effect: the response body
-// and the auth service signatures stay untouched.
-function mirrorTrustTokenToCookie(
-  res: ExpressResponse,
-  accessJwt: string
-): void {
-  const trustToken = extractTrustTokenFromJwt(accessJwt);
-  if (!trustToken) {
-    return;
-  }
-  res.cookie(TRUST_COOKIE_NAME, trustToken, trustCookieOptions());
-}
-
-function extractTrustTokenFromJwt(accessJwt: string): string | null {
-  const parts = accessJwt.split(".");
-  if (parts.length !== 3) {
-    return null;
-  }
-  try {
-    const payload = JSON.parse(
-      Buffer.from(parts[1], "base64url").toString("utf8")
-    );
-    return typeof payload?.trustToken === "string" ? payload.trustToken : null;
-  } catch {
-    return null;
-  }
 }
 
 function readStructureTrustCookie(req: ExpressRequest): string | undefined {
@@ -140,12 +111,13 @@ export class StructuresAuthController {
       // backend is started against the test database — prod/preprod/dev
       // paths are unchanged.
       if (domifaConfig().envId === "test") {
-        const accessToken = await this.structuresAuthService.login(user, {
-          ipAddress: ip,
-          userAgent,
-        });
-        mirrorTrustTokenToCookie(res, accessToken.access_token);
-        return res.status(HttpStatus.OK).json(accessToken);
+        const { access_token, trustToken } =
+          await this.structuresAuthService.login(user, {
+            ipAddress: ip,
+            userAgent,
+          });
+        res.cookie(TRUST_COOKIE_NAME, trustToken, trustCookieOptions());
+        return res.status(HttpStatus.OK).json({ access_token });
       }
 
       // Belt-and-suspenders trust token retrieval: legacy path via body
@@ -173,7 +145,7 @@ export class StructuresAuthController {
         forceResend: readOtpResendFlag(req),
       });
 
-      const accessToken =
+      const { access_token, trustToken } =
         result.kind === "trusted"
           ? this.structuresAuthService.signForExistingSession(
               user,
@@ -189,8 +161,8 @@ export class StructuresAuthController {
         context: { otpFlow: result.kind },
       });
 
-      mirrorTrustTokenToCookie(res, accessToken.access_token);
-      return res.status(HttpStatus.OK).json(accessToken);
+      res.cookie(TRUST_COOKIE_NAME, trustToken, trustCookieOptions());
+      return res.status(HttpStatus.OK).json({ access_token });
     } catch (err) {
       // OTP_REQUIRED / OTP_INVALID / OTP_BLOCKED are HttpExceptions raised by
       // LoginOtpService/OtpService. Re-throw as-is so Nest preserves their

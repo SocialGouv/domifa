@@ -59,6 +59,9 @@ export const ACTION_TONE: Record<SecurityLogAction, ActionTone> = {
   OTP_REQUESTED: "info",
   OTP_SUCCESS: "success",
   OTP_ERROR: "warning",
+  TRUST_TOKEN_EXPIRED: "info",
+  TRUST_TOKEN_ABSENT: "neutral",
+  TRUST_TOKEN_INVALID: "warning",
 };
 
 // DSFR icon per action. DSFR's icon set is limited (no shield-flash, no
@@ -88,6 +91,9 @@ export const ACTION_ICON: Record<SecurityLogAction, string> = {
   OTP_REQUESTED: "fr-icon-mail-fill",
   OTP_SUCCESS: "fr-icon-mail-check-fill",
   OTP_ERROR: "fr-icon-mail-forbid-fill",
+  TRUST_TOKEN_EXPIRED: "fr-icon-time-line",
+  TRUST_TOKEN_ABSENT: "fr-icon-smartphone-line",
+  TRUST_TOKEN_INVALID: "fr-icon-error-warning-fill",
 };
 
 // French labels for session-closure reasons (kept here so the suspicious view
