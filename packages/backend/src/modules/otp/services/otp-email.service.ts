@@ -12,7 +12,7 @@ import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-send
 import { isDeletedEmail } from "../../mails/services/brevo-sender/deleted-email.guard";
 import { OTP_ACTION_MOTIF_LABELS } from "../otp.labels";
 import { OtpPurpose } from "../otp.types";
-import { redactEmail, shouldForceSmtpForDomain } from "../otp.utils";
+import { redactEmail } from "../otp.utils";
 import { generateOtpActionEmailHtml } from "../templates/otp-action-email.template";
 import { generateOtpEmailHtml } from "../templates/otp-email.template";
 
@@ -86,23 +86,32 @@ export class OtpEmailService implements OnModuleInit {
         : config.email.emailAddressRedirectAllTo || email;
     const recipientLog = redactEmail(recipient);
     const isLogin = purpose === "LOGIN";
-    const forceSmtp = shouldForceSmtpForDomain(recipient);
 
-    if (config.email.otpProvider === "brevo" && !forceSmtp) {
-      await this.sendViaBrevo({ recipient, code, prenom, purpose, isLogin });
+    // Dual-send: fire Brevo and Tipimail in parallel with the SAME code so
+    // deliverability of both providers can be compared. Fails only when
+    // BOTH channels reject — a single-provider outage still delivers.
+    const [brevoResult, smtpResult] = await Promise.allSettled([
+      this.sendViaBrevo({ recipient, code, prenom, purpose, isLogin }),
+      this.sendViaSmtp({ recipient, code, isLogin, purpose, emailLog }),
+    ]);
+
+    if (brevoResult.status === "fulfilled") {
       this.logger.log(
-        `OTP email envoye via Brevo a ${recipientLog} (original: ${emailLog}, purpose=${purpose})`
+        `OTP Brevo OK a ${recipientLog} (original: ${emailLog}, purpose=${purpose})`
       );
-      return;
+    } else {
+      this.logger.error(
+        `OTP Brevo KO a ${recipientLog} (original: ${emailLog}, purpose=${purpose}): ${
+          brevoResult.reason instanceof Error
+            ? brevoResult.reason.message
+            : String(brevoResult.reason)
+        }`
+      );
     }
 
-    if (forceSmtp) {
-      this.logger.log(
-        `OTP recipient ${recipientLog} on forced-SMTP domain — bypass Brevo, send via Tipimail SMTP`
-      );
+    if (brevoResult.status === "rejected" && smtpResult.status === "rejected") {
+      throw smtpResult.reason;
     }
-
-    await this.sendViaSmtp({ recipient, code, isLogin, purpose, emailLog });
   }
 
   private async sendViaBrevo(params: {
