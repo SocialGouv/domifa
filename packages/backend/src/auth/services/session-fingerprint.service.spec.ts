@@ -47,31 +47,24 @@ describe("SessionFingerprintService", () => {
 
   describe("computeFingerprint", () => {
     it("is deterministic for identical inputs", () => {
-      const a = service.computeFingerprint("uuid-1", "1.2.3.4", "ua", "s");
-      const b = service.computeFingerprint("uuid-1", "1.2.3.4", "ua", "s");
+      const a = service.computeFingerprint("uuid-1", "ua", "s");
+      const b = service.computeFingerprint("uuid-1", "ua", "s");
       expect(a).toEqual(b);
       expect(a).toMatch(/^[a-f0-9]{64}$/);
     });
 
     it("is sensitive to each input", () => {
-      const base = service.computeFingerprint("uuid-1", "1.2.3.4", "ua", "s");
+      const base = service.computeFingerprint("uuid-1", "ua", "s");
+      expect(service.computeFingerprint("uuid-2", "ua", "s")).not.toEqual(base);
+      expect(service.computeFingerprint("uuid-1", "ub", "s")).not.toEqual(base);
       expect(
-        service.computeFingerprint("uuid-2", "1.2.3.4", "ua", "s")
-      ).not.toEqual(base);
-      expect(
-        service.computeFingerprint("uuid-1", "1.2.3.5", "ua", "s")
-      ).not.toEqual(base);
-      expect(
-        service.computeFingerprint("uuid-1", "1.2.3.4", "ub", "s")
-      ).not.toEqual(base);
-      expect(
-        service.computeFingerprint("uuid-1", "1.2.3.4", "ua", "different")
+        service.computeFingerprint("uuid-1", "ua", "different")
       ).not.toEqual(base);
     });
   });
 
   describe("startNewSession (structure)", () => {
-    it("creates the active session with a fresh salt", async () => {
+    it("creates the active session with a fresh salt and normalizes UA versions", async () => {
       const session = await service.startNewSession(
         "structure",
         testUser.id,
@@ -81,13 +74,12 @@ describe("SessionFingerprintService", () => {
         testUser.structureId
       );
       expect(session.salt).toMatch(/^[0-9a-f-]{36}$/);
+      // Service normalizes the UA before hashing / storing so browser
+      // auto-updates (Chrome/121 → Chrome/122, Edge weekly bumps) don't
+      // look like a device change on every minor version bump.
+      expect(session.userAgent).toEqual("Mozilla/5");
       expect(session.fingerprintHash).toEqual(
-        service.computeFingerprint(
-          testUser.uuid,
-          "10.0.0.1",
-          "Mozilla/5.0",
-          session.salt
-        )
+        service.computeFingerprint(testUser.uuid, "Mozilla/5", session.salt)
       );
 
       const row = await userStructureSecurityRepository.findOne({
@@ -117,13 +109,9 @@ describe("SessionFingerprintService", () => {
       expect(second.uuid).not.toEqual(first.uuid);
       expect(second.salt).not.toEqual(first.salt);
       expect(second.fingerprintHash).not.toEqual(first.fingerprintHash);
+      // "Other-UA" has no `Name/x.y.z` token so normalization is a no-op.
       expect(second.fingerprintHash).toEqual(
-        service.computeFingerprint(
-          testUser.uuid,
-          "10.0.0.2",
-          "Other-UA",
-          second.salt
-        )
+        service.computeFingerprint(testUser.uuid, "Other-UA", second.salt)
       );
 
       const row = await userStructureSecurityRepository.findOne({
@@ -200,7 +188,6 @@ describe("SessionFingerprintService", () => {
       // Simulate a stale JWT issued by a previous (now-replaced) session.
       const staleHash = service.computeFingerprint(
         testUser.uuid,
-        "10.0.0.1",
         "Mozilla/5.0",
         "stale-salt"
       );

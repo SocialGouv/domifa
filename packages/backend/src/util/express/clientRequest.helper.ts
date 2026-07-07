@@ -51,6 +51,18 @@ export function getClientUserAgent(req: Request): string {
   return cleaned;
 }
 
+// Strips minor version numbers from browser/engine tokens (e.g. `Chrome/120.0.6099.129`
+// → `Chrome/120`, `AppleWebKit/605.1.15` → `AppleWebKit/605`). Kept apart from
+// `getClientUserAgent` so audit logs still receive the raw UA — only session
+// fingerprinting uses the normalized form, so auto-updating browsers (Edge in
+// particular) don't look like device changes on every minor bump.
+export function normalizeUserAgent(ua: string): string {
+  if (!ua) {
+    return ua;
+  }
+  return ua.replace(/(\/\d+)(?:\.\d+)+/g, "$1");
+}
+
 export function buildSecurityLogRequestContext(req: Request): {
   ip?: string;
   userAgent?: string;

@@ -9,6 +9,7 @@ import { environment } from "../../../../environments/environment";
 import { usagerActions, UsagerState } from "../../../shared";
 import { userStructureBuilder } from "../../users/services";
 import { CustomToastService } from "./custom-toast.service";
+import { SafeStorageService } from "./safe-storage.service";
 import { getCurrentScope } from "@sentry/angular";
 import { UserStructure, filterMatomoParams } from "@domifa/common";
 import { Store } from "@ngrx/store";
@@ -16,7 +17,9 @@ import { Store } from "@ngrx/store";
 // Persisted separately from `currentUser` so it survives logout. The trust
 // token represents "this device is trusted" — clearing it on logout would force
 // an OTP cycle on every reconnection. It is rotated on every backend response
-// that issues a new access JWT.
+// that issues a new access JWT. Also mirrored server-side in an httpOnly
+// cookie so browsers that wipe localStorage (private mode, cleanup extensions)
+// still get a trusted-device pass on the next login.
 const TRUST_TOKEN_STORAGE_KEY = "structureTrustToken";
 
 @Injectable({
@@ -30,9 +33,10 @@ export class AuthService {
     private readonly http: HttpClient,
     private readonly toastr: CustomToastService,
     private readonly router: Router,
-    private readonly store: Store<UsagerState>
+    private readonly store: Store<UsagerState>,
+    private readonly safeStorage: SafeStorageService
   ) {
-    const dataStorage = localStorage.getItem("currentUser");
+    const dataStorage = this.safeStorage.getItem("currentUser");
     this.currentUserSubject = new BehaviorSubject<UserStructure | null>(
       dataStorage ? JSON.parse(dataStorage) : null
     );
@@ -55,11 +59,18 @@ export class AuthService {
     const trustToken = this.readTrustToken();
 
     return this.http
-      .post<{ access_token: string }>(`${this.endPoint}/login`, {
-        email: email.trim().toLowerCase(),
-        password,
-        ...(trustToken ? { trustToken } : {}),
-      })
+      .post<{ access_token: string }>(
+        `${this.endPoint}/login`,
+        {
+          email: email.trim().toLowerCase(),
+          password,
+          ...(trustToken ? { trustToken } : {}),
+        },
+        // Required so the browser (a) receives the Set-Cookie for the
+        // httpOnly trust cookie backup, and (b) re-sends it on subsequent
+        // logins when localStorage has been wiped.
+        { withCredentials: true }
+      )
       .pipe(
         map((token: { access_token: string }) => {
           const user = userStructureBuilder.buildUserStructure(
@@ -83,7 +94,7 @@ export class AuthService {
     try {
       const decoded = jwtDecode<{ trustToken?: string }>(accessToken);
       if (typeof decoded?.trustToken === "string") {
-        localStorage.setItem(TRUST_TOKEN_STORAGE_KEY, decoded.trustToken);
+        this.safeStorage.setItem(TRUST_TOKEN_STORAGE_KEY, decoded.trustToken);
       }
     } catch {
       /* malformed access token — leave the previous trust token untouched */
@@ -91,11 +102,11 @@ export class AuthService {
   }
 
   private readTrustToken(): string | null {
-    return localStorage.getItem(TRUST_TOKEN_STORAGE_KEY);
+    return this.safeStorage.getItem(TRUST_TOKEN_STORAGE_KEY);
   }
 
   public isAuth(): Observable<boolean> {
-    if (localStorage.getItem("currentUser") === null) {
+    if (this.safeStorage.getItem("currentUser") === null) {
       return of(false);
     }
 
@@ -129,8 +140,8 @@ export class AuthService {
   ): Promise<void> {
     this.currentUserSubject.next(null);
     this.store.dispatch(usagerActions.clearCache());
-    localStorage.removeItem("currentUser");
-    localStorage.removeItem("MANAGE");
+    this.safeStorage.removeItem("currentUser");
+    this.safeStorage.removeItem("MANAGE");
 
     getCurrentScope().setTag("structure", "none");
     getCurrentScope().setUser({});
@@ -166,7 +177,7 @@ export class AuthService {
   }
 
   private setUser(user: UserStructure) {
-    localStorage.setItem("currentUser", JSON.stringify(user));
+    this.safeStorage.setItem("currentUser", JSON.stringify(user));
     this.currentUserSubject.next(user);
 
     // Configuration Sentry centralisée ici

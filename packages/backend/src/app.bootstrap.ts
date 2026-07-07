@@ -14,6 +14,7 @@ import { appTypeormManager } from "./database";
 
 import { AppSentryInterceptor } from "./util/sentry";
 import compression from "compression";
+import cookieParser from "cookie-parser";
 import { setupLog, appLogger } from "./util";
 
 export async function tearDownApplication({
@@ -60,15 +61,18 @@ export async function bootstrapApplication(): Promise<{
     if (["dev", "local", "test"].includes(domifaConfig().envId)) {
       app.enableCors({
         origin: true, // "Access-Control-Allow-Origin" = request.origin (unsecure): https://docs.nestjs.com/techniques/security#cors
+        credentials: true,
       });
     } else {
       app.enableCors({
         origin: whitelist,
+        credentials: true,
         maxAge: 600,
       });
     }
 
     app.use(compression());
+    app.use(cookieParser());
     app.getHttpAdapter().getInstance().disable("x-powered-by");
 
     configureSwagger(app);

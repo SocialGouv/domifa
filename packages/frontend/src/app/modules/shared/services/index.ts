@@ -2,5 +2,6 @@
 export * from "./auth.service";
 export * from "./custom-toast.service";
 export * from "./loading.service";
+export * from "./safe-storage.service";
 export * from "./seo.service";
 export * from "./tally.service";

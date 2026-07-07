@@ -100,6 +100,10 @@ export const LOG_ACTION_LABELS: Record<LogAction, string> = {
   OTP_SUCCESS: "Code de vérification correct",
   OTP_ERROR: "Code de vérification incorrect",
   IP_BANNED: "Adresse IP bannie",
+  TRUST_TOKEN_EXPIRED: "Jeton d'appareil de confiance expiré",
+  TRUST_TOKEN_ABSENT: "Aucun jeton d'appareil de confiance présenté",
+  TRUST_TOKEN_INVALID:
+    "Jeton d'appareil de confiance invalide (signature altérée ou hors périmètre)",
 };
 
 export function getLogActionLabel(action: string): string {

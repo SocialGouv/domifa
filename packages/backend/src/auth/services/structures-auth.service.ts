@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { differenceInCalendarDays } from "date-fns";
+import * as jwt from "jsonwebtoken";
 import { Not } from "typeorm";
 import { domifaConfig } from "../../config";
 import {
@@ -12,8 +13,8 @@ import { appLogger } from "../../util";
 import {
   CURRENT_JWT_PAYLOAD_VERSION,
   CurrentUserSession,
-  STRUCTURE_TRUST_JWT_EXPIRES_IN,
   STRUCTURE_TRUST_JWT_SUBJECT,
+  STRUCTURE_TRUST_JWT_TTL_SECONDS,
   StructureTrustJwtPayload,
   UserStructureAuthenticated,
   UserStructureJwtPayload,
@@ -119,21 +120,34 @@ export class StructuresAuthService {
     };
   }
 
+  // Deterministic trust JWT: `iat` and `exp` are pinned on the session's
+  // `createdAt` (which only changes when a fresh session is minted after
+  // an OTP validation). Same payload + same HMAC key = byte-identical JWT
+  // across every trusted-path login, so the client's stored trust token is
+  // never rotated except at OTP time. Prevents the sliding-window effect
+  // where each trusted reconnection pushed `exp` further into the future.
   private signTrustToken(
     user: UserStructure,
     session: CurrentUserSession
   ): string {
-    const payload: StructureTrustJwtPayload = {
+    const iat = Math.floor(new Date(session.createdAt).getTime() / 1000);
+    const exp = iat + STRUCTURE_TRUST_JWT_TTL_SECONDS;
+    const payload: StructureTrustJwtPayload & { iat: number; exp: number } = {
       sub: STRUCTURE_TRUST_JWT_SUBJECT,
       userUuid: user.uuid,
       userId: user.id,
       sessionUuid: session.uuid,
       salt: session.salt,
       fingerprintHash: session.fingerprintHash,
+      iat,
+      exp,
     };
-    return this.jwtService.sign(payload, {
-      expiresIn: STRUCTURE_TRUST_JWT_EXPIRES_IN,
-    });
+    // Bypasses @nestjs/jwt's default `expiresIn: "12h"` (meant for access
+    // tokens) — jsonwebtoken throws when both `payload.exp` and
+    // `options.expiresIn` are set, and passing `expiresIn: undefined` still
+    // fails its schema validator. Calling jsonwebtoken directly lets us keep
+    // the deterministic payload as-is.
+    return jwt.sign(payload, domifaConfig().security.jwtSecret);
   }
 
   public async validateUserStructure(

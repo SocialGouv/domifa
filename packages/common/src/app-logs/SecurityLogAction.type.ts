@@ -30,6 +30,9 @@ export type SecurityLogAction = Extract<
   | "OTP_SUCCESS"
   | "OTP_ERROR"
   | "IP_BANNED"
+  | "TRUST_TOKEN_EXPIRED"
+  | "TRUST_TOKEN_ABSENT"
+  | "TRUST_TOKEN_INVALID"
 >;
 
 export const SECURITY_LOG_ACTIONS: readonly SecurityLogAction[] = [
@@ -56,6 +59,9 @@ export const SECURITY_LOG_ACTIONS: readonly SecurityLogAction[] = [
   "OTP_SUCCESS",
   "OTP_ERROR",
   "IP_BANNED",
+  "TRUST_TOKEN_EXPIRED",
+  "TRUST_TOKEN_ABSENT",
+  "TRUST_TOKEN_INVALID",
 ] as const;
 
 // Subset that counts as a failed authentication attempt for the lockout

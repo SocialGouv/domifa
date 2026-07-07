@@ -28,3 +28,7 @@ export interface StructureTrustJwtPayload {
 
 export const STRUCTURE_TRUST_JWT_SUBJECT = "structure-trust" as const;
 export const STRUCTURE_TRUST_JWT_EXPIRES_IN = "30d" as const;
+// Numeric mirror of STRUCTURE_TRUST_JWT_EXPIRES_IN, used to derive a
+// deterministic `exp` from the session's `createdAt`. Kept in seconds so
+// it can be added straight into the JWT payload without a Date detour.
+export const STRUCTURE_TRUST_JWT_TTL_SECONDS = 30 * 24 * 60 * 60;
