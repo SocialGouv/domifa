@@ -28,4 +28,5 @@ export const OTP_FORCED_SMTP_DOMAINS: readonly string[] = [
   "fabrique.social.gouv.fr",
   "mulhouse-alsace.fr",
   "akatij.fr",
+  "ville-smlt.fr",
 ];

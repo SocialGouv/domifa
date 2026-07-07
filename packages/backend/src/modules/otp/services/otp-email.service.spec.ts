@@ -134,38 +134,15 @@ describe("OtpEmailService", () => {
     expect(mockSendMail).not.toHaveBeenCalled();
   });
 
-  it("should throw in dev when SMTP host is missing", async () => {
-    mockConfig.mockReturnValue(
-      buildConfig({
-        envId: "dev",
-        email: { emailsEnabled: true },
-        smtp: {
-          host: "",
-          port: 587,
-          user: "",
-          pass: "",
-          from: "",
-          timeoutMs: 10_000,
-        },
-      })
-    );
-
-    await expect(
-      service.sendOtpEmail({
-        email: "test@example.com",
-        prenom: "Alice",
-        code: "123456",
-        purpose: "LOGIN",
-      })
-    ).rejects.toBeInstanceOf(InternalServerErrorException);
-    expect(mockSendMail).not.toHaveBeenCalled();
-  });
-
-  it("should throw in prod when SMTP host is missing", async () => {
+  it("should not throw when SMTP is misconfigured but Brevo succeeds (dual-send)", async () => {
     mockConfig.mockReturnValue(
       buildConfig({
         envId: "prod",
-        email: { emailsEnabled: true },
+        email: {
+          emailsEnabled: true,
+          emailAddressRedirectAllTo: "",
+          otpProvider: "brevo",
+        },
         smtp: {
           host: "",
           port: 587,
@@ -176,6 +153,34 @@ describe("OtpEmailService", () => {
         },
       })
     );
+
+    await service.sendOtpEmail({
+      email: "test@example.com",
+      prenom: "Alice",
+      code: "123456",
+      purpose: "LOGIN",
+    });
+
+    expect(mockBrevoSendEmailWithTemplate).toHaveBeenCalledTimes(1);
+    expect(mockSendMail).not.toHaveBeenCalled();
+  });
+
+  it("should throw when both Brevo and SMTP fail (dual-send)", async () => {
+    mockConfig.mockReturnValue(
+      buildConfig({
+        envId: "prod",
+        email: { emailsEnabled: true, emailAddressRedirectAllTo: "" },
+        smtp: {
+          host: "",
+          port: 587,
+          user: "",
+          pass: "",
+          from: "",
+          timeoutMs: 10_000,
+        },
+      })
+    );
+    mockBrevoSendEmailWithTemplate.mockRejectedValue(new Error("Brevo boom"));
 
     await expect(
       service.sendOtpEmail({
@@ -188,13 +193,14 @@ describe("OtpEmailService", () => {
     expect(mockSendMail).not.toHaveBeenCalled();
   });
 
-  it("should send to original address in prod", async () => {
+  it("should send to original address in prod via both providers (dual-send)", async () => {
     mockConfig.mockReturnValue(
       buildConfig({
         envId: "prod",
         email: {
           emailsEnabled: true,
           emailAddressRedirectAllTo: "redir@x.com",
+          otpProvider: "brevo",
         },
       })
     );
@@ -208,25 +214,56 @@ describe("OtpEmailService", () => {
     });
 
     expect(mockSendMail).toHaveBeenCalledTimes(1);
-    const args = mockSendMail.mock.calls[0][0];
-    expect(args.to).toBe("real@example.com");
-    expect(args.from).toBe("noreply@test.com");
-    expect(args.subject).toContain("DomiFa");
-    expect(args.html).toContain("246890");
+    const smtpArgs = mockSendMail.mock.calls[0][0];
+    expect(smtpArgs.to).toBe("real@example.com");
+    expect(smtpArgs.from).toBe("noreply@test.com");
+    expect(smtpArgs.subject).toContain("DomiFa");
+    expect(smtpArgs.html).toContain("246890");
+
+    expect(mockBrevoSendEmailWithTemplate).toHaveBeenCalledTimes(1);
+    const brevoArgs = mockBrevoSendEmailWithTemplate.mock.calls[0][0];
+    expect(brevoArgs.to).toEqual([
+      { email: "real@example.com", name: "real@example.com" },
+    ]);
+    expect(brevoArgs.params).toEqual({ code: "246890", prenom: "Alice" });
   });
 
-  it("should log and re-throw when sendMail rejects", async () => {
+  it("should not re-throw when only SMTP rejects (Brevo delivers)", async () => {
     mockConfig.mockReturnValue(
       buildConfig({
         envId: "prod",
-        email: { emailsEnabled: true, emailAddressRedirectAllTo: "" },
+        email: {
+          emailsEnabled: true,
+          emailAddressRedirectAllTo: "",
+          otpProvider: "brevo",
+        },
       })
     );
     mockSendMail.mockRejectedValue(new Error("SMTP boom"));
-    const errSpy = jest
-      .spyOn(service["logger"], "error")
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      .mockImplementation(() => {});
+
+    await service.sendOtpEmail({
+      email: "real@example.com",
+      prenom: "Alice",
+      code: "123456",
+      purpose: "LOGIN",
+    });
+
+    expect(mockBrevoSendEmailWithTemplate).toHaveBeenCalledTimes(1);
+  });
+
+  it("should throw when both providers reject", async () => {
+    mockConfig.mockReturnValue(
+      buildConfig({
+        envId: "prod",
+        email: {
+          emailsEnabled: true,
+          emailAddressRedirectAllTo: "",
+          otpProvider: "brevo",
+        },
+      })
+    );
+    mockSendMail.mockRejectedValue(new Error("SMTP boom"));
+    mockBrevoSendEmailWithTemplate.mockRejectedValue(new Error("Brevo boom"));
 
     await expect(
       service.sendOtpEmail({
@@ -236,10 +273,6 @@ describe("OtpEmailService", () => {
         purpose: "LOGIN",
       })
     ).rejects.toThrow("SMTP boom");
-    expect(errSpy).toHaveBeenCalledTimes(1);
-    expect(errSpy.mock.calls[0][0]).toContain("SMTP boom");
-    // Original recipient must be redacted, not leaked in the error log.
-    expect(errSpy.mock.calls[0][0]).not.toContain("real@example.com");
   });
 
   describe("onModuleInit", () => {
@@ -272,13 +305,14 @@ describe("OtpEmailService", () => {
     });
   });
 
-  it("should redirect to test address in non-prod when configured", async () => {
+  it("should redirect to test address in non-prod when configured (both providers)", async () => {
     mockConfig.mockReturnValue(
       buildConfig({
         envId: "preprod",
         email: {
           emailsEnabled: true,
           emailAddressRedirectAllTo: "preprod-test@x.com",
+          otpProvider: "brevo",
         },
       })
     );
@@ -292,10 +326,13 @@ describe("OtpEmailService", () => {
     });
 
     expect(mockSendMail.mock.calls[0][0].to).toBe("preprod-test@x.com");
+    expect(mockBrevoSendEmailWithTemplate.mock.calls[0][0].to).toEqual([
+      { email: "preprod-test@x.com", name: "preprod-test@x.com" },
+    ]);
   });
 
-  describe("brevo provider", () => {
-    it("should send LOGIN OTP via Brevo with the login template", async () => {
+  describe("brevo provider (dual-send)", () => {
+    it("should send LOGIN OTP via Brevo with the login template AND via SMTP", async () => {
       mockConfig.mockReturnValue(
         buildConfig({
           envId: "prod",
@@ -306,6 +343,7 @@ describe("OtpEmailService", () => {
           },
         })
       );
+      mockSendMail.mockResolvedValue({ messageId: "<smtp-1>" });
 
       await service.sendOtpEmail({
         email: "real@example.com",
@@ -315,16 +353,17 @@ describe("OtpEmailService", () => {
       });
 
       expect(mockBrevoSendEmailWithTemplate).toHaveBeenCalledTimes(1);
-      expect(mockSendMail).not.toHaveBeenCalled();
-      const args = mockBrevoSendEmailWithTemplate.mock.calls[0][0];
-      expect(args.templateId).toBe(101);
-      expect(args.to).toEqual([
+      expect(mockSendMail).toHaveBeenCalledTimes(1);
+      const brevoArgs = mockBrevoSendEmailWithTemplate.mock.calls[0][0];
+      expect(brevoArgs.templateId).toBe(101);
+      expect(brevoArgs.to).toEqual([
         { email: "real@example.com", name: "real@example.com" },
       ]);
-      expect(args.params).toEqual({ code: "246890", prenom: "Alice" });
+      expect(brevoArgs.params).toEqual({ code: "246890", prenom: "Alice" });
+      expect(mockSendMail.mock.calls[0][0].html).toContain("246890");
     });
 
-    it("should send action OTP via Brevo with the action template", async () => {
+    it("should send action OTP via Brevo with the action template AND via SMTP", async () => {
       mockConfig.mockReturnValue(
         buildConfig({
           envId: "prod",
@@ -335,6 +374,7 @@ describe("OtpEmailService", () => {
           },
         })
       );
+      mockSendMail.mockResolvedValue({ messageId: "<smtp-2>" });
 
       await service.sendOtpEmail({
         email: "real@example.com",
@@ -344,6 +384,7 @@ describe("OtpEmailService", () => {
       });
 
       expect(mockBrevoSendEmailWithTemplate).toHaveBeenCalledTimes(1);
+      expect(mockSendMail).toHaveBeenCalledTimes(1);
       const brevoArgs = mockBrevoSendEmailWithTemplate.mock.calls[0][0];
       expect(brevoArgs.templateId).toBe(202);
       expect(brevoArgs.params).toEqual({
@@ -353,7 +394,7 @@ describe("OtpEmailService", () => {
       });
     });
 
-    it("should propagate Brevo errors (no SMTP fallback)", async () => {
+    it("should NOT throw when Brevo fails but SMTP delivers", async () => {
       mockConfig.mockReturnValue(
         buildConfig({
           envId: "prod",
@@ -365,19 +406,19 @@ describe("OtpEmailService", () => {
         })
       );
       mockBrevoSendEmailWithTemplate.mockRejectedValue(new Error("Brevo boom"));
+      mockSendMail.mockResolvedValue({ messageId: "<smtp-ok>" });
 
-      await expect(
-        service.sendOtpEmail({
-          email: "real@example.com",
-          prenom: "Alice",
-          code: "123456",
-          purpose: "LOGIN",
-        })
-      ).rejects.toThrow("Brevo boom");
-      expect(mockSendMail).not.toHaveBeenCalled();
+      await service.sendOtpEmail({
+        email: "real@example.com",
+        prenom: "Alice",
+        code: "123456",
+        purpose: "LOGIN",
+      });
+
+      expect(mockSendMail).toHaveBeenCalledTimes(1);
     });
 
-    it("should throw when Brevo template id is missing", async () => {
+    it("should NOT throw when Brevo template id is missing but SMTP delivers", async () => {
       mockConfig.mockReturnValue(
         buildConfig({
           envId: "prod",
@@ -389,17 +430,17 @@ describe("OtpEmailService", () => {
           brevo: { templates: { otpLogin: 0, otpAction: 202 } },
         })
       );
+      mockSendMail.mockResolvedValue({ messageId: "<smtp-ok>" });
 
-      await expect(
-        service.sendOtpEmail({
-          email: "real@example.com",
-          prenom: "Alice",
-          code: "123456",
-          purpose: "LOGIN",
-        })
-      ).rejects.toThrow("DOMIFA_BREVO_TEMPLATES_OTP_LOGIN");
+      await service.sendOtpEmail({
+        email: "real@example.com",
+        prenom: "Alice",
+        code: "123456",
+        purpose: "LOGIN",
+      });
+
       expect(mockBrevoSendEmailWithTemplate).not.toHaveBeenCalled();
-      expect(mockSendMail).not.toHaveBeenCalled();
+      expect(mockSendMail).toHaveBeenCalledTimes(1);
     });
   });
 });
