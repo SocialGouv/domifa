@@ -10,6 +10,7 @@ export type SuspiciousLogAction = Extract<
   | "UNBLOCK_USER"
   | "ACCESS_DENIED_NON_ACTIVE"
   | "LOGIN_UNKNOWN_USER"
+  | "TRUST_TOKEN_INVALID"
 >;
 
 // Narrower subset that the 5-min CRON aggregates into alert emails. Kept as a

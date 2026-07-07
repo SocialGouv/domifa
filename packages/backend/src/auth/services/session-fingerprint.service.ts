@@ -11,6 +11,8 @@ import {
   SessionClosedReason,
 } from "../../_common/model";
 import { appLogger } from "../../util";
+import { normalizeUserAgent } from "../../util/express";
+import { logSecurityEvent } from "../../modules/app-logs/app-log-security-writer";
 
 export type SessionProfile = "structure" | "supervisor";
 
@@ -32,12 +34,11 @@ function syncFingerprintHash(
 export class SessionFingerprintService {
   public computeFingerprint(
     userUUID: string,
-    ipAddress: string,
     userAgent: string,
     salt: string
   ): string {
     return createHash("sha256")
-      .update(`${userUUID}|${ipAddress}|${userAgent}|${salt}`)
+      .update(`${userUUID}|${userAgent}|${salt}`)
       .digest("hex");
   }
 
@@ -49,6 +50,7 @@ export class SessionFingerprintService {
     userAgent: string,
     structureId?: number
   ): Promise<CurrentUserSession> {
+    const normalizedUserAgent = normalizeUserAgent(userAgent);
     const row = await this.loadOrCreateSecurityRow(
       profile,
       userId,
@@ -69,7 +71,7 @@ export class SessionFingerprintService {
         structureId: row.structureId ?? null,
         previousSessionUuid: previous.uuid,
         ipChanged: previous.ipAddress !== ipAddress,
-        userAgentChanged: previous.userAgent !== userAgent,
+        userAgentChanged: previous.userAgent !== normalizedUserAgent,
       });
       row.sessionsHistory = [closed, ...row.sessionsHistory];
       row.currentSession = null;
@@ -87,12 +89,11 @@ export class SessionFingerprintService {
       salt,
       fingerprintHash: this.computeFingerprint(
         userUUID,
-        ipAddress,
-        userAgent,
+        normalizedUserAgent,
         salt
       ),
       ipAddress,
-      userAgent,
+      userAgent: normalizedUserAgent,
       createdAt: now.toISOString(),
       expiresAt: expiresAt.toISOString(),
       lastVerifiedAt: null,
@@ -127,6 +128,14 @@ export class SessionFingerprintService {
         profile,
         userId,
       });
+      await this.recordJwtStrategyStaleTrust(
+        profile,
+        userId,
+        undefined,
+        "no_security_row",
+        currentIp,
+        currentUserAgent
+      );
       return false;
     }
 
@@ -137,10 +146,19 @@ export class SessionFingerprintService {
         profile,
         userId,
       });
+      await this.recordJwtStrategyStaleTrust(
+        profile,
+        userId,
+        row.structureId ?? undefined,
+        "no_active_session",
+        currentIp,
+        currentUserAgent
+      );
       return false;
     }
 
     if (!constantTimeStringEqual(session.fingerprintHash, jwtFingerprintHash)) {
+      const normalizedCurrentUserAgent = normalizeUserAgent(currentUserAgent);
       appLogger.warn({
         event: "session_fingerprint_mismatch",
         profile,
@@ -151,11 +169,19 @@ export class SessionFingerprintService {
         newIp: currentIp,
         ipChanged: session.ipAddress !== currentIp,
         oldUserAgent: session.userAgent,
-        newUserAgent: currentUserAgent,
-        userAgentChanged: session.userAgent !== currentUserAgent,
+        newUserAgent: normalizedCurrentUserAgent,
+        userAgentChanged: session.userAgent !== normalizedCurrentUserAgent,
         expectedHashPrefix: jwtFingerprintHash.substring(0, 8),
         actualHashPrefix: session.fingerprintHash.substring(0, 8),
       });
+      await this.recordJwtStrategyStaleTrust(
+        profile,
+        userId,
+        row.structureId ?? undefined,
+        "hash_mismatch",
+        currentIp,
+        currentUserAgent
+      );
       return false;
     }
 
@@ -165,6 +191,33 @@ export class SessionFingerprintService {
     };
     await this.persistRow(profile, row);
     return true;
+  }
+
+  // Endpoint counterpart of LoginOtpService.recordTrustTokenEvent: whenever
+  // a live request presents a JWT that no longer aligns with the stored
+  // session (rotated / closed / row missing), we surface the disconnection
+  // in app_log_security so the fingerprint study covers both the login and
+  // per-request paths. Scoped to structure for now — phase 1 observation
+  // only concerns user_structure.
+  private async recordJwtStrategyStaleTrust(
+    profile: SessionProfile,
+    userId: number,
+    structureId: number | undefined,
+    reason: "no_security_row" | "no_active_session" | "hash_mismatch",
+    ip: string,
+    userAgent: string
+  ): Promise<void> {
+    if (profile !== "structure") {
+      return;
+    }
+    await logSecurityEvent({
+      action: "TRUST_TOKEN_EXPIRED",
+      profile: "structure",
+      userId,
+      structureId,
+      requestContext: { ip, userAgent },
+      context: { origin: "jwt_strategy", reason },
+    });
   }
 
   public async closeActiveSession(

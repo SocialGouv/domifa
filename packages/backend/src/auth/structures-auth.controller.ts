@@ -41,6 +41,58 @@ import { logSecurityEventForUser } from "../modules/app-logs/app-log-security-wr
 
 const userProfile: UserProfile = "structure";
 
+// Duplicate of the trust JWT stored client-side. Kept aligned with
+// STRUCTURE_TRUST_JWT_EXPIRES_IN ("30d") so a browser that clears
+// localStorage but keeps cookies (and vice-versa) still finds the token
+// on the next login.
+const TRUST_COOKIE_NAME = "dm_trust";
+const TRUST_COOKIE_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000;
+
+function trustCookieOptions() {
+  const isProd = !["dev", "local", "test"].includes(domifaConfig().envId);
+  return {
+    httpOnly: true,
+    secure: isProd,
+    sameSite: "lax" as const,
+    path: "/structures/auth",
+    maxAge: TRUST_COOKIE_MAX_AGE_MS,
+  };
+}
+
+// Reads the trustToken embedded in the freshly-issued access JWT and mirrors
+// it into an httpOnly cookie. Kept as a pure side-effect: the response body
+// and the auth service signatures stay untouched.
+function mirrorTrustTokenToCookie(
+  res: ExpressResponse,
+  accessJwt: string
+): void {
+  const trustToken = extractTrustTokenFromJwt(accessJwt);
+  if (!trustToken) {
+    return;
+  }
+  res.cookie(TRUST_COOKIE_NAME, trustToken, trustCookieOptions());
+}
+
+function extractTrustTokenFromJwt(accessJwt: string): string | null {
+  const parts = accessJwt.split(".");
+  if (parts.length !== 3) {
+    return null;
+  }
+  try {
+    const payload = JSON.parse(
+      Buffer.from(parts[1], "base64url").toString("utf8")
+    );
+    return typeof payload?.trustToken === "string" ? payload.trustToken : null;
+  } catch {
+    return null;
+  }
+}
+
+function readStructureTrustCookie(req: ExpressRequest): string | undefined {
+  const raw = req.cookies?.[TRUST_COOKIE_NAME];
+  return typeof raw === "string" && raw.length > 0 ? raw : undefined;
+}
+
 @Controller("structures/auth")
 @ApiTags("auth")
 export class StructuresAuthController {
@@ -92,8 +144,16 @@ export class StructuresAuthController {
           ipAddress: ip,
           userAgent,
         });
+        mirrorTrustTokenToCookie(res, accessToken.access_token);
         return res.status(HttpStatus.OK).json(accessToken);
       }
+
+      // Belt-and-suspenders trust token retrieval: legacy path via body
+      // (localStorage), backup path via httpOnly cookie (survives a
+      // localStorage wipe / private mode). Body wins so a freshly rotated
+      // token from the last login still takes precedence.
+      const trustTokenFromRequest =
+        loginDto.trustToken ?? readStructureTrustCookie(req);
 
       const result = await this.loginOtpService.evaluate({
         user: {
@@ -105,7 +165,7 @@ export class StructuresAuthController {
         },
         ip,
         userAgent,
-        trustToken: loginDto.trustToken,
+        trustToken: trustTokenFromRequest,
         // OtpInterceptor on the front-end retries 401 OTP_REQUIRED with the
         // Otp-Code header — read it server-side via the same helper as
         // OtpGuard so a malformed payload is treated as "no code".
@@ -129,6 +189,7 @@ export class StructuresAuthController {
         context: { otpFlow: result.kind },
       });
 
+      mirrorTrustTokenToCookie(res, accessToken.access_token);
       return res.status(HttpStatus.OK).json(accessToken);
     } catch (err) {
       // OTP_REQUIRED / OTP_INVALID / OTP_BLOCKED are HttpExceptions raised by

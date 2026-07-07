@@ -12,9 +12,11 @@ import { OtpService } from "../../modules/otp/services/otp.service";
 import { OtpRequestContext } from "../../modules/otp/otp.types";
 import { redactEmail } from "../../modules/otp/otp.utils";
 import { appLogger } from "../../util";
+import { logSecurityEvent } from "../../modules/app-logs/app-log-security-writer";
 import { SessionFingerprintService } from "./session-fingerprint.service";
 
-type TrustTokenRejectReason =
+export type TrustTokenRejectReason =
+  | "expired"
   | "jwt_invalid"
   | "scope_mismatch"
   | "no_session"
@@ -140,6 +142,29 @@ export class LoginOtpService {
           verdict.reason
         }), fallback OTP (code fourni=${Boolean(otpCode)})`
       );
+      // Record the outcome once, on the initial leg (no OTP code yet), so the
+      // fingerprint study can measure trust-token attrition without producing
+      // a second row when the user then submits their OTP code via the
+      // OtpInterceptor retry (same body → same verdict).
+      if (!otpCode) {
+        const action = mapTrustRejectReasonToAction(verdict.reason);
+        await this.recordTrustTokenEvent(action, user, {
+          origin: "login",
+          reason: verdict.reason,
+          ip,
+          userAgent,
+        });
+      }
+    } else if (!otpCode) {
+      // No trust token AND no OTP code = first leg of a login where the
+      // device has never gone through OTP (or the local storage / cookie
+      // was wiped). Log once — the OTP retry re-sends the same body so
+      // skipping when `otpCode` is present dedupes the row.
+      await this.recordTrustTokenEvent("TRUST_TOKEN_ABSENT", user, {
+        origin: "login",
+        ip,
+        userAgent,
+      });
     }
 
     const otpContext = this.buildOtpContext(user, { ip, userAgent });
@@ -172,9 +197,13 @@ export class LoginOtpService {
     let payload: StructureTrustJwtPayload;
     try {
       payload = this.jwtService.verify<StructureTrustJwtPayload>(trustToken);
-    } catch {
-      // Bad signature / expired — both surface as a generic rejection. We
-      // never tell the client why so a brute-forcer can't distinguish.
+    } catch (err) {
+      // Response to the client stays generic (never leak "why" to a brute
+      // forcer), but we surface the reason internally so `TRUST_TOKEN_EXPIRED`
+      // vs a suspicious tampered signature can be counted separately.
+      if ((err as { name?: string })?.name === "TokenExpiredError") {
+        return { kind: "rejected", reason: "expired" };
+      }
       return { kind: "rejected", reason: "jwt_invalid" };
     }
 
@@ -211,6 +240,35 @@ export class LoginOtpService {
     return { kind: "accepted", session };
   }
 
+  // Best-effort side-effect: writes an observation row to app_log_security.
+  // Wrapped in the writer's own try/catch so a DB hiccup can't tip the login
+  // flow into an error path.
+  private async recordTrustTokenEvent(
+    action:
+      | "TRUST_TOKEN_EXPIRED"
+      | "TRUST_TOKEN_ABSENT"
+      | "TRUST_TOKEN_INVALID",
+    user: LoginUserPrincipal,
+    request: {
+      origin: "login";
+      reason?: TrustTokenRejectReason;
+      ip?: string;
+      userAgent?: string;
+    }
+  ): Promise<void> {
+    await logSecurityEvent({
+      action,
+      profile: "structure",
+      userId: user.id,
+      structureId: user.structureId,
+      requestContext: { ip: request.ip, userAgent: request.userAgent },
+      context: {
+        origin: request.origin,
+        ...(request.reason ? { reason: request.reason } : {}),
+      },
+    });
+  }
+
   private buildOtpContext(
     user: LoginUserPrincipal,
     request: { ip?: string; userAgent?: string }
@@ -242,4 +300,18 @@ export class LoginOtpService {
 
 function otpHttpError(code: string, status: HttpStatus): HttpException {
   return new HttpException({ code }, status);
+}
+
+// Coarse-grained bucket for the fingerprint-study log rows. Natural drift
+// (TTL age-out, session rotated by a fresh login elsewhere, admin logout) →
+// TRUST_TOKEN_EXPIRED. Signals that look like tampering or a cross-user
+// replay → TRUST_TOKEN_INVALID (surfaced in the suspicious-activity view).
+// The precise reason is kept in `context.reason` for anyone digging deeper.
+export function mapTrustRejectReasonToAction(
+  reason: TrustTokenRejectReason
+): "TRUST_TOKEN_EXPIRED" | "TRUST_TOKEN_INVALID" {
+  if (reason === "jwt_invalid" || reason === "scope_mismatch") {
+    return "TRUST_TOKEN_INVALID";
+  }
+  return "TRUST_TOKEN_EXPIRED";
 }

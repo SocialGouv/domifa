@@ -91,4 +91,7 @@ export type LogAction =
   | "OTP_REQUESTED"
   | "OTP_SUCCESS"
   | "OTP_ERROR"
-  | "IP_BANNED";
+  | "IP_BANNED"
+  | "TRUST_TOKEN_EXPIRED"
+  | "TRUST_TOKEN_ABSENT"
+  | "TRUST_TOKEN_INVALID";
