@@ -10,9 +10,10 @@ import { Transporter } from "nodemailer";
 import { domifaConfig } from "../../../config";
 import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
 import { isDeletedEmail } from "../../mails/services/brevo-sender/deleted-email.guard";
+import { OTP_TIPIMAIL_FROM } from "../otp.constants";
 import { OTP_ACTION_MOTIF_LABELS } from "../otp.labels";
 import { OtpPurpose } from "../otp.types";
-import { redactEmail } from "../otp.utils";
+import { redactEmail, shouldDualSendForDomain } from "../otp.utils";
 import { generateOtpActionEmailHtml } from "../templates/otp-action-email.template";
 import { generateOtpEmailHtml } from "../templates/otp-email.template";
 
@@ -87,9 +88,29 @@ export class OtpEmailService implements OnModuleInit {
     const recipientLog = redactEmail(recipient);
     const isLogin = purpose === "LOGIN";
 
-    // Dual-send: fire Brevo and Tipimail in parallel with the SAME code so
-    // deliverability of both providers can be compared. Fails only when
-    // BOTH channels reject — a single-provider outage still delivers.
+    // Default routing: Brevo only. For whitelisted domains
+    // (OTP_FORCED_SMTP_DOMAINS) whose mail filters occasionally quarantine
+    // Brevo, we also fire Tipimail via SMTP with the SAME code so the user
+    // receives at least one — fails only if BOTH providers reject.
+    // Delivery redirection to `emailAddressRedirectAllTo` doesn't change
+    // the routing decision (based on the original recipient's domain).
+    if (!shouldDualSendForDomain(email)) {
+      try {
+        await this.sendViaBrevo({ recipient, code, prenom, purpose, isLogin });
+        this.logger.log(
+          `OTP Brevo OK a ${recipientLog} (original: ${emailLog}, purpose=${purpose})`
+        );
+      } catch (err) {
+        this.logger.error(
+          `OTP Brevo KO a ${recipientLog} (original: ${emailLog}, purpose=${purpose}): ${
+            err instanceof Error ? err.message : String(err)
+          }`
+        );
+        throw err;
+      }
+      return;
+    }
+
     const [brevoResult, smtpResult] = await Promise.allSettled([
       this.sendViaBrevo({ recipient, code, prenom, purpose, isLogin }),
       this.sendViaSmtp({ recipient, code, isLogin, purpose, emailLog }),
@@ -179,7 +200,9 @@ export class OtpEmailService implements OnModuleInit {
 
     try {
       const result = await this.getTransporter().sendMail({
-        from: config.smtp.from,
+        // Hardcoded (see OTP_TIPIMAIL_FROM): DKIM/SPF alignment on Tipimail.
+        // DOMIFA_SMTP_FROM env is intentionally ignored on this path.
+        from: OTP_TIPIMAIL_FROM,
         to: recipient,
         subject,
         html,
@@ -214,12 +237,13 @@ export class OtpEmailService implements OnModuleInit {
 }
 
 function listMissingSmtpKeys(): string[] {
-  const { host, port, user, pass, from } = domifaConfig().smtp;
+  // FROM is hardcoded (OTP_TIPIMAIL_FROM) — only the transport keys are
+  // required from env.
+  const { host, port, user, pass } = domifaConfig().smtp;
   const missing: string[] = [];
   if (!host) missing.push("DOMIFA_SMTP_HOST");
   if (!port) missing.push("DOMIFA_SMTP_PORT");
   if (!user) missing.push("DOMIFA_SMTP_USER");
   if (!pass) missing.push("DOMIFA_SMTP_PASS");
-  if (!from) missing.push("DOMIFA_SMTP_FROM");
   return missing;
 }

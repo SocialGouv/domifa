@@ -22,11 +22,21 @@ export const OTP_MAX_REQUESTS_PER_HOUR = 10;
 export const OTP_CODE_HEADER = "otp-code";
 export const OTP_RESEND_HEADER = "otp-resend";
 
-// Domains for which we bypass Brevo and hand the OTP to Tipimail via the
-// existing SMTP relay (DOMIFA_SMTP_* config), regardless of otpProvider.
-export const OTP_FORCED_SMTP_DOMAINS: readonly string[] = [
+// Domains whose mail filters occasionally quarantine Brevo emails. For these
+// recipients the OTP is fired via BOTH Brevo AND the Tipimail SMTP relay
+// (DOMIFA_SMTP_* config) with the same code, so the user receives at least
+// one. Everyone else stays on Brevo-only.
+export const OTP_DUAL_SEND_DOMAINS: readonly string[] = [
   "fabrique.social.gouv.fr",
   "mulhouse-alsace.fr",
   "akatij.fr",
   "ville-smlt.fr",
 ];
+
+// Hardcoded FROM for Tipimail SMTP. DKIM/SPF are configured on
+// diffusion.fabrique.social.gouv.fr — the FROM MUST stay on this domain
+// otherwise deliverability tanks on ISPs that enforce DMARC alignment. We
+// intentionally ignore DOMIFA_SMTP_FROM here so a misconfigured env var in
+// prod cannot break Tipimail delivery.
+export const OTP_TIPIMAIL_FROM =
+  "DomiFa <ne-pas-repondre@diffusion.fabrique.social.gouv.fr>";
