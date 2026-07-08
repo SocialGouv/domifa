@@ -1,3 +1,11 @@
+## [2.250.19](https://github.com/SocialGouv/domifa/compare/v2.250.18...v2.250.19) (2026-07-08)
+
+
+### Bug Fixes
+
+* **backend:** fix double send ([f158e0b](https://github.com/SocialGouv/domifa/commit/f158e0bb0bf411546cd8ca999cdb7a4caf4d5045))
+* **backend:** fix double send ([53789f8](https://github.com/SocialGouv/domifa/commit/53789f81d56e56627ea602109dedd5f6f1d6540b))
+
 ## [2.250.18](https://github.com/SocialGouv/domifa/compare/v2.250.17...v2.250.18) (2026-07-07)
 
 
