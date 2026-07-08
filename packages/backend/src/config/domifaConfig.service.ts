@@ -413,7 +413,8 @@ function parseSmtpConfig(x: Partial<DomifaEnv>): DomifaConfig["smtp"] {
     // identity regardless of which provider routed the email.
     from: configParser.parseString(x, "DOMIFA_SMTP_FROM", {
       required: false,
-      defaultValue: "DomiFa <no-reply@diffusion.fabrique.social.gouv.fr>",
+      defaultValue:
+        "DomiFa <ne-pas-repondre@diffusion.fabrique.social.gouv.fr>",
     }),
     timeoutMs: configParser.parseInteger(x, "DOMIFA_SMTP_TIMEOUT_MS", {
       required: false,
