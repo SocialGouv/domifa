@@ -235,7 +235,7 @@ export class AdminStructuresListComponent
   public get statutTabs(): FilterTab[] {
     return [
       { key: "", label: "Toutes", count: this.totalStructures },
-      { key: "VALIDE", label: "Actives", count: this.statusCounts.VALIDE },
+      { key: "VALIDE", label: "Validées", count: this.statusCounts.VALIDE },
       {
         key: "EN_ATTENTE",
         label: "Non validées",
