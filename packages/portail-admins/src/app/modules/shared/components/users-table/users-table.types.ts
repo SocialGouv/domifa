@@ -24,7 +24,7 @@ export type UsersTableRow = Pick<
 };
 
 export const USER_STATUS_LABELS: { [key in UserStatus]: string } = {
-  ACTIVE: "Actif",
+  ACTIVE: "Validé",
   PENDING: "En attente",
   BLOCKED: "Bloqué",
   TEMPORARILY_BLOCKED: "Blocage temporaire",
