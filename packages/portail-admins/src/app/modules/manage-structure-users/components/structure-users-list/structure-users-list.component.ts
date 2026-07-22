@@ -83,7 +83,7 @@ export class StructureUsersListComponent implements OnInit, OnDestroy {
   public get statusTabs(): FilterTab[] {
     return [
       { key: "ALL", label: "Tous", count: this.users.length },
-      { key: "ACTIVE", label: "Actifs", count: this.statusCounts.ACTIVE },
+      { key: "ACTIVE", label: "Validés", count: this.statusCounts.ACTIVE },
       {
         key: "PENDING",
         label: "En attente",
