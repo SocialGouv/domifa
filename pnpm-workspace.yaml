@@ -6,6 +6,7 @@ allowBuilds:
   '@parcel/watcher': true
   '@scarf/scarf': true
   '@sentry-internal/node-cpu-profiler': true
+  '@sentry/node-cpu-profiler': true
   aws-sdk: true
   esbuild: true
   lefthook: true
