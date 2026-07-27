@@ -14,7 +14,7 @@ fileignoreconfig:
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
   checksum: 19359089405671e8a8ddb4b3e960b08c72d1e87b141879da4ef5c5d3b83193b9
 - filename: package.json
-  checksum: 9f1a88fbfc8cd4e19d5e8ef253d5ddbf174bdfd6ff252ee26df4e9b370294646
+  checksum: 0829f5d0dfaf0788fe7386219cecfb47885c6556d98862068c8b988732455749
 - filename: packages/backend/src/_migrations/1781813895170-auto-migration.ts
   checksum: a06e0eaf9a6a41d1ebbf8a6eda4046b42bc116694f7cbad88f66dc889267eadd
 - filename: packages/backend/src/_migrations/1782293071088-auto-migration.ts
@@ -48,6 +48,6 @@ fileignoreconfig:
 - filename: packages/portail-usagers/src/app/modules/general/components/\_static/politique/politique.component.ts
   checksum: dfdbbe1892cf17b22d28f529914eb5df3a07063d5e3071e59c36c907020260d3
 - filename: pnpm-lock.yaml
-  checksum: 084126e9da2ee33ce6813552df68266761da919c5e42d0b79982381e4d78502c
+  checksum: c6c49f306ef2154ad42517599976c841706c02b4761cbf8d033857315b0bae1f
 threshold: medium
 version: "1.0"
