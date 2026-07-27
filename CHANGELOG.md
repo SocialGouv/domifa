@@ -1,3 +1,10 @@
+## [2.250.20](https://github.com/SocialGouv/domifa/compare/v2.250.19...v2.250.20) (2026-07-27)
+
+
+### Bug Fixes
+
+* serve security headers from app nginx instead of ingress custom-headers ([e176ec6](https://github.com/SocialGouv/domifa/commit/e176ec6f2da8d3bc811d9c953e1cb8d45c5635b7))
+
 ## [2.250.19](https://github.com/SocialGouv/domifa/compare/v2.250.18...v2.250.19) (2026-07-08)
 
 
