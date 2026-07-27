@@ -14,7 +14,7 @@ fileignoreconfig:
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
   checksum: 19359089405671e8a8ddb4b3e960b08c72d1e87b141879da4ef5c5d3b83193b9
 - filename: package.json
-  checksum: 0829f5d0dfaf0788fe7386219cecfb47885c6556d98862068c8b988732455749
+  checksum: b1f4068d2168777918ef4fa6b222d46315fe5396a762a72302dfbd1751545add
 - filename: packages/backend/src/_migrations/1781813895170-auto-migration.ts
   checksum: a06e0eaf9a6a41d1ebbf8a6eda4046b42bc116694f7cbad88f66dc889267eadd
 - filename: packages/backend/src/_migrations/1782293071088-auto-migration.ts
