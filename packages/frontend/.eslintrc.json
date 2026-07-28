@@ -29,6 +29,7 @@
          * recommended set provided by the @angular-eslint project would go here.
          */
         "@angular-eslint/prefer-standalone": "off",
+        "@angular-eslint/prefer-inject": "warn",
         "@angular-eslint/directive-selector": [
           "error",
           {
