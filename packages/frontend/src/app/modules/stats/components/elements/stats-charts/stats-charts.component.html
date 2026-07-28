@@ -1,5 +1,6 @@
 <h3 class="fr-h4">Depuis notre lancement en 2019</h3>
-<div class="stats-charts-container fr-py-3w" *ngIf="!publicStats">
+@if (!publicStats) {
+<div class="stats-charts-container fr-py-3w">
   <div class="fr-grid-row fr-display-flex fr-align-items-center">
     <div class="fr-col-md-12 fr-text--center">
       <div @fadeInOut aria-live="polite">
@@ -12,7 +13,8 @@
     </div>
   </div>
 </div>
-<div *ngIf="publicStats">
+} @if (publicStats) {
+<div>
   <div class="fr-grid-row fr-display-flex fr-justify-content-center">
     <div class="fr-col-12 fr-col-md-10">
       <fieldset
@@ -86,32 +88,33 @@
   <div class="fr-grid-row fr-display-flex fr-align-items-center">
     <div class="fr-col-md-12 ps-2 pe-4">
       <div class="text-start fr-text--bold fr-mb-1w">
-        <span *ngIf="selectedCharts === 'courriers'">
-          Courriers distribués chaque mois
-        </span>
-        <span *ngIf="selectedCharts === 'usagers'">
-          Nouveaux domiciliés chaque mois
-        </span>
+        @if (selectedCharts === 'courriers') {
+        <span> Courriers distribués chaque mois </span>
+        } @if (selectedCharts === 'usagers') {
+        <span> Nouveaux domiciliés chaque mois </span>
+        }
       </div>
 
-      <div *ngIf="publicStats">
-        <div id="charts">
-          <ngx-charts-bar-vertical
-            [scheme]="colorScheme"
-            [results]="statsInCharts"
-            [gradient]="gradient"
-            [xAxis]="showXAxis"
-            [yAxis]="showYAxis"
-            [legend]="showLegend"
-            [showXAxisLabel]="showXAxisLabel"
-            [showYAxisLabel]="showYAxisLabel"
-            [xAxisLabel]="xAxisLabel"
-            [yAxisLabel]="yAxisLabel"
-            [barPadding]="barPadding"
-          >
-          </ngx-charts-bar-vertical>
-        </div>
+      @if (publicStats) {
+
+      <div id="charts">
+        <ngx-charts-bar-vertical
+          [scheme]="colorScheme"
+          [results]="statsInCharts"
+          [gradient]="gradient"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [legend]="showLegend"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel"
+          [barPadding]="barPadding"
+        >
+        </ngx-charts-bar-vertical>
       </div>
+      }
     </div>
   </div>
 </div>
+}

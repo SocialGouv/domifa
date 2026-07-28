@@ -42,7 +42,6 @@
     "@ngrx/operators": "^20.1.0",
     "@ngrx/store": "^20.1.0",
     "@ngrx/store-devtools": "^20.1.0",
-    "@popperjs/core": "^2.11.8",
     "@sentry/angular": "^10.68.0",
     "@sentry/browser": "^10.68.0",
     "@sentry/browser-utils": "^10.68.0",
