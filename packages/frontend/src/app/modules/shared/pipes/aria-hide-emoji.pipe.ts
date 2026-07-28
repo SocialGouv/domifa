@@ -9,6 +9,10 @@ export class AriaHideEmojiPipe implements PipeTransform {
     /(\p{Emoji_Presentation}|\p{Extended_Pictographic})/gu;
 
   public transform(value: string): string {
+    if (!value) {
+      return "";
+    }
+
     return value.replace(
       AriaHideEmojiPipe.EMOJI_REGEX,
       '<span aria-hidden="true">$1</span>'
