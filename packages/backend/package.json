@@ -147,7 +147,6 @@
     "@types/node-pdftk": "^2.1.9",
     "@types/passport-jwt": "^3.0.13",
     "@types/pino": "^7.0.5",
-    "@types/pizzip": "^3.0.5",
     "@types/sanitize-html": "^2.16.0",
     "@types/slug": "^5.0.9",
     "@types/source-map-support": "^0.5.10",
