@@ -5,8 +5,6 @@ import { Pipe, PipeTransform } from "@angular/core";
 })
 export class FormatBigNumberPipe implements PipeTransform {
   public transform(nb: number): string {
-    console.log("nb", nb);
-
     let strNb = nb.toString();
     const chunks = [];
 
