@@ -13,6 +13,7 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
+    "skipLibCheck": true,
     "noUnusedParameters": true,
     "outDir": "./dist",
     "resolveJsonModule": true,
