@@ -3,6 +3,8 @@ packages:
 
 hoist: true
 
-nodeVersion: 22.22.0
+nodeVersion: 22.23.1
 
 sharedWorkspaceLockfile: true
+
+engineStrict: true
