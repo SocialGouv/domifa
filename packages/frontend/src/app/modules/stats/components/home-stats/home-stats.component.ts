@@ -1,24 +1,26 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { PublicStats } from "@domifa/common";
 import { CountUpOptions } from "countup.js";
 import { StatsService } from "../../services/stats.service";
 import { Subscription } from "rxjs";
-import { CountUpModule } from "ngx-countup";
+import { CountUpDirective } from "ngx-countup";
 import { RouterLink } from "@angular/router";
 
 @Component({
   selector: "app-home-stats",
   templateUrl: "./home-stats.component.html",
-  imports: [CountUpModule, RouterLink],
+  imports: [CountUpDirective, RouterLink],
   styleUrls: ["./home-stats.component.css"],
 })
 export class HomeStatsComponent implements OnInit {
   private readonly subscription = new Subscription();
 
+  private readonly statsService = inject(StatsService);
+
   public stats: PublicStats;
   public countOptions: CountUpOptions;
 
-  constructor(private readonly statsService: StatsService) {
+  constructor() {
     this.countOptions = {
       duration: 2,
       separator: " ",
