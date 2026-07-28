@@ -88,7 +88,7 @@
     "lodash.clonedeep": "^4.5.0",
     "lodash.isequal": "^4.5.0",
     "marked": "4.0.12",
-    "ngx-countup": "^13.2.0",
+    "ngx-countup": "^21.0.0",
     "ngx-matomo-client": "^8.0.0",
     "parchment": "^3.0.0",
     "quill": "^2.0.3",

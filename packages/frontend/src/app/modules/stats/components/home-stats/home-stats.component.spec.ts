@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { HomeStatsComponent } from "./home-stats.component";
 import { provideHttpClient } from "@angular/common/http";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
-import { CountUpModule } from "ngx-countup";
+import { CountUpDirective } from "ngx-countup";
 import { NgIf } from "@angular/common";
 import { RouterModule } from "@angular/router";
 
@@ -16,7 +16,7 @@ describe("HomeStatsComponent", () => {
       imports: [
         NgIf,
         HomeStatsComponent,
-        CountUpModule,
+        CountUpDirective,
         RouterModule.forRoot([]),
       ],
       providers: [provideHttpClient(), provideHttpClientTesting()],
