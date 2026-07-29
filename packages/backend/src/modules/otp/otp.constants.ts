@@ -31,6 +31,7 @@ export const OTP_DUAL_SEND_DOMAINS: readonly string[] = [
   "mulhouse-alsace.fr",
   "akatij.fr",
   "ville-smlt.fr",
+  "mairie-chateaubernard.fr",
 ];
 
 // Hardcoded FROM for Tipimail SMTP. DKIM/SPF are configured on
