@@ -72,10 +72,13 @@ export class UserStructureDecisionService {
     );
 
     try {
-      await this.brevoSenderService.deleteContactFromBrevo(targetUserEmail);
+      await this.brevoSenderService.updateContactStatusInBrevo(
+        targetUserEmail,
+        "DELETE"
+      );
     } catch (error) {
       appLogger.warn(
-        `Échec de la suppression du contact Brevo pour ${targetUserEmail}`,
+        `Échec de la mise à jour du statut Brevo pour ${targetUserEmail}`,
         error
       );
     }

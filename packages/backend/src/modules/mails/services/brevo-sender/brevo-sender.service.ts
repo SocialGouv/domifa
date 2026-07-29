@@ -22,8 +22,10 @@ import {
   REGIONS_LISTE,
   Structure,
   STRUCTURE_DECISION_LABELS,
+  USER_STATUS_LABELS,
   USER_STRUCTURE_ROLES_LABELS,
   STRUCTURE_TYPE_LABELS,
+  UserStatus,
   getStructureDecisionMotif,
 } from "@domifa/common";
 import { isValid } from "date-fns";
@@ -245,6 +247,7 @@ export class BrevoSenderService {
         USER_NOM: user.nom,
         USER_ID: user.id,
         USER_ROLE: USER_STRUCTURE_ROLES_LABELS[user.role],
+        STATUT_UTILISATEUR_ACTIVITE: USER_STATUS_LABELS[user.status],
         USER_DERNIERE_CONNEXION: this.parseTextToBrevoDate(user?.lastLogin),
         USER_DATE_INSCRIPTION: this.parseTextToBrevoDate(user?.createdAt),
         STRUCTURE_NOM: user.structure.nom,
@@ -320,22 +323,47 @@ export class BrevoSenderService {
     }
   }
 
-  async deleteContactFromBrevo(email: string): Promise<void> {
+  async updateContactStatusInBrevo(
+    email: string,
+    status: UserStatus
+  ): Promise<void> {
     const config = domifaConfig();
 
     if (isBrevoCallSkipped(config)) {
       appLogger.info(
-        `[EMAILS DISABLED] Suppression Brevo non effectuée pour l'email ${email}`
+        `[EMAILS DISABLED] Mise à jour du statut Brevo non effectuée pour l'email ${email}`
       );
       return;
     }
 
+    if (isDeletedEmail(email)) {
+      appLogger.info(
+        `[BREVO SKIP] Email préfixé "deleted-", mise à jour du statut Brevo ignorée`
+      );
+      return;
+    }
+
+    const update = new UpdateContact();
+    update.attributes = {
+      STATUT_UTILISATEUR_ACTIVITE: USER_STATUS_LABELS[status],
+    };
+
     try {
-      await this.contactsApi.deleteContact(email);
-      appLogger.info(`Contact Brevo supprimé pour l'email ${email}`);
-    } catch (error) {
+      await this.contactsApi.updateContact(email, update);
+      appLogger.info(
+        `Statut Brevo mis à jour (${USER_STATUS_LABELS[status]}) pour l'email ${email}`
+      );
+    } catch (error: any) {
+      const statusCode =
+        error?.response?.statusCode ?? error?.response?.status ?? error?.status;
+      if (statusCode === 404) {
+        appLogger.info(
+          `Contact Brevo absent pour ${email}, mise à jour du statut ignorée`
+        );
+        return;
+      }
       appLogger.warn(
-        `Erreur lors de la suppression du contact Brevo pour l'email ${email}`,
+        `Erreur lors de la mise à jour du statut Brevo pour l'email ${email}`,
         error
       );
       throw error;
