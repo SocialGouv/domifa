@@ -112,6 +112,7 @@ export const userStructureRepository = myDataSource
       us.id,
       us.role,
       us.email,
+      us.status,
       us."createdAt",
       us."structureId",
       us."lastLogin",
@@ -141,6 +142,7 @@ export const userStructureRepository = myDataSource
       us.id,
       us.role,
       us.email,
+      us.status,
       us."createdAt",
       us."lastLogin",
       json_build_object(

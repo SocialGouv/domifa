@@ -364,8 +364,8 @@ export class UsersController {
       },
     });
 
-    // Envoi de l'email d'activation avec génération automatique du lien
-    await this.brevoSenderService.sendUserActivationEmail({
+    // Envoi de l'email de définition du mot de passe (lien reset-password)
+    await this.brevoSenderService.sendPasswordSetupEmail({
       userId: newUser.id,
       userProfile,
       userSecurity,

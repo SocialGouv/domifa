@@ -169,7 +169,7 @@ export class AdminUsersController {
         .json({ message: "REGISTER_ERROR" });
     }
 
-    await this.brevoSenderService.sendUserActivationEmail({
+    await this.brevoSenderService.sendPasswordSetupEmail({
       userId: newUser.id,
       userProfile: "supervisor",
       userSecurity,

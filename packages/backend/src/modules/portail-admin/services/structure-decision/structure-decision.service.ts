@@ -129,15 +129,17 @@ export class StructureDecisionService {
       select: { email: true },
     });
 
-    // Delete from Brevo
+    // Update Brevo contact status to DELETE
     await Promise.all(
       users.map((user) =>
-        this.deleteContactFromBrevo(user.email).catch((error) => {
-          appLogger.warn(
-            `Impossible de supprimer le contact Brevo ${user.email} pour la structure ${structureId}`,
-            error
-          );
-        })
+        this.brevoSenderService
+          .updateContactStatusInBrevo(user.email, "DELETE")
+          .catch((error) => {
+            appLogger.warn(
+              `Impossible de mettre à jour le statut Brevo pour ${user.email} (structure ${structureId})`,
+              error
+            );
+          })
       )
     );
 
@@ -158,19 +160,6 @@ export class StructureDecisionService {
       messageSmsRepository.delete({ structureId }),
       usagerHistoryStatesRepository.delete({ structureId }),
     ]);
-  }
-
-  private async deleteContactFromBrevo(email: string): Promise<void> {
-    try {
-      await this.brevoSenderService.deleteContactFromBrevo(email);
-      appLogger.info(`Contact Brevo supprimé pour l'email ${email}`);
-    } catch (error) {
-      appLogger.warn(
-        `Erreur lors de la suppression du contact Brevo pour l'email ${email}`,
-        error
-      );
-      throw error;
-    }
   }
 
   async activateAdmin(adminId: number, structureId: number): Promise<void> {
