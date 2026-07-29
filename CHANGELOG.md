@@ -1,3 +1,13 @@
+## [2.250.22](https://github.com/SocialGouv/domifa/compare/v2.250.21...v2.250.22) (2026-07-29)
+
+
+### Bug Fixes
+
+* **frontend:** add unit test & UTC ([dc585a7](https://github.com/SocialGouv/domifa/commit/dc585a7edd9c82d1e4f1b6709896037148f34fbe))
+* **frontend:** fix 2025 - 2026 cgu ([c16d97c](https://github.com/SocialGouv/domifa/commit/c16d97c3643b90f2e30d98028310ccf7e5ada3f7))
+* **frontend:** update cgu 2026 ([428cc37](https://github.com/SocialGouv/domifa/commit/428cc37f97644a3fd1f1e98bdb93f04d162b8f88))
+* **frontend:** update code ([907d10f](https://github.com/SocialGouv/domifa/commit/907d10f1a8c3c9a9360ea3c16c81147d7c28abc9))
+
 ## [2.250.21](https://github.com/SocialGouv/domifa/compare/v2.250.20...v2.250.21) (2026-07-29)
 
 
