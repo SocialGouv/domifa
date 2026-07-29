@@ -1,3 +1,13 @@
+## [2.250.23](https://github.com/SocialGouv/domifa/compare/v2.250.22...v2.250.23) (2026-07-29)
+
+
+### Bug Fixes
+
+* **frontend:** add all witnesses button ([464f050](https://github.com/SocialGouv/domifa/commit/464f050b62c5b00c4f062ae50e4e2c0cd3e12530))
+* **frontend:** delete matomo tacker on click ([1b801f7](https://github.com/SocialGouv/domifa/commit/1b801f77462640b59d8f30328da3c042af12ff98))
+* **frontend:** delete test of deleted rule ([16f31ea](https://github.com/SocialGouv/domifa/commit/16f31ea2549dcdd91359650f33884c2cb7126994))
+* **frontend:** fix string-cleaner double space rule ([5cd11a3](https://github.com/SocialGouv/domifa/commit/5cd11a38e36cab7d2d37cf999b2a3fcc3644cd69))
+
 ## [2.250.22](https://github.com/SocialGouv/domifa/compare/v2.250.21...v2.250.22) (2026-07-29)
 
 
