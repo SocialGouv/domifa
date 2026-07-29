@@ -9,6 +9,7 @@ import {
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { MatomoTracker } from "ngx-matomo-client";
 import { AuthService } from "../../../../shared/services";
+import { hasAcceptedCurrentCgu } from "../../../../../shared/constants";
 import { UserStructure } from "@domifa/common";
 import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
@@ -99,7 +100,7 @@ export class AppTourModalComponent implements AfterViewInit, OnDestroy {
     this.subscription.add(
       this.authService.currentUserSubject.subscribe({
         next: (user: UserStructure | null) => {
-          if (user && user.role && user.acceptTerms) {
+          if (user?.role && hasAcceptedCurrentCgu(user.acceptTerms)) {
             this.currentRoleStep = this.tourSteps[1].roles[this.me.role];
             if (!localStorage.getItem("appTourSeen")) {
               this.appTourModal.open();
@@ -115,7 +116,7 @@ export class AppTourModalComponent implements AfterViewInit, OnDestroy {
   }
 
   public openTour(): void {
-    if (!this.me || !this.me.role || !this.me.acceptTerms) {
+    if (!this.me?.role || !hasAcceptedCurrentCgu(this.me.acceptTerms)) {
       return;
     }
     this.currentRoleStep = this.tourSteps[1].roles[this.me.role];

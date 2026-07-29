@@ -51,6 +51,7 @@ import {
 } from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
 import { AuthService, CustomToastService } from "../../../shared/services";
+import { hasAcceptedCurrentCgu } from "../../../../shared/constants";
 import { UsagerLight } from "../../../../../_common/model";
 import {
   UsagersFilterCriteria,
@@ -163,7 +164,7 @@ export class ManageUsagersPageComponent
   }
 
   public ngOnInit(): void {
-    if (!this.me?.acceptTerms) {
+    if (!hasAcceptedCurrentCgu(this.me?.acceptTerms)) {
       return;
     }
 
