@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Not } from "typeorm";
+import { In } from "typeorm";
 import { domifaConfig } from "../../../../config";
 
 import {
@@ -370,7 +370,7 @@ export class BrevoSenderService {
     }
   }
 
-  async sendUserActivationEmail({
+  async sendPasswordSetupEmail({
     userId,
     userProfile,
     userSecurity,
@@ -379,20 +379,26 @@ export class BrevoSenderService {
     userProfile: UserProfile;
     userSecurity: UserSecurity;
   }): Promise<void> {
+    const allowedStatuses = In<UserStatus>([
+      "ACTIVE",
+      "PENDING",
+      "TEMPORARILY_BLOCKED",
+    ]);
+
     const user =
       userProfile === "structure"
         ? await userStructureRepository.findOneBy({
             id: userId,
-            status: Not("DELETE"),
+            status: allowedStatuses,
           })
         : await userSupervisorRepository.findOneBy({
             id: userId,
-            status: Not("DELETE"),
+            status: allowedStatuses,
           });
 
     if (!user) {
       throw new Error(
-        `User not found: userId=${userId}, userProfile=${userProfile}`
+        `User not found or not eligible for password setup: userId=${userId}, userProfile=${userProfile}`
       );
     }
 
@@ -403,7 +409,9 @@ export class BrevoSenderService {
     });
 
     if (!link) {
-      throw new Error(`Failed to generate activation link for user ${userId}`);
+      throw new Error(
+        `Failed to generate password setup link for user ${userId}`
+      );
     }
 
     await this.sendEmailWithTemplate({
@@ -421,7 +429,7 @@ export class BrevoSenderService {
     });
 
     appLogger.info(
-      `Email d'activation envoyé avec succès à ${user.email} (userId: ${userId}, userProfile: ${userProfile})`
+      `Password setup email envoyé à ${user.email} (userId: ${userId}, userProfile: ${userProfile})`
     );
   }
 
