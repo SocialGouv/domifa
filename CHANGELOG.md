@@ -1,3 +1,10 @@
+## [2.250.24](https://github.com/SocialGouv/domifa/compare/v2.250.23...v2.250.24) (2026-07-29)
+
+
+### Bug Fixes
+
+* **backend:** update brevo's contact update for deleted users ([bf1ecf6](https://github.com/SocialGouv/domifa/commit/bf1ecf619d45755f7025a6f4c21a51e68556f033))
+
 ## [2.250.23](https://github.com/SocialGouv/domifa/compare/v2.250.22...v2.250.23) (2026-07-29)
 
 
