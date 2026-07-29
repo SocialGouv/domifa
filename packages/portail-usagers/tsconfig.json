@@ -10,7 +10,7 @@
     "importHelpers": true,
     "lib": ["es2018", "dom"],
     "module": "es2020",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "outDir": "./dist/out-tsc",
