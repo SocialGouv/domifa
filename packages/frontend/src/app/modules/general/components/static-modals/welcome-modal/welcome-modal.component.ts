@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { Subscription } from "rxjs";
 import { AuthService } from "../../../../shared/services";
+import { hasAcceptedCurrentCgu } from "../../../../../shared/constants";
 import { WelcomeService } from "../../../services/welcome.service";
 import { UserStructure } from "@domifa/common";
 import DOMIFA_NEWS from "src/assets/files/news.json";
@@ -48,7 +49,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
 
           // CGU must be accepted before any welcome/news/tour modal opens,
           // otherwise they stack on top of the CGU modal at first login.
-          if (!user.acceptTerms) {
+          if (!hasAcceptedCurrentCgu(user.acceptTerms)) {
             return;
           }
 
@@ -62,7 +63,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
   }
 
   private checkWelcomeFlow(user: UserStructure): void {
-    if (this.newsModalOpen || !user.acceptTerms) {
+    if (this.newsModalOpen || !hasAcceptedCurrentCgu(user.acceptTerms)) {
       return;
     }
 

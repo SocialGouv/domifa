@@ -18,6 +18,7 @@ import { filter, Subscription, switchMap } from "rxjs";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { CustomToastService } from "./modules/shared/services";
 import { fadeInOut } from "./shared";
+import { hasAcceptedCurrentCgu } from "./shared/constants";
 import { LIENS_PARTENAIRES } from "./modules/general/components/plan-site/LIENS_PARTENAIRES.const";
 import { UserStructure } from "@domifa/common";
 import { DsfrModalComponent, DsfrModalAction } from "@edugouvfr/ngx-dsfr";
@@ -137,7 +138,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
             return;
           }
 
-          if (!this.me.acceptTerms) {
+          if (!hasAcceptedCurrentCgu(this.me.acceptTerms)) {
             this.openAcceptTermsModal();
             this.initCguForm();
           }
