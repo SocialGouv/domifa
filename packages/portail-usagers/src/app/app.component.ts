@@ -48,6 +48,10 @@ export class AppComponent implements OnInit {
   public news: NewsItem[] = [];
 
   @ViewChild(DsfrModalComponent) newsModal!: DsfrModalComponent;
+
+  private newsModalOpen = false;
+  private newsChecked = false;
+
   constructor(
     private readonly titleService: Title,
     private readonly router: Router,
@@ -90,6 +94,11 @@ export class AppComponent implements OnInit {
   }
 
   public checkNews(): void {
+    if (this.newsChecked) {
+      return;
+    }
+    this.newsChecked = true;
+
     const lastNews = localStorage.getItem("NEWS_MON_DOMIFA");
 
     if (!lastNews) {
@@ -103,9 +112,10 @@ export class AppComponent implements OnInit {
 
     this.pendingNews = new Date(lastNews) < new Date(DOMIFA_NEWS[0].date);
 
-    if (this.pendingNews) {
+    if (this.pendingNews && !this.newsModalOpen) {
       this.news = [DOMIFA_NEWS[0]];
-      this.newsModal.open();
+      this.newsModalOpen = true;
+      requestAnimationFrame(() => this.newsModal.open());
     }
   }
 
@@ -116,6 +126,7 @@ export class AppComponent implements OnInit {
       new Date(DOMIFA_NEWS[0].date).toISOString(),
     );
     this.pendingNews = false;
+    this.newsModalOpen = false;
   }
 
   public ngOnInit(): void {

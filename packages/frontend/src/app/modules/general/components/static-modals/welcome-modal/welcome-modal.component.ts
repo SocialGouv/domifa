@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { Subscription } from "rxjs";
 import { AuthService } from "../../../../shared/services";
@@ -31,6 +31,7 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
   public news: any;
 
   public newsModalOpen = false;
+  private welcomeFlowChecked = false;
 
   private readonly subscription = new Subscription();
 
@@ -43,20 +44,16 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.authService.currentUserSubject.subscribe({
         next: (user: UserStructure | null) => {
-          if (!user || this.newsModalOpen) {
+          if (
+            !user ||
+            this.welcomeFlowChecked ||
+            !hasAcceptedCurrentCgu(user.acceptTerms)
+          ) {
             return;
           }
 
-          // CGU must be accepted before any welcome/news/tour modal opens,
-          // otherwise they stack on top of the CGU modal at first login.
-          if (!hasAcceptedCurrentCgu(user.acceptTerms)) {
-            return;
-          }
-
-          // Wait a bit for other modals (version) to finish
-          setTimeout(() => {
-            this.checkWelcomeFlow(user);
-          }, 500);
+          this.welcomeFlowChecked = true;
+          requestAnimationFrame(() => this.checkWelcomeFlow(user));
         },
       })
     );
@@ -68,10 +65,8 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     }
 
     if (this.isFirstTimeUser()) {
-      // Première connexion → app tour
       this.appTourModal.openTour();
     } else if (this.shouldShowNews()) {
-      // Utilisateur existant → news si disponibles
       this.showNewsModal();
     }
   }
@@ -90,19 +85,15 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
   private showNewsModal(): void {
     this.news = DOMIFA_NEWS[0];
     this.newsModalOpen = true;
-    this.newsModal.open();
+    requestAnimationFrame(() => this.newsModal.open());
   }
 
   public onTourComplete(): void {
-    // Marquer les news comme vues pour éviter d'afficher d'anciennes news
     this.welcomeService.markNewsAsSeen();
 
-    // Tour terminé, vérifier si news à afficher
-    setTimeout(() => {
-      if (this.shouldShowNews()) {
-        this.showNewsModal();
-      }
-    }, 500);
+    if (this.shouldShowNews()) {
+      this.showNewsModal();
+    }
   }
 
   public hideNews(): void {
