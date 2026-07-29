@@ -1,4 +1,6 @@
-\restrict tQ6c6weVjeOkHoi0DKfDLRiNBVIehe5eCjWkLD90nfyR45X4mDrKsvox86IM8SU
+-- Replayed by CreateDatabase1603812391580 through the TypeORM driver, not psql.
+-- Keep this file free of psql meta-commands (\restrict, \unrestrict, \connect...):
+-- pg_dump emits them since 17.6/16.10, and the server rejects them as syntax errors.
 CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 CREATE TABLE public.app_ip_ban (
@@ -816,4 +818,3 @@ ALTER TABLE ONLY public.usager_notes
     ADD CONSTRAINT "FK_e8b75cd4ebe81d288a6ff7d4115" FOREIGN KEY ("structureId") REFERENCES public.structure(id) ON DELETE CASCADE;
 ALTER TABLE ONLY public.interactions
     ADD CONSTRAINT "FK_f9c3ee379ce68d4acfe4199a335" FOREIGN KEY ("usagerUUID") REFERENCES public.usager(uuid) ON DELETE CASCADE;
-\unrestrict tQ6c6weVjeOkHoi0DKfDLRiNBVIehe5eCjWkLD90nfyR45X4mDrKsvox86IM8SU
