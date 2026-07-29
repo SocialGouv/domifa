@@ -116,7 +116,7 @@ export class AppTourModalComponent implements AfterViewInit, OnDestroy {
   }
 
   public openTour(): void {
-    if (!this.me?.role || !hasAcceptedCurrentCgu(this.me.acceptTerms)) {
+    if (!this.me?.role || !hasAcceptedCurrentCgu(this.me?.acceptTerms)) {
       return;
     }
     this.currentRoleStep = this.tourSteps[1].roles[this.me.role];
