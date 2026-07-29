@@ -1,3 +1,11 @@
+## [2.250.21](https://github.com/SocialGouv/domifa/compare/v2.250.20...v2.250.21) (2026-07-29)
+
+
+### Bug Fixes
+
+* **backend:** strip psql meta-commands from the review env schema dump ([2a3b2aa](https://github.com/SocialGouv/domifa/commit/2a3b2aaaa620a68544c4bd37cd44ec79ae9d94de))
+* **backend:** strip psql meta-commands from the seed data dumps ([1fbecff](https://github.com/SocialGouv/domifa/commit/1fbecff34b9e776c942bd8d2655c3491b28528de))
+
 ## [2.250.20](https://github.com/SocialGouv/domifa/compare/v2.250.19...v2.250.20) (2026-07-27)
 
 
