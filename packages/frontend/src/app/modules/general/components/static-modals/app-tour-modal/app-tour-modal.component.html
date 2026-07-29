@@ -12,6 +12,17 @@
       Découvrez vos premiers pas sur l'outil grâce à cette courte présentation.
     </p>
 
+    @if (currentStep === 0) {
+    <div class="tour-content">
+      <img
+        src="/assets/images/modals/popup.gif"
+        alt="Interface de DomiFa"
+        aria-describedby="transcription-step-0"
+        class="fr-responsive-img"
+      />
+    </div>
+    }
+
     <span class="fr-sr-only" aria-live="polite">
       @if (currentStep === 0) {
       <span id="transcription-step-0">
@@ -51,8 +62,8 @@
         >formulaire de contact</a
       >.
     </p>
+    <p class="fr-text--bold">Prêt à passer à l’action ?</p>
 
-    <p>👉🏽 Découvrir mes premières actions dans la page suivante.</p>
     } @if (currentStep === 1) {
     <p class="fr-text--bold fr-mb-1w">{{ currentRoleStep.subtitle }}</p>
     <p class="fr-mb-2w">{{ currentRoleStep.description }}</p>
@@ -61,40 +72,32 @@
       <li>✅ {{ action }}</li>
       }
     </ul>
-    }
-
+    } @if (currentStep === 1) {
     <div class="tour-content">
-      @if (currentStep === 1) { @if (me?.role === 'admin') {
+      @if (me?.role === 'admin') {
       <img
-        src="/assets/images/modals/admin.png"
+        src="/assets/images/modals/admin.jpg"
         alt="Interface DomiFa vue administrateur"
         aria-describedby="transcription-step-1"
         class="fr-responsive-img"
       />
       } @if (me?.role === 'responsable' || me?.role === 'simple') {
       <img
-        src="/assets/images/modals/responsable.png"
+        src="/assets/images/modals/instructeur.jpg"
         alt="Interface DomiFa vue gestionnaire et instructeur"
         aria-describedby="transcription-step-1"
         class="fr-responsive-img"
       />
       } @if (me?.role === 'facteur') {
       <img
-        src="/assets/images/modals/facteur.png"
+        src="/assets/images/modals/facteur.jpg"
         alt="Interface DomiFa vue agent d'accueil et facteur"
         aria-describedby="transcription-step-1"
         class="fr-responsive-img"
       />
-      } } @else {
-      <img
-        src="/assets/images/modals/popup.gif"
-        alt="Interface de DomiFa"
-        aria-describedby="transcription-step-0"
-        class="fr-responsive-img"
-      />
       }
     </div>
-    }
+    } }
   </ng-container>
 
   <ng-template #modalFooterTemplate>

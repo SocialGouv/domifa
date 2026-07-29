@@ -5,20 +5,12 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { Event, NavigationEnd, Router } from "@angular/router";
 import { MatomoTracker } from "ngx-matomo-client";
-import { filter, Subscription, switchMap } from "rxjs";
+import { filter, Subscription } from "rxjs";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
-import { CustomToastService } from "./modules/shared/services";
 import { fadeInOut } from "./shared";
-import { hasAcceptedCurrentCgu } from "./shared/constants";
 import { LIENS_PARTENAIRES } from "./modules/general/components/plan-site/LIENS_PARTENAIRES.const";
 import { UserStructure } from "@domifa/common";
 import { DsfrModalComponent, DsfrModalAction } from "@edugouvfr/ngx-dsfr";
@@ -35,19 +27,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   public currentUrl = "";
   public me: UserStructure | null;
 
-  @ViewChild("acceptTermsModal", { static: false })
-  public acceptTermsModalRef!: DsfrModalComponent;
-
   @ViewChild("versionModal", { static: false })
   public versionModalRef!: DsfrModalComponent;
 
-  public acceptTermsForm!: FormGroup;
-  public loading = false;
-  public submitted = false;
-
-  // Permet de bloquer la réouverture si une modale est déjà ouverte
-  private isAnyModalOpen = false;
-  private cguTermsAccepted = false;
+  private isVersionModalOpen = false;
 
   public readonly versionModalActions: DsfrModalAction[] = [
     {
@@ -64,18 +47,11 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly authService: AuthService,
     private readonly router: Router,
     private readonly titleService: Title,
-    private readonly toastService: CustomToastService,
-    private readonly formBuilder: FormBuilder,
     private readonly matomo: MatomoTracker
   ) {
     this.apiVersion = localStorage.getItem("version");
     this.me = null;
-    this.initCguForm();
     this.checkMatomo();
-  }
-
-  public get f(): { [key: string]: AbstractControl } {
-    return this.acceptTermsForm.controls;
   }
 
   public refresh(): void {
@@ -121,7 +97,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         next: (user: UserStructure | null) => {
           this.me = user;
 
-          if (!user || this.isAnyModalOpen) {
+          if (!user || this.isVersionModalOpen) {
             return;
           }
 
@@ -132,74 +108,13 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
             localStorage.setItem("version", newVersion);
           } else if (this.apiVersion !== newVersion) {
             localStorage.setItem("version", newVersion);
-            this.isAnyModalOpen = true;
-            this.versionModalRef.open();
+            this.isVersionModalOpen = true;
+            requestAnimationFrame(() => this.versionModalRef.open());
             setTimeout(() => window.location.reload(), 10000);
-            return;
-          }
-
-          if (!hasAcceptedCurrentCgu(this.me?.acceptTerms)) {
-            this.openAcceptTermsModal();
-            this.initCguForm();
           }
         },
       })
     );
-  }
-
-  public logout(): void {
-    this.acceptTermsModalRef.close();
-  }
-
-  public submitAcceptTerms(): void {
-    this.submitted = true;
-
-    if (this.acceptTermsForm.invalid) {
-      this.toastService.error("Veuillez cocher les deux cases pour continuer");
-      return;
-    }
-
-    this.loading = true;
-
-    this.subscription.add(
-      this.authService
-        .acceptTerms()
-        .pipe(switchMap(() => this.authService.isAuth()))
-        .subscribe({
-          next: () => {
-            this.submitted = false;
-            this.loading = false;
-            this.cguTermsAccepted = true;
-            this.toastService.success(
-              "Merci, vous pouvez continuer votre navigation"
-            );
-            this.closeModals();
-            this.refresh();
-          },
-          error: () => {
-            this.loading = false;
-            this.toastService.error("Veuillez accepter les CGU pour continuer");
-          },
-        })
-    );
-  }
-
-  public openAcceptTermsModal(): void {
-    this.isAnyModalOpen = true;
-    this.cguTermsAccepted = false;
-    this.acceptTermsModalRef.open();
-  }
-
-  public onAcceptTermsModalConceal(): void {
-    this.isAnyModalOpen = false;
-    if (!this.cguTermsAccepted) {
-      this.authService.logout();
-    }
-  }
-
-  public closeModals(): void {
-    this.acceptTermsModalRef.close();
-    this.isAnyModalOpen = false;
   }
 
   public ngOnDestroy(): void {
@@ -217,11 +132,5 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       localStorage.setItem("matomo-opted-in", JSON.stringify(true));
     }
-  }
-
-  private initCguForm(): void {
-    this.acceptTermsForm = this.formBuilder.group({
-      acceptCgu: [null, [Validators.requiredTrue]],
-    });
   }
 }
