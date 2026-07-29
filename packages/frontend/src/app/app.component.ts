@@ -138,7 +138,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
             return;
           }
 
-          if (!hasAcceptedCurrentCgu(this.me.acceptTerms)) {
+          if (!hasAcceptedCurrentCgu(this.me?.acceptTerms)) {
             this.openAcceptTermsModal();
             this.initCguForm();
           }
