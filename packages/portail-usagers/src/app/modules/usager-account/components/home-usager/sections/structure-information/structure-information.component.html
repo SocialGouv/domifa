@@ -5,33 +5,33 @@
   </h2>
 
   <div class="border-top border-grey fr-pt-2w">
-    <div *ngIf="!structureInformation?.length">
+    @if (!structureInformation.length) {
+    <div>
       <div class="fr-callout fr-callout--empty">
         Vous n’avez aucun message de votre structure
       </div>
     </div>
+    }
     <div class="fr-py-1w">
-      <ng-container
-        *ngFor="let information of structureInformation; let i = index"
+      @for (information of structureInformation; let i = $index; track $index) {
+      <div
+        class="fr-callout"
+        [ngClass]="[
+          STRUCTURE_INFORMATION_TYPES[information.type].variantClass,
+          STRUCTURE_INFORMATION_TYPES[information.type].iconClass
+        ]"
       >
-        <div
-          class="fr-callout"
-          [ngClass]="[
-            STRUCTURE_INFORMATION_TYPES[information.type].variantClass,
-            STRUCTURE_INFORMATION_TYPES[information.type].iconClass
-          ]"
-        >
-          <span>
-            <h3 class="fr-h4 d-block">
-              {{ information.title }}
-            </h3>
-            <p
-              *ngIf="information.description"
-              [innerHTML]="information.description | nl2br"
-            ></p>
-          </span>
-        </div>
-      </ng-container>
+        <span>
+          <h3 class="fr-h4 d-block">
+            {{ information.title }}
+          </h3>
+          <p
+            *ngIf="information.description"
+            [innerHTML]="information.description | nl2br"
+          ></p>
+        </span>
+      </div>
+      }
     </div>
   </div>
 </div>
