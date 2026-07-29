@@ -1,0 +1,83 @@
+<div class="fr-container fr-py-6w">
+  <div class="fr-grid-row fr-grid-row--center">
+    <div class="fr-col-12 fr-col-md-10 fr-col-lg-8">
+      <div class="fr-p-4w fr-background-alt--grey">
+        <h1 class="fr-h3">
+          <span
+            class="fr-icon-file-text-line fr-mr-2w"
+            aria-hidden="true"
+          ></span>
+          Veuillez lire et accepter les CGU
+        </h1>
+
+        <p>
+          Les conditions générales d'utilisation de DomiFa évoluent.<br />
+          Afin de pouvoir continuer à l'utiliser, merci de lire et accepter les
+          nouvelles CGU.
+        </p>
+
+        <div id="cgu-content" class="fr-mb-3w">
+          <app-cgu [inModal]="true"></app-cgu>
+        </div>
+
+        <form [formGroup]="acceptTermsForm" (ngSubmit)="submitAcceptTerms()">
+          <div class="fr-fieldset__element">
+            <div
+              class="fr-checkbox-group"
+              [class.fr-checkbox-group--error]="
+                submitted && f['acceptCgu'].errors
+              "
+            >
+              <input
+                type="checkbox"
+                formControlName="acceptCgu"
+                name="acceptCgu"
+                id="acceptCgu"
+                [attr.aria-describedby]="
+                  submitted && f['acceptCgu'].errors
+                    ? 'invalid-cgu-choice'
+                    : null
+                "
+                required
+              />
+              <label class="fr-label" for="acceptCgu">
+                J'ai lu et j'accepte les conditions générales d'utilisation
+              </label>
+              @if (submitted && f['acceptCgu'].errors) {
+              <div
+                class="fr-messages-group"
+                id="invalid-cgu-choice"
+                aria-live="assertive"
+              >
+                <p class="fr-message fr-message--error">
+                  Vous devez accepter les CGU afin de poursuivre
+                </p>
+              </div>
+              }
+            </div>
+          </div>
+
+          <div
+            class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-mt-3w"
+          >
+            <button
+              type="submit"
+              class="fr-btn"
+              [disabled]="loading"
+              [attr.aria-busy]="loading"
+            >
+              @if (!loading) { Enregistrer } @else { Veuillez patienter... }
+            </button>
+            <button
+              type="button"
+              class="fr-btn fr-btn--secondary"
+              (click)="logout()"
+            >
+              Se déconnecter
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

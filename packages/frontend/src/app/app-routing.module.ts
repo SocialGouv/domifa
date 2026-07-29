@@ -17,6 +17,7 @@ import { AuthGuard } from "./guards";
 import { LandingPagePortailComponent } from "./modules/general/components/static-pages/landing-page-portail/landing-page-portail.component";
 import { ALL_USER_STRUCTURE_ROLES } from "@domifa/common";
 import { DecouvrirDomifaComponent } from "./modules/general/components/decouvrir-domifa/decouvrir-domifa.component";
+import { AcceptCguComponent } from "./modules/general/components/accept-cgu/accept-cgu.component";
 
 export const routes: Routes = [
   {
@@ -47,6 +48,11 @@ export const routes: Routes = [
   { component: MentionsLegalesComponent, path: "mentions-legales" },
   { component: PolitiqueComponent, path: "confidentialite" },
   { component: CguComponent, path: "cgu" },
+  {
+    canActivate: [AuthGuard],
+    component: AcceptCguComponent,
+    path: "accepter-cgu",
+  },
 
   { component: PartenairesComponent, path: "partenaires" },
   { component: TemoignagesComponent, path: "temoignages" },

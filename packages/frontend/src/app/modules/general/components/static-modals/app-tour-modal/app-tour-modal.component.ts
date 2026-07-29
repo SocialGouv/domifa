@@ -1,8 +1,8 @@
 import {
-  AfterViewInit,
   Component,
   EventEmitter,
   OnDestroy,
+  OnInit,
   Output,
   ViewChild,
 } from "@angular/core";
@@ -20,7 +20,7 @@ import { Router } from "@angular/router";
   imports: [DsfrModalComponent],
   styleUrls: ["./app-tour-modal.component.css"],
 })
-export class AppTourModalComponent implements AfterViewInit, OnDestroy {
+export class AppTourModalComponent implements OnInit, OnDestroy {
   @ViewChild("appTourModal", { static: false })
   public appTourModal!: DsfrModalComponent;
 
@@ -31,6 +31,7 @@ export class AppTourModalComponent implements AfterViewInit, OnDestroy {
   public showTranscription = false;
 
   private startTime!: number;
+  private isOpen = false;
   public currentRoleStep: {
     subtitle: string;
     description: string;
@@ -96,15 +97,13 @@ export class AppTourModalComponent implements AfterViewInit, OnDestroy {
     this.me = this.authService.currentUserValue;
   }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.subscription.add(
       this.authService.currentUserSubject.subscribe({
         next: (user: UserStructure | null) => {
+          this.me = user;
           if (user?.role && hasAcceptedCurrentCgu(user.acceptTerms)) {
-            this.currentRoleStep = this.tourSteps[1].roles[this.me.role];
-            if (!localStorage.getItem("appTourSeen")) {
-              this.appTourModal.open();
-            }
+            this.currentRoleStep = this.tourSteps[1].roles[user.role];
           }
         },
       })
@@ -116,6 +115,9 @@ export class AppTourModalComponent implements AfterViewInit, OnDestroy {
   }
 
   public openTour(): void {
+    if (this.isOpen) {
+      return;
+    }
     if (!this.me?.role || !hasAcceptedCurrentCgu(this.me?.acceptTerms)) {
       return;
     }
@@ -124,7 +126,8 @@ export class AppTourModalComponent implements AfterViewInit, OnDestroy {
     this.startTime = Date.now();
     this.showTranscription = false;
     this.matomo.trackEvent("APP_TOUR", "OPEN", "TOUR_OPENED", 1);
-    this.appTourModal.open();
+    this.isOpen = true;
+    requestAnimationFrame(() => this.appTourModal.open());
   }
 
   public nextStep(): void {
@@ -168,6 +171,7 @@ export class AppTourModalComponent implements AfterViewInit, OnDestroy {
     this.matomo.trackEvent("APP_TOUR", "COMPLETE", "FINISHED", timeSpent);
     localStorage.setItem("appTourSeen", "true");
     this.appTourModal.close();
+    this.isOpen = false;
     this.tourComplete.emit();
   }
 
@@ -186,6 +190,7 @@ export class AppTourModalComponent implements AfterViewInit, OnDestroy {
     this.matomo.trackEvent("APP_TOUR", "SKIP", "SKIPPED", timeSpent);
     localStorage.setItem("appTourSeen", "true");
     this.appTourModal.close();
+    this.isOpen = false;
     this.tourComplete.emit();
   }
 }

@@ -4,7 +4,6 @@
     "allowJs": true,
     "baseUrl": "./",
     "declaration": false,
-    "downlevelIteration": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,

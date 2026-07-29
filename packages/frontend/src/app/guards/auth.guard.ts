@@ -8,6 +8,10 @@ import {
 } from "@angular/router";
 import { UserStructureRole } from "@domifa/common";
 import { AuthService, CustomToastService } from "../modules/shared/services";
+import { hasAcceptedCurrentCgu } from "../shared/constants";
+
+const ACCEPT_CGU_PATH = "/accepter-cgu";
+
 @Injectable({ providedIn: "root" })
 export class AuthGuard {
   constructor(
@@ -29,14 +33,26 @@ export class AuthGuard {
           return false;
         }
 
+        const currentUser = this.authService.currentUserValue;
+        const isOnAcceptCguPage = state.url.startsWith(ACCEPT_CGU_PATH);
+
+        if (
+          currentUser !== null &&
+          !hasAcceptedCurrentCgu(currentUser.acceptTerms) &&
+          !isOnAcceptCguPage
+        ) {
+          this.router.navigate([ACCEPT_CGU_PATH], {
+            queryParams: { returnUrl: state.url },
+          });
+          return false;
+        }
+
         if (allowedRoles.length === 0) {
           return true;
         }
 
-        if (this.authService.currentUserValue !== null) {
-          const userRole = this.authService.currentUserValue.role;
-
-          if (allowedRoles.includes(userRole)) {
+        if (currentUser !== null) {
+          if (allowedRoles.includes(currentUser.role)) {
             return true;
           }
 
