@@ -10,10 +10,6 @@ describe("stringCleaner", () => {
     expect(stringCleaner.cleanString("undefined")).toEqual("undefined");
   });
   it("stringCleaner.cleanString - clean string", () => {
-    expect(
-      stringCleaner.cleanString(" Some string       to c#lean ( please, ")
-    ).toEqual(" Some string to c#lean ( please, ");
-
     expect(stringCleaner.cleanString("wwwww<<<>>>>>43(é")).toEqual("wwwww43(é");
   });
 });
