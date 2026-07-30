@@ -1,3 +1,10 @@
+## [2.250.25](https://github.com/SocialGouv/domifa/compare/v2.250.24...v2.250.25) (2026-07-30)
+
+
+### Bug Fixes
+
+* **frontend:** fix opening of modals & images for app tour ([bf0ddda](https://github.com/SocialGouv/domifa/commit/bf0ddda5aca3abc8175f0e21561c1f8f232d185f))
+
 ## [2.250.24](https://github.com/SocialGouv/domifa/compare/v2.250.23...v2.250.24) (2026-07-29)
 
 
