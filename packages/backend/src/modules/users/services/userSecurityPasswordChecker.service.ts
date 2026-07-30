@@ -84,7 +84,7 @@ async function checkPasswordImpl<T extends UserStructure | UserSupervisor>({
   await assertStatusActive({ user, userProfile, requestContext });
 
   // No LOGIN_OK intermediate log: the LOGIN_SUCCESS emitted by the
-  // controller after `enforceOrThrow` covers the whole flow.
+  // controller after `requireValidOtp` covers the whole flow.
   const repository = getUserRepository(userProfile);
   await repository.update({ id: user.id }, { lastLogin: new Date() });
 

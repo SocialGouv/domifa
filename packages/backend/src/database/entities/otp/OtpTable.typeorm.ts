@@ -36,9 +36,6 @@ export class OtpTable extends AppTypeormTable<OtpTable> {
   @Column({ type: "text" })
   userType: UserProfile;
 
-  @Column({ type: "integer", default: 0 })
-  resendCount: number;
-
   @Column({ type: "timestamptz", nullable: true })
   usedAt: Date | null;
 }

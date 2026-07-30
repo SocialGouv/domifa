@@ -83,7 +83,7 @@ export class AdminStructuresController {
 
   @Get("export")
   @UseGuards(OtpGuard)
-  @RequireOtp("EXPORT")
+  @RequireOtp("EXPORT_ADMIN_STATS_DEPLOIEMENT")
   public async export(
     @CurrentSupervisor() user: UserAdminAuthenticated,
     @Res() response: ExpressResponse

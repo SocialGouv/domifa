@@ -1,6 +1,10 @@
+import { OtpErrorCode } from "@domifa/common";
+
 export const OTP_PURPOSES = [
   "LOGIN",
-  "EXPORT",
+  "EXPORT_STRUCTURE_USAGERS",
+  "EXPORT_PORTAIL_USAGERS_ACCOUNTS",
+  "EXPORT_ADMIN_STATS_DEPLOIEMENT",
   "RESET_USAGERS",
   "DOWNLOAD_MULTIPLE_DOCS",
   "DELETE_STRUCTURE",
@@ -9,16 +13,6 @@ export const OTP_PURPOSES = [
 ] as const;
 
 export type OtpPurpose = (typeof OTP_PURPOSES)[number];
-
-export type OtpErrorCode =
-  | "OTP_REQUIRED"
-  | "OTP_INVALID"
-  | "OTP_BLOCKED"
-  | "OTP_RESEND_LIMIT";
-
-export interface OtpErrorBody {
-  code: OtpErrorCode;
-}
 
 export interface OtpPromptOptions {
   purpose: OtpPurpose;

@@ -36,7 +36,7 @@ describe("Admins Login Controller", () => {
     // by OtpService.doGenerateOrResend, bypassing recordTestOtpCode and
     // leaving the sink empty for the next priming call. Audit rows are
     // wiped too, otherwise an accumulated FAILED_AUTH stack would trip the
-    // lockout / OTP per-user rate-limit and prevent the mint.
+    // lockout / OTP per-user rate-limit and prevent the OTP from being issued.
     clearTestOtpCodes();
     await otpRepository.delete({ userUuid: ADMIN.uuid });
     await appLogSecurityRepository.delete({ userSupervisorId: ADMIN.id });
@@ -68,7 +68,7 @@ describe("Admins Login Controller", () => {
       });
     expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
     expect(response.body).toEqual({ message: "LOGIN_FAILED" });
-    // Anti-enumeration: bad creds must not mint an OTP for the targeted user.
+    // Anti-enumeration: bad creds must not issue an OTP for the targeted user.
     expect(peekTestOtpCode(ADMIN.uuid)).toBeNull();
   });
 
@@ -80,7 +80,7 @@ describe("Admins Login Controller", () => {
         password: ADMIN.password,
       });
     expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
-    expect(response.body).toEqual({ code: "OTP_REQUIRED" });
+    expect(response.body).toMatchObject({ message: "OTP_REQUIRED" });
     expect(peekTestOtpCode(ADMIN.uuid)).toMatch(/^\d{6}$/);
   });
 
@@ -93,7 +93,7 @@ describe("Admins Login Controller", () => {
         password: ADMIN.password,
       });
     expect(first.status).toBe(HttpStatus.UNAUTHORIZED);
-    expect(first.body).toEqual({ code: "OTP_REQUIRED" });
+    expect(first.body).toMatchObject({ message: "OTP_REQUIRED" });
 
     const otpCode = peekTestOtpCode(ADMIN.uuid);
     expect(otpCode).toMatch(/^\d{6}$/);
@@ -109,7 +109,7 @@ describe("Admins Login Controller", () => {
     expect(second.body.token).toBeDefined();
   });
 
-  it("returns OTP_INVALID when the code does not match the active OTP", async () => {
+  it("returns OTP_CODE_INVALID when the code does not match the active OTP", async () => {
     // Prime an active OTP for this scope.
     await supertest(context.app.getHttpServer()).post(LOGIN_PATH).send({
       email: ADMIN.email,
@@ -124,6 +124,6 @@ describe("Admins Login Controller", () => {
         password: ADMIN.password,
       });
     expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
-    expect(response.body).toEqual({ code: "OTP_INVALID" });
+    expect(response.body).toMatchObject({ message: "OTP_CODE_INVALID" });
   });
 });

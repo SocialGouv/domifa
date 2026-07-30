@@ -15,8 +15,8 @@ type BaseQueryOptions = {
   // Equivalent to `headers: { "otp-code": "<code>" }` but more explicit.
   otpCode?: string;
   // Auto-resolve OTP-protected endpoints. The wrapper runs the request once;
-  // if the response is 401 + `{ code: "OTP_REQUIRED" }`, it reads the
-  // freshly minted code from the test sink (OtpService writes there when
+  // if the response is 401 + `{ message: "OTP_REQUIRED" }`, it reads the
+  // freshly issued code from the test sink (OtpService writes there when
   // envId="test") and replays the request with the `otp-code` header set.
   // Requires `context.user.userUUID` (i.e. an authenticated test context).
   withOtp?: boolean;
@@ -143,7 +143,7 @@ async function runWithOtp(
 }
 
 function isOtpRequired(res: supertest.Response): boolean {
-  return res.status === 401 && res.body?.code === OTP_REQUIRED_CODE;
+  return res.status === 401 && res.body?.message === OTP_REQUIRED_CODE;
 }
 
 function applyHeaders(

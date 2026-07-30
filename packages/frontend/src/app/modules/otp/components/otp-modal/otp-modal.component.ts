@@ -13,8 +13,9 @@ import {
 import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { Subscription } from "rxjs";
+import { OTP_ERROR_LABELS, OtpErrorCode } from "@domifa/common";
 import { OtpPromptService } from "../../services/otp-prompt.service";
-import { OtpErrorCode, OtpPromptOptions } from "../../otp.types";
+import { OtpPromptOptions } from "../../otp.types";
 
 @Component({
   selector: "app-otp-modal",
@@ -43,9 +44,8 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public submitted = false;
   public submitting = false;
-  public errorCode: OtpErrorCode | null = null;
+  public previousErrorCode: OtpErrorCode | null = null;
   public attemptCount = 0;
-  public resendDisabled = false;
   public resendCooldown = 0;
 
   public static readonly MAX_ATTEMPTS = 3;
@@ -81,9 +81,8 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    // Block the native <dialog> Escape behavior. The dialog fires a cancelable
-    // `cancel` event before closing; preventing it keeps the modal open until
-    // the user clicks Annuler.
+    // Block the native <dialog> Escape behavior. Preventing `cancel` keeps
+    // the modal open until the user clicks Annuler.
     const dialog = this.otpModal?.dsfrModal?.nativeElement as
       | HTMLElement
       | undefined;
@@ -124,13 +123,9 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public resend(): void {
-    if (this.resendDisabled || this.submitting || this.resendCooldown > 0) {
+    if (this.submitting || this.resendCooldown > 0) {
       return;
     }
-    // Reset the local form state so the user can type the new code as soon
-    // as it arrives. We don't clear `attemptCount` — wrong-code attempts on
-    // the previous code stay on the lockout meter (matches backend behavior
-    // where `attempts` is not reset across resends).
     this.submitted = false;
     this.codeControl.reset("");
     this.startResendCooldown();
@@ -151,22 +146,15 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public get errorMessage(): string | null {
     if (this.isLocked) {
-      return "Trop de tentatives. Veuillez réessayer plus tard.";
+      return OTP_ERROR_LABELS.OTP_SCOPE_LOCKED;
     }
-    switch (this.errorCode) {
-      case "OTP_INVALID":
-        return "Code incorrect. Veuillez ressaisir le code.";
-      case "OTP_BLOCKED":
-        return "Trop de tentatives. Réessayez dans une heure.";
-      case "OTP_RESEND_LIMIT":
-        return "Limite de renvois atteinte. Veuillez attendre l'expiration du code.";
-      default:
-        return null;
-    }
+    return this.previousErrorCode
+      ? OTP_ERROR_LABELS[this.previousErrorCode]
+      : null;
   }
 
   private openWith(options: OtpPromptOptions): void {
-    if (options.previousErrorCode === "OTP_INVALID") {
+    if (options.previousErrorCode === "OTP_CODE_INVALID") {
       this.attemptCount += 1;
     }
 
@@ -175,17 +163,7 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    // Reset par-saisie : on vide le champ et l'état "submitted" à chaque
-    // (ré)ouverture, y compris entre retries (le compteur d'attempts persiste
-    // lui pendant la session courante, et est remis à 0 par closeQuiet quand
-    // la modale se ferme).
-    this.errorCode = options.previousErrorCode ?? null;
-    // Le backend retourne OTP_RESEND_LIMIT quand on a épuisé les renvois sur
-    // l'OTP actif. À ce stade le seul recours est d'attendre l'expiration
-    // (30 min) ou de valider le dernier code reçu — on grise le bouton.
-    if (options.previousErrorCode === "OTP_RESEND_LIMIT") {
-      this.resendDisabled = true;
-    }
+    this.previousErrorCode = options.previousErrorCode ?? null;
     this.submitted = false;
     this.codeControl.reset("");
     if (!this.isOpen) {
@@ -194,10 +172,8 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
       this.startResendCooldown();
     }
     this.cdr.markForCheck();
-    // DSFR injects a "Fermer" close button at the top of the modal which the
-    // native <dialog> auto-focuses on open. Override that so the user lands
-    // directly on the OTP input — pressing Enter on the close button would
-    // cancel the prompt and trigger a fresh OTP cycle on the next attempt.
+    // DSFR auto-focuses its close button on open; override so Enter validates
+    // the code instead of cancelling the prompt.
     setTimeout(() => this.otpCodeInput?.nativeElement.focus(), 50);
   }
 
@@ -209,15 +185,10 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.resetState();
   }
 
-  // Cleanup complet à la fermeture de session : garantit que la prochaine
-  // ouverture démarre à zéro, sans dépendre du chemin emprunté par le caller
-  // (cancel, blocked, success). Appelé via closeQuiet quand currentPrompt
-  // émet null — pas pendant les retries (updateError ne déclenche pas null).
   private resetState(): void {
     this.attemptCount = 0;
     this.submitted = false;
-    this.errorCode = null;
-    this.resendDisabled = false;
+    this.previousErrorCode = null;
     this.codeControl.reset("");
     this.clearResendTimer();
     this.resendCooldown = 0;

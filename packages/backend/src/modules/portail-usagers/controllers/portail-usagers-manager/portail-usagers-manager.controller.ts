@@ -129,7 +129,7 @@ export class PortailUsagersManagerController {
 
   @Get("export/all-accounts")
   @UseGuards(OtpGuard)
-  @RequireOtp("EXPORT")
+  @RequireOtp("EXPORT_PORTAIL_USAGERS_ACCOUNTS")
   public async exportAccountsToExcel(
     @Res() res: Response,
     @CurrentUser() currentUser: UserStructureAuthenticated

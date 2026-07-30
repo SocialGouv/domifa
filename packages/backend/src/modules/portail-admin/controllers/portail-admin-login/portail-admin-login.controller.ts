@@ -105,7 +105,7 @@ export class PortailAdminLoginController {
         user.id
       );
       const code = readOtpCode(req);
-      await this.otpService.enforceOrThrow(otpContext, code);
+      await this.otpService.requireValidOtp(otpContext, code);
     } catch (err) {
       if (err instanceof HttpException) {
         return res.status(err.getStatus()).json(err.getResponse());

@@ -64,7 +64,7 @@ describe("LoginOtpService", () => {
     findActiveSession: jest.Mock;
     closeActiveSession: jest.Mock;
   };
-  let otpService: { enforceOrThrow: jest.Mock };
+  let otpService: { requireValidOtp: jest.Mock };
 
   beforeEach(async () => {
     jwtService = { verify: jest.fn() };
@@ -72,7 +72,7 @@ describe("LoginOtpService", () => {
       findActiveSession: jest.fn(),
       closeActiveSession: jest.fn().mockResolvedValue(undefined),
     };
-    otpService = { enforceOrThrow: jest.fn() };
+    otpService = { requireValidOtp: jest.fn() };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -103,7 +103,7 @@ describe("LoginOtpService", () => {
       });
 
       expect(result).toEqual({ kind: "trusted", session });
-      expect(otpService.enforceOrThrow).not.toHaveBeenCalled();
+      expect(otpService.requireValidOtp).not.toHaveBeenCalled();
       expect(
         sessionFingerprintService.closeActiveSession
       ).not.toHaveBeenCalled();
@@ -113,8 +113,8 @@ describe("LoginOtpService", () => {
       jwtService.verify.mockImplementation(() => {
         throw new Error("invalid signature");
       });
-      otpService.enforceOrThrow.mockRejectedValue(
-        new HttpException({ code: "OTP_REQUIRED" }, HttpStatus.UNAUTHORIZED)
+      otpService.requireValidOtp.mockRejectedValue(
+        new HttpException({ message: "OTP_REQUIRED" }, HttpStatus.UNAUTHORIZED)
       );
 
       await expect(
@@ -126,7 +126,7 @@ describe("LoginOtpService", () => {
         })
       ).rejects.toMatchObject({
         status: HttpStatus.UNAUTHORIZED,
-        response: { code: "OTP_REQUIRED" },
+        response: { message: "OTP_REQUIRED" },
       });
       // The previous valid session is preserved: it will only be rotated
       // when the new login actually completes (startNewSession on OTP
@@ -140,8 +140,8 @@ describe("LoginOtpService", () => {
       jwtService.verify.mockReturnValue(
         buildTrustPayload({ sub: "something-else" as never })
       );
-      otpService.enforceOrThrow.mockRejectedValue(
-        new HttpException({ code: "OTP_REQUIRED" }, HttpStatus.UNAUTHORIZED)
+      otpService.requireValidOtp.mockRejectedValue(
+        new HttpException({ message: "OTP_REQUIRED" }, HttpStatus.UNAUTHORIZED)
       );
 
       await expect(
@@ -151,14 +151,14 @@ describe("LoginOtpService", () => {
           userAgent: UA,
           trustToken: "tt",
         })
-      ).rejects.toMatchObject({ response: { code: "OTP_REQUIRED" } });
+      ).rejects.toMatchObject({ response: { message: "OTP_REQUIRED" } });
     });
 
     it("falls back to OTP when there is no active session", async () => {
       jwtService.verify.mockReturnValue(buildTrustPayload());
       sessionFingerprintService.findActiveSession.mockResolvedValue(null);
-      otpService.enforceOrThrow.mockRejectedValue(
-        new HttpException({ code: "OTP_REQUIRED" }, HttpStatus.UNAUTHORIZED)
+      otpService.requireValidOtp.mockRejectedValue(
+        new HttpException({ message: "OTP_REQUIRED" }, HttpStatus.UNAUTHORIZED)
       );
 
       await expect(
@@ -168,7 +168,7 @@ describe("LoginOtpService", () => {
           userAgent: UA,
           trustToken: "tt",
         })
-      ).rejects.toMatchObject({ response: { code: "OTP_REQUIRED" } });
+      ).rejects.toMatchObject({ response: { message: "OTP_REQUIRED" } });
     });
 
     it("falls back to OTP when sessionUuid drifted (rotation)", async () => {
@@ -178,8 +178,8 @@ describe("LoginOtpService", () => {
       sessionFingerprintService.findActiveSession.mockResolvedValue(
         buildSession({ uuid: "new-session-uuid" })
       );
-      otpService.enforceOrThrow.mockRejectedValue(
-        new HttpException({ code: "OTP_REQUIRED" }, HttpStatus.UNAUTHORIZED)
+      otpService.requireValidOtp.mockRejectedValue(
+        new HttpException({ message: "OTP_REQUIRED" }, HttpStatus.UNAUTHORIZED)
       );
 
       await expect(
@@ -189,7 +189,7 @@ describe("LoginOtpService", () => {
           userAgent: UA,
           trustToken: "tt",
         })
-      ).rejects.toMatchObject({ response: { code: "OTP_REQUIRED" } });
+      ).rejects.toMatchObject({ response: { message: "OTP_REQUIRED" } });
     });
 
     it("falls back to OTP when the stored fingerprint no longer matches the trust token (session rotated)", async () => {
@@ -197,8 +197,8 @@ describe("LoginOtpService", () => {
       sessionFingerprintService.findActiveSession.mockResolvedValue(
         buildSession({ fingerprintHash: "hash-rotated" })
       );
-      otpService.enforceOrThrow.mockRejectedValue(
-        new HttpException({ code: "OTP_REQUIRED" }, HttpStatus.UNAUTHORIZED)
+      otpService.requireValidOtp.mockRejectedValue(
+        new HttpException({ message: "OTP_REQUIRED" }, HttpStatus.UNAUTHORIZED)
       );
 
       await expect(
@@ -208,7 +208,7 @@ describe("LoginOtpService", () => {
           userAgent: UA,
           trustToken: "tt",
         })
-      ).rejects.toMatchObject({ response: { code: "OTP_REQUIRED" } });
+      ).rejects.toMatchObject({ response: { message: "OTP_REQUIRED" } });
     });
 
     it("returns trusted regardless of current IP/UA — fingerprint is treated as an opaque token", async () => {
@@ -227,13 +227,13 @@ describe("LoginOtpService", () => {
       });
 
       expect(result).toEqual({ kind: "trusted", session });
-      expect(otpService.enforceOrThrow).not.toHaveBeenCalled();
+      expect(otpService.requireValidOtp).not.toHaveBeenCalled();
     });
   });
 
   describe("otp code path", () => {
     it("returns otp_validated when otpService accepts the code", async () => {
-      otpService.enforceOrThrow.mockResolvedValue(undefined);
+      otpService.requireValidOtp.mockResolvedValue(undefined);
 
       const result = await service.evaluate({
         user: USER,
@@ -243,8 +243,8 @@ describe("LoginOtpService", () => {
       });
 
       expect(result).toEqual({ kind: "otp_validated" });
-      expect(otpService.enforceOrThrow).toHaveBeenCalledTimes(1);
-      expect(otpService.enforceOrThrow.mock.calls[0][1]).toBe("123456");
+      expect(otpService.requireValidOtp).toHaveBeenCalledTimes(1);
+      expect(otpService.requireValidOtp.mock.calls[0][1]).toBe("123456");
       // OTP-validated path does NOT close the session (rotation happens
       // through StructuresAuthService.login → startNewSession).
       expect(
@@ -252,9 +252,12 @@ describe("LoginOtpService", () => {
       ).not.toHaveBeenCalled();
     });
 
-    it("propagates OTP_INVALID from otpService", async () => {
-      otpService.enforceOrThrow.mockRejectedValue(
-        new HttpException({ code: "OTP_INVALID" }, HttpStatus.UNAUTHORIZED)
+    it("propagates OTP_CODE_INVALID from otpService", async () => {
+      otpService.requireValidOtp.mockRejectedValue(
+        new HttpException(
+          { message: "OTP_CODE_INVALID" },
+          HttpStatus.UNAUTHORIZED
+        )
       );
 
       await expect(
@@ -264,19 +267,19 @@ describe("LoginOtpService", () => {
           userAgent: UA,
           otpCode: "000000",
         })
-      ).rejects.toMatchObject({ response: { code: "OTP_INVALID" } });
+      ).rejects.toMatchObject({ response: { message: "OTP_CODE_INVALID" } });
     });
   });
 
   describe("no token + no code", () => {
     it("asks otpService to send a code, throws OTP_REQUIRED, and keeps the current session alive", async () => {
-      otpService.enforceOrThrow.mockRejectedValue(
-        new HttpException({ code: "OTP_REQUIRED" }, HttpStatus.UNAUTHORIZED)
+      otpService.requireValidOtp.mockRejectedValue(
+        new HttpException({ message: "OTP_REQUIRED" }, HttpStatus.UNAUTHORIZED)
       );
 
       await expect(
         service.evaluate({ user: USER, ip: IP, userAgent: UA })
-      ).rejects.toMatchObject({ response: { code: "OTP_REQUIRED" } });
+      ).rejects.toMatchObject({ response: { message: "OTP_REQUIRED" } });
 
       // The active session is preserved during the OTP cycle: rotation is
       // deferred to startNewSession once OTP is validated (with reason
@@ -285,73 +288,8 @@ describe("LoginOtpService", () => {
       expect(
         sessionFingerprintService.closeActiveSession
       ).not.toHaveBeenCalled();
-      // enforceOrThrow called with null → generate+send path.
-      expect(otpService.enforceOrThrow.mock.calls[0][1]).toBeNull();
-    });
-  });
-
-  describe("forceResend", () => {
-    it("calls enforceOrThrow with forceResend=true and does NOT close the session", async () => {
-      otpService.enforceOrThrow.mockRejectedValue(
-        new HttpException({ code: "OTP_REQUIRED" }, HttpStatus.UNAUTHORIZED)
-      );
-
-      await expect(
-        service.evaluate({
-          user: USER,
-          ip: IP,
-          userAgent: UA,
-          forceResend: true,
-        })
-      ).rejects.toMatchObject({ response: { code: "OTP_REQUIRED" } });
-
-      expect(otpService.enforceOrThrow).toHaveBeenCalledTimes(1);
-      expect(otpService.enforceOrThrow.mock.calls[0][1]).toBeNull();
-      expect(otpService.enforceOrThrow.mock.calls[0][2]).toEqual({
-        forceResend: true,
-      });
-      // Resend does not touch the active session — rotation only happens
-      // on OTP success via startNewSession.
-      expect(
-        sessionFingerprintService.closeActiveSession
-      ).not.toHaveBeenCalled();
-    });
-
-    it("propagates OTP_RESEND_LIMIT from otpService", async () => {
-      otpService.enforceOrThrow.mockRejectedValue(
-        new HttpException(
-          { code: "OTP_RESEND_LIMIT" },
-          HttpStatus.TOO_MANY_REQUESTS
-        )
-      );
-
-      await expect(
-        service.evaluate({
-          user: USER,
-          ip: IP,
-          userAgent: UA,
-          forceResend: true,
-        })
-      ).rejects.toMatchObject({ response: { code: "OTP_RESEND_LIMIT" } });
-    });
-
-    it("ignores trustToken when forceResend is set", async () => {
-      otpService.enforceOrThrow.mockRejectedValue(
-        new HttpException({ code: "OTP_REQUIRED" }, HttpStatus.UNAUTHORIZED)
-      );
-
-      await expect(
-        service.evaluate({
-          user: USER,
-          ip: IP,
-          userAgent: UA,
-          trustToken: "any-token",
-          forceResend: true,
-        })
-      ).rejects.toMatchObject({ response: { code: "OTP_REQUIRED" } });
-
-      // No trust verification on the resend path — straight to OTP mint.
-      expect(jwtService.verify).not.toHaveBeenCalled();
+      // requireValidOtp called with null → generate+send path.
+      expect(otpService.requireValidOtp.mock.calls[0][1]).toBeNull();
     });
   });
 });

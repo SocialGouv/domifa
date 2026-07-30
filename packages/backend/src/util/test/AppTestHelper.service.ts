@@ -315,13 +315,13 @@ async function authenticateSupervisor(
   const { app } = context;
   expectAppToBeDefined(app);
 
-  // Supervisor login is OTP-gated: the first call mints the code and returns
+  // Supervisor login is OTP-gated: the first call issues the code and returns
   // 401 OTP_REQUIRED, then we replay with the captured code from the test
   // sink to obtain the JWT. A leftover active OTP from a previous suite would
   // be silently reused by OtpService — bypassing recordTestOtpCode — so we
   // wipe any prior OTP for this user before priming. Same goes for the
   // security audit rows: a leftover FAILED_AUTH / OTP_REQUESTED stack would
-  // trip the per-user rate-limit and prevent a fresh OTP from being minted.
+  // trip the per-user rate-limit and prevent a fresh OTP from being issued.
   await otpRepository.delete({ userUuid: authInfo.uuid });
   await clearSecurityEventsForUser({
     column: "userSupervisorId",
@@ -335,7 +335,7 @@ async function authenticateSupervisor(
       password: authInfo.password,
     });
   expect(primer.status).toBe(HttpStatus.UNAUTHORIZED);
-  expect(primer.body).toEqual({ code: "OTP_REQUIRED" });
+  expect(primer.body).toMatchObject({ message: "OTP_REQUIRED" });
 
   const otpCode = peekTestOtpCode(authInfo.uuid);
   if (!otpCode) {

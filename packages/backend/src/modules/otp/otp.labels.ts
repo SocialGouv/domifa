@@ -6,7 +6,11 @@ export const OTP_ACTION_MOTIF_LABELS: Record<
   Exclude<OtpPurpose, "LOGIN">,
   string
 > = {
-  EXPORT: "Export des usagers",
+  EXPORT_STRUCTURE_USAGERS: "Export des usagers de la structure",
+  EXPORT_PORTAIL_USAGERS_ACCOUNTS:
+    "Export des comptes du portail bénéficiaires",
+  EXPORT_ADMIN_STATS_DEPLOIEMENT:
+    "Export des statistiques de déploiement DomiFa",
   RESET_USAGERS: "Réinitialisation des usagers",
   DOWNLOAD_MULTIPLE_DOCS: "Téléchargement de documents",
   DELETE_STRUCTURE: "Suppression de la structure",

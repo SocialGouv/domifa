@@ -1,6 +1,6 @@
 // Test sink: in envId="test", SMTP is short-circuited (we never want the
 // suite to talk to a real mail server). Without a way to surface the
-// freshly minted plaintext OTP back to test infra, any OtpGuard-protected
+// freshly issued plaintext OTP back to test infra, any OtpGuard-protected
 // endpoint is untestable end-to-end. OtpService tees the code into this
 // map ONLY when envId="test"; prod paths never touch it, so the prod
 // attack surface is unchanged. Consumed by AppTestHttpClient to replay

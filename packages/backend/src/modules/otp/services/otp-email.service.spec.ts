@@ -176,7 +176,7 @@ describe("OtpEmailService", () => {
         email: BREVO_ONLY_EMAIL,
         prenom: "Alice",
         code: "123456",
-        purpose: "EXPORT",
+        purpose: "EXPORT_STRUCTURE_USAGERS",
       });
 
       expect(mockBrevoSendEmailWithTemplate).toHaveBeenCalledTimes(1);
@@ -186,7 +186,7 @@ describe("OtpEmailService", () => {
       expect(brevoArgs.params).toEqual({
         code: "123456",
         prenom: "Alice",
-        motif: "Export des usagers",
+        motif: "Export des usagers de la structure",
       });
     });
 

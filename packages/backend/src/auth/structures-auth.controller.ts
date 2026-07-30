@@ -27,10 +27,7 @@ import { CurrentUser } from "./decorators/current-user.decorator";
 import { AppUserGuard } from "./guards/AppUserGuard.guard";
 import { LoginOtpService } from "./services/login-otp.service";
 import { StructuresAuthService } from "./services/structures-auth.service";
-import {
-  readOtpCode,
-  readOtpResendFlag,
-} from "../modules/otp/guards/otp.guard";
+import { readOtpCode } from "../modules/otp/guards/otp.guard";
 import { ExpiredTokenTable, expiredTokenRepositiory } from "../database";
 import { domifaConfig } from "../config";
 import { userSecurityPasswordChecker } from "../modules/users/services";
@@ -142,7 +139,6 @@ export class StructuresAuthController {
         // Otp-Code header — read it server-side via the same helper as
         // OtpGuard so a malformed payload is treated as "no code".
         otpCode: readOtpCode(req) ?? undefined,
-        forceResend: readOtpResendFlag(req),
       });
 
       const { access_token, trustToken } =
@@ -164,9 +160,9 @@ export class StructuresAuthController {
       res.cookie(TRUST_COOKIE_NAME, trustToken, trustCookieOptions());
       return res.status(HttpStatus.OK).json({ access_token });
     } catch (err) {
-      // OTP_REQUIRED / OTP_INVALID / OTP_BLOCKED are HttpExceptions raised by
-      // LoginOtpService/OtpService. Re-throw as-is so Nest preserves their
-      // status code and `{ code }` payload — the front discriminates on it.
+      // OTP errors are HttpExceptions raised by LoginOtpService/OtpService
+      // with an ApiMessage body. Re-throw as-is; the front discriminates
+      // on `message` (an OtpErrorCode).
       if (err instanceof HttpException) {
         throw err;
       }
