@@ -1,3 +1,12 @@
+## [2.250.26](https://github.com/SocialGouv/domifa/compare/v2.250.25...v2.250.26) (2026-07-30)
+
+
+### Bug Fixes
+
+* **backend:** upgrade pizzip ([1223db1](https://github.com/SocialGouv/domifa/commit/1223db15834e76b3512b8a5b5192e3cc92312ad3))
+* **common:** update to node 22 ([9173efa](https://github.com/SocialGouv/domifa/commit/9173efa931f69b81c123973e3b2971202c33d8d2))
+* **frontend, portail-usagers, portail-admins:** copy angular 20 browser output to nginx root ([1526226](https://github.com/SocialGouv/domifa/commit/152622695b7a13e3b068b14a219d99a150229cde))
+
 ## [2.250.25](https://github.com/SocialGouv/domifa/compare/v2.250.24...v2.250.25) (2026-07-30)
 
 
