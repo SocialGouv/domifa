@@ -1,7 +1,10 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { OtpErrorCode } from "@domifa/common";
-import { OtpPromptOptions, OtpPromptResult } from "../otp.types";
+import {
+  OtpErrorCode,
+  OtpPromptOptions,
+  OtpPromptResult,
+} from "@domifa/common";
 
 @Injectable({ providedIn: "root" })
 export class OtpPromptService {
@@ -50,6 +53,10 @@ export class OtpPromptService {
     this.results?.next({ kind: "submit", code });
   }
 
+  public resend(): void {
+    this.results?.next({ kind: "resend" });
+  }
+
   public cancel(): void {
     this.closeWith({ kind: "cancel" });
   }
@@ -58,9 +65,6 @@ export class OtpPromptService {
     this.closeWith({ kind: "blocked" });
   }
 
-  // Called by the interceptor when the retried request succeeds or fails with
-  // a non-retryable error. The modal closes; any pending consumer of the
-  // observable completes.
   public closeSuccess(): void {
     this.submittingSubject.next(false);
     this.currentPrompt.next(null);

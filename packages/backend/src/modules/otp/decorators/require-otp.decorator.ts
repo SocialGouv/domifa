@@ -1,5 +1,5 @@
 import { SetMetadata } from "@nestjs/common";
-import { OtpPurpose } from "../otp.types";
+import { OtpPurpose } from "@domifa/common";
 
 export const OTP_PURPOSE_METADATA_KEY = "otp:purpose";
 

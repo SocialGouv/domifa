@@ -1,9 +1,10 @@
-import { OtpPurpose } from "./otp.types";
+import { OtpPurpose } from "@domifa/common";
 
 // Brevo template param `motif` for the OTP confirmation email: shows the user
-// in plain French what they are about to confirm. Not used for LOGIN.
+// in plain French what they are about to confirm. Not emitted for LOGIN, and
+// not emitted for the legacy "EXPORT" purpose (replaced by EXPORT_* variants).
 export const OTP_ACTION_MOTIF_LABELS: Record<
-  Exclude<OtpPurpose, "LOGIN">,
+  Exclude<OtpPurpose, "LOGIN" | "EXPORT">,
   string
 > = {
   EXPORT_STRUCTURE_USAGERS: "Export des usagers de la structure",

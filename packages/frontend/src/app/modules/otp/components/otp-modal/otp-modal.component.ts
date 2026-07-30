@@ -13,9 +13,12 @@ import {
 import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { Subscription } from "rxjs";
-import { OTP_ERROR_LABELS, OtpErrorCode } from "@domifa/common";
+import {
+  OTP_ERROR_LABELS,
+  OtpErrorCode,
+  OtpPromptOptions,
+} from "@domifa/common";
 import { OtpPromptService } from "../../services/otp-prompt.service";
-import { OtpPromptOptions } from "../../otp.types";
 
 @Component({
   selector: "app-otp-modal",

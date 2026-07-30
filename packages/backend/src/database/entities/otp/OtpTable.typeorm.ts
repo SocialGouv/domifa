@@ -1,6 +1,6 @@
 import { Column, Entity, Index } from "typeorm";
+import { OtpPurpose } from "@domifa/common";
 import { UserProfile } from "../../../_common/model";
-import { OtpPurpose } from "../../../modules/otp/otp.types";
 import { AppTypeormTable } from "../_core/AppTypeormTable.typeorm";
 
 @Entity({ name: "otp" })

@@ -13,6 +13,7 @@ import { catchError, finalize, switchMap, tap } from "rxjs/operators";
 import {
   ApiMessage,
   isOtpErrorCode,
+  isOtpLockoutError,
   OTP_ERROR_LABELS,
   OtpErrorCode,
 } from "@domifa/common";
@@ -43,7 +44,7 @@ export class OtpInterceptor implements HttpInterceptor {
             if (!code) {
               return throwError(() => normalized);
             }
-            if (isTerminal(code)) {
+            if (isOtpLockoutError(code)) {
               return this.failTerminal(code);
             }
             return this.promptAndRetry(request, next, code);
@@ -155,7 +156,7 @@ export class OtpInterceptor implements HttpInterceptor {
               this.promptService.closeSuccess();
               return throwError(() => normalized);
             }
-            if (isTerminal(code)) {
+            if (isOtpLockoutError(code)) {
               this.promptService.closeSuccess();
               return this.failTerminal(code);
             }
@@ -203,7 +204,7 @@ export class OtpInterceptor implements HttpInterceptor {
               this.promptService.closeSuccess();
               return throwError(() => normalized);
             }
-            if (isTerminal(otpCode)) {
+            if (isOtpLockoutError(otpCode)) {
               this.promptService.closeSuccess();
               return this.failTerminal(otpCode);
             }
@@ -216,9 +217,4 @@ export class OtpInterceptor implements HttpInterceptor {
       })
     );
   }
-}
-
-// Terminal = user can't recover in this modal (must wait / re-trigger).
-function isTerminal(code: OtpErrorCode): boolean {
-  return code === "OTP_SCOPE_LOCKED" || code === "OTP_USER_RATE_LIMITED";
 }
