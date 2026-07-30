@@ -1,8 +1,8 @@
 import { MoreThanOrEqual } from "typeorm";
 
+import { OtpPurpose } from "@domifa/common";
 import { myDataSource } from "..";
 import { UserProfile } from "../../../_common/model";
-import { OtpPurpose } from "../../../modules/otp/otp.types";
 import { OtpTable } from "../../entities/otp/OtpTable.typeorm";
 
 export interface OtpKey {

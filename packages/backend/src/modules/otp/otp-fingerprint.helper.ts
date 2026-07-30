@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 
-import { AuthenticatedOtpUser, OtpPurpose } from "./otp.types";
+import { OtpPurpose } from "@domifa/common";
+import { AuthenticatedOtpUser } from "./otp.types";
 
 // Stable hash scoping OTP entries to (user, purpose, url). IP and User-Agent
 // are intentionally NOT included: they're already enforced by the session

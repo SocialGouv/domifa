@@ -1,0 +1,7 @@
+export const OTP_ERROR_CODES = [
+  "OTP_REQUIRED",
+  "OTP_CODE_INVALID",
+  "OTP_CODE_EXPIRED",
+  "OTP_SCOPE_LOCKED",
+  "OTP_USER_RATE_LIMITED",
+] as const;

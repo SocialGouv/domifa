@@ -9,14 +9,11 @@ import { Reflector } from "@nestjs/core";
 import { Request } from "express";
 import validator from "validator";
 
+import { OtpPurpose } from "@domifa/common";
 import { OTP_PURPOSE_METADATA_KEY } from "../decorators/require-otp.decorator";
 import { OTP_CODE_HEADER } from "../otp.constants";
 import { computeOtpFingerprint } from "../otp-fingerprint.helper";
-import {
-  AuthenticatedOtpUser,
-  OtpPurpose,
-  OtpRequestContext,
-} from "../otp.types";
+import { AuthenticatedOtpUser, OtpRequestContext } from "../otp.types";
 import { OtpService } from "../services/otp.service";
 import { getClientIp, getClientUserAgent } from "../../../util/express";
 

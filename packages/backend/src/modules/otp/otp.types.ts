@@ -1,20 +1,5 @@
+import { OtpPurpose } from "@domifa/common";
 import { UserProfile } from "../../_common/model";
-
-export const OTP_PURPOSES = [
-  "LOGIN",
-  "EXPORT_STRUCTURE_USAGERS",
-  "EXPORT_PORTAIL_USAGERS_ACCOUNTS",
-  "EXPORT_ADMIN_STATS_DEPLOIEMENT",
-  "RESET_USAGERS",
-  "DOWNLOAD_MULTIPLE_DOCS",
-  "DELETE_STRUCTURE",
-  "UNBLOCK_USER",
-  "BLOCK_USER_BY_ADMIN",
-  "DELETE_USER_BY_ADMIN",
-  "UNBLOCK_BREVO_CONTACT",
-] as const;
-
-export type OtpPurpose = (typeof OTP_PURPOSES)[number];
 
 export interface AuthenticatedOtpUser {
   uuid: string;

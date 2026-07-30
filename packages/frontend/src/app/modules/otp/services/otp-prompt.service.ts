@@ -1,7 +1,10 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { OtpErrorCode } from "@domifa/common";
-import { OtpPromptOptions, OtpPromptResult } from "../otp.types";
+import {
+  OtpErrorCode,
+  OtpPromptOptions,
+  OtpPromptResult,
+} from "@domifa/common";
 
 @Injectable({ providedIn: "root" })
 export class OtpPromptService {
