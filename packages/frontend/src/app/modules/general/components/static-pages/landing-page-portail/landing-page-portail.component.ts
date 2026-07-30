@@ -1,6 +1,7 @@
 import { Component, input, output } from "@angular/core";
 import { fadeIn } from "../../../../../shared";
 import { MatomoTracker } from "ngx-matomo-client";
+import { SharedModule } from "src/app/modules/shared/shared.module";
 
 @Component({
   animations: [fadeIn],
@@ -8,6 +9,7 @@ import { MatomoTracker } from "ngx-matomo-client";
   standalone: true,
   templateUrl: "./landing-page-portail.component.html",
   styleUrls: ["./landing-page-portail.component.scss"],
+  imports: [SharedModule],
 })
 export class LandingPagePortailComponent {
   public isLandingPage = input(true);
@@ -15,4 +17,6 @@ export class LandingPagePortailComponent {
   public activatePortail = output<void>();
 
   constructor(protected readonly matomo: MatomoTracker) {}
+
+  downloadMyDomifaPosters() {}
 }

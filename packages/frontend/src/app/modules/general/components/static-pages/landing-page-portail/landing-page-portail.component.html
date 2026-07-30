@@ -50,6 +50,26 @@
         Découvrez le portail Mon DomiFa et activez-le pour les domiciliés !
       </h2>
     </div>
+    <div class="fr-grid-row">
+      <div class="fr-col-12 fr-col-md-8 fr-col-lg-10">
+        <h6>Affiches de connexion Mon Domifa disponibles</h6>
+        <p>
+          Vous pouvez télécharger les affiches de connexion à
+          <b>Mon Domifa</b> et les mettre en place au sein de votre structure
+          afin de permettre aux usagers d'accéder à leur espace personnel.
+        </p>
+      </div>
+      <div class="fr-col-12 fr-col-md-4 fr-col-lg-2 fr-btns-group--right">
+        <app-button
+          (action)="downloadMyDomifaPosters()"
+          ariaLabel="Télécharger les affiches Mon Domifa"
+          label="Affiches Mon Domifa"
+          icon="download"
+          color="secondary"
+          customClass="fr-mr-1w"
+        ></app-button>
+      </div>
+    </div>
     <div
       class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-my-4w"
       @fadeIn
