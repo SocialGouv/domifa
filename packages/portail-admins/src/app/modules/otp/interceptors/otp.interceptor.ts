@@ -45,7 +45,7 @@ export class OtpInterceptor implements HttpInterceptor {
               return throwError(() => normalized);
             }
             if (isOtpLockoutError(code)) {
-              return this.failTerminal(code);
+              return this.showErrorAndAbort(code);
             }
             return this.promptAndRetry(request, next, code);
           })
@@ -54,7 +54,7 @@ export class OtpInterceptor implements HttpInterceptor {
     );
   }
 
-  private failTerminal(code: OtpErrorCode): Observable<never> {
+  private showErrorAndAbort(code: OtpErrorCode): Observable<never> {
     this.toastr.error(OTP_ERROR_LABELS[code]);
     return throwError(
       () =>
@@ -120,7 +120,7 @@ export class OtpInterceptor implements HttpInterceptor {
             );
           }
           if (result.kind === "blocked") {
-            return this.failTerminal("OTP_SCOPE_LOCKED");
+            return this.showErrorAndAbort("OTP_SCOPE_LOCKED");
           }
           if (result.kind === "resend") {
             return this.fireResend(request, next);
@@ -141,36 +141,14 @@ export class OtpInterceptor implements HttpInterceptor {
     const retried = request.clone({
       headers: request.headers.delete(OTP_CODE_HEADER),
     });
-    this.promptService.setSubmitting(true);
-    return next.handle(retried).pipe(
-      finalize(() => this.promptService.setSubmitting(false)),
-      catchError((error: unknown) => {
-        if (!(error instanceof HttpErrorResponse)) {
-          this.promptService.closeSuccess();
-          return throwError(() => error);
-        }
-        return from(this.normalizeError(error)).pipe(
-          switchMap((normalized) => {
-            const code = this.extractOtpErrorCode(normalized);
-            if (!code) {
-              this.promptService.closeSuccess();
-              return throwError(() => normalized);
-            }
-            if (isOtpLockoutError(code)) {
-              this.promptService.closeSuccess();
-              return this.failTerminal(code);
-            }
-            // OTP_REQUIRED here means the code was (re)issued: clear any
-            // prior error so the modal shows a fresh state.
-            this.promptService.updateError(code);
-            this.toastr.success(
-              "Si votre code précédent a expiré, un nouveau vient de vous être envoyé."
-            );
-            return EMPTY;
-          })
+    return this.runOtpRetry(retried, next, {
+      onRecoverable: (code) => {
+        this.promptService.updateError(code);
+        this.toastr.success(
+          "Si votre code précédent a expiré, un nouveau vient de vous être envoyé."
         );
-      })
-    );
+      },
+    });
   }
 
   private fireSubmit(
@@ -181,39 +159,60 @@ export class OtpInterceptor implements HttpInterceptor {
     const retried = request.clone({
       setHeaders: { [OTP_CODE_HEADER]: code },
     });
+    return this.runOtpRetry(retried, next, {
+      onSuccess: () => {
+        this.promptService.closeSuccess();
+        this.toastr.success("Code validé");
+      },
+      onRecoverable: (otpCode) => this.promptService.updateError(otpCode),
+    });
+  }
+
+  private runOtpRetry(
+    retried: HttpRequest<any>,
+    next: HttpHandler,
+    hooks: {
+      onSuccess?: () => void;
+      onRecoverable: (code: OtpErrorCode) => void;
+    }
+  ): Observable<HttpEvent<any>> {
     this.promptService.setSubmitting(true);
     return next.handle(retried).pipe(
       finalize(() => this.promptService.setSubmitting(false)),
       tap({
         next: (event) => {
           if (event.type === HttpEventType.Response) {
-            this.promptService.closeSuccess();
-            this.toastr.success("Code validé");
+            hooks.onSuccess?.();
           }
         },
       }),
-      catchError((error: unknown) => {
-        if (!(error instanceof HttpErrorResponse)) {
+      catchError((error: unknown) =>
+        this.handleRetryError(error, hooks.onRecoverable)
+      )
+    );
+  }
+
+  private handleRetryError(
+    error: unknown,
+    onRecoverable: (code: OtpErrorCode) => void
+  ): Observable<HttpEvent<any>> {
+    if (!(error instanceof HttpErrorResponse)) {
+      this.promptService.closeSuccess();
+      return throwError(() => error);
+    }
+    return from(this.normalizeError(error)).pipe(
+      switchMap((normalized) => {
+        const code = this.extractOtpErrorCode(normalized);
+        if (!code) {
           this.promptService.closeSuccess();
-          return throwError(() => error);
+          return throwError(() => normalized);
         }
-        return from(this.normalizeError(error)).pipe(
-          switchMap((normalized) => {
-            const otpCode = this.extractOtpErrorCode(normalized);
-            if (!otpCode) {
-              this.promptService.closeSuccess();
-              return throwError(() => normalized);
-            }
-            if (isOtpLockoutError(otpCode)) {
-              this.promptService.closeSuccess();
-              return this.failTerminal(otpCode);
-            }
-            // Recoverable (OTP_CODE_INVALID / OTP_CODE_EXPIRED / OTP_REQUIRED):
-            // keep the modal open, show the server-supplied code.
-            this.promptService.updateError(otpCode);
-            return EMPTY;
-          })
-        );
+        if (isOtpLockoutError(code)) {
+          this.promptService.closeSuccess();
+          return this.showErrorAndAbort(code);
+        }
+        onRecoverable(code);
+        return EMPTY;
       })
     );
   }
