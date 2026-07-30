@@ -51,7 +51,7 @@
       </h2>
     </div>
     <div class="fr-grid-row">
-      <div class="fr-col-12 fr-col-md-8 fr-col-lg-10">
+      <div class="fr-col-12 fr-col-md-8 fr-col-lg-9">
         <h6>Affiches de connexion Mon Domifa disponibles</h6>
         <p>
           Vous pouvez télécharger les affiches de connexion à
@@ -59,15 +59,50 @@
           afin de permettre aux usagers d'accéder à leur espace personnel.
         </p>
       </div>
-      <div class="fr-col-12 fr-col-md-4 fr-col-lg-2 fr-btns-group--right">
-        <app-button
-          (action)="downloadMyDomifaPosters()"
-          ariaLabel="Télécharger les affiches Mon Domifa"
-          label="Affiches Mon Domifa"
-          icon="download"
-          color="secondary"
-          customClass="fr-mr-1w"
-        ></app-button>
+      <div class="fr-col-12 fr-col-md-4 fr-col-lg-3 flex fr-grid-row">
+        <div class="fr-ml-auto">
+          <dsfrx-dropdownmenu
+            [labelMenu]="'Affiches Mon Domifa'"
+            appendTo="body"
+            [closeOnAction]="true"
+          >
+            <ng-template #contentTemplate>
+              <dsfrx-dropdownmenu-item>
+                <div>
+                  <a
+                    title="Télécharger l'affiche explicatif de la connexion à Mon Domifa en français"
+                    href="/assets/files/mon_domifa_login_Francais.pdf"
+                    download
+                  >
+                    Affiche Mon Domifa en français
+                  </a>
+                </div>
+              </dsfrx-dropdownmenu-item>
+              <dsfrx-dropdownmenu-item>
+                <div>
+                  <a
+                    title="Télécharger l'affiche explicatif de la connexion à Mon Domifa en anglais"
+                    href="/assets/files/mon_domifa_login_Anglais.pdf"
+                    download
+                  >
+                    Affiche Mon Domifa en anglais
+                  </a>
+                </div>
+              </dsfrx-dropdownmenu-item>
+              <dsfrx-dropdownmenu-item>
+                <div>
+                  <a
+                    title="Télécharger l'affiche explicatif de la connexion à Mon Domifa en arabe"
+                    href="/assets/files/mon_domifa_login_Arabe.pdf"
+                    download
+                  >
+                    Affiche Mon Domifa en arabe
+                  </a>
+                </div>
+              </dsfrx-dropdownmenu-item>
+            </ng-template>
+          </dsfrx-dropdownmenu>
+        </div>
       </div>
     </div>
     <div
