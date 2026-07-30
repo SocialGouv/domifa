@@ -82,7 +82,7 @@ export class ExportStructureUsagersController {
 
   @Get(":statut")
   @UseGuards(OtpGuard)
-  @RequireOtp("EXPORT")
+  @RequireOtp("EXPORT_STRUCTURE_USAGERS")
   public async export(
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response,

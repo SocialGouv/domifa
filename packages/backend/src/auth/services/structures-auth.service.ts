@@ -122,7 +122,7 @@ export class StructuresAuthService {
   }
 
   // Deterministic trust JWT: `iat` and `exp` are pinned on the session's
-  // `createdAt` (which only changes when a fresh session is minted after
+  // `createdAt` (which only changes when a fresh session is created after
   // an OTP validation). Same payload + same HMAC key = byte-identical JWT
   // across every trusted-path login, so the client's stored trust token is
   // never rotated except at OTP time. Prevents the sliding-window effect

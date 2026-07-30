@@ -10,9 +10,9 @@ import {
 import { UsagersModule } from "../../usagers.module";
 import { ExportStructureUsagersController } from "../export-structure-usagers.controller";
 
-// `/export/:statut` is OtpGuard-protected (@RequireOtp("EXPORT")). Two-pass
+// `/export/:statut` is OtpGuard-protected (@RequireOtp("EXPORT_STRUCTURE_USAGERS")). Two-pass
 // flow per endpoint:
-//   1. First call → no `otp-code` header → guard mints+stores an OTP and
+//   1. First call → no `otp-code` header → guard issues+stores an OTP and
 //      replies 401 OTP_REQUIRED. The plaintext code is captured by
 //      otp-test-sink (envId="test"-only side channel from OtpService).
 //   2. Second call → `otp-code` header from the sink → guard claims the
@@ -56,7 +56,7 @@ describe("ExportStructureUsagersController", () => {
       });
 
       expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
-      expect(response.body).toEqual({ code: "OTP_REQUIRED" });
+      expect(response.body).toMatchObject({ message: "OTP_REQUIRED" });
     });
 
     it("returns the xlsx export when the OTP code is replayed", async () => {

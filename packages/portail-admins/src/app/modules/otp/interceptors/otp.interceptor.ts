@@ -10,14 +10,16 @@ import {
 import { Injectable } from "@angular/core";
 import { EMPTY, from, Observable, throwError } from "rxjs";
 import { catchError, finalize, switchMap, tap } from "rxjs/operators";
+import {
+  ApiMessage,
+  isOtpErrorCode,
+  OTP_ERROR_LABELS,
+  OtpErrorCode,
+} from "@domifa/common";
 import { OtpPromptService } from "../services/otp-prompt.service";
-import { OtpErrorBody, OtpErrorCode } from "../otp.types";
 import { CustomToastService } from "../../shared/services/custom-toast.service";
 
 const OTP_CODE_HEADER = "Otp-Code";
-
-const OTP_BLOCKED_TOAST =
-  "Le code n'a pas pu être validé. Veuillez réessayer plus tard et demander un nouveau code.";
 
 @Injectable()
 export class OtpInterceptor implements HttpInterceptor {
@@ -37,12 +39,12 @@ export class OtpInterceptor implements HttpInterceptor {
         }
         return from(this.normalizeError(error)).pipe(
           switchMap((normalized) => {
-            const code = this.extractOtpCode(normalized);
+            const code = this.extractOtpErrorCode(normalized);
             if (!code) {
               return throwError(() => normalized);
             }
-            if (code === "OTP_BLOCKED" || code === "OTP_RESEND_LIMIT") {
-              return this.failBlocked();
+            if (isTerminal(code)) {
+              return this.failTerminal(code);
             }
             return this.promptAndRetry(request, next, code);
           })
@@ -51,34 +53,25 @@ export class OtpInterceptor implements HttpInterceptor {
     );
   }
 
-  private failBlocked(): Observable<never> {
-    this.toastr.error(OTP_BLOCKED_TOAST);
+  private failTerminal(code: OtpErrorCode): Observable<never> {
+    this.toastr.error(OTP_ERROR_LABELS[code]);
     return throwError(
       () =>
         new HttpErrorResponse({
           status: 400,
-          error: { code: "OTP_FAILED" },
+          error: { message: "OTP_FAILED" },
         })
     );
   }
 
-  private extractOtpCode(error: HttpErrorResponse): OtpErrorCode | null {
+  private extractOtpErrorCode(error: HttpErrorResponse): OtpErrorCode | null {
     if (error.status !== 401 && error.status !== 429) return null;
-    const body = error.error as OtpErrorBody | undefined;
-    const code = body?.code;
-    if (
-      code === "OTP_REQUIRED" ||
-      code === "OTP_INVALID" ||
-      code === "OTP_BLOCKED" ||
-      code === "OTP_RESEND_LIMIT"
-    ) {
-      return code;
-    }
-    return null;
+    const body = error.error as ApiMessage | undefined;
+    return isOtpErrorCode(body?.message) ? body.message : null;
   }
 
   // Requests with `responseType: 'blob'` surface error bodies as a Blob. Parse
-  // it as JSON so `extractOtpCode` can read `{ code: ... }` consistently across
+  // it as JSON so `extractOtpErrorCode` can read `{ message }` consistently across
   // export downloads and regular API calls.
   private async normalizeError(
     error: HttpErrorResponse
@@ -122,12 +115,12 @@ export class OtpInterceptor implements HttpInterceptor {
               () =>
                 new HttpErrorResponse({
                   status: 400,
-                  error: { code: "OTP_CANCELLED" },
+                  error: { message: "OTP_CANCELLED" },
                 })
             );
           }
           if (result.kind === "blocked") {
-            return this.failBlocked();
+            return this.failTerminal("OTP_SCOPE_LOCKED");
           }
           const retried = request.clone({
             setHeaders: { [OTP_CODE_HEADER]: result.code },
@@ -150,21 +143,19 @@ export class OtpInterceptor implements HttpInterceptor {
               }
               return from(this.normalizeError(error)).pipe(
                 switchMap((normalized) => {
-                  const otpCode = this.extractOtpCode(normalized);
-                  if (otpCode === "OTP_INVALID" || otpCode === "OTP_REQUIRED") {
-                    // Keep modal open, show error, wait for next submission.
-                    this.promptService.updateError("OTP_INVALID");
-                    return EMPTY;
-                  }
-                  if (
-                    otpCode === "OTP_BLOCKED" ||
-                    otpCode === "OTP_RESEND_LIMIT"
-                  ) {
+                  const otpCode = this.extractOtpErrorCode(normalized);
+                  if (!otpCode) {
                     this.promptService.closeSuccess();
-                    return this.failBlocked();
+                    return throwError(() => normalized);
                   }
-                  this.promptService.closeSuccess();
-                  return throwError(() => normalized);
+                  if (isTerminal(otpCode)) {
+                    this.promptService.closeSuccess();
+                    return this.failTerminal(otpCode);
+                  }
+                  // Recoverable (OTP_CODE_INVALID / OTP_CODE_EXPIRED /
+                  // OTP_REQUIRED): keep the modal open, show error.
+                  this.promptService.updateError(otpCode);
+                  return EMPTY;
                 })
               );
             })
@@ -172,4 +163,9 @@ export class OtpInterceptor implements HttpInterceptor {
         })
       );
   }
+}
+
+// Terminal = user can't recover in this modal (must wait / re-trigger).
+function isTerminal(code: OtpErrorCode): boolean {
+  return code === "OTP_SCOPE_LOCKED" || code === "OTP_USER_RATE_LIMITED";
 }

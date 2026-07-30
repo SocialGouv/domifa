@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, Logger } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 
 import {
@@ -27,8 +27,8 @@ type TrustTokenResult =
   | { kind: "accepted"; session: CurrentUserSession }
   | { kind: "rejected"; reason: TrustTokenRejectReason };
 
-// Scoping values for the login OTP. Stable across all login OTP requests so
-// generateOrResend / claim hit the same row.
+// Stable across all login OTP requests so ensureActiveOtp /
+// verifyAndConsumeOtp hit the same fingerprint scope.
 const LOGIN_OTP_URL = "POST /structures/auth/login";
 
 export type LoginUserPrincipal = {
@@ -59,8 +59,8 @@ export class LoginOtpService {
   // Single decision point for the structure login flow. Returns either a
   // trusted-device verdict (caller signs JWT without rotating the session)
   // or an OTP-validated verdict (caller calls `login` for a full rotation).
-  // On any other path, throws an HttpException with a stable `code` payload
-  // (OTP_REQUIRED / OTP_INVALID / OTP_BLOCKED).
+  // Any other path throws an HttpException with an ApiMessage body whose
+  // `message` field carries an OtpErrorCode (see otp.service.ts).
   async evaluate(params: {
     user: LoginUserPrincipal;
     // Forwarded into the OtpRequestContext so OTP_* security log rows carry
@@ -69,9 +69,8 @@ export class LoginOtpService {
     userAgent?: string;
     trustToken?: string;
     otpCode?: string;
-    forceResend?: boolean;
   }): Promise<LoginOtpResult> {
-    const { user, ip, userAgent, trustToken, otpCode, forceResend } = params;
+    const { user, ip, userAgent, trustToken, otpCode } = params;
     const emailLog = redactEmail(user.email);
 
     // Domain-level bypass: when the org's mail filter quarantines our OTP
@@ -90,17 +89,6 @@ export class LoginOtpService {
       }
     }
 
-    // Resend flow short-circuits trust and code paths: the user is on the
-    // OTP modal asking for a fresh email, not trying to authenticate. Skip
-    // straight to the OTP mint step.
-    if (forceResend) {
-      const otpContext = this.buildOtpContext(user, { ip, userAgent });
-      await this.otpService.enforceOrThrow(otpContext, null, {
-        forceResend: true,
-      });
-      throw otpHttpError("OTP_REQUIRED", HttpStatus.UNAUTHORIZED);
-    }
-
     appLogger.info({
       event: "login_attempt",
       emailRedacted: emailLog,
@@ -108,7 +96,6 @@ export class LoginOtpService {
       structureId: user.structureId ?? null,
       hasTrustToken: Boolean(trustToken),
       hasOtpCode: Boolean(otpCode),
-      forceResend: Boolean(forceResend),
       ip,
       userAgent,
     });
@@ -170,22 +157,21 @@ export class LoginOtpService {
     const otpContext = this.buildOtpContext(user, { ip, userAgent });
 
     if (otpCode) {
-      // enforceOrThrow handles OTP_INVALID / OTP_BLOCKED by throwing. On
-      // success it returns void and we mark the login as otp_validated.
-      await this.otpService.enforceOrThrow(otpContext, otpCode);
+      // requireValidOtp throws an ApiMessage HttpException on any rejection;
+      // caller propagates verbatim.
+      await this.otpService.requireValidOtp(otpContext, otpCode);
       this.logger.log(`login OK via OTP pour ${emailLog}`);
       return { kind: "otp_validated" };
     }
 
     // No trust token (or rejected) and no OTP code → first leg of the OTP
-    // cycle: mint+send a fresh code. The current session (if any) is kept
-    // intact: rotation only happens once the new OTP is validated, via
-    // StructuresAuthService.login → startNewSession (closes the previous one
-    // with reason REPLACED). This avoids logging the legitimate user out
-    // before the new attempt has proven itself.
-    await this.otpService.enforceOrThrow(otpContext, null);
-    // Unreachable: kept for type narrowing.
-    throw otpHttpError("OTP_REQUIRED", HttpStatus.UNAUTHORIZED);
+    // cycle: issue+send. The current session is kept alive until the new
+    // OTP is validated (rotation happens via startNewSession afterward),
+    // otherwise a failed attempt would log out the legitimate user.
+    await this.otpService.requireValidOtp(otpContext, null);
+    throw new Error(
+      "unreachable: requireValidOtp always throws when code=null"
+    );
   }
 
   private async tryTrustToken(params: {
@@ -229,7 +215,7 @@ export class LoginOtpService {
     }
     if (session.fingerprintHash !== payload.fingerprintHash) {
       // Fingerprint is treated as an opaque token: the trust JWT carries the
-      // value minted at session creation, and we compare it verbatim against
+      // value issued at session creation, and we compare it verbatim against
       // the active session row. A mismatch means the session was rotated or
       // revoked since the trust token was issued → fall back to OTP. We no
       // longer recompute the hash from current IP/UA: a device-relocation
@@ -296,10 +282,6 @@ export class LoginOtpService {
       userAgent: request.userAgent,
     };
   }
-}
-
-function otpHttpError(code: string, status: HttpStatus): HttpException {
-  return new HttpException({ code }, status);
 }
 
 // Coarse-grained bucket for the fingerprint-study log rows. Natural drift

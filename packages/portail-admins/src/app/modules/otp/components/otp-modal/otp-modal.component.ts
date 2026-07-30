@@ -13,8 +13,9 @@ import {
 import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { Subscription } from "rxjs";
+import { OTP_ERROR_LABELS, OtpErrorCode } from "@domifa/common";
 import { OtpPromptService } from "../../services/otp-prompt.service";
-import { OtpErrorCode, OtpPromptOptions } from "../../otp.types";
+import { OtpPromptOptions } from "../../otp.types";
 
 @Component({
   selector: "app-otp-modal",
@@ -124,22 +125,13 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public get errorMessage(): string | null {
     if (this.isLocked) {
-      return "Trop de tentatives. Veuillez réessayer plus tard.";
+      return OTP_ERROR_LABELS.OTP_SCOPE_LOCKED;
     }
-    switch (this.errorCode) {
-      case "OTP_INVALID":
-        return "Code incorrect. Veuillez ressaisir le code.";
-      case "OTP_BLOCKED":
-        return "Trop de tentatives. Réessayez dans une heure.";
-      case "OTP_RESEND_LIMIT":
-        return "Limite de renvois atteinte. Veuillez attendre l'expiration du code.";
-      default:
-        return null;
-    }
+    return this.errorCode ? OTP_ERROR_LABELS[this.errorCode] : null;
   }
 
   private openWith(options: OtpPromptOptions): void {
-    if (options.previousErrorCode === "OTP_INVALID") {
+    if (options.previousErrorCode === "OTP_CODE_INVALID") {
       this.attemptCount += 1;
     }
 

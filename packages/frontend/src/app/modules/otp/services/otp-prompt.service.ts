@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { OtpErrorCode, OtpPromptOptions, OtpPromptResult } from "../otp.types";
+import { OtpErrorCode } from "@domifa/common";
+import { OtpPromptOptions, OtpPromptResult } from "../otp.types";
 
 @Injectable({ providedIn: "root" })
 export class OtpPromptService {
@@ -41,18 +42,6 @@ export class OtpPromptService {
     this.currentPrompt.next({ ...current, previousErrorCode: errorCode });
   }
 
-  // Resend ack: clear any prior error message (the user just received a
-  // fresh code, so any "OTP_INVALID" hint from a previous attempt is stale)
-  // and reset the submitting flag so the form is usable again.
-  public markResent(): void {
-    const current = this.currentPrompt.value;
-    if (!current) {
-      return;
-    }
-    this.submittingSubject.next(false);
-    this.currentPrompt.next({ ...current, previousErrorCode: undefined });
-  }
-
   public setSubmitting(submitting: boolean): void {
     this.submittingSubject.next(submitting);
   }
@@ -73,9 +62,6 @@ export class OtpPromptService {
     this.closeWith({ kind: "blocked" });
   }
 
-  // Called by the interceptor when the retried request succeeds or fails with
-  // a non-retryable error. The modal closes; any pending consumer of the
-  // observable completes.
   public closeSuccess(): void {
     this.submittingSubject.next(false);
     this.currentPrompt.next(null);

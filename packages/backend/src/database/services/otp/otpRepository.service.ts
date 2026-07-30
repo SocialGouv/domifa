@@ -19,13 +19,26 @@ export interface NewOtpInput extends OtpKey {
   userUuid: string;
 }
 
+export interface ActiveOtpHmac {
+  code: string;
+}
+
+export interface BlockedOtpMarker {
+  updatedAt: Date;
+}
+
+export interface PendingOtpAttempts {
+  attempts: number;
+}
+
 export const otpRepository = myDataSource.getRepository(OtpTable).extend({
   async findActiveByFingerprint(
     fingerprintHash: string,
     maxAttempts: number,
     userUuid: string
-  ): Promise<OtpTable | null> {
-    return this.createQueryBuilder("otp")
+  ): Promise<ActiveOtpHmac | null> {
+    const row = await this.createQueryBuilder("otp")
+      .select(["otp.code"])
       .where("otp.fingerprintHash = :fingerprintHash", { fingerprintHash })
       .andWhere("otp.used = false")
       .andWhere(`otp."expiresAt" > :now`, { now: new Date() })
@@ -34,13 +47,17 @@ export const otpRepository = myDataSource.getRepository(OtpTable).extend({
       .orderBy(`otp."createdAt"`, "DESC")
       .limit(1)
       .getOne();
+    return row ? { code: row.code } : null;
   },
 
-  async claimByKey(
+  // Atomic verify + consume. Sets used=true only if all guards hold
+  // (matching HMAC + not expired + not already consumed + attempts < max).
+  // Returns true on success, false if any guard fails.
+  async consumeOtpIfCodeMatches(
     key: OtpKey,
-    code: string,
+    codeHmac: string,
     maxAttempts: number
-  ): Promise<OtpTable | null> {
+  ): Promise<boolean> {
     const result = await this.createQueryBuilder()
       .update(OtpTable)
       .set({ used: true, usedAt: () => "NOW()" })
@@ -49,19 +66,19 @@ export const otpRepository = myDataSource.getRepository(OtpTable).extend({
       })
       .andWhere(`"url" = :url`, { url: key.url })
       .andWhere(`"purpose" = :purpose`, { purpose: key.purpose })
-      .andWhere(`"code" = :code`, { code })
+      .andWhere(`"code" = :codeHmac`, { codeHmac })
       .andWhere(`"expiresAt" > :now`, { now: new Date() })
       .andWhere(`"used" = false`)
       .andWhere(`"attempts" < :maxAttempts`, { maxAttempts })
       .returning("*")
       .execute();
-    return (result.raw?.[0] as OtpTable) ?? null;
+    return (result.raw?.length ?? 0) > 0;
   },
 
   async incrementPendingAttempts(
     key: OtpKey,
     maxAttempts: number
-  ): Promise<OtpTable | null> {
+  ): Promise<PendingOtpAttempts | null> {
     const result = (await this.query(
       `UPDATE "otp"
        SET "attempts" = "otp"."attempts" + 1,
@@ -78,20 +95,21 @@ export const otpRepository = myDataSource.getRepository(OtpTable).extend({
          LIMIT 1
        ) sub
        WHERE "otp"."uuid" = sub."uuid"
-       RETURNING "otp".*`,
+       RETURNING "otp"."attempts"`,
       [key.fingerprintHash, key.url, key.purpose, new Date(), maxAttempts]
-    )) as [OtpTable[], number];
+    )) as [Array<{ attempts: number }>, number];
     const rows = result?.[0];
-    return rows?.[0] ?? null;
+    return rows?.[0] ? { attempts: rows[0].attempts } : null;
   },
 
   async findRecentBlocked(
     key: OtpKey,
     maxAttempts: number,
     blockDurationMs: number
-  ): Promise<OtpTable | null> {
+  ): Promise<BlockedOtpMarker | null> {
     const since = new Date(Date.now() - blockDurationMs);
-    return this.createQueryBuilder("otp")
+    const row = await this.createQueryBuilder("otp")
+      .select(["otp.updatedAt"])
       .where("otp.fingerprintHash = :fingerprintHash", {
         fingerprintHash: key.fingerprintHash,
       })
@@ -102,10 +120,11 @@ export const otpRepository = myDataSource.getRepository(OtpTable).extend({
       .orderBy(`otp."updatedAt"`, "DESC")
       .limit(1)
       .getOne();
+    return row?.updatedAt ? { updatedAt: row.updatedAt } : null;
   },
 
-  async createOtp(input: NewOtpInput): Promise<OtpTable> {
-    return this.save({
+  async createOtp(input: NewOtpInput): Promise<void> {
+    await this.save({
       email: input.email,
       code: input.code,
       expiresAt: input.expiresAt,
@@ -115,26 +134,6 @@ export const otpRepository = myDataSource.getRepository(OtpTable).extend({
       userType: input.userType,
       userUuid: input.userUuid,
     });
-  },
-
-  // Resend path: we never store the plaintext code, so each resend mints a
-  // fresh code and overwrites the row's HMAC + bumps resendCount atomically.
-  // `attempts` is intentionally NOT reset — wrong-code attempts on the
-  // previous code still count toward the lockout.
-  async refreshCodeAndIncrementResend(
-    uuid: string,
-    codeHmac: string
-  ): Promise<OtpTable | null> {
-    const result = await this.createQueryBuilder()
-      .update(OtpTable)
-      .set({
-        code: codeHmac,
-        resendCount: () => `"resendCount" + 1`,
-      })
-      .where("uuid = :uuid", { uuid })
-      .returning("*")
-      .execute();
-    return (result.raw?.[0] as OtpTable) ?? null;
   },
 
   // Resets the attempts counter on every blocking OTP row attributed to a

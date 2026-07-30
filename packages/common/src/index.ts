@@ -5,6 +5,7 @@ export * from "./brevo";
 export * from "./import";
 export * from "./interactions";
 export * from "./message-sms";
+export * from "./otp";
 export * from "./pagination";
 export * from "./search";
 export * from "./sessions";
