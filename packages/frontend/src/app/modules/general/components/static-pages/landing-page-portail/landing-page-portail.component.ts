@@ -1,7 +1,10 @@
 import { Component, input, output } from "@angular/core";
 import { fadeIn } from "../../../../../shared";
 import { MatomoTracker } from "ngx-matomo-client";
-import { SharedModule } from "../../../../shared/shared.module";
+import {
+  DsfrDropdownMenuComponent,
+  DsfrDropdownMenuItemComponent,
+} from "@edugouvfr/ngx-dsfr-ext";
 
 @Component({
   animations: [fadeIn],
@@ -9,7 +12,7 @@ import { SharedModule } from "../../../../shared/shared.module";
   standalone: true,
   templateUrl: "./landing-page-portail.component.html",
   styleUrls: ["./landing-page-portail.component.scss"],
-  imports: [SharedModule],
+  imports: [DsfrDropdownMenuComponent, DsfrDropdownMenuItemComponent],
 })
 export class LandingPagePortailComponent {
   public isLandingPage = input(true);
