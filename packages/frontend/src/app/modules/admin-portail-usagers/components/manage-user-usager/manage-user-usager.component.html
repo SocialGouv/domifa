@@ -17,6 +17,14 @@
             >
             }
           </h3>
+          <p class="fr-text--sm fr-mb-0">
+            Cette liste ne contient que les usagers pour qui des identifiants
+            ont déjà été créés. La colonne
+            <strong>Activation par l'usager</strong> indique si l'usager s'est
+            déjà connecté et a personnalisé son mot de passe : générer les
+            comptes en masse crée les identifiants, mais ne change pas cette
+            colonne, qui n'évolue que lorsque l'usager se connecte lui-même.
+          </p>
         </div>
         <div class="fr-col-auto">
           <app-button
@@ -72,7 +80,7 @@
                 </caption>
                 <thead>
                   <tr>
-                    <th scope="col">Statut</th>
+                    <th scope="col">Activation par l'usager</th>
                     <th scope="col">Nom</th>
                     <th scope="col">Prénom</th>
                     <th scope="col">Identifiant</th>
@@ -89,13 +97,13 @@
                   <tr [attr.aria-rowindex]="i + 1">
                     <td class="fr-text--bold">
                       @if (account.passwordType !== 'PERSONAL') {
-                      <span class="fr-badge fr-badge--sm fr-badge--warning"
-                        >Non activé</span
-                      >
+                      <span class="fr-badge fr-badge--sm fr-badge--warning">
+                        Non activé par l'usager
+                      </span>
                       } @else {
-                      <span class="fr-badge fr-badge--sm fr-badge--success"
-                        >Activé</span
-                      >
+                      <span class="fr-badge fr-badge--sm fr-badge--success">
+                        Activé par l'usager
+                      </span>
                       }
                     </td>
                     <td class="fr-text--bold">
