@@ -58,6 +58,8 @@ export class PortailUsagersProfileController {
     return res.status(HttpStatus.OK).json({
       usager,
       acceptTerms: currentUser.user.acceptTerms,
+      passwordLastUpdate: currentUser.user.passwordLastUpdate,
+      createdAt: currentUser.user.createdAt,
     });
   }
 

@@ -64,6 +64,7 @@ export class PortailAdminLoginController {
       user = await userSecurityPasswordChecker.checkPassword<UserSupervisor>({
         email: loginDto.email,
         password: loginDto.password,
+        newPassword: loginDto.newPassword,
         userProfile,
         requestContext: {
           ip: getClientIp(req),
@@ -71,6 +72,16 @@ export class PortailAdminLoginController {
         },
       });
     } catch (err) {
+      if ((err as Error)?.message === "CHANGE_PASSWORD_REQUIRED") {
+        return res
+          .status(HttpStatus.UNAUTHORIZED)
+          .json({ message: "CHANGE_PASSWORD_REQUIRED" });
+      }
+      if ((err as Error)?.message === "NEW_PASSWORD_SAME_AS_OLD") {
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: "NEW_PASSWORD_SAME_AS_OLD" });
+      }
       appLogger.error("PortailAdminLoginController.loginUser failed", {
         error: err,
         context: { email: loginDto?.email },

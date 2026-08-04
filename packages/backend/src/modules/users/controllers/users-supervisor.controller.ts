@@ -8,17 +8,24 @@ import {
   Post,
   Req,
   Res,
+  UseGuards,
 } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
-import { Request as ExpressRequest } from "express";
+import { AuthGuard } from "@nestjs/passport";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { Request as ExpressRequest, Response } from "express";
+import { Not } from "typeorm";
 import { ParseTokenPipe } from "../../../_common/decorators";
 import { appLogger, ExpressResponse } from "../../../util";
 import { buildSecurityLogRequestContext } from "../../../util/express";
-import { EmailDto, ResetPasswordDto } from "../dto";
-import { UserProfile } from "../../../_common/model";
+import { EmailDto, EditMyPasswordDto, ResetPasswordDto } from "../dto";
+import { UserAdminAuthenticated, UserProfile } from "../../../_common/model";
+import { AllowUserProfiles, CurrentUser } from "../../../auth/decorators";
+import { AppUserGuard } from "../../../auth/guards";
+import { userSupervisorRepository } from "../../../database";
 import {
   userSecurityResetPasswordInitiator,
   userSecurityResetPasswordUpdater,
+  userStructureSecurityPasswordUpdater,
 } from "../services";
 import { AppLogsService } from "../../app-logs/app-logs.service";
 import { UserSupervisorCrudLogContext } from "../../app-logs/types/app-log-context.types";
@@ -118,5 +125,52 @@ export class UsersSupervisorController {
     }
 
     return res.status(HttpStatus.OK).json({ message: "OK" });
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard("jwt"), AppUserGuard)
+  @AllowUserProfiles("supervisor")
+  @Get("last-password-update")
+  public async getLastPasswordUpdate(
+    @CurrentUser() user: UserAdminAuthenticated,
+    @Res() res: Response
+  ) {
+    const currentUser = await userSupervisorRepository.findOne({
+      where: { id: user.id, status: Not("DELETE") },
+      select: ["passwordLastUpdate"],
+    });
+
+    return res
+      .status(HttpStatus.OK)
+      .json(currentUser?.passwordLastUpdate ?? null);
+  }
+
+  // Edition d'un mot de passe quand on est déjà connecté
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard("jwt"), AppUserGuard)
+  @AllowUserProfiles("supervisor")
+  @ApiOperation({ summary: "Edition du mot de passe depuis le compte admin" })
+  @Post("edit-my-password")
+  public async editPassword(
+    @Req() req: ExpressRequest,
+    @CurrentUser() user: UserAdminAuthenticated,
+    @Res() res: Response,
+    @Body() editPasswordDto: EditMyPasswordDto
+  ) {
+    try {
+      await userStructureSecurityPasswordUpdater.updatePassword({
+        userId: user.id,
+        oldPassword: editPasswordDto.oldPassword,
+        newPassword: editPasswordDto.password,
+        userProfile,
+        requestContext: buildSecurityLogRequestContext(req),
+      });
+      return res.status(HttpStatus.OK).json({ message: "OK" });
+    } catch (err) {
+      appLogger.error(err);
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "EDIT_PASSWORD_FAIL" });
+    }
   }
 }

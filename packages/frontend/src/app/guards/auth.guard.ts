@@ -6,11 +6,12 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
 } from "@angular/router";
-import { UserStructureRole } from "@domifa/common";
+import { getPasswordChangeStatus, UserStructureRole } from "@domifa/common";
 import { AuthService, CustomToastService } from "../modules/shared/services";
 import { hasAcceptedCurrentCgu } from "../shared/constants";
 
 const ACCEPT_CGU_PATH = "/accepter-cgu";
+const MY_ACCOUNT_PATH = "/manage-users/my-account";
 
 @Injectable({ providedIn: "root" })
 export class AuthGuard {
@@ -43,6 +44,22 @@ export class AuthGuard {
         ) {
           this.router.navigate([ACCEPT_CGU_PATH], {
             queryParams: { returnUrl: state.url },
+          });
+          return false;
+        }
+
+        const isOnMyAccountPage = state.url.startsWith(MY_ACCOUNT_PATH);
+
+        if (
+          currentUser !== null &&
+          getPasswordChangeStatus(
+            currentUser.passwordLastUpdate,
+            currentUser.createdAt
+          ) === "EXPIRED" &&
+          !isOnMyAccountPage
+        ) {
+          this.router.navigate([MY_ACCOUNT_PATH], {
+            queryParams: { returnUrl: state.url, forcePasswordChange: true },
           });
           return false;
         }

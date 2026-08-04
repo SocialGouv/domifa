@@ -34,6 +34,13 @@ const USER_KEY = "admin-auth-datas";
 export class AdminAuthService {
   public currentAdminSubject: BehaviorSubject<PortailAdminUser | null>;
 
+  // Transient, in-memory only: set right after a login attempt comes back
+  // with CHANGE_PASSWORD_REQUIRED, read by PasswordRenewalGuard to allow
+  // access to /auth/renouveler-mot-de-passe, cleared once consumed. Never
+  // persisted (lost on reload by design — a direct hit on the route without
+  // going through login redirects back to /auth/login).
+  public pendingPasswordChangeEmail: string | null = null;
+
   constructor(
     private readonly http: HttpClient,
     private readonly router: Router,

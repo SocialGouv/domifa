@@ -1,4 +1,9 @@
-import { UserStatus, UserStructure, UserSupervisor } from "@domifa/common";
+import {
+  getPasswordChangeStatus,
+  UserStatus,
+  UserStructure,
+  UserSupervisor,
+} from "@domifa/common";
 import { Not } from "typeorm";
 
 import { passwordGenerator } from "../../../util";
@@ -11,6 +16,7 @@ import {
 import { getUserRepository } from "./get-user-repository.service";
 import { userSecurityEventHistoryManager } from "./userSecurityEventHistoryManager.service";
 import { userStatusManager } from "./userStatusManager.service";
+import { userPasswordWriter } from "./userPasswordWriter.service";
 
 // Wall-clock floor on every login response — neutralises the timing gap
 // between "unknown email" (fast DB miss) and "wrong password" (slow bcrypt)
@@ -30,6 +36,7 @@ export const userSecurityPasswordChecker = {
 async function checkPassword<T extends UserStructure | UserSupervisor>(args: {
   email: string;
   password: string;
+  newPassword?: string;
   userProfile: UserProfile;
   requestContext: CheckPasswordRequestContext;
 }): Promise<T> {
@@ -49,11 +56,13 @@ async function checkPassword<T extends UserStructure | UserSupervisor>(args: {
 async function checkPasswordImpl<T extends UserStructure | UserSupervisor>({
   email,
   password,
+  newPassword,
   userProfile,
   requestContext,
 }: {
   email: string;
   password: string;
+  newPassword?: string;
   userProfile: UserProfile;
   requestContext: CheckPasswordRequestContext;
 }): Promise<T> {
@@ -82,6 +91,30 @@ async function checkPasswordImpl<T extends UserStructure | UserSupervisor>({
   }
 
   await assertStatusActive({ user, userProfile, requestContext });
+
+  // Password renewed for more than a year: block the login before any
+  // token is issued (no OTP, no session) and require a `newPassword` in
+  // the same request — mirrors the usager login flow.
+  const passwordChangeStatus = getPasswordChangeStatus(
+    user.passwordLastUpdate,
+    user.createdAt
+  );
+  if (passwordChangeStatus === "EXPIRED") {
+    if (!newPassword) {
+      throw new Error("CHANGE_PASSWORD_REQUIRED");
+    }
+    if (newPassword === password) {
+      throw new Error("NEW_PASSWORD_SAME_AS_OLD");
+    }
+    await userPasswordWriter.applyNewPassword({
+      user,
+      userProfile,
+      newPassword,
+      successAction: "CHANGE_PASSWORD_SUCCESS",
+      sessionReason: "PASSWORD_CHANGED",
+      requestContext,
+    });
+  }
 
   // No LOGIN_OK intermediate log: the LOGIN_SUCCESS emitted by the
   // controller after `requireValidOtp` covers the whole flow.

@@ -84,10 +84,21 @@ export class StructuresAuthController {
       user = await userSecurityPasswordChecker.checkPassword<UserStructure>({
         email: loginDto.email,
         password: loginDto.password,
+        newPassword: loginDto.newPassword,
         userProfile,
         requestContext: { ip, userAgent },
       });
     } catch (err) {
+      if ((err as Error)?.message === "CHANGE_PASSWORD_REQUIRED") {
+        return res
+          .status(HttpStatus.UNAUTHORIZED)
+          .json({ message: "CHANGE_PASSWORD_REQUIRED" });
+      }
+      if ((err as Error)?.message === "NEW_PASSWORD_SAME_AS_OLD") {
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: "NEW_PASSWORD_SAME_AS_OLD" });
+      }
       appLogger.error("StructuresAuthController.loginUser failed", {
         error: err,
         context: { userProfile, email: loginDto?.email },
@@ -243,6 +254,8 @@ export class StructuresAuthController {
       fonction: user.fonction,
       fonctionDetail: user.fonctionDetail,
       acceptTerms: user.acceptTerms,
+      passwordLastUpdate: user.passwordLastUpdate,
+      createdAt: user.createdAt,
       structure: user.structure,
       structureId: user.structureId,
       domifaVersion: domifaConfig().version.toString(),

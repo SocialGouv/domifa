@@ -47,6 +47,15 @@ const routes: Routes = [
       import("./modules/stats/stats.module").then((m) => m.StatsModule),
   },
   {
+    path: "my-account",
+    title: "Mon compte - Admin DomiFa",
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import("./modules/my-account/my-account.module").then(
+        (m) => m.MyAccountModule
+      ),
+  },
+  {
     path: "manage-users",
     title: "Utilisateurs Pilotage - Admin DomiFa",
     canActivate: [AuthGuard],

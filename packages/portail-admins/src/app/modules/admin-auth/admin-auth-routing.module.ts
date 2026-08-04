@@ -3,6 +3,8 @@ import { RouterModule, Routes } from "@angular/router";
 import { ResetPasswordComponent } from "./components/reset-password-form/reset-password.component";
 import { LoginContainerComponent } from "./components/login-container/login-container.component";
 import { AdminLoginComponent } from "./components/admin-login-form/admin-login.component";
+import { RenewPasswordComponent } from "./components/renew-password/renew-password.component";
+import { PasswordRenewalGuard } from "../../guards/password-renewal-guard";
 
 const routes: Routes = [
   {
@@ -11,6 +13,11 @@ const routes: Routes = [
     children: [
       { path: "", redirectTo: "auth/login", pathMatch: "full" },
       { path: "login", component: AdminLoginComponent },
+      {
+        canActivate: [PasswordRenewalGuard],
+        path: "renouveler-mot-de-passe",
+        component: RenewPasswordComponent,
+      },
       {
         component: ResetPasswordComponent,
         path: "reset-password",

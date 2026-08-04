@@ -340,6 +340,14 @@
             </div>
             <!-- password confirmation end-->
 
+            <div
+              role="alert"
+              class="fr-alert fr-alert--error fr-mb-2w"
+              *ngIf="samePasswordError"
+            >
+              <p>Le nouveau mot de passe doit être différent de l'ancien.</p>
+            </div>
+
             <!-- Accept terms start -->
             <div
               [class.fr-checkbox-group--error]="f.acceptTerms.errors"

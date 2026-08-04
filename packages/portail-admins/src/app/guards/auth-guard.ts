@@ -7,8 +7,10 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
 } from "@angular/router";
-import { UserSupervisorRole } from "@domifa/common";
+import { getPasswordChangeStatus, UserSupervisorRole } from "@domifa/common";
 import { CustomToastService } from "../modules/shared/services";
+
+const MY_ACCOUNT_PATH = "/my-account";
 @Injectable({ providedIn: "root" })
 export class AuthGuard {
   constructor(
@@ -27,6 +29,21 @@ export class AuthGuard {
       map((isAuth: boolean) => {
         if (!isAuth) {
           this.authService.logoutAndRedirect(state);
+          return false;
+        }
+
+        const isOnMyAccountPage = state.url.startsWith(MY_ACCOUNT_PATH);
+
+        if (
+          getPasswordChangeStatus(
+            this.authService.currentUserValue?.passwordLastUpdate,
+            this.authService.currentUserValue?.createdAt
+          ) === "EXPIRED" &&
+          !isOnMyAccountPage
+        ) {
+          this.router.navigate([MY_ACCOUNT_PATH], {
+            queryParams: { returnUrl: state.url, forcePasswordChange: true },
+          });
           return false;
         }
 

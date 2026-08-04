@@ -5,7 +5,13 @@ import { Title } from "@angular/platform-browser";
 import { NavigationEnd, Router, RouterModule } from "@angular/router";
 import { filter } from "rxjs";
 import { LIENS_PARTENAIRES } from "./modules/general/components/_static/plan-site/LIENS_PARTENAIRES.const";
-import { PortailUsagerProfile, NewsItem } from "@domifa/common";
+import {
+  getPasswordChangeOverdueDays,
+  getPasswordChangeStatus,
+  NewsItem,
+  PasswordChangeStatus,
+  PortailUsagerProfile,
+} from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
 import DOMIFA_NEWS from "../assets/files/news.json";
 import {
@@ -41,6 +47,20 @@ export class AppComponent implements OnInit {
   public title: string;
   public apiVersion: string | null;
   public usagerProfile: PortailUsagerProfile | null;
+
+  public get passwordChangeStatus(): PasswordChangeStatus {
+    return getPasswordChangeStatus(
+      this.usagerProfile?.passwordLastUpdate,
+      this.usagerProfile?.createdAt
+    );
+  }
+
+  public get passwordChangeOverdueDays(): number {
+    return getPasswordChangeOverdueDays(
+      this.usagerProfile?.passwordLastUpdate,
+      this.usagerProfile?.createdAt
+    );
+  }
   public currentUrl = "";
   public readonly partnerLinks = LIENS_PARTENAIRES;
   public pendingNews = false;
@@ -56,7 +76,7 @@ export class AppComponent implements OnInit {
     private readonly titleService: Title,
     private readonly router: Router,
     private readonly usagerAuthService: UsagerAuthService,
-    private readonly matomo: MatomoTracker,
+    private readonly matomo: MatomoTracker
   ) {
     this.apiVersion = null;
     this.usagerProfile = null;
@@ -104,7 +124,7 @@ export class AppComponent implements OnInit {
     if (!lastNews) {
       localStorage.setItem(
         "NEWS_MON_DOMIFA",
-        new Date(DOMIFA_NEWS[0].date).toISOString(),
+        new Date(DOMIFA_NEWS[0].date).toISOString()
       );
       this.pendingNews = false;
       return;
@@ -123,7 +143,7 @@ export class AppComponent implements OnInit {
     this.newsModal.close();
     localStorage.setItem(
       "NEWS_MON_DOMIFA",
-      new Date(DOMIFA_NEWS[0].date).toISOString(),
+      new Date(DOMIFA_NEWS[0].date).toISOString()
     );
     this.pendingNews = false;
     this.newsModalOpen = false;
@@ -131,7 +151,7 @@ export class AppComponent implements OnInit {
 
   public ngOnInit(): void {
     this.titleService.setTitle(
-      "Mon DomiFa, l'outil qui facilite la gestion des structures domiciliatirices",
+      "Mon DomiFa, l'outil qui facilite la gestion des structures domiciliatirices"
     );
 
     this.usagerAuthService.currentUsagerSubject.subscribe(
@@ -141,7 +161,7 @@ export class AppComponent implements OnInit {
         if (usager) {
           this.checkNews();
         }
-      },
+      }
     );
 
     this.router.events

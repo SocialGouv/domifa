@@ -76,7 +76,10 @@ export class AdminLoginComponent implements OnInit {
     this.authService.login(loginForm).subscribe({
       error: (err) => {
         this.loading = false;
-        if (err?.error?.message === "BLOCKED_TEMP") {
+        if (err?.error?.message === "CHANGE_PASSWORD_REQUIRED") {
+          this.authService.pendingPasswordChangeEmail = loginForm.email;
+          this.router.navigate(["/auth/renouveler-mot-de-passe"]);
+        } else if (err?.error?.message === "BLOCKED_TEMP") {
           this.toastr.error(
             "Compte temporairement bloqué (trop de tentatives). Réessayez dans 1h ou réinitialisez votre mot de passe."
           );

@@ -42,4 +42,11 @@ export class StructureLoginDto {
   @IsString()
   @MaxLength(4096)
   public readonly trustToken?: string;
+
+  // Provided together with the current password when the account replies
+  // CHANGE_PASSWORD_REQUIRED (password not renewed for more than a year).
+  @ApiProperty({ type: String, required: false })
+  @IsOptional()
+  @IsValidPassword("newPassword")
+  public readonly newPassword?: string;
 }

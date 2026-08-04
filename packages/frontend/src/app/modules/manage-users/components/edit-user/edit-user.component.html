@@ -238,6 +238,23 @@
           }
         </div>
 
+        @if (forcePasswordChange) {
+        <div class="fr-alert fr-alert--warning fr-mb-2w" role="alert">
+          <p class="fr-alert__title">Changement de mot de passe requis</p>
+          <p>
+            Votre mot de passe n'a pas été modifié depuis plus d'un an. Pour
+            continuer à utiliser DomiFa, vous devez le mettre à jour maintenant.
+          </p>
+        </div>
+        }
+
+        <div class="fr-alert fr-alert--info fr-mb-2w" role="alert">
+          <p>
+            Pour la sécurité de votre compte, nous vous recommandons de changer
+            votre mot de passe au moins une fois par an.
+          </p>
+        </div>
+
         @if (!editPassword) {
         <div class="fr-callout fr-callout--info">
           <p class="fr-callout__text">{{ lastPasswordUpdate }}</p>

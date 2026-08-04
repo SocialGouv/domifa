@@ -89,6 +89,9 @@ async function checkPassword({
   });
 
   if (newPassword) {
+    if (newPassword === password) {
+      throw new Error("NEW_PASSWORD_SAME_AS_OLD");
+    }
     await userUsagerSecurityPasswordUpdater.updatePassword({
       userId: user.id,
       oldPassword: password,

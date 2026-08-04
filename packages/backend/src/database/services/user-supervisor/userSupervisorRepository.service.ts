@@ -12,7 +12,7 @@ export const userSupervisorRepository = myDataSource
     // longer exists (deleted between JWT issuance and the call) or if its
     // status is "DELETE" (soft-deleted account).
     async getAdminProfile(userId: number): Promise<PortailAdminUser> {
-      return userSupervisorRepository.findOneOrFail({
+      const user = await userSupervisorRepository.findOneOrFail({
         where: { id: userId, status: Not("DELETE") },
         select: [
           "uuid",
@@ -24,8 +24,25 @@ export const userSupervisorRepository = myDataSource
           "nom",
           "email",
           "role",
+          "status",
+          "lastLogin",
           "territories",
+          "passwordLastUpdate",
         ],
       });
+
+      return {
+        id: user.id,
+        uuid: user.uuid,
+        nom: user.nom,
+        prenom: user.prenom,
+        email: user.email,
+        status: user.status,
+        lastLogin: user.lastLogin,
+        territories: user.territories,
+        role: user.role,
+        passwordLastUpdate: user.passwordLastUpdate,
+        createdAt: user.createdAt,
+      };
     },
   });

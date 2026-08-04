@@ -3,6 +3,7 @@ import supertest from "supertest";
 import { AppTestContext, AppTestHelper } from "../util/test";
 import { AuthModule } from "./auth.module";
 import { StructuresAuthController } from "./structures-auth.controller";
+import { userStructureRepository } from "../database";
 
 describe("Structure Auth Controller", () => {
   let context: AppTestContext;
@@ -14,6 +15,15 @@ describe("Structure Auth Controller", () => {
         providers: [],
       },
       { initApp: true }
+    );
+
+    // These tests only exercise the email/password check, not the annual
+    // password-renewal gate — make sure the fixture used here isn't flagged
+    // EXPIRED by getPasswordChangeStatus regardless of how old the test DB
+    // dump is.
+    await userStructureRepository.update(
+      { email: "s3-instructeur@yopmail.com" },
+      { passwordLastUpdate: new Date() }
     );
   });
   afterAll(async () => {

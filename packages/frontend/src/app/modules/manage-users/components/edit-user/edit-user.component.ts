@@ -6,6 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -45,6 +46,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
   public hideOldPassword: boolean;
 
   public lastPasswordUpdate: string;
+  public forcePasswordChange: boolean;
   public usagers$: Observable<UsagerLight[]>;
 
   public passwordForm!: UntypedFormGroup;
@@ -77,11 +79,13 @@ export class EditUserComponent implements OnInit, OnDestroy {
     private readonly toastService: CustomToastService,
     private readonly formBuilder: UntypedFormBuilder,
     private readonly titleService: Title,
-    private readonly changeDetectorRef: ChangeDetectorRef
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly activatedRoute: ActivatedRoute
   ) {
     this.submitted = false;
     this.editPassword = false;
     this.editUser = false;
+    this.forcePasswordChange = false;
 
     this.hideOldPassword = true;
     this.loading = false;
@@ -98,6 +102,14 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
     if (this.me?.role !== "facteur" && this.me?.role !== "agent") {
       this.usagers$ = this.manageUsersService.agenda();
+    }
+
+    if (
+      this.activatedRoute.snapshot.queryParamMap.get("forcePasswordChange") ===
+      "true"
+    ) {
+      this.forcePasswordChange = true;
+      this.initPasswordForm();
     }
   }
 
@@ -216,6 +228,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.editPassword = false;
             this.submitted = false;
+            this.forcePasswordChange = false;
             this.getLastPasswordUpdate();
             this.toastService.success(
               "Félicitations ! : votre mot de passe a été modifié avec succès"

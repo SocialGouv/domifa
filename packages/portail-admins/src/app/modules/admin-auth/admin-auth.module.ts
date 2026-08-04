@@ -12,6 +12,7 @@ import {
 import { ResetPasswordComponent } from "./components/reset-password-form/reset-password.component";
 import { UserSupervisorPasswordFormComponent } from "./components/user-structure-password-form/user-supervisor-password-form.component";
 import { LoginContainerComponent } from "./components/login-container/login-container.component";
+import { RenewPasswordComponent } from "./components/renew-password/renew-password.component";
 
 @NgModule({
   declarations: [],
@@ -25,6 +26,7 @@ import { LoginContainerComponent } from "./components/login-container/login-cont
     ResetPasswordComponent,
     UserSupervisorPasswordFormComponent,
     LoginContainerComponent,
+    RenewPasswordComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi()), AdminAuthService],
 })

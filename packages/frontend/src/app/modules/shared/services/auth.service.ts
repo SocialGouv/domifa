@@ -29,6 +29,13 @@ export class AuthService {
   public currentUserSubject: BehaviorSubject<UserStructure | null>;
   private readonly endPoint = environment.apiUrl + "structures/auth";
 
+  // Transient, in-memory only: set right after a login attempt comes back
+  // with CHANGE_PASSWORD_REQUIRED, read by PasswordRenewalGuard to allow
+  // access to /renouveler-mot-de-passe, cleared once consumed. Never
+  // persisted (lost on reload by design — a direct hit on the route without
+  // going through login redirects back to /connexion).
+  public pendingPasswordChangeEmail: string | null = null;
+
   constructor(
     private readonly http: HttpClient,
     private readonly toastr: CustomToastService,
@@ -52,7 +59,11 @@ export class AuthService {
     );
   }
 
-  public login(email: string, password: string): Observable<UserStructure> {
+  public login(
+    email: string,
+    password: string,
+    newPassword?: string
+  ): Observable<UserStructure> {
     // Re-present the persisted trust token. Backend verifies signature + IP/UA
     // binding and either skips the OTP step (trusted device) or falls back to
     // the OTP cycle via OtpInterceptor + 401 OTP_REQUIRED.
@@ -64,6 +75,7 @@ export class AuthService {
         {
           email: email.trim().toLowerCase(),
           password,
+          ...(newPassword ? { newPassword } : {}),
           ...(trustToken ? { trustToken } : {}),
         },
         // Required so the browser (a) receives the Set-Cookie for the

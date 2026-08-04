@@ -11,7 +11,12 @@ import { NavigationEnd, Router } from "@angular/router";
 import { filter } from "rxjs";
 import { AdminAuthService } from "./modules/admin-auth/services/admin-auth.service";
 import { LIENS_PARTENAIRES } from "./modules/general/components/static-pages/plan-site/LIENS_PARTENAIRES.const";
-import { PortailAdminUser } from "@domifa/common";
+import {
+  getPasswordChangeOverdueDays,
+  getPasswordChangeStatus,
+  PasswordChangeStatus,
+  PortailAdminUser,
+} from "@domifa/common";
 import { DsfrHeaderMenuItem, DsfrLink } from "@edugouvfr/ngx-dsfr";
 
 @Component({
@@ -22,6 +27,20 @@ import { DsfrHeaderMenuItem, DsfrLink } from "@edugouvfr/ngx-dsfr";
 })
 export class AppComponent implements OnInit {
   public adminProfile: PortailAdminUser | null;
+
+  public get passwordChangeStatus(): PasswordChangeStatus {
+    return getPasswordChangeStatus(
+      this.adminProfile?.passwordLastUpdate,
+      this.adminProfile?.createdAt
+    );
+  }
+
+  public get passwordChangeOverdueDays(): number {
+    return getPasswordChangeOverdueDays(
+      this.adminProfile?.passwordLastUpdate,
+      this.adminProfile?.createdAt
+    );
+  }
   public readonly partnerLinks = LIENS_PARTENAIRES;
   public currentUrl = "";
   public skipLinks: DsfrLink[] = [];
@@ -52,6 +71,13 @@ export class AppComponent implements OnInit {
         }
 
         this.headerToolsLinks = [
+          {
+            linkId: "my-account",
+            mode: "link",
+            label: "Mon compte",
+            icon: "fr-icon-account-circle-line",
+            routerLink: "/my-account",
+          },
           {
             ariaControls: "logoutModal",
             linkId: "logout",

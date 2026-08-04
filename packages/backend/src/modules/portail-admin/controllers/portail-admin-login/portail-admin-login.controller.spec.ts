@@ -7,7 +7,11 @@ import { clearTestOtpCodes, peekTestOtpCode } from "../../../otp/otp-test-sink";
 import { AppTestContext, AppTestHelper } from "../../../../util/test";
 import { PortailAdminModule } from "../../portail-admin.module";
 import { PortailAdminLoginController } from "./portail-admin-login.controller";
-import { appLogSecurityRepository, otpRepository } from "../../../../database";
+import {
+  appLogSecurityRepository,
+  otpRepository,
+  userSupervisorRepository,
+} from "../../../../database";
 
 const ADMIN =
   TESTS_USERS_ADMIN.BY_EMAIL["preprod.domifa@fabrique.social.gouv.fr"];
@@ -23,6 +27,14 @@ describe("Admins Login Controller", () => {
         providers: [],
       },
       { initApp: true }
+    );
+
+    // These tests only exercise credentials/OTP, not the annual
+    // password-renewal gate — make sure the fixture isn't flagged EXPIRED by
+    // getPasswordChangeStatus regardless of how old the test DB dump is.
+    await userSupervisorRepository.update(
+      { id: ADMIN.id },
+      { passwordLastUpdate: new Date() }
     );
   });
   afterAll(async () => {
