@@ -1,3 +1,10 @@
+# [2.253.0](https://github.com/SocialGouv/domifa/compare/v2.252.0...v2.253.0) (2026-08-05)
+
+
+### Features
+
+* **frontend:** change text on manage user usagers page ([2dc7213](https://github.com/SocialGouv/domifa/commit/2dc7213da72fbefce99f99ce786c736391db01de))
+
 # [2.252.0](https://github.com/SocialGouv/domifa/compare/v2.251.0...v2.252.0) (2026-08-05)
 
 
