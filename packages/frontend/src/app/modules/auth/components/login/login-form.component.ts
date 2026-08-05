@@ -105,8 +105,12 @@ export class LoginFormComponent implements OnInit, OnDestroy {
           },
           error: (err) => {
             this.loading = false;
+
             const errorCode = err?.error?.message;
-            if (errorCode === "BLOCKED_TEMP") {
+            if (errorCode=== "CHANGE_PASSWORD_REQUIRED") {
+              this.authService.pendingPasswordChangeEmail = this.f.email.value;
+              this.router.navigate(["/renouveler-mot-de-passe"]);
+            } else if (err?.error?.message === "BLOCKED_TEMP") {
               this.blockedTemp = true;
             } else if (
               errorCode === "OTP_FAILED" ||

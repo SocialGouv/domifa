@@ -21,8 +21,12 @@ import {
 import { UserAdminAuthenticated, UserProfile } from "../../../../_common/model";
 import { StructureAdminLoginDto } from "../../../users/dto/structure-admin-login.dto";
 import { AdminsAuthService } from "../../services/admins-auth.service";
-import { userSecurityPasswordChecker } from "../../../users/services";
-import { UserSupervisor } from "@domifa/common";
+import {
+  getUserRepository,
+  userPasswordWriter,
+  userSecurityPasswordChecker,
+} from "../../../users/services";
+import { getPasswordChangeStatus, UserSupervisor } from "@domifa/common";
 import { AuthGuard } from "@nestjs/passport";
 import { USER_SUPERVISOR_ROLES } from "../../../../_common/model/users/user-supervisor";
 import {
@@ -107,6 +111,14 @@ export class PortailAdminLoginController {
         .json({ message: "LOGIN_FAILED" });
     }
 
+    // Set when checkPassword validated a renewal (EXPIRED status + matching
+    // newPassword) but deliberately did NOT persist it yet — written below,
+    // once the OTP step (mandatory on this portal) has passed.
+    const passwordRenewalPending =
+      Boolean(loginDto.newPassword) &&
+      getPasswordChangeStatus(user.passwordLastUpdate, user.createdAt) ===
+        "EXPIRED";
+
     try {
       const otpContext = buildLoginOtpContext(
         req,
@@ -122,6 +134,25 @@ export class PortailAdminLoginController {
         return res.status(err.getStatus()).json(err.getResponse());
       }
       throw err;
+    }
+
+    if (passwordRenewalPending) {
+      await userPasswordWriter.applyNewPassword({
+        user,
+        userProfile,
+        newPassword: loginDto.newPassword as string,
+        successAction: "CHANGE_PASSWORD_SUCCESS",
+        sessionReason: "PASSWORD_CHANGED",
+        requestContext: {
+          ip: getClientIp(req),
+          userAgent: getClientUserAgent(req),
+        },
+      });
+      // Re-read so the JWT carries a fresh passwordLastUpdate — otherwise
+      // AuthGuard would see the stale value and force renewal again.
+      user = (await getUserRepository(userProfile).findOneBy({
+        id: user.id,
+      })) as UserSupervisor;
     }
 
     const accessToken = await this.adminsAuthService.login(user, {

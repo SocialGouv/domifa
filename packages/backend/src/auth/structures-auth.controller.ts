@@ -30,9 +30,17 @@ import { StructuresAuthService } from "./services/structures-auth.service";
 import { readOtpCode } from "../modules/otp/guards/otp.guard";
 import { ExpiredTokenTable, expiredTokenRepositiory } from "../database";
 import { domifaConfig } from "../config";
-import { userSecurityPasswordChecker } from "../modules/users/services";
+import {
+  getUserRepository,
+  userPasswordWriter,
+  userSecurityPasswordChecker,
+} from "../modules/users/services";
 import { AllowUserStructureRoles } from "./decorators";
-import { ALL_USER_STRUCTURE_ROLES, UserStructure } from "@domifa/common";
+import {
+  ALL_USER_STRUCTURE_ROLES,
+  getPasswordChangeStatus,
+  UserStructure,
+} from "@domifa/common";
 import { appLogger } from "../util";
 import { logSecurityEventForUser } from "../modules/app-logs/app-log-security-writer";
 
@@ -110,6 +118,15 @@ export class StructuresAuthController {
       return res.status(HttpStatus.UNAUTHORIZED).json({ message });
     }
 
+    // Set when checkPassword validated a renewal (EXPIRED status + matching
+    // newPassword) but deliberately did NOT persist it yet — the new
+    // password is only written below, once the OTP/trusted-device check
+    // (same second factor as a normal login) has passed.
+    const passwordRenewalPending =
+      Boolean(loginDto.newPassword) &&
+      getPasswordChangeStatus(user.passwordLastUpdate, user.createdAt) ===
+        "EXPIRED";
+
     try {
       // Test bypass: every security suite authenticates structure users via
       // AppTestHelper.authenticateStructure. Forcing each one through the
@@ -119,6 +136,13 @@ export class StructuresAuthController {
       // backend is started against the test database — prod/preprod/dev
       // paths are unchanged.
       if (domifaConfig().envId === "test") {
+        if (passwordRenewalPending) {
+          user = await this.applyPendingPasswordRenewal(
+            user,
+            loginDto.newPassword as string,
+            { ip, userAgent }
+          );
+        }
         const { access_token, trustToken } =
           await this.structuresAuthService.login(user, {
             ipAddress: ip,
@@ -152,8 +176,21 @@ export class StructuresAuthController {
         otpCode: readOtpCode(req) ?? undefined,
       });
 
+      // The second factor (trusted device or OTP) just confirmed identity —
+      // safe to persist the renewal now. Applying it terminates whatever
+      // session `result.session` pointed to, so a renewal always mints a
+      // brand new session below rather than reusing it, even on the
+      // trusted-device path.
+      if (passwordRenewalPending) {
+        user = await this.applyPendingPasswordRenewal(
+          user,
+          loginDto.newPassword as string,
+          { ip, userAgent }
+        );
+      }
+
       const { access_token, trustToken } =
-        result.kind === "trusted"
+        result.kind === "trusted" && !passwordRenewalPending
           ? this.structuresAuthService.signForExistingSession(
               user,
               result.session
@@ -165,7 +202,7 @@ export class StructuresAuthController {
 
       await logSecurityEventForUser("LOGIN_SUCCESS", userProfile, user, {
         requestContext: { ip, userAgent },
-        context: { otpFlow: result.kind },
+        context: { otpFlow: result.kind, passwordRenewalPending },
       });
 
       res.cookie(TRUST_COOKIE_NAME, trustToken, trustCookieOptions());
@@ -188,6 +225,28 @@ export class StructuresAuthController {
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .json({ message: "OTP_UNAVAILABLE" });
     }
+  }
+
+  // Persists the renewal validated (but deliberately not written) by
+  // checkPassword, then re-reads the row so the caller signs a JWT with a
+  // fresh `passwordLastUpdate` — otherwise AuthGuard would see the stale
+  // value and immediately force the user back into the renewal flow.
+  private async applyPendingPasswordRenewal(
+    user: UserStructure,
+    newPassword: string,
+    requestContext: { ip: string; userAgent: string }
+  ): Promise<UserStructure> {
+    await userPasswordWriter.applyNewPassword({
+      user,
+      userProfile,
+      newPassword,
+      successAction: "CHANGE_PASSWORD_SUCCESS",
+      sessionReason: "PASSWORD_CHANGED",
+      requestContext,
+    });
+    return (await getUserRepository(userProfile).findOneBy({
+      id: user.id,
+    })) as UserStructure;
   }
 
   @ApiBearerAuth()

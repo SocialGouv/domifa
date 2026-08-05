@@ -16,7 +16,6 @@ import {
 import { getUserRepository } from "./get-user-repository.service";
 import { userSecurityEventHistoryManager } from "./userSecurityEventHistoryManager.service";
 import { userStatusManager } from "./userStatusManager.service";
-import { userPasswordWriter } from "./userPasswordWriter.service";
 
 // Wall-clock floor on every login response — neutralises the timing gap
 // between "unknown email" (fast DB miss) and "wrong password" (slow bcrypt)
@@ -94,7 +93,9 @@ async function checkPasswordImpl<T extends UserStructure | UserSupervisor>({
 
   // Password renewed for more than a year: block the login before any
   // token is issued (no OTP, no session) and require a `newPassword` in
-  // the same request — mirrors the usager login flow.
+  // the same request — mirrors the usager login flow. The new password is
+  // only written once the caller has verified the second factor (OTP or
+  // trusted device) — see StructuresAuthController / PortailAdminLoginController.
   const passwordChangeStatus = getPasswordChangeStatus(
     user.passwordLastUpdate,
     user.createdAt
@@ -106,14 +107,6 @@ async function checkPasswordImpl<T extends UserStructure | UserSupervisor>({
     if (newPassword === password) {
       throw new Error("NEW_PASSWORD_SAME_AS_OLD");
     }
-    await userPasswordWriter.applyNewPassword({
-      user,
-      userProfile,
-      newPassword,
-      successAction: "CHANGE_PASSWORD_SUCCESS",
-      sessionReason: "PASSWORD_CHANGED",
-      requestContext,
-    });
   }
 
   // No LOGIN_OK intermediate log: the LOGIN_SUCCESS emitted by the
