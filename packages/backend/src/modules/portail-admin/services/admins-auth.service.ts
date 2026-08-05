@@ -1,10 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { SessionFingerprintService } from "../../../auth/services/session-fingerprint.service";
-import {
-  userStructureRepository,
-  userSupervisorRepository,
-} from "../../../database";
+import { userSupervisorRepository } from "../../../database";
 
 import {
   CURRENT_JWT_PAYLOAD_VERSION,
@@ -69,8 +66,8 @@ export class AdminsAuthService {
       return false;
     }
 
-    // update structure & user last login date
-    await userStructureRepository.update(
+    // update supervisor's last login date
+    await userSupervisorRepository.update(
       { id: authUser.id },
       { lastLogin: new Date() }
     );
