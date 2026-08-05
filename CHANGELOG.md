@@ -1,3 +1,11 @@
+# [2.252.0](https://github.com/SocialGouv/domifa/compare/v2.251.0...v2.252.0) (2026-08-05)
+
+
+### Features
+
+* **frontend:** change video position ([4c50e89](https://github.com/SocialGouv/domifa/commit/4c50e89829770a48e501c4cc58e52c4ae66f458e))
+* **frontend:** delete hr separator ([da51cec](https://github.com/SocialGouv/domifa/commit/da51cec2e8665db07f16614c5c74a8a7ddd52039))
+
 # [2.251.0](https://github.com/SocialGouv/domifa/compare/v2.250.26...v2.251.0) (2026-08-05)
 
 
