@@ -17,6 +17,12 @@
             >
             }
           </h3>
+          <p class="fr-text--sm fr-mb-0" id="accounts-table-desc">
+            Générer les comptes en masse crée les identifiants pour tous les
+            domiciliés. <br />
+            La colonne <b>Activation par l’usager</b> se met à jour lorsque le
+            domicilié s’est connecté à son compte.
+          </p>
         </div>
         <div class="fr-col-auto">
           <app-button
@@ -66,13 +72,13 @@
         <div class="fr-table__wrapper">
           <div class="fr-table__container">
             <div class="fr-table__content">
-              <table>
+              <table aria-describedby="accounts-table-desc">
                 <caption class="fr-sr-only">
                   Liste des comptes utilisateurs Mon DomiFa
                 </caption>
                 <thead>
                   <tr>
-                    <th scope="col">Statut</th>
+                    <th scope="col">Activation par l'usager</th>
                     <th scope="col">Nom</th>
                     <th scope="col">Prénom</th>
                     <th scope="col">Identifiant</th>
@@ -89,13 +95,13 @@
                   <tr [attr.aria-rowindex]="i + 1">
                     <td class="fr-text--bold">
                       @if (account.passwordType !== 'PERSONAL') {
-                      <span class="fr-badge fr-badge--sm fr-badge--warning"
-                        >Non activé</span
-                      >
+                      <span class="fr-badge fr-badge--sm fr-badge--warning">
+                        Non activé par l'usager
+                      </span>
                       } @else {
-                      <span class="fr-badge fr-badge--sm fr-badge--success"
-                        >Activé</span
-                      >
+                      <span class="fr-badge fr-badge--sm fr-badge--success">
+                        Activé par l'usager
+                      </span>
                       }
                     </td>
                     <td class="fr-text--bold">
