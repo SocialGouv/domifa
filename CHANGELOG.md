@@ -1,3 +1,10 @@
+# [2.251.0](https://github.com/SocialGouv/domifa/compare/v2.250.26...v2.251.0) (2026-08-05)
+
+
+### Features
+
+* **frontend:** add btn dl my domifa posters ([cdc9b6a](https://github.com/SocialGouv/domifa/commit/cdc9b6a20b721d8402d9718721ca80c4ae130b84))
+
 ## [2.250.26](https://github.com/SocialGouv/domifa/compare/v2.250.25...v2.250.26) (2026-07-30)
 
 
