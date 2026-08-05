@@ -50,6 +50,65 @@
         Découvrez le portail Mon DomiFa et activez-le pour les domiciliés !
       </h2>
     </div>
+    <div class="fr-grid-row">
+      <div class="fr-col-12 fr-col-md-8 fr-col-lg-9">
+        <h2 class="fr-h3">Affiches de connexion Mon Domifa disponibles</h2>
+        <p>
+          Téléchargez les affiches de connexion à <b>Mon DomiFa</b> et
+          affichez-les dans votre structure pour permettre aux usagers d'accéder
+          facilement à leur espace personnel.
+        </p>
+      </div>
+      <div class="fr-col-12 fr-col-md-4 fr-col-lg-3 flex fr-grid-row">
+        <div class="fr-ml-auto">
+          <dsfrx-dropdownmenu
+            [labelMenu]="'Affiches Mon Domifa'"
+            iconMenu="fr-icon-download-fill"
+            appendTo="body"
+            [closeOnAction]="true"
+          >
+            <ng-template #contentTemplate>
+              <dsfrx-dropdownmenu-item>
+                <div>
+                  <a
+                    title="Télécharger l'affiche explicative de la connexion à Mon Domifa en français"
+                    href="/assets/files/mon_domifa_login_Francais.pdf"
+                    rel="noopener noreferrer"
+                    download
+                  >
+                    Affiche Mon Domifa en français
+                  </a>
+                </div>
+              </dsfrx-dropdownmenu-item>
+              <dsfrx-dropdownmenu-item>
+                <div>
+                  <a
+                    title="Télécharger l'affiche explicative de la connexion à Mon Domifa en anglais"
+                    href="/assets/files/mon_domifa_login_Anglais.pdf"
+                    rel="noopener noreferrer"
+                    download
+                  >
+                    Affiche Mon Domifa en anglais
+                  </a>
+                </div>
+              </dsfrx-dropdownmenu-item>
+              <dsfrx-dropdownmenu-item>
+                <div>
+                  <a
+                    title="Télécharger l'affiche explicative  de la connexion à Mon Domifa en arabe"
+                    href="/assets/files/mon_domifa_login_Arabe.pdf"
+                    rel="noopener noreferrer"
+                    download
+                  >
+                    Affiche Mon Domifa en arabe
+                  </a>
+                </div>
+              </dsfrx-dropdownmenu-item>
+            </ng-template>
+          </dsfrx-dropdownmenu>
+        </div>
+      </div>
+    </div>
     <div
       class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-my-4w"
       @fadeIn
