@@ -1,3 +1,10 @@
+## [2.254.1](https://github.com/SocialGouv/domifa/compare/v2.254.0...v2.254.1) (2026-08-06)
+
+
+### Bug Fixes
+
+* text condition on reinit pwd modal ([43d3f97](https://github.com/SocialGouv/domifa/commit/43d3f975ab94234ff7d1b426eeda06a1104a9f6f))
+
 # [2.254.0](https://github.com/SocialGouv/domifa/compare/v2.253.0...v2.254.0) (2026-08-06)
 
 
