@@ -1,3 +1,11 @@
+# [2.254.0](https://github.com/SocialGouv/domifa/compare/v2.253.0...v2.254.0) (2026-08-06)
+
+
+### Features
+
+* add rgaa portail usagers ([2d22a72](https://github.com/SocialGouv/domifa/commit/2d22a72d2a72ce7b485b4e35a9cee8e9800db154))
+* **portail:** adding rgaa to portail usagers ([a0900f5](https://github.com/SocialGouv/domifa/commit/a0900f533cf5a3b5f57d5063f374020d6dbb415f))
+
 # [2.253.0](https://github.com/SocialGouv/domifa/compare/v2.252.0...v2.253.0) (2026-08-05)
 
 
