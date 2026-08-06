@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from "@angular/core";
 })
 export class FormatBigNumberPipe implements PipeTransform {
   public transform(nb: number): string {
-    if (isNaN(nb)) {
+    if (nb == null || isNaN(nb)) {
       return "";
     }
 
