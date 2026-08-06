@@ -88,18 +88,27 @@
   class="fr-text--left"
   #confirmationModal
   [titleModal]="
-    'Vous êtes sur le point de réinitialiser le mot de passe de ' +
+    (usager.options.portailUsagerEnabled
+      ? 'Vous êtes sur le point de réinitialiser le mot de passe de '
+      : 'Vous êtes sur le point d\'activer le portail de ') +
     (usager | fullName)
   "
   [size]="'MD'"
   dialogId="confirmationPortailModal"
 >
+  @if (usager.options.portailUsagerEnabled) {
   <p>
     Le précédent mot de passe ne pourra plus être utilisé.
     <br />
     Vous devrez à nouveau transmettre le document avec le mot de passe
     temporaire au domicilié
   </p>
+  } @else {
+  <p>
+    Après l'activation, ouvrez le document généré contenant les identifiants de
+    connexion et transmettez-le à l'usager.
+  </p>
+  }
 
   <ng-template #modalFooterTemplate>
     <div
@@ -113,7 +122,10 @@
         [attr.aria-busy]="loading"
       >
         @if (!loading) {
-        <span>Confirmer la réinitialisation</span>
+        <span>
+          @if (usager.options.portailUsagerEnabled) { Confirmer la
+          réinitialisation } @else { Confirmer l'activation }
+        </span>
         } @else {
         <span class="fr-sr-only">Veuillez patienter...</span>
         }
