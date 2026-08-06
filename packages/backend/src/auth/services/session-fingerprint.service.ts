@@ -110,7 +110,16 @@ export class SessionFingerprintService {
     userId: number
   ): Promise<CurrentUserSession | null> {
     const row = await this.loadSecurityRow(profile, userId);
-    return row?.currentSession ?? null;
+    const session = row?.currentSession ?? null;
+    if (!session) {
+      return null;
+    }
+    // A session past its own expiry is not active: the trust token must not
+    // outlive it just because its 30-day JWT is still signed.
+    if (new Date(session.expiresAt).getTime() <= Date.now()) {
+      return null;
+    }
+    return session;
   }
 
   public async verifySessionFromJwt(

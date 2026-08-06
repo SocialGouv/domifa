@@ -1,10 +1,12 @@
+import { OTP_RESEND_COOLDOWN_SECONDS } from "@domifa/common";
+
 export const OTP_EXPIRATION_MINUTES = 30;
-export const OTP_MAX_ATTEMPTS = 3;
 export const OTP_BLOCK_DURATION_MINUTES = 60;
 
 // Derived (ms). Preferred at call sites — avoids the * 60 * 1000 inline math.
 export const OTP_EXPIRATION_MS = OTP_EXPIRATION_MINUTES * 60 * 1000;
 export const OTP_BLOCK_DURATION_MS = OTP_BLOCK_DURATION_MINUTES * 60 * 1000;
+export const OTP_RESEND_COOLDOWN_MS = OTP_RESEND_COOLDOWN_SECONDS * 1000;
 
 // Per-user rolling cap on OTP_REQUESTED rows over a 1-hour window (all
 // purposes). Reaching it marks the account TEMPORARILY_BLOCKED via

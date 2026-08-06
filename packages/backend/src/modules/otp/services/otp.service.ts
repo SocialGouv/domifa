@@ -1,6 +1,8 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable, Logger } from "@nestjs/common";
 import { createHmac, randomInt } from "node:crypto";
 import { EntityManager } from "typeorm";
+
+import { OTP_MAX_ATTEMPTS } from "@domifa/common";
 
 import { domifaConfig } from "../../../config";
 import { myDataSource, otpRepository } from "../../../database";
@@ -9,8 +11,8 @@ import { acquireAdvisoryXactLock } from "../../../database/services/_postgres";
 import {
   OTP_BLOCK_DURATION_MS,
   OTP_EXPIRATION_MS,
-  OTP_MAX_ATTEMPTS,
   OTP_MAX_REQUESTS_PER_HOUR,
+  OTP_RESEND_COOLDOWN_MS,
 } from "../otp.constants";
 import { recordTestOtpCode } from "../otp-test-sink";
 import { OtpRequestContext } from "../otp.types";
@@ -103,7 +105,7 @@ export class OtpService {
     }
 
     const existing = await this.findExistingActiveOtp(context);
-    if (existing) {
+    if (existing && !isOlderThanResendCooldown(existing)) {
       return { kind: "already_active" };
     }
 
@@ -116,6 +118,7 @@ export class OtpService {
     recordTestOtpCode(context.userUuid, plainCode);
     const expiresAt = new Date(Date.now() + OTP_EXPIRATION_MS);
 
+    await otpRepository.invalidateActiveOtps(buildScopeKey(context));
     await otpRepository.createOtp({
       email: context.email,
       code: this.hmacCode(plainCode),
@@ -268,14 +271,29 @@ export class OtpService {
 
   // HMAC-SHA256 keyed with DOMIFA_OTP_SECRET. Refuses to run without the
   // secret — a silent fallback to plain SHA-256 would be reversible from a
-  // DB dump for a 6-digit keyspace.
+  // DB dump for a 6-digit keyspace. Surfaced as a 500 rather than a bare
+  // Error so the login flow reports a server failure instead of folding it
+  // into "wrong credentials".
   private hmacCode(code: string): string {
     const secret = domifaConfig().security.otpSecret;
     if (!secret) {
-      throw new Error(
+      this.logger.error(
         "DOMIFA_OTP_SECRET is not configured — refusing to issue or verify OTPs"
+      );
+      throw new HttpException(
+        { message: "OTP_UNAVAILABLE" },
+        HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
     return createHmac("sha256", secret).update(code).digest("hex");
   }
+}
+
+// A new code is only generated once the cooldown has elapsed since the last
+// one, so asking again in a loop can't turn into a mail flood.
+function isOlderThanResendCooldown(existing: ActiveOtpHmac): boolean {
+  if (!existing.createdAt) {
+    return true;
+  }
+  return Date.now() - existing.createdAt.getTime() >= OTP_RESEND_COOLDOWN_MS;
 }

@@ -1,6 +1,7 @@
 -- Replayed by CreateDatabase1603812391580 through the TypeORM driver, not psql.
 -- Keep this file free of psql meta-commands (\restrict, \unrestrict, \connect...):
--- pg_dump emits them since 17.6/16.10, and the server rejects them as syntax errors.CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
+-- pg_dump emits them since 17.6/16.10, and the server rejects them as syntax errors.
+CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 CREATE TABLE public.app_ip_ban (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
