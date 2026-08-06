@@ -5,13 +5,7 @@ import { Title } from "@angular/platform-browser";
 import { NavigationEnd, Router, RouterModule } from "@angular/router";
 import { filter } from "rxjs";
 import { LIENS_PARTENAIRES } from "./modules/general/components/_static/plan-site/LIENS_PARTENAIRES.const";
-import {
-  getPasswordChangeOverdueDays,
-  getPasswordChangeStatus,
-  NewsItem,
-  PasswordChangeStatus,
-  PortailUsagerProfile,
-} from "@domifa/common";
+import { NewsItem, PortailUsagerProfile } from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
 import DOMIFA_NEWS from "../assets/files/news.json";
 import {
@@ -47,20 +41,6 @@ export class AppComponent implements OnInit {
   public title: string;
   public apiVersion: string | null;
   public usagerProfile: PortailUsagerProfile | null;
-
-  public get passwordChangeStatus(): PasswordChangeStatus {
-    return getPasswordChangeStatus(
-      this.usagerProfile?.passwordLastUpdate,
-      this.usagerProfile?.createdAt
-    );
-  }
-
-  public get passwordChangeOverdueDays(): number {
-    return getPasswordChangeOverdueDays(
-      this.usagerProfile?.passwordLastUpdate,
-      this.usagerProfile?.createdAt
-    );
-  }
   public currentUrl = "";
   public readonly partnerLinks = LIENS_PARTENAIRES;
   public pendingNews = false;

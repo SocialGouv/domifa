@@ -3,18 +3,24 @@
 <div class="fr-content-container fr-py-3w">
   @if (passwordChangeStatus === 'WARNING') {
   <div class="fr-container fr-my-3w">
-    <div class="fr-alert fr-alert--warning" role="alert">
-      <p class="fr-alert__title">Pensez à modifier votre mot de passe</p>
-      <p>
-        L'échéance de renouvellement est dépassée depuis
-        {{ passwordChangeOverdueDays }} jour{{
-          passwordChangeOverdueDays > 1 ? "s" : ""
-        }}. Pour continuer à utiliser DomiFa en toute sécurité, modifiez-le dès
-        maintenant.
-        <a routerLink="/manage-users/my-account"
-          >Modifier mon mot de passe maintenant →</a
-        >.
-      </p>
+    <div class="fr-notice fr-notice--warning">
+      <div class="fr-container">
+        <div class="fr-notice__body">
+          <p>
+            <span class="fr-notice__title">
+              Votre mot de passe arrive à échéance <br />
+            </span>
+            <span class="fr-notice__desc">
+              Pour maintenir la sécurité de votre compte sur DomiFa, pensez à
+              renouveler votre mot de passe. L'opération prend moins d'une
+              minute. <br />
+            </span>
+            <a routerLink="/manage-users/my-account">
+              Modifier mon mot de passe maintenant →
+            </a>
+          </p>
+        </div>
+      </div>
     </div>
   </div>
   }

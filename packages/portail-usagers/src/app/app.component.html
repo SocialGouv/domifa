@@ -115,24 +115,6 @@
   </div>
 </header>
 
-@if (passwordChangeStatus === 'WARNING' && currentUrl === '/account') {
-<div class="fr-container fr-mt-2w">
-  <div class="fr-alert fr-alert--warning" role="alert">
-    <p class="fr-alert__title">Pensez à modifier votre mot de passe</p>
-    <p>
-      L'échéance de renouvellement est dépassée depuis
-      {{ passwordChangeOverdueDays }} jour{{
-        passwordChangeOverdueDays > 1 ? "s" : ""
-      }}. Pour continuer à utiliser DomiFa en toute sécurité, modifiez-le dès
-      maintenant.
-      <a routerLink="/account/mon-compte"
-        >Modifier mon mot de passe maintenant →</a
-      >.
-    </p>
-  </div>
-</div>
-}
-
 <main role="main" id="page">
   <router-outlet></router-outlet>
 </main>

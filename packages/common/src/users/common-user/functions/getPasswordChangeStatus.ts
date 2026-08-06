@@ -47,3 +47,19 @@ export const getPasswordChangeOverdueDays = (
 
   return days > 0 ? days : 0;
 };
+
+// Date at which the password becomes EXPIRED. `expiredAfterMonths` defaults
+// to the standard 12-month policy but can be overridden (e.g. 24 or 36
+// months) for accounts on a longer renewal cycle.
+export const getPasswordExpirationDate = (
+  passwordLastUpdate: Date | string | null | undefined,
+  createdAt: Date | string | null | undefined,
+  expiredAfterMonths: number = PASSWORD_CHANGE_EXPIRED_MONTHS
+): Date | null => {
+  const reference = passwordLastUpdate ?? createdAt;
+  if (!reference) {
+    return null;
+  }
+
+  return addMonths(new Date(reference), expiredAfterMonths);
+};
