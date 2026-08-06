@@ -423,7 +423,7 @@ export class AdminStructuresController {
   ): Promise<ExpressResponse> {
     const target = await userStructureRepository.findOne({
       where: { uuid, structureId: structure.id },
-      select: { id: true, email: true, role: true },
+      select: { id: true, email: true, prenom: true, role: true },
     });
     if (!target) {
       throw new NotFoundException("USER_NOT_FOUND");
@@ -432,6 +432,7 @@ export class AdminStructuresController {
     await this.userStructureDecisionService.softDelete({
       targetUserId: target.id,
       targetUserEmail: target.email,
+      targetUserPrenom: target.prenom,
       targetUserRole: target.role,
       structureId: structure.id,
       motif: body.motif,

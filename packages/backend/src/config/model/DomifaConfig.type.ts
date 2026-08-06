@@ -71,6 +71,8 @@ export type DomifaConfig = {
       structureRefusal: number; // DOMIFA_BREVO_TEMPLATES_STRUCTURE_REFUSAL
       // Structure delete template
       structureDelete: number; // DOMIFA_BREVO_TEMPLATES_STRUCTURE_DELETE
+      // User account deleted template
+      userAccountDeleted: number; // DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_DELETED
       // User account created by admin template
       userStructureCreatedByAdmin: number; // DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_CREATED_BY_ADMIN
       // Structure pending activation template

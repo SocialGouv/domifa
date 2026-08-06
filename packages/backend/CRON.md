@@ -82,9 +82,10 @@ Ces crons envoient des SMS pour rappeler aux usagers de passer récupérer leur 
 ### `sms-mon-domifa-batch`
 
 - **Service**: `CronSmsMonDomiFaService`
-- **Horaire**: Toutes les heures (Europe/Paris)
-- **Rôle**: Envoie par batch de 200 les SMS contenant les identifiants de connexion à Mon DomiFa (portail usager). S'arrête automatiquement après 23h.
+- **Horaire**: Toutes les 5 minutes (Europe/Paris), envoi limité à la plage 9h-19h
+- **Rôle**: Envoie par batch de 250 les SMS contenant les identifiants de connexion à Mon DomiFa (portail usager).
 - **MaxRuntime**: 50 minutes
+- **Statut**: ⚠️ **Désactivé** (`disabled: true` sur le décorateur `@Cron`). Ce cron n'est activé que ponctuellement, lors de l'intégration d'une grosse structure.
 
 ## 🗄️ Open Data
 
@@ -102,7 +103,7 @@ Ces crons envoient des SMS pour rappeler aux usagers de passer récupérer leur 
 ### `open-data-load-soliguide`
 
 - **Service**: `LoadSoliguideDataService`
-- **Horaire**: Tous les jours à 3h00 (Europe/Paris)
+- **Horaire**: Tous les jours à 23h00 (Europe/Paris)
 - **Rôle**:
   1. Importe les données des structures sociales depuis Soliguide (partenaire)
   2. Enrichit la base Open Data avec les structures d'accompagnement social
@@ -113,7 +114,7 @@ Ces crons envoient des SMS pour rappeler aux usagers de passer récupérer leur 
 ### `open-data-load-mss`
 
 - **Service**: `LoadMssDataService`
-- **Horaire**: Tous les jours à 2h00 (Europe/Paris)
+- **Horaire**: Tous les jours à minuit (Europe/Paris)
 - **Rôle**:
   1. Importe les données des structures depuis Mon Suivi Social (MSS)
   2. Géolocalise et valide les adresses des structures
@@ -137,6 +138,35 @@ Ces crons envoient des SMS pour rappeler aux usagers de passer récupérer leur 
 - **Horaire**: Tous les jours à 23h00 (Europe/Paris)
 - **Rôle**: Supprime les données de monitoring des batchs de plus de 7 jours (statut "success" uniquement) pour économiser l'espace disque.
 - **MaxRuntime**: 15 minutes
+
+### `purge-expired-otps`
+
+- **Service**: `OtpCleanerService`
+- **Horaire**: Tous les jours à 23h00 (Europe/Paris)
+- **Rôle**: Supprime les codes de confirmation (OTP) expirés.
+- **MaxRuntime**: 15 minutes
+- **Statut**: ⚠️ **Désactivé**
+
+## 🔒 Sécurité
+
+### `security-monitoring-scan`
+
+- **Service**: `SecurityMonitoringService`
+- **Horaire**: Toutes les 5 minutes (Europe/Paris)
+- **Rôle**: Analyse les événements de sécurité récents et déclenche les alertes.
+
+### `clear-expired-temporary-blocks`
+
+- **Service**: `ExpiredTemporaryBlockCleanerService`
+- **Horaire**: Toutes les 30 minutes (Europe/Paris)
+- **Rôle**: Lève les blocages temporaires de comptes dont la durée est écoulée.
+
+### Rafraîchissement du cache des IP bannies
+
+- **Service**: `IpBanCacheService`
+- **Horaire**: Toutes les 5 minutes
+- **Rôle**: Recharge en mémoire la liste des IP bannies depuis la base.
+- **Note**: Pas de monitor Sentry associé.
 
 ## 🔧 Monitoring Sentry
 
@@ -165,16 +195,21 @@ Pour consulter le monitoring des crons dans Sentry :
 
 ## 📋 Résumé par horaire
 
-| Heure             | Cron(s)                                             |
-| ----------------- | --------------------------------------------------- |
-| 01h00             | Brevo Sync, Load DomiFa Open Data                   |
-| 02h00             | Public Stats Cache, Load MSS Open Data              |
-| 03h00             | Load Soliguide Open Data                            |
-| 18h00             | SMS Fin Domiciliation (toutes timezones)            |
-| 19h00             | SMS Interactions (toutes timezones, lundi-vendredi) |
-| 22h00             | Purge Expired Tokens                                |
-| 23h00             | Purge Monitoring Data                               |
-| Toutes les heures | SMS Mon DomiFa Batch                                |
+| Heure             | Cron(s)                                                         |
+| ----------------- | --------------------------------------------------------------- |
+| 00h00             | Load MSS Open Data                                              |
+| 01h00             | Brevo Sync, Load DomiFa Open Data                               |
+| 02h00             | Public Stats Cache                                              |
+| 18h00             | SMS Fin Domiciliation (heure locale de chaque timezone)         |
+| 19h00             | SMS Interactions (heure locale, lundi-vendredi)                 |
+| 22h00             | Purge Expired Tokens                                            |
+| 23h00             | Load Soliguide Open Data, Purge Monitoring Data                 |
+| Toutes les 5 min  | Security Monitoring Scan, Rafraîchissement cache IP bannies     |
+| Toutes les 30 min | Clear Expired Temporary Blocks                                  |
+| _(désactivé)_     | SMS Mon DomiFa Batch — toutes les 5 min si activé, plage 9h-19h |
+| _(désactivé)_     | Purge Expired OTPs — tous les jours à 23h00 si activé           |
+
+> ⚠️ Les horaires SMS sont exprimés en **heure locale de chaque territoire**. En heure de Paris, les envois s'étalent sur presque 24 h — voir la section Timezones ci-dessous.
 
 ## 🌍 Timezones supportées
 
