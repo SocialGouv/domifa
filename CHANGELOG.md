@@ -1,3 +1,13 @@
+## [2.254.3](https://github.com/SocialGouv/domifa/compare/v2.254.2...v2.254.3) (2026-08-06)
+
+
+### Bug Fixes
+
+* **backend:** fix otp refactor ([1831268](https://github.com/SocialGouv/domifa/commit/183126877ee31a1f634739e9f0029be23615ba10))
+* **backend:** refactor of OTP management ([9eeaf4a](https://github.com/SocialGouv/domifa/commit/9eeaf4a85bfd979fa6ff55247ac96b1f2d6cf253))
+* **backend:** refactor to use common variables ([b07538f](https://github.com/SocialGouv/domifa/commit/b07538f710080873a83f6ad07107e7a291b81816))
+* **frontend:** factorize functions ([0fa1f4a](https://github.com/SocialGouv/domifa/commit/0fa1f4a4f1b63bf8c65839e81f544403ccda0c90))
+
 ## [2.254.2](https://github.com/SocialGouv/domifa/compare/v2.254.1...v2.254.2) (2026-08-06)
 
 
