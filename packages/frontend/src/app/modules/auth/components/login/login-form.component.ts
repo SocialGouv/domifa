@@ -105,8 +105,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
           },
           error: (err) => {
             this.loading = false;
-            const errorCode = err?.error?.code;
-            if (err?.error?.message === "BLOCKED_TEMP") {
+            const errorCode = err?.error?.message;
+            if (errorCode === "BLOCKED_TEMP") {
               this.blockedTemp = true;
             } else if (
               errorCode === "OTP_FAILED" ||

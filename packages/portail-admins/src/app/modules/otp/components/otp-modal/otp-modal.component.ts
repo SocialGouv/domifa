@@ -15,6 +15,8 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { Subscription } from "rxjs";
 import {
   OTP_ERROR_LABELS,
+  OTP_MAX_ATTEMPTS,
+  OTP_RESEND_COOLDOWN_SECONDS,
   OtpErrorCode,
   OtpPromptOptions,
 } from "@domifa/common";
@@ -49,9 +51,6 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
   public previousErrorCode: OtpErrorCode | null = null;
   public attemptCount = 0;
   public resendCooldown = 0;
-
-  public static readonly MAX_ATTEMPTS = 3;
-  public static readonly RESEND_COOLDOWN_SECONDS = 60;
 
   private readonly subscription = new Subscription();
   private isOpen = false;
@@ -143,7 +142,7 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public get isLocked(): boolean {
-    return this.attemptCount >= OtpModalComponent.MAX_ATTEMPTS;
+    return this.attemptCount >= OTP_MAX_ATTEMPTS;
   }
 
   public get errorMessage(): string | null {
@@ -160,7 +159,7 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
       this.attemptCount += 1;
     }
 
-    if (this.attemptCount >= OtpModalComponent.MAX_ATTEMPTS) {
+    if (this.attemptCount >= OTP_MAX_ATTEMPTS) {
       this.promptService.blocked();
       return;
     }
@@ -199,7 +198,7 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private startResendCooldown(): void {
     this.clearResendTimer();
-    this.resendCooldown = OtpModalComponent.RESEND_COOLDOWN_SECONDS;
+    this.resendCooldown = OTP_RESEND_COOLDOWN_SECONDS;
     this.resendTimer = setInterval(() => {
       this.resendCooldown -= 1;
       if (this.resendCooldown <= 0) {

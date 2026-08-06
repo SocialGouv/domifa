@@ -104,7 +104,6 @@ export class OtpInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return this.promptService
       .prompt({
-        purpose: "EXPORT",
         previousErrorCode:
           initialCode === "OTP_REQUIRED" ? undefined : initialCode,
       })
@@ -130,10 +129,9 @@ export class OtpInterceptor implements HttpInterceptor {
       );
   }
 
-  // Re-fire the original request WITHOUT the Otp-Code header. The backend
-  // reuses the active OTP (no new email) or issues a fresh one if the previous
-  // expired. Either way it re-throws OTP_REQUIRED, which we surface to keep
-  // the modal open with the fresh state.
+  // Re-fire the original request WITHOUT the Otp-Code header: the backend
+  // generates and mails a new code, then re-throws OTP_REQUIRED, which we
+  // surface to keep the modal open with the fresh state.
   private fireResend(
     request: HttpRequest<any>,
     next: HttpHandler
@@ -144,9 +142,7 @@ export class OtpInterceptor implements HttpInterceptor {
     return this.runOtpRetry(retried, next, {
       onRecoverable: (code) => {
         this.promptService.updateError(code);
-        this.toastr.success(
-          "Si votre code précédent a expiré, un nouveau vient de vous être envoyé."
-        );
+        this.toastr.success("Un nouveau code vient de vous être envoyé.");
       },
     });
   }

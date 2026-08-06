@@ -1,4 +1,4 @@
-import { SecurityLogAction } from "@domifa/common";
+import { OTP_MAX_ATTEMPTS, SecurityLogAction } from "@domifa/common";
 
 import { otpRepository, userUsagerRepository } from "../../../database";
 import { passwordGenerator } from "../../../util";
@@ -8,7 +8,6 @@ import {
   SecurityLogRequestContext,
   SessionTerminationReason,
 } from "../../app-logs/app-log-security-writer";
-import { OTP_MAX_ATTEMPTS } from "../../otp/otp.constants";
 import { getUserRepository } from "./get-user-repository.service";
 import { terminateUserSession } from "./userSessionTerminator.service";
 import { userStatusManager } from "./userStatusManager.service";

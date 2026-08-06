@@ -170,9 +170,12 @@ export class StructuresAuthController {
         error: err,
         context: { userProfile, email: loginDto?.email },
       });
+      // The password already checked out: reporting a server-side failure of
+      // the OTP step as LOGIN_FAILED would send the user chasing a credential
+      // problem they don't have.
       return res
-        .status(HttpStatus.UNAUTHORIZED)
-        .json({ message: "LOGIN_FAILED" });
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "OTP_UNAVAILABLE" });
     }
   }
 

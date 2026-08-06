@@ -21,6 +21,7 @@ export interface NewOtpInput extends OtpKey {
 
 export interface ActiveOtpHmac {
   code: string;
+  createdAt: Date | null;
 }
 
 export interface BlockedOtpMarker {
@@ -38,7 +39,7 @@ export const otpRepository = myDataSource.getRepository(OtpTable).extend({
     userUuid: string
   ): Promise<ActiveOtpHmac | null> {
     const row = await this.createQueryBuilder("otp")
-      .select(["otp.code"])
+      .select(["otp.code", "otp.createdAt"])
       .where("otp.fingerprintHash = :fingerprintHash", { fingerprintHash })
       .andWhere("otp.used = false")
       .andWhere(`otp."expiresAt" > :now`, { now: new Date() })
@@ -47,7 +48,7 @@ export const otpRepository = myDataSource.getRepository(OtpTable).extend({
       .orderBy(`otp."createdAt"`, "DESC")
       .limit(1)
       .getOne();
-    return row ? { code: row.code } : null;
+    return row ? { code: row.code, createdAt: row.createdAt ?? null } : null;
   },
 
   // Atomic verify + consume. Sets used=true only if all guards hold
@@ -121,6 +122,20 @@ export const otpRepository = myDataSource.getRepository(OtpTable).extend({
       .limit(1)
       .getOne();
     return row?.updatedAt ? { updatedAt: row.updatedAt } : null;
+  },
+
+  // Called before issuing a new code: only the latest one stays valid.
+  // `usedAt` is left null so an invalidated row never looks consumed.
+  async invalidateActiveOtps(key: OtpKey): Promise<void> {
+    await this.update(
+      {
+        fingerprintHash: key.fingerprintHash,
+        url: key.url,
+        purpose: key.purpose,
+        used: false,
+      },
+      { used: true }
+    );
   },
 
   async createOtp(input: NewOtpInput): Promise<void> {
