@@ -259,6 +259,13 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             required: emailsEnabled,
           }
         ),
+        userAccountDeleted: configParser.parseInteger(
+          x,
+          "DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_DELETED",
+          {
+            required: emailsEnabled,
+          }
+        ),
         userStructureCreatedByAdmin: configParser.parseInteger(
           x,
           "DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_CREATED_BY_ADMIN",
@@ -365,12 +372,12 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       usagersDocsDownloadPerDay: configParser.parseInteger(
         x,
         "DOMIFA_QUOTA_USAGERS_DOCS_DOWNLOAD_PER_DAY",
-        { required: false, defaultValue: 100 }
+        { required: false, defaultValue: 200 }
       ),
       usagersDocsDownloadBlockPerDay: configParser.parseInteger(
         x,
         "DOMIFA_QUOTA_USAGERS_DOCS_DOWNLOAD_BLOCK_PER_DAY",
-        { required: false, defaultValue: 200 }
+        { required: false, defaultValue: 400 }
       ),
       usagersDocsUploadPerDay: configParser.parseInteger(
         x,
@@ -380,12 +387,12 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       usagersDeletePerDay: configParser.parseInteger(
         x,
         "DOMIFA_QUOTA_USAGERS_DELETE_PER_DAY",
-        { required: false, defaultValue: 100 }
+        { required: false, defaultValue: 200 }
       ),
       usagersDeleteBlockPerDay: configParser.parseInteger(
         x,
         "DOMIFA_QUOTA_USAGERS_DELETE_BLOCK_PER_DAY",
-        { required: false, defaultValue: 200 }
+        { required: false, defaultValue: 400 }
       ),
     },
   };

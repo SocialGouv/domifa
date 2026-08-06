@@ -281,6 +281,7 @@ export class UsersController {
     await this.userStructureDecisionService.softDelete({
       targetUserId: chosenUserStructure.id,
       targetUserEmail: chosenUserStructure.email,
+      targetUserPrenom: chosenUserStructure.prenom,
       targetUserRole: chosenUserStructure.role,
       structureId: userStructureAuth.structureId,
       motif: body.motif,

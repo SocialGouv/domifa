@@ -8,6 +8,7 @@ import {
   ContactsApi,
   CreateContact,
   SendSmtpEmailReplyTo,
+  RemoveContactFromList,
   UpdateContact,
 } from "@getbrevo/brevo";
 import { readFileSync } from "node:fs";
@@ -364,6 +365,52 @@ export class BrevoSenderService {
       }
       appLogger.warn(
         `Erreur lors de la mise à jour du statut Brevo pour l'email ${email}`,
+        error
+      );
+      throw error;
+    }
+  }
+
+  // Takes the contact out of the DomiFa users list on account deletion: the
+  // daily sync skips deleted users, so the contact would otherwise stay in the
+  // list forever with stale attributes. The contact itself is kept in Brevo.
+  async removeContactFromUsersList(email: string): Promise<void> {
+    const config = domifaConfig();
+
+    if (isBrevoCallSkipped(config)) {
+      appLogger.info(
+        `[EMAILS DISABLED] Retrait de la liste Utilisateurs non effectué pour ${email}`
+      );
+      return;
+    }
+
+    if (isDeletedEmail(email)) {
+      appLogger.info(
+        `[BREVO SKIP] Email préfixé "deleted-", retrait de la liste Utilisateurs ignoré`
+      );
+      return;
+    }
+
+    const listId = Number.parseInt(config.brevo.contactsUsersListId, 10);
+    const removeContact = new RemoveContactFromList();
+    removeContact.emails = [email];
+
+    try {
+      await this.contactsApi.removeContactFromList(listId, removeContact);
+      appLogger.info(`Contact Brevo retiré de la liste Utilisateurs: ${email}`);
+    } catch (error: any) {
+      // 400 "contact already removed" and 404 both mean the contact is not in
+      // the list — the desired end state, so nothing to report.
+      const status =
+        error?.response?.statusCode ?? error?.response?.status ?? error?.status;
+      if (status === 400 || status === 404) {
+        appLogger.info(
+          `Contact ${email} absent de la liste Utilisateurs, retrait ignoré`
+        );
+        return;
+      }
+      appLogger.warn(
+        `Erreur lors du retrait de la liste Utilisateurs pour ${email}`,
         error
       );
       throw error;
