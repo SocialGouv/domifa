@@ -1,3 +1,10 @@
+## [2.254.2](https://github.com/SocialGouv/domifa/compare/v2.254.1...v2.254.2) (2026-08-06)
+
+
+### Bug Fixes
+
+* **backend:** add delete user from lists & send email ([3bfb26c](https://github.com/SocialGouv/domifa/commit/3bfb26cb91bc02ed60d5b5518a0261f7091f622d))
+
 ## [2.254.1](https://github.com/SocialGouv/domifa/compare/v2.254.0...v2.254.1) (2026-08-06)
 
 
