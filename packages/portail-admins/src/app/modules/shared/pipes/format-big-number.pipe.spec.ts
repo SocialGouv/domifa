@@ -19,4 +19,24 @@ describe("FormatBigNumberPipe", () => {
   it("should handle zero", () => {
     expect(pipe.transform(0)).toEqual("0");
   });
+
+  it("should return empty string for NaN", () => {
+    expect(pipe.transform(NaN)).toBe("");
+  });
+
+  it("should return empty string for null (runtime bypass)", () => {
+    expect(pipe.transform(null as unknown as number)).toBe("");
+  });
+
+  it("should return empty string for undefined", () => {
+    expect(pipe.transform(undefined as unknown as number)).toBe("");
+  });
+
+  it("should format a large number with spaces", () => {
+    expect(pipe.transform(1000000)).toBe("1 000 000");
+  });
+
+  it("should handle numbers smaller than 1000", () => {
+    expect(pipe.transform(42)).toBe("42");
+  });
 });
