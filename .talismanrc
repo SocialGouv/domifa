@@ -1,4 +1,5 @@
 fileignoreconfig:
+
 - filename: .anonymizer/config.yaml
   checksum: 1c140b276ba06918e1b46964a0c3883b0c212c9def9008d9dcb5de8531e0bd1b
 - filename: .anonymizer/pnpm-lock.yaml
@@ -31,9 +32,9 @@ fileignoreconfig:
   checksum: 27b30903e350c810884209af85ddc0555ad1a728f304c34d03661ec7c164d321
 - filename: packages/backend/src/\_migrations/\_init-db/domifa_test_schema.sql
   checksum: 8259882d1ec9007972bd5e1ea20f781b8309b5454df96188ac8d3b6ecc7049bc
-- filename: packages/backend/src/_migrations/1787045027655-add-support-mode.ts
+- filename: packages/backend/src/\_migrations/1787045027655-add-support-mode.ts
   checksum: 3f123d0b30964f99dc349f6971b6033109ca83df62f90da36a98dcc06517ba20
-- filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
+- filename: packages/backend/src/\_migrations/\_init-db/1603812391580-pr-env-create-database.ts
   checksum: 3bb17388968d9c1dfd0828a689a9697f8c6e5e862b735d7202e6327c6fc328d8
 - filename: packages/backend/src/modules/users/controllers/handleEditMyPasswordRequest.ts
   checksum: 7ec9a91f6f53aa434097177e8088ee778e3f816f7e68734cc742dd64b7dea720
@@ -77,5 +78,5 @@ fileignoreconfig:
   checksum: dfdbbe1892cf17b22d28f529914eb5df3a07063d5e3071e59c36c907020260d3
 - filename: pnpm-lock.yaml
   checksum: 114b180ea5d152c5ae416d77d50a78957129ff80ee4d014b9b232fa07f829e57
-threshold: medium
-version: "1.0"
+  threshold: medium
+  version: "1.0"

@@ -42,13 +42,7 @@ import {
 } from "../../../../database";
 import { userSecurityResetPasswordInitiator } from "../../../users/services";
 import { isDeletedEmail } from "./deleted-email.guard";
-import {
-  BREVO_REPLY_TO,
-  BREVO_SENDERS,
-  BrevoSenderDomain,
-  DEFAULT_BREVO_SENDER_DOMAIN,
-  isBrevoSenderDomain,
-} from "./brevo-senders.const";
+import { demoEmailSubject } from "../../utils/demo-email-subject";
 
 // Brevo is only ever called from prod: the account (contacts, lists,
 // blocklists, transactional history) is shared, so every other environment
@@ -179,13 +173,21 @@ export class BrevoSenderService {
       const sendSmtpEmail = new SendSmtpEmail();
 
       if (subject) {
-        sendSmtpEmail.subject = subject;
+        sendSmtpEmail.subject = demoEmailSubject(subject);
       }
 
       sendSmtpEmail.templateId = templateId;
-      // Only reachable in prod (isBrevoCallSkipped short-circuits everywhere
-      // else), so no recipient redirection is needed here anymore.
-      sendSmtpEmail.to = cleanRecipients;
+
+      const redirectAllTo = config.email.emailAddressRedirectAllTo;
+      sendSmtpEmail.to =
+        config.envId !== "prod" && redirectAllTo
+          ? [
+              {
+                email: redirectAllTo,
+                name: "DomiFa Préprod",
+              },
+            ]
+          : cleanRecipients;
 
       sendSmtpEmail.params = params;
       sendSmtpEmail.replyTo = replyTo;
