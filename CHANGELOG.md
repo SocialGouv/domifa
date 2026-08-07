@@ -1,3 +1,10 @@
+# [2.255.0](https://github.com/SocialGouv/domifa/compare/v2.254.3...v2.255.0) (2026-08-07)
+
+
+### Features
+
+* **frontend, admin:** refactor big number pipe ([2fd9d37](https://github.com/SocialGouv/domifa/commit/2fd9d37fe40c146b57a20e72f5a9bd0fce4f7da7))
+
 ## [2.254.3](https://github.com/SocialGouv/domifa/compare/v2.254.2...v2.254.3) (2026-08-06)
 
 
