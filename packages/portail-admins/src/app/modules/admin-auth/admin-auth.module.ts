@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from "../shared/shared.module";
 import { AdminAuthRoutingModule } from "./admin-auth-routing.module";
 import { AdminLoginComponent } from "./components/admin-login-form/admin-login.component";
-import { AdminAuthService } from "./services/admin-auth.service";
 import {
   provideHttpClient,
   withInterceptorsFromDi,
@@ -26,6 +25,6 @@ import { LoginContainerComponent } from "./components/login-container/login-cont
     UserSupervisorPasswordFormComponent,
     LoginContainerComponent,
   ],
-  providers: [provideHttpClient(withInterceptorsFromDi()), AdminAuthService],
+  providers: [provideHttpClient(withInterceptorsFromDi())],
 })
 export class AdminAuthModule {}
