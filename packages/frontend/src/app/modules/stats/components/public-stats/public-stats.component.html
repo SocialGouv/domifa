@@ -71,7 +71,7 @@
                 class="fr-display-flex ps-0 fr-flex-column fr-align-items-center fr-py-3w"
               >
                 <dd class="fr-h1 fr-mb-0 ps-0 fr-text-title--blue-france">
-                  {{ stats?.structuresCount | formatBigNumber }}
+                  {{ stats?.structuresCount | number : "1.0-3" : "fr" }}
                 </dd>
                 <dd>Structures</dd>
               </dl>
@@ -89,7 +89,7 @@
                   >
                     <span
                       class="fr-text--lead fr-mr-2w fr-mb-0 fr-text-title--blue-france fr-text--bold"
-                      >{{ structure.value | formatBigNumber }}</span
+                      >{{ structure.value | number : "1.0-3" : "fr" }}</span
                     >
                     <span class="sub-stats-label">
                       {{ STRUCTURE_TYPE_LABELS[structure.key] }}
@@ -116,7 +116,7 @@
               </div>
               <div class="fr-text--center">
                 <div class="fr-h3 fr-mb-0 fr-text-title--blue-france">
-                  {{ stats?.usersCount | formatBigNumber }}
+                  {{ stats?.usersCount | number : "1.0-0" }}
                 </div>
                 <span>agents</span>
               </div>
@@ -210,7 +210,7 @@
                 class="fr-display-flex fr-flex-column fr-align-self-center fr-text--center"
               >
                 <span class="fr-h2 fr-mb-0 pb-0 fr-text-title--blue-france">
-                  {{ stats?.actifs | formatBigNumber }}</span
+                  {{ stats?.structuresCount | number : "1.0-3" : "fr" }}</span
                 >
                 <span>Domiciliés</span>
               </div>

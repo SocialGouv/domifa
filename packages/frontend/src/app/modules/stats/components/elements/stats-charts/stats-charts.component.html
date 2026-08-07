@@ -42,7 +42,7 @@
             />
             <label class="fr-label" for="radio-courriers">
               <div class="fr-h3 fr-mb-0 fr-text-title--blue-france">
-                {{ publicStats.courrierOutCount | formatBigNumber }}
+                {{ publicStats.courrierOutCount | number : "1.0-0" : "fr" }}
               </div>
               <div class="stats-section-label">courriers distribués</div>
             </label>
@@ -69,7 +69,7 @@
             />
             <label class="fr-label" for="radio-usagers">
               <div class="fr-h3 fr-mb-0 fr-text-title--blue-france">
-                {{ publicStats.usagersCount | formatBigNumber }}
+                {{ publicStats.usagersCount | number : "1.0-0" : "fr" }}
               </div>
               <div class="stats-section-label">dossiers enregistrés</div>
             </label>
