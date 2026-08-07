@@ -10,8 +10,9 @@ import { Transporter } from "nodemailer";
 import { domifaConfig } from "../../../config";
 import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
 import { isDeletedEmail } from "../../mails/services/brevo-sender/deleted-email.guard";
+import { demoEmailSubject } from "../../mails/utils/demo-email-subject";
 import { OtpPurpose } from "@domifa/common";
-import { OTP_TIPIMAIL_FROM } from "../otp.constants";
+import { OTP_EMAIL_SUBJECTS, OTP_TIPIMAIL_FROM } from "../otp.constants";
 import { OTP_ACTION_MOTIF_LABELS } from "../otp.labels";
 import { redactEmail, shouldDualSendForDomain } from "../otp.utils";
 import { generateOtpActionEmailHtml } from "../templates/otp-action-email.template";
@@ -94,7 +95,9 @@ export class OtpEmailService implements OnModuleInit {
     // receives at least one — fails only if BOTH providers reject.
     // Delivery redirection to `emailAddressRedirectAllTo` doesn't change
     // the routing decision (based on the original recipient's domain).
-    if (!shouldDualSendForDomain(email)) {
+    // The dual-send workaround targets prod deliverability only: every other
+    // env stays Brevo-only, so a single provider handles a demo environment.
+    if (config.envId !== "prod" || !shouldDualSendForDomain(email)) {
       try {
         await this.sendViaBrevo({ recipient, code, prenom, purpose, isLogin });
         this.logger.log(
@@ -161,8 +164,16 @@ export class OtpEmailService implements OnModuleInit {
       templateParams.motif = OTP_ACTION_MOTIF_LABELS[purpose];
     }
 
+    // The Brevo template carries its own subject, which can only be tagged by
+    // overriding it — done outside prod only, where the tag is needed.
+    const subject =
+      domifaConfig().envId === "prod"
+        ? undefined
+        : demoEmailSubject(OTP_EMAIL_SUBJECTS[isLogin ? "login" : "action"]);
+
     await this.brevoSender.sendEmailWithTemplate({
       templateId,
+      subject,
       to: [{ email: recipient, name: recipient }],
       params: templateParams,
     });
@@ -194,9 +205,9 @@ export class OtpEmailService implements OnModuleInit {
     const html = isLogin
       ? generateOtpEmailHtml({ code })
       : generateOtpActionEmailHtml({ code });
-    const subject = isLogin
-      ? "Votre code de connexion DomiFa"
-      : "Votre code de confirmation DomiFa";
+    const subject = demoEmailSubject(
+      OTP_EMAIL_SUBJECTS[isLogin ? "login" : "action"]
+    );
 
     try {
       const result = await this.getTransporter().sendMail({
