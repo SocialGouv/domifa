@@ -19,7 +19,6 @@ import { StatsChartsComponent } from "./components/elements/stats-charts/stats-c
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { StatsMapComponent } from "./components/elements/stats-map/stats-map.component";
 import { CountUpDirective } from "ngx-countup";
-import { FormatBigNumberPipe } from "./pipes";
 
 @NgModule({
   declarations: [
@@ -38,7 +37,6 @@ import { FormatBigNumberPipe } from "./pipes";
     FormsModule,
     ReactiveFormsModule,
     StatsRoutingModule,
-    FormatBigNumberPipe,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

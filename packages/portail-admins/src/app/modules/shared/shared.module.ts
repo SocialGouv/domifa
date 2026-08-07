@@ -8,11 +8,7 @@ import { StatCardComponent } from "./components/stat-card/stat-card.component";
 
 import { AdminStructuresApiClient } from "./services";
 import { AdminStructuresExportComponent } from "./components/admin-structures-export";
-import {
-  FormatPhoneNumberPipe,
-  FormatBigNumberPipe,
-  UcFirstPipe,
-} from "./pipes";
+import { FormatPhoneNumberPipe, UcFirstPipe } from "./pipes";
 import { FonctionSelectionComponent } from "./components/fonction-selection/fonction-selection.component";
 import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
 import { DsfrAlertModule } from "@edugouvfr/ngx-dsfr";
@@ -22,7 +18,6 @@ import { DsfrAlertModule } from "@edugouvfr/ngx-dsfr";
   exports: [
     UcFirstPipe,
     FormatPhoneNumberPipe,
-    FormatBigNumberPipe,
     AdminStructuresExportComponent,
     CustomToastrComponent,
     ButtonComponent,
@@ -37,7 +32,6 @@ import { DsfrAlertModule } from "@edugouvfr/ngx-dsfr";
     FonctionFormatPipe,
     FormatPhoneNumberPipe,
     UcFirstPipe,
-    FormatBigNumberPipe,
     DsfrAlertModule,
     CustomToastrComponent,
     ButtonComponent,
