@@ -1,3 +1,10 @@
+## [2.255.1](https://github.com/SocialGouv/domifa/compare/v2.255.0...v2.255.1) (2026-08-10)
+
+
+### Bug Fixes
+
+* auth admin module imports ([#4234](https://github.com/SocialGouv/domifa/issues/4234)) ([e173e9f](https://github.com/SocialGouv/domifa/commit/e173e9f822d39c1c030bfe590d6fb1bc34493ffa))
+
 # [2.255.0](https://github.com/SocialGouv/domifa/compare/v2.254.3...v2.255.0) (2026-08-07)
 
 
