@@ -23,6 +23,21 @@ export class BackfillUserStructurePasswordLastUpdate1786366757476
       return;
     }
 
+    const countToBackfill = async (): Promise<number> => {
+      const [{ count }] = await queryRunner.query(
+        `SELECT count(*) AS count
+           FROM "user_structure"
+          WHERE "passwordLastUpdate" IS NULL
+            AND "lastLogin" IS NOT NULL`
+      );
+      return Number(count);
+    };
+
+    const beforeCount = await countToBackfill();
+    appLogger.warn(
+      `[backfill passwordLastUpdate] ${beforeCount} user_structure à mettre à jour`
+    );
+
     const result = await queryRunner.query(
       `UPDATE "user_structure"
           SET "passwordLastUpdate" = "createdAt"
@@ -30,10 +45,11 @@ export class BackfillUserStructurePasswordLastUpdate1786366757476
           AND "lastLogin" IS NOT NULL`
     );
 
+    const afterCount = await countToBackfill();
     appLogger.warn(
       `[backfill passwordLastUpdate] ${
         result?.[1] ?? 0
-      } user_structure mis à jour (passwordLastUpdate = createdAt)`
+      } user_structure mis à jour (passwordLastUpdate = createdAt) — ${afterCount} restantes (attendu: 0)`
     );
   }
 
