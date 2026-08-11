@@ -47,7 +47,10 @@ bascule naïve sur `nom_prenom_surnom_ref` le casse **en silence**.
 
 Options :
 - **a.** étendre la colonne dénormalisée aux ayants droit et procurations (modification du
-  subscriber + migration de rattrapage sur l'existant). Garde un index B-tree simple.
+  subscriber + migration de rattrapage sur l'existant). L'index B-tree qu'elle portait est
+  SUPPRIMÉ par la migration : il ne peut pas servir un `ILIKE '%…%'`, et son plafond de
+  2704 octets par tuple (après compression) rendait un dossier à la fratrie nombreuse
+  définitivement non modifiable. Ne pas le recréer.
 - **b.** index GIN trigram sur une expression couvrant les colonnes JSONB. Plus souple,
   plus coûteux à maintenir.
 - **c.** assumer la perte. À n'envisager que si l'usage est confirmé inexistant.

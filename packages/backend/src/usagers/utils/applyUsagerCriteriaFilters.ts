@@ -39,6 +39,10 @@ export type UsagerCriteriaFilters = {
 // locale de la structure, la seule qui corresponde à ce qu'un utilisateur
 // appelle « aujourd'hui ».
 //
+// Ces filtres ne cloisonnent PAS par structure : l'appelant doit poser
+// `structureId` lui-même (comme le fait la suite différentielle), sans quoi
+// la requête mélange les dossiers de toutes les structures.
+//
 // À noter, l'endpoint `search-radies` traduisait déjà deux de ces filtres,
 // mais différemment du navigateur : il testait `decision->>'dateDecision'`
 // quand le checker teste `decision.dateFin`, et il comparait le dernier

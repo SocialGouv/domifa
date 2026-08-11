@@ -27,12 +27,15 @@ type UsagerSearchRow = {
 // non alphanumériques n'ont pas d'équivalent exact en SQL, et deux
 // implémentations divergeraient.
 //
-// Les migrations tournent dans une transaction unique (`transaction: "all"`),
-// qui retient chaque verrou de ligne jusqu'au commit final : l'écriture se fait
-// donc en un seul `UPDATE … FROM (VALUES …)` par lot — un aller-retour réseau
-// pour 2000 lignes au lieu d'un par ligne. `IS DISTINCT FROM` saute les lignes
-// déjà à jour (subscriber, reprise après échec) : pas de réécriture ni de
-// verrou inutiles.
+// Les migrations tournent HORS transaction : en production elles sont jouées
+// par `initialize()` (`migrationsRun`) avec `migrationsTransactionMode:
+// "none"` — le `runMigrations({transaction: "all"})` d'`appTypeormManager`
+// n'est atteint qu'après, quand tout est déjà joué. Chaque lot est donc
+// commité immédiatement : une erreur laisse le travail accompli en place, et
+// `IS DISTINCT FROM` rend la reprise gratuite — elle saute les lignes déjà à
+// jour (subscriber, exécution précédente). L'écriture par lot — un seul
+// `UPDATE … FROM (VALUES …)` pour 2000 lignes — évite un aller-retour réseau
+// par ligne vers la base managée.
 export class BackfillUsagerSearchIndex1786500000000
   implements MigrationInterface
 {
@@ -41,12 +44,15 @@ export class BackfillUsagerSearchIndex1786500000000
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Le btree sur `nom_prenom_surnom_ref` ne sert rien (la colonne n'est lue
     // qu'en `ILIKE '%…%'`, qu'un btree ne peut pas servir) et il plafonne le
-    // tuple à 2704 octets — l'index enrichi n'a pas de borne : au-delà, cette
-    // migration avorterait et toute écriture du dossier renverrait 500, le
-    // dossier devenant définitivement non modifiable. Supprimé AVANT le
-    // rattrapage. Non recréé à la redescente, pour la même raison.
+    // tuple à 2704 octets APRÈS compression — l'index enrichi n'a pas de
+    // borne : au-delà, cette migration avorterait et toute écriture du
+    // dossier renverrait 500, le dossier devenant définitivement non
+    // modifiable. Supprimé AVANT le rattrapage ; non recréé à la redescente.
+    // CONCURRENTLY — possible puisque hors transaction — pour ne pas faire la
+    // queue en ACCESS EXCLUSIVE derrière une requête longue : un DROP nu
+    // gèlerait tout le trafic dossiers pendant le déploiement.
     await queryRunner.query(
-      `DROP INDEX IF EXISTS "IDX_f072e2874bd87ecb6da2fbd66e"`
+      `DROP INDEX CONCURRENTLY IF EXISTS "IDX_f072e2874bd87ecb6da2fbd66e"`
     );
 
     let lastUuid: string | null = null;
@@ -70,9 +76,8 @@ export class BackfillUsagerSearchIndex1786500000000
 
       const parameters: string[] = [];
       const tuples = rows.map((row) => {
-        // Les migrations tournent dans une transaction unique : une erreur ici
-        // avorte tout ET bloque le déploiement. Sans l'uuid, elle serait
-        // inexploitable en astreinte.
+        // Une erreur ici interrompt la migration et bloque le déploiement.
+        // Sans l'uuid, elle serait inexploitable en astreinte.
         try {
           parameters.push(row.uuid, computeUsagerSearchIndex(row));
         } catch (error) {
@@ -87,7 +92,7 @@ export class BackfillUsagerSearchIndex1786500000000
 
       // Même exigence de diagnosticabilité que le calcul par ligne : une
       // erreur du lot (contrainte, encodage…) doit borner l'intervalle
-      // d'uuid en cause, la transaction unique ne laissant aucune autre trace.
+      // d'uuid en cause.
       let result: unknown;
       try {
         result = await queryRunner.query(

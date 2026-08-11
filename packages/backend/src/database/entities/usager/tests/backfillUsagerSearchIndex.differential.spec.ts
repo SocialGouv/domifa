@@ -1,3 +1,4 @@
+import { createHash } from "crypto";
 import { DataSource, InsertEvent, QueryRunner } from "typeorm";
 import { BackfillUsagerSearchIndex1786500000000 } from "../../../../_migrations/1786500000000-backfill-usager-search-index";
 import { UsagerSubscriber } from "../UsagerSubscriber.typeorm";
@@ -105,12 +106,15 @@ describe("Migration backfillUsagerSearchIndex — équivalence avec le subscribe
          (9005, 'Malformé', 'Jsonb', NULL, NULL, '{}', '{"procurations": 5}', '')`
     );
 
-    // Une fratrie nombreuse : l'index calculé dépasse largement les 2704
-    // octets d'un tuple btree. Avec l'index en place, cette ligne faisait
-    // avorter la migration ET rendait le dossier non modifiable.
-    const bigAyantsDroits = Array.from({ length: 40 }, (_, i) => ({
-      nom: `Nomdefamillecompose${i}`.repeat(4),
-      prenom: `Prenomcompose${i}`.repeat(4),
+    // Une fratrie nombreuse aux noms à forte entropie (hashes déterministes) :
+    // le plafond btree de 2704 octets s'applique APRÈS compression du tuple —
+    // des noms répétitifs se compressent sous la limite et ne prouveraient
+    // rien. Avec l'index en place, cette ligne fait avorter le rattrapage et
+    // rend le dossier non modifiable ; c'est le scénario que le DROP INDEX
+    // élimine.
+    const bigAyantsDroits = Array.from({ length: 80 }, (_, i) => ({
+      nom: createHash("sha256").update(`ad-nom-${i}`).digest("hex"),
+      prenom: createHash("sha256").update(`ad-prenom-${i}`).digest("hex"),
     }));
     await dataSource.query(
       `INSERT INTO usager (ref, nom, prenom, "ayantsDroits", nom_prenom_surnom_ref)

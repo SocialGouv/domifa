@@ -1,5 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsIn, IsNumber, IsOptional, ValidateIf } from "class-validator";
+import {
+  IsIn,
+  IsNumber,
+  IsOptional,
+  MaxLength,
+  ValidateIf,
+} from "class-validator";
 import {
   CriteriaSearchField,
   normalizeString,
@@ -31,6 +37,11 @@ export class SearchUsagerDto {
   })
   @ValidateIf((obj) => obj.searchStringField)
   @ValidateSearchField()
+  // La recherche par nom génère un prédicat SQL PAR MOT : sans borne, un
+  // corps de 100 ko produit des dizaines de milliers d'ILIKE — mesuré à
+  // plus de 20 s de CPU Postgres et ~100 ms de boucle d'événements bloquée
+  // par requête. Aucune saisie légitime n'approche 200 caractères.
+  @MaxLength(200)
   public searchString!: string;
 
   @IsIn(Object.values(CriteriaSearchField))
