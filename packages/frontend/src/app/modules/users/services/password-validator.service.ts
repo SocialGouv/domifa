@@ -27,4 +27,15 @@ export class PasswordValidator {
       ? null
       : { noPassswordMatch: true };
   };
+
+  public static samePasswordValidator: ValidatorFn = (
+    control: AbstractControl
+  ): ValidationErrors | null => {
+    const oldPassword: string = control.get("oldPassword")?.value;
+    const password: string = control.get("password")?.value;
+
+    return oldPassword && password && oldPassword === password
+      ? { samePassword: true }
+      : null;
+  };
 }
