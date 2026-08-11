@@ -35,8 +35,8 @@ describe("applyUsagerNameSearch", () => {
     const query = run("dupont marie");
 
     expect(query.conditions).toEqual([
-      "nom_prenom_surnom_ref ILIKE :searchWord0",
-      "nom_prenom_surnom_ref ILIKE :searchWord1",
+      "usager.nom_prenom_surnom_ref ILIKE :searchWord0",
+      "usager.nom_prenom_surnom_ref ILIKE :searchWord1",
     ]);
     expect(query.parameters).toEqual({
       searchWord0: "%dupont%",
