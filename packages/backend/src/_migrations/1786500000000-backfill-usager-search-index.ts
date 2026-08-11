@@ -25,6 +25,13 @@ type UsagerSearchRow = {
 // et non par une transposition SQL : la décomposition NFKD, le repli des
 // ligatures et le remplacement des caractères non alphanumériques n'ont pas
 // d'équivalent exact en SQL, et deux implémentations divergeraient.
+//
+// Les migrations tournent dans une transaction unique (`transaction: "all"`),
+// qui retient chaque verrou de ligne jusqu'au commit final : l'écriture se fait
+// donc en un seul `UPDATE … FROM (VALUES …)` par lot — un aller-retour réseau
+// pour 2000 lignes au lieu d'un par ligne. `IS DISTINCT FROM` saute les lignes
+// déjà à jour (subscriber, reprise après échec) : pas de réécriture ni de
+// verrou inutiles.
 export class BackfillUsagerSearchIndex1786500000000
   implements MigrationInterface
 {
@@ -33,6 +40,7 @@ export class BackfillUsagerSearchIndex1786500000000
   public async up(queryRunner: QueryRunner): Promise<void> {
     let lastUuid: string | null = null;
     let processed = 0;
+    let updated = 0;
 
     for (;;) {
       const rows: UsagerSearchRow[] = await queryRunner.query(
@@ -49,7 +57,8 @@ export class BackfillUsagerSearchIndex1786500000000
         break;
       }
 
-      for (const row of rows) {
+      const parameters: string[] = [];
+      const tuples = rows.map((row) => {
         const parts = [
           row.nom?.trim(),
           row.prenom?.trim(),
@@ -65,16 +74,25 @@ export class BackfillUsagerSearchIndex1786500000000
           ]),
         ].filter(Boolean);
 
-        await queryRunner.query(
-          `UPDATE usager SET nom_prenom_surnom_ref = $1 WHERE uuid = $2`,
-          [normalizeString(parts.join(" ")), row.uuid]
-        );
-      }
+        parameters.push(row.uuid, normalizeString(parts.join(" ")));
+        return `($${parameters.length - 1}::uuid, $${parameters.length}::text)`;
+      });
+
+      const result: unknown = await queryRunner.query(
+        `UPDATE usager
+            SET nom_prenom_surnom_ref = batch.search_index
+           FROM (VALUES ${tuples.join(", ")}) AS batch(uuid, search_index)
+          WHERE usager.uuid = batch.uuid
+            AND usager.nom_prenom_surnom_ref IS DISTINCT FROM batch.search_index`,
+        parameters
+      );
+      // le query runner postgres de TypeORM renvoie [rows, rowCount] pour un UPDATE
+      updated += Array.isArray(result) ? Number(result[1]) : 0;
 
       processed += rows.length;
       lastUuid = rows[rows.length - 1].uuid;
       appLogger.warn(
-        `[backfillUsagerSearchIndex] ${processed} usagers réindexés`
+        `[backfillUsagerSearchIndex] ${processed} usagers parcourus, ${updated} réindexés`
       );
     }
   }
