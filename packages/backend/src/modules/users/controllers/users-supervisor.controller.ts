@@ -8,16 +8,26 @@ import {
   Post,
   Req,
   Res,
+  UseGuards,
 } from "@nestjs/common";
 import { Request as ExpressRequest } from "express";
+import { AuthGuard } from "@nestjs/passport";
 import { ParseTokenPipe } from "../../../_common/decorators";
 import { appLogger, ExpressResponse } from "../../../util";
 import { buildSecurityLogRequestContext } from "../../../util/express";
-import { EmailDto, ResetPasswordDto } from "../dto";
-import { UserProfile } from "../../../_common/model";
+import { EmailDto, EditMyPasswordDto, ResetPasswordDto } from "../dto";
+import { UserAdminAuthenticated, UserProfile } from "../../../_common/model";
+import { USER_SUPERVISOR_ROLES } from "../../../_common/model/users/user-supervisor";
+import {
+  AllowUserProfiles,
+  AllowUserSupervisorRoles,
+  CurrentUser,
+} from "../../../auth/decorators";
+import { AppUserGuard } from "../../../auth/guards";
 import {
   userSecurityResetPasswordInitiator,
   userSecurityResetPasswordUpdater,
+  userStructureSecurityPasswordUpdater,
 } from "../services";
 import { AppLogsService } from "../../app-logs/app-logs.service";
 import { UserSupervisorCrudLogContext } from "../../app-logs/types/app-log-context.types";
@@ -113,5 +123,38 @@ export class UsersSupervisorController {
     }
 
     return res.status(HttpStatus.OK).json({ message: "OK" });
+  }
+
+  // Edition d'un mot de passe quand on est déjà connecté
+  @UseGuards(AuthGuard("jwt"), AppUserGuard)
+  @AllowUserProfiles("supervisor")
+  @AllowUserSupervisorRoles(...USER_SUPERVISOR_ROLES)
+  @Post("edit-my-password")
+  public async editPassword(
+    @Req() req: ExpressRequest,
+    @CurrentUser() user: UserAdminAuthenticated,
+    @Res() res: Response,
+    @Body() editPasswordDto: EditMyPasswordDto
+  ) {
+    try {
+      await userStructureSecurityPasswordUpdater.updatePassword({
+        userId: user.id,
+        oldPassword: editPasswordDto.oldPassword,
+        newPassword: editPasswordDto.password,
+        userProfile,
+        requestContext: buildSecurityLogRequestContext(req),
+      });
+      return res.status(HttpStatus.OK).json({ message: "OK" });
+    } catch (err) {
+      if ((err as Error)?.message === "NEW_PASSWORD_SAME_AS_OLD") {
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: "NEW_PASSWORD_SAME_AS_OLD" });
+      }
+      appLogger.error(err);
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "EDIT_PASSWORD_FAIL" });
+    }
   }
 }

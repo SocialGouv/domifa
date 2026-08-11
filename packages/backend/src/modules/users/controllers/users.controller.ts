@@ -136,19 +136,6 @@ export class UsersController {
     return true;
   }
 
-  @Get("last-password-update")
-  public async getLastPasswordUpdate(
-    @CurrentUser() user: UserStructureAuthenticated,
-    @Res() res: Response
-  ) {
-    const newUser = await userStructureRepository.findOne({
-      where: { id: user.id, status: Not("DELETE") },
-      select: ["passwordLastUpdate"],
-    });
-
-    return res.status(HttpStatus.OK).json(newUser?.passwordLastUpdate ?? null);
-  }
-
   @AllowUserStructureRoles("admin")
   @UseGuards(CanGetUserStructureGuard)
   @Patch("update-role/:userUuid")
@@ -402,6 +389,11 @@ export class UsersController {
       });
       return res.status(HttpStatus.OK).json({ message: "OK" });
     } catch (err) {
+      if ((err as Error)?.message === "NEW_PASSWORD_SAME_AS_OLD") {
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: "NEW_PASSWORD_SAME_AS_OLD" });
+      }
       appLogger.error(err);
       return res
         .status(HttpStatus.BAD_REQUEST)
