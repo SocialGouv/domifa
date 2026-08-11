@@ -300,7 +300,17 @@
               } @if (filters.statut === UsagersFilterCriteriaStatut.VALIDE ||
               filters.statut === UsagersFilterCriteriaStatut.TOUS) {
               <td class="clickable" tabindex="0" (click)="goToProfil(usager)">
-                {{ usager.lastInteraction.dateInteraction | date : "dd/MM/yy" }}
+                @if (usager?.passageDeadline?.isActive &&
+                usager?.passageDeadline?.color) {
+                <span
+                  [class]="'statut-signal ' + usager.passageDeadline.color"
+                ></span>
+                @if (usager?.passageDeadline?.color === 'bg-danger') {
+                <span class="fr-sr-only">Plus de 3 mois sans passage</span>
+                } @else {
+                <span class="fr-sr-only">Plus de 2 mois sans passage</span>
+                } } {{ usager.lastInteraction.dateInteraction | date :
+                "dd/MM/yy" }}
               </td>
               }
               <td

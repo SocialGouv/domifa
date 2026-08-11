@@ -7,3 +7,4 @@ export * from "./DecisionDeadline.interface";
 export * from "./UsagerEntretien.interface";
 export * from "./UsagerLastInteraction.interface";
 export * from "./UsagerNote.interface";
+export * from "./PassageDeadline.interface";

@@ -5,6 +5,7 @@ import {
   getRdvInfo,
   UsagerOptions,
   getDecisionDeadline,
+  getPassageDeadline,
 } from "@domifa/common";
 import { Decision, Rdv } from "../../modules/usager-shared/interfaces";
 import { countStandByInteractions } from "../../modules/usager-shared/utils";
@@ -28,6 +29,7 @@ export const setUsagerInformation = (usager: Usager): any => {
     },
     phoneNumber: formatInternationalPhoneNumber(usager?.telephone as Telephone),
     decisionDeadline: getDecisionDeadline(usager),
+    passageDeadline: getPassageDeadline(usager),
     rdvInfo: getRdvInfo({
       rdv: usager.rdv,
       etapeDemande: usager.etapeDemande,
