@@ -133,7 +133,7 @@ export class UsersSupervisorController {
   public async editPassword(
     @Req() req: ExpressRequest,
     @CurrentUser() user: UserAdminAuthenticated,
-    @Res() res: Response,
+    @Res() res: ExpressResponse,
     @Body() editPasswordDto: EditMyPasswordDto
   ) {
     try {
