@@ -28,7 +28,6 @@ import {
   switchMap,
   takeUntil,
   tap,
-  withLatestFrom,
 } from "rxjs/operators";
 import {
   fadeInOut,
@@ -205,10 +204,9 @@ export class ManageUsagersPageComponent
       buttonClick$,
       manualSearchTrigger$
     ).pipe(
-      withLatestFrom(this.chargerTousRadies$),
-      switchMap(([searchString, chargerTousRadies]) => {
+      switchMap((searchString) => {
         this.filters.searchString = searchString ?? null;
-        return this.findRemoteUsagers(chargerTousRadies, {
+        return this.findRemoteUsagers({
           ...this.filters,
           searchString,
         });
@@ -248,11 +246,7 @@ export class ManageUsagersPageComponent
           switchMap((chargerTousRadies) =>
             this.usagerService
               .fetchSearchPageUsagerData({ chargerTousRadies })
-              .pipe(
-                switchMap(() =>
-                  this.findRemoteUsagers(chargerTousRadies, this.filters)
-                )
-              )
+              .pipe(switchMap(() => this.findRemoteUsagers(this.filters)))
           ),
           takeUntil(this.destroy$)
         )
@@ -344,20 +338,18 @@ export class ManageUsagersPageComponent
           chargerTousRadies,
         });
       }),
-      switchMap(() => this.chargerTousRadies$),
-      switchMap((chargerTousRadies) => {
-        return this.findRemoteUsagers(chargerTousRadies, this.filters);
-      })
+      switchMap(() => this.findRemoteUsagers(this.filters))
     );
   }
 
   private findRemoteUsagers(
-    chargerTousRadies: boolean,
     filters: UsagersFilterCriteria
   ): Observable<string> {
+    // Le nombre de radiés chargés est plafonné côté serveur : « afficher tous
+    // les radiés » ne garantit plus que tout est en mémoire. Seul l'écart entre
+    // le total et le nombre chargé dit si la recherche serveur reste nécessaire.
     if (
       this.usagersCountByStatus.RADIE !== this.usagersRadiesLoadedCount &&
-      !chargerTousRadies &&
       (this.filters.statut === UsagersFilterCriteriaStatut.TOUS ||
         this.filters.statut === UsagersFilterCriteriaStatut.RADIE)
     ) {
