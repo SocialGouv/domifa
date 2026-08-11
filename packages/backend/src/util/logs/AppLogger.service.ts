@@ -133,6 +133,15 @@ function httpLogger(req: RequestWithId, res: Response, next: NextFunction) {
     body: req.body,
   });
 
+  // L'accès n'est journalisé qu'à la fin de la réponse. Une requête qui bloque
+  // l'event loop n'en émet donc jamais : quand le pod est tué, elle reste
+  // introuvable et l'incident inattribuable. Cette ligne, volontairement
+  // minimale, la rend visible — sans réponse associée, c'est la coupable.
+  rootLogger.info(
+    { requestId: req.id, method: req.method, url: req.originalUrl },
+    "http_request_start"
+  );
+
   function onResFinished() {
     res.removeListener("close", onResFinished);
     res.removeListener("error", onResFinished);
