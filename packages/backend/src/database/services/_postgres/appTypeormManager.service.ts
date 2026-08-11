@@ -18,8 +18,14 @@ async function migrateUp(connection: DataSource): Promise<Migration[]> {
   }
   appLogger.warn("\nStart migrations ....");
 
+  // "none", comme le chemin qui joue réellement les migrations en production
+  // (`initialize()` + `migrationsRun`, qui suit `migrationsTransactionMode`) :
+  // certaines migrations en dépendent — `DROP INDEX CONCURRENTLY` échoue dans
+  // un bloc de transaction. Cet appel n'est atteint qu'avec une liste vide
+  // dans les configurations livrées, mais rien ne doit pouvoir rejouer une
+  // migration sous un autre régime que celui pour lequel elle est écrite.
   const migrations = await connection.runMigrations({
-    transaction: "all",
+    transaction: "none",
   });
 
   appLogger.warn(`\nMigration success: ${migrations.length}\n`);

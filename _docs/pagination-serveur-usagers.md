@@ -35,7 +35,7 @@ radiés et sans tri ni pagination. Le chantier consiste largement à **général
 
 ### 1. La recherche par ayant droit disparaît si on ne fait rien
 
-`nom_prenom_surnom_ref` (colonne dénormalisée, indexée, alimentée par `UsagerSubscriber`)
+`nom_prenom_surnom_ref` (colonne dénormalisée, alimentée par `UsagerSubscriber`)
 contient uniquement `nom + prenom + surnom + customRef|ref`.
 
 Or la recherche client (`getAttributes`) parcourt **en plus** :

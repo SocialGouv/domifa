@@ -1,11 +1,6 @@
+import { BadRequestException } from "@nestjs/common";
 import { ApiProperty } from "@nestjs/swagger";
-import {
-  IsIn,
-  IsNumber,
-  IsOptional,
-  MaxLength,
-  ValidateIf,
-} from "class-validator";
+import { IsIn, IsNumber, IsOptional, ValidateIf } from "class-validator";
 import {
   CriteriaSearchField,
   normalizeString,
@@ -17,6 +12,8 @@ import {
 import { Transform } from "class-transformer";
 import { ValidateSearchField } from "../decorators";
 
+const MAX_SEARCH_STRING_LENGTH = 200;
+
 export class SearchUsagerDto {
   @ApiProperty({
     example: "dupuis",
@@ -25,6 +22,23 @@ export class SearchUsagerDto {
   @Transform(({ value, obj }) => {
     if (!value) {
       return null;
+    }
+
+    // La borne porte sur la saisie BRUTE, ici et pas en décorateur : après
+    // transformation, une saisie vide vaut `null` — qu'un `@MaxLength`
+    // rejetterait, alors que la liste des radiés s'amorce précisément sans
+    // critère. Sans borne, la recherche par mots (un ILIKE par mot) coûtait
+    // plus de 20 s de CPU Postgres et ~100 ms de boucle d'événements bloquée
+    // sur un corps de 100 ko. Aucune saisie légitime n'approche 200
+    // caractères. Le contrôle de type évite au passage un 500 (`normalize`
+    // sur un non-string).
+    if (typeof value !== "string") {
+      throw new BadRequestException("searchString must be a string");
+    }
+    if (value.length > MAX_SEARCH_STRING_LENGTH) {
+      throw new BadRequestException(
+        `searchString must be shorter than or equal to ${MAX_SEARCH_STRING_LENGTH} characters`
+      );
     }
 
     if (CriteriaSearchField.PHONE_NUMBER === obj.searchStringField) {
@@ -37,11 +51,6 @@ export class SearchUsagerDto {
   })
   @ValidateIf((obj) => obj.searchStringField)
   @ValidateSearchField()
-  // La recherche par nom génère un prédicat SQL PAR MOT : sans borne, un
-  // corps de 100 ko produit des dizaines de milliers d'ILIKE — mesuré à
-  // plus de 20 s de CPU Postgres et ~100 ms de boucle d'événements bloquée
-  // par requête. Aucune saisie légitime n'approche 200 caractères.
-  @MaxLength(200)
   public searchString!: string;
 
   @IsIn(Object.values(CriteriaSearchField))

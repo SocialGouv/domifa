@@ -237,7 +237,13 @@ describe("Filtres usagers — équivalence navigateur / SQL", () => {
     });
   });
 
-  it.each(["EXCEEDED", "NEXT_TWO_WEEKS", "NEXT_TWO_MONTHS"])(
+  it.each([
+    "EXCEEDED",
+    "NEXT_TWO_WEEKS",
+    "NEXT_TWO_MONTHS",
+    "PREVIOUS_YEAR",
+    "PREVIOUS_TWO_YEARS",
+  ])(
     "sélectionne les mêmes dossiers pour l'échéance %s",
     async (echeance) => {
       await expectSameSelection(`echeance ${echeance}`, {

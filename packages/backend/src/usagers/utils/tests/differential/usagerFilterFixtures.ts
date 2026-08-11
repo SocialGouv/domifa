@@ -88,7 +88,11 @@ export const buildFixtures = (now: Date): FixtureUsager[] => {
   // 22h30 UTC pour que le jour local diffère du jour UTC. L'offset -2 garantit
   // qu'« Échéance dépassée » reste discriminant même quand le fuseau local
   // décale tous les instants d'un jour.
-  for (const offset of [-2, -1, 0, 1, 15, 16, 17, 60, 61, 62]) {
+  // Les offsets anciens (-364 à -735) encadrent les seuils glissants
+  // PREVIOUS_YEAR et PREVIOUS_TWO_YEARS.
+  for (const offset of [
+    -735, -731, -367, -364, -2, -1, 0, 1, 15, 16, 17, 60, 61, 62,
+  ]) {
     add(
       {
         statut: "VALIDE",

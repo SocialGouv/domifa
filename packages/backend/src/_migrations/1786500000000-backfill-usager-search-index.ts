@@ -50,7 +50,10 @@ export class BackfillUsagerSearchIndex1786500000000
     // modifiable. Supprimé AVANT le rattrapage ; non recréé à la redescente.
     // CONCURRENTLY — possible puisque hors transaction — pour ne pas faire la
     // queue en ACCESS EXCLUSIVE derrière une requête longue : un DROP nu
-    // gèlerait tout le trafic dossiers pendant le déploiement.
+    // gèlerait tout le trafic dossiers pendant le déploiement. Interrompu, il
+    // laisse un index INVALID, invisible des plans mais toujours maintenu en
+    // écriture (le plafond des 2704 octets tient donc toujours) — la
+    // migration a alors échoué, et son rejeu supprime l'index invalide.
     await queryRunner.query(
       `DROP INDEX CONCURRENTLY IF EXISTS "IDX_f072e2874bd87ecb6da2fbd66e"`
     );
