@@ -19,7 +19,7 @@ export function applyUsagerNameSearch<T extends ObjectLiteral>(
 
   words.forEach((word, index) => {
     const parameter = `searchWord${index}`;
-    query.andWhere(`nom_prenom_surnom_ref ILIKE :${parameter}`, {
+    query.andWhere(`usager.nom_prenom_surnom_ref ILIKE :${parameter}`, {
       [parameter]: `%${word}%`,
     });
   });

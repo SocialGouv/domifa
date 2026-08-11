@@ -51,14 +51,14 @@ export function applyUsagerCriteriaFilters<T extends ObjectLiteral>(
   const today = localTodaySql(timeZone);
 
   if (filters.statut && filters.statut !== UsagersFilterCriteriaStatut.TOUS) {
-    query.andWhere(`statut = :statut`, { statut: filters.statut });
+    query.andWhere(`usager.statut = :statut`, { statut: filters.statut });
   }
 
   if (typeof filters.referrerId !== "undefined") {
     query.andWhere(
       filters.referrerId === null
-        ? `"referrerId" IS NULL`
-        : `"referrerId" = :referrerId`,
+        ? `usager."referrerId" IS NULL`
+        : `usager."referrerId" = :referrerId`,
       { referrerId: filters.referrerId }
     );
   }
@@ -67,9 +67,9 @@ export function applyUsagerCriteriaFilters<T extends ObjectLiteral>(
     // Le checker écarte d'emblée les dossiers sans rendez-vous ou déjà
     // au-delà de l'étape d'entretien.
     query.andWhere(
-      `rdv->>'dateRdv' IS NOT NULL
-       AND "etapeDemande" <= :etapeEntretien
-       AND ${localDateSql("rdv->>'dateRdv'", timeZone)} ${
+      `usager.rdv->>'dateRdv' IS NOT NULL
+       AND usager."etapeDemande" <= :etapeEntretien
+       AND ${localDateSql("usager.rdv->>'dateRdv'", timeZone)} ${
         filters.entretien === "COMING" ? ">" : "<"
       } ${today}`,
       { etapeEntretien: ETAPE_ENTRETIEN }
@@ -77,15 +77,17 @@ export function applyUsagerCriteriaFilters<T extends ObjectLiteral>(
   }
 
   if (filters.interactionType === "courrierIn") {
-    query.andWhere(`("lastInteraction"->>'enAttente')::boolean IS TRUE`);
+    query.andWhere(
+      `(usager."lastInteraction"->>'enAttente')::boolean IS TRUE`
+    );
   }
 
   if (filters.echeance) {
     // Le checker renvoie false dès que `dateFin` manque, quel que soit le
     // seuil demandé.
-    query.andWhere(`decision->>'dateFin' IS NOT NULL`);
+    query.andWhere(`usager.decision->>'dateFin' IS NOT NULL`);
 
-    const dateFin = localDateSql("decision->>'dateFin'", timeZone);
+    const dateFin = localDateSql("usager.decision->>'dateFin'", timeZone);
 
     if (filters.echeance === "EXCEEDED") {
       query.andWhere(`${dateFin} < ${today}`);
@@ -95,10 +97,16 @@ export function applyUsagerCriteriaFilters<T extends ObjectLiteral>(
       query.andWhere(`${dateFin} >= ${today} AND ${dateFin} < ${today} + 61`);
     } else if (filters.echeance.startsWith("PREVIOUS_")) {
       const deadline = getZonedUsagerDeadlines(timeZone)[filters.echeance];
-      query.andWhere(
-        `(decision->>'dateFin')::timestamptz < :echeanceDeadline`,
-        { echeanceDeadline: deadline.value }
-      );
+      if (deadline) {
+        query.andWhere(
+          `(usager.decision->>'dateFin')::timestamptz < :echeanceDeadline`,
+          { echeanceDeadline: deadline.value }
+        );
+      } else {
+        // Valeur inconnue : le checker crashe, le DTO la refuse en amont —
+        // ici on rend l'ensemble vide plutôt qu'une 500 sur un paramètre.
+        query.andWhere("1 = 0");
+      }
     } else {
       // Le checker retourne false sur une valeur qu'il ne connaît pas.
       query.andWhere("1 = 0");
@@ -110,12 +118,12 @@ export function applyUsagerCriteriaFilters<T extends ObjectLiteral>(
       filters.lastInteractionDate
     ];
 
-    query.andWhere(`"lastInteraction"->>'dateInteraction' IS NOT NULL`);
+    query.andWhere(`usager."lastInteraction"->>'dateInteraction' IS NOT NULL`);
 
     if (deadline) {
       // Sens du checker : on cherche les dossiers PAS revus depuis l'échéance.
       query.andWhere(
-        `("lastInteraction"->>'dateInteraction')::timestamptz < :passageDeadline`,
+        `(usager."lastInteraction"->>'dateInteraction')::timestamptz < :passageDeadline`,
         { passageDeadline: deadline.value }
       );
     }

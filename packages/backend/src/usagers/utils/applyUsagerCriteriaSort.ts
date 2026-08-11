@@ -20,25 +20,25 @@ export type UsagerSortKey = "NOM" | "PASSAGE" | "ECHEANCE" | "RDV" | "ID";
 // garde sur la longueur du tableau que fait aussi la fonction d'origine.
 export const DECISION_DEADLINE_SQL = `
   CASE
-    WHEN decision->>'dateDebut' IS NULL
-         AND decision->>'dateFin' IS NULL
-         AND decision->>'dateDecision' IS NULL
+    WHEN usager.decision->>'dateDebut' IS NULL
+         AND usager.decision->>'dateFin' IS NULL
+         AND usager.decision->>'dateDecision' IS NULL
       THEN NULL
-    WHEN decision->>'statut' = 'VALIDE' AND decision->>'dateFin' IS NOT NULL
-      THEN (decision->>'dateFin')::timestamptz
-    WHEN decision->>'statut' IN ('RADIE', 'REFUS')
+    WHEN usager.decision->>'statut' = 'VALIDE' AND usager.decision->>'dateFin' IS NOT NULL
+      THEN (usager.decision->>'dateFin')::timestamptz
+    WHEN usager.decision->>'statut' IN ('RADIE', 'REFUS')
       THEN COALESCE(
-        (decision->>'dateDebut')::timestamptz,
-        (decision->>'dateFin')::timestamptz
+        (usager.decision->>'dateDebut')::timestamptz,
+        (usager.decision->>'dateFin')::timestamptz
       )
-    WHEN "typeDom" = 'RENOUVELLEMENT'
+    WHEN usager."typeDom" = 'RENOUVELLEMENT'
       THEN CASE
-        WHEN jsonb_array_length(COALESCE(historique, '[]'::jsonb))
-             >= (CASE WHEN decision->>'statut' = 'ATTENTE_DECISION' THEN 2 ELSE 1 END)
+        WHEN jsonb_array_length(COALESCE(usager.historique, '[]'::jsonb))
+             >= (CASE WHEN usager.decision->>'statut' = 'ATTENTE_DECISION' THEN 2 ELSE 1 END)
           THEN COALESCE(
-            (historique -> (CASE WHEN decision->>'statut' = 'ATTENTE_DECISION'
+            (usager.historique -> (CASE WHEN usager.decision->>'statut' = 'ATTENTE_DECISION'
                                  THEN -2 ELSE -1 END) ->> 'dateFin')::timestamptz,
-            (decision->>'dateDecision')::timestamptz
+            (usager.decision->>'dateDecision')::timestamptz
           )
         ELSE NULL
       END
@@ -58,7 +58,7 @@ export const DECISION_DEADLINE_SQL = `
 // offres managées récentes.
 const NAME_COLLATION = `COLLATE "fr-x-icu"`;
 
-const DISPLAY_REF_SQL = `COALESCE(NULLIF(TRIM("customRef"), ''), ref::text)`;
+const DISPLAY_REF_SQL = `COALESCE(NULLIF(TRIM(usager."customRef"), ''), usager.ref::text)`;
 const IS_NUMERIC_REF_SQL = `(${DISPLAY_REF_SQL} ~ '^[0-9]+$')`;
 
 // `compareAttributes` place les valeurs absentes en premier en ordre croissant
@@ -94,12 +94,12 @@ export function applyUsagerCriteriaSort<T extends ObjectLiteral>(
     // `customRef` ne sont que signalés à l'IHM) : sans départage unique,
     // l'ordre dépend de l'emplacement physique des lignes et une pagination
     // peut montrer un dossier deux fois et un autre jamais.
-    orderBy(`ref`);
+    orderBy(`usager.ref`);
     return query;
   }
 
   if (sortKey === "PASSAGE") {
-    orderBy(`("lastInteraction"->>'dateInteraction')::timestamptz`);
+    orderBy(`(usager."lastInteraction"->>'dateInteraction')::timestamptz`);
   } else if (sortKey === "RDV") {
     // Écart assumé avec le trieur applicatif, qui n'est pas transposable : il
     // ne place la date dans la comparaison que si elle existe, si bien qu'un
@@ -109,16 +109,16 @@ export function applyUsagerCriteriaSort<T extends ObjectLiteral>(
     // dossiers datés selon le jour de la semaine de leur rendez-vous.
     // Les dossiers sans rendez-vous sont donc traités ici comme toute autre
     // valeur absente, à l'identique des autres tris.
-    orderBy(localDateSql("rdv->>'dateRdv'", timeZone));
+    orderBy(localDateSql("usager.rdv->>'dateRdv'", timeZone));
   } else if (sortKey === "ECHEANCE") {
     orderBy(`(${DECISION_DEADLINE_SQL})`);
   }
 
   // Départages, dans l'ordre du tri applicatif, et dans le même sens que la
   // clé principale : le comparateur applique `asc` à tous les attributs.
-  orderBy(`LOWER(COALESCE(nom, '')) ${NAME_COLLATION}`);
-  orderBy(`LOWER(COALESCE(prenom, '')) ${NAME_COLLATION}`);
-  orderBy(`ref`);
+  orderBy(`LOWER(COALESCE(usager.nom, '')) ${NAME_COLLATION}`);
+  orderBy(`LOWER(COALESCE(usager.prenom, '')) ${NAME_COLLATION}`);
+  orderBy(`usager.ref`);
 
   return query;
 }

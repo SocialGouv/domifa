@@ -16,7 +16,7 @@ import { getUsagerDeadlines } from "@domifa/common";
 
 // Miroir exhaustif du type `TimeZone` : `Record<TimeZone, true>` casse la
 // compilation si le type et cette liste divergent, dans les deux sens.
-const SUPPORTED_TIME_ZONES: Record<TimeZone, true> = {
+export const SUPPORTED_TIME_ZONES: Record<TimeZone, true> = {
   "America/Guadeloupe": true,
   "America/Martinique": true,
   "America/Cayenne": true,
@@ -54,10 +54,16 @@ export const localDateSql = (
 };
 
 // « Aujourd'hui » dans le fuseau de la structure — PAS `CURRENT_DATE`, qui est
-// la date dans le fuseau de session PostgreSQL.
-export const localTodaySql = (timeZone: TimeZone): string => {
+// la date dans le fuseau de session PostgreSQL. L'instant de référence est
+// injectable : c'est ce qui permet de prouver le prédicat sur des instants
+// FIXES, discriminants par construction, au lieu de dépendre de l'heure
+// d'exécution du test.
+export const localTodaySql = (
+  timeZone: TimeZone,
+  nowSql = "now()"
+): string => {
   assertSupportedTimeZone(timeZone);
-  return `((now() AT TIME ZONE '${timeZone}')::date)`;
+  return `((${nowSql} AT TIME ZONE '${timeZone}')::date)`;
 };
 
 // Échéances glissantes calculées comme le navigateur les calcule : arithmétique

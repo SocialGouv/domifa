@@ -15,7 +15,11 @@ import {
   DECISION_DEADLINE_SQL,
   UsagerSortKey,
 } from "../../applyUsagerCriteriaSort";
-import { assertSupportedTimeZone } from "../../usagerQueryDates";
+import {
+  assertSupportedTimeZone,
+  localTodaySql,
+  SUPPORTED_TIME_ZONES,
+} from "../../usagerQueryDates";
 import { usagersSorter } from "../../../../../../frontend/src/app/modules/manage-usagers/services/usager-filter/usagersSorter.service";
 import { applyUsagerNameSearch } from "../../applyUsagerNameSearch";
 import { getAttributes } from "../../../../../../frontend/src/app/modules/manage-usagers/services/usager-filter/usagersSearchStringFilter.service";
@@ -580,6 +584,55 @@ describe("Filtres usagers — équivalence navigateur / SQL", () => {
       });
       expect(invalid).toHaveLength(1);
     });
+  });
+
+  // « Aujourd'hui » côté SQL doit venir du fuseau de la STRUCTURE, jamais du
+  // fuseau de session : `CURRENT_DATE` serait vert la plus grande partie de
+  // la journée (les jours de session et de structure coïncident presque
+  // toujours), et un test relatif à l'heure d'exécution ne tuerait cette
+  // régression que par chance. Les instants FIXES ci-dessous sont
+  // discriminants par construction : pour chacun, au moins un fuseau donne
+  // un jour différent du jour UTC de session, et aucun ne vaut la date du
+  // jour réel.
+  describe("localTodaySql : le jour de référence est celui du fuseau demandé", () => {
+    const FIXED_INSTANTS = [
+      "2026-01-15T23:30:00Z",
+      "2026-06-15T01:30:00Z",
+      "2026-06-15T12:00:00Z",
+    ];
+
+    it.each(FIXED_INSTANTS)(
+      "rend le jour local de chaque fuseau pour l'instant %s",
+      async (instant) => {
+        for (const timeZone of Object.keys(SUPPORTED_TIME_ZONES)) {
+          const [row] = await dataSource.query(
+            `SELECT ${localTodaySql(
+              assertSupportedTimeZone(timeZone),
+              `TIMESTAMPTZ '${instant}'`
+            )}::text AS today`
+          );
+          const expected = format(
+            utcToZonedTime(new Date(instant), timeZone),
+            "yyyy-MM-dd"
+          );
+          expect({ timeZone, instant, today: row.today }).toEqual({
+            timeZone,
+            instant,
+            today: expected,
+          });
+        }
+      }
+    );
+  });
+
+  // Une valeur `PREVIOUS_*` inconnue fait crasher le checker navigateur et
+  // est refusée par le DTO en amont ; côté SQL elle rend l'ensemble vide,
+  // pas une 500.
+  it("rend un ensemble vide sur une échéance PREVIOUS_* inconnue", async () => {
+    const sql = await refsFromSql(
+      criteriaOf({ echeance: "PREVIOUS_UNKNOWN" as never })
+    );
+    expect(sql).toEqual([]);
   });
 
   // Autour de minuit, le checker entretien du navigateur (date UTC) et le SQL
