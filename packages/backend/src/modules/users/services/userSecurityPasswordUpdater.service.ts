@@ -1,4 +1,8 @@
-import { UserStructure, UserSupervisor } from "@domifa/common";
+import {
+  getPasswordChangeStatus,
+  UserStructure,
+  UserSupervisor,
+} from "@domifa/common";
 
 import { UserProfile } from "../../../_common/model";
 import { passwordGenerator } from "../../../util";
@@ -51,12 +55,33 @@ async function updatePassword({
     throw new Error("Error");
   }
 
+  if (newPassword === oldPassword) {
+    await logSecurityEventForUser("CHANGE_PASSWORD_ERROR", userProfile, user, {
+      requestContext,
+    });
+    throw new Error("NEW_PASSWORD_SAME_AS_OLD");
+  }
+
+  // Same endpoint/flow is used for a voluntary change and for renewing a
+  // password that's overdue (the frontend just redirects here when the
+  // account is EXPIRED, instead of blocking anything at login) — log it
+  // distinctly so support can tell the two apart.
+  const isOverdueRenewal =
+    getPasswordChangeStatus(user.passwordLastUpdate, user.createdAt) ===
+    "EXPIRED";
+
   await userPasswordWriter.applyNewPassword({
     user,
     userProfile,
     newPassword,
-    successAction: "CHANGE_PASSWORD_SUCCESS",
+    successAction: isOverdueRenewal
+      ? "RESET_OUTDATED_PASSWORD_SUCCESS"
+      : "CHANGE_PASSWORD_SUCCESS",
+    failAction: isOverdueRenewal ? "RESET_OUTDATED_PASSWORD_FAIL" : undefined,
     sessionReason: "PASSWORD_CHANGED",
     requestContext,
+    logContext: isOverdueRenewal
+      ? { previousPasswordLastUpdate: user.passwordLastUpdate }
+      : undefined,
   });
 }

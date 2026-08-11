@@ -12,6 +12,7 @@ export const USER_STRUCTURE_AUTH: UserStructureAuthenticated = {
   status: "ACTIVE",
   createdAt: new Date(),
   lastLogin: new Date(),
+  passwordLastUpdate: new Date(),
   fonction: UserFonction.PRESIDENT,
   fonctionDetail: null,
   acceptTerms: new Date(),

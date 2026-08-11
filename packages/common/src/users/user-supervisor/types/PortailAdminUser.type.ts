@@ -11,4 +11,6 @@ export type PortailAdminUser = Pick<
   | "lastLogin"
   | "territories"
   | "role"
+  | "passwordLastUpdate"
+  | "createdAt"
 >;

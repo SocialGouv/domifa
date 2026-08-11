@@ -16,4 +16,5 @@ export type UserStructurePublic = Pick<
   | "structureId"
   | "acceptTerms"
   | "lastLogin"
+  | "passwordLastUpdate"
 >;

@@ -18,6 +18,7 @@ import { LandingPagePortailComponent } from "./modules/general/components/static
 import { ALL_USER_STRUCTURE_ROLES } from "@domifa/common";
 import { DecouvrirDomifaComponent } from "./modules/general/components/decouvrir-domifa/decouvrir-domifa.component";
 import { AcceptCguComponent } from "./modules/general/components/accept-cgu/accept-cgu.component";
+import { RenewPasswordComponent } from "./modules/manage-users/components/renew-password/renew-password.component";
 
 export const routes: Routes = [
   {
@@ -52,6 +53,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     component: AcceptCguComponent,
     path: "accepter-cgu",
+  },
+  {
+    canActivate: [AuthGuard],
+    component: RenewPasswordComponent,
+    path: "renouveler-mot-de-passe",
   },
 
   { component: PartenairesComponent, path: "partenaires" },

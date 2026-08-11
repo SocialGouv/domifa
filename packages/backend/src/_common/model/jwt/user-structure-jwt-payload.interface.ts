@@ -11,6 +11,8 @@ export type UserStructureJwtPayload = UseBaseJwtPayload<"structure"> & {
   fonctionDetail?: string;
   lastLogin: Date;
   acceptTerms: Date | null;
+  passwordLastUpdate: Date | null;
+  createdAt: Date;
   structureId: number;
   domifaVersion: string;
   fingerprintHash: string;
