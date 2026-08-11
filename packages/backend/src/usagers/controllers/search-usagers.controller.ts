@@ -35,6 +35,16 @@ import {
 
 import { SearchUsagerDto } from "../dto";
 
+// Chaque usager embarque des colonnes JSONB non bornées (historique des
+// décisions, ayants droit). Sans limite de lignes, une seule requête sur une
+// grosse structure charge assez d'objets pour monopoliser le thread principal
+// pendant plusieurs minutes : le pod ne répond plus du tout, y compris sur
+// /healthz. Ces bornes plafonnent le coût d'une requête.
+export const MAX_USAGERS_RADIES_LOADED = 10000;
+export const MAX_USAGERS_RADIES_PREVIEW = 1600;
+export const MAX_USAGERS_RADIES_SEARCH_RESULTS = 1000;
+export const MAX_USAGERS_RADIES_SEARCH_RESULTS_WITHOUT_CRITERIA = 100;
+
 @Controller("search-usagers")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserProfiles("structure")
@@ -69,17 +79,19 @@ export class SearchUsagersController {
         structureId: user.structureId,
       },
       select: USAGER_LIGHT_ATTRIBUTES,
-      take: chargerTousRadies ? undefined : 1600,
+      take: chargerTousRadies
+        ? MAX_USAGERS_RADIES_LOADED
+        : MAX_USAGERS_RADIES_PREVIEW,
     });
 
-    const usagersRadiesTotalCount = chargerTousRadies
-      ? usagersRadiesFirsts.length
-      : await usagerRepository.count({
-          where: {
-            statut: "RADIE",
-            structureId: user.structureId,
-          },
-        });
+    // Toujours compté en base : le nombre de radiés chargés est plafonné, il ne
+    // reflète donc pas le total que l'interface doit afficher.
+    const usagersRadiesTotalCount = await usagerRepository.count({
+      where: {
+        statut: "RADIE",
+        structureId: user.structureId,
+      },
+    });
 
     const filterHistorique = (usager: Usager) => {
       if (usager.historique && Array.isArray(usager.historique)) {
@@ -208,15 +220,18 @@ export class SearchUsagersController {
       }
     }
 
-    if (
+    const hasNoCriteria =
       !search.searchString &&
       !search?.echeance &&
       !search?.entretien &&
       typeof search?.referrerId === "undefined" &&
-      !search?.lastInteractionDate
-    ) {
-      query.take(100);
-    }
+      !search?.lastInteractionDate;
+
+    query.take(
+      hasNoCriteria
+        ? MAX_USAGERS_RADIES_SEARCH_RESULTS_WITHOUT_CRITERIA
+        : MAX_USAGERS_RADIES_SEARCH_RESULTS
+    );
 
     return await query.getRawMany();
   }
