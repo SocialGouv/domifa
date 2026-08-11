@@ -1,7 +1,7 @@
 import { DataSource, InsertEvent, QueryRunner } from "typeorm";
-import { BackfillUsagerSearchIndex1786500000000 } from "../1786500000000-backfill-usager-search-index";
-import { UsagerSubscriber } from "../../database/entities/usager/UsagerSubscriber.typeorm";
-import { UsagerTable } from "../../database/entities/usager/UsagerTable.typeorm";
+import { BackfillUsagerSearchIndex1786500000000 } from "../../../../_migrations/1786500000000-backfill-usager-search-index";
+import { UsagerSubscriber } from "../UsagerSubscriber.typeorm";
+import { UsagerTable } from "../UsagerTable.typeorm";
 
 // Test différentiel de la migration de rattrapage : les valeurs qu'elle écrit
 // doivent être exactement celles que le subscriber — la règle de référence,
