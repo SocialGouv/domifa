@@ -1,4 +1,3 @@
-
 backend-cron:
   replicas: 1
   resources:
@@ -52,9 +51,12 @@ backend-cron:
 
 backend: &backendProd
   host: "domifa-api.{{ .Values.global.domain }}"
+  # Un pod bloqué consomme un seul cœur sur les 3 réservés : l'utilisation
+  # moyenne reste sous la cible et l'autoscaler scale down au lieu de compenser.
+  # Le plancher fournit la marge que les métriques ne déclenchent pas.
   autoscale:
-    minReplicas: 4
-    maxReplicas: 8
+    minReplicas: 6
+    maxReplicas: 10
     enabled: true
   resources:
     requests:
