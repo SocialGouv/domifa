@@ -89,12 +89,15 @@ describe("SearchUsagersController — coût des requêtes", () => {
   it("produit une charge utile sur laquelle l'échéance reste calculable", async () => {
     expect(USAGER_LIGHT_ATTRIBUTES).toContain("historique");
 
+    // ATTENTE_DECISION lit l'AVANT-dernière entrée : il faut donc au moins deux
+    // entrées, sinon ne garder que la dernière — l'optimisation suivante, qui
+    // paraît tout aussi évidente — passerait au vert en falsifiant l'échéance.
     mockedRepository.find.mockResolvedValue([
       {
         uuid: "a",
         typeDom: "RENOUVELLEMENT",
         decision: {
-          statut: "INSTRUCTION",
+          statut: "ATTENTE_DECISION",
           dateDecision: "2026-01-10",
           dateDebut: "2026-01-10",
           dateFin: null,
@@ -108,6 +111,14 @@ describe("SearchUsagersController — coût des requêtes", () => {
             motifDetails: "texte libre volumineux",
             userName: "agent",
           },
+          {
+            statut: "INSTRUCTION",
+            dateDecision: "2026-01-05",
+            dateDebut: "2026-01-05",
+            dateFin: null,
+            motifDetails: "autre texte libre",
+            userName: "agent",
+          },
         ],
       },
     ]);
@@ -115,14 +126,22 @@ describe("SearchUsagersController — coût des requêtes", () => {
     const result = await controller.findAllByStructure(false, user);
     const usager = result.usagers[0];
 
-    // Le rognage a bien eu lieu…
-    expect(usager.historique[0]).toEqual({
-      statut: "VALIDE",
-      dateDecision: "2025-01-10",
-      dateDebut: "2025-01-10",
-      dateFin: "2026-08-20",
-    });
-    // …sans casser le calcul qui en dépend.
+    // Le rognage a bien eu lieu, sur toutes les entrées…
+    expect(usager.historique).toEqual([
+      {
+        statut: "VALIDE",
+        dateDecision: "2025-01-10",
+        dateDebut: "2025-01-10",
+        dateFin: "2026-08-20",
+      },
+      {
+        statut: "INSTRUCTION",
+        dateDecision: "2026-01-05",
+        dateDebut: "2026-01-05",
+        dateFin: null,
+      },
+    ]);
+    // …sans casser le calcul qui en dépend, qui remonte ici à l'avant-dernière.
     expect(() => getDecisionDeadline(usager)).not.toThrow();
     expect(getDecisionDeadline(usager).dateToDisplay).toEqual(
       new Date("2026-08-20")
