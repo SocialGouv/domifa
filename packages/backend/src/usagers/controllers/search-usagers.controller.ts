@@ -178,6 +178,11 @@ export class SearchUsagersController {
       );
     }
 
+    // Les filtres entretien/échéance/passage ci-dessous sont la traduction
+    // HISTORIQUE de cet endpoint, conservée telle quelle : elle diverge du
+    // navigateur (`dateDecision` au lieu de `dateFin`, sens du passage
+    // inversé, dates en fuseau de session). La traduction fidèle vit dans
+    // `applyUsagerCriteriaFilters` et remplacera ce bloc à la bascule.
     if (search?.entretien) {
       query.andWhere(
         `rdv->>'dateRdv' IS NOT NULL AND "etapeDemande" <= :step AND (rdv->>'dateRdv')::date ${

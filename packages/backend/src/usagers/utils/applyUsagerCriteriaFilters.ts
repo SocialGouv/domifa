@@ -1,22 +1,14 @@
 import {
   ETAPE_ENTRETIEN,
-  getUsagerDeadlines,
+  TimeZone,
   UsagersFilterCriteriaStatut,
 } from "@domifa/common";
 import { ObjectLiteral, SelectQueryBuilder } from "typeorm";
-
-// Les dates sont stockées en texte ISO, souvent horodatées. `x::date` en tire
-// la date UTC, pas la date locale : une décision expirant à 00h30 à Paris était
-// classée la veille. Toutes les comparaisons de jour passent donc par le fuseau
-// de l'application.
-//
-// Le navigateur mélange aujourd'hui deux conventions — la date UTC pour
-// l'entretien, les jours calendaires locaux pour l'échéance — ce qui les fait
-// diverger entre elles deux heures par jour. On aligne les deux sur la date
-// locale, la seule qui corresponde à ce qu'un utilisateur appelle « aujourd'hui ».
-const APP_TIME_ZONE = "Europe/Paris";
-const localDate = (expression: string): string =>
-  `((${expression})::timestamptz AT TIME ZONE '${APP_TIME_ZONE}')::date`;
+import {
+  getZonedUsagerDeadlines,
+  localDateSql,
+  localTodaySql,
+} from "./usagerQueryDates";
 
 export type UsagerCriteriaFilters = {
   statut?: string | null;
@@ -33,14 +25,31 @@ export type UsagerCriteriaFilters = {
 // et ses checkers) : c'est le comportement que les utilisateurs constatent
 // aujourd'hui, donc le seul qui fasse foi pour juger d'une régression.
 //
+// Les dates sont stockées en texte ISO, souvent horodatées. `x::date` en tire
+// la date du fuseau de SESSION PostgreSQL, pas celle de l'utilisateur : une
+// décision expirant à 00h30 à Paris était classée la veille. Toutes les
+// comparaisons de jour passent donc par le fuseau de la STRUCTURE
+// (`structure.timeZone`), le même que le navigateur de l'agent en pratique —
+// DomiFa sert aussi des structures ultramarines, jusqu'à 11 h d'écart avec
+// Paris. Voir `usagerQueryDates.ts`.
+//
+// Le navigateur mélange aujourd'hui deux conventions — la date UTC pour
+// l'entretien, les jours calendaires locaux pour l'échéance — ce qui les fait
+// diverger entre elles autour de minuit. On aligne les deux sur la date
+// locale de la structure, la seule qui corresponde à ce qu'un utilisateur
+// appelle « aujourd'hui ».
+//
 // À noter, l'endpoint `search-radies` traduisait déjà deux de ces filtres,
 // mais différemment du navigateur : il testait `decision->>'dateDecision'`
 // quand le checker teste `decision.dateFin`, et il comparait le dernier
 // passage dans le sens inverse. Ces écarts ne sont pas reconduits ici.
 export function applyUsagerCriteriaFilters<T extends ObjectLiteral>(
   query: SelectQueryBuilder<T>,
-  filters: UsagerCriteriaFilters
+  filters: UsagerCriteriaFilters,
+  timeZone: TimeZone
 ): SelectQueryBuilder<T> {
+  const today = localTodaySql(timeZone);
+
   if (filters.statut && filters.statut !== UsagersFilterCriteriaStatut.TOUS) {
     query.andWhere(`statut = :statut`, { statut: filters.statut });
   }
@@ -60,9 +69,9 @@ export function applyUsagerCriteriaFilters<T extends ObjectLiteral>(
     query.andWhere(
       `rdv->>'dateRdv' IS NOT NULL
        AND "etapeDemande" <= :etapeEntretien
-       AND ${localDate("rdv->>'dateRdv'")} ${
+       AND ${localDateSql("rdv->>'dateRdv'", timeZone)} ${
         filters.entretien === "COMING" ? ">" : "<"
-      } CURRENT_DATE`,
+      } ${today}`,
       { etapeEntretien: ETAPE_ENTRETIEN }
     );
   }
@@ -76,20 +85,16 @@ export function applyUsagerCriteriaFilters<T extends ObjectLiteral>(
     // seuil demandé.
     query.andWhere(`decision->>'dateFin' IS NOT NULL`);
 
+    const dateFin = localDateSql("decision->>'dateFin'", timeZone);
+
     if (filters.echeance === "EXCEEDED") {
-      query.andWhere(`${localDate("decision->>'dateFin'")} < CURRENT_DATE`);
+      query.andWhere(`${dateFin} < ${today}`);
     } else if (filters.echeance === "NEXT_TWO_WEEKS") {
-      query.andWhere(
-        `${localDate("decision->>'dateFin'")} >= CURRENT_DATE
-         AND ${localDate("decision->>'dateFin'")} < CURRENT_DATE + 16`
-      );
+      query.andWhere(`${dateFin} >= ${today} AND ${dateFin} < ${today} + 16`);
     } else if (filters.echeance === "NEXT_TWO_MONTHS") {
-      query.andWhere(
-        `${localDate("decision->>'dateFin'")} >= CURRENT_DATE
-         AND ${localDate("decision->>'dateFin'")} < CURRENT_DATE + 61`
-      );
+      query.andWhere(`${dateFin} >= ${today} AND ${dateFin} < ${today} + 61`);
     } else if (filters.echeance.startsWith("PREVIOUS_")) {
-      const deadline = getUsagerDeadlines()[filters.echeance];
+      const deadline = getZonedUsagerDeadlines(timeZone)[filters.echeance];
       query.andWhere(
         `(decision->>'dateFin')::timestamptz < :echeanceDeadline`,
         { echeanceDeadline: deadline.value }
@@ -101,7 +106,9 @@ export function applyUsagerCriteriaFilters<T extends ObjectLiteral>(
   }
 
   if (filters.lastInteractionDate) {
-    const deadline = getUsagerDeadlines()[filters.lastInteractionDate];
+    const deadline = getZonedUsagerDeadlines(timeZone)[
+      filters.lastInteractionDate
+    ];
 
     query.andWhere(`"lastInteraction"->>'dateInteraction' IS NOT NULL`);
 

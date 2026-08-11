@@ -29,6 +29,26 @@ docker run -d --name domifa-diff-pg \
 pnpm --filter @domifa/backend test:differential
 ```
 
+## Fuseaux
+
+Le fuseau du **process** joue le rôle du navigateur de l'agent, et la suite le
+passe au SQL comme l'endpoint passera `structure.timeZone`. Chaque lancement
+éprouve donc un appariement :
+
+```sh
+TZ=Europe/Paris   pnpm --filter @domifa/backend test:differential  # défaut
+TZ=Pacific/Noumea pnpm --filter @domifa/backend test:differential  # ultramarin
+```
+
+Un fuseau hors de la liste du produit — dont UTC — échoue explicitement.
+
+Le fuseau de **session PostgreSQL** est forcé à UTC, délibérément hostile :
+l'application ne le fixe jamais, le SQL ne doit donc dépendre que de ses
+`AT TIME ZONE` explicites. Les fixtures sensibles posent leurs instants à
+22h30 UTC, là où jour local et jour UTC diffèrent — des dates à la même heure
+murale que « maintenant » seraient invariantes par fuseau, et le jeu serait
+structurellement aveugle à une confusion de fuseau.
+
 Le typage de la suite n'est pas vérifié par `tsc` : elle importe des fichiers
 du paquet frontend, qui portent des erreurs de types préexistantes sans rapport
 avec elle. Le lint typé la couvre, via `tsconfig.differential.json`.

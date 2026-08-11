@@ -1,16 +1,29 @@
+import { TimeZone } from "@domifa/common";
 import { ObjectLiteral, SelectQueryBuilder } from "typeorm";
+import { localDateSql } from "./usagerQueryDates";
 
 export type UsagerSortKey = "NOM" | "PASSAGE" | "ECHEANCE" | "RDV" | "ID";
 
 // Échéance affichée, telle que `getDecisionDeadline()` la calcule côté
 // application. Transposée ici parce qu'elle sert de clé de tri et n'existe
-// nulle part en base.
+// nulle part en base. Exportée pour que la suite différentielle compare sa
+// valeur, ligne à ligne, à celle de la fonction d'origine.
+//
+// La première branche reprend la garde d'entrée de la fonction : une décision
+// sans aucune date n'affiche pas d'échéance. Un dossier RADIE/REFUS dont seule
+// `dateDecision` est posée passe cette garde mais n'a ni `dateDebut` ni
+// `dateFin` : la fonction d'origine y produit un `Invalid Date`, ici NULL —
+// écart assumé, du même ordre que le tri par rendez-vous.
 //
 // Le dernier cas remonte à l'avant-dernière décision pour un dossier en
 // attente de décision, et à la dernière sinon — d'où l'indice négatif, et la
 // garde sur la longueur du tableau que fait aussi la fonction d'origine.
-const DECISION_DEADLINE_SQL = `
+export const DECISION_DEADLINE_SQL = `
   CASE
+    WHEN decision->>'dateDebut' IS NULL
+         AND decision->>'dateFin' IS NULL
+         AND decision->>'dateDecision' IS NULL
+      THEN NULL
     WHEN decision->>'statut' = 'VALIDE' AND decision->>'dateFin' IS NOT NULL
       THEN (decision->>'dateFin')::timestamptz
     WHEN decision->>'statut' IN ('RADIE', 'REFUS')
@@ -55,7 +68,8 @@ const IS_NUMERIC_REF_SQL = `(${DISPLAY_REF_SQL} ~ '^[0-9]+$')`;
 export function applyUsagerCriteriaSort<T extends ObjectLiteral>(
   query: SelectQueryBuilder<T>,
   sortKey: UsagerSortKey,
-  sortValue: "asc" | "desc"
+  sortValue: "asc" | "desc",
+  timeZone: TimeZone
 ): SelectQueryBuilder<T> {
   const ascending = sortValue !== "desc";
   const direction: "ASC" | "DESC" = ascending ? "ASC" : "DESC";
@@ -76,6 +90,11 @@ export function applyUsagerCriteriaSort<T extends ObjectLiteral>(
     orderBy(
       `CASE WHEN NOT ${IS_NUMERIC_REF_SQL} THEN ${DISPLAY_REF_SQL} END ${NAME_COLLATION}`
     );
+    // Rien n'interdit deux références affichées identiques (les doublons de
+    // `customRef` ne sont que signalés à l'IHM) : sans départage unique,
+    // l'ordre dépend de l'emplacement physique des lignes et une pagination
+    // peut montrer un dossier deux fois et un autre jamais.
+    orderBy(`ref`);
     return query;
   }
 
@@ -90,9 +109,7 @@ export function applyUsagerCriteriaSort<T extends ObjectLiteral>(
     // dossiers datés selon le jour de la semaine de leur rendez-vous.
     // Les dossiers sans rendez-vous sont donc traités ici comme toute autre
     // valeur absente, à l'identique des autres tris.
-    orderBy(
-      `((rdv->>'dateRdv')::timestamptz AT TIME ZONE 'Europe/Paris')::date`
-    );
+    orderBy(localDateSql("rdv->>'dateRdv'", timeZone));
   } else if (sortKey === "ECHEANCE") {
     orderBy(`(${DECISION_DEADLINE_SQL})`);
   }

@@ -1,20 +1,26 @@
 import {
   CriteriaSearchField,
+  ETAPE_ENTRETIEN,
   getDecisionDeadline,
   normalizeString,
 } from "@domifa/common";
+import { format, subDays } from "date-fns";
+import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 import { DataSource } from "typeorm";
 import { usagersFilter } from "../../../../../../frontend/src/app/modules/manage-usagers/services/usager-filter/usagersFilter.service";
 import { UsagersFilterCriteria } from "../../../../../../frontend/src/app/modules/manage-usagers/classes/UsagersFilterCriteria";
 import { applyUsagerCriteriaFilters } from "../../applyUsagerCriteriaFilters";
 import {
   applyUsagerCriteriaSort,
+  DECISION_DEADLINE_SQL,
   UsagerSortKey,
 } from "../../applyUsagerCriteriaSort";
+import { assertSupportedTimeZone } from "../../usagerQueryDates";
 import { usagersSorter } from "../../../../../../frontend/src/app/modules/manage-usagers/services/usager-filter/usagersSorter.service";
 import { applyUsagerNameSearch } from "../../applyUsagerNameSearch";
 import { getAttributes } from "../../../../../../frontend/src/app/modules/manage-usagers/services/usager-filter/usagersSearchStringFilter.service";
 import {
+  buildDeadlineBranchFixtures,
   buildFixtures,
   buildHomonymFixtures,
   FixtureUsager,
@@ -36,6 +42,16 @@ const DATABASE_URL =
   "postgres://domifa:diffpwd@localhost:55432/domifa_diff";
 
 const STRUCTURE_ID = 1;
+
+// Le « navigateur » de ce test tourne dans le fuseau du process : c'est lui
+// qu'on passe au SQL, comme l'endpoint passera `structure.timeZone`. Lancer la
+// suite sous un autre fuseau éprouve un autre appariement :
+//   TZ=Europe/Paris pnpm test:differential     (défaut)
+//   TZ=Pacific/Noumea pnpm test:differential   (structure ultramarine)
+// Un fuseau hors de la liste du produit (dont UTC) échoue ici, explicitement.
+const BROWSER_TZ = assertSupportedTimeZone(
+  Intl.DateTimeFormat().resolvedOptions().timeZone
+);
 
 // L'index de recherche est construit ici à partir de `getAttributes`, la
 // fonction du NAVIGATEUR, et non de la règle du subscriber. Le faire dériver du
@@ -61,7 +77,16 @@ describe("Filtres usagers — équivalence navigateur / SQL", () => {
   const now = new Date();
 
   beforeAll(async () => {
-    dataSource = new DataSource({ type: "postgres", url: DATABASE_URL });
+    // Fuseau de session DÉLIBÉRÉMENT hostile : l'application ne fixe jamais le
+    // GUC `timezone` (node-postgres ne transmet pas `TZ` au serveur), le SQL
+    // ne doit donc dépendre que des `AT TIME ZONE` explicites. Avec la session
+    // au fuseau du conteneur, une régression vers `CURRENT_DATE` ou `::date`
+    // resterait invisible.
+    dataSource = new DataSource({
+      type: "postgres",
+      url: DATABASE_URL,
+      extra: { options: "-c TimeZone=UTC" },
+    });
     await dataSource.initialize();
 
     await dataSource.query(`DROP TABLE IF EXISTS usager`);
@@ -89,34 +114,40 @@ describe("Filtres usagers — équivalence navigateur / SQL", () => {
     fixtures = buildFixtures(now);
 
     for (const usager of fixtures) {
-      await dataSource.query(
-        `INSERT INTO usager (ref, "structureId", nom, prenom, surnom, "customRef",
-           statut, "typeDom", "etapeDemande", "referrerId", decision,
-           "lastInteraction", rdv, options, "ayantsDroits", historique,
-           nom_prenom_surnom_ref)
-         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)`,
-        [
-          usager.ref,
-          STRUCTURE_ID,
-          usager.nom,
-          usager.prenom,
-          usager.surnom,
-          usager.customRef,
-          usager.statut,
-          usager.typeDom,
-          usager.etapeDemande,
-          usager.referrerId,
-          JSON.stringify(usager.decision),
-          JSON.stringify(usager.lastInteraction),
-          usager.rdv ? JSON.stringify(usager.rdv) : null,
-          JSON.stringify(usager.options),
-          JSON.stringify(usager.ayantsDroits),
-          JSON.stringify(usager.historique),
-          searchIndexOf(usager),
-        ]
-      );
+      await insertUsager(usager, STRUCTURE_ID);
     }
   }, 60000);
+
+  const insertUsager = (
+    usager: FixtureUsager,
+    structureId: number
+  ): Promise<unknown> =>
+    dataSource.query(
+      `INSERT INTO usager (ref, "structureId", nom, prenom, surnom, "customRef",
+         statut, "typeDom", "etapeDemande", "referrerId", decision,
+         "lastInteraction", rdv, options, "ayantsDroits", historique,
+         nom_prenom_surnom_ref)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)`,
+      [
+        usager.ref,
+        structureId,
+        usager.nom,
+        usager.prenom,
+        usager.surnom,
+        usager.customRef,
+        usager.statut,
+        usager.typeDom,
+        usager.etapeDemande,
+        usager.referrerId,
+        JSON.stringify(usager.decision),
+        JSON.stringify(usager.lastInteraction),
+        usager.rdv ? JSON.stringify(usager.rdv) : null,
+        JSON.stringify(usager.options),
+        JSON.stringify(usager.ayantsDroits),
+        JSON.stringify(usager.historique),
+        searchIndexOf(usager),
+      ]
+    );
 
   afterAll(async () => {
     if (dataSource?.isInitialized) {
@@ -149,14 +180,18 @@ describe("Filtres usagers — équivalence navigateur / SQL", () => {
       .from("usager", "usager")
       .where(`"structureId" = :structureId`, { structureId: STRUCTURE_ID });
 
-    applyUsagerCriteriaFilters(query, {
-      statut: criteria.statut ?? null,
-      echeance: criteria.echeance ?? null,
-      interactionType: criteria.interactionType ?? null,
-      lastInteractionDate: criteria.lastInteractionDate ?? null,
-      entretien: (criteria.entretien ?? null) as "COMING" | "PASSED" | null,
-      referrerId: criteria.referrerId,
-    });
+    applyUsagerCriteriaFilters(
+      query,
+      {
+        statut: criteria.statut ?? null,
+        echeance: criteria.echeance ?? null,
+        interactionType: criteria.interactionType ?? null,
+        lastInteractionDate: criteria.lastInteractionDate ?? null,
+        entretien: (criteria.entretien ?? null) as "COMING" | "PASSED" | null,
+        referrerId: criteria.referrerId,
+      },
+      BROWSER_TZ
+    );
 
     if (criteria.searchString) {
       applyUsagerNameSearch(query, criteria.searchString);
@@ -212,15 +247,43 @@ describe("Filtres usagers — équivalence navigateur / SQL", () => {
     await expectSameSelection("courrierIn", { interactionType: "courrierIn" });
   });
 
-  it.each(["COMING", "PASSED"])(
-    "sélectionne les mêmes dossiers pour l'entretien %s",
-    async (entretien) => {
-      await expectSameSelection(`entretien ${entretien}`, {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        entretien: entretien as any,
-      });
-    }
-  );
+  // L'entretien est le seul filtre qui ne soit PAS comparé au navigateur en
+  // égalité brute : le checker travaille en date UTC, la traduction SQL en
+  // date locale de la structure — c'est l'alignement assumé documenté dans
+  // `applyUsagerCriteriaFilters`, et « aujourd'hui » diffère entre les deux
+  // conventions une partie de la journée (jusqu'à 13 h à Nouméa). L'attendu
+  // est donc calculé depuis la sémantique CHOISIE — le jour local — et la
+  // divergence avec le navigateur est épinglée par son propre test, plus bas.
+  describe("entretien", () => {
+    const localDay = (date: Date): string =>
+      format(utcToZonedTime(date, BROWSER_TZ), "yyyy-MM-dd");
+
+    const expectedRefs = (entretien: "COMING" | "PASSED"): number[] => {
+      const today = localDay(new Date());
+      return fixtures
+        .filter(
+          (usager) =>
+            usager.rdv?.dateRdv &&
+            usager.etapeDemande <= ETAPE_ENTRETIEN &&
+            (entretien === "COMING"
+              ? localDay(new Date(usager.rdv.dateRdv as string)) > today
+              : localDay(new Date(usager.rdv.dateRdv as string)) < today)
+        )
+        .map((usager) => usager.ref)
+        .sort((a, b) => a - b);
+    };
+
+    it.each(["COMING", "PASSED"] as const)(
+      "sélectionne les dossiers du jour local de la structure pour %s",
+      async (entretien) => {
+        const expected = expectedRefs(entretien);
+        const sql = await refsFromSql(criteriaOf({ entretien } as never));
+
+        expect({ entretien, refs: sql }).toEqual({ entretien, refs: expected });
+        expect(expected.length).toBeGreaterThan(0);
+      }
+    );
+  });
 
   it.each(["PREVIOUS_TWO_MONTHS", "PREVIOUS_THREE_MONTHS", "PREVIOUS_YEAR"])(
     "sélectionne les mêmes dossiers pour un dernier passage %s",
@@ -291,7 +354,7 @@ describe("Filtres usagers — équivalence navigateur / SQL", () => {
       .from("usager", "usager")
       .where(`"structureId" = :structureId`, { structureId: STRUCTURE_ID });
 
-    applyUsagerCriteriaSort(query, sortKey, sortValue);
+    applyUsagerCriteriaSort(query, sortKey, sortValue, BROWSER_TZ);
 
     const rows = await query.getRawMany();
     return rows.map((row) => Number(row.ref));
@@ -362,32 +425,7 @@ describe("Filtres usagers — équivalence navigateur / SQL", () => {
 
     beforeAll(async () => {
       for (const usager of buildHomonymFixtures(now)) {
-        await dataSource.query(
-          `INSERT INTO usager (ref, "structureId", nom, prenom, surnom, "customRef",
-             statut, "typeDom", "etapeDemande", "referrerId", decision,
-             "lastInteraction", rdv, options, "ayantsDroits", historique,
-             nom_prenom_surnom_ref)
-           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)`,
-          [
-            usager.ref,
-            HOMONYM_STRUCTURE_ID,
-            usager.nom,
-            usager.prenom,
-            usager.surnom,
-            usager.customRef,
-            usager.statut,
-            usager.typeDom,
-            usager.etapeDemande,
-            usager.referrerId,
-            JSON.stringify(usager.decision),
-            JSON.stringify(usager.lastInteraction),
-            usager.rdv ? JSON.stringify(usager.rdv) : null,
-            JSON.stringify(usager.options),
-            JSON.stringify(usager.ayantsDroits),
-            JSON.stringify(usager.historique),
-            searchIndexOf(usager),
-          ]
-        );
+        await insertUsager(usager, HOMONYM_STRUCTURE_ID);
       }
     });
 
@@ -399,7 +437,7 @@ describe("Filtres usagers — équivalence navigateur / SQL", () => {
         .where(`"structureId" = :structureId`, {
           structureId: HOMONYM_STRUCTURE_ID,
         });
-      applyUsagerCriteriaSort(query, "NOM", "asc");
+      applyUsagerCriteriaSort(query, "NOM", "asc", BROWSER_TZ);
 
       const rows = await query.getRawMany();
       expect(rows.map((row) => Number(row.ref))).toEqual([5, 7, 12, 32, 2001]);
@@ -440,4 +478,187 @@ describe("Filtres usagers — équivalence navigateur / SQL", () => {
       expect(sql).toEqual(browser);
     }
   );
+
+  // Références affichées identiques : rien n'interdit les doublons de
+  // `customRef` (l'IHM se contente de les signaler). Sans départage unique,
+  // l'ordre suit l'emplacement physique des lignes — une réécriture suffit à
+  // le changer, et une pagination montrerait un dossier deux fois, un autre
+  // jamais.
+  describe("tri ID avec références en doublon", () => {
+    const DUPLICATE_REF_STRUCTURE_ID = 5;
+
+    beforeAll(async () => {
+      const [model] = fixtures;
+      for (const ref of [41, 42, 43, 44, 45]) {
+        await insertUsager(
+          { ...model, ref, customRef: "DUP", nom: "Doublon", prenom: "Test" },
+          DUPLICATE_REF_STRUCTURE_ID
+        );
+      }
+      // Réécriture sans changement : Postgres déplace physiquement les lignes,
+      // ce qui suffisait à inverser l'ordre rendu avant le départage.
+      await dataSource.query(
+        `UPDATE usager SET statut = statut
+          WHERE "structureId" = $1 AND ref IN (41, 42)`,
+        [DUPLICATE_REF_STRUCTURE_ID]
+      );
+    });
+
+    it("rend un ordre total, insensible à l'emplacement physique des lignes", async () => {
+      const query = dataSource
+        .createQueryBuilder()
+        .select("usager.ref", "ref")
+        .from("usager", "usager")
+        .where(`"structureId" = :structureId`, {
+          structureId: DUPLICATE_REF_STRUCTURE_ID,
+        });
+      applyUsagerCriteriaSort(query, "ID", "asc", BROWSER_TZ);
+
+      const rows = await query.getRawMany();
+      expect(rows.map((row) => Number(row.ref))).toEqual([41, 42, 43, 44, 45]);
+    });
+  });
+
+  // Valeur de l'échéance affichée, branche par branche : le jeu principal est
+  // entièrement en PREMIERE_DOM, ces cas couvrent RADIE, REFUS et les trois
+  // gardes du RENOUVELLEMENT. Comparaison de VALEUR, pas d'ordre : un dossier
+  // RADIE sans date produit un `Invalid Date` côté navigateur, et trier sur
+  // NaN rendrait un ordre indéfini.
+  describe("échéance affichée : équivalence de DECISION_DEADLINE_SQL", () => {
+    const DEADLINE_STRUCTURE_ID = 4;
+    let deadlineFixtures: FixtureUsager[];
+
+    beforeAll(async () => {
+      deadlineFixtures = buildDeadlineBranchFixtures(now);
+      for (const usager of deadlineFixtures) {
+        await insertUsager(usager, DEADLINE_STRUCTURE_ID);
+      }
+    });
+
+    it("calcule la même échéance que getDecisionDeadline sur chaque branche", async () => {
+      const rows: { ref: string; deadline: Date | null }[] =
+        await dataSource.query(
+          `SELECT ref, ${DECISION_DEADLINE_SQL} AS deadline
+             FROM usager WHERE "structureId" = $1 ORDER BY ref`,
+          [DEADLINE_STRUCTURE_ID]
+        );
+      expect(rows).toHaveLength(deadlineFixtures.length);
+
+      for (const usager of deadlineFixtures) {
+        const row = rows.find((candidate) => Number(candidate.ref) === usager.ref);
+        const browser = getDecisionDeadline(
+          usager as never
+        ).dateToDisplay as Date | null;
+        const sql = row?.deadline ?? null;
+
+        if (browser !== null && Number.isNaN(browser.getTime())) {
+          // RADIE avec seulement `dateDecision` : `new Date(undefined)` côté
+          // navigateur. Le SQL rend NULL — écart assumé, épinglé ici pour
+          // qu'un alignement futur se signale.
+          expect({ ref: usager.ref, deadline: sql }).toEqual({
+            ref: usager.ref,
+            deadline: null,
+          });
+          continue;
+        }
+
+        expect({
+          ref: usager.ref,
+          deadline: sql === null ? null : sql.toISOString(),
+        }).toEqual({
+          ref: usager.ref,
+          deadline: browser === null ? null : browser.toISOString(),
+        });
+      }
+    });
+
+    it("épingle bien le cas Invalid Date, sinon ce test ne prouve rien", () => {
+      const invalid = deadlineFixtures.filter((usager) => {
+        const browser = getDecisionDeadline(usager as never)
+          .dateToDisplay as Date | null;
+        return browser !== null && Number.isNaN(browser.getTime());
+      });
+      expect(invalid).toHaveLength(1);
+    });
+  });
+
+  // Autour de minuit, le checker entretien du navigateur (date UTC) et le SQL
+  // (date locale de la structure) ne classent pas pareil : c'est l'alignement
+  // assumé documenté dans `applyUsagerCriteriaFilters`. Épinglé comme le tri
+  // par rendez-vous : si un jour le navigateur passe en date locale, ce test
+  // le signalera. Les deux sondes couvrent les deux fenêtres possibles de
+  // l'heure d'exécution ; au moins une diverge toujours, quel que soit le
+  // fuseau supporté.
+  describe("entretien autour de minuit", () => {
+    const MIDNIGHT_STRUCTURE_ID = 3;
+    let probes: FixtureUsager[];
+
+    beforeAll(async () => {
+      const [model] = fixtures;
+      const zonedNow = utcToZonedTime(now, BROWSER_TZ);
+
+      const lateUtcToday = new Date(now);
+      lateUtcToday.setUTCHours(23, 30, 0, 0);
+
+      const lateLocalYesterday = zonedTimeToUtc(
+        `${format(subDays(zonedNow, 1), "yyyy-MM-dd")}T23:30:00`,
+        BROWSER_TZ
+      );
+
+      probes = [lateUtcToday, lateLocalYesterday].map((dateRdv, index) => ({
+        ...model,
+        ref: 61 + index,
+        nom: `Minuit${61 + index}`,
+        prenom: "Test",
+        etapeDemande: 1,
+        rdv: { dateRdv: dateRdv.toISOString(), userId: 1 },
+      }));
+
+      for (const usager of probes) {
+        await insertUsager(usager, MIDNIGHT_STRUCTURE_ID);
+      }
+    });
+
+    const classifyBrowser = (usager: FixtureUsager): string =>
+      (["COMING", "PASSED"] as const)
+        .filter(
+          (entretien) =>
+            usagersFilter.filter([usager] as never, {
+              criteria: criteriaOf({ entretien } as never),
+            }).length > 0
+        )
+        .join(",");
+
+    const classifySql = async (usager: FixtureUsager): Promise<string> => {
+      const labels: string[] = [];
+      for (const entretien of ["COMING", "PASSED"] as const) {
+        const query = dataSource
+          .createQueryBuilder()
+          .select("usager.ref", "ref")
+          .from("usager", "usager")
+          .where(`"structureId" = :structureId AND ref = :ref`, {
+            structureId: MIDNIGHT_STRUCTURE_ID,
+            ref: usager.ref,
+          });
+        applyUsagerCriteriaFilters(query, { entretien }, BROWSER_TZ);
+        if ((await query.getRawMany()).length > 0) {
+          labels.push(entretien);
+        }
+      }
+      return labels.join(",");
+    };
+
+    it("diverge encore du navigateur autour de minuit, comme documenté", async () => {
+      const verdicts = [];
+      for (const usager of probes) {
+        verdicts.push({
+          browser: classifyBrowser(usager),
+          sql: await classifySql(usager),
+        });
+      }
+      expect(
+        verdicts.some((verdict) => verdict.browser !== verdict.sql)
+      ).toBe(true);
+    });
+  });
 });
