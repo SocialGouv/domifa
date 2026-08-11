@@ -38,7 +38,10 @@ backend:
     initialDelaySeconds: 5
     periodSeconds: 5
     timeoutSeconds: 2
-    failureThreshold: 2
+    # ~20 s de tolérance : assez pour absorber un traitement synchrone ponctuel
+    # sans vider les endpoints du Service (0 pod prêt = 503 sur toute l'API),
+    # et dix fois plus réactif que la liveness et ses 200 s.
+    failureThreshold: 4
     successThreshold: 1
   livenessProbe:
     failureThreshold: 20
@@ -63,7 +66,10 @@ backend:
         name: backend-sealed-secret
     - configMapRef:
         name: backend-configmap
-  vars: &backendVars
+  # Bloc volontairement non ancré : NODE_OPTIONS ci-dessous ne vaut que pour ce
+  # déploiement. L'ancre &backendVars partagée avec backend-cron est définie sur
+  # backend-export, dont la limite mémoire diffère.
+  vars:
     TZ: Europe/Paris
     # L'image fixe --max-old-space-size=8192 alors que la limite du conteneur
     # est de 3Gi : V8 se croit au large et retarde ses GC. Aligné sur la limite

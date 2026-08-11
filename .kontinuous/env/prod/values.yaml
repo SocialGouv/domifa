@@ -51,13 +51,17 @@ backend-cron:
 
 backend: &backendProd
   host: "domifa-api.{{ .Values.global.domain }}"
-  # Un pod bloqué consomme un seul cœur sur les 3 réservés : l'utilisation
-  # moyenne reste sous la cible et l'autoscaler scale down au lieu de compenser.
-  # Le plancher fournit la marge que les métriques ne déclenchent pas.
+  # Node n'exécute le JS que sur un thread : un pod ne dépassera jamais ~1 cœur
+  # soutenu, quand la cible par défaut de 70 % en réclame 1,4 sur les 2 réservés.
+  # La métrique CPU était donc structurellement hors d'atteinte — l'autoscaler
+  # scalait vers le bas pendant l'incident. Ramenée à 0,8 cœur, elle redevient
+  # déclenchable quand les pods sains absorbent la charge d'un pod sorti du LB.
   autoscale:
     minReplicas: 6
     maxReplicas: 10
     enabled: true
+    averageUtilization:
+      cpu: 40
   resources:
     requests:
       cpu: 2
