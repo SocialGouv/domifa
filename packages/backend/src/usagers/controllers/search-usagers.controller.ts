@@ -36,14 +36,40 @@ import {
 import { SearchUsagerDto } from "../dto";
 
 // Chaque usager embarque des colonnes JSONB non bornées (historique des
-// décisions, ayants droit). Sans limite de lignes, une seule requête sur une
-// grosse structure charge assez d'objets pour monopoliser le thread principal
-// pendant plusieurs minutes : le pod ne répond plus du tout, y compris sur
-// /healthz. Ces bornes plafonnent le coût d'une requête.
+// décisions, ayants droit) : hydrater puis sérialiser une structure entière se
+// compte en secondes de thread principal. Node n'exécutant le JS que sur un
+// thread, quelques requêtes de ce coût suffisent à ce que la file d'attente ne
+// se vide plus — le pod cesse alors de répondre à tout, /healthz compris.
+// Ces bornes plafonnent le coût d'une requête.
 export const MAX_USAGERS_RADIES_LOADED = 10000;
 export const MAX_USAGERS_RADIES_PREVIEW = 1600;
 export const MAX_USAGERS_RADIES_SEARCH_RESULTS = 1000;
 export const MAX_USAGERS_RADIES_SEARCH_RESULTS_WITHOUT_CRITERIA = 100;
+export const MAX_USAGERS_UPDATE_MANAGE = 2000;
+
+// Une limite sans ordre n'est pas une limite : Postgres rend les lignes dans
+// l'ordre du tas, qu'un simple UPDATE déplace. La fenêtre changerait donc
+// toute seule d'un appel à l'autre, faisant disparaître des dossiers sans que
+// rien ne l'indique. On trie sur `ref`, couvert par l'index unique
+// (structureId, ref), du plus récent au plus ancien.
+const USAGER_BOUNDED_ORDER = { ref: "DESC" } as const;
+
+// L'interface n'affiche que ces quatre champs par décision. Les colonnes
+// `historique` cumulent en revanche chaque décision jamais prise, texte libre
+// compris : les rogner avant de sérialiser évite d'envoyer des dizaines de Mo.
+const filterHistorique = <T extends Pick<Usager, "historique">>(
+  usager: T
+): T => {
+  if (usager.historique && Array.isArray(usager.historique)) {
+    usager.historique = usager.historique.map((item: UsagerDecision) => ({
+      statut: item.statut,
+      dateDecision: item.dateDecision,
+      dateDebut: item.dateDebut,
+      dateFin: item.dateFin,
+    })) as UsagerDecision[];
+  }
+  return usager;
+};
 
 @Controller("search-usagers")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -71,6 +97,7 @@ export class SearchUsagersController {
         structureId: user.structureId,
       },
       select: USAGER_LIGHT_ATTRIBUTES,
+      order: USAGER_BOUNDED_ORDER,
     });
 
     const usagersRadiesFirsts = await usagerRepository.find({
@@ -79,6 +106,7 @@ export class SearchUsagersController {
         structureId: user.structureId,
       },
       select: USAGER_LIGHT_ATTRIBUTES,
+      order: USAGER_BOUNDED_ORDER,
       take: chargerTousRadies
         ? MAX_USAGERS_RADIES_LOADED
         : MAX_USAGERS_RADIES_PREVIEW,
@@ -93,18 +121,6 @@ export class SearchUsagersController {
       },
     });
 
-    const filterHistorique = (usager: Usager) => {
-      if (usager.historique && Array.isArray(usager.historique)) {
-        usager.historique = usager.historique.map((item: UsagerDecision) => ({
-          statut: item.statut,
-          dateDecision: item.dateDecision,
-          dateDebut: item.dateDebut,
-          dateFin: item.dateFin,
-        })) as UsagerDecision[];
-      }
-      return usager;
-    };
-
     const usagersMerges = [...usagersNonRadies, ...usagersRadiesFirsts].map(
       filterHistorique
     );
@@ -117,7 +133,11 @@ export class SearchUsagersController {
 
   @Get("update-manage")
   public async updateManage(@CurrentUser() user: UserStructureAuthenticated) {
-    return await usagerRepository
+    // Rafraîchissement automatique, déclenché toutes les 5 minutes par chaque
+    // onglet ouvert. Une réaffectation de masse (changement de rôle, suppression
+    // d'un utilisateur, import) touche l'`updatedAt` de tous les dossiers d'un
+    // coup et faisait alors remonter la structure entière, historique compris.
+    const usagers = await usagerRepository
       .createQueryBuilder()
       .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
       .where(
@@ -127,7 +147,11 @@ export class SearchUsagersController {
           fiveMinutesAgo: subMinutes(new Date(), 5),
         }
       )
+      .orderBy(`"updatedAt"`, "DESC")
+      .limit(MAX_USAGERS_UPDATE_MANAGE)
       .getRawMany();
+
+    return usagers.map(filterHistorique);
   }
 
   @Get("count")
@@ -227,11 +251,13 @@ export class SearchUsagersController {
       typeof search?.referrerId === "undefined" &&
       !search?.lastInteractionDate;
 
-    query.take(
-      hasNoCriteria
-        ? MAX_USAGERS_RADIES_SEARCH_RESULTS_WITHOUT_CRITERIA
-        : MAX_USAGERS_RADIES_SEARCH_RESULTS
-    );
+    query
+      .orderBy(`usager."ref"`, "DESC")
+      .take(
+        hasNoCriteria
+          ? MAX_USAGERS_RADIES_SEARCH_RESULTS_WITHOUT_CRITERIA
+          : MAX_USAGERS_RADIES_SEARCH_RESULTS
+      );
 
     return await query.getRawMany();
   }
