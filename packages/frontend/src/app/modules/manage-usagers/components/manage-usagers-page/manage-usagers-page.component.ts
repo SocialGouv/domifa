@@ -43,7 +43,10 @@ import { Store } from "@ngrx/store";
 import { ManageUsagersService } from "../../services/manage-usagers.service";
 import {
   CriteriaSearchField,
+  getPasswordChangeOverdueDays,
+  getPasswordChangeStatus,
   parseBirthDate,
+  PasswordChangeStatus,
   SortValues,
   UsagersFilterCriteriaStatut,
   UserStructure,
@@ -96,6 +99,20 @@ export class ManageUsagersPageComponent
   public filteredUsagers: UsagerFormModel[] = [];
 
   public me!: UserStructure | null;
+
+  public get passwordChangeStatus(): PasswordChangeStatus {
+    return getPasswordChangeStatus(
+      this.me?.passwordLastUpdate,
+      this.me?.createdAt
+    );
+  }
+
+  public get passwordChangeOverdueDays(): number {
+    return getPasswordChangeOverdueDays(
+      this.me?.passwordLastUpdate,
+      this.me?.createdAt
+    );
+  }
 
   public readonly SEARCH_STRING_FIELD_LABELS: {
     [key in CriteriaSearchField]: {

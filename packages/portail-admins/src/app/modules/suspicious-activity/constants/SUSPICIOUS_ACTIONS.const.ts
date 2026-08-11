@@ -51,6 +51,8 @@ export const ACTION_TONE: Record<SecurityLogAction, ActionTone> = {
   LOGOUT: "neutral",
   CHANGE_PASSWORD_SUCCESS: "success",
   CHANGE_PASSWORD_ERROR: "warning",
+  RESET_OUTDATED_PASSWORD_SUCCESS: "success",
+  RESET_OUTDATED_PASSWORD_FAIL: "warning",
   RESET_PASSWORD_REQUEST: "info",
   RESET_PASSWORD_SUCCESS: "success",
   RESET_PASSWORD_ERROR: "warning",
@@ -83,6 +85,8 @@ export const ACTION_ICON: Record<SecurityLogAction, string> = {
   LOGOUT: "fr-icon-logout-box-r-fill",
   CHANGE_PASSWORD_SUCCESS: "fr-icon-lock-fill",
   CHANGE_PASSWORD_ERROR: "fr-icon-error-warning-fill",
+  RESET_OUTDATED_PASSWORD_SUCCESS: "fr-icon-refresh-fill", // NOSONAR - action name, not a credential
+  RESET_OUTDATED_PASSWORD_FAIL: "fr-icon-error-warning-fill", // NOSONAR - action name, not a credential
   RESET_PASSWORD_REQUEST: "fr-icon-refresh-fill",
   RESET_PASSWORD_SUCCESS: "fr-icon-refresh-fill",
   RESET_PASSWORD_ERROR: "fr-icon-error-warning-fill",

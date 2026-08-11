@@ -228,7 +228,7 @@
           </h2>
           @if (!editPassword) {
           <button
-            (click)="initPasswordForm()"
+            (click)="openPasswordForm()"
             type="button"
             class="fr-btn fr-btn--secondary"
           >
@@ -238,76 +238,42 @@
           }
         </div>
 
+        <div class="fr-notice fr-notice--info fr-mb-3w">
+          <div class="fr-container">
+            <div class="fr-notice__body">
+              <p>
+                <span class="fr-notice__title fr-mb-2w">
+                  Protégez votre accès et les données des personnes que vous
+                  accompagnez<br />
+                </span>
+                <span class="fr-notice__desc">
+                  Un mot de passe régulièrement renouvelé réduit fortement le
+                  risque de piratage de votre compte. Il est recommandé de le
+                  modifier au moins une fois par an. <br />
+                  - N’utilisez jamais le même mot de passe sur plusieurs
+                  services<br />
+                  - Privilégiez un mot de passe robuste, facile à retenir mais
+                  difficile à deviner<br />
+                  - Évitez les informations personnelles évidentes (nom, date de
+                  naissance, etc.)
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+
         @if (!editPassword) {
         <div class="fr-callout fr-callout--info">
           <p class="fr-callout__text">{{ lastPasswordUpdate }}</p>
         </div>
-        } @if (editPassword && passwordForm) {
-        <form [formGroup]="passwordForm" (ngSubmit)="updateMyPassword()">
-          <div class="fr-grid-row fr-grid-row--gutters">
-            <div class="fr-col-md-4 fr-col-12">
-              <div class="fr-password">
-                <label class="fr-label" for="oldPassword"
-                  >Ancien mot de passe</label
-                >
-                <div class="fr-input-wrap">
-                  <input
-                    class="fr-password__input fr-input"
-                    [type]="!hideOldPassword ? 'text' : 'password'"
-                    [class.fr-input--error]="
-                      p.oldPassword.dirty && p.oldPassword.errors
-                    "
-                    id="oldPassword"
-                    formControlName="oldPassword"
-                    name="oldPassword"
-                    autocomplete="current-password"
-                    required
-                  />
-                </div>
-                <div
-                  class="fr-password__checkbox fr-checkbox-group fr-checkbox-group--sm"
-                >
-                  <input
-                    type="checkbox"
-                    id="toggle-old-password"
-                    [checked]="!hideOldPassword"
-                    (change)="toggleOldPassword()"
-                    aria-label="Afficher l'ancien mot de passe"
-                  />
-                  <label
-                    class="fr-password__checkbox fr-label"
-                    for="toggle-old-password"
-                  >
-                    Afficher
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div class="fr-col-md-8 fr-col-12">
-              <app-user-structure-password-form
-                [parentFormGroup]="passwordForm"
-                [submitted]="submitted"
-              ></app-user-structure-password-form>
-            </div>
-          </div>
-
-          <div
-            class="fr-btns-group fr-btns-group--center fr-btns-group--inline fr-mt-3w"
-          >
-            <button
-              type="button"
-              (click)="editPassword = false"
-              class="fr-btn fr-btn--secondary"
-            >
-              Annuler les modifications
-            </button>
-            <app-button
-              type="submit"
-              [loading]="loading"
-              label="Enregistrer les changements"
-            ></app-button>
-          </div>
-        </form>
+        } @if (editPassword) {
+        <div class="fr-col-12 fr-col-md-6">
+          <app-edit-password-form
+            cancelLabel="Annuler les modifications"
+            (success)="onPasswordChanged()"
+            (cancelled)="onPasswordCancel()"
+          ></app-edit-password-form>
+        </div>
         }
       </section>
     </div>

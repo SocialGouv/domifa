@@ -34,10 +34,12 @@ export class UserSupervisorPasswordFormComponent {
 
   public setPassword(value: string): void {
     this.parentFormGroup.controls.password.setValue(value);
+    this.parentFormGroup.controls.password.markAsDirty();
   }
 
   public setPasswordConfirm(value: string): void {
     this.parentFormGroup.controls.passwordConfirmation.setValue(value);
+    this.parentFormGroup.controls.passwordConfirmation.markAsDirty();
   }
 
   public togglePassword(): void {

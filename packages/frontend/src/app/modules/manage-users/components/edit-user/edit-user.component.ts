@@ -9,7 +9,6 @@ import {
 import {
   AbstractControl,
   UntypedFormBuilder,
-  UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
@@ -21,11 +20,7 @@ import { AuthService, CustomToastService } from "../../../shared/services";
 import { USER_FONCTION_LABELS, UserStructure } from "@domifa/common";
 import { format } from "date-fns";
 import { UsagerLight } from "../../../../../_common/model";
-import { PASSWORD_VALIDATOR } from "../../../users/PASSWORD_VALIDATOR.const";
-import {
-  PasswordValidator,
-  userStructureBuilder,
-} from "../../../users/services";
+import { userStructureBuilder } from "../../../users/services";
 import { ManageUsersService } from "../../services/manage-users.service";
 
 @Component({
@@ -42,23 +37,23 @@ export class EditUserComponent implements OnInit, OnDestroy {
   public editUser: boolean;
   public editPassword: boolean;
 
-  public hideOldPassword: boolean;
-
-  public lastPasswordUpdate: string;
   public usagers$: Observable<UsagerLight[]>;
 
-  public passwordForm!: UntypedFormGroup;
   public userForm!: UntypedFormGroup;
 
   private readonly subscription = new Subscription();
   private readonly unsubscribe: Subject<void> = new Subject();
   public readonly USER_FONCTION_LABELS = USER_FONCTION_LABELS;
+
   public get f(): { [key: string]: AbstractControl } {
     return this.userForm.controls;
   }
 
-  public get p(): { [key: string]: AbstractControl } {
-    return this.passwordForm.controls;
+  public get lastPasswordUpdate(): string {
+    return this.me?.passwordLastUpdate
+      ? "Dernière modification: " +
+          format(new Date(this.me.passwordLastUpdate), "dd/MM/yyyy")
+      : "Aucune modification de mot de passe enregistrée";
   }
 
   public get fonctionFormControl(): AbstractControl {
@@ -83,18 +78,14 @@ export class EditUserComponent implements OnInit, OnDestroy {
     this.editPassword = false;
     this.editUser = false;
 
-    this.hideOldPassword = true;
     this.loading = false;
     this.usagers$ = of([]);
-
-    this.lastPasswordUpdate = "Aucune modification de mot de passe enregistrée";
   }
 
   public ngOnInit(): void {
     this.titleService.setTitle("Gérer mon compte - DomiFa");
 
     this.me = this.authService.currentUserValue;
-    this.getLastPasswordUpdate();
 
     if (this.me?.role !== "facteur" && this.me?.role !== "agent") {
       this.usagers$ = this.manageUsersService.agenda();
@@ -130,42 +121,8 @@ export class EditUserComponent implements OnInit, OnDestroy {
     }
   }
 
-  public initPasswordForm(): void {
+  public openPasswordForm(): void {
     this.editPassword = true;
-
-    this.passwordForm = this.formBuilder.group(
-      {
-        oldPassword: new UntypedFormControl(
-          null,
-          Validators.compose(PASSWORD_VALIDATOR)
-        ),
-        passwordConfirmation: new UntypedFormControl(
-          null,
-          Validators.compose(PASSWORD_VALIDATOR)
-        ),
-        password: new UntypedFormControl(
-          null,
-          Validators.compose(PASSWORD_VALIDATOR)
-        ),
-      },
-      {
-        validators: [PasswordValidator.passwordMatchValidator],
-      }
-    );
-  }
-
-  private getLastPasswordUpdate(): void {
-    this.subscription.add(
-      this.manageUsersService.getLastPasswordUpdate().subscribe({
-        next: (lastPassword: Date | null) => {
-          this.lastPasswordUpdate =
-            lastPassword === null
-              ? "Aucune modification de mot de passe enregistrée"
-              : "Dernière modification: " +
-                format(new Date(lastPassword), "dd/MM/yyyy");
-        },
-      })
-    );
   }
 
   public updateUser(): void {
@@ -197,42 +154,15 @@ export class EditUserComponent implements OnInit, OnDestroy {
     );
   }
 
-  public updateMyPassword(): void {
-    this.submitted = true;
-    if (this.passwordForm.invalid) {
-      this.toastService.error(
-        "Veuillez vérifier les champs marqués en rouge dans le formulaire"
-      );
-      return;
-    }
-
-    this.loading = true;
-
-    this.subscription.add(
-      this.manageUsersService
-        .updateMyPassword(this.passwordForm.value)
-        .subscribe({
-          next: () => {
-            this.loading = false;
-            this.editPassword = false;
-            this.submitted = false;
-            this.getLastPasswordUpdate();
-            this.toastService.success(
-              "Félicitations ! : votre mot de passe a été modifié avec succès"
-            );
-          },
-          error: () => {
-            this.loading = false;
-            this.toastService.error(
-              "Une erreur est survenue, veuillez vérifier le formulaire"
-            );
-          },
-        })
-    );
+  // The password-change endpoint terminates the current session server-side
+  // (security policy) — the JWT we're holding is already invalid, so there's
+  // nothing to refresh: log out and send the user back to login.
+  public onPasswordChanged(): void {
+    this.authService.logout();
   }
 
-  public toggleOldPassword(): void {
-    this.hideOldPassword = !this.hideOldPassword;
+  public onPasswordCancel(): void {
+    this.editPassword = false;
   }
 
   public ngOnDestroy(): void {
