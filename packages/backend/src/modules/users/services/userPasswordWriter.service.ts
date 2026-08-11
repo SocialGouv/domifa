@@ -35,54 +35,82 @@ async function applyNewPassword({
   userProfile,
   newPassword,
   successAction,
+  failAction,
   sessionReason,
   requestContext,
+  logContext,
 }: {
   user: PasswordSubject;
   userProfile: UserProfile;
   newPassword: string;
   successAction: SecurityLogAction;
+  // Optional: when provided, a failure anywhere in this function (hash,
+  // write, status/session follow-up) is logged under this action before
+  // re-throwing. Existing callers that don't pass it keep today's behaviour
+  // (failures bubble up unlogged, handled by the caller's own catch block).
+  failAction?: SecurityLogAction;
   sessionReason: SessionTerminationReason;
   requestContext?: SecurityLogRequestContext;
+  // Extra fields merged into both the success and failure log rows (e.g. the
+  // pre-update `passwordLastUpdate`, useful for the outdated-password-renewal
+  // flow so support can see how old the replaced password was).
+  logContext?: Record<string, unknown>;
 }): Promise<void> {
-  // `getUserRepository` only covers structure / supervisor; for usager we go
-  // straight to `userUsagerRepository`, otherwise the hash would be written
-  // to the wrong table (silent failure on user side, possible cross-write on
-  // any supervisor sharing the numeric id).
-  const repository =
-    userProfile === "usager"
-      ? userUsagerRepository
-      : getUserRepository(userProfile);
+  try {
+    // `getUserRepository` only covers structure / supervisor; for usager we go
+    // straight to `userUsagerRepository`, otherwise the hash would be written
+    // to the wrong table (silent failure on user side, possible cross-write on
+    // any supervisor sharing the numeric id).
+    const repository =
+      userProfile === "usager"
+        ? userUsagerRepository
+        : getUserRepository(userProfile);
 
-  const hash = await passwordGenerator.generatePasswordHash({
-    password: newPassword,
-  });
-  await repository.update(
-    { id: user.id },
-    { password: hash, passwordLastUpdate: new Date() }
-  );
+    const hash = await passwordGenerator.generatePasswordHash({
+      password: newPassword,
+    });
+    await repository.update(
+      { id: user.id },
+      { password: hash, passwordLastUpdate: new Date() }
+    );
 
-  // BLOCKED accounts stay BLOCKED; the helpers below are no-op when the
-  // status condition doesn't match.
-  await userStatusManager.activateFromPending({ userProfile, userId: user.id });
-  await userStatusManager.clearTemporaryBlock({ userProfile, userId: user.id });
+    // BLOCKED accounts stay BLOCKED; the helpers below are no-op when the
+    // status condition doesn't match.
+    await userStatusManager.activateFromPending({
+      userProfile,
+      userId: user.id,
+    });
+    await userStatusManager.clearTemporaryBlock({
+      userProfile,
+      userId: user.id,
+    });
 
-  await logSecurityEventForUser(successAction, userProfile, user, {
-    requestContext,
-  });
+    await logSecurityEventForUser(successAction, userProfile, user, {
+      requestContext,
+      context: logContext,
+    });
 
-  await terminateUserSession({
-    userProfile,
-    userId: user.id,
-    reason: sessionReason,
-    structureId: user.structureId,
-    role: user.role,
-    requestContext,
-  });
+    await terminateUserSession({
+      userProfile,
+      userId: user.id,
+      reason: sessionReason,
+      structureId: user.structureId,
+      role: user.role,
+      requestContext,
+    });
 
-  // The user just proved identity (old password / valid reset token), so any
-  // OTP lockout accumulated earlier should be lifted.
-  if (user.uuid) {
-    await otpRepository.resetBlockedOtpsForUser(user.uuid, OTP_MAX_ATTEMPTS);
+    // The user just proved identity (old password / valid reset token), so any
+    // OTP lockout accumulated earlier should be lifted.
+    if (user.uuid) {
+      await otpRepository.resetBlockedOtpsForUser(user.uuid, OTP_MAX_ATTEMPTS);
+    }
+  } catch (err) {
+    if (failAction) {
+      await logSecurityEventForUser(failAction, userProfile, user, {
+        requestContext,
+        context: logContext,
+      });
+    }
+    throw err;
   }
 }

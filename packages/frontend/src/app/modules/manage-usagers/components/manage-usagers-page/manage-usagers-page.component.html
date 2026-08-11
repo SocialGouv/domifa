@@ -1,6 +1,30 @@
 <app-welcome-modal></app-welcome-modal>
 
 <div class="fr-content-container fr-py-3w">
+  @if (passwordChangeStatus === 'WARNING') {
+  <div class="fr-container fr-my-3w">
+    <div class="fr-notice fr-notice--warning">
+      <div class="fr-container">
+        <div class="fr-notice__body">
+          <p>
+            <span class="fr-notice__title">
+              Votre mot de passe arrive à échéance <br />
+            </span>
+            <span class="fr-notice__desc">
+              Pour maintenir la sécurité de votre compte sur DomiFa, pensez à
+              renouveler votre mot de passe. L'opération prend moins d'une
+              minute. <br />
+            </span>
+            <a routerLink="/manage-users/my-account">
+              Modifier mon mot de passe maintenant →
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+
   <div class="fr-container">
     <div
       class="fr-justify-content-between fr-align-items-center fr-display-flex"

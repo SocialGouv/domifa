@@ -72,7 +72,14 @@ export class ServerErrorInterceptor implements HttpInterceptor {
         "Problème de connexion au serveur. Veuillez réessayer plus tard."
       );
     } else if (error.status === 401) {
-      authService.logout(undefined, true);
+      // A 401 only means "your session expired" if there was a session to
+      // begin with. Public/unauthenticated calls (login, CHANGE_PASSWORD_REQUIRED,
+      // reset-password, ...) also return 401 and must not trigger a logout +
+      // "session expired" toast on top of the error the calling component
+      // already handles.
+      if (authService.currentUserValue) {
+        authService.logout(undefined, true);
+      }
     } else if (error.status === 403) {
       toastr.error("Vous n'avez pas les droits pour effectuer cette action");
     } else if (error.status >= 500 && error.status <= 504) {

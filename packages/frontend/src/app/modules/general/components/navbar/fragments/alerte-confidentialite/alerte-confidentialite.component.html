@@ -1,4 +1,5 @@
-<div class="fr-notice fr-notice--info" *ngIf="!matomoInfo">
+@if (!matomoInfo) {
+<div class="fr-notice fr-notice--info">
   <div class="fr-container">
     <div class="fr-notice__body">
       <p>
@@ -28,3 +29,4 @@
     </div>
   </div>
 </div>
+}
