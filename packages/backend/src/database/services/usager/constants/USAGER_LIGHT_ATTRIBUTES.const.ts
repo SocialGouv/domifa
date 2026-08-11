@@ -22,7 +22,10 @@ export const USAGER_LIGHT_ATTRIBUTES: (keyof Usager)[] = [
   // "numeroDistribution",
   "lastInteraction",
   "options",
-  "historique",
+  // `historique` volontairement absent : c'est la colonne la plus lourde de la
+  // table (une entrée par décision jamais prise, texte libre compris) et tous
+  // les consommateurs de cette liste la remplacent par [] à la réception
+  // (`setUsagerInformation`). La page profil la charge par son propre endpoint.
   "referrerId",
   "ayantsDroits",
   //"villeNaissance",

@@ -27,12 +27,12 @@ jest.mock("../../../auth/decorators", () => {
 });
 
 import { usagerRepository } from "../../../database";
+// Importé par son chemin propre, donc sans passer par le mock du baril
+// ci-dessus : c'est bien la vraie liste de colonnes qui est vérifiée.
+import { USAGER_LIGHT_ATTRIBUTES } from "../../../database/services/usager/constants/USAGER_LIGHT_ATTRIBUTES.const";
 import {
-  MAX_USAGERS_RADIES_LOADED,
   MAX_USAGERS_RADIES_PREVIEW,
-  MAX_USAGERS_RADIES_SEARCH_RESULTS,
   MAX_USAGERS_RADIES_SEARCH_RESULTS_WITHOUT_CRITERIA,
-  MAX_USAGERS_UPDATE_MANAGE,
   SearchUsagersController,
 } from "../search-usagers.controller";
 import { UserStructureAuthenticated } from "../../../_common/model";
@@ -50,15 +50,6 @@ const findCallForRadies = () =>
     ([options]) => options.where.statut === "RADIE"
   )[0];
 
-// Un pod backend gèle plusieurs minutes dès qu'une requête charge assez
-// d'usagers pour saturer le thread principal : la file d'attente ne se vide
-// plus et le process ne répond plus à rien, /healthz compris. Ces tests
-// verrouillent le coût maximal des requêtes de ce contrôleur.
-//
-// Une limite sans ordre n'en est pas une : Postgres rend les lignes dans
-// l'ordre du tas, qu'un UPDATE déplace, si bien que la fenêtre changerait
-// toute seule d'un appel à l'autre. L'ordre déterministe est donc testé au
-// même titre que la borne.
 describe("SearchUsagersController — coût des requêtes", () => {
   let controller: SearchUsagersController;
   let query: {
@@ -84,80 +75,50 @@ describe("SearchUsagersController — coût des requêtes", () => {
       getRawMany: jest.fn().mockResolvedValue([]),
     };
     mockedRepository.createQueryBuilder.mockReturnValue(query);
+    mockedRepository.find.mockResolvedValue([]);
+    mockedRepository.count.mockResolvedValue(0);
+  });
+
+  // C'est LE correctif de fond : `historique` cumule une entrée par décision
+  // jamais prise, texte libre compris, et pèse à lui seul l'essentiel de la
+  // charge utile — de 2,4x sur un dossier récent à 23x sur un dossier ancien.
+  // Tous les consommateurs de ces listes la remplacent par [] à la réception
+  // (`setUsagerInformation`). L'exclure rend le coût par usager constant, au
+  // lieu de croître à chaque décision enregistrée.
+  it("ne sélectionne jamais l'historique dans les listes", () => {
+    expect(USAGER_LIGHT_ATTRIBUTES).not.toContain("historique");
   });
 
   describe("findAllByStructure", () => {
-    beforeEach(() => {
-      mockedRepository.find.mockResolvedValue([]);
-      mockedRepository.count.mockResolvedValue(0);
-    });
-
-    it("borne les radiés chargés quand chargerTousRadies vaut false", async () => {
+    it("limite et ordonne l'aperçu des radiés", async () => {
       await controller.findAllByStructure(false, user);
 
       expect(findCallForRadies().take).toBe(MAX_USAGERS_RADIES_PREVIEW);
-    });
-
-    it("borne les radiés chargés même quand chargerTousRadies vaut true", async () => {
-      await controller.findAllByStructure(true, user);
-
-      expect(findCallForRadies().take).toBe(MAX_USAGERS_RADIES_LOADED);
-    });
-
-    it("ordonne les radiés pour que la fenêtre bornée soit stable", async () => {
-      await controller.findAllByStructure(true, user);
-
       expect(findCallForRadies().order).toEqual({ ref: "DESC" });
     });
 
-    it("compte les radiés en base au lieu de renvoyer le nombre chargé", async () => {
-      // Plus de radiés en base que la borne : le total affiché doit rester exact,
-      // c'est lui qui permet à l'interface de signaler que la liste est tronquée.
-      mockedRepository.find.mockResolvedValue([{ uuid: "a" }, { uuid: "b" }]);
+    // Aucune limite artificielle : « afficher tous les radiés » les rend tous.
+    // C'est la charge par usager qui a été réduite, pas le nombre de dossiers
+    // que l'utilisateur a le droit de voir.
+    it("rend tous les radiés quand chargerTousRadies vaut true", async () => {
+      await controller.findAllByStructure(true, user);
+
+      expect(findCallForRadies().take).toBeUndefined();
+      expect(findCallForRadies().order).toBeUndefined();
+    });
+
+    it("compte les radiés en base", async () => {
       mockedRepository.count.mockResolvedValue(53000);
 
       const result = await controller.findAllByStructure(true, user);
 
-      expect(mockedRepository.count).toHaveBeenCalledTimes(1);
       expect(result.usagersRadiesTotalCount).toBe(53000);
     });
 
-    it("ne garde que les champs utiles de l'historique", async () => {
-      mockedRepository.find.mockResolvedValue([
-        {
-          uuid: "a",
-          historique: [
-            {
-              statut: "VALIDE",
-              dateDecision: "2026-01-01",
-              dateDebut: "2026-01-01",
-              dateFin: "2027-01-01",
-              motifDetails: "texte libre volumineux",
-              userName: "agent",
-            },
-          ],
-        },
-      ]);
-
-      const result = await controller.findAllByStructure(false, user);
-
-      expect(result.usagers[0].historique[0]).toEqual({
-        statut: "VALIDE",
-        dateDecision: "2026-01-01",
-        dateDebut: "2026-01-01",
-        dateFin: "2027-01-01",
-      });
-    });
-
-    // Écart assumé et documenté : les non-radiés restent non bornés, c'est la
-    // liste principale de l'application et la borner change l'UX. Ce test fige
-    // le périmètre réel du correctif pour qu'aucun lecteur ne croie l'endpoint
-    // entièrement borné.
-    //
-    // Sans limite, il n'y a aucune fenêtre à stabiliser : y ajouter un ordre
+    // Sans limite il n'y a pas de fenêtre à stabiliser : y ajouter un ordre
     // faisait basculer le plan en tri sur disque (27 ms -> 81 ms et 34 Mo de
     // fichiers temporaires sur 40 000 actifs), pour rien.
-    it("laisse volontairement les non-radiés ni bornés ni triés", async () => {
+    it("ne trie pas la requête des non-radiés, qui n'est pas limitée", async () => {
       await controller.findAllByStructure(false, user);
 
       const nonRadies = mockedRepository.find.mock.calls.find(
@@ -169,106 +130,45 @@ describe("SearchUsagersController — coût des requêtes", () => {
   });
 
   describe("updateManage", () => {
-    it("borne le rafraîchissement automatique", async () => {
+    // Rafraîchissement automatique, toutes les 5 minutes et par onglet ouvert.
+    // Ni limite ni tri : une limite tronquerait silencieusement une synchro
+    // dont la fenêtre glisse (les lignes écartées ne reviendraient jamais), et
+    // `updatedAt` n'étant pas indexé, le tri coûtait des dizaines de Mo de
+    // fichiers temporaires à chaque appel.
+    it("ne limite ni ne trie la synchronisation", async () => {
       await controller.updateManage(user);
 
-      expect(query.limit).toHaveBeenCalledWith(MAX_USAGERS_UPDATE_MANAGE);
-    });
-
-    // Trier ici coûtait des dizaines de Mo de fichiers temporaires par appel :
-    // `updatedAt` n'est pas indexé, et un UPDATE de masse donne le même
-    // timestamp à toutes les lignes, donc le tri ne départageait rien.
-    it("ne trie pas le rafraîchissement automatique", async () => {
-      await controller.updateManage(user);
-
+      expect(query.limit).not.toHaveBeenCalled();
+      expect(query.take).not.toHaveBeenCalled();
       expect(query.orderBy).not.toHaveBeenCalled();
-    });
-
-    it("rogne l'historique, que le chemin principal filtrait déjà", async () => {
-      query.getRawMany.mockResolvedValue([
-        {
-          uuid: "a",
-          historique: [
-            {
-              statut: "RADIE",
-              dateDecision: "2026-01-01",
-              dateDebut: null,
-              dateFin: null,
-              motifDetails: "texte libre volumineux",
-            },
-          ],
-        },
-      ]);
-
-      const result = await controller.updateManage(user);
-
-      expect(result[0].historique[0]).toEqual({
-        statut: "RADIE",
-        dateDecision: "2026-01-01",
-        dateDebut: null,
-        dateFin: null,
-      });
     });
   });
 
   describe("searchInRadies", () => {
-    it("borne la recherche sans aucun critère", async () => {
+    it("limite et ordonne l'amorçage sans critère", async () => {
       await controller.searchInRadies({} as never, user);
 
       expect(query.take).toHaveBeenCalledWith(
         MAX_USAGERS_RADIES_SEARCH_RESULTS_WITHOUT_CRITERIA
       );
+      expect(query.orderBy).toHaveBeenCalledWith('usager."ref"', "DESC");
     });
 
-    it("borne la recherche portant un critère texte", async () => {
-      await controller.searchInRadies(
-        {
-          searchString: "a",
-          searchStringField: CriteriaSearchField.DEFAULT,
-        } as never,
-        user
-      );
-
-      expect(query.take).toHaveBeenCalledWith(
-        MAX_USAGERS_RADIES_SEARCH_RESULTS
-      );
-    });
-
+    // La recherche serveur est le seul moyen de retrouver un radié absent de
+    // l'aperçu : la tronquer reviendrait à déclarer un dossier introuvable.
     it.each([
+      [
+        "texte",
+        { searchString: "a", searchStringField: CriteriaSearchField.DEFAULT },
+      ],
       ["echeance", { echeance: "EXCEEDED" }],
       ["entretien", { entretien: "COMING" }],
       ["referrerId", { referrerId: null }],
       ["lastInteractionDate", { lastInteractionDate: "PREVIOUS_TWO_MONTHS" }],
-    ])("borne la recherche portant le critère %s", async (_label, search) => {
+    ])("rend tous les résultats du critère %s", async (_label, search) => {
       await controller.searchInRadies(search as never, user);
 
-      expect(query.take).toHaveBeenCalledWith(
-        MAX_USAGERS_RADIES_SEARCH_RESULTS
-      );
-    });
-
-    it("ordonne les résultats pour que la même recherche rende les mêmes personnes", async () => {
-      await controller.searchInRadies(
-        {
-          searchString: "a",
-          searchStringField: CriteriaSearchField.DEFAULT,
-        } as never,
-        user
-      );
-
-      expect(query.orderBy).toHaveBeenCalledWith('usager."ref"', "DESC");
-    });
-
-    it("applique toujours une limite, quel que soit le critère", async () => {
-      await controller.searchInRadies(
-        {
-          searchString: "a",
-          searchStringField: CriteriaSearchField.DEFAULT,
-        } as never,
-        user
-      );
-
-      expect(query.take).toHaveBeenCalledTimes(1);
+      expect(query.take).not.toHaveBeenCalled();
       expect(query.getRawMany).toHaveBeenCalledTimes(1);
     });
   });

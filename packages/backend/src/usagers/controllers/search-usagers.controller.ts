@@ -1,6 +1,4 @@
 import {
-  Usager,
-  UsagerDecision,
   CriteriaSearchField,
   getUsagerDeadlines,
   ETAPE_ENTRETIEN,
@@ -35,41 +33,17 @@ import {
 
 import { SearchUsagerDto } from "../dto";
 
-// Chaque usager embarque des colonnes JSONB non bornées (historique des
-// décisions, ayants droit) : hydrater puis sérialiser une structure entière se
-// compte en secondes de thread principal. Node n'exécutant le JS que sur un
-// thread, quelques requêtes de ce coût suffisent à ce que la file d'attente ne
-// se vide plus — le pod cesse alors de répondre à tout, /healthz compris.
-// Ces bornes plafonnent le coût d'une requête.
-export const MAX_USAGERS_RADIES_LOADED = 10000;
 export const MAX_USAGERS_RADIES_PREVIEW = 1600;
-export const MAX_USAGERS_RADIES_SEARCH_RESULTS = 1000;
 export const MAX_USAGERS_RADIES_SEARCH_RESULTS_WITHOUT_CRITERIA = 100;
-export const MAX_USAGERS_UPDATE_MANAGE = 2000;
 
 // Une limite sans ordre n'est pas une limite : Postgres rend les lignes dans
-// l'ordre du tas, qu'un simple UPDATE déplace. La fenêtre changerait donc
-// toute seule d'un appel à l'autre, faisant disparaître des dossiers sans que
-// rien ne l'indique. On trie sur `ref`, couvert par l'index unique
-// (structureId, ref), du plus récent au plus ancien.
+// l'ordre du tas, qu'un simple UPDATE déplace, si bien que la fenêtre change
+// toute seule d'un appel à l'autre et fait disparaître des dossiers sans que
+// rien ne l'indique. Le tri sur `ref` est servi par l'index unique
+// (structureId, ref) : sur une requête limitée, il est gratuit. Il n'est donc
+// posé que là où il y a une fenêtre à stabiliser — sur une requête sans
+// limite, il ferait basculer le plan en tri sur disque pour rien.
 const USAGER_BOUNDED_ORDER = { ref: "DESC" } as const;
-
-// L'interface n'affiche que ces quatre champs par décision. Les colonnes
-// `historique` cumulent en revanche chaque décision jamais prise, texte libre
-// compris : les rogner avant de sérialiser évite d'envoyer des dizaines de Mo.
-const filterHistorique = <T extends Pick<Usager, "historique">>(
-  usager: T
-): T => {
-  if (usager.historique && Array.isArray(usager.historique)) {
-    usager.historique = usager.historique.map((item: UsagerDecision) => ({
-      statut: item.statut,
-      dateDecision: item.dateDecision,
-      dateDebut: item.dateDebut,
-      dateFin: item.dateFin,
-    })) as UsagerDecision[];
-  }
-  return usager;
-};
 
 @Controller("search-usagers")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -105,14 +79,12 @@ export class SearchUsagersController {
         structureId: user.structureId,
       },
       select: USAGER_LIGHT_ATTRIBUTES,
-      order: USAGER_BOUNDED_ORDER,
-      take: chargerTousRadies
-        ? MAX_USAGERS_RADIES_LOADED
-        : MAX_USAGERS_RADIES_PREVIEW,
+      // L'aperçu est la seule fenêtre limitée : elle a besoin d'un ordre.
+      ...(chargerTousRadies
+        ? {}
+        : { order: USAGER_BOUNDED_ORDER, take: MAX_USAGERS_RADIES_PREVIEW }),
     });
 
-    // Toujours compté en base : le nombre de radiés chargés est plafonné, il ne
-    // reflète donc pas le total que l'interface doit afficher.
     const usagersRadiesTotalCount = await usagerRepository.count({
       where: {
         statut: "RADIE",
@@ -120,23 +92,15 @@ export class SearchUsagersController {
       },
     });
 
-    const usagersMerges = [...usagersNonRadies, ...usagersRadiesFirsts].map(
-      filterHistorique
-    );
-
     return {
       usagersRadiesTotalCount,
-      usagers: usagersMerges,
+      usagers: [...usagersNonRadies, ...usagersRadiesFirsts],
     };
   }
 
   @Get("update-manage")
   public async updateManage(@CurrentUser() user: UserStructureAuthenticated) {
-    // Rafraîchissement automatique, déclenché toutes les 5 minutes par chaque
-    // onglet ouvert. Une réaffectation de masse (changement de rôle, suppression
-    // d'un utilisateur, import) touche l'`updatedAt` de tous les dossiers d'un
-    // coup et faisait alors remonter la structure entière, historique compris.
-    const usagers = await usagerRepository
+    return await usagerRepository
       .createQueryBuilder()
       .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
       .where(
@@ -146,15 +110,7 @@ export class SearchUsagersController {
           fiveMinutesAgo: subMinutes(new Date(), 5),
         }
       )
-      // Pas d'ordre ici, contrairement aux fenêtres bornées de ce contrôleur :
-      // `updatedAt` n'est pas indexé, et une réaffectation de masse étant un
-      // seul UPDATE, toutes les lignes portent le même timestamp — le tri
-      // coûterait des dizaines de Mo de fichiers temporaires à chaque appel
-      // sans départager quoi que ce soit.
-      .limit(MAX_USAGERS_UPDATE_MANAGE)
       .getRawMany();
-
-    return usagers.map(filterHistorique);
   }
 
   @Get("count")
@@ -254,13 +210,15 @@ export class SearchUsagersController {
       typeof search?.referrerId === "undefined" &&
       !search?.lastInteractionDate;
 
-    query
-      .orderBy(`usager."ref"`, "DESC")
-      .take(
-        hasNoCriteria
-          ? MAX_USAGERS_RADIES_SEARCH_RESULTS_WITHOUT_CRITERIA
-          : MAX_USAGERS_RADIES_SEARCH_RESULTS
-      );
+    // Une recherche par critères rend tous ses résultats : c'est le seul moyen,
+    // pour l'interface, de retrouver un radié absent de l'aperçu. Seul le cas
+    // sans aucun critère est limité — il ne sert qu'à amorcer la liste — et,
+    // parce qu'il l'est, il reçoit un ordre.
+    if (hasNoCriteria) {
+      query
+        .orderBy(`usager."ref"`, "DESC")
+        .take(MAX_USAGERS_RADIES_SEARCH_RESULTS_WITHOUT_CRITERIA);
+    }
 
     return await query.getRawMany();
   }
