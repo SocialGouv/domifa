@@ -22,10 +22,15 @@ export const USAGER_LIGHT_ATTRIBUTES: (keyof Usager)[] = [
   // "numeroDistribution",
   "lastInteraction",
   "options",
-  // `historique` volontairement absent : c'est la colonne la plus lourde de la
-  // table (une entrée par décision jamais prise, texte libre compris) et tous
-  // les consommateurs de cette liste la remplacent par [] à la réception
-  // (`setUsagerInformation`). La page profil la charge par son propre endpoint.
+  // NE PAS RETIRER `historique` sans déplacer d'abord le calcul de l'échéance
+  // côté serveur. `setUsagerInformation` remet bien `historique: []`, mais
+  // seulement APRÈS avoir appelé `getDecisionDeadline()` sur l'objet brut, et
+  // celui-ci déréférence `historique.length` sans garde dès qu'un dossier est
+  // en RENOUVELLEMENT et pas encore décidé — le geste métier le plus courant.
+  // L'absence de la colonne fait donc planter le reducer, donc toute la liste.
+  // Les endpoints de liste rognent chaque entrée aux quatre champs utiles
+  // (`filterHistorique`), ce qui suffit à `getDecisionDeadline`.
+  "historique",
   "referrerId",
   "ayantsDroits",
   //"villeNaissance",

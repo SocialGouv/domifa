@@ -1,4 +1,4 @@
-import { CriteriaSearchField } from "@domifa/common";
+import { CriteriaSearchField, getDecisionDeadline } from "@domifa/common";
 
 jest.mock("../../../database", () => ({
   USAGER_LIGHT_ATTRIBUTES: ["uuid", "nom"],
@@ -79,14 +79,54 @@ describe("SearchUsagersController — coût des requêtes", () => {
     mockedRepository.count.mockResolvedValue(0);
   });
 
-  // C'est LE correctif de fond : `historique` cumule une entrée par décision
-  // jamais prise, texte libre compris, et pèse à lui seul l'essentiel de la
-  // charge utile — de 2,4x sur un dossier récent à 23x sur un dossier ancien.
-  // Tous les consommateurs de ces listes la remplacent par [] à la réception
-  // (`setUsagerInformation`). L'exclure rend le coût par usager constant, au
-  // lieu de croître à chaque décision enregistrée.
-  it("ne sélectionne jamais l'historique dans les listes", () => {
-    expect(USAGER_LIGHT_ATTRIBUTES).not.toContain("historique");
+  // `setUsagerInformation` remet `historique: []` côté client, ce qui donne
+  // l'impression que la colonne est inutile. Elle ne l'est pas : le calcul de
+  // l'échéance est fait AVANT, sur l'objet brut, et déréférence
+  // `historique.length` sans garde. La retirer fait planter le reducer, donc
+  // toute la liste, dès qu'un dossier est en renouvellement non décidé.
+  // Ce test rejoue le calcul réel sur la charge utile réellement produite :
+  // c'est lui, pas une assertion sur la forme de la constante, qui protège.
+  it("produit une charge utile sur laquelle l'échéance reste calculable", async () => {
+    expect(USAGER_LIGHT_ATTRIBUTES).toContain("historique");
+
+    mockedRepository.find.mockResolvedValue([
+      {
+        uuid: "a",
+        typeDom: "RENOUVELLEMENT",
+        decision: {
+          statut: "INSTRUCTION",
+          dateDecision: "2026-01-10",
+          dateDebut: "2026-01-10",
+          dateFin: null,
+        },
+        historique: [
+          {
+            statut: "VALIDE",
+            dateDecision: "2025-01-10",
+            dateDebut: "2025-01-10",
+            dateFin: "2026-08-20",
+            motifDetails: "texte libre volumineux",
+            userName: "agent",
+          },
+        ],
+      },
+    ]);
+
+    const result = await controller.findAllByStructure(false, user);
+    const usager = result.usagers[0];
+
+    // Le rognage a bien eu lieu…
+    expect(usager.historique[0]).toEqual({
+      statut: "VALIDE",
+      dateDecision: "2025-01-10",
+      dateDebut: "2025-01-10",
+      dateFin: "2026-08-20",
+    });
+    // …sans casser le calcul qui en dépend.
+    expect(() => getDecisionDeadline(usager)).not.toThrow();
+    expect(getDecisionDeadline(usager).dateToDisplay).toEqual(
+      new Date("2026-08-20")
+    );
   });
 
   describe("findAllByStructure", () => {

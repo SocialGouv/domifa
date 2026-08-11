@@ -1,4 +1,6 @@
 import {
+  Usager,
+  UsagerDecision,
   CriteriaSearchField,
   getUsagerDeadlines,
   ETAPE_ENTRETIEN,
@@ -44,6 +46,25 @@ export const MAX_USAGERS_RADIES_SEARCH_RESULTS_WITHOUT_CRITERIA = 100;
 // posé que là où il y a une fenêtre à stabiliser — sur une requête sans
 // limite, il ferait basculer le plan en tri sur disque pour rien.
 const USAGER_BOUNDED_ORDER = { ref: "DESC" } as const;
+
+// `historique` cumule une entrée par décision jamais prise, texte libre
+// compris : c'est la colonne la plus lourde de la table, et la seule dont le
+// poids croît pendant toute la vie d'un dossier. L'interface n'en affiche que
+// ces quatre champs, et `getDecisionDeadline` n'a besoin que de `dateFin` —
+// rogner avant de sérialiser divise la charge utile sans rien perdre.
+const filterHistorique = <T extends Pick<Usager, "historique">>(
+  usager: T
+): T => {
+  if (usager.historique && Array.isArray(usager.historique)) {
+    usager.historique = usager.historique.map((item: UsagerDecision) => ({
+      statut: item.statut,
+      dateDecision: item.dateDecision,
+      dateDebut: item.dateDebut,
+      dateFin: item.dateFin,
+    })) as UsagerDecision[];
+  }
+  return usager;
+};
 
 @Controller("search-usagers")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -94,13 +115,15 @@ export class SearchUsagersController {
 
     return {
       usagersRadiesTotalCount,
-      usagers: [...usagersNonRadies, ...usagersRadiesFirsts],
+      usagers: [...usagersNonRadies, ...usagersRadiesFirsts].map(
+        filterHistorique
+      ),
     };
   }
 
   @Get("update-manage")
   public async updateManage(@CurrentUser() user: UserStructureAuthenticated) {
-    return await usagerRepository
+    const usagers = await usagerRepository
       .createQueryBuilder()
       .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
       .where(
@@ -111,6 +134,8 @@ export class SearchUsagersController {
         }
       )
       .getRawMany();
+
+    return usagers.map(filterHistorique);
   }
 
   @Get("count")
