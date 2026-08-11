@@ -32,6 +32,7 @@ import { isEqual } from "lodash";
 import {
   usagerRepository,
   usagerOptionsHistoryRepository,
+  UsagerTable,
 } from "../../database";
 import {
   ALL_USER_STRUCTURE_ROLES,
@@ -40,6 +41,7 @@ import {
   UsagerOptionsHistoryTypeEnum,
 } from "@domifa/common";
 import { AppUserGuard } from "../../auth/guards";
+import { computeUsagerSearchIndex } from "../../database/entities/usager/computeUsagerSearchIndex";
 
 @ApiTags("usagers-options")
 @ApiBearerAuth()
@@ -197,21 +199,17 @@ export class UsagerOptionsController {
 
     usager.options.procurations = procurationsDto;
 
-    // Les mandataires alimentent l'index de recherche, mais le subscriber ne
-    // recalcule `nom_prenom_surnom_ref` que si `nom` et `prenom` figurent dans
-    // le payload : sans les champs d'identité, l'index resterait figé et le
-    // dossier introuvable par le nom du mandataire.
+    // Les mandataires alimentent l'index de recherche : sa valeur est posée
+    // ici, calculée sur l'entité complète — le subscriber ne voit que le
+    // payload et un recalcul partiel tronquerait l'index, tandis que joindre
+    // l'identité écraserait une modification d'état civil concurrente.
     await usagerRepository.update(
       { uuid: usager.uuid },
       {
         updatedAt: new Date(),
         options: usager.options,
-        nom: usager.nom,
-        prenom: usager.prenom,
-        surnom: usager.surnom,
-        customRef: usager.customRef,
-        ayantsDroits: usager.ayantsDroits,
-      }
+        nom_prenom_surnom_ref: computeUsagerSearchIndex(usager),
+      } as Partial<UsagerTable>
     );
 
     return usager;
@@ -242,19 +240,15 @@ export class UsagerOptionsController {
 
     usager.options.procurations.splice(index, 1);
 
-    // Champs d'identité joints pour que le subscriber recalcule l'index de
-    // recherche — voir le commentaire de `editProcuration`.
+    // Index de recherche recalculé sur l'entité complète — voir le
+    // commentaire de `editProcuration`.
     await usagerRepository.update(
       { uuid: usager.uuid },
       {
         updatedAt: new Date(),
         options: usager.options,
-        nom: usager.nom,
-        prenom: usager.prenom,
-        surnom: usager.surnom,
-        customRef: usager.customRef,
-        ayantsDroits: usager.ayantsDroits,
-      }
+        nom_prenom_surnom_ref: computeUsagerSearchIndex(usager),
+      } as Partial<UsagerTable>
     );
 
     return res.status(HttpStatus.OK).json(usager);

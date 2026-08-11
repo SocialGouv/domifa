@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
-import { normalizeString } from "@domifa/common";
+import { computeUsagerSearchIndex } from "../database/entities/usager/computeUsagerSearchIndex";
 import { appLogger } from "../util";
 
 const BATCH_SIZE = 2000;
@@ -21,10 +21,11 @@ type UsagerSearchRow = {
 // Le subscriber alimente les lignes écrites après ce déploiement ; celle-ci
 // rattrape l'existant.
 //
-// Le recalcul passe par la même fonction `normalizeString` que le subscriber,
-// et non par une transposition SQL : la décomposition NFKD, le repli des
-// ligatures et le remplacement des caractères non alphanumériques n'ont pas
-// d'équivalent exact en SQL, et deux implémentations divergeraient.
+// Le recalcul passe par `computeUsagerSearchIndex` — LA règle de l'index,
+// partagée avec le subscriber — et non par une transposition SQL : la
+// décomposition NFKD, le repli des ligatures et le remplacement des caractères
+// non alphanumériques n'ont pas d'équivalent exact en SQL, et deux
+// implémentations divergeraient.
 //
 // Les migrations tournent dans une transaction unique (`transaction: "all"`),
 // qui retient chaque verrou de ligne jusqu'au commit final : l'écriture se fait
@@ -59,22 +60,7 @@ export class BackfillUsagerSearchIndex1786500000000
 
       const parameters: string[] = [];
       const tuples = rows.map((row) => {
-        const parts = [
-          row.nom?.trim(),
-          row.prenom?.trim(),
-          row.surnom,
-          row.customRef,
-          ...(row.ayantsDroits ?? []).flatMap((ayantDroit) => [
-            ayantDroit?.nom,
-            ayantDroit?.prenom,
-          ]),
-          ...(row.options?.procurations ?? []).flatMap((procuration) => [
-            procuration?.nom,
-            procuration?.prenom,
-          ]),
-        ].filter(Boolean);
-
-        parameters.push(row.uuid, normalizeString(parts.join(" ")));
+        parameters.push(row.uuid, computeUsagerSearchIndex(row));
         return `($${parameters.length - 1}::uuid, $${parameters.length}::text)`;
       });
 

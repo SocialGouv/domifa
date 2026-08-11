@@ -25,7 +25,9 @@ import { AppUserGuard } from "../../auth/guards";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
 import {
   usagerRepository,
+  computeUsagerSearchIndex,
   joinSelectFields,
+  UsagerTable,
   messageSmsRepository,
   usagerDocsRepository,
   usagerEntretienRepository,
@@ -136,9 +138,18 @@ export class UsagersController {
       numero: getPhoneString(usagerDto.telephone).replace(/\s+/g, ""),
     };
 
+    // Le DTO d'état civil ne porte pas `options` : laisser le subscriber
+    // recalculer l'index depuis ce payload en effacerait les mandataires.
+    // L'index est donc calculé ici, sur l'entité fusionnée.
     await usagerRepository.update(
       { uuid: currentUsager.uuid },
-      { ...usagerDto }
+      {
+        ...usagerDto,
+        nom_prenom_surnom_ref: computeUsagerSearchIndex({
+          ...currentUsager,
+          ...usagerDto,
+        }),
+      } as Partial<UsagerTable>
     );
 
     await this.usagersLogsService.checkAndLogEmailChanges(

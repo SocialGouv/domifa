@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { v4 as uuidv4 } from "uuid";
 import {
+  computeUsagerSearchIndex,
   usagerEntretienRepository,
   usagerRepository,
   UsagerTable,
@@ -237,15 +238,12 @@ export class UsagersService {
         etapeDemande: usager.etapeDemande,
         typeDom: usager.typeDom,
         datePremiereDom: usager.datePremiereDom,
-        // `customRef` alimente l'index de recherche, que le subscriber ne
-        // recalcule qu'en présence de `nom` et `prenom` dans le payload :
-        // sans les champs d'identité, une référence posée à la décision
-        // resterait introuvable.
-        nom: usager.nom,
-        prenom: usager.prenom,
-        surnom: usager.surnom,
-        ayantsDroits: usager.ayantsDroits,
-      }
+        // `customRef` alimente l'index de recherche : sa valeur est posée
+        // ici, calculée sur l'entité complète — le subscriber ne voit que le
+        // payload, et un recalcul partiel tronquerait l'index (mandataires,
+        // ayants droit).
+        nom_prenom_surnom_ref: computeUsagerSearchIndex(usager),
+      } as Partial<UsagerTable>
     );
     return usager;
   }
