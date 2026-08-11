@@ -1,6 +1,6 @@
 import { ObjectLiteral, SelectQueryBuilder } from "typeorm";
 
-export type UsagerSortKey = "NOM" | "PASSAGE" | "ECHEANCE" | "ID";
+export type UsagerSortKey = "NOM" | "PASSAGE" | "ECHEANCE" | "RDV" | "ID";
 
 // Échéance affichée, telle que `getDecisionDeadline()` la calcule côté
 // application. Transposée ici parce qu'elle sert de clé de tri et n'existe
@@ -69,6 +69,16 @@ export function applyUsagerCriteriaSort<T extends ObjectLiteral>(
 
   if (sortKey === "PASSAGE") {
     orderBy(`("lastInteraction"->>'dateInteraction')::timestamptz`);
+  } else if (sortKey === "RDV") {
+    // Écart assumé avec le trieur applicatif, qui n'est pas transposable : il
+    // ne place la date dans la comparaison que si elle existe, si bien qu'un
+    // dossier sans rendez-vous y compare son NOM à la représentation texte
+    // d'une date JavaScript. L'ordre obtenu dépend alors de la locale et du
+    // fuseau, et un nom commençant par « Z » passe devant ou derrière les
+    // dossiers datés selon le jour de la semaine de leur rendez-vous.
+    // Les dossiers sans rendez-vous sont donc traités ici comme toute autre
+    // valeur absente, à l'identique des autres tris.
+    orderBy(`(rdv->>'dateRdv')::date`);
   } else if (sortKey === "ECHEANCE") {
     orderBy(`(${DECISION_DEADLINE_SQL})`);
   }

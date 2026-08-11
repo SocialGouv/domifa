@@ -278,6 +278,61 @@ describe("Filtres usagers — équivalence navigateur / SQL", () => {
     return rows.map((row) => Number(row.ref));
   };
 
+  // Le tri par rendez-vous est le seul qui ne soit PAS comparé au navigateur,
+  // et c'est délibéré : le trieur applicatif ne place la date dans la
+  // comparaison que si elle existe, si bien qu'un dossier sans rendez-vous y
+  // compare son nom à la représentation texte d'une date JavaScript. L'ordre
+  // obtenu dépend de la locale et du fuseau, il n'est pas transposable.
+  //
+  // On vérifie donc le comportement corrigé, ET on épingle la divergence :
+  // si un jour le trieur du navigateur est aligné, ce test le signalera au
+  // lieu de laisser l'exception survivre en silence.
+  describe("tri par rendez-vous", () => {
+    const rdvDateOf = (ref: number): string | null => {
+      const usager = fixtures.find((candidate) => candidate.ref === ref);
+      return (usager?.rdv?.dateRdv as string) ?? null;
+    };
+
+    it("place les dossiers sans rendez-vous en tête en ordre croissant", async () => {
+      const order = await orderFromSql("RDV", "asc");
+      const dates = order.map(rdvDateOf);
+      const firstDated = dates.findIndex((date) => date !== null);
+
+      expect(firstDated).toBeGreaterThan(0);
+      expect(dates.slice(firstDated).every((date) => date !== null)).toBe(true);
+
+      const dated = dates.slice(firstDated) as string[];
+      expect([...dated].sort()).toEqual(dated);
+    });
+
+    it("place les dossiers sans rendez-vous en fin en ordre décroissant", async () => {
+      const order = await orderFromSql("RDV", "desc");
+      const dates = order.map(rdvDateOf);
+      const firstUndated = dates.findIndex((date) => date === null);
+
+      expect(firstUndated).toBeGreaterThan(0);
+      expect(dates.slice(firstUndated).every((date) => date === null)).toBe(
+        true
+      );
+
+      const dated = dates.slice(0, firstUndated) as string[];
+      expect([...dated].sort().reverse()).toEqual(dated);
+    });
+
+    it("diverge encore du navigateur, comme documenté", () => {
+      const browser = orderFromBrowser("RDV", "asc");
+      const undatedFirst = browser.filter((ref) => rdvDateOf(ref) === null);
+
+      // Le navigateur n'isole pas les dossiers sans rendez-vous : ils sont
+      // entremêlés selon la comparaison entre un nom et un texte de date.
+      expect(undatedFirst.length).toBeGreaterThan(0);
+      expect(browser).not.toEqual([
+        ...undatedFirst,
+        ...browser.filter((ref) => rdvDateOf(ref) !== null),
+      ]);
+    });
+  });
+
   it.each([
     ["NOM", "asc"],
     ["NOM", "desc"],
