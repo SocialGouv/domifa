@@ -32,7 +32,7 @@ import {
 } from "../../database";
 
 import { SearchUsagerDto } from "../dto";
-import { filterUsagerHistorique } from "../utils";
+import { applyUsagerNameSearch, filterUsagerHistorique } from "../utils";
 
 export const MAX_USAGERS_RADIES_PREVIEW = 1600;
 export const MAX_USAGERS_RADIES_SEARCH_RESULTS_WITHOUT_CRITERIA = 100;
@@ -139,9 +139,7 @@ export class SearchUsagersController {
 
     if (search.searchString?.length > 0) {
       if (search.searchStringField === CriteriaSearchField.DEFAULT) {
-        query.andWhere("nom_prenom_surnom_ref ILIKE :str", {
-          str: `%${search.searchString}%`,
-        });
+        applyUsagerNameSearch(query, search.searchString);
       } else if (search.searchStringField === CriteriaSearchField.BIRTH_DATE) {
         const formattedDate = format(
           parse(search.searchString, "ddMMyyyy", new Date()),

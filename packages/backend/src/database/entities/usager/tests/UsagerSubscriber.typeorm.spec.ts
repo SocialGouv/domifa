@@ -23,7 +23,12 @@ describe("UsagerSubscriber — index de recherche", () => {
 
   it("préfère la référence personnalisée à la référence interne", () => {
     expect(
-      indexOf({ nom: "Dupont", prenom: "Marie", customRef: "2026-0042", ref: 7 })
+      indexOf({
+        nom: "Dupont",
+        prenom: "Marie",
+        customRef: "2026-0042",
+        ref: 7,
+      })
     ).toBe("dupont marie 2026 0042");
   });
 
@@ -56,9 +61,9 @@ describe("UsagerSubscriber — index de recherche", () => {
   });
 
   it("normalise accents, ligatures et ponctuation", () => {
-    expect(
-      indexOf({ nom: "Lœwenberg-Ünal", prenom: "Chloé", ref: 3 })
-    ).toBe("loewenberg unal chloe 3");
+    expect(indexOf({ nom: "Lœwenberg-Ünal", prenom: "Chloé", ref: 3 })).toBe(
+      "loewenberg unal chloe 3"
+    );
   });
 
   it("supporte l'absence d'ayants droit et d'options", () => {
