@@ -42,6 +42,7 @@ export const buildFixtures = (now: Date): FixtureUsager[] => {
       enAttente: false,
     },
     decision: { statut: "VALIDE", dateFin: iso(addDays(now, 200)) },
+    statut: "VALIDE",
   };
 
   const usagers: FixtureUsager[] = [];

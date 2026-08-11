@@ -6,6 +6,7 @@
     "test",
     "**/*security-tests.ts",
     "**/*spec.ts",
-    "**/*test.ts"
+    "**/*test.ts",
+    "src/usagers/utils/tests/differential/**"
   ]
 }

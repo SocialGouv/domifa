@@ -1,4 +1,6 @@
 // @index('./*', f => `export * from '${f.path}'`)
+export * from "./applyUsagerCriteriaFilters";
+export * from "./applyUsagerCriteriaSort";
 export * from "./applyUsagerNameSearch";
 export * from "./cerfa";
 export * from "./custom-docs";

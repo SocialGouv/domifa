@@ -1,8 +1,13 @@
-import { normalizeString } from "@domifa/common";
+import { getDecisionDeadline, normalizeString } from "@domifa/common";
 import { DataSource } from "typeorm";
 import { usagersFilter } from "../../../../../../frontend/src/app/modules/manage-usagers/services/usager-filter/usagersFilter.service";
 import { UsagersFilterCriteria } from "../../../../../../frontend/src/app/modules/manage-usagers/classes/UsagersFilterCriteria";
 import { applyUsagerCriteriaFilters } from "../../applyUsagerCriteriaFilters";
+import {
+  applyUsagerCriteriaSort,
+  UsagerSortKey,
+} from "../../applyUsagerCriteriaSort";
+import { usagersSorter } from "../../../../../../frontend/src/app/modules/manage-usagers/services/usager-filter/usagersSorter.service";
 import { applyUsagerNameSearch } from "../../applyUsagerNameSearch";
 import { buildFixtures, FixtureUsager } from "./usagerFilterFixtures";
 
@@ -141,7 +146,7 @@ describe("Filtres usagers — équivalence navigateur / SQL", () => {
       echeance: criteria.echeance ?? null,
       interactionType: criteria.interactionType ?? null,
       lastInteractionDate: criteria.lastInteractionDate ?? null,
-      entretien: criteria.entretien ?? null,
+      entretien: (criteria.entretien ?? null) as "COMING" | "PASSED" | null,
       referrerId: criteria.referrerId,
     });
 
@@ -235,4 +240,60 @@ describe("Filtres usagers — équivalence navigateur / SQL", () => {
       searchString: "marie dupont",
     });
   });
+
+  // --- tri : on compare l'ORDRE, pas seulement l'appartenance
+  const orderFromBrowser = (
+    sortKey: UsagerSortKey,
+    sortValue: "asc" | "desc"
+  ): number[] =>
+    usagersSorter
+      // `decisionDeadline` est calculé à la réception par
+      // `setUsagerInformation` : le trieur du navigateur le lit sans le
+      // recalculer, il faut donc le fournir ici comme l'application le fait.
+      .sortBy(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        fixtures.map((usager) => ({
+          ...usager,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          decisionDeadline: getDecisionDeadline(usager as any),
+        })) as any,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        { sortKey, sortValue } as any
+      )
+      .map((usager: { ref: number }) => usager.ref);
+
+  const orderFromSql = async (
+    sortKey: UsagerSortKey,
+    sortValue: "asc" | "desc"
+  ): Promise<number[]> => {
+    const query = dataSource
+      .createQueryBuilder()
+      .select("usager.ref", "ref")
+      .from("usager", "usager")
+      .where(`"structureId" = :structureId`, { structureId: STRUCTURE_ID });
+
+    applyUsagerCriteriaSort(query, sortKey, sortValue);
+
+    const rows = await query.getRawMany();
+    return rows.map((row) => Number(row.ref));
+  };
+
+  it.each([
+    ["NOM", "asc"],
+    ["NOM", "desc"],
+    ["PASSAGE", "asc"],
+    ["PASSAGE", "desc"],
+    ["ECHEANCE", "asc"],
+    ["ECHEANCE", "desc"],
+    ["ID", "asc"],
+    ["ID", "desc"],
+  ] as [UsagerSortKey, "asc" | "desc"][])(
+    "ordonne les dossiers comme le navigateur pour %s %s",
+    async (sortKey, sortValue) => {
+      const browser = orderFromBrowser(sortKey, sortValue);
+      const sql = await orderFromSql(sortKey, sortValue);
+
+      expect(sql).toEqual(browser);
+    }
+  );
 });
