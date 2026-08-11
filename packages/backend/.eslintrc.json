@@ -11,7 +11,9 @@
     "sourceType": "module",
     "ecmaVersion": "latest"
   },
-  "plugins": ["@typescript-eslint/eslint-plugin"],
+  "plugins": [
+    "@typescript-eslint/eslint-plugin"
+  ],
   "extends": [
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
@@ -22,5 +24,15 @@
     "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-explicit-any": "off"
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "src/usagers/utils/tests/differential/**/*.ts"
+      ],
+      "parserOptions": {
+        "project": "tsconfig.differential.json"
+      }
+    }
+  ]
 }

@@ -9,5 +9,9 @@
   "include": [
     "src/usagers/utils/tests/differential/**/*.ts",
     "src/usagers/utils/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
   ]
 }
