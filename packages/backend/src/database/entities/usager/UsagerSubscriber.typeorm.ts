@@ -34,7 +34,13 @@ export class UsagerSubscriber
           entity.nom,
           entity.prenom,
           entity.surnom,
-          entity?.customRef ?? entity?.ref,
+          // `ref` volontairement absent : la recherche de l'interface ne
+          // parcourt que `customRef` (cf. `getAttributes`). L'y laisser rendait
+          // la référence interne cherchable côté serveur, sans effet visible
+          // tant qu'un filtre client refiltrait tout — mais la bascule vers la
+          // recherche serveur ferait remonter, sur toute saisie numérique, des
+          // dossiers que l'utilisateur ne voit pas aujourd'hui.
+          entity?.customRef,
           ...(entity.ayantsDroits ?? []).flatMap((ayantDroit) => [
             ayantDroit?.nom,
             ayantDroit?.prenom,

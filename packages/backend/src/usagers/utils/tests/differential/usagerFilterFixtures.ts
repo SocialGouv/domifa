@@ -164,5 +164,24 @@ export const buildFixtures = (now: Date): FixtureUsager[] => {
     "Paul"
   );
 
+  // --- références personnalisées : recherche numérique et tri alphabétique
+  add({ statut: "VALIDE", customRef: "77123" }, "RefNumerique", "Test");
+  add({ statut: "VALIDE", customRef: "A-77" }, "RefAlphabetique", "Test");
+
   return usagers;
+};
+
+// Homonymes : ils partagent nom ET prénom, donc ils atteignent le départage du
+// tri, que le jeu principal ne touche jamais puisque tous ses noms diffèrent.
+// Isolés dans leur propre structure pour ne pas perturber les comparaisons
+// globales.
+export const buildHomonymFixtures = (now: Date): FixtureUsager[] => {
+  const [model] = buildFixtures(now);
+  return [2001, 5, 7, 12, 32].map((ref) => ({
+    ...model,
+    ref,
+    nom: "Martin",
+    prenom: "Jean",
+    customRef: null,
+  }));
 };

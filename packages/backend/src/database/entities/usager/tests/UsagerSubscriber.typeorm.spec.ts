@@ -15,10 +15,10 @@ const indexOf = (entity: Partial<UsagerTable>): string => {
 // recherche serveur ne saurait pas retrouver un dossier par le prénom d'un
 // enfant, ce qui serait une régression fonctionnelle silencieuse.
 describe("UsagerSubscriber — index de recherche", () => {
-  it("indexe le nom, le prénom, le surnom et la référence", () => {
+  it("indexe le nom, le prénom et le surnom", () => {
     expect(
       indexOf({ nom: "Dupont", prenom: "Marie", surnom: "Mimi", ref: 1234 })
-    ).toBe("dupont marie mimi 1234");
+    ).toBe("dupont marie mimi");
   });
 
   it("préfère la référence personnalisée à la référence interne", () => {
@@ -62,13 +62,13 @@ describe("UsagerSubscriber — index de recherche", () => {
 
   it("normalise accents, ligatures et ponctuation", () => {
     expect(indexOf({ nom: "Lœwenberg-Ünal", prenom: "Chloé", ref: 3 })).toBe(
-      "loewenberg unal chloe 3"
+      "loewenberg unal chloe"
     );
   });
 
   it("supporte l'absence d'ayants droit et d'options", () => {
     expect(indexOf({ nom: "Dupont", prenom: "Marie", ref: 5 })).toBe(
-      "dupont marie 5"
+      "dupont marie"
     );
   });
 

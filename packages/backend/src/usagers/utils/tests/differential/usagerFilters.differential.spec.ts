@@ -1,4 +1,8 @@
-import { getDecisionDeadline, normalizeString } from "@domifa/common";
+import {
+  CriteriaSearchField,
+  getDecisionDeadline,
+  normalizeString,
+} from "@domifa/common";
 import { DataSource } from "typeorm";
 import { usagersFilter } from "../../../../../../frontend/src/app/modules/manage-usagers/services/usager-filter/usagersFilter.service";
 import { UsagersFilterCriteria } from "../../../../../../frontend/src/app/modules/manage-usagers/classes/UsagersFilterCriteria";
@@ -9,7 +13,12 @@ import {
 } from "../../applyUsagerCriteriaSort";
 import { usagersSorter } from "../../../../../../frontend/src/app/modules/manage-usagers/services/usager-filter/usagersSorter.service";
 import { applyUsagerNameSearch } from "../../applyUsagerNameSearch";
-import { buildFixtures, FixtureUsager } from "./usagerFilterFixtures";
+import { getAttributes } from "../../../../../../frontend/src/app/modules/manage-usagers/services/usager-filter/usagersSearchStringFilter.service";
+import {
+  buildFixtures,
+  buildHomonymFixtures,
+  FixtureUsager,
+} from "./usagerFilterFixtures";
 
 // Test différentiel : le même jeu de données passe dans l'implémentation du
 // NAVIGATEUR — importée telle quelle, pas réécrite — et dans la traduction SQL.
@@ -28,21 +37,20 @@ const DATABASE_URL =
 
 const STRUCTURE_ID = 1;
 
+// L'index de recherche est construit ici à partir de `getAttributes`, la
+// fonction du NAVIGATEUR, et non de la règle du subscriber. Le faire dériver du
+// serveur rendait le test incapable de détecter une divergence de recherche :
+// l'oracle se trouvait du côté qu'il était censé juger.
 const searchIndexOf = (usager: FixtureUsager): string =>
   normalizeString(
-    [
-      usager.nom,
-      usager.prenom,
-      usager.surnom,
-      usager.customRef ?? usager.ref,
-      ...usager.ayantsDroits.flatMap((ayantDroit) => [
-        ayantDroit.nom,
-        ayantDroit.prenom,
-      ]),
-      ...(
-        (usager.options.procurations as { nom: string; prenom: string }[]) ?? []
-      ).flatMap((procuration) => [procuration.nom, procuration.prenom]),
-    ]
+    (
+      getAttributes(
+        usager as never,
+        {
+          searchStringField: CriteriaSearchField.DEFAULT,
+        } as never
+      ) as (string | null | undefined)[]
+    )
       .filter(Boolean)
       .join(" ")
   );
@@ -228,6 +236,17 @@ describe("Filtres usagers — équivalence navigateur / SQL", () => {
     await expectSameSelection("referrerId 42", { referrerId: 42 });
   });
 
+  // La référence interne ne doit PAS être cherchable : `getAttributes` ne
+  // parcourt que `customRef`. Sans ce cas, l'écart passait inaperçu — aucune
+  // des recherches testées n'était numérique.
+  it("ne trouve pas un dossier par sa référence interne", async () => {
+    await expectSameSelection("recherche 77123", { searchString: "77123" });
+
+    const browser = refsFromBrowser(criteriaOf({ searchString: "12" }));
+    const sql = await refsFromSql(criteriaOf({ searchString: "12" }));
+    expect(sql).toEqual(browser);
+  });
+
   it.each(["dupont", "Chloé", "loewenberg", "zoé", "alice"])(
     "trouve les mêmes dossiers en cherchant %s",
     async (searchString) => {
@@ -330,6 +349,76 @@ describe("Filtres usagers — équivalence navigateur / SQL", () => {
         ...undatedFirst,
         ...browser.filter((ref) => rdvDateOf(ref) !== null),
       ]);
+    });
+  });
+
+  // Départage des homonymes : le jeu principal ne l'atteint jamais, tous ses
+  // noms diffèrent. Le comparateur du navigateur traite alors le `ref`, un
+  // nombre, comme une DATE (`new Date("2001")` est valide), d'où un ordre
+  // absurde. Écart assumé et corrigé, comme le tri par rendez-vous : on épingle
+  // les deux côtés pour qu'un alignement futur se signale ici.
+  describe("homonymes", () => {
+    const HOMONYM_STRUCTURE_ID = 2;
+
+    beforeAll(async () => {
+      for (const usager of buildHomonymFixtures(now)) {
+        await dataSource.query(
+          `INSERT INTO usager (ref, "structureId", nom, prenom, surnom, "customRef",
+             statut, "typeDom", "etapeDemande", "referrerId", decision,
+             "lastInteraction", rdv, options, "ayantsDroits", historique,
+             nom_prenom_surnom_ref)
+           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)`,
+          [
+            usager.ref,
+            HOMONYM_STRUCTURE_ID,
+            usager.nom,
+            usager.prenom,
+            usager.surnom,
+            usager.customRef,
+            usager.statut,
+            usager.typeDom,
+            usager.etapeDemande,
+            usager.referrerId,
+            JSON.stringify(usager.decision),
+            JSON.stringify(usager.lastInteraction),
+            usager.rdv ? JSON.stringify(usager.rdv) : null,
+            JSON.stringify(usager.options),
+            JSON.stringify(usager.ayantsDroits),
+            JSON.stringify(usager.historique),
+            searchIndexOf(usager),
+          ]
+        );
+      }
+    });
+
+    it("départage les homonymes par référence croissante", async () => {
+      const query = dataSource
+        .createQueryBuilder()
+        .select("usager.ref", "ref")
+        .from("usager", "usager")
+        .where(`"structureId" = :structureId`, {
+          structureId: HOMONYM_STRUCTURE_ID,
+        });
+      applyUsagerCriteriaSort(query, "NOM", "asc");
+
+      const rows = await query.getRawMany();
+      expect(rows.map((row) => Number(row.ref))).toEqual([5, 7, 12, 32, 2001]);
+    });
+
+    it("diverge encore du navigateur, comme documenté", () => {
+      const browser = usagersSorter
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .sortBy(
+          buildHomonymFixtures(now) as any,
+          {
+            sortKey: "NOM",
+            sortValue: "asc",
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          } as any
+        )
+        .map((usager: { ref: number }) => usager.ref);
+
+      expect(browser).not.toEqual([5, 7, 12, 32, 2001]);
     });
   });
 

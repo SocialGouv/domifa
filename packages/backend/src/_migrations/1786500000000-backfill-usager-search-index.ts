@@ -54,7 +54,7 @@ export class BackfillUsagerSearchIndex1786500000000
           row.nom?.trim(),
           row.prenom?.trim(),
           row.surnom,
-          row.customRef ?? row.ref,
+          row.customRef,
           ...(row.ayantsDroits ?? []).flatMap((ayantDroit) => [
             ayantDroit?.nom,
             ayantDroit?.prenom,
