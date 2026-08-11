@@ -35,6 +35,16 @@ const DECISION_DEADLINE_SQL = `
 // Référence affichée : la personnalisée si elle existe, sinon l'interne. Le tri
 // applicatif place les références purement numériques avant les autres et les
 // compare comme des nombres, le reste alphabétiquement.
+// `localeCompare` classe l'espace et l'apostrophe au niveau primaire : « Le Gall »
+// passe avant « Leblanc », « O'Brien » avant « Oberkampf ». Les collations
+// système (en_US.utf8, C) les ignorent ou rejettent les accents après Z, et rien
+// ne garantit celle de la base. On épingle donc une collation ICU française, qui
+// reproduit l'ordre affiché aujourd'hui.
+//
+// Requiert un Postgres compilé avec ICU — le cas de l'image utilisée et des
+// offres managées récentes.
+const NAME_COLLATION = `COLLATE "fr-x-icu"`;
+
 const DISPLAY_REF_SQL = `COALESCE(NULLIF(TRIM("customRef"), ''), ref::text)`;
 const IS_NUMERIC_REF_SQL = `(${DISPLAY_REF_SQL} ~ '^[0-9]+$')`;
 
@@ -63,7 +73,9 @@ export function applyUsagerCriteriaSort<T extends ObjectLiteral>(
     orderBy(
       `CASE WHEN ${IS_NUMERIC_REF_SQL} THEN (${DISPLAY_REF_SQL})::numeric END`
     );
-    orderBy(`CASE WHEN NOT ${IS_NUMERIC_REF_SQL} THEN ${DISPLAY_REF_SQL} END`);
+    orderBy(
+      `CASE WHEN NOT ${IS_NUMERIC_REF_SQL} THEN ${DISPLAY_REF_SQL} END ${NAME_COLLATION}`
+    );
     return query;
   }
 
@@ -78,15 +90,17 @@ export function applyUsagerCriteriaSort<T extends ObjectLiteral>(
     // dossiers datés selon le jour de la semaine de leur rendez-vous.
     // Les dossiers sans rendez-vous sont donc traités ici comme toute autre
     // valeur absente, à l'identique des autres tris.
-    orderBy(`(rdv->>'dateRdv')::date`);
+    orderBy(
+      `((rdv->>'dateRdv')::timestamptz AT TIME ZONE 'Europe/Paris')::date`
+    );
   } else if (sortKey === "ECHEANCE") {
     orderBy(`(${DECISION_DEADLINE_SQL})`);
   }
 
   // Départages, dans l'ordre du tri applicatif, et dans le même sens que la
   // clé principale : le comparateur applique `asc` à tous les attributs.
-  orderBy(`LOWER(COALESCE(nom, ''))`);
-  orderBy(`LOWER(COALESCE(prenom, ''))`);
+  orderBy(`LOWER(COALESCE(nom, '')) ${NAME_COLLATION}`);
+  orderBy(`LOWER(COALESCE(prenom, '')) ${NAME_COLLATION}`);
   orderBy(`ref`);
 
   return query;

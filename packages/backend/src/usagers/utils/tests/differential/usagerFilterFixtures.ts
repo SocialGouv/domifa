@@ -164,6 +164,23 @@ export const buildFixtures = (now: Date): FixtureUsager[] => {
     "Paul"
   );
 
+  // --- collation : particules, apostrophes, accents, casse mixte. Ce sont les
+  // seuls cas où `localeCompare` et une collation système divergent, et le jeu
+  // n'en contenait aucun.
+  for (const [nom, prenom] of [
+    ["Le Gall", "Anne"],
+    ["Leblanc", "Bruno"],
+    ["LEBRUN", "Carla"],
+    ["O'Brien", "Dylan"],
+    ["Oberkampf", "Elsa"],
+    ["Ötzi", "Franz"],
+    ["Émile", "Gaby"],
+    ["Emilie", "Hugo"],
+    ["Saint-Pierre", "Iris"],
+  ] as [string, string][]) {
+    add({ statut: "VALIDE" }, nom, prenom);
+  }
+
   // --- références personnalisées : recherche numérique et tri alphabétique
   add({ statut: "VALIDE", customRef: "77123" }, "RefNumerique", "Test");
   add({ statut: "VALIDE", customRef: "A-77" }, "RefAlphabetique", "Test");

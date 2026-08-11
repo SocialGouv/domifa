@@ -5,6 +5,19 @@ import {
 } from "@domifa/common";
 import { ObjectLiteral, SelectQueryBuilder } from "typeorm";
 
+// Les dates sont stockées en texte ISO, souvent horodatées. `x::date` en tire
+// la date UTC, pas la date locale : une décision expirant à 00h30 à Paris était
+// classée la veille. Toutes les comparaisons de jour passent donc par le fuseau
+// de l'application.
+//
+// Le navigateur mélange aujourd'hui deux conventions — la date UTC pour
+// l'entretien, les jours calendaires locaux pour l'échéance — ce qui les fait
+// diverger entre elles deux heures par jour. On aligne les deux sur la date
+// locale, la seule qui corresponde à ce qu'un utilisateur appelle « aujourd'hui ».
+const APP_TIME_ZONE = "Europe/Paris";
+const localDate = (expression: string): string =>
+  `((${expression})::timestamptz AT TIME ZONE '${APP_TIME_ZONE}')::date`;
+
 export type UsagerCriteriaFilters = {
   statut?: string | null;
   echeance?: string | null;
@@ -47,9 +60,9 @@ export function applyUsagerCriteriaFilters<T extends ObjectLiteral>(
     query.andWhere(
       `rdv->>'dateRdv' IS NOT NULL
        AND "etapeDemande" <= :etapeEntretien
-       AND (rdv->>'dateRdv')::date ${
-         filters.entretien === "COMING" ? ">" : "<"
-       } CURRENT_DATE`,
+       AND ${localDate("rdv->>'dateRdv'")} ${
+        filters.entretien === "COMING" ? ">" : "<"
+      } CURRENT_DATE`,
       { etapeEntretien: ETAPE_ENTRETIEN }
     );
   }
@@ -64,16 +77,16 @@ export function applyUsagerCriteriaFilters<T extends ObjectLiteral>(
     query.andWhere(`decision->>'dateFin' IS NOT NULL`);
 
     if (filters.echeance === "EXCEEDED") {
-      query.andWhere(`(decision->>'dateFin')::date < CURRENT_DATE`);
+      query.andWhere(`${localDate("decision->>'dateFin'")} < CURRENT_DATE`);
     } else if (filters.echeance === "NEXT_TWO_WEEKS") {
       query.andWhere(
-        `(decision->>'dateFin')::date >= CURRENT_DATE
-         AND (decision->>'dateFin')::date < CURRENT_DATE + 16`
+        `${localDate("decision->>'dateFin'")} >= CURRENT_DATE
+         AND ${localDate("decision->>'dateFin'")} < CURRENT_DATE + 16`
       );
     } else if (filters.echeance === "NEXT_TWO_MONTHS") {
       query.andWhere(
-        `(decision->>'dateFin')::date >= CURRENT_DATE
-         AND (decision->>'dateFin')::date < CURRENT_DATE + 61`
+        `${localDate("decision->>'dateFin'")} >= CURRENT_DATE
+         AND ${localDate("decision->>'dateFin'")} < CURRENT_DATE + 61`
       );
     } else if (filters.echeance.startsWith("PREVIOUS_")) {
       const deadline = getUsagerDeadlines()[filters.echeance];
