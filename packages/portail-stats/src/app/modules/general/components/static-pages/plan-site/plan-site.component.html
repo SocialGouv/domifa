@@ -1,0 +1,43 @@
+<div class="fr-container">
+  <h1 class="title">Plan du site de l'outil de pilotage</h1>
+
+  <div class="fr-grid-row" *ngIf="user">
+    <ng-container *ngFor="let linkSection of siteMapLinksLogged">
+      <div class="fr-col-md-4 fr-col-12">
+        <h2 class="fr-my-3w">
+          {{ linkSection.section }}
+        </h2>
+        <ul>
+          <li *ngFor="let link of linkSection.links">
+            <a [routerLink]="link.path">{{ link.label }}</a>
+          </li>
+        </ul>
+      </div>
+    </ng-container>
+  </div>
+  <div class="fr-grid-row">
+    <ng-container *ngFor="let linkSection of sitemapLinks">
+      <div class="fr-col-md-4 fr-col-12 fr-my-3w">
+        <h2 class="fr-my-3w">
+          {{ linkSection.section }}
+        </h2>
+        <ul>
+          <li *ngFor="let link of linkSection.links">
+            <a [routerLink]="link.path">{{ link.label }}</a>
+          </li>
+        </ul>
+      </div>
+    </ng-container>
+    <div class="fr-col-md-4 fr-col-12 fr-my-3w">
+      <h2 class="fr-my-3w">Nos partenaires</h2>
+      <ul>
+        <li *ngFor="let link of partnerLinks">
+          <a [href]="link.path" target="_blank" rel="noopener external"
+            >{{ link.label }}
+            <span class="fr-icon-external-link-line" aria-hidden="true"></span
+          ></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -26,6 +26,7 @@ export type DomifaConfig = {
     frontendUrl: string; // DOMIFA_FRONTEND_URL
     portailUsagersUrl: string; // DOMIFA_PORTAIL_USAGERS_URL
     portailAdminUrl: string; // DOMIFA_PORTAIL_ADMINS_URL
+    portailStatsUrl: string; // DOMIFA_PORTAIL_STATS_URL
     backendUrl: string; // DOMIFA_BACKEND_URL
   };
   security: DomifaConfigSecurity;

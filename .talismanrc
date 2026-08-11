@@ -7,6 +7,8 @@ fileignoreconfig:
   checksum: 051414abe0d01c39d46df8f6d6b36b2270f8916faab547220a8b317668219b77
 - filename: .anonymizer/yarn.lock
   checksum: adf574ab2b9fc5e21891b802504438b9f7738c8854047dbc7ca628cd3994ef5f
+- filename: .github/workflows/unit-tests.yml
+  checksum: 41e6ed1f293553574d767fade6175f8e9f499a3f546e0cb62682243c28a4b25f
 - filename: .kontinuous/env/dev/templates/backend.sealed-secret.yaml
   checksum: a6305720da1413b2a0665df634f2f8bdd23b5114996158c928f064dadf3eef0e
 - filename: .kontinuous/env/preprod/templates/backend.sealed-secret.yaml
@@ -49,11 +51,15 @@ fileignoreconfig:
   checksum: c54f1bf45a44280960869561243668e7a92713fb5265f008a95fc3fe66014bf1
 - filename: packages/portail-admins/src/app/modules/general/components/static-pages/politique/politique.component.ts
   checksum: d1cc83582130541b0aff2b8b3984e907b889c057b21f8f251c9b55583e864703
+- filename: packages/portail-stats/src/app/modules/auth/components/password-form/password-form.component.spec.ts
+  checksum: 6d4c681bd49dae699aaaf2f33fb019793eaafe451b61349e9f88075bb9809dbb
+- filename: packages/portail-stats/src/app/modules/general/components/static-pages/politique/politique.component.ts
+  checksum: de9ffb64ed41d20fc60150b1c43174cad01caec3ea1b8f7a7d6d17c60f962994
 - filename: packages/portail-usagers/src/app/modules/general/components/\_static/politique/politique.component.html
   checksum: c569c439ae74865248ff9a0840b658903e31f2b64af367760de27155957c6ea9
 - filename: packages/portail-usagers/src/app/modules/general/components/\_static/politique/politique.component.ts
   checksum: dfdbbe1892cf17b22d28f529914eb5df3a07063d5e3071e59c36c907020260d3
 - filename: pnpm-lock.yaml
-  checksum: 3a8caee342d33da7c27053eb731cc043c02b421d71d94bcb54867c89958ac388
+  checksum: b5fa9df0de461615117a76775770911968aca54e6871ddcf432dcc4430ed436e
 threshold: medium
 version: "1.0"

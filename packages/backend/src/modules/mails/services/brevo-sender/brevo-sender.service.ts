@@ -453,6 +453,7 @@ export class BrevoSenderService {
       token: userSecurity.temporaryTokens.token,
       userId: user.id,
       userProfile,
+      userRole: user.role,
     });
 
     if (!link) {

@@ -1,0 +1,299 @@
+import { CommonModule } from "@angular/common";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import {
+  DomSanitizer,
+  SafeResourceUrl,
+  Title,
+} from "@angular/platform-browser";
+import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
+import {
+  DEPARTEMENTS_LISTE,
+  MetabaseParams,
+  PortailAdminUser,
+  REGIONS_DEF,
+  REGIONS_LISTE,
+  RegionsLabels,
+  STRUCTURE_TYPE_LABELS,
+  STRUCTURE_TYPE_MAP,
+  StructureListForStats,
+} from "@domifa/common";
+import { saveAs } from "file-saver";
+import { Subscription, take, tap } from "rxjs";
+import { MatomoTracker } from "ngx-matomo-client";
+import { CustomToastService } from "../../../shared/services/custom-toast.service";
+import { UcFirstPipe } from "../../../shared/pipes";
+import { PortailStatsAuthService } from "../../../auth/services/portail-stats-auth.service";
+import { StatsService } from "../../services/stats.service";
+
+@Component({
+  selector: "app-national-stats",
+  templateUrl: "./national-stats.component.html",
+  styleUrls: ["./national-stats.component.css"],
+  imports: [CommonModule, FormsModule, DsfrSpinnerComponent, UcFirstPipe],
+})
+export class NationalStatsComponent implements OnInit, OnDestroy {
+  public years: number[] = [];
+
+  public regionTable: RegionsLabels = {};
+  public departmentTable: RegionsLabels = {};
+
+  public enableRegions = true;
+
+  public readonly STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
+  public readonly STRUCTURE_TYPE_MAP = STRUCTURE_TYPE_MAP;
+
+  public structures: Array<StructureListForStats> = [];
+  public metabaseParams = new MetabaseParams();
+  public iframeUrl: SafeResourceUrl | null = null;
+  public loading = false;
+  public titleLabel = "";
+  private readonly subscription = new Subscription();
+
+  public currentStructure!: StructureListForStats | null;
+  public lastUpdate: Date | null = null;
+  public user: PortailAdminUser | null;
+
+  constructor(
+    private readonly sanitizer: DomSanitizer,
+    private readonly statsService: StatsService,
+    private readonly toastService: CustomToastService,
+    private readonly titleService: Title,
+    private readonly authService: PortailStatsAuthService,
+    private readonly matomo: MatomoTracker
+  ) {
+    this.titleService.setTitle(
+      "Outil de pilotage de la domiciliation en France"
+    );
+
+    for (let year = 2021; year <= new Date().getFullYear(); year++) {
+      this.years.push(year);
+    }
+  }
+
+  ngOnInit(): void {
+    this.subscription.add(
+      this.statsService
+        .getLastUpdateOfStats()
+        .pipe(
+          take(1),
+          tap((lastUpdate: Date) => {
+            this.lastUpdate = lastUpdate;
+          })
+        )
+        .subscribe()
+    );
+
+    this.user = this.authService.currentUserValue;
+
+    this.generateTablesByRole();
+    this.titleLabel = this.getTitleLabel(this.user);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  public setCurrentStructure() {
+    this.currentStructure =
+      this.structures.find(
+        (structure) =>
+          structure.id ===
+          parseInt(this.metabaseParams.structureId as unknown as string, 10)
+      ) || null;
+  }
+
+  public getTitleLabel(user: PortailAdminUser | null): string {
+    if (user?.role === "national" || user?.role === "super-admin-domifa") {
+      return "En France";
+    }
+    const territory: string | null =
+      user?.territories?.length > 0 ? user.territories[0] : null;
+
+    if (territory) {
+      if (user?.role === "department") {
+        return `dans le département: ${DEPARTEMENTS_LISTE[territory]}`;
+      } else if (user?.role === "region") {
+        return `dans la région ${REGIONS_LISTE[territory]}`;
+      }
+    }
+    return "en France";
+  }
+
+  public getMetabaseUrl() {
+    this.loading = true;
+    this.iframeUrl = null;
+    this.subscription.add(
+      this.statsService.getMetabaseUrl(this.metabaseParams).subscribe({
+        next: (response: { url: string }) => {
+          this.matomo.trackEvent(
+            "stats",
+            "view",
+            JSON.stringify(this.metabaseParams),
+            1
+          );
+
+          this.iframeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+            response.url
+          );
+        },
+        error: () => {
+          this.loading = false;
+          this.toastService.error("Le chargement des statistiques a échoué");
+        },
+      })
+    );
+  }
+
+  public onIframeLoad(): void {
+    if (!this.loading) {
+      return;
+    }
+    this.loading = false;
+    this.toastService.success("Chargement des statistiques terminé");
+  }
+
+  public getStructures() {
+    this.iframeUrl = null;
+    this.loading = true;
+
+    if (
+      this.metabaseParams?.structureType &&
+      !STRUCTURE_TYPE_MAP.includes(this.metabaseParams?.structureType)
+    ) {
+      delete this.metabaseParams.structureType;
+    }
+
+    this.currentStructure = null;
+    delete this.metabaseParams.structureId;
+
+    this.subscription.add(
+      this.statsService.getStructures(this.metabaseParams).subscribe({
+        next: (response: Array<StructureListForStats>) => {
+          this.structures = response;
+          this.loading = false;
+        },
+        error: () => {
+          this.loading = false;
+          this.toastService.error("Le chargement des structures a échoué");
+        },
+      })
+    );
+  }
+
+  public export(): void {
+    this.loading = true;
+
+    if (!this.metabaseParams.structureId) {
+      this.toastService.error("Veuillez choisir une structure dans la liste");
+      return;
+    }
+    const startDate = new Date(this.metabaseParams.year.toString() + "-01-01");
+    const endDate = new Date(this.metabaseParams.year.toString() + "-12-31");
+
+    this.subscription.add(
+      this.statsService
+        .exportStatsForStructure(
+          this.metabaseParams.structureId,
+          startDate,
+          endDate
+        )
+        .subscribe({
+          next: (x: Blob) => {
+            const newBlob = new Blob([x], {
+              type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            });
+
+            saveAs(
+              newBlob,
+              `export-structure-${this.metabaseParams.year}-${this.metabaseParams.structureId}`
+            );
+
+            this.loading = false;
+          },
+          error: (err) => {
+            this.loading = false;
+            if (err?.error?.code?.startsWith?.("OTP_")) {
+              return;
+            }
+            this.toastService.error(
+              "Une erreur inattendue a eu lieu. Veuillez rééssayer dans quelques minutes"
+            );
+          },
+        })
+    );
+  }
+
+  public generateTablesByRole(): void {
+    const regionTable: RegionsLabels = {};
+    const departmentTable: RegionsLabels = {};
+    this.enableRegions = true;
+
+    if (
+      this.user?.role === "national" ||
+      this.user?.role === "super-admin-domifa"
+    ) {
+      this.regionTable = REGIONS_LISTE;
+      this.departmentTable = DEPARTEMENTS_LISTE;
+
+      if (this.metabaseParams?.region) {
+        const filteredDepartments: RegionsLabels = {};
+        const selectedRegion = REGIONS_DEF.find(
+          (region) => region.regionCode === this.metabaseParams.region
+        );
+
+        if (selectedRegion) {
+          selectedRegion.departements.forEach((dept) => {
+            filteredDepartments[dept.departmentCode] = dept.departmentName;
+          });
+          this.departmentTable = filteredDepartments;
+        }
+      }
+
+      this.getStructures();
+      return;
+    }
+
+    if (!this.user?.territories[0].length) {
+      throw new Error("No territories");
+    }
+
+    const territory = this.user?.territories[0];
+
+    if (this.user?.role === "region") {
+      const targetRegion = REGIONS_DEF.find(
+        (region) => region.regionCode === territory
+      );
+
+      if (targetRegion) {
+        regionTable[targetRegion.regionCode] = targetRegion.regionName;
+
+        targetRegion.departements.forEach((dept) => {
+          departmentTable[dept.departmentCode] = dept.departmentName;
+        });
+
+        this.metabaseParams.region = territory;
+      }
+    } else if (this.user?.role === "department") {
+      this.enableRegions = false;
+      this.metabaseParams.department = territory;
+      this.regionTable = {};
+      for (const region of REGIONS_DEF) {
+        const targetDept = region.departements.find(
+          (dept) => dept.departmentCode === territory
+        );
+
+        if (targetDept) {
+          departmentTable[targetDept.departmentCode] =
+            targetDept.departmentName;
+
+          break;
+        }
+      }
+    }
+
+    this.regionTable = regionTable;
+    this.departmentTable = departmentTable;
+    this.getStructures();
+  }
+}

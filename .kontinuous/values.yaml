@@ -86,6 +86,7 @@ backend:
     DOMIFA_FRONTEND_URL: "https://{{ .Values.global.host }}/"
     DOMIFA_PORTAIL_USAGERS_URL: "https://mon-{{ .Values.global.host }}/"
     DOMIFA_PORTAIL_ADMINS_URL: "https://admin-{{ .Values.global.host }}/"
+    DOMIFA_PORTAIL_STATS_URL: "https://pilotage-{{ .Values.global.host }}/"
     DOMIFA_CRON_ENABLED: "false"
   securityContext:
     fsGroup: 1000
@@ -182,6 +183,7 @@ backend-export:
     DOMIFA_FRONTEND_URL: "https://{{ .Values.global.host }}/"
     DOMIFA_PORTAIL_USAGERS_URL: "https://mon-{{ .Values.global.host }}/"
     DOMIFA_PORTAIL_ADMINS_URL: "https://admin-{{ .Values.global.host }}/"
+    DOMIFA_PORTAIL_STATS_URL: "https://pilotage-{{ .Values.global.host }}/"
     DOMIFA_CRON_ENABLED: "false"
   securityContext:
     fsGroup: 1000
@@ -251,6 +253,17 @@ portail-admins:
   imagePackage: portail-admins
   host: "admin-{{ .Values.global.host }}"
   # Security headers are now set by the app's nginx (packages/portail-admins/nginx.conf).
+  containerPort: 8080
+  securityContext:
+    fsGroup: 101
+    runAsUser: 101
+    runAsGroup: 101
+
+portail-stats:
+  ~chart: app
+  imagePackage: portail-stats
+  host: "pilotage-{{ .Values.global.host }}"
+  # Security headers are set by the app's nginx (packages/portail-stats/security-headers.conf).
   containerPort: 8080
   securityContext:
     fsGroup: 101

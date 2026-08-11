@@ -1,0 +1,9 @@
+<dsfr-alert
+  id="toast-container"
+  *ngIf="toast && toast.display"
+  [headingLevel]="undefined"
+  [message]="toast.message"
+  [severity]="toast.class === 'success' ? 'success' : 'error'"
+  [ariaRoleValue]="'alert'"
+  [hasAriaRole]="false"
+></dsfr-alert>

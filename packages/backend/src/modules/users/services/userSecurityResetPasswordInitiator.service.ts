@@ -1,6 +1,10 @@
 import { addDays } from "date-fns";
 
-import { CommonUser } from "@domifa/common";
+import {
+  CommonUser,
+  UserStructureRole,
+  UserSupervisorRole,
+} from "@domifa/common";
 import {
   UserProfile,
   UserSecurity,
@@ -29,15 +33,22 @@ function buildResetPasswordLink({
   userId,
   token,
   userProfile,
+  userRole,
 }: {
   userId: number;
   token: string;
   userProfile: UserProfile;
+  userRole: UserStructureRole | UserSupervisorRole;
 }) {
   const config = domifaConfig().apps;
-  return userProfile === "structure"
-    ? `${config.frontendUrl}users/reset-password/${userId}/${token}`
-    : `${config.portailAdminUrl}auth/reset-password/${userId}/${token}`;
+  if (userProfile === "structure") {
+    return `${config.frontendUrl}users/reset-password/${userId}/${token}`;
+  }
+  const portailUrl =
+    userRole === "super-admin-domifa"
+      ? config.portailAdminUrl
+      : config.portailStatsUrl;
+  return `${portailUrl}auth/reset-password/${userId}/${token}`;
 }
 
 async function generateResetPasswordToken({
@@ -49,7 +60,9 @@ async function generateResetPasswordToken({
   userProfile: UserProfile;
   requestContext?: SecurityLogRequestContext;
 }): Promise<{
-  user: Pick<CommonUser, "id" | "nom" | "prenom" | "email">;
+  user: Pick<CommonUser, "id" | "nom" | "prenom" | "email"> & {
+    role: UserStructureRole | UserSupervisorRole;
+  };
   userSecurity: UserSecurity;
   resetLink: string;
 }> {
@@ -93,6 +106,7 @@ async function generateResetPasswordToken({
       userId: user.id,
       token: temporaryTokens.token,
       userProfile,
+      userRole: user.role,
     }),
   };
 }

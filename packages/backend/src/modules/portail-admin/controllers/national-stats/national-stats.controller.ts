@@ -1,4 +1,4 @@
-import { Structure } from "@domifa/common";
+import { Structure, StructureListForStats } from "@domifa/common";
 import {
   Body,
   Controller,
@@ -139,7 +139,7 @@ export class NationalStatsController {
   public async getStructures(
     @CurrentUser() user: UserAdminAuthenticated,
     @Body() metabaseDto: MetabaseStatsDto
-  ): Promise<Array<Partial<Structure>>> {
+  ): Promise<StructureListForStats[]> {
     const filter = resolveTerritoryFilter(user, metabaseDto);
     if (!filter) {
       throw new HttpException("UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
