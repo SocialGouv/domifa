@@ -138,18 +138,32 @@ export class UsagersController {
       numero: getPhoneString(usagerDto.telephone).replace(/\s+/g, ""),
     };
 
+    // Le DTO est une INSTANCE (ValidationPipe transform) : en champs de
+    // classe ES2022, ses 15 propriétés sont des clés propres, `undefined`
+    // pour celles que la requête omet. Un spread brut écraserait donc
+    // `surnom`, `customRef` ou `ayantsDroits` par `undefined` dans le calcul
+    // de l'index — alors que TypeORM, lui, ignore les `undefined` et
+    // conserve les valeurs en base : index tronqué, dossier introuvable.
+    // On ne fusionne que les clés définies : exactement ce qui sera écrit.
+    const writtenFields = Object.fromEntries(
+      Object.entries(usagerDto).filter(
+        ([, value]) => typeof value !== "undefined"
+      )
+    );
+
     // Le DTO d'état civil ne porte pas `options` : laisser le subscriber
     // recalculer l'index depuis ce payload en effacerait les mandataires.
     // L'index est donc calculé ici, sur l'entité fusionnée.
+    const patch: Partial<UsagerTable> = {
+      ...writtenFields,
+      nom_prenom_surnom_ref: computeUsagerSearchIndex({
+        ...currentUsager,
+        ...writtenFields,
+      }),
+    };
     await usagerRepository.update(
       { uuid: currentUsager.uuid },
-      {
-        ...usagerDto,
-        nom_prenom_surnom_ref: computeUsagerSearchIndex({
-          ...currentUsager,
-          ...usagerDto,
-        }),
-      } as Partial<UsagerTable>
+      patch as Parameters<typeof usagerRepository.update>[1]
     );
 
     await this.usagersLogsService.checkAndLogEmailChanges(

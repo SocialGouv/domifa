@@ -203,13 +203,16 @@ export class UsagerOptionsController {
     // ici, calculée sur l'entité complète — le subscriber ne voit que le
     // payload et un recalcul partiel tronquerait l'index, tandis que joindre
     // l'identité écraserait une modification d'état civil concurrente.
+    // Annoté (pas asserté) : l'assertion désactiverait le contrôle des
+    // propriétés excédentaires, seule protection du nom de la colonne.
+    const patch: Partial<UsagerTable> = {
+      updatedAt: new Date(),
+      options: usager.options,
+      nom_prenom_surnom_ref: computeUsagerSearchIndex(usager),
+    };
     await usagerRepository.update(
       { uuid: usager.uuid },
-      {
-        updatedAt: new Date(),
-        options: usager.options,
-        nom_prenom_surnom_ref: computeUsagerSearchIndex(usager),
-      } as Partial<UsagerTable>
+      patch as Parameters<typeof usagerRepository.update>[1]
     );
 
     return usager;
@@ -242,13 +245,14 @@ export class UsagerOptionsController {
 
     // Index de recherche recalculé sur l'entité complète — voir le
     // commentaire de `editProcuration`.
+    const patch: Partial<UsagerTable> = {
+      updatedAt: new Date(),
+      options: usager.options,
+      nom_prenom_surnom_ref: computeUsagerSearchIndex(usager),
+    };
     await usagerRepository.update(
       { uuid: usager.uuid },
-      {
-        updatedAt: new Date(),
-        options: usager.options,
-        nom_prenom_surnom_ref: computeUsagerSearchIndex(usager),
-      } as Partial<UsagerTable>
+      patch as Parameters<typeof usagerRepository.update>[1]
     );
 
     return res.status(HttpStatus.OK).json(usager);

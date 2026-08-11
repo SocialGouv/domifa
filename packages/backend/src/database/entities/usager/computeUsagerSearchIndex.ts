@@ -26,16 +26,28 @@ export type UsagerSearchIndexSource = {
 export function computeUsagerSearchIndex(
   usager: UsagerSearchIndexSource
 ): string {
+  // Définition du domaine, pas un repli : « la liste des ayants droit », vide
+  // quand la colonne jsonb ne contient pas un tableau. Des lignes historiques
+  // portent `{}` (une validation trouée l'a laissé passer) : sans ce garde,
+  // une seule d'entre elles faisait avorter TOUTE la migration de rattrapage,
+  // sans nommer la ligne fautive.
+  const ayantsDroits = Array.isArray(usager.ayantsDroits)
+    ? usager.ayantsDroits
+    : [];
+  const procurations = Array.isArray(usager.options?.procurations)
+    ? usager.options.procurations
+    : [];
+
   const parts = [
     usager.nom?.trim(),
     usager.prenom?.trim(),
     usager.surnom,
     usager.customRef,
-    ...(usager.ayantsDroits ?? []).flatMap((ayantDroit) => [
+    ...ayantsDroits.flatMap((ayantDroit) => [
       ayantDroit?.nom,
       ayantDroit?.prenom,
     ]),
-    ...(usager.options?.procurations ?? []).flatMap((procuration) => [
+    ...procurations.flatMap((procuration) => [
       procuration?.nom,
       procuration?.prenom,
     ]),

@@ -40,7 +40,10 @@ TZ=Europe/Paris   pnpm --filter @domifa/backend test:differential  # défaut
 TZ=Pacific/Noumea pnpm --filter @domifa/backend test:differential  # ultramarin
 ```
 
-Un fuseau hors de la liste du produit — dont UTC — échoue explicitement.
+Un fuseau hors de la liste du produit — dont UTC — échoue explicitement, au
+chargement du module. Conséquence assumée : en CI, la suite dépend de l'étape
+« Change TimeZone » du job — si le runner reste en `Etc/UTC`, l'échec précède
+tout test et le dit clairement.
 
 Le fuseau de **session PostgreSQL** est forcé à UTC, délibérément hostile :
 l'application ne le fixe jamais, le SQL ne doit donc dépendre que de ses

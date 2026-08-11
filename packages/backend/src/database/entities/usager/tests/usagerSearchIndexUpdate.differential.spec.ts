@@ -202,6 +202,45 @@ describe("Index de recherche usager — recalcul sur update partiel", () => {
     );
   });
 
+  it("payload de patchUsager avec corps PARTIEL : rien n'est perdu", async () => {
+    const { uuid, entity } = await seedUsager();
+
+    // Le DTO est une instance : en champs de classe ES2022, les propriétés
+    // omises par la requête sont des clés propres à `undefined`. Un spread
+    // brut les ferait écraser les valeurs réelles dans le calcul de l'index,
+    // alors que TypeORM les ignore à l'écriture. Le contrôleur ne fusionne
+    // que les clés définies — reproduit ici tel quel.
+    const dtoWithOwnUndefinedKeys = {
+      nom: "Durand",
+      prenom: "Marie",
+      surnom: undefined,
+      customRef: undefined,
+      ayantsDroits: undefined,
+    };
+    const writtenFields = Object.fromEntries(
+      Object.entries(dtoWithOwnUndefinedKeys).filter(
+        ([, value]) => typeof value !== "undefined"
+      )
+    );
+
+    await repository.update(
+      { uuid },
+      {
+        ...writtenFields,
+        nom_prenom_surnom_ref: computeUsagerSearchIndex({
+          ...entity,
+          ...writtenFields,
+        }),
+      }
+    );
+
+    // Le nom change ; surnom, référence, ayant droit et mandataire — absents
+    // du corps mais présents en base — restent cherchables.
+    expect(await indexOf(uuid)).toBe(
+      "durand marie ref 1 dupont leo bernard alice"
+    );
+  });
+
   it("garde du subscriber : identité sans options ne TRONQUE pas l'index", async () => {
     const { uuid } = await seedUsager();
 

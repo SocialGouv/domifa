@@ -60,7 +60,18 @@ export class BackfillUsagerSearchIndex1786500000000
 
       const parameters: string[] = [];
       const tuples = rows.map((row) => {
-        parameters.push(row.uuid, computeUsagerSearchIndex(row));
+        // Les migrations tournent dans une transaction unique : une erreur ici
+        // avorte tout ET bloque le déploiement. Sans l'uuid, elle serait
+        // inexploitable en astreinte.
+        try {
+          parameters.push(row.uuid, computeUsagerSearchIndex(row));
+        } catch (error) {
+          throw new Error(
+            `[backfillUsagerSearchIndex] usager ${row.uuid}: ${
+              (error as Error).message
+            }`
+          );
+        }
         return `($${parameters.length - 1}::uuid, $${parameters.length}::text)`;
       });
 

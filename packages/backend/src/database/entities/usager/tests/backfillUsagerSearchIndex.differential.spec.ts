@@ -83,7 +83,10 @@ describe("Migration backfillUsagerSearchIndex — équivalence avec le subscribe
     );
 
     // Cas frontières : trim, ligatures/accents, ayants droit et mandataires
-    // partiels, ligne déjà à jour, ligne sans nom (hors périmètre).
+    // partiels, ligne déjà à jour, ligne sans nom (hors périmètre), et une
+    // ligne au jsonb MALFORMÉ (`{}`/nombre au lieu d'un tableau — une
+    // validation trouée a laissé passer ce genre de valeur) : elle doit être
+    // indexée sur l'identité seule, pas faire avorter toute la migration.
     await dataSource.query(
       `INSERT INTO usager (ref, nom, prenom, surnom, "customRef", "ayantsDroits", options, nom_prenom_surnom_ref)
        VALUES
@@ -92,7 +95,8 @@ describe("Migration backfillUsagerSearchIndex — équivalence avec le subscribe
           '[{"nom":"Petit","prenom":"Zoé"},{"prenom":"Lou"}]',
           '{"procurations":[{"nom":"Mandataire","prenom":"Paul"},{"nom":null}]}', NULL),
          (9003, 'Déjà', 'Àjour', NULL, NULL, NULL, '{}', 'deja ajour'),
-         (9004, NULL, 'SansNom', NULL, NULL, NULL, '{}', 'valeur-preexistante')`
+         (9004, NULL, 'SansNom', NULL, NULL, NULL, '{}', 'valeur-preexistante'),
+         (9005, 'Malformé', 'Jsonb', NULL, NULL, '{}', '{"procurations": 5}', NULL)`
     );
 
     queryRunner = dataSource.createQueryRunner();
@@ -113,10 +117,10 @@ describe("Migration backfillUsagerSearchIndex — équivalence avec le subscribe
 
   it("écrit, sur chaque ligne éligible, exactement ce que le subscriber aurait écrit", async () => {
     const rows = await fetchRows();
-    expect(rows).toHaveLength(FILLER_ROWS + 4);
+    expect(rows).toHaveLength(FILLER_ROWS + 5);
 
     const eligibleRows = rows.filter((row) => row.nom && row.prenom);
-    expect(eligibleRows).toHaveLength(FILLER_ROWS + 3);
+    expect(eligibleRows).toHaveLength(FILLER_ROWS + 4);
 
     for (const row of eligibleRows) {
       expect(row.nom_prenom_surnom_ref).toBe(expectedIndex(row));
@@ -130,6 +134,13 @@ describe("Migration backfillUsagerSearchIndex — équivalence avec le subscribe
     expect(row.nom_prenom_surnom_ref).toBe(
       "petit anna nana dossier 42 petit zoe lou mandataire paul"
     );
+  });
+
+  it("indexe l'identité seule quand le jsonb n'est pas un tableau", async () => {
+    const [row] = await dataSource.query(
+      `SELECT nom_prenom_surnom_ref FROM usager WHERE ref = 9005`
+    );
+    expect(row.nom_prenom_surnom_ref).toBe("malforme jsonb");
   });
 
   it("ne touche pas aux lignes hors périmètre (nom manquant)", async () => {
