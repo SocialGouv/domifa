@@ -1,0 +1,161 @@
+<div class="head-page fr-pt-4w">
+  <div class="fr-grid-row">
+    <div class="fr-container fr-col-md-12 fr-col-12">
+      <h1 class="fr-text-title--blue-france">
+        Statistiques de la domiciliation {{ titleLabel }}
+      </h1>
+    </div>
+  </div>
+</div>
+<div class="fr-container fr-pt-5w">
+  <div
+    class="fr-grid-row fr-grid-row--gutters fr-justify-content-center fr-mt-2w"
+  >
+    <div class="fr-select-group fr-col-12 fr-col-md-2">
+      <label class="fr-label" for="year"> Année </label>
+      <select
+        [disabled]="loading"
+        [(ngModel)]="metabaseParams.year"
+        class="fr-select"
+        aria-describedby="year"
+        id="year"
+        name="year"
+      >
+        <option *ngFor="let year of years" [value]="year">
+          {{ year }}
+        </option>
+      </select>
+    </div>
+    <div class="fr-select-group fr-col-12 fr-col-md-2">
+      <label class="fr-label" for="region"> Région </label>
+      <select
+        [disabled]="loading"
+        [(ngModel)]="metabaseParams.region"
+        (ngModelChange)="generateTablesByRole(); getStructures()"
+        class="fr-select"
+        aria-describedby="region"
+        id="region"
+        name="region"
+      >
+        <option [ngValue]="undefined">Tous</option>
+        <option
+          *ngFor="let region of regionTable | keyvalue"
+          [value]="region.key"
+        >
+          {{ region.value }}
+        </option>
+      </select>
+    </div>
+
+    <div
+      *ngIf="user.role !== 'department'"
+      class="fr-select-group fr-col-12 fr-col-md-2"
+    >
+      <label class="fr-label" for="departement"> Département </label>
+      <select
+        class="fr-select"
+        aria-describedby="departement"
+        id="departement"
+        [(ngModel)]="metabaseParams.department"
+        (ngModelChange)="getStructures()"
+        name="departement"
+        [disabled]="loading"
+      >
+        <option [ngValue]="undefined">Tous</option>
+        <option
+          *ngFor="let department of departmentTable | keyvalue"
+          [value]="department.key"
+        >
+          {{ department.key }} - {{ department.value }}
+        </option>
+      </select>
+    </div>
+
+    <div class="fr-select-group fr-col-12 fr-col-md-2">
+      <label class="fr-label" for="structureType"> Type de structure </label>
+      <select
+        class="fr-select"
+        id="structureType"
+        [(ngModel)]="metabaseParams.structureType"
+        name="structureType"
+        [disabled]="loading"
+        (ngModelChange)="getStructures()"
+      >
+        <option [ngValue]="undefined">Tous</option>
+        <option
+          *ngFor="let structureType of STRUCTURE_TYPE_MAP"
+          [value]="structureType"
+        >
+          {{ STRUCTURE_TYPE_LABELS[structureType] }}
+        </option>
+      </select>
+    </div>
+
+    <div class="fr-select-group fr-col-12 fr-col-md-2">
+      <label class="fr-label" for="structure"> Choisir une structure </label>
+      <select
+        class="fr-select"
+        id="structure"
+        [(ngModel)]="metabaseParams.structureId"
+        (ngModelChange)="setCurrentStructure()"
+        [disabled]="loading"
+        name="structure"
+      >
+        <option [ngValue]="undefined">Tous</option>
+        <option *ngFor="let structure of structures" [value]="structure.id">
+          {{ structure.codePostal }} - {{ structure.ville | ucFirst }} -
+          {{ structure.nom | ucFirst }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="fr-grid-row fr-justify-content-center fr-mt-3w">
+    <button
+      type="button"
+      class="fr-btn fr-icon-refresh-line fr-btn--icon-right fr-btn--secondary"
+      (click)="getMetabaseUrl()"
+      [disabled]="loading"
+      [attr.aria-busy]="loading"
+    >
+      <span *ngIf="loading">Veuillez patienter...</span>
+      <span *ngIf="!loading">Consulter les données</span>
+    </button>
+  </div>
+
+  <div
+    *ngIf="metabaseParams?.structureId"
+    class="fr-grid-row fr-justify-content-center fr-mt-2w"
+  >
+    <button
+      type="button"
+      class="fr-btn fr-icon-download-line fr-btn--icon-right fr-btn--secondary"
+      (click)="export()"
+      [disabled]="loading"
+      [attr.aria-busy]="loading"
+    >
+      <span *ngIf="loading">Veuillez patienter...</span>
+      <span *ngIf="!loading">
+        Télécharger le rapport de la structure (Excel)
+      </span>
+    </button>
+  </div>
+
+  <div class="fr-mt-4w">
+    <dsfr-ext-spinner
+      *ngIf="loading"
+      typeLoader="quarter"
+      [overlay]="true"
+      label="Veuillez patienter"
+    ></dsfr-ext-spinner>
+
+    <iframe
+      *ngIf="iframeUrl"
+      title="Rapports d'activité"
+      [src]="iframeUrl"
+      (load)="onIframeLoad()"
+      width="100%"
+      height="4000"
+    ></iframe>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+import { CommonModule } from "@angular/common";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+
+import { Subscription } from "rxjs";
+import { CustomToast } from "../../types/CustomToast.type";
+
+import { CustomToastClass } from "../../types";
+import { fadeInOut } from "../../constants";
+import { CustomToastService } from "../../services";
+import { DsfrAlertModule } from "@edugouvfr/ngx-dsfr";
+
+@Component({
+  selector: "app-custom-toastr",
+  templateUrl: "./custom-toastr.component.html",
+  styleUrls: ["./custom-toastr.component.scss"],
+  animations: [fadeInOut],
+  imports: [CommonModule, DsfrAlertModule],
+})
+export class CustomToastrComponent implements OnInit, OnDestroy {
+  public toast: CustomToast;
+  public customToastSubscription: Subscription = new Subscription();
+
+  public toastIcons: { [key in CustomToastClass]: string } = {
+    success: "check-circle",
+    warning: "exclamation-circle",
+    error: "times-circle",
+    info: "info-circle",
+    "": "info-circle",
+  };
+
+  public icon: string;
+
+  constructor(public readonly customToastService: CustomToastService) {
+    this.toast = {
+      display: false,
+      message: "",
+      class: "",
+    };
+    this.icon = "info-circle";
+    this.customToastSubscription = new Subscription();
+  }
+
+  public ngOnInit(): void {
+    this.customToastSubscription.add(
+      this.customToastService.toast$.subscribe((value: CustomToast) => {
+        this.toast = value;
+        this.icon = this.toastIcons[this.toast.class];
+      })
+    );
+  }
+
+  public ngOnDestroy(): void {
+    this.customToastSubscription.unsubscribe();
+  }
+}

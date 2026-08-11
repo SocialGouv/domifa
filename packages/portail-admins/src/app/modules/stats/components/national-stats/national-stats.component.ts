@@ -16,12 +16,13 @@ import {
   RegionsLabels,
   STRUCTURE_TYPE_LABELS,
   STRUCTURE_TYPE_MAP,
+  StructureListForStats,
 } from "@domifa/common";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { saveAs } from "file-saver";
 import { Subscription, take, tap } from "rxjs";
 import { StatsService } from "../../services/stats.service";
-import { StructureListForStats } from "../../types/StructureListForStats.type";
+
 import { MatomoTracker } from "ngx-matomo-client";
 import { AdminAuthService } from "../../../admin-auth/services/admin-auth.service";
 import { UcFirstPipe } from "../../../shared/pipes";

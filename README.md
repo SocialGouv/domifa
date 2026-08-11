@@ -35,6 +35,7 @@ L'application sera accessible sur :
 - Frontend structures : http://localhost:4200
 - Portail domiciliés : http://localhost:4201
 - Interface admin : http://localhost:4202
+- Portail de pilotage (statistiques) : http://localhost:4203
 - Backend API : http://localhost:3000
 
 ## 📁 Architecture du projet
@@ -46,8 +47,9 @@ domifa/
 ├── packages/
 │   ├── backend/              # API NestJS + PostgreSQL
 │   ├── frontend/             # Interface structures (Angular)
-│   ├── portail-frontend/     # Portail domiciliés (Angular)
+│   ├── portail-usagers/      # Portail domiciliés (Angular)
 │   ├── portail-admins/       # Interface admin (Angular)
+│   ├── portail-stats/        # Portail de pilotage / statistiques (Angular)
 │   └── common/               # Types et interfaces partagés
 ├── _docs/                   # Documentation technique et guides
 ├── docker/                  # Configurations Docker

@@ -73,6 +73,9 @@ frontend:
 portail-admins:
   host: "admin-{{ .Values.global.host }}"
 
+portail-stats:
+  host: "pilotage-{{ .Values.global.host }}"
+
 portail-usagers:
   host: "mon-{{ .Values.global.host }}"
 
