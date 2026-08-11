@@ -29,6 +29,10 @@ docker run -d --name domifa-diff-pg \
 pnpm --filter @domifa/backend test:differential
 ```
 
+Le typage de la suite n'est pas vérifié par `tsc` : elle importe des fichiers
+du paquet frontend, qui portent des erreurs de types préexistantes sans rapport
+avec elle. Le lint typé la couvre, via `tsconfig.differential.json`.
+
 L'URL est surchargeable par `DIFFERENTIAL_DATABASE_URL`. La suite crée et
 remplit sa propre table `usager` à chaque exécution : elle ne touche à aucune
 base applicative.

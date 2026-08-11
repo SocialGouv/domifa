@@ -33,7 +33,7 @@
     "test:sequence": "npx rimraf dist && ENV_FILE=tests-local jest --runInBand",
     "test:watch": "jest --watch",
     "test": "npx rimraf dist && ENV_FILE=tests-local jest",
-    "test:differential": "tsc --noEmit -p tsconfig.differential.json && jest --config jest.differential.config.js"
+    "test:differential": "jest --config jest.differential.config.js"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.758.0",
