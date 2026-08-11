@@ -197,11 +197,20 @@ export class UsagerOptionsController {
 
     usager.options.procurations = procurationsDto;
 
+    // Les mandataires alimentent l'index de recherche, mais le subscriber ne
+    // recalcule `nom_prenom_surnom_ref` que si `nom` et `prenom` figurent dans
+    // le payload : sans les champs d'identité, l'index resterait figé et le
+    // dossier introuvable par le nom du mandataire.
     await usagerRepository.update(
       { uuid: usager.uuid },
       {
         updatedAt: new Date(),
         options: usager.options,
+        nom: usager.nom,
+        prenom: usager.prenom,
+        surnom: usager.surnom,
+        customRef: usager.customRef,
+        ayantsDroits: usager.ayantsDroits,
       }
     );
 
@@ -233,11 +242,18 @@ export class UsagerOptionsController {
 
     usager.options.procurations.splice(index, 1);
 
+    // Champs d'identité joints pour que le subscriber recalcule l'index de
+    // recherche — voir le commentaire de `editProcuration`.
     await usagerRepository.update(
       { uuid: usager.uuid },
       {
         updatedAt: new Date(),
         options: usager.options,
+        nom: usager.nom,
+        prenom: usager.prenom,
+        surnom: usager.surnom,
+        customRef: usager.customRef,
+        ayantsDroits: usager.ayantsDroits,
       }
     );
 

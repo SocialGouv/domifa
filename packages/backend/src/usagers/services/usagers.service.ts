@@ -237,6 +237,14 @@ export class UsagersService {
         etapeDemande: usager.etapeDemande,
         typeDom: usager.typeDom,
         datePremiereDom: usager.datePremiereDom,
+        // `customRef` alimente l'index de recherche, que le subscriber ne
+        // recalcule qu'en présence de `nom` et `prenom` dans le payload :
+        // sans les champs d'identité, une référence posée à la décision
+        // resterait introuvable.
+        nom: usager.nom,
+        prenom: usager.prenom,
+        surnom: usager.surnom,
+        ayantsDroits: usager.ayantsDroits,
       }
     );
     return usager;
