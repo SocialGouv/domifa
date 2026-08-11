@@ -153,22 +153,35 @@ describe("SearchUsagersController — coût des requêtes", () => {
     // liste principale de l'application et la borner change l'UX. Ce test fige
     // le périmètre réel du correctif pour qu'aucun lecteur ne croie l'endpoint
     // entièrement borné.
-    it("laisse volontairement les non-radiés non bornés", async () => {
+    //
+    // Sans limite, il n'y a aucune fenêtre à stabiliser : y ajouter un ordre
+    // faisait basculer le plan en tri sur disque (27 ms -> 81 ms et 34 Mo de
+    // fichiers temporaires sur 40 000 actifs), pour rien.
+    it("laisse volontairement les non-radiés ni bornés ni triés", async () => {
       await controller.findAllByStructure(false, user);
 
       const nonRadies = mockedRepository.find.mock.calls.find(
         ([options]) => options.where.statut !== "RADIE"
       )[0];
       expect(nonRadies.take).toBeUndefined();
+      expect(nonRadies.order).toBeUndefined();
     });
   });
 
   describe("updateManage", () => {
-    it("borne et ordonne le rafraîchissement automatique", async () => {
+    it("borne le rafraîchissement automatique", async () => {
       await controller.updateManage(user);
 
       expect(query.limit).toHaveBeenCalledWith(MAX_USAGERS_UPDATE_MANAGE);
-      expect(query.orderBy).toHaveBeenCalledWith('"updatedAt"', "DESC");
+    });
+
+    // Trier ici coûtait des dizaines de Mo de fichiers temporaires par appel :
+    // `updatedAt` n'est pas indexé, et un UPDATE de masse donne le même
+    // timestamp à toutes les lignes, donc le tri ne départageait rien.
+    it("ne trie pas le rafraîchissement automatique", async () => {
+      await controller.updateManage(user);
+
+      expect(query.orderBy).not.toHaveBeenCalled();
     });
 
     it("rogne l'historique, que le chemin principal filtrait déjà", async () => {

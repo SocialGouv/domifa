@@ -97,7 +97,6 @@ export class SearchUsagersController {
         structureId: user.structureId,
       },
       select: USAGER_LIGHT_ATTRIBUTES,
-      order: USAGER_BOUNDED_ORDER,
     });
 
     const usagersRadiesFirsts = await usagerRepository.find({
@@ -147,7 +146,11 @@ export class SearchUsagersController {
           fiveMinutesAgo: subMinutes(new Date(), 5),
         }
       )
-      .orderBy(`"updatedAt"`, "DESC")
+      // Pas d'ordre ici, contrairement aux fenêtres bornées de ce contrôleur :
+      // `updatedAt` n'est pas indexé, et une réaffectation de masse étant un
+      // seul UPDATE, toutes les lignes portent le même timestamp — le tri
+      // coûterait des dizaines de Mo de fichiers temporaires à chaque appel
+      // sans départager quoi que ce soit.
       .limit(MAX_USAGERS_UPDATE_MANAGE)
       .getRawMany();
 

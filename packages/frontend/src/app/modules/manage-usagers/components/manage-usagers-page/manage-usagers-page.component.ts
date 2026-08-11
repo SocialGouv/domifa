@@ -486,10 +486,14 @@ export class ManageUsagersPageComponent
     }
     this.filters.page = 1;
 
+    // `entretien` est un critère traité côté serveur : l'omettre le cantonnait
+    // aux usagers déjà chargés, ce qui devient faux dès que la liste est
+    // plafonnée.
     const elementsForRemoteSearch = [
       "echeance",
       "lastInteractionDate",
       "referrerId",
+      "entretien",
     ];
 
     const statusForRemoteSearch = [
