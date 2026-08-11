@@ -73,13 +73,19 @@ describe("Migration backfillUsagerSearchIndex — équivalence avec le subscribe
         "customRef" text,
         "ayantsDroits" jsonb,
         options jsonb NOT NULL DEFAULT '{}'::jsonb,
-        nom_prenom_surnom_ref text
+        nom_prenom_surnom_ref text NOT NULL
       )`);
+    // L'index btree de production : la migration doit le SUPPRIMER — un tuple
+    // btree plafonne à 2704 octets, et l'index enrichi n'a pas de borne.
+    await dataSource.query(
+      `CREATE INDEX "IDX_f072e2874bd87ecb6da2fbd66e"
+          ON ${SCHEMA}.usager USING btree (nom_prenom_surnom_ref)`
+    );
 
     // Volume : de quoi remplir plus d'un lot.
     await dataSource.query(
-      `INSERT INTO usager (ref, nom, prenom)
-       SELECT g, 'Nom' || g, 'Prénom' || g FROM generate_series(1, ${FILLER_ROWS}) g`
+      `INSERT INTO usager (ref, nom, prenom, nom_prenom_surnom_ref)
+       SELECT g, 'Nom' || g, 'Prénom' || g, '' FROM generate_series(1, ${FILLER_ROWS}) g`
     );
 
     // Cas frontières : trim, ligatures/accents, ayants droit et mandataires
@@ -90,13 +96,26 @@ describe("Migration backfillUsagerSearchIndex — équivalence avec le subscribe
     await dataSource.query(
       `INSERT INTO usager (ref, nom, prenom, surnom, "customRef", "ayantsDroits", options, nom_prenom_surnom_ref)
        VALUES
-         (9001, '  Œuvré  ', ' François ', NULL, NULL, NULL, '{}', NULL),
+         (9001, '  Œuvré  ', ' François ', NULL, NULL, NULL, '{}', ''),
          (9002, 'Petit', 'Anna', 'Nana', 'DOSSIER-42',
           '[{"nom":"Petit","prenom":"Zoé"},{"prenom":"Lou"}]',
-          '{"procurations":[{"nom":"Mandataire","prenom":"Paul"},{"nom":null}]}', NULL),
+          '{"procurations":[{"nom":"Mandataire","prenom":"Paul"},{"nom":null}]}', ''),
          (9003, 'Déjà', 'Àjour', NULL, NULL, NULL, '{}', 'deja ajour'),
          (9004, NULL, 'SansNom', NULL, NULL, NULL, '{}', 'valeur-preexistante'),
-         (9005, 'Malformé', 'Jsonb', NULL, NULL, '{}', '{"procurations": 5}', NULL)`
+         (9005, 'Malformé', 'Jsonb', NULL, NULL, '{}', '{"procurations": 5}', '')`
+    );
+
+    // Une fratrie nombreuse : l'index calculé dépasse largement les 2704
+    // octets d'un tuple btree. Avec l'index en place, cette ligne faisait
+    // avorter la migration ET rendait le dossier non modifiable.
+    const bigAyantsDroits = Array.from({ length: 40 }, (_, i) => ({
+      nom: `Nomdefamillecompose${i}`.repeat(4),
+      prenom: `Prenomcompose${i}`.repeat(4),
+    }));
+    await dataSource.query(
+      `INSERT INTO usager (ref, nom, prenom, "ayantsDroits", nom_prenom_surnom_ref)
+       VALUES (9006, 'Grande', 'Fratrie', $1, '')`,
+      [JSON.stringify(bigAyantsDroits)]
     );
 
     queryRunner = dataSource.createQueryRunner();
@@ -117,10 +136,10 @@ describe("Migration backfillUsagerSearchIndex — équivalence avec le subscribe
 
   it("écrit, sur chaque ligne éligible, exactement ce que le subscriber aurait écrit", async () => {
     const rows = await fetchRows();
-    expect(rows).toHaveLength(FILLER_ROWS + 5);
+    expect(rows).toHaveLength(FILLER_ROWS + 6);
 
     const eligibleRows = rows.filter((row) => row.nom && row.prenom);
-    expect(eligibleRows).toHaveLength(FILLER_ROWS + 4);
+    expect(eligibleRows).toHaveLength(FILLER_ROWS + 5);
 
     for (const row of eligibleRows) {
       expect(row.nom_prenom_surnom_ref).toBe(expectedIndex(row));
@@ -134,6 +153,23 @@ describe("Migration backfillUsagerSearchIndex — équivalence avec le subscribe
     expect(row.nom_prenom_surnom_ref).toBe(
       "petit anna nana dossier 42 petit zoe lou mandataire paul"
     );
+  });
+
+  it("supprime l'index btree, qui plafonnait la ligne à 2704 octets", async () => {
+    const indexes: { indexname: string }[] = await dataSource.query(
+      `SELECT indexname FROM pg_indexes
+        WHERE schemaname = $1 AND tablename = 'usager'`,
+      [SCHEMA]
+    );
+    expect(indexes.map((index) => index.indexname)).not.toContain(
+      "IDX_f072e2874bd87ecb6da2fbd66e"
+    );
+
+    // Et la ligne volumineuse a bien été indexée entière.
+    const [row] = await dataSource.query(
+      `SELECT length(nom_prenom_surnom_ref) AS len FROM usager WHERE ref = 9006`
+    );
+    expect(Number(row.len)).toBeGreaterThan(2704);
   });
 
   it("indexe l'identité seule quand le jsonb n'est pas un tableau", async () => {

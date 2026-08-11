@@ -70,7 +70,7 @@ describe("Index de recherche usager — recalcul sur update partiel", () => {
         "lastInteraction" jsonb,
         "updatedAt" timestamptz,
         version integer DEFAULT 1,
-        nom_prenom_surnom_ref text
+        nom_prenom_surnom_ref text NOT NULL
       )`);
 
     repository = dataSource.getRepository(UsagerTable);

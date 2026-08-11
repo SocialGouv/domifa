@@ -39,6 +39,16 @@ export class BackfillUsagerSearchIndex1786500000000
   name = "backfillUsagerSearchIndex1786500000000";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
+    // Le btree sur `nom_prenom_surnom_ref` ne sert rien (la colonne n'est lue
+    // qu'en `ILIKE '%…%'`, qu'un btree ne peut pas servir) et il plafonne le
+    // tuple à 2704 octets — l'index enrichi n'a pas de borne : au-delà, cette
+    // migration avorterait et toute écriture du dossier renverrait 500, le
+    // dossier devenant définitivement non modifiable. Supprimé AVANT le
+    // rattrapage. Non recréé à la redescente, pour la même raison.
+    await queryRunner.query(
+      `DROP INDEX IF EXISTS "IDX_f072e2874bd87ecb6da2fbd66e"`
+    );
+
     let lastUuid: string | null = null;
     let processed = 0;
     let updated = 0;
@@ -75,14 +85,26 @@ export class BackfillUsagerSearchIndex1786500000000
         return `($${parameters.length - 1}::uuid, $${parameters.length}::text)`;
       });
 
-      const result: unknown = await queryRunner.query(
-        `UPDATE usager
-            SET nom_prenom_surnom_ref = batch.search_index
-           FROM (VALUES ${tuples.join(", ")}) AS batch(uuid, search_index)
-          WHERE usager.uuid = batch.uuid
-            AND usager.nom_prenom_surnom_ref IS DISTINCT FROM batch.search_index`,
-        parameters
-      );
+      // Même exigence de diagnosticabilité que le calcul par ligne : une
+      // erreur du lot (contrainte, encodage…) doit borner l'intervalle
+      // d'uuid en cause, la transaction unique ne laissant aucune autre trace.
+      let result: unknown;
+      try {
+        result = await queryRunner.query(
+          `UPDATE usager
+              SET nom_prenom_surnom_ref = batch.search_index
+             FROM (VALUES ${tuples.join(", ")}) AS batch(uuid, search_index)
+            WHERE usager.uuid = batch.uuid
+              AND usager.nom_prenom_surnom_ref IS DISTINCT FROM batch.search_index`,
+          parameters
+        );
+      } catch (error) {
+        throw new Error(
+          `[backfillUsagerSearchIndex] batch ${rows[0].uuid}..${
+            rows[rows.length - 1].uuid
+          }: ${(error as Error).message}`
+        );
+      }
       // le query runner postgres de TypeORM renvoie [rows, rowCount] pour un UPDATE
       updated += Array.isArray(result) ? Number(result[1]) : 0;
 

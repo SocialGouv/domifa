@@ -51,7 +51,11 @@ export class UsagerTable
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   public structureId!: number;
 
-  @Index()
+  // Pas de @Index() : la colonne n'est lue qu'en `ILIKE '%…%'`, qu'un btree
+  // ne peut pas servir — et un tuple btree plafonne à 2704 octets, alors que
+  // l'index enrichi (ayants droit, mandataires) n'a pas de borne : au-delà,
+  // toute écriture du dossier échoue. La migration de rattrapage supprime
+  // l'index existant.
   @Column({
     nullable: false,
     select: false,
