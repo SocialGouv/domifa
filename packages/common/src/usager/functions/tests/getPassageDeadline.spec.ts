@@ -19,9 +19,10 @@ describe("[getPassageDeadline] Display the passage deadline info", () => {
 
   it("No color: last passage less than 2 months ago", () => {
     const usager = buildUsager(new Date("2020-03-15T00:00:00.000Z"));
+    const result = getPassageDeadline(usager);
 
-    expect(getPassageDeadline(usager).isActive).toEqual(true);
-    expect(getPassageDeadline(usager).color).toBeNull();
+    expect(result.isActive).toEqual(true);
+    expect(result.color).toBeNull();
   });
 
   it("No color yet: exactly 2 months complete, without the extra day", () => {
