@@ -161,9 +161,11 @@ describe("usagersImportRunner (worker thread)", () => {
   }, 30000);
 
   it("libère le compteur sur échec — pas de DoS permanent après N erreurs", async () => {
-    // Un compteur qui fuirait sur les chemins d'erreur finirait par refuser
-    // tout import (IMPORT_BUSY à vie). On échoue plus de fois que le cap, puis
-    // on vérifie qu'un import valide passe encore.
+    // Un compteur qui fuirait sur un chemin d'échec finirait par refuser tout
+    // import (IMPORT_BUSY à vie). Ici on exerce le chemin d'échec du worker
+    // (fichier introuvable → `error`/`message`) plus de fois que le cap ; le
+    // throw SYNCHRONE de `new Worker` est couvert par la même décrémentation
+    // sur `.finally()`. Puis on vérifie qu'un import valide passe encore.
     const missing = input(join(tmpDir, "does-not-exist.xlsx"));
     for (let i = 0; i < IMPORT_MAX_CONCURRENT_WORKERS + 2; i++) {
       await usagersImportRunner.parseAndValidate(missing).catch(() => undefined);
