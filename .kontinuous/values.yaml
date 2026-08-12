@@ -56,9 +56,11 @@ backend:
   lifecycle:
     preStop:
       exec:
-        # Laisse le temps aux ingress de retirer le pod des endpoints avant que
-        # le process reçoive SIGTERM.
-        command: ["sh", "-c", "sleep 30"]
+        # Laisse le temps aux ingress de retirer le pod des endpoints avant le
+        # SIGTERM. Plafonné à 20 s : la terminationGracePeriodSeconds par défaut
+        # vaut 30 s et n'est pas réglable via ce chart, donc un sleep de 30 s ne
+        # laisse aucune fenêtre d'arrêt et le pod part en SIGKILL.
+        command: ["sh", "-c", "sleep 20"]
   envFrom:
     - secretRef:
         name: "{{ .Values.global.pgSecretName }}"
@@ -66,9 +68,9 @@ backend:
         name: backend-sealed-secret
     - configMapRef:
         name: backend-configmap
-  # Bloc volontairement non ancré : NODE_OPTIONS ci-dessous ne vaut que pour ce
-  # déploiement. L'ancre &backendVars partagée avec backend-cron est définie sur
-  # backend-export, dont la limite mémoire diffère.
+  # Bloc volontairement non ancré : le NODE_OPTIONS ci-dessous ne doit valoir que
+  # pour ce déploiement, pas pour backend-cron. L'ancre &backendVars partagée avec
+  # backend-cron est donc définie sur backend-export (qui n'a pas de NODE_OPTIONS).
   vars:
     TZ: Europe/Paris
     # L'image fixe --max-old-space-size=8192 alors que la limite du conteneur
@@ -98,6 +100,11 @@ backend-export:
   host: "api-{{ .Values.global.host }}"
   probesPath: /healthz
   containerPort: 3000
+  # Même désactivation du patch `cat` que backend : ce pod sert les chemins les
+  # plus lourds (/export, /stats), donc les plus à même de bloquer l'event loop.
+  # La readinessProbe httpGet ci-dessous le détecte, le `cat` non.
+  annotations:
+    kontinuous/plugin.zeroDowntimeHandled: "true"
   ingress:
     paths:
       - /export
@@ -126,6 +133,18 @@ backend-export:
     initialDelaySeconds: 30
     failureThreshold: 50
     periodSeconds: 10
+  readinessProbe:
+    httpGet:
+      path: /healthz
+      port: http
+      scheme: HTTP
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 2
+    # ~20 s de tolérance, comme backend : sort un pod à l'event loop gelé du
+    # Service sans vider les endpoints sur un traitement synchrone ponctuel.
+    failureThreshold: 4
+    successThreshold: 1
   livenessProbe:
     failureThreshold: 20
     httpGet:
@@ -136,6 +155,12 @@ backend-export:
     periodSeconds: 10
     successThreshold: 1
     timeoutSeconds: 10
+  lifecycle:
+    preStop:
+      exec:
+        # Drain avant SIGTERM, plafonné à 20 s (cf. backend : grace 30 s non
+        # réglable via ce chart).
+        command: ["sh", "-c", "sleep 20"]
   envFrom:
     - secretRef:
         name: "{{ .Values.global.pgSecretName }}"
