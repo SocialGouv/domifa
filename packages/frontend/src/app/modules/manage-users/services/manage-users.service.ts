@@ -132,4 +132,10 @@ export class ManageUsersService {
       data
     );
   }
+
+  public updateMyEmail(email: string): Observable<ApiMessage> {
+    return this.http.post<ApiMessage>(`${this.endPoint}/edit-my-email`, {
+      email,
+    });
+  }
 }

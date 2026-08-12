@@ -10,6 +10,7 @@ export const OTP_PURPOSES = [
   "BLOCK_USER_BY_ADMIN",
   "DELETE_USER_BY_ADMIN",
   "UNBLOCK_BREVO_CONTACT",
+  "EMAIL_CHANGE",
   // Legacy: replaced by EXPORT_* variants above. Kept in the union so past
   // rows/callers keep type-checking; do not use for new features.
   "EXPORT",
