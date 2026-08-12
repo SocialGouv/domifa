@@ -6,6 +6,7 @@ import { addYears, endOfDay, startOfYear } from "date-fns";
 import { COUNTRY_CODES_TIMEZONE, UsagersImportMode } from "@domifa/common";
 import { parseAndValidateImportFile } from "./parseAndValidateImportFile";
 import {
+  IMPORT_MAX_CONCURRENT_WORKERS,
   ImportWorkerInput,
   usagersImportRunner,
 } from "./usagersImportRunner.service";
@@ -88,36 +89,34 @@ describe("usagersImportRunner (worker thread)", () => {
     expect(viaWorker.usagersRows).toHaveLength(19);
   }, 30000);
 
-  it("garde l'event loop du thread principal LIBRE pendant le traitement", async () => {
+  // Compte les battements d'un timer 5 ms pendant l'exécution de `fn` : la
+  // mesure de la liberté de l'event loop du thread principal.
+  const ticksDuring = async (fn: () => Promise<unknown>): Promise<number> => {
     let ticks = 0;
     const heartbeat = setInterval(() => ticks++, 5);
     try {
-      const result = await usagersImportRunner.parseAndValidate(
-        input(heavyFile)
-      );
-      expect(result.totalCount).toBe(HEAVY_ROWS);
+      await fn();
     } finally {
       clearInterval(heartbeat);
     }
-    // Le traitement dure plusieurs secondes ; si l'event loop est resté libre,
-    // le heartbeat (5 ms) a battu des centaines de fois.
-    expect(ticks).toBeGreaterThan(50);
-  }, 30000);
+    return ticks;
+  };
 
-  it("CONTRASTE : le même traitement EN INLINE bloque l'event loop", async () => {
-    let ticks = 0;
-    const heartbeat = setInterval(() => ticks++, 5);
-    try {
-      // Exactement le code d'avant le fix, sur le thread principal.
-      const result = await parseAndValidateImportFile(input(heavyFile));
-      expect(result.totalCount).toBe(HEAVY_ROWS);
-    } finally {
-      clearInterval(heartbeat);
-    }
-    // Le parse+validation synchrone a monopolisé l'event loop : le timer de 5 ms
-    // n'a quasiment pas pu se déclencher. C'est la panne du 11/08 en miniature.
-    expect(ticks).toBeLessThan(10);
-  }, 30000);
+  it("garde l'event loop LIBRE via le worker, là où l'inline le BLOQUE", async () => {
+    // Le même travail, sur la même machine : en inline (le code d'avant le fix)
+    // il monopolise l'event loop, via le worker il le laisse respirer. On
+    // compare les deux plutôt qu'un seuil absolu — le RATIO tient quelle que
+    // soit la charge de la CI. C'est la panne du 11/08 en miniature.
+    const inlineTicks = await ticksDuring(() =>
+      parseAndValidateImportFile(input(heavyFile))
+    );
+    const workerTicks = await ticksDuring(() =>
+      usagersImportRunner.parseAndValidate(input(heavyFile))
+    );
+
+    expect(workerTicks).toBeGreaterThan(50);
+    expect(workerTicks).toBeGreaterThan(inlineTicks * 5);
+  }, 60000);
 
   it("coupe net un traitement qui dépasse le timeout", async () => {
     await expect(
@@ -139,5 +138,25 @@ describe("usagersImportRunner (worker thread)", () => {
     await expect(
       usagersImportRunner.parseAndValidate(input(heavyFile, { maxRows: 10 }))
     ).rejects.toMatchObject({ code: "IMPORT_TOO_MANY_ROWS" });
+  }, 30000);
+
+  it("borne le nombre de workers concurrents (IMPORT_BUSY au-delà)", async () => {
+    // Le compteur s'incrémente de façon SYNCHRONE à l'appel : lancer
+    // MAX+1 imports d'affilée fait rejeter le dernier immédiatement, sans
+    // file d'attente non bornée. Les MAX premiers aboutissent.
+    const launched = Array.from(
+      { length: IMPORT_MAX_CONCURRENT_WORKERS + 1 },
+      () => usagersImportRunner.parseAndValidate(input(heavyFile))
+    );
+    const results = await Promise.allSettled(launched);
+
+    const busy = results.filter(
+      (r) =>
+        r.status === "rejected" &&
+        (r.reason as { code?: string })?.code === "IMPORT_BUSY"
+    );
+    const done = results.filter((r) => r.status === "fulfilled");
+    expect(busy).toHaveLength(1);
+    expect(done).toHaveLength(IMPORT_MAX_CONCURRENT_WORKERS);
   }, 30000);
 });

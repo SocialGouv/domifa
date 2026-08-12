@@ -116,151 +116,158 @@ export class ImportController {
     const importContext = { fileName, filePath, structureId };
     const maxErrors = 20;
 
-    // Parse + validation dans un WORKER THREAD, borné dans le temps. Un fichier
-    // xlsx pathologique (bombe de décompression, plage de colonnes dégénérée)
-    // parsé en synchrone sur le thread principal a gelé la prod le 11/08 : il
-    // tenait un cœur ~50 s et l'event loop du pod ne répondait plus à rien,
-    // /healthz compris. L'isolation en worker garde le pod réactif, et le
-    // timeout coupe un fichier hostile — impossible sur le thread principal, où
-    // un blocage synchrone empêche le callback du timeout de se déclencher.
-    let parseResult: ImportParseAndValidateResult;
     try {
-      parseResult = await usagersImportRunner.parseAndValidate({
-        filePath,
-        importMode,
-        context: {
-          minDate,
-          nextYear,
-          today,
-          countryCode: COUNTRY_CODES_TIMEZONE[user.structure.timeZone],
-        },
-        maxErrors,
-      });
-      processTracker.data = { count: parseResult.totalCount };
-    } catch (err) {
-      const code = (err as ImportRunnerError)?.code;
-      appLogger.error(`Import parse/validate failed (${code ?? "unknown"})`, {
-        sentry: true,
-        context: { ...importContext, code, err },
-      });
-      const message =
-        code === "IMPORT_TIMEOUT" || code === "IMPORT_TOO_MANY_ROWS"
-          ? code
-          : "EXCEL_FILE_CORRUPTED";
-      return res.status(HttpStatus.BAD_REQUEST).json({ message });
-    }
+      // Parse + validation dans un WORKER THREAD, borné dans le temps. Un
+      // fichier xlsx pathologique (bombe de décompression, plage de colonnes
+      // dégénérée) parsé en synchrone sur le thread principal a gelé la prod
+      // le 11/08 : il tenait un cœur ~50 s et l'event loop du pod ne répondait
+      // plus à rien, /healthz compris. L'isolation en worker garde le pod
+      // réactif, et le timeout coupe un fichier hostile — impossible sur le
+      // thread principal, où un blocage synchrone empêche le callback du
+      // timeout de se déclencher.
+      let parseResult: ImportParseAndValidateResult;
+      try {
+        parseResult = await usagersImportRunner.parseAndValidate({
+          filePath,
+          importMode,
+          context: {
+            minDate,
+            nextYear,
+            today,
+            countryCode: COUNTRY_CODES_TIMEZONE[user.structure.timeZone],
+          },
+          maxErrors,
+        });
+        processTracker.data = { count: parseResult.totalRows };
+      } catch (err) {
+        const code = (err as ImportRunnerError)?.code;
+        appLogger.error(`Import parse/validate failed (${code ?? "unknown"})`, {
+          sentry: true,
+          context: { ...importContext, code, err },
+        });
+        // Trop d'imports simultanés : 503 (réessayable), pas une erreur de
+        // fichier.
+        if (code === "IMPORT_BUSY") {
+          return res
+            .status(HttpStatus.SERVICE_UNAVAILABLE)
+            .json({ message: code });
+        }
+        const message =
+          code === "IMPORT_TIMEOUT" || code === "IMPORT_TOO_MANY_ROWS"
+            ? code
+            : "EXCEL_FILE_CORRUPTED";
+        return res.status(HttpStatus.BAD_REQUEST).json({ message });
+      }
 
-    const {
-      importErrors,
-      importPreviewRows,
-      usagersRows,
-      previewUsagersRow,
-    } = parseResult;
+      const { importErrors, importPreviewRows, usagersRows, previewUsagersRow } =
+        parseResult;
 
-    processTracker.read.end = new Date();
-    processTracker.read.duration =
-      (processTracker.read.end.getTime() -
-        processTracker.read.start.getTime()) /
-      1000;
-    processTracker.build = {
-      start: new Date(),
-    };
-    if (importErrors.length) {
-      appLogger.error(`Import error for structure ${structureId}`, {
-        sentry: true,
-        context: {
-          ...importContext,
-          importErrors,
-        },
-      });
-
-      previewTable = {
-        isValid: false,
-        totalCount: importPreviewRows.length,
-        errorsCount: importErrors.length,
-        // keep only errors, limit to 50 results
-        rows: [...importPreviewRows]
-          .filter(({ isValid }) => !isValid)
-          .slice(0, 50),
+      processTracker.read.end = new Date();
+      processTracker.read.duration =
+        (processTracker.read.end.getTime() -
+          processTracker.read.start.getTime()) /
+        1000;
+      processTracker.build = {
+        start: new Date(),
       };
-      await this.appLogsService.create<FailedUsagerImportLogContext>({
-        ...buildStructureActorFields(user),
-        action: "IMPORT_USAGERS_FAILED",
-        structureId: user.structureId,
-        context: {
-          nombreActifs: previewUsagersRow.length,
-          nombreErreurs: importErrors.length,
-          nombreTotal: importPreviewRows.length,
-        },
+      if (importErrors.length) {
+        appLogger.error(`Import error for structure ${structureId}`, {
+          sentry: true,
+          context: {
+            ...importContext,
+            importErrors,
+          },
+        });
+
+        previewTable = {
+          isValid: false,
+          totalCount: importPreviewRows.length,
+          errorsCount: importErrors.length,
+          // keep only errors, limit to 50 results
+          rows: [...importPreviewRows]
+            .filter(({ isValid }) => !isValid)
+            .slice(0, 50),
+        };
+        await this.appLogsService.create<FailedUsagerImportLogContext>({
+          ...buildStructureActorFields(user),
+          action: "IMPORT_USAGERS_FAILED",
+          structureId: user.structureId,
+          context: {
+            nombreActifs: previewUsagersRow.length,
+            nombreErreurs: importErrors.length,
+            nombreTotal: importPreviewRows.length,
+          },
+        });
+
+        return res.status(HttpStatus.BAD_REQUEST).json({ previewTable });
+      }
+
+      if (importMode === "preview") {
+        previewTable = {
+          isValid: true,
+          totalCount: importPreviewRows.length,
+          errorsCount: importErrors.length,
+          rows: importPreviewRows.slice(0, 50), // limit to 50 results
+        };
+
+        await this.appLogsService.create<SuccessfulUsagerImportLogContext>({
+          ...buildStructureActorFields(user),
+          action: "IMPORT_USAGERS_PREVIEW",
+          structureId: user.structureId,
+          context: {
+            nombreActifs: previewUsagersRow.length,
+            nombreTotal: importPreviewRows.length,
+          },
+        });
+
+        return res.status(HttpStatus.OK).json({
+          importMode,
+          previewTable,
+        });
+      }
+
+      await this.importCreatorService.createFromImport({
+        usagersRows,
+        user,
+        processTracker,
       });
 
-      return res.status(HttpStatus.BAD_REQUEST).json({ previewTable });
-    }
+      await structureRepository.update(
+        { id: user.structureId },
+        { import: true, importDate: new Date() }
+      );
 
-    try {
-      await remove(filePath);
-      appLogger.debug("[FILES] Delete import file success " + filePath);
-    } catch (err) {
-      appLogger.error("[FILES] [FAIL] Delete import file fail " + filePath);
-    }
+      processTracker.end = new Date();
+      processTracker.duration =
+        (processTracker.end.getTime() - processTracker.start.getTime()) / 1000;
 
-    if (importMode === "preview") {
+      appLogger.debug(
+        `[import.controller] SUCCESS: ${JSON.stringify(
+          processTracker,
+          undefined,
+          2
+        )}`
+      );
+
       previewTable = {
         isValid: true,
         totalCount: importPreviewRows.length,
         errorsCount: importErrors.length,
-        rows: importPreviewRows.slice(0, 50), // limit to 50 results
+        rows: [], // don't return rows
       };
-
-      await this.appLogsService.create<SuccessfulUsagerImportLogContext>({
-        ...buildStructureActorFields(user),
-        action: "IMPORT_USAGERS_PREVIEW",
-        structureId: user.structureId,
-        context: {
-          nombreActifs: previewUsagersRow.length,
-          nombreTotal: importPreviewRows.length,
-        },
-      });
-
       return res.status(HttpStatus.OK).json({
         importMode,
         previewTable,
       });
+    } finally {
+      // Toujours supprimer le fichier uploadé, y compris sur les chemins
+      // d'erreur : avec le worker, une requête hostile revient vite en 4xx au
+      // lieu de geler le pod — sans ce nettoyage, elle laisserait un fichier de
+      // plusieurs Mo sur le disque à chaque tentative (DoS disque).
+      await remove(filePath).catch(() =>
+        appLogger.error("[FILES] [FAIL] Delete import file fail " + filePath)
+      );
     }
-
-    await this.importCreatorService.createFromImport({
-      usagersRows,
-      user,
-      processTracker,
-    });
-
-    await structureRepository.update(
-      { id: user.structureId },
-      { import: true, importDate: new Date() }
-    );
-
-    processTracker.end = new Date();
-    processTracker.duration =
-      (processTracker.end.getTime() - processTracker.start.getTime()) / 1000;
-
-    appLogger.debug(
-      `[import.controller] SUCCESS: ${JSON.stringify(
-        processTracker,
-        undefined,
-        2
-      )}`
-    );
-
-    previewTable = {
-      isValid: true,
-      totalCount: importPreviewRows.length,
-      errorsCount: importErrors.length,
-      rows: [], // don't return rows
-    };
-    return res.status(HttpStatus.OK).json({
-      importMode,
-      previewTable,
-    });
   }
 
   @Get("log-document-download/:documentType")
