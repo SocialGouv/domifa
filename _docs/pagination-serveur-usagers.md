@@ -57,6 +57,11 @@ Options :
 
 Recommandation : **a**. C'est la seule qui préserve le comportement à coût constant.
 
+À noter : les seuils `PREVIOUS_*` du navigateur (`USAGER_DEADLINES`) sont une constante
+de module, figée au chargement de la page — dans un onglet ouvert depuis la veille, ils
+datent d'hier. Le serveur les recalcule à chaque requête : la bascule corrige ce seuil
+figé au passage.
+
 ### 2. La recherche multi-mots n'a pas la même sémantique
 
 Le client utilise `buildWords` + `search.match` : les mots saisis sont normalisés et doivent

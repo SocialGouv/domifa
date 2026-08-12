@@ -29,8 +29,8 @@ type UsagerSearchRow = {
 //
 // Les migrations tournent HORS transaction : en production elles sont jouées
 // par `initialize()` (`migrationsRun`) avec `migrationsTransactionMode:
-// "none"` — le `runMigrations({transaction: "all"})` d'`appTypeormManager`
-// n'est atteint qu'après, quand tout est déjà joué. Chaque lot est donc
+// "none"` — et `appTypeormManager.migrateUp` suit le même régime, sur une
+// liste déjà vide. Chaque lot est donc
 // commité immédiatement : une erreur laisse le travail accompli en place, et
 // `IS DISTINCT FROM` rend la reprise gratuite — elle saute les lignes déjà à
 // jour (subscriber, exécution précédente). L'écriture par lot — un seul

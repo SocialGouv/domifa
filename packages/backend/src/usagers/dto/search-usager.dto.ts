@@ -33,11 +33,13 @@ export class SearchUsagerDto {
     // caractères. Le contrôle de type évite au passage un 500 (`normalize`
     // sur un non-string).
     if (typeof value !== "string") {
-      throw new BadRequestException("searchString must be a string");
+      throw new BadRequestException(
+        "La recherche doit être une chaîne de caractères"
+      );
     }
     if (value.length > MAX_SEARCH_STRING_LENGTH) {
       throw new BadRequestException(
-        `searchString must be shorter than or equal to ${MAX_SEARCH_STRING_LENGTH} characters`
+        `La recherche est limitée à ${MAX_SEARCH_STRING_LENGTH} caractères`
       );
     }
 
