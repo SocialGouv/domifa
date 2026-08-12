@@ -67,6 +67,9 @@ backend-export:
   containerPort: 3000
   ingress:
     paths:
+      # /import routé sur ce pod dédié : son parse synchrone lourd (preview/confirm)
+      # ne doit pas geler l'event loop des pods backend qui servent le reste de l'API.
+      - /import
       - /export
       - /stats
       - /stats/home

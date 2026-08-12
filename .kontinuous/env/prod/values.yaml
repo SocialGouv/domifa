@@ -105,6 +105,7 @@ backend-export:
   env: *backendEnv
   ingress:
     paths:
+      - /import
       - /export
       - /admin/structures/export
       - /stats

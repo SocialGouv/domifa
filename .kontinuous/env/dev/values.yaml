@@ -63,6 +63,7 @@ backend-export:
   ~needs: [pg]
   ingress:
     paths:
+      - /import
       - /export
       - /admin/structures/export
       - /stats
