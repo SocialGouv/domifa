@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { v4 as uuidv4 } from "uuid";
 import {
+  computeUsagerSearchIndex,
   usagerEntretienRepository,
   usagerRepository,
   UsagerTable,
@@ -226,18 +227,25 @@ export class UsagersService {
       historyBeginDate: usager.decision.dateDebut,
     });
 
+    // `customRef` alimente l'index de recherche : sa valeur est posée ici,
+    // calculée sur l'entité complète — le subscriber ne voit que le payload,
+    // et un recalcul partiel tronquerait l'index (mandataires, ayants
+    // droit). Annoté, pas asserté : l'assertion désactiverait le contrôle
+    // des propriétés excédentaires, seule protection du nom de la colonne.
+    const patch: Partial<UsagerTable> = {
+      lastInteraction: usager.lastInteraction,
+      customRef: usager.customRef,
+      decision: usager.decision,
+      statut: usager.statut,
+      historique: usager.historique,
+      etapeDemande: usager.etapeDemande,
+      typeDom: usager.typeDom,
+      datePremiereDom: usager.datePremiereDom,
+      nom_prenom_surnom_ref: computeUsagerSearchIndex(usager),
+    };
     await usagerRepository.update(
       { uuid: usager.uuid },
-      {
-        lastInteraction: usager.lastInteraction,
-        customRef: usager.customRef,
-        decision: usager.decision,
-        statut: usager.statut,
-        historique: usager.historique,
-        etapeDemande: usager.etapeDemande,
-        typeDom: usager.typeDom,
-        datePremiereDom: usager.datePremiereDom,
-      }
+      patch as Parameters<typeof usagerRepository.update>[1]
     );
     return usager;
   }

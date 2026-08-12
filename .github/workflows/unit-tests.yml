@@ -77,6 +77,25 @@ jobs:
       - name: Run backend tests
         run: DISABLE_TYPEORM_CLOSE=1 ENV_FILE=tests-local pnpm --filter @domifa/backend exec jest --coverage --forceExit --runInBand
 
+      # The differential suite proves the SQL filters/sort/search match the
+      # browser implementation. It drops and recreates its own tables, so it
+      # gets a dedicated database on the same Postgres service. The process
+      # time zone plays the browser side: the second run pairs an overseas
+      # structure with the deliberately-UTC session.
+      - name: Create differential test database
+        run: docker exec domifa-postgres createdb -U domifa_user domifa_diff
+
+      - name: Run differential tests (Europe/Paris)
+        run: pnpm --filter @domifa/backend test:differential
+        env:
+          DIFFERENTIAL_DATABASE_URL: postgres://domifa_user:xxxxxxxxxxxxxxxxxxx@localhost:5432/domifa_diff
+
+      - name: Run differential tests (Pacific/Noumea)
+        run: pnpm --filter @domifa/backend test:differential
+        env:
+          TZ: Pacific/Noumea
+          DIFFERENTIAL_DATABASE_URL: postgres://domifa_user:xxxxxxxxxxxxxxxxxxx@localhost:5432/domifa_diff
+
       - name: Archive code coverage
         uses: actions/upload-artifact@v6
         with:

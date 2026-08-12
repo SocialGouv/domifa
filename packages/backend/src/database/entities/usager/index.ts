@@ -1,4 +1,5 @@
 //@index('./*', f => `export * from '${f.path}'`)
+export * from "./computeUsagerSearchIndex";
 export * from "./UsagerDocsTable.typeorm";
 export * from "./UsagerEntretienTable.typeorm";
 export * from "./UsagerNotesTable.typeorm";

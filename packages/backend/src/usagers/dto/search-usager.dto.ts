@@ -1,3 +1,4 @@
+import { BadRequestException } from "@nestjs/common";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsIn, IsNumber, IsOptional, ValidateIf } from "class-validator";
 import {
@@ -11,6 +12,8 @@ import {
 import { Transform } from "class-transformer";
 import { ValidateSearchField } from "../decorators";
 
+const MAX_SEARCH_STRING_LENGTH = 200;
+
 export class SearchUsagerDto {
   @ApiProperty({
     example: "dupuis",
@@ -19,6 +22,25 @@ export class SearchUsagerDto {
   @Transform(({ value, obj }) => {
     if (!value) {
       return null;
+    }
+
+    // La borne porte sur la saisie BRUTE, ici et pas en décorateur : après
+    // transformation, une saisie vide vaut `null` — qu'un `@MaxLength`
+    // rejetterait, alors que la liste des radiés s'amorce précisément sans
+    // critère. Sans borne, la recherche par mots (un ILIKE par mot) coûtait
+    // plus de 20 s de CPU Postgres et ~100 ms de boucle d'événements bloquée
+    // sur un corps de 100 ko. Aucune saisie légitime n'approche 200
+    // caractères. Le contrôle de type évite au passage un 500 (`normalize`
+    // sur un non-string).
+    if (typeof value !== "string") {
+      throw new BadRequestException(
+        "La recherche doit être une chaîne de caractères"
+      );
+    }
+    if (value.length > MAX_SEARCH_STRING_LENGTH) {
+      throw new BadRequestException(
+        `La recherche est limitée à ${MAX_SEARCH_STRING_LENGTH} caractères`
+      );
     }
 
     if (CriteriaSearchField.PHONE_NUMBER === obj.searchStringField) {

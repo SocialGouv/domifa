@@ -32,6 +32,7 @@ import { isEqual } from "lodash";
 import {
   usagerRepository,
   usagerOptionsHistoryRepository,
+  UsagerTable,
 } from "../../database";
 import {
   ALL_USER_STRUCTURE_ROLES,
@@ -40,6 +41,7 @@ import {
   UsagerOptionsHistoryTypeEnum,
 } from "@domifa/common";
 import { AppUserGuard } from "../../auth/guards";
+import { computeUsagerSearchIndex } from "../../database/entities/usager/computeUsagerSearchIndex";
 
 @ApiTags("usagers-options")
 @ApiBearerAuth()
@@ -197,12 +199,20 @@ export class UsagerOptionsController {
 
     usager.options.procurations = procurationsDto;
 
+    // Les mandataires alimentent l'index de recherche : sa valeur est posée
+    // ici, calculée sur l'entité complète — le subscriber ne voit que le
+    // payload et un recalcul partiel tronquerait l'index, tandis que joindre
+    // l'identité écraserait une modification d'état civil concurrente.
+    // Annoté (pas asserté) : l'assertion désactiverait le contrôle des
+    // propriétés excédentaires, seule protection du nom de la colonne.
+    const patch: Partial<UsagerTable> = {
+      updatedAt: new Date(),
+      options: usager.options,
+      nom_prenom_surnom_ref: computeUsagerSearchIndex(usager),
+    };
     await usagerRepository.update(
       { uuid: usager.uuid },
-      {
-        updatedAt: new Date(),
-        options: usager.options,
-      }
+      patch as Parameters<typeof usagerRepository.update>[1]
     );
 
     return usager;
@@ -233,12 +243,16 @@ export class UsagerOptionsController {
 
     usager.options.procurations.splice(index, 1);
 
+    // Index de recherche recalculé sur l'entité complète — voir le
+    // commentaire de `editProcuration`.
+    const patch: Partial<UsagerTable> = {
+      updatedAt: new Date(),
+      options: usager.options,
+      nom_prenom_surnom_ref: computeUsagerSearchIndex(usager),
+    };
     await usagerRepository.update(
       { uuid: usager.uuid },
-      {
-        updatedAt: new Date(),
-        options: usager.options,
-      }
+      patch as Parameters<typeof usagerRepository.update>[1]
     );
 
     return res.status(HttpStatus.OK).json(usager);

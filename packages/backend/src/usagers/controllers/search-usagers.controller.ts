@@ -32,7 +32,7 @@ import {
 } from "../../database";
 
 import { SearchUsagerDto } from "../dto";
-import { filterUsagerHistorique } from "../utils";
+import { applyUsagerNameSearch, filterUsagerHistorique } from "../utils";
 
 export const MAX_USAGERS_RADIES_PREVIEW = 1600;
 export const MAX_USAGERS_RADIES_SEARCH_RESULTS_WITHOUT_CRITERIA = 100;
@@ -139,9 +139,7 @@ export class SearchUsagersController {
 
     if (search.searchString?.length > 0) {
       if (search.searchStringField === CriteriaSearchField.DEFAULT) {
-        query.andWhere("nom_prenom_surnom_ref ILIKE :str", {
-          str: `%${search.searchString}%`,
-        });
+        applyUsagerNameSearch(query, search.searchString);
       } else if (search.searchStringField === CriteriaSearchField.BIRTH_DATE) {
         const formattedDate = format(
           parse(search.searchString, "ddMMyyyy", new Date()),
@@ -180,6 +178,11 @@ export class SearchUsagersController {
       );
     }
 
+    // Les filtres entretien/échéance/passage ci-dessous sont la traduction
+    // HISTORIQUE de cet endpoint, conservée telle quelle : elle diverge du
+    // navigateur (`dateDecision` au lieu de `dateFin`, sens du passage
+    // inversé, dates en fuseau de session). La traduction fidèle vit dans
+    // `applyUsagerCriteriaFilters` et remplacera ce bloc à la bascule.
     if (search?.entretien) {
       query.andWhere(
         `rdv->>'dateRdv' IS NOT NULL AND "etapeDemande" <= :step AND (rdv->>'dateRdv')::date ${

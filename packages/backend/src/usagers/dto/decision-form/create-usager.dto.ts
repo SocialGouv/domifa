@@ -17,7 +17,6 @@ import {
   IsObject,
   IsBoolean,
   IsArray,
-  ValidateIf,
   ValidateNested,
   IsNumber,
 } from "class-validator";
@@ -171,11 +170,12 @@ export class CreateUsagerDto {
   @ApiProperty({
     description: "Tableau des ayants droit",
   })
+  // Pas de @ValidateIf : cette condition est évaluée au niveau de la
+  // PROPRIÉTÉ et court-circuitait TOUTES les validations — `{}`, `5` ou
+  // `true` passaient sans même déclencher @IsArray. @ValidateNested sur un
+  // tableau vide ne valide rien : la condition était redondante, et trouée.
   @IsOptional()
   @IsArray()
-  @ValidateIf((o) => {
-    return o?.ayantsDroits?.length > 0;
-  })
   @ValidateNested({ each: true })
   @Type(() => UsagerAyantDroitDto)
   public ayantsDroits!: UsagerAyantDroit[];
