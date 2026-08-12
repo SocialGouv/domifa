@@ -8,6 +8,13 @@ backend:
   host: "api-{{ .Values.global.host }}"
   probesPath: /healthz
   containerPort: 3000
+  # Désactive le patch kontinuous "zero-downtime-readiness", qui impose une
+  # readinessProbe `cat` sur un fichier posé au démarrage : elle réussit tant
+  # que le conteneur tourne, même quand l'event loop Node est bloqué et que le
+  # process ne répond plus. Le pod restait alors dans le load-balancing jusqu'à
+  # ce que la livenessProbe le tue. Le drain est repris ci-dessous par preStop.
+  annotations:
+    kontinuous/plugin.zeroDowntimeHandled: "true"
   resources:
     requests:
       cpu: 1
@@ -23,6 +30,19 @@ backend:
     initialDelaySeconds: 30
     failureThreshold: 50
     periodSeconds: 10
+  readinessProbe:
+    httpGet:
+      path: /healthz
+      port: http
+      scheme: HTTP
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 2
+    # ~20 s de tolérance : assez pour absorber un traitement synchrone ponctuel
+    # sans vider les endpoints du Service (0 pod prêt = 503 sur toute l'API),
+    # et dix fois plus réactif que la liveness et ses 200 s.
+    failureThreshold: 4
+    successThreshold: 1
   livenessProbe:
     failureThreshold: 20
     httpGet:
@@ -33,6 +53,12 @@ backend:
     periodSeconds: 10
     successThreshold: 1
     timeoutSeconds: 10
+  lifecycle:
+    preStop:
+      exec:
+        # Laisse le temps aux ingress de retirer le pod des endpoints avant que
+        # le process reçoive SIGTERM.
+        command: ["sh", "-c", "sleep 30"]
   envFrom:
     - secretRef:
         name: "{{ .Values.global.pgSecretName }}"
@@ -40,8 +66,15 @@ backend:
         name: backend-sealed-secret
     - configMapRef:
         name: backend-configmap
-  vars: &backendVars
+  # Bloc volontairement non ancré : NODE_OPTIONS ci-dessous ne vaut que pour ce
+  # déploiement. L'ancre &backendVars partagée avec backend-cron est définie sur
+  # backend-export, dont la limite mémoire diffère.
+  vars:
     TZ: Europe/Paris
+    # L'image fixe --max-old-space-size=8192 alors que la limite du conteneur
+    # est de 3Gi : V8 se croit au large et retarde ses GC. Aligné sur la limite
+    # réelle, en gardant ~1Gi pour le hors-tas (natif, buffers, pdftk).
+    NODE_OPTIONS: "--max-old-space-size=2048"
     POSTGRES_HOST: "$(PGHOST)"
     POSTGRES_USERNAME: "$(PGUSER)"
     POSTGRES_PASSWORD: "$(PGPASSWORD)"
