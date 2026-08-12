@@ -44,6 +44,7 @@ export const LOG_ACTION_LABELS: Record<LogAction, string> = {
   USER_ROLE_CHANGE: "Changement de rôle d'un utilisateur",
   USER_CREATE: "Création d'un utilisateur",
   USER_DELETE: "Suppression d'un utilisateur",
+  USER_EMAIL_CHANGE: "Modification de l'adresse email",
   ADMIN_CREATE_USER_STRUCTURE: "Création d'un utilisateur de structure",
   ADMIN_SOFT_DELETE_USER_STRUCTURE:
     "Suppression (archivage) d'un utilisateur de structure",

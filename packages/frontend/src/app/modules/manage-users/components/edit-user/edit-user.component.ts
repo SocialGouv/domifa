@@ -41,6 +41,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
   public editUser: boolean;
   public editPassword: boolean;
+  public editEmail: boolean;
 
   public hideOldPassword: boolean;
 
@@ -49,6 +50,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
   public passwordForm!: UntypedFormGroup;
   public userForm!: UntypedFormGroup;
+  public emailForm!: UntypedFormGroup;
 
   private readonly subscription = new Subscription();
   private readonly unsubscribe: Subject<void> = new Subject();
@@ -82,6 +84,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
     this.submitted = false;
     this.editPassword = false;
     this.editUser = false;
+    this.editEmail = false;
 
     this.hideOldPassword = true;
     this.loading = false;
@@ -154,6 +157,14 @@ export class EditUserComponent implements OnInit, OnDestroy {
     );
   }
 
+  public initEmailForm(): void {
+    this.editEmail = true;
+
+    this.emailForm = this.formBuilder.group({
+      email: [this.me?.email, [Validators.required, Validators.email]],
+    });
+  }
+
   private getLastPasswordUpdate(): void {
     this.subscription.add(
       this.manageUsersService.getLastPasswordUpdate().subscribe({
@@ -223,6 +234,59 @@ export class EditUserComponent implements OnInit, OnDestroy {
           },
           error: () => {
             this.loading = false;
+            this.toastService.error(
+              "Une erreur est survenue, veuillez vérifier le formulaire"
+            );
+          },
+        })
+    );
+  }
+
+  public updateMyEmail(): void {
+    this.submitted = true;
+    if (this.emailForm.invalid) {
+      this.toastService.error(
+        "Veuillez vérifier les champs marqués en rouge dans le formulaire"
+      );
+      return;
+    }
+
+    this.loading = true;
+
+    this.subscription.add(
+      this.manageUsersService
+        .updateMyEmail(this.emailForm.value.email)
+        .subscribe({
+          next: () => {
+            this.subscription.add(
+              this.authService.isAuth().subscribe(() => {
+                this.me = this.authService.currentUserValue;
+              })
+            );
+            this.loading = false;
+            this.editEmail = false;
+            this.submitted = false;
+            this.toastService.success(
+              "Félicitations ! : votre adresse email a été modifiée avec succès"
+            );
+          },
+          error: (err) => {
+            this.loading = false;
+            if (err?.error?.code?.startsWith?.("OTP_")) {
+              return;
+            }
+            if (err?.error?.message === "EMAIL_ALREADY_USED") {
+              this.toastService.error(
+                "Cette adresse email est déjà utilisée par un autre compte"
+              );
+              return;
+            }
+            if (err?.error?.message === "SAME_EMAIL") {
+              this.toastService.error(
+                "Cette adresse email est identique à votre adresse actuelle"
+              );
+              return;
+            }
             this.toastService.error(
               "Une erreur est survenue, veuillez vérifier le formulaire"
             );

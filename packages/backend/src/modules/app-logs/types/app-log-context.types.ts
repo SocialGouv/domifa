@@ -51,6 +51,12 @@ export type UserStructureCreateLogContext = {
   role: UserStructureRole;
 };
 
+export type UserStructureEmailChangeLogContext = {
+  // USER_EMAIL_CHANGE
+  oldEmail: string; // anonymisé
+  newEmail: string; // anonymisé
+};
+
 export type BlockUserByAdminLogContext = {
   // BLOCK_USER_BY_ADMIN — snapshot taken before mutation
   previousStatus: UserStatus;

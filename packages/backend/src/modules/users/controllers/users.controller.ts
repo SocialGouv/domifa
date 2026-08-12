@@ -46,10 +46,12 @@ import {
   UpdateRoleDto,
   UserEditDto,
   EditMyPasswordDto,
+  EmailDto,
   NewReferrerIdDto,
 } from "../dto";
 import {
   userStructureCreator,
+  userStructureEmailUpdater,
   userStructureSecurityPasswordUpdater,
 } from "../services";
 import { UserStructureDecisionService } from "../services/user-structure-decision/user-structure-decision.service";
@@ -69,9 +71,10 @@ import {
 } from "../../app-logs/app-logs.helpers";
 import {
   UserStructureCreateLogContext,
+  UserStructureEmailChangeLogContext,
   UserStructureRoleChangeLogContext,
 } from "../../app-logs/types/app-log-context.types";
-import { appLogger } from "../../../util";
+import { appLogger, anonymizeText } from "../../../util";
 import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
 import { domifaConfig } from "../../../config";
 
@@ -413,5 +416,30 @@ export class UsersController {
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "EDIT_PASSWORD_FAIL" });
     }
+  }
+
+  // Edition de l'email quand on est déjà connecté
+  @Post("edit-my-email")
+  @UseGuards(OtpGuard)
+  @RequireOtp("EMAIL_CHANGE")
+  @ApiOperation({ summary: "Edition de l'email depuis le compte user" })
+  public async editEmail(
+    @CurrentUser() user: UserStructureAuthenticated,
+    @Body() dto: EmailDto,
+    @Res() res: Response
+  ) {
+    const oldEmail = user.email;
+    await userStructureEmailUpdater.updateEmail({ user, newEmail: dto.email });
+
+    await this.appLogService.create<UserStructureEmailChangeLogContext>({
+      ...buildStructureActorFields(user),
+      action: "USER_EMAIL_CHANGE",
+      context: {
+        oldEmail: anonymizeText(oldEmail),
+        newEmail: anonymizeText(dto.email),
+      },
+    });
+
+    return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 }

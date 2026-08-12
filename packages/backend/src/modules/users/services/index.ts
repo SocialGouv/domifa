@@ -7,3 +7,4 @@ export * from "./userSecurityPasswordUpdater.service";
 export * from "./userSecurityResetPasswordInitiator.service";
 export * from "./userSecurityResetPasswordUpdater.service";
 export * from "./userStatusManager.service";
+export * from "./userStructureEmailUpdater.service";
