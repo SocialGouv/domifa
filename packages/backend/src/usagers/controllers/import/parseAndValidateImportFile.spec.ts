@@ -54,6 +54,14 @@ describe("parseAndValidateImportFile", () => {
     expect(r.previewUsagersRow.length).toBeGreaterThan(0);
   });
 
+  it("expose totalRows (lignes lues) indépendamment du mode", async () => {
+    // En confirm sans erreur, totalCount vaut 0 (aucune ligne d'aperçu) mais
+    // totalRows compte bien les 19 lignes lues — c'est ce que trace le log.
+    const confirm = await run("import_ok_1.xlsx", UsagersImportMode.confirm);
+    expect(confirm.totalCount).toBe(0);
+    expect(confirm.totalRows).toBe(19);
+  });
+
   it("refuse un fichier au-delà de la borne de lignes", async () => {
     await expect(
       run("import_ok_1.xlsx", UsagersImportMode.confirm, 1)
