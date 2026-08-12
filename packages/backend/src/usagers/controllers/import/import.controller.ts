@@ -25,12 +25,11 @@ import {
 } from "../../../util/file-manager/FileManager";
 import { UserStructureAuthenticated } from "../../../_common/model";
 import { ImportProcessTracker } from "./ImportProcessTracker.type";
-import { UsagersImportError, UsagersImportRow } from "./model";
-import { usagersImportExcelParser } from "./step1-parse-excel";
+import { ImportParseAndValidateResult } from "./parseAndValidateImportFile";
 import {
-  UsagersImportUsager,
-  usagersImportValidator,
-} from "./step2-validate-row";
+  ImportRunnerError,
+  usagersImportRunner,
+} from "./usagersImportRunner.service";
 
 import {
   AllowUserProfiles,
@@ -42,8 +41,6 @@ import { remove } from "fs-extra";
 import { FILES_SIZE_LIMIT } from "../../../util/file-manager";
 import {
   ImportPreviewTable,
-  ImportPreviewRow,
-  ImportPreviewColumn,
   COUNTRY_CODES_TIMEZONE,
   UsagersImportMode,
   ImportDocumentType,
@@ -110,27 +107,6 @@ export class ImportController {
     const fileName = file.filename;
     const filePath = file.path;
 
-    let usagerImportRows: {
-      rowNumber: number;
-      row: UsagersImportRow;
-    }[] = [];
-
-    try {
-      usagerImportRows = await usagersImportExcelParser.parseFileSync(filePath);
-      processTracker.data = { count: usagerImportRows.length };
-    } catch (err) {
-      appLogger.error(`Import unexpected error while opening upload file`, {
-        sentry: true,
-        context: {
-          err,
-          fileName,
-        },
-      });
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "EXCEL_FILE_CORRUPTED" });
-    }
-
     let previewTable: ImportPreviewTable;
     const today = endOfDay(new Date());
     const nextYear = addYears(endOfDay(new Date()), 1);
@@ -138,72 +114,53 @@ export class ImportController {
 
     const structureId = user.structureId;
     const importContext = { fileName, filePath, structureId };
-
-    let importErrors: UsagersImportError[] = [];
-    const importPreviewRows: ImportPreviewRow[] = [];
-
-    const usagersRows: UsagersImportUsager[] = [];
-    const previewUsagersRow: UsagersImportUsager[] = [];
     const maxErrors = 20;
+
+    // Parse + validation dans un WORKER THREAD, borné dans le temps. Un fichier
+    // xlsx pathologique (bombe de décompression, plage de colonnes dégénérée)
+    // parsé en synchrone sur le thread principal a gelé la prod le 11/08 : il
+    // tenait un cœur ~50 s et l'event loop du pod ne répondait plus à rien,
+    // /healthz compris. L'isolation en worker garde le pod réactif, et le
+    // timeout coupe un fichier hostile — impossible sur le thread principal, où
+    // un blocage synchrone empêche le callback du timeout de se déclencher.
+    let parseResult: ImportParseAndValidateResult;
+    try {
+      parseResult = await usagersImportRunner.parseAndValidate({
+        filePath,
+        importMode,
+        context: {
+          minDate,
+          nextYear,
+          today,
+          countryCode: COUNTRY_CODES_TIMEZONE[user.structure.timeZone],
+        },
+        maxErrors,
+      });
+      processTracker.data = { count: parseResult.totalCount };
+    } catch (err) {
+      const code = (err as ImportRunnerError)?.code;
+      appLogger.error(`Import parse/validate failed (${code ?? "unknown"})`, {
+        sentry: true,
+        context: { ...importContext, code, err },
+      });
+      const message =
+        code === "IMPORT_TIMEOUT" || code === "IMPORT_TOO_MANY_ROWS"
+          ? code
+          : "EXCEL_FILE_CORRUPTED";
+      return res.status(HttpStatus.BAD_REQUEST).json({ message });
+    }
+
+    const {
+      importErrors,
+      importPreviewRows,
+      usagersRows,
+      previewUsagersRow,
+    } = parseResult;
 
     processTracker.read.end = new Date();
     processTracker.read.duration =
       (processTracker.read.end.getTime() -
         processTracker.read.start.getTime()) /
-      1000;
-    processTracker.parse = {
-      start: new Date(),
-    };
-    for (
-      let rowIndex = 0, len = usagerImportRows.length;
-      rowIndex < len && importErrors.length < maxErrors;
-      rowIndex++
-    ) {
-      // Ligne
-      const { row, rowNumber } = usagerImportRows[rowIndex];
-
-      const { usagerRow, errors } =
-        await usagersImportValidator.parseAndValidate({
-          row,
-          rowNumber,
-          context: {
-            minDate,
-            nextYear,
-            today,
-            countryCode: COUNTRY_CODES_TIMEZONE[user.structure.timeZone],
-          },
-        });
-      if (errors.length || importMode === "preview") {
-        importErrors = importErrors.concat(errors);
-        if (usagerRow && usagerRow.statutDom === "VALIDE") {
-          previewUsagersRow.push(usagerRow);
-        }
-        importPreviewRows.push({
-          isValid: errors.length === 0,
-          rowNumber,
-          columns: row.reduce(
-            (acc, value, i) => {
-              acc[i] = {
-                value,
-                isValid: !errors.find((err) => err.columnNumber === i + 1),
-              };
-              return acc;
-            },
-            {} as {
-              [attributeName: string]: ImportPreviewColumn;
-            }
-          ),
-          errorsCount: errors.length,
-        });
-      } else if (usagerRow) {
-        usagersRows.push(usagerRow);
-      }
-    }
-
-    processTracker.parse.end = new Date();
-    processTracker.parse.duration =
-      (processTracker.parse.end.getTime() -
-        processTracker.parse.start.getTime()) /
       1000;
     processTracker.build = {
       start: new Date(),
