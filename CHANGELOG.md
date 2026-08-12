@@ -1,3 +1,10 @@
+# [2.256.0](https://github.com/SocialGouv/domifa/compare/v2.255.1...v2.256.0) (2026-08-12)
+
+
+### Features
+
+* migrate db for logged users without last password update ([#4241](https://github.com/SocialGouv/domifa/issues/4241)) ([2e8a8a7](https://github.com/SocialGouv/domifa/commit/2e8a8a7852b5086008126f7c3469a030c35e9863))
+
 ## [2.255.1](https://github.com/SocialGouv/domifa/compare/v2.255.0...v2.255.1) (2026-08-10)
 
 
