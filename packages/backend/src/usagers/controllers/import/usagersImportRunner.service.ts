@@ -12,12 +12,13 @@ export type ImportWorkerInput = {
   maxRows?: number;
 };
 
-// Codes d'erreur remontés au contrôleur, tous traduits en 400 côté HTTP.
+// Codes d'erreur remontés au contrôleur.
 export type ImportRunnerErrorCode =
   | "IMPORT_TIMEOUT"
   | "IMPORT_TOO_MANY_ROWS"
   | "IMPORT_WORKER_FAILURE"
-  | "IMPORT_WORKER_EXIT";
+  | "IMPORT_WORKER_EXIT"
+  | "IMPORT_BUSY";
 
 export class ImportRunnerError extends Error {
   constructor(public readonly code: ImportRunnerErrorCode, message: string) {
@@ -37,6 +38,13 @@ export const IMPORT_WORKER_TIMEOUT_MS = 30_000;
 // Borne mémoire du worker : une bombe de décompression xlsx OOM le WORKER
 // (capté ici) plutôt que le pod.
 const IMPORT_WORKER_MAX_OLD_SPACE_MB = 512;
+
+// Nombre de workers d'import simultanés par pod. Chaque worker coûte jusqu'à
+// 512 Mo et ~1 cœur pendant 30 s : sans cap, plusieurs imports concurrents
+// (un compte responsable/admin par requête) affameraient le CPU du pod. Au
+// -delà, on refuse tôt (IMPORT_BUSY) plutôt que d' empiler une file non bornée.
+export const IMPORT_MAX_CONCURRENT_WORKERS = 3;
+let activeWorkers = 0;
 
 // En dev l'app tourne via ts-node (`__filename` en `.ts`) ; en prod c'est le
 // `.js` compilé. Le worker doit pointer le bon fichier et, en dev, charger
@@ -70,6 +78,16 @@ function parseAndValidate(
   input: ImportWorkerInput,
   { timeoutMs = IMPORT_WORKER_TIMEOUT_MS }: { timeoutMs?: number } = {}
 ): Promise<ImportParseAndValidateResult> {
+  if (activeWorkers >= IMPORT_MAX_CONCURRENT_WORKERS) {
+    return Promise.reject(
+      new ImportRunnerError(
+        "IMPORT_BUSY",
+        `already ${activeWorkers} import workers running`
+      )
+    );
+  }
+  activeWorkers++;
+
   return new Promise((resolve, reject) => {
     const worker = new Worker(WORKER_FILE, {
       workerData: input,
@@ -86,6 +104,7 @@ function parseAndValidate(
         return;
       }
       settled = true;
+      activeWorkers--;
       clearTimeout(timer);
       // `terminate()` est idempotent ; on nettoie dans tous les cas.
       void worker.terminate();

@@ -28,6 +28,9 @@ export const IMPORT_MAX_ROWS = 100000;
 export type ImportRowTooManyError = "IMPORT_TOO_MANY_ROWS";
 
 export type ImportParseAndValidateResult = {
+  // nombre de lignes non vides lues dans le fichier (avant filtrage), pour
+  // l'observabilité — l'ancien contrôleur traçait ce compte.
+  totalRows: number;
   totalCount: number;
   importErrors: UsagersImportError[];
   importPreviewRows: ImportPreviewRow[];
@@ -113,6 +116,7 @@ export async function parseAndValidateImportFile({
   }
 
   return {
+    totalRows: usagerImportRows.length,
     totalCount: importPreviewRows.length,
     importErrors,
     importPreviewRows,
