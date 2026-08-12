@@ -88,7 +88,11 @@ function parseAndValidate(
   }
   activeWorkers++;
 
-  return new Promise((resolve, reject) => {
+  // La décrémentation vit sur `.finally` de la promesse, PAS dans `finish()` :
+  // ainsi elle a lieu sur TOUT dénouement, y compris si `new Worker` lève de
+  // façon synchrone (fichier worker absent) avant que `finish` ne soit câblé —
+  // sans ça, le compteur fuirait et le pod finirait par refuser tout import.
+  return new Promise<ImportParseAndValidateResult>((resolve, reject) => {
     const worker = new Worker(WORKER_FILE, {
       workerData: input,
       execArgv: WORKER_EXEC_ARGV,
@@ -104,7 +108,6 @@ function parseAndValidate(
         return;
       }
       settled = true;
-      activeWorkers--;
       clearTimeout(timer);
       // `terminate()` est idempotent ; on nettoie dans tous les cas.
       void worker.terminate();
@@ -168,5 +171,7 @@ function parseAndValidate(
         );
       }
     });
+  }).finally(() => {
+    activeWorkers--;
   });
 }
