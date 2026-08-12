@@ -159,4 +159,20 @@ describe("usagersImportRunner (worker thread)", () => {
     expect(busy).toHaveLength(1);
     expect(done).toHaveLength(IMPORT_MAX_CONCURRENT_WORKERS);
   }, 30000);
+
+  it("libère le compteur sur échec — pas de DoS permanent après N erreurs", async () => {
+    // Un compteur qui fuirait sur les chemins d'erreur finirait par refuser
+    // tout import (IMPORT_BUSY à vie). On échoue plus de fois que le cap, puis
+    // on vérifie qu'un import valide passe encore.
+    const missing = input(join(tmpDir, "does-not-exist.xlsx"));
+    for (let i = 0; i < IMPORT_MAX_CONCURRENT_WORKERS + 2; i++) {
+      await usagersImportRunner.parseAndValidate(missing).catch(() => undefined);
+    }
+    const ok = await usagersImportRunner.parseAndValidate(
+      input(resolve(importFilesDir, "import_ok_1.xlsx"), {
+        importMode: UsagersImportMode.confirm,
+      })
+    );
+    expect(ok.usagersRows).toHaveLength(19);
+  }, 30000);
 });
