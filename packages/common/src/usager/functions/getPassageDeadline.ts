@@ -18,10 +18,11 @@ export const getPassageDeadline = (
     return deadline;
   }
 
+  const now = new Date();
   deadline.isActive = true;
   deadline.dateToDisplay = new Date(usager.lastInteraction.dateInteraction);
   deadline.daysSinceLastPassage = differenceInCalendarDays(
-    new Date(),
+    now,
     deadline.dateToDisplay
   );
 
@@ -29,9 +30,9 @@ export const getPassageDeadline = (
   const twoMonthsDeadline = addDays(addMonths(deadline.dateToDisplay, 2), 1);
   const threeMonthsDeadline = addDays(addMonths(deadline.dateToDisplay, 3), 1);
 
-  if (differenceInCalendarDays(new Date(), threeMonthsDeadline) >= 0) {
+  if (differenceInCalendarDays(now, threeMonthsDeadline) >= 0) {
     deadline.color = "bg-danger";
-  } else if (differenceInCalendarDays(new Date(), twoMonthsDeadline) >= 0) {
+  } else if (differenceInCalendarDays(now, twoMonthsDeadline) >= 0) {
     deadline.color = "bg-warning";
   }
 
