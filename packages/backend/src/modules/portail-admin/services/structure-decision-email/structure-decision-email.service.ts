@@ -1,7 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { BrevoSenderService } from "../../../mails/services/brevo-sender/brevo-sender.service";
 import { domifaConfig } from "../../../../config";
-import { StructureDecisionStatut } from "@domifa/common";
+import {
+  StructureDecisionStatut,
+  UserDeleteMotif,
+  USER_DELETE_MOTIF_LABELS,
+} from "@domifa/common";
 
 interface EmailParams {
   prenom: string;
@@ -24,6 +28,25 @@ export class StructureDecisionEmailService {
       templateId,
       to: [{ email: adminEmail, name: adminName }],
       params,
+    });
+  }
+
+  async sendUserAccountDeletedEmail({
+    email,
+    prenom,
+    motif,
+  }: {
+    email: string;
+    prenom: string;
+    motif: UserDeleteMotif;
+  }): Promise<void> {
+    await this.brevoSenderService.sendEmailWithTemplate({
+      templateId: domifaConfig().brevo.templates.userAccountDeleted,
+      to: [{ email, name: prenom }],
+      params: {
+        prenom,
+        motif: USER_DELETE_MOTIF_LABELS[motif],
+      },
     });
   }
 

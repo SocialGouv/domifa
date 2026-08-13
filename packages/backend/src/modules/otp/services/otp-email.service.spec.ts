@@ -32,7 +32,7 @@ import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-send
 import { generateOtpEmailHtml } from "../templates/otp-email.template";
 
 // Domain listed in OTP_DUAL_SEND_DOMAINS — triggers Brevo + SMTP.
-const DUAL_SEND_EMAIL = "user@fabrique.social.gouv.fr";
+const DUAL_SEND_EMAIL = "user@mulhouse-alsace.fr";
 // Regular domain — Brevo only.
 const BREVO_ONLY_EMAIL = "user@example.com";
 

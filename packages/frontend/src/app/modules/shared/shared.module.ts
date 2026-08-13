@@ -18,7 +18,6 @@ import {
 } from "@edugouvfr/ngx-dsfr-ext";
 import { HasRoleDirective } from "./directives/has-role.directive";
 import { AlerteConfidentialiteComponent } from "../general/components/navbar/fragments/alerte-confidentialite/alerte-confidentialite.component";
-import { Alerte2faComponent } from "../general/components/navbar/fragments/alerte-2fa/alerte-2fa.component";
 import { UserStructurePasswordFormComponent } from "./components/user-structure-password-form/user-structure-password-form.component";
 import { LoadingComponent } from "./components/loading/loading.component";
 
@@ -32,7 +31,6 @@ import { LoadingComponent } from "./components/loading/loading.component";
     HasRoleDirective,
     DsfrDropdownMenuComponent,
     AlerteConfidentialiteComponent,
-    Alerte2faComponent,
     DsfrTimelineComponent,
     DsfrDropdownMenuItemComponent,
     LoadingComponent,
@@ -61,7 +59,6 @@ import { LoadingComponent } from "./components/loading/loading.component";
     DsfrFooterModule,
     DsfrDropdownMenuComponent,
     AlerteConfidentialiteComponent,
-    Alerte2faComponent,
     UserStructurePasswordFormComponent,
     DsfrTimelineComponent,
     DsfrDropdownMenuItemComponent,
