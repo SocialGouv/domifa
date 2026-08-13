@@ -51,6 +51,7 @@ backend-export:
     oblik.socialgouv.io/request-apply-target: peak
   ingress:
     paths:
+      - /import
       - /export
       - /admin/structures/export
       - /stats
