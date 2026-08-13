@@ -1,3 +1,13 @@
+## [2.257.1](https://github.com/SocialGouv/domifa/compare/v2.257.0...v2.257.1) (2026-08-13)
+
+
+### Bug Fixes
+
+* **backend:** release the concurrency counter on every outcome ([1a7259a](https://github.com/SocialGouv/domifa/commit/1a7259a19af5bbe515a5cb71717a09071a6e227b))
+* **backend:** run import parse/validation in a worker thread, bounded ([321f819](https://github.com/SocialGouv/domifa/commit/321f819caf63353ce5c1a6e944d4082d3f30be34))
+* **backend:** stop import parsing from freezing the event loop ([5a6a984](https://github.com/SocialGouv/domifa/commit/5a6a9845bab3ab6339b67fd3ac6be8cf2dcd8701)), closes [#4248](https://github.com/SocialGouv/domifa/issues/4248)
+* **frontend:** fix links ([9dbf4f6](https://github.com/SocialGouv/domifa/commit/9dbf4f6947b088466f18c73cc4e3328b727da15b))
+
 # [2.257.0](https://github.com/SocialGouv/domifa/compare/v2.256.1...v2.257.0) (2026-08-13)
 
 
