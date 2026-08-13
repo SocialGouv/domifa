@@ -23,7 +23,6 @@ export const OTP_CODE_HEADER = "otp-code";
 // (DOMIFA_SMTP_* config) with the same code, so the user receives at least
 // one. Everyone else stays on Brevo-only.
 export const OTP_DUAL_SEND_DOMAINS: readonly string[] = [
-  "fabrique.social.gouv.fr",
   "mulhouse-alsace.fr",
   "akatij.fr",
   "ville-smlt.fr",

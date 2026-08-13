@@ -14,7 +14,10 @@ import {
   Patch,
 } from "@nestjs/common";
 import { Request as ExpressRequest } from "express";
-import { buildSecurityLogRequestContext } from "../../../../util/express";
+import {
+  buildSecurityLogRequestContext,
+  ExpressResponse,
+} from "../../../../util/express";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 
@@ -33,8 +36,7 @@ import {
 } from "../../../../database";
 import { statsDeploiementExporter } from "../../../../excel/export-stats-deploiement";
 
-import { expressResponseExcelRenderer } from "../../../../util";
-import { ExpressResponse } from "../../../../util/express";
+import { appLogger, expressResponseExcelRenderer } from "../../../../util";
 import { UserAdminAuthenticated } from "../../../../_common/model";
 import { AdminStructuresService } from "../../services";
 
@@ -432,12 +434,26 @@ export class AdminStructuresController {
     await this.userStructureDecisionService.softDelete({
       targetUserId: target.id,
       targetUserEmail: target.email,
-      targetUserPrenom: target.prenom,
       targetUserRole: target.role,
       structureId: structure.id,
       motif: body.motif,
       actor: { kind: "supervisor", user },
     });
+
+    // Address captured before the soft delete: the stored one is now prefixed
+    // "deleted-", which `sendEmailWithTemplate` filters out.
+    try {
+      await this.structureDecisionEmailService.sendUserAccountDeletedEmail({
+        email: target.email,
+        prenom: target.prenom,
+        motif: body.motif,
+      });
+    } catch (error) {
+      appLogger.warn(
+        `Échec de l'envoi de l'email de suppression de compte pour l'utilisateur ${target.id}`,
+        error
+      );
+    }
 
     return res.status(HttpStatus.OK).json({ message: "OK" });
   }
