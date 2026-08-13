@@ -1,4 +1,4 @@
-import { addDays, addMonths, differenceInCalendarDays } from "date-fns";
+import { differenceInCalendarDays } from "date-fns";
 import { PassageDeadline, Usager } from "../interfaces";
 
 export const getPassageDeadline = (
@@ -18,21 +18,18 @@ export const getPassageDeadline = (
     return deadline;
   }
 
-  const now = new Date();
   deadline.isActive = true;
   deadline.dateToDisplay = new Date(usager.lastInteraction.dateInteraction);
+  // Day-level comparison aligned with getDecisionDeadline thresholds:
+  // 61 days ~ 2 months complete + 1 day, 91 days ~ 3 months complete + 1 day.
   deadline.daysSinceLastPassage = differenceInCalendarDays(
-    now,
+    new Date(),
     deadline.dateToDisplay
   );
 
-  // A deadline is reached once the delay is fully elapsed, at D+1 (e.g. 2 months complete + 1 day).
-  const twoMonthsDeadline = addDays(addMonths(deadline.dateToDisplay, 2), 1);
-  const threeMonthsDeadline = addDays(addMonths(deadline.dateToDisplay, 3), 1);
-
-  if (differenceInCalendarDays(now, threeMonthsDeadline) >= 0) {
+  if (deadline.daysSinceLastPassage >= 91) {
     deadline.color = "bg-danger";
-  } else if (differenceInCalendarDays(now, twoMonthsDeadline) >= 0) {
+  } else if (deadline.daysSinceLastPassage >= 61) {
     deadline.color = "bg-warning";
   }
 
