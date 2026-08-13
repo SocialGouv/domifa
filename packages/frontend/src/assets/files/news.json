@@ -1,5 +1,54 @@
 [
   {
+    "date": "2026-08-13",
+    "description": "Affiches de connexion à Mon DomiFa, vidéo de présentation et fiches pratiques",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "📌 De nouvelles affiches de connexion à Mon DomiFa",
+        "message": [
+          "Téléchargez les affiches de connexion à Mon DomiFa en français, anglais et arabe, et affichez-les dans votre structure pour permettre aux usagers d’accéder facilement à leur espace personnel.",
+          "👉 Retrouvez-les dans « Mon espace » > « Gérer le portail domicilié »."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "🎥 Une nouvelle vidéo de présentation de DomiFa",
+        "message": [
+          "Une vidéo de présentation de la plateforme est désormais disponible dans la page « Découvrir DomiFa »."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "📚 De nouvelles fiches pratiques",
+        "message": [
+          "Retrouvez dans la FAQ plusieurs fiches pratiques pour vous accompagner dans la prise en main de DomiFa et l’utilisation de ses différentes fonctionnalités."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "⚙️ Activation du portail domicilié",
+        "message": [
+          "Lors de la première activation du portail, une fenêtre de réinitialisation du mot de passe s’affichait auparavant. Désormais, une fenêtre dédiée à l’activation du portail s’ouvre directement."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "♿ Déclaration d’accessibilité de Mon DomiFa",
+        "message": [
+          "Une nouvelle déclaration d’accessibilité est désormais disponible sur le portail domicilié Mon DomiFa."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "🔎 Affichage des résultats après filtrage",
+        "message": [
+          "Une correction a été apportée à l’affichage du nombre de résultats lors d’une recherche après avoir appliqué des filtres sur les dossiers."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2026-05-11",
     "description": "Témoignages utilisateurs et corrections de filtres et téléversements de fichier",
     "content": [
