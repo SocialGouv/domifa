@@ -1,3 +1,10 @@
+# [2.257.0](https://github.com/SocialGouv/domifa/compare/v2.256.1...v2.257.0) (2026-08-13)
+
+
+### Features
+
+* notify users on account deletion and remove 2FA alert ([6a7d253](https://github.com/SocialGouv/domifa/commit/6a7d25301162da12413c519f0ec8554868158468))
+
 ## [2.256.1](https://github.com/SocialGouv/domifa/compare/v2.256.0...v2.256.1) (2026-08-13)
 
 
