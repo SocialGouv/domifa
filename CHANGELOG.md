@@ -1,3 +1,10 @@
+## [2.257.2](https://github.com/SocialGouv/domifa/compare/v2.257.1...v2.257.2) (2026-08-13)
+
+
+### Bug Fixes
+
+* **frontend:** update popup ([aba30b0](https://github.com/SocialGouv/domifa/commit/aba30b04164c810d7cb8560aab49137c998fd8b1))
+
 ## [2.257.1](https://github.com/SocialGouv/domifa/compare/v2.257.0...v2.257.1) (2026-08-13)
 
 
