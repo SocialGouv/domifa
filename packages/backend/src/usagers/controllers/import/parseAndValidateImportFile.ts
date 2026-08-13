@@ -46,15 +46,18 @@ export async function parseAndValidateImportFile({
   context,
   maxErrors,
   maxRows = IMPORT_MAX_ROWS,
+  logContext,
 }: {
   filePath: string;
   importMode: UsagersImportMode;
   context: UsagersImportUsagerSchemaContext;
   maxErrors: number;
   maxRows?: number;
+  logContext: { fileName: string; structureId: number };
 }): Promise<ImportParseAndValidateResult> {
-  const usagerImportRows = await usagersImportExcelParser.parseFileSync(
-    filePath
+  const usagerImportRows = await usagersImportExcelParser.parseFile(
+    filePath,
+    logContext
   );
 
   if (usagerImportRows.length > maxRows) {

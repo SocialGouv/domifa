@@ -10,7 +10,10 @@ import { UsagersImportUsagerSchemaContext } from "./step2-validate-row";
 // Parité de la logique extraite du contrôleur vers le worker : mêmes fixtures,
 // mêmes comptes que le test d'intégration HTTP existant (`import.controller.
 // spec.ts`), sans base ni boot d'app. Plus la borne de lignes.
-const importFilesDir = resolve(__dirname, "../../../_static/usagers-import-test");
+const importFilesDir = resolve(
+  __dirname,
+  "../../../_static/usagers-import-test"
+);
 
 const context: UsagersImportUsagerSchemaContext = {
   minDate: startOfYear(new Date("1900-01-01")),
@@ -19,13 +22,18 @@ const context: UsagersImportUsagerSchemaContext = {
   countryCode: COUNTRY_CODES_TIMEZONE["Europe/Paris"],
 };
 
-const run = (fileName: string, importMode: UsagersImportMode, maxRows?: number) =>
+const run = (
+  fileName: string,
+  importMode: UsagersImportMode,
+  maxRows?: number
+) =>
   parseAndValidateImportFile({
     filePath: resolve(importFilesDir, fileName),
     importMode,
     context,
     maxErrors: 20,
     maxRows,
+    logContext: { fileName, structureId: 1 },
   });
 
 describe("parseAndValidateImportFile", () => {
