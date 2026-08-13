@@ -15,7 +15,7 @@ async function updateEmail({
   user: UserStructureAuthenticated;
   newEmail: string;
 }): Promise<void> {
-  if (newEmail === user.email) {
+  if (newEmail.toLowerCase() === user.email.toLowerCase()) {
     throw new BadRequestException("SAME_EMAIL");
   }
 
