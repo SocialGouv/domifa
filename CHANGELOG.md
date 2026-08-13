@@ -1,3 +1,11 @@
+## [2.256.1](https://github.com/SocialGouv/domifa/compare/v2.256.0...v2.256.1) (2026-08-13)
+
+
+### Bug Fixes
+
+* **ci:** drain backend-export too, cap preStop under the grace period ([f831fdf](https://github.com/SocialGouv/domifa/commit/f831fdf80e4f99b401145bb34c885d1bffbcd256))
+* **ci:** route /import to the dedicated backend-export pod ([#4249](https://github.com/SocialGouv/domifa/issues/4249)) ([84550e7](https://github.com/SocialGouv/domifa/commit/84550e7a7f4788acb553fc0de121f7ebf5c6a18b)), closes [#4248](https://github.com/SocialGouv/domifa/issues/4248)
+
 # [2.256.0](https://github.com/SocialGouv/domifa/compare/v2.255.1...v2.256.0) (2026-08-12)
 
 
