@@ -258,14 +258,10 @@ export class EditUserComponent implements OnInit, OnDestroy {
         .updateMyEmail(this.emailForm.value.email)
         .subscribe({
           next: () => {
-            this.subscription.add(
-              this.authService.isAuth().subscribe(() => {
-                this.me = this.authService.currentUserValue;
-              })
-            );
             this.loading = false;
             this.editEmail = false;
             this.submitted = false;
+            this.me = this.authService.currentUserValue;
             this.toastService.success(
               "Félicitations ! : votre adresse email a été modifiée avec succès"
             );
