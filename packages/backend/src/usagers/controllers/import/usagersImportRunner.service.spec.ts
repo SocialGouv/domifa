@@ -1,7 +1,7 @@
 import * as ExcelJS from "exceljs";
 import { mkdtempSync, rmSync } from "fs";
 import { tmpdir } from "os";
-import { join, resolve } from "path";
+import { basename, join, resolve } from "path";
 import { addYears, endOfDay, startOfYear } from "date-fns";
 import { COUNTRY_CODES_TIMEZONE, UsagersImportMode } from "@domifa/common";
 import { parseAndValidateImportFile } from "./parseAndValidateImportFile";
@@ -19,7 +19,10 @@ import { UsagersImportUsagerSchemaContext } from "./step2-validate-row";
 //   2. le contraste : le même traitement en inline le bloque (mutation-proof) ;
 //   3. un fichier trop long est coupé net (timeout), un fichier trop gros refusé.
 
-const importFilesDir = resolve(__dirname, "../../../_static/usagers-import-test");
+const importFilesDir = resolve(
+  __dirname,
+  "../../../_static/usagers-import-test"
+);
 
 const context: UsagersImportUsagerSchemaContext = {
   minDate: startOfYear(new Date("1900-01-01")),
@@ -30,9 +33,25 @@ const context: UsagersImportUsagerSchemaContext = {
 
 const HEADER = Array.from({ length: 19 }, (_, i) => `col${i}`);
 const VALID_ROW = [
-  100000, "H", "TOURE", "M.", "TOURE", "22/06/1980", "Sénégal", "0601010101",
-  "", "VALIDE", null, null, "PREMIERE", "19/11/2020", "19/11/2021",
-  "19/11/2020", "26/11/2020", "OUI", "AMI",
+  100000,
+  "H",
+  "TOURE",
+  "M.",
+  "TOURE",
+  "22/06/1980",
+  "Sénégal",
+  "0601010101",
+  "",
+  "VALIDE",
+  null,
+  null,
+  "PREMIERE",
+  "19/11/2020",
+  "19/11/2021",
+  "19/11/2020",
+  "26/11/2020",
+  "OUI",
+  "AMI",
 ];
 
 let tmpDir: string;
@@ -59,6 +78,7 @@ const input = (
   importMode: UsagersImportMode.preview,
   context,
   maxErrors: 20,
+  logContext: { fileName: basename(filePath), structureId: 1 },
   ...overrides,
 });
 
@@ -168,7 +188,9 @@ describe("usagersImportRunner (worker thread)", () => {
     // sur `.finally()`. Puis on vérifie qu'un import valide passe encore.
     const missing = input(join(tmpDir, "does-not-exist.xlsx"));
     for (let i = 0; i < IMPORT_MAX_CONCURRENT_WORKERS + 2; i++) {
-      await usagersImportRunner.parseAndValidate(missing).catch(() => undefined);
+      await usagersImportRunner
+        .parseAndValidate(missing)
+        .catch(() => undefined);
     }
     const ok = await usagersImportRunner.parseAndValidate(
       input(resolve(importFilesDir, "import_ok_1.xlsx"), {

@@ -137,6 +137,7 @@ export class ImportController {
             countryCode: COUNTRY_CODES_TIMEZONE[user.structure.timeZone],
           },
           maxErrors,
+          logContext: { fileName, structureId },
         });
         processTracker.data = { count: parseResult.totalRows };
       } catch (err) {
@@ -159,8 +160,12 @@ export class ImportController {
         return res.status(HttpStatus.BAD_REQUEST).json({ message });
       }
 
-      const { importErrors, importPreviewRows, usagersRows, previewUsagersRow } =
-        parseResult;
+      const {
+        importErrors,
+        importPreviewRows,
+        usagersRows,
+        previewUsagersRow,
+      } = parseResult;
 
       processTracker.read.end = new Date();
       processTracker.read.duration =

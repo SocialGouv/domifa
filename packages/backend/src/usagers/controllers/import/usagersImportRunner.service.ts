@@ -10,6 +10,7 @@ export type ImportWorkerInput = {
   context: UsagersImportUsagerSchemaContext;
   maxErrors: number;
   maxRows?: number;
+  logContext: { fileName: string; structureId: number };
 };
 
 // Codes d'erreur remontés au contrôleur.
