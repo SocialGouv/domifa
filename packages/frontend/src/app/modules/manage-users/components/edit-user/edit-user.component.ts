@@ -268,10 +268,11 @@ export class EditUserComponent implements OnInit, OnDestroy {
           },
           error: (err) => {
             this.loading = false;
-            if (err?.error?.code?.startsWith?.('OTP_')) {
+            if (err?.error?.code?.startsWith?.("OTP_")) {
               // OTP guard handles its own user-facing feedback; nothing more to do here.
               return;
             }
+            if (err?.error?.message === "EMAIL_ALREADY_USED") {
               this.toastService.error(
                 "Cette adresse email est déjà utilisée par un autre compte"
               );
