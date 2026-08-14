@@ -52,9 +52,9 @@ export type UserStructureCreateLogContext = {
 };
 
 export type UserStructureEmailChangeLogContext = {
-  // USER_EMAIL_CHANGE
-  oldEmail: string; // anonymisé
-  newEmail: string; // anonymisé
+  // USER_EMAIL_SELF_UPDATE
+  oldEmail: string; // anonymisé via anonymizeEmail()
+  newEmail: string; // anonymisé via anonymizeEmail()
 };
 
 export type BlockUserByAdminLogContext = {

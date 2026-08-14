@@ -268,8 +268,9 @@ export class EditUserComponent implements OnInit, OnDestroy {
           },
           error: (err) => {
             this.loading = false;
-            if (err?.error?.code?.startsWith?.("OTP_")) {
-              // OTP guard handles its own user-facing feedback; nothing more to do here.
+            if (err?.error?.message?.startsWith?.("OTP_")) {
+              // OtpInterceptor already surfaced its own feedback (toast or
+              // silent cancel) for OTP_FAILED / OTP_CANCELLED; nothing more to do here.
               return;
             }
             if (err?.error?.message === "EMAIL_ALREADY_USED") {

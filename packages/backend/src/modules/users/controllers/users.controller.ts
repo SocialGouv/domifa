@@ -2,6 +2,7 @@ import {
   UserStructureProfile,
   UserStructure,
   ALL_USER_STRUCTURE_ROLES,
+  ApiMessage,
 } from "@domifa/common";
 import { Not } from "typeorm";
 import {
@@ -10,6 +11,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   HttpStatus,
   Param,
   ParseUUIDPipe,
@@ -20,6 +22,7 @@ import {
   Res,
   UseGuards,
 } from "@nestjs/common";
+import { Throttle } from "@nestjs/throttler";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Request as ExpressRequest, Response } from "express";
@@ -51,10 +54,10 @@ import {
 } from "../dto";
 import {
   userStructureCreator,
-  userStructureEmailUpdater,
   userStructureSecurityPasswordUpdater,
 } from "../services";
 import { UserStructureDecisionService } from "../services/user-structure-decision/user-structure-decision.service";
+import { UserStructureEmailUpdaterService } from "../services/userStructureEmailUpdater.service";
 import { OtpGuard } from "../../otp/guards/otp.guard";
 import { RequireOtp } from "../../otp/decorators/require-otp.decorator";
 // Direct path (not via the `portail-admin` barrel): the barrel re-exports
@@ -74,7 +77,7 @@ import {
   UserStructureEmailChangeLogContext,
   UserStructureRoleChangeLogContext,
 } from "../../app-logs/types/app-log-context.types";
-import { appLogger, anonymizeText } from "../../../util";
+import { appLogger, anonymizeEmail } from "../../../util";
 import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
 import { domifaConfig } from "../../../config";
 
@@ -89,7 +92,8 @@ export class UsersController {
   constructor(
     private readonly appLogService: AppLogsService,
     private readonly brevoSenderService: BrevoSenderService,
-    private readonly userStructureDecisionService: UserStructureDecisionService
+    private readonly userStructureDecisionService: UserStructureDecisionService,
+    private readonly userStructureEmailUpdaterService: UserStructureEmailUpdaterService
   ) {}
 
   @Get("")
@@ -423,24 +427,33 @@ export class UsersController {
   @Post("edit-my-email")
   @UseGuards(OtpGuard)
   @RequireOtp("EMAIL_CHANGE")
+  // Limite dédiée : le code OTP n'est pas lié à l'email ciblé, donc un même
+  // code valide pourrait sinon être réutilisé pour tester l'existence de
+  // plusieurs adresses (énumération de comptes) via EMAIL_ALREADY_USED.
+  @Throttle({
+    short: { limit: 3, ttl: 60_000, blockDuration: 900_000 }, // 3 req/min, block 15min
+  })
   @ApiOperation({ summary: "Edition de l'email depuis le compte user" })
+  @HttpCode(HttpStatus.OK)
   public async editEmail(
     @CurrentUser() user: UserStructureAuthenticated,
-    @Body() dto: EmailDto,
-    @Res() res: Response
-  ) {
+    @Body() dto: EmailDto
+  ): Promise<ApiMessage> {
     const oldEmail = user.email;
-    await userStructureEmailUpdater.updateEmail({ user, newEmail: dto.email });
+    await this.userStructureEmailUpdaterService.updateEmail({
+      user,
+      newEmail: dto.email,
+    });
 
     await this.appLogService.create<UserStructureEmailChangeLogContext>({
       ...buildStructureActorFields(user),
-      action: "USER_EMAIL_CHANGE",
+      action: "USER_EMAIL_SELF_UPDATE",
       context: {
-        oldEmail: anonymizeText(oldEmail),
-        newEmail: anonymizeText(dto.email),
+        oldEmail: anonymizeEmail(oldEmail),
+        newEmail: anonymizeEmail(dto.email),
       },
     });
 
-    return res.status(HttpStatus.OK).json({ message: "OK" });
+    return { message: "OK" };
   }
 }

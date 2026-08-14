@@ -18,6 +18,7 @@ import { StructureDecisionEmailService } from "./services/structure-decision-ema
 import { StructureDecisionService } from "./services/structure-decision/structure-decision.service";
 import { UserSupervisorDecisionService } from "./services/user-supervisor-decision/user-supervisor-decision.service";
 import { UserStructureDecisionService } from "../users/services/user-structure-decision/user-structure-decision.service";
+import { UserStructureEmailUpdaterService } from "../users/services/userStructureEmailUpdater.service";
 import { OtpModule } from "../otp/otp.module";
 
 @Module({
@@ -40,6 +41,7 @@ import { OtpModule } from "../otp/otp.module";
     StructureDecisionEmailService,
     StructureDecisionService,
     UserStructureDecisionService,
+    UserStructureEmailUpdaterService,
     UserSupervisorDecisionService,
   ],
 })
