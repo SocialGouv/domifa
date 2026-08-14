@@ -303,6 +303,15 @@
             Impression en cours... } @else { Imprimer }
           </button>
         </div>
+
+        <div class="fr-col-12 fr-col-md-6 fr-col-offset-md-3">
+          <p
+            class="fr-text--sm fr-text-mention--grey fr-mt-1w fr-mb-0w"
+            aria-live="polite"
+          >
+            @if (!searching) { {{ nbResults }} résultat(s) }
+          </p>
+        </div>
       </div>
 
       <app-manage-filters
