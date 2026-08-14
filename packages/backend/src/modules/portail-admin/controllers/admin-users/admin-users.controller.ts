@@ -53,6 +53,7 @@ import {
 } from "../../dto";
 import { DeleteUserDto } from "../../../users/dto";
 import { UserStructureDecisionService } from "../../../users/services/user-structure-decision/user-structure-decision.service";
+import { UserStructureEmailUpdaterService } from "../../../users/services/userStructureEmailUpdater.service";
 import { UserSupervisorDecisionService } from "../../services/user-supervisor-decision/user-supervisor-decision.service";
 import { PageOptionsDto } from "../../../../usagers/dto/pagination/page-options.dto";
 import { AdminStructuresService } from "../../services";
@@ -81,6 +82,7 @@ export class AdminUsersController {
     private readonly adminStructuresService: AdminStructuresService,
     private readonly brevoSenderService: BrevoSenderService,
     private readonly userStructureDecisionService: UserStructureDecisionService,
+    private readonly userStructureEmailUpdaterService: UserStructureEmailUpdaterService,
     private readonly userSupervisorDecisionService: UserSupervisorDecisionService
   ) {}
 
@@ -93,7 +95,8 @@ export class AdminUsersController {
     const userController = new UsersController(
       this.appLogsService,
       this.brevoSenderService,
-      this.userStructureDecisionService
+      this.userStructureDecisionService,
+      this.userStructureEmailUpdaterService
     );
     await this.appLogsService.create({
       ...buildSupervisorActorFields(user),
