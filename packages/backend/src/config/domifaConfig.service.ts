@@ -382,7 +382,7 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       usagersDocsUploadPerDay: configParser.parseInteger(
         x,
         "DOMIFA_QUOTA_USAGERS_DOCS_UPLOAD_PER_DAY",
-        { required: false, defaultValue: 100 }
+        { required: false, defaultValue: 200 }
       ),
       usagersDeletePerDay: configParser.parseInteger(
         x,

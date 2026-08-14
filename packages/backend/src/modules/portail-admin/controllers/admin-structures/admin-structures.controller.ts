@@ -449,9 +449,9 @@ export class AdminStructuresController {
         motif: body.motif,
       });
     } catch (error) {
-      appLogger.warn(
+      appLogger.error(
         `Échec de l'envoi de l'email de suppression de compte pour l'utilisateur ${target.id}`,
-        error
+        { error, sentry: true, context: { userId: target.id } }
       );
     }
 
