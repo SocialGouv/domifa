@@ -1,3 +1,10 @@
+## [2.257.3](https://github.com/SocialGouv/domifa/compare/v2.257.2...v2.257.3) (2026-08-15)
+
+
+### Bug Fixes
+
+* **frontend:** add search result ([9c69e45](https://github.com/SocialGouv/domifa/commit/9c69e4507b2ad4557910062089d4622572f43685))
+
 ## [2.257.2](https://github.com/SocialGouv/domifa/compare/v2.257.1...v2.257.2) (2026-08-13)
 
 
