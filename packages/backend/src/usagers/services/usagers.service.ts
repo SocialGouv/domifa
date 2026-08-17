@@ -191,6 +191,8 @@ export class UsagersService {
     ) {
       newDecision.dateFin = newDecision?.dateFin ? newDecision.dateFin : now;
       newDecision.dateDebut = newDecision.dateFin;
+
+      usager.dateDerniereDom = null;
     } else if (newDecision.statut === "VALIDE") {
       const actualLastInteraction = new Date(
         usager.lastInteraction.dateInteraction
@@ -209,6 +211,13 @@ export class UsagersService {
       // Date de premiere dom = date de début si aucune autre date n'est spécifiée
       if (!usager.datePremiereDom) {
         usager.datePremiereDom = newDecision.dateDebut;
+      }
+
+      // Date de la domiciliation en cours et ininterrompue : ne repart que
+      // s'il n'y en avait pas (1ère domiciliation, ou domiciliation
+      // relancée après une radiation/un refus de renouvellement)
+      if (!usager.dateDerniereDom) {
+        usager.dateDerniereDom = newDecision.dateDebut;
       }
     }
 
@@ -237,6 +246,7 @@ export class UsagersService {
         etapeDemande: usager.etapeDemande,
         typeDom: usager.typeDom,
         datePremiereDom: usager.datePremiereDom,
+        dateDerniereDom: usager.dateDerniereDom,
       }
     );
     return usager;
