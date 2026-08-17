@@ -7,7 +7,11 @@ export const getDecisionDate = (
   typeCerfa: CerfaDocType,
   usager: Pick<
     Usager,
-    "datePremiereDom" | "decision" | "historique" | "typeDom"
+    | "datePremiereDom"
+    | "dateDerniereDom"
+    | "decision"
+    | "historique"
+    | "typeDom"
   >,
   decision: UsagerDecision
 ): {
@@ -15,11 +19,18 @@ export const getDecisionDate = (
   dateDebut: DateCerfa;
   dateFin: DateCerfa;
 } => {
-  let datePremiereDom = getDateForCerfa(usager.datePremiereDom);
+  // La date affichée comme "première domiciliation" sur le Cerfa doit
+  // correspondre au début de la domiciliation en cours et ininterrompue
+  // (dateDerniereDom), et non à la toute première domiciliation historique
+  // dans la structure si celle-ci a été interrompue par une radiation.
+  const dateReferencePremiereDom =
+    usager.dateDerniereDom ?? usager.datePremiereDom;
+
+  let datePremiereDom = getDateForCerfa(dateReferencePremiereDom);
   let dateDebut = getDateForCerfa(decision.dateDebut);
   let dateFin = getDateForCerfa(decision.dateFin);
 
-  if (!usager?.datePremiereDom) {
+  if (!dateReferencePremiereDom) {
     datePremiereDom = getDateForCerfa(new Date());
   }
 

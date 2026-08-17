@@ -46,6 +46,7 @@ export interface Usager extends AppEntity {
   statut: UsagerDecisionStatut;
 
   datePremiereDom: Date;
+  dateDerniereDom?: Date | null;
   import?: UsagerImport;
 
   decision: UsagerDecision;

@@ -99,6 +99,11 @@ function buildUsager({
     }
   }
 
+  const dateDerniereDom =
+    usagerRow.statutDom === "RADIE" || usagerRow.statutDom === "REFUS"
+      ? null
+      : datePremiereDom;
+
   if (usagerRow.typeDom === "PREMIERE") {
     usagerRow.typeDom = "PREMIERE_DOM";
   }
@@ -122,6 +127,7 @@ function buildUsager({
     customRef,
     dateNaissance: usagerRow.dateNaissance,
     datePremiereDom,
+    dateDerniereDom,
     import: {
       date: new Date(),
       userId: user.id,
