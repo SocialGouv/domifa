@@ -13,6 +13,7 @@ import { AppTestHelper } from "../../../../util/test";
 import { userStructureRepository } from "../../../../database";
 import { OtpModule } from "../../../otp/otp.module";
 import { UserStructureDecisionService } from "../../../users/services/user-structure-decision/user-structure-decision.service";
+import { UserStructureEmailUpdaterService } from "../../../users/services/userStructureEmailUpdater.service";
 import { UserSupervisorDecisionService } from "../../services/user-supervisor-decision/user-supervisor-decision.service";
 
 // envId=test short-circuits all BrevoSenderService.* methods to no-op
@@ -50,6 +51,7 @@ describe("AdminUsersController", () => {
         AdminStructuresService,
         BrevoSenderService,
         UserStructureDecisionService,
+        UserStructureEmailUpdaterService,
         UserSupervisorDecisionService,
       ],
     }).compile();
