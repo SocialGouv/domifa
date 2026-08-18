@@ -14,7 +14,7 @@ import {
 } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import supertest from "supertest";
-import { DataSource } from "typeorm";
+import { DataSource, MoreThan } from "typeorm";
 import { appTypeormManager } from "../../database";
 import { UsagerTable } from "../../database";
 import {
@@ -152,16 +152,14 @@ async function bootstrapTestConnection(): Promise<DataSource> {
 // edit-my-password renewal-logging test) set an old date back onto their
 // fixture themselves, right before the assertion.
 async function freshenAllPasswordDates(): Promise<void> {
-  await userStructureRepository
-    .createQueryBuilder()
-    .update()
-    .set({ passwordLastUpdate: new Date() })
-    .execute();
-  await userSupervisorRepository
-    .createQueryBuilder()
-    .update()
-    .set({ passwordLastUpdate: new Date() })
-    .execute();
+  await userStructureRepository.update(
+    { id: MoreThan(0) },
+    { passwordLastUpdate: new Date() }
+  );
+  await userSupervisorRepository.update(
+    { id: MoreThan(0) },
+    { passwordLastUpdate: new Date() }
+  );
 }
 
 /**
