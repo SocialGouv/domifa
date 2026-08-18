@@ -43,6 +43,8 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { LoadingComponent } from "./modules/shared/components/loading/loading.component";
 import { OtpModalComponent } from "./modules/otp/components/otp-modal/otp-modal.component";
 import { OtpInterceptor } from "./modules/otp/interceptors/otp.interceptor";
+import { SupportModeBannerComponent } from "./modules/general/components/support-mode-banner/support-mode-banner.component";
+import { SupportModeWriteInterceptor } from "./interceptors/support-mode-write.interceptor";
 
 const disableAnimations =
   !("animate" in document.documentElement) ||
@@ -76,6 +78,7 @@ registerLocaleData(localeFr, "fr");
     MATOMO_INJECTORS,
     DsfrModalComponent,
     OtpModalComponent,
+    SupportModeBannerComponent,
   ],
   providers: [
     AuthService,
@@ -94,6 +97,11 @@ registerLocaleData(localeFr, "fr");
       multi: true,
     },
     { provide: HTTP_INTERCEPTORS, useClass: OtpInterceptor, multi: true },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: SupportModeWriteInterceptor,
+      multi: true,
+    },
     {
       provide: ErrorHandler,
       useValue: createErrorHandler({

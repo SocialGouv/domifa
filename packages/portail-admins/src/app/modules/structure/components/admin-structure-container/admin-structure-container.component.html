@@ -23,7 +23,9 @@
             >
           </a>
         </div>
-        <div class="fr-grid-row fr-pt-2w">
+        <div
+          class="fr-grid-row fr-pt-2w fr-justify-content-between fr-align-items-center"
+        >
           <h1
             [class]="
               structure.statut === 'SUPPRIME'
@@ -39,7 +41,47 @@
               (refusée)</ng-container
             >
           </h1>
+          <dsfr-button
+            *ngIf="canUseSupportMode"
+            label="Activer mode support"
+            variant="secondary"
+            (click)="openSupportSessionModal()"
+          ></dsfr-button>
         </div>
+      </div>
+
+      <div class="fr-grid-row fr-pb-2w" *ngIf="supportSessions.length > 0">
+        <table class="fr-table">
+          <caption>
+            Sessions support
+          </caption>
+          <thead>
+            <tr>
+              <th>Admin</th>
+              <th>Début</th>
+              <th>Expiration</th>
+              <th>Statut</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let session of supportSessions">
+              <td>{{ session.supervisorEmail }}</td>
+              <td>{{ session.startDate | date : "dd/MM/yyyy HH:mm" }}</td>
+              <td>{{ session.expiresAt | date : "dd/MM/yyyy HH:mm" }}</td>
+              <td>{{ session.status }}</td>
+              <td>
+                <dsfr-button
+                  *ngIf="session.status === 'ACTIVE'"
+                  label="Révoquer"
+                  variant="secondary"
+                  size="SM"
+                  (click)="revokeSupportSession(session)"
+                ></dsfr-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div class="fr-tabs">
         <ul
@@ -140,6 +182,42 @@
       <div class="fr-content">
         <router-outlet> </router-outlet>
       </div>
+
+      <dsfr-modal
+        class="text-start"
+        icon="fr-icon-alert-line"
+        #supportSessionModal
+        dialogId="supportSessionModal"
+        titleModal="Activer le mode support"
+        [concealingBackdrop]="false"
+        [autoCloseOnAction]="false"
+        size="SM"
+      >
+        <p>
+          Vous aurez accès à la structure
+          <span class="fr-text--bold">{{ structure.nom }}</span>
+          pendant 1 heure, en lecture seule.
+        </p>
+        <ng-template #modalFooterTemplate>
+          <dsfr-buttons-group
+            inline="LG"
+            alignment="reverse"
+            iconPosition="left"
+            groupMarkup="div"
+          >
+            <dsfr-button
+              (click)="activateSupportSession()"
+              [disabled]="activatingSupportSession"
+              label="Activer"
+            ></dsfr-button>
+            <dsfr-button
+              (click)="supportSessionModal.close()"
+              label="Annuler"
+              variant="secondary"
+            ></dsfr-button>
+          </dsfr-buttons-group>
+        </ng-template>
+      </dsfr-modal>
     </ng-container>
   </div>
 </div>
