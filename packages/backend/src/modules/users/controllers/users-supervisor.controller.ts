@@ -158,6 +158,11 @@ export class UsersSupervisorController {
           .status(HttpStatus.BAD_REQUEST)
           .json({ message: "NEW_PASSWORD_SAME_AS_OLD" });
       }
+      if ((err as Error)?.message === "NEW_PASSWORD_ALREADY_USED") {
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: "NEW_PASSWORD_ALREADY_USED" });
+      }
       appLogger.error(err);
       return res
         .status(HttpStatus.BAD_REQUEST)

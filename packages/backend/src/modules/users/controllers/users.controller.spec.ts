@@ -20,6 +20,7 @@ import {
   appLogSecurityRepository,
   appLogsRepository,
   userStructureRepository,
+  userStructureSecurityRepository,
 } from "../../../database";
 import { OtpModule } from "../../otp/otp.module";
 import { UserStructureDecisionService } from "../services/user-structure-decision/user-structure-decision.service";
@@ -274,6 +275,125 @@ describe("Users Controller", () => {
         expect(response.status).toBe(400);
         expect(response.text).toBe(`{"message":"NEW_PASSWORD_SAME_AS_OLD"}`);
       } finally {
+        await restoreFixturePassword(FRESH_PASSWORD_STRUCTURE);
+      }
+    });
+
+    it("should reject a new password already present in the history", async () => {
+      const HISTORY_PASSWORD = "HistoryPass123!";
+      try {
+        await AppTestHelper.authenticateStructure(FRESH_PASSWORD_STRUCTURE, {
+          context,
+        });
+
+        const historyHash = await passwordGenerator.generatePasswordHash({
+          password: HISTORY_PASSWORD,
+        });
+        await userStructureSecurityRepository.update(
+          { userId: FRESH_PASSWORD_STRUCTURE.id },
+          { passwordHistory: [historyHash] }
+        );
+
+        const response = await AppTestHttpClient.post(
+          "/users/edit-my-password",
+          {
+            context,
+            body: {
+              oldPassword: FRESH_PASSWORD_STRUCTURE.password,
+              password: HISTORY_PASSWORD,
+              passwordConfirmation: HISTORY_PASSWORD,
+            },
+          }
+        );
+        expect(response.status).toBe(400);
+        expect(response.text).toBe(`{"message":"NEW_PASSWORD_ALREADY_USED"}`);
+      } finally {
+        await userStructureSecurityRepository.update(
+          { userId: FRESH_PASSWORD_STRUCTURE.id },
+          { passwordHistory: [] }
+        );
+        await restoreFixturePassword(FRESH_PASSWORD_STRUCTURE);
+      }
+    });
+
+    it("should record the replaced password hash in the history", async () => {
+      try {
+        await AppTestHelper.authenticateStructure(FRESH_PASSWORD_STRUCTURE, {
+          context,
+        });
+
+        const response = await AppTestHttpClient.post(
+          "/users/edit-my-password",
+          {
+            context,
+            body: {
+              oldPassword: FRESH_PASSWORD_STRUCTURE.password,
+              password: NEW_PASSWORD,
+              passwordConfirmation: NEW_PASSWORD,
+            },
+          }
+        );
+        expect(response.status).toBe(200);
+
+        const userSecurity =
+          await userStructureSecurityRepository.findOneByOrFail({
+            userId: FRESH_PASSWORD_STRUCTURE.id,
+          });
+        expect(userSecurity.passwordHistory.length).toBe(1);
+        const matchesOldPassword = await passwordGenerator.checkPassword({
+          password: FRESH_PASSWORD_STRUCTURE.password,
+          hash: userSecurity.passwordHistory[0],
+        });
+        expect(matchesOldPassword).toBe(true);
+      } finally {
+        await userStructureSecurityRepository.update(
+          { userId: FRESH_PASSWORD_STRUCTURE.id },
+          { passwordHistory: [] }
+        );
+        await restoreFixturePassword(FRESH_PASSWORD_STRUCTURE);
+      }
+    });
+
+    it("should cap the history at 5 entries, dropping the oldest", async () => {
+      try {
+        await AppTestHelper.authenticateStructure(FRESH_PASSWORD_STRUCTURE, {
+          context,
+        });
+
+        const oldHashes = await Promise.all(
+          ["Old1!aaaa", "Old2!aaaa", "Old3!aaaa", "Old4!aaaa", "Old5!aaaa"].map(
+            (password) => passwordGenerator.generatePasswordHash({ password })
+          )
+        );
+        await userStructureSecurityRepository.update(
+          { userId: FRESH_PASSWORD_STRUCTURE.id },
+          { passwordHistory: oldHashes }
+        );
+
+        const response = await AppTestHttpClient.post(
+          "/users/edit-my-password",
+          {
+            context,
+            body: {
+              oldPassword: FRESH_PASSWORD_STRUCTURE.password,
+              password: NEW_PASSWORD,
+              passwordConfirmation: NEW_PASSWORD,
+            },
+          }
+        );
+        expect(response.status).toBe(200);
+
+        const userSecurity =
+          await userStructureSecurityRepository.findOneByOrFail({
+            userId: FRESH_PASSWORD_STRUCTURE.id,
+          });
+        expect(userSecurity.passwordHistory.length).toBe(5);
+        expect(userSecurity.passwordHistory).not.toContain(oldHashes[4]);
+      } finally {
+        await userStructureSecurityRepository.update(
+          { userId: FRESH_PASSWORD_STRUCTURE.id },
+          { passwordHistory: [] }
+        );
         await restoreFixturePassword(FRESH_PASSWORD_STRUCTURE);
       }
     });
