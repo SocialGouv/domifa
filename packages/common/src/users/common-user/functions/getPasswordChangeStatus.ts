@@ -1,13 +1,10 @@
 import { addMonths, differenceInDays, differenceInMonths } from "date-fns";
 
-export type PasswordChangeStatus = "OK" | "WARNING" | "EXPIRED";
-
-// Same shape everywhere below: the raw DB value (possibly serialized as a
-// string over HTTP) or absent for accounts that never recorded a change.
-type PasswordDateInput = Date | string | null | undefined;
-
-const PASSWORD_CHANGE_WARNING_MONTHS = 24;
-const PASSWORD_CHANGE_EXPIRED_MONTHS = 36;
+import {
+  PASSWORD_CHANGE_EXPIRED_MONTHS,
+  PASSWORD_CHANGE_WARNING_MONTHS,
+} from "../constants";
+import { PasswordChangeStatus, PasswordDateInput } from "../types";
 
 export const getPasswordChangeStatus = (
   passwordLastUpdate: PasswordDateInput,
