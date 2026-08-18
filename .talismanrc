@@ -30,6 +30,9 @@ fileignoreconfig:
 - filename: packages/backend/src/\_migrations/1789650942380-email-delivery-issue-report.ts
   checksum: 27b30903e350c810884209af85ddc0555ad1a728f304c34d03661ec7c164d321
 - filename: packages/backend/src/\_migrations/\_init-db/domifa_test_schema.sql
+- filename: packages/backend/src/_migrations/1787045027655-add-support-mode.ts
+  checksum: 130e850944ac6cb35e89050f3fabe847772fde10c92c4f391c7321686e12666e
+- filename: packages/backend/src/_migrations/_init-db/domifa_test_schema.sql
   checksum: 8a8f9a18c94a77d7400f256c230eceb0a040e87c51b2a20398ed2b61348ec6b6
 - filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
   checksum: 3bb17388968d9c1dfd0828a689a9697f8c6e5e862b735d7202e6327c6fc328d8

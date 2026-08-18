@@ -35,6 +35,9 @@ export type SecurityLogAction = Extract<
   | "TRUST_TOKEN_EXPIRED"
   | "TRUST_TOKEN_ABSENT"
   | "TRUST_TOKEN_INVALID"
+  | "SUPPORT_SESSION_ACTIVATED"
+  | "SUPPORT_SESSION_REVOKED"
+  | "SUPPORT_SESSION_EXPIRED"
 >;
 
 export const SECURITY_LOG_ACTIONS: readonly SecurityLogAction[] = [
@@ -66,6 +69,9 @@ export const SECURITY_LOG_ACTIONS: readonly SecurityLogAction[] = [
   "TRUST_TOKEN_EXPIRED",
   "TRUST_TOKEN_ABSENT",
   "TRUST_TOKEN_INVALID",
+  "SUPPORT_SESSION_ACTIVATED",
+  "SUPPORT_SESSION_REVOKED",
+  "SUPPORT_SESSION_EXPIRED",
 ] as const;
 
 // Subset that counts as a failed authentication attempt for the lockout

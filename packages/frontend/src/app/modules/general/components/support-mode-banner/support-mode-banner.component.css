@@ -1,0 +1,16 @@
+.support-mode-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  background-color: var(--background-contrast-yellow-tournesol, #fee7bd);
+  color: var(--text-default-grey, #1e1e1e);
+  padding: 0.5rem 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--border-default-yellow-tournesol, #b57b00);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}

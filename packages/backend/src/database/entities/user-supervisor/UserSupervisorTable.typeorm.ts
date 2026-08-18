@@ -6,6 +6,7 @@ import {
   UserSupervisor,
   UserSupervisorDecision,
   UserSupervisorRole,
+  UserSupervisorSupport,
 } from "@domifa/common";
 
 // https://typeorm.io/#/entities/column-types-for-postgres
@@ -61,6 +62,11 @@ export class UserSupervisorTable
 
   @Column({ type: "text", nullable: true })
   preferredEmailSender: string | null;
+  // Pointer to this supervisor's currently active support-mode session, if
+  // any. Enforces "one admin = one active session" without an extra query
+  // against support_session on every activation attempt.
+  @Column({ type: "jsonb", nullable: true })
+  support: UserSupervisorSupport | null;
 
   public constructor(entity?: Partial<UserSupervisorTable>) {
     super(entity);

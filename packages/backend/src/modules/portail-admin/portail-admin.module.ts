@@ -20,6 +20,8 @@ import { UserSupervisorDecisionService } from "./services/user-supervisor-decisi
 import { UserStructureDecisionService } from "../users/services/user-structure-decision/user-structure-decision.service";
 import { UserStructureEmailUpdaterService } from "../users/services/userStructureEmailUpdater.service";
 import { OtpModule } from "../otp/otp.module";
+import { SupportSessionService } from "./services/support-session/support-session.service";
+import { SupportSessionExpiryCleaner } from "./services/crons/support-session-expiry-cleaner.service";
 
 @Module({
   controllers: [
@@ -43,6 +45,8 @@ import { OtpModule } from "../otp/otp.module";
     UserStructureDecisionService,
     UserStructureEmailUpdaterService,
     UserSupervisorDecisionService,
+    SupportSessionService,
+    SupportSessionExpiryCleaner,
   ],
 })
 export class PortailAdminModule {}

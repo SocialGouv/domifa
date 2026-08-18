@@ -1,0 +1,15 @@
+<div class="support-mode-banner" *ngIf="me?.supportMode" role="alert">
+  <span>
+    Vous êtes connecté en tant que
+    <strong>{{ me?.prenom }} {{ me?.nom }}</strong> ({{ me?.supervisorEmail }}
+    en mode support). Durée de la session restante :
+    <strong>{{ remainingLabel }}</strong>
+  </span>
+  <button
+    type="button"
+    class="fr-btn fr-btn--sm fr-btn--secondary"
+    (click)="quit()"
+  >
+    Quitter le mode support
+  </button>
+</div>
