@@ -1,6 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { MetabaseParams, StructureCommon } from "@domifa/common";
+import {
+  ActivateSupportSessionResponse,
+  MetabaseParams,
+  StructureCommon,
+  SupportSession,
+} from "@domifa/common";
 import { Observable } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { UserStructureWithSecurity } from "../../admin-auth/types/UserStructureWithSecurity.type";
@@ -51,6 +56,32 @@ export class StructureService {
     return this.http.post<{ url: string }>(
       `${BASE_URL}/metabase-stats`,
       params
+    );
+  }
+
+  public activateSupportSession(
+    structureUuid: string
+  ): Observable<ActivateSupportSessionResponse> {
+    return this.http.post<ActivateSupportSessionResponse>(
+      `${BASE_URL}/structure/${structureUuid}/support-session`,
+      {}
+    );
+  }
+
+  public getSupportSessions(
+    structureUuid: string
+  ): Observable<SupportSession[]> {
+    return this.http.get<SupportSession[]>(
+      `${BASE_URL}/structure/${structureUuid}/support-sessions`
+    );
+  }
+
+  public revokeSupportSession(
+    structureUuid: string,
+    supportSessionUuid: string
+  ): Observable<{ status: string }> {
+    return this.http.delete<{ status: string }>(
+      `${BASE_URL}/structure/${structureUuid}/support-session/${supportSessionUuid}`
     );
   }
 }

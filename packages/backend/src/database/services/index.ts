@@ -11,6 +11,7 @@ export * from "./open-data";
 export * from "./otp";
 export * from "./structure";
 export * from "./structure-doc";
+export * from "./support-session";
 export * from "./usager";
 export * from "./user-structure";
 export * from "./user-structure-security";

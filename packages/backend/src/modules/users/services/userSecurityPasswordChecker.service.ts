@@ -103,7 +103,7 @@ async function findUserForLogin<T extends UserStructure | UserSupervisor>({
   const user = (await getUserRepository(userProfile).findOneBy({
     email: email.trim().toLowerCase(),
     status: Not("DELETE"),
-  })) as T | null;
+  })) as unknown as T | null;
 
   if (!user) {
     // Unknown email: dedicated LOGIN_UNKNOWN_USER action so enumeration
