@@ -114,6 +114,11 @@ export class AuthService {
       map((apiUser: UserStructure) => {
         const user = userStructureBuilder.buildUserStructure(apiUser);
         user.access_token = this.currentUserValue?.access_token;
+        // /me re-derives supportMode/supportSessionUuid/supervisorEmail from
+        // the (still-valid, since /me succeeded) JWT, but not the expiry
+        // instant — that's only known from the token's `exp` claim, decoded
+        // once when the session was first set. Carry it forward untouched.
+        user.supportModeExpiresAt = this.currentUserValue?.supportModeExpiresAt;
         this.setUser(user);
         return true;
       }),
@@ -122,6 +127,24 @@ export class AuthService {
         return of(false);
       })
     );
+  }
+
+  // Seeds a session from an access token obtained outside the normal login
+  // flow (admin support-mode handoff, see SupportEntryComponent). No trust
+  // token / OTP dance — the token already represents a fully authenticated,
+  // time-boxed session.
+  public loginWithToken(accessToken: string): UserStructure {
+    const decoded = jwtDecode<Partial<UserStructure> & { exp?: number }>(
+      accessToken
+    );
+    const user = userStructureBuilder.buildUserStructure(decoded);
+    user.access_token = accessToken;
+    if (typeof decoded.exp === "number") {
+      user.supportModeExpiresAt = new Date(decoded.exp * 1000).toISOString();
+    }
+    this.store.dispatch(usagerActions.clearCache());
+    this.setUser(user);
+    return user;
   }
 
   public logoutFromBackend = async (
@@ -138,6 +161,11 @@ export class AuthService {
     state?: RouterStateSnapshot,
     sessionExpired?: boolean
   ): Promise<void> {
+    // A support-mode session has no real "reconnect" step for the admin —
+    // send them back to the portail admin they came from instead of the
+    // structure login page.
+    const wasSupportMode = this.currentUserValue?.supportMode === true;
+
     this.currentUserSubject.next(null);
     this.store.dispatch(usagerActions.clearCache());
     this.safeStorage.removeItem("currentUser");
@@ -145,6 +173,11 @@ export class AuthService {
 
     getCurrentScope().setTag("structure", "none");
     getCurrentScope().setUser({});
+
+    if (wasSupportMode) {
+      window.location.href = environment.portailAdminUrl;
+      return;
+    }
 
     if (sessionExpired) {
       this.toastr.warning("Votre session a expiré, merci de vous reconnecter");

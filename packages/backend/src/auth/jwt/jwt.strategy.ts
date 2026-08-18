@@ -102,6 +102,19 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         }
       }
 
+      if (authUser && structurePayload.supportMode) {
+        // validateUserStructure only knows the DB row — the support-mode
+        // flag lives on the JWT payload, so it has to be reported onto the
+        // authenticated user explicitly for guards/controllers to see it.
+        return {
+          ...authUser,
+          supportMode: true,
+          supportSessionUuid: structurePayload.supportSessionUuid,
+          supervisorId: structurePayload.supervisorId,
+          supervisorEmail: structurePayload.supervisorEmail,
+        };
+      }
+
       return authUser;
     } else if (payload?._userProfile === "usager") {
       return await this.usagersAuthService.validateUserUsager(

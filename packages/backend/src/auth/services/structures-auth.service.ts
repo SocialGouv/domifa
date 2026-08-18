@@ -90,6 +90,49 @@ export class StructuresAuthService {
     return this.signAccessTokenForSession(user, session);
   }
 
+  // Admin support-mode read-only impersonation: same payload shape as a
+  // normal login, flagged `supportMode` and capped at `expiresInSeconds`
+  // (1h) instead of the default 12h access-token lifetime. No trust token —
+  // support sessions never use the "remember this device" reconnect path.
+  public signSupportModeToken(
+    user: UserStructure,
+    session: CurrentUserSession,
+    support: {
+      supportSessionUuid: string;
+      supervisorId: number;
+      supervisorEmail: string;
+      expiresInSeconds: number;
+    }
+  ): { access_token: string } {
+    const payload: UserStructureJwtPayload = {
+      _jwtPayloadVersion: CURRENT_JWT_PAYLOAD_VERSION,
+      _userId: user.id,
+      _userProfile: "structure",
+      email: user.email,
+      id: user.id,
+      userId: user.id,
+      lastLogin: user.lastLogin,
+      nom: user.nom,
+      prenom: user.prenom,
+      fonction: user.fonction,
+      fonctionDetail: user.fonctionDetail,
+      role: user.role,
+      acceptTerms: user.acceptTerms,
+      structureId: user.structureId,
+      domifaVersion: domifaConfig().version.toString(),
+      fingerprintHash: session.fingerprintHash,
+      supportMode: true,
+      supportSessionUuid: support.supportSessionUuid,
+      supervisorId: support.supervisorId,
+      supervisorEmail: support.supervisorEmail,
+    };
+    return {
+      access_token: this.jwtService.sign(payload, {
+        expiresIn: support.expiresInSeconds,
+      }),
+    };
+  }
+
   private signAccessTokenForSession(
     user: UserStructure,
     session: CurrentUserSession
