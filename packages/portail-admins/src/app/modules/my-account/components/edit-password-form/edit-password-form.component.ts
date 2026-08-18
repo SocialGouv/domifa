@@ -40,8 +40,8 @@ import { CustomToastService } from "../../../shared/services";
 })
 export class EditPasswordFormComponent implements OnInit, OnDestroy {
   @Input() public cancelLabel = "Annuler les modifications";
-  @Output() public success = new EventEmitter<void>();
-  @Output() public cancelled = new EventEmitter<void>();
+  @Output() public readonly success = new EventEmitter<void>();
+  @Output() public readonly cancelled = new EventEmitter<void>();
 
   public passwordForm!: UntypedFormGroup;
   public hideOldPassword = true;
