@@ -27,6 +27,10 @@ function buildUserStructure(item?: Partial<UserStructure>): UserStructure {
     passwordLastUpdate: item?.passwordLastUpdate
       ? new Date(item.passwordLastUpdate)
       : undefined,
+    supportMode: item?.supportMode,
+    supportSessionUuid: item?.supportSessionUuid,
+    supervisorEmail: item?.supervisorEmail,
+    supportModeExpiresAt: item?.supportModeExpiresAt,
   };
   return user as UserStructure;
 }

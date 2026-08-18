@@ -104,6 +104,9 @@ export const LOG_ACTION_LABELS: Record<LogAction, string> = {
   TRUST_TOKEN_ABSENT: "Aucun jeton d'appareil de confiance présenté",
   TRUST_TOKEN_INVALID:
     "Jeton d'appareil de confiance invalide (signature altérée ou hors périmètre)",
+  SUPPORT_SESSION_ACTIVATED: "Mode support activé par un administrateur",
+  SUPPORT_SESSION_REVOKED: "Mode support révoqué",
+  SUPPORT_SESSION_EXPIRED: "Mode support expiré automatiquement",
 };
 
 export function getLogActionLabel(action: string): string {

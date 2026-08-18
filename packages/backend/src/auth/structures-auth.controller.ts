@@ -35,6 +35,7 @@ import { AllowUserStructureRoles } from "./decorators";
 import { ALL_USER_STRUCTURE_ROLES, UserStructure } from "@domifa/common";
 import { appLogger } from "../util";
 import { logSecurityEventForUser } from "../modules/app-logs/app-log-security-writer";
+import { revokeSupportSessionOnStructureLogout } from "../modules/portail-admin/services/support-session/support-session-closer";
 
 const userProfile: UserProfile = "structure";
 
@@ -196,6 +197,10 @@ export class StructuresAuthController {
     });
     await expiredTokenRepositiory.save(tokenToBlacklist);
 
+    if (user.supportMode) {
+      await revokeSupportSessionOnStructureLogout(user.id);
+    }
+
     await logSecurityEventForUser(
       "LOGOUT",
       "structure",
@@ -246,6 +251,9 @@ export class StructuresAuthController {
       structure: user.structure,
       structureId: user.structureId,
       domifaVersion: domifaConfig().version.toString(),
+      supportMode: user.supportMode,
+      supportSessionUuid: user.supportSessionUuid,
+      supervisorEmail: user.supervisorEmail,
     });
   }
 }

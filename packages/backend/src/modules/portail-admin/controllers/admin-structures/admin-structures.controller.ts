@@ -5,6 +5,7 @@ import {
   Delete,
   HttpStatus,
   NotFoundException,
+  Post,
   Query,
   Req,
   Res,
@@ -66,6 +67,8 @@ import { OtpGuard } from "../../../otp/guards/otp.guard";
 import { RequireOtp } from "../../../otp/decorators/require-otp.decorator";
 import { BlockUserByAdminLogContext } from "../../../app-logs/types/app-log-context.types";
 import { DeleteUserDto } from "../../../users/dto";
+import { ActivateSupportSessionResponse, SupportSession } from "@domifa/common";
+import { SupportSessionService } from "../../services/support-session/support-session.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
@@ -80,7 +83,8 @@ export class AdminStructuresController {
     private readonly appLogSecurityService: AppLogSecurityService,
     private readonly structureDecisionService: StructureDecisionService,
     private readonly structureDecisionEmailService: StructureDecisionEmailService,
-    private readonly userStructureDecisionService: UserStructureDecisionService
+    private readonly userStructureDecisionService: UserStructureDecisionService,
+    private readonly supportSessionService: SupportSessionService
   ) {}
 
   @Get("export")
@@ -199,6 +203,54 @@ export class AdminStructuresController {
       throw new NotFoundException("STRUCTURE_NOT_FOUND");
     }
     return this.adminStructuresService.getStructureSessions(structure.id, 100);
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: "Activer le mode support (lecture seule) sur une structure",
+  })
+  @Post("structure/:structureUuid/support-session")
+  @UseGuards(StructureAccessGuard)
+  public async activateSupportSession(
+    @Req() req: ExpressRequest,
+    @CurrentSupervisor() user: UserAdminAuthenticated,
+    @CurrentStructure() structure: Structure
+  ): Promise<ActivateSupportSessionResponse> {
+    const requestContext = buildSecurityLogRequestContext(req);
+    return this.supportSessionService.activate(user, structure.uuid, {
+      ip: requestContext.ip ?? "",
+      userAgent: requestContext.userAgent ?? "",
+    });
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({ summary: "Lister les sessions support d'une structure" })
+  @Get("structure/:structureUuid/support-sessions")
+  @UseGuards(StructureAccessGuard)
+  public async listSupportSessions(
+    @CurrentSupervisor() _user: UserAdminAuthenticated,
+    @CurrentStructure() structure: Structure
+  ): Promise<SupportSession[]> {
+    return this.supportSessionService.listForStructure(structure.id);
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({ summary: "Révoquer une session support" })
+  @Delete("structure/:structureUuid/support-session/:supportSessionUuid")
+  @UseGuards(StructureAccessGuard)
+  public async revokeSupportSession(
+    @Req() req: ExpressRequest,
+    @CurrentSupervisor() user: UserAdminAuthenticated,
+    @CurrentStructure() _structure: Structure,
+    @Param("supportSessionUuid", new ParseUUIDPipe()) supportSessionUuid: string
+  ): Promise<{ status: "REVOKED" }> {
+    const requestContext = buildSecurityLogRequestContext(req);
+    await this.supportSessionService.revoke(
+      user,
+      supportSessionUuid,
+      requestContext
+    );
+    return { status: "REVOKED" };
   }
 
   @Get("structure/:structureUuid/users")

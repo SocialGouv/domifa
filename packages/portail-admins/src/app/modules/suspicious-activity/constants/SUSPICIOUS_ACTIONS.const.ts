@@ -62,6 +62,9 @@ export const ACTION_TONE: Record<SecurityLogAction, ActionTone> = {
   TRUST_TOKEN_EXPIRED: "info",
   TRUST_TOKEN_ABSENT: "neutral",
   TRUST_TOKEN_INVALID: "warning",
+  SUPPORT_SESSION_ACTIVATED: "warning",
+  SUPPORT_SESSION_REVOKED: "neutral",
+  SUPPORT_SESSION_EXPIRED: "neutral",
 };
 
 // DSFR icon per action. DSFR's icon set is limited (no shield-flash, no
@@ -94,6 +97,9 @@ export const ACTION_ICON: Record<SecurityLogAction, string> = {
   TRUST_TOKEN_EXPIRED: "fr-icon-time-line",
   TRUST_TOKEN_ABSENT: "fr-icon-smartphone-line",
   TRUST_TOKEN_INVALID: "fr-icon-error-warning-fill",
+  SUPPORT_SESSION_ACTIVATED: "fr-icon-user-star-fill",
+  SUPPORT_SESSION_REVOKED: "fr-icon-lock-fill",
+  SUPPORT_SESSION_EXPIRED: "fr-icon-time-line",
 };
 
 // French labels for session-closure reasons (kept here so the suspicious view

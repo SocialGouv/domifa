@@ -14,6 +14,7 @@ export * from "./structure";
 export * from "./structure-doc";
 export * from "./structure-information";
 export * from "./structure-stats";
+export * from "./support-mode";
 export * from "./telephone";
 export * from "./territoires";
 export * from "./usager";
