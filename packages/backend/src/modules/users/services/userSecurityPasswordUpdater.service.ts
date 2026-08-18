@@ -1,5 +1,6 @@
 import {
   getPasswordChangeStatus,
+  PASSWORD_HISTORY_SIZE,
   UserStructure,
   UserSupervisor,
 } from "@domifa/common";
@@ -10,7 +11,10 @@ import {
   logSecurityEventForUser,
   SecurityLogRequestContext,
 } from "../../app-logs/app-log-security-writer";
-import { getUserRepository } from "./get-user-repository.service";
+import {
+  getUserRepository,
+  getUserSecurityRepository,
+} from "./get-user-repository.service";
 import { userSecurityEventHistoryManager } from "./userSecurityEventHistoryManager.service";
 import { userPasswordWriter } from "./userPasswordWriter.service";
 
@@ -62,6 +66,25 @@ async function updatePassword({
     throw new Error("NEW_PASSWORD_SAME_AS_OLD");
   }
 
+  const securityRepository = getUserSecurityRepository(userProfile);
+  const userSecurity = await securityRepository.findOneByOrFail({ userId });
+
+  for (const previousHash of userSecurity.passwordHistory) {
+    const isReusedPassword = await passwordGenerator.checkPassword({
+      password: newPassword,
+      hash: previousHash,
+    });
+    if (isReusedPassword) {
+      await logSecurityEventForUser(
+        "CHANGE_PASSWORD_ERROR",
+        userProfile,
+        user,
+        { requestContext }
+      );
+      throw new Error("NEW_PASSWORD_ALREADY_USED");
+    }
+  }
+
   // Same endpoint/flow is used for a voluntary change and for renewing a
   // password that's overdue (the frontend just redirects here when the
   // account is EXPIRED, instead of blocking anything at login) — log it
@@ -84,4 +107,14 @@ async function updatePassword({
       ? { previousPasswordLastUpdate: user.passwordLastUpdate }
       : undefined,
   });
+
+  // Keep the replaced hash so it can't be set again later.
+  const updatedHistory = [user.password, ...userSecurity.passwordHistory].slice(
+    0,
+    PASSWORD_HISTORY_SIZE
+  );
+  await securityRepository.update(
+    { userId },
+    { passwordHistory: updatedHistory }
+  );
 }
