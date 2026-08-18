@@ -18,6 +18,7 @@ import {
 } from "@angular/forms";
 import { Subscription } from "rxjs";
 
+import { PASSWORD_CHANGE_ERROR_MESSAGES } from "@domifa/common";
 import { CustomToastService } from "../../../shared/services";
 import { SharedModule } from "../../../shared/shared.module";
 import { PASSWORD_VALIDATOR } from "../../../users/PASSWORD_VALIDATOR.const";
@@ -110,9 +111,8 @@ export class EditPasswordFormComponent implements OnInit, OnDestroy {
           error: (err) => {
             this.loading = false;
             const message =
-              err?.error?.message === "NEW_PASSWORD_SAME_AS_OLD"
-                ? "Le nouveau mot de passe doit être différent de l'ancien mot de passe"
-                : "Une erreur est survenue, veuillez vérifier le formulaire";
+              PASSWORD_CHANGE_ERROR_MESSAGES[err?.error?.message] ??
+              "Une erreur est survenue, veuillez vérifier le formulaire";
             this.toastService.error(message);
           },
         })
