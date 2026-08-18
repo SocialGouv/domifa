@@ -151,6 +151,13 @@ export const routes: Routes = [
       roles: ALL_USER_STRUCTURE_ROLES,
     },
   },
+  {
+    loadComponent: () =>
+      import(
+        "./modules/general/components/support-entry/support-entry.component"
+      ).then((m) => m.SupportEntryComponent),
+    path: "support-entry",
+  },
   { component: NotFoundComponent, path: "404" },
   { path: "**", redirectTo: "404" },
 ];
