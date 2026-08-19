@@ -55,6 +55,7 @@
               [attr.aria-busy]="loading"
               class="fr-btn fr-mx-2w"
               type="button"
+              appSupportModeDisable
             >
               @if (loading) {
               <i class="fr-icon-loader-4-line" aria-hidden="true"></i>
@@ -65,6 +66,7 @@
               type="button"
               (click)="editRdv = true"
               class="fr-btn fr-btn--secondary"
+              appSupportModeDisable
             >
               Modifier la date du rendez-vous
             </button>
@@ -262,6 +264,7 @@
               type="submit"
               [loading]="loading"
               label="Suivant"
+              appSupportModeDisable
             ></app-button>
           </div>
         </form>

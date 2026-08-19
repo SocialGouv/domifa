@@ -41,6 +41,7 @@
           type="button"
           (click)="openRenewModal()"
           class="fr-my-1w fr-btn fr-btn--secondary fr-ml-2w"
+          appSupportModeDisable
         >
           <span class="fr-icon-refresh-line fr-mr-1w" aria-hidden="true"></span>
           Créer une nouvelle demande
@@ -67,6 +68,7 @@
           type="button"
           class="fr-my-1w fr-my-md-0 fr-btn fr-btn--secondary fr-ml-2w"
           (click)="openRenewModal()"
+          appSupportModeDisable
         >
           <span class="fr-icon-refresh-line fr-mr-1w" aria-hidden="true"></span>
           Créer une nouvelle demande
@@ -76,6 +78,7 @@
           type="button"
           class="fr-my-1w fr-my-md-0 fr-btn fr-btn--secondary fr-ml-2w"
           (click)="openRenewModal()"
+          appSupportModeDisable
         >
           <span class="fr-icon-refresh-line fr-mr-1w" aria-hidden="true"></span>
           Demande de renouvellement
@@ -220,6 +223,7 @@
             : 'Créer une nouvelle demande'
         "
         (action)="renouvellement()"
+        appSupportModeDisable
       ></app-button>
 
       <button

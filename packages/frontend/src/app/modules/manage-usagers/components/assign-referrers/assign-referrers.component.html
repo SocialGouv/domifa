@@ -3,6 +3,7 @@
   type="button"
   (click)="openModal()"
   class="fr-btn fr-btn--secondary fr-btn--sm fr-my-1w fr-mx-1w"
+  appSupportModeDisable
 >
   <span class="fr-icon-user-add-line fr-mr-1w" aria-hidden="true"></span>
   Assigner un référent
@@ -39,6 +40,7 @@
     [loading]="loading"
     label="Confirmer l'assignation"
     (action)="assignReferrers()"
+    appSupportModeDisable
   ></app-button>
 </div>
 } @if (template === 'modal') {
@@ -78,6 +80,7 @@
         (click)="assignReferrers()"
         [disabled]="loading"
         [attr.aria-busy]="loading"
+        appSupportModeDisable
       >
         @if (!loading) { Confirmer l'assignation } @else {
         <span
