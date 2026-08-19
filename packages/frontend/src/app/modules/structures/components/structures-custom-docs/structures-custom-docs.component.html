@@ -39,6 +39,7 @@
               type="button"
               class="fr-btn fr-btn--secondary"
               (click)="openUploadCustomDocModal(true)"
+              appSupportModeDisable
             >
               <i class="fr-icon-upload-line fr-mr-1w" aria-hidden="true"></i>
               Importer un document pré-rempli
@@ -118,6 +119,7 @@
               type="button"
               class="fr-btn fr-btn--secondary"
               (click)="openUploadCustomDocModal(false)"
+              appSupportModeDisable
             >
               <i class="fr-icon-upload-line fr-mr-1w" aria-hidden="true"></i>
               Importer un document
@@ -172,6 +174,7 @@
         [disabled]="uploadDocsRef.loading"
         [attr.aria-busy]="uploadDocsRef.loading"
         type="button"
+        appSupportModeDisable
       >
         @if (!uploadDocsRef.loading) {
         <span>Ajouter</span>

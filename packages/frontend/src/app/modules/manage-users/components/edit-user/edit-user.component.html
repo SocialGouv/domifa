@@ -69,6 +69,7 @@
             (click)="initUserForm()"
             class="fr-btn fr-btn--secondary"
             type="button"
+            appSupportModeDisable
           >
             <span class="fr-icon-edit-line fr-mr-1w" aria-hidden="true"></span>
             Modifier mes informations
@@ -212,6 +213,7 @@
               type="submit"
               [loading]="loading"
               label="Enregistrer les changements"
+              appSupportModeDisable
             ></app-button>
           </div>
         </form>
@@ -231,6 +233,7 @@
             (click)="initPasswordForm()"
             type="button"
             class="fr-btn fr-btn--secondary"
+            appSupportModeDisable
           >
             <span class="fr-icon-edit-line fr-mr-1w" aria-hidden="true"></span>
             Modifier mon mot de passe
@@ -305,6 +308,7 @@
               type="submit"
               [loading]="loading"
               label="Enregistrer les changements"
+              appSupportModeDisable
             ></app-button>
           </div>
         </form>

@@ -20,6 +20,7 @@ import { HasRoleDirective } from "./directives/has-role.directive";
 import { AlerteConfidentialiteComponent } from "../general/components/navbar/fragments/alerte-confidentialite/alerte-confidentialite.component";
 import { UserStructurePasswordFormComponent } from "./components/user-structure-password-form/user-structure-password-form.component";
 import { LoadingComponent } from "./components/loading/loading.component";
+import { SupportModeDisableDirective } from "./directives/support-mode-disable.directive";
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { LoadingComponent } from "./components/loading/loading.component";
     DsfrDropdownMenuItemComponent,
     LoadingComponent,
     DsfrAlertComponent,
+    SupportModeDisableDirective,
   ],
   declarations: [
     CleanStrDirective,
@@ -62,6 +64,7 @@ import { LoadingComponent } from "./components/loading/loading.component";
     UserStructurePasswordFormComponent,
     DsfrTimelineComponent,
     DsfrDropdownMenuItemComponent,
+    SupportModeDisableDirective,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
