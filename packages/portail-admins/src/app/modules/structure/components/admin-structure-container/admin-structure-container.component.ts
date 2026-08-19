@@ -11,7 +11,7 @@ import {
 import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 import { Subscription, take } from "rxjs";
 
-import { StructureAdmin, SupportSession } from "@domifa/common";
+import { StructureAdmin } from "@domifa/common";
 
 import {
   selectAreStructuresLoaded,
@@ -41,7 +41,6 @@ const SUPPORT_MODE_ALLOWED_EMAIL_DOMAIN = "@fabrique.social.gouv.fr";
 export class AdminStructureContainerComponent implements OnInit, OnDestroy {
   public structure?: StructureAdmin;
   public loading = true;
-  public supportSessions: SupportSession[] = [];
   public activatingSupportSession = false;
   private readonly subscription = new Subscription();
 
@@ -92,8 +91,6 @@ export class AdminStructureContainerComponent implements OnInit, OnDestroy {
                   this.router.navigate(["/404"]);
                 }
               });
-          } else {
-            this.loadSupportSessions();
           }
         },
       })
@@ -119,7 +116,6 @@ export class AdminStructureContainerComponent implements OnInit, OnDestroy {
         next: (response) => {
           this.activatingSupportSession = false;
           this.supportSessionModal.close();
-          this.loadSupportSessions();
           window.open(
             `${environment.frontendUrl}support-entry?token=${encodeURIComponent(
               response.accessToken
@@ -132,33 +128,5 @@ export class AdminStructureContainerComponent implements OnInit, OnDestroy {
           this.toastr.error("Impossible d'activer le mode support");
         },
       });
-  }
-
-  public revokeSupportSession(session: SupportSession): void {
-    if (!this.structure) {
-      return;
-    }
-    this.structureService
-      .revokeSupportSession(this.structure.uuid, session.uuid as string)
-      .subscribe({
-        next: () => {
-          this.toastr.success("Session support révoquée");
-          this.loadSupportSessions();
-        },
-        error: () => {
-          this.toastr.error("Impossible de révoquer la session");
-        },
-      });
-  }
-
-  private loadSupportSessions(): void {
-    if (!this.structure) {
-      return;
-    }
-    this.structureService.getSupportSessions(this.structure.uuid).subscribe({
-      next: (sessions) => {
-        this.supportSessions = sessions;
-      },
-    });
   }
 }

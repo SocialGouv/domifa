@@ -50,39 +50,6 @@
         </div>
       </div>
 
-      <div class="fr-grid-row fr-pb-2w" *ngIf="supportSessions.length > 0">
-        <table class="fr-table">
-          <caption>
-            Sessions support
-          </caption>
-          <thead>
-            <tr>
-              <th>Admin</th>
-              <th>Début</th>
-              <th>Expiration</th>
-              <th>Statut</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let session of supportSessions">
-              <td>{{ session.supervisorEmail }}</td>
-              <td>{{ session.startDate | date : "dd/MM/yyyy HH:mm" }}</td>
-              <td>{{ session.expiresAt | date : "dd/MM/yyyy HH:mm" }}</td>
-              <td>{{ session.status }}</td>
-              <td>
-                <dsfr-button
-                  *ngIf="session.status === 'ACTIVE'"
-                  label="Révoquer"
-                  variant="secondary"
-                  size="SM"
-                  (click)="revokeSupportSession(session)"
-                ></dsfr-button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
       <div class="fr-tabs">
         <ul
           class="fr-tabs__list"
@@ -174,6 +141,19 @@
               [attr.aria-selected]="sessionsRla.isActive"
             >
               Sessions
+            </a>
+          </li>
+          <li role="presentation">
+            <a
+              type="button"
+              class="fr-tabs__tab"
+              role="link"
+              [routerLink]="'support-sessions'"
+              routerLinkActive
+              #supportSessionsRla="routerLinkActive"
+              [attr.aria-selected]="supportSessionsRla.isActive"
+            >
+              Sessions support
             </a>
           </li>
         </ul>
