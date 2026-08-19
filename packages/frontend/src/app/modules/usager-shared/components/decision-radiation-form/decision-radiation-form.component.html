@@ -3,6 +3,7 @@
   type="button"
   (click)="openRadiationModal()"
   class="fr-btn fr-btn--secondary fr-ml-1w"
+  appSupportModeDisable
 >
   <span class="fr-icon-close-line fr-mr-1w" aria-hidden="true"></span>
   Radier le domicilié
@@ -12,6 +13,7 @@
   type="button"
   (click)="openRadiationModal()"
   class="fr-btn fr-btn--secondary fr-my-1w fr-ml-1w fr-btn--sm"
+  appSupportModeDisable
 >
   <span class="fr-icon-pause-circle-fill fr-mr-1w" aria-hidden="true"></span>
   Radier {{ selectedRefs.size === 1 ? "le domicilié" : "les domiciliés" }}
@@ -172,6 +174,7 @@
           label="Confirmer la radiation"
           icon="check"
           (action)="setDecisionRadiation()"
+          appSupportModeDisable
         ></app-button>
         <app-button
           color="secondary"
