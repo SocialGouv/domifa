@@ -1,0 +1,117 @@
+<div class="fr-mt-3w">
+  <div class="fr-grid-row fr-grid-row--middle fr-mb-2w">
+    <h2 class="fr-h4 fr-mb-0 fr-col">Sessions support</h2>
+    <button
+      type="button"
+      class="fr-btn fr-btn--secondary fr-btn--sm fr-icon-refresh-line fr-btn--icon-left"
+      (click)="refresh()"
+      [disabled]="loading"
+    >
+      Rafraîchir
+    </button>
+  </div>
+
+  <p class="fr-text--sm fr-text--mention-grey">
+    Historique des sessions de mode support (accès en lecture seule à la
+    structure par un administrateur DOMIFA), du plus récent au plus ancien.
+  </p>
+
+  <div
+    *ngIf="loading"
+    role="alert"
+    aria-busy="true"
+    aria-label="Chargement des sessions support..."
+    class="text-center fr-py-3w"
+  >
+    <dsfr-ext-spinner
+      typeLoader="quarter"
+      label="Chargement des sessions support..."
+    ></dsfr-ext-spinner>
+  </div>
+
+  <ng-container *ngIf="!loading && loaded">
+    <div *ngIf="sessions.length === 0" class="fr-alert fr-alert--info">
+      <p>Aucune session support enregistrée pour cette structure.</p>
+    </div>
+
+    <div *ngIf="sessions.length > 0" class="fr-table fr-table--no-outer-border">
+      <div class="fr-table__wrapper">
+        <div class="fr-table__container">
+          <div class="fr-table__content">
+            <table>
+              <caption class="fr-sr-only">
+                Sessions support de la structure ({{
+                  sessions.length
+                }}
+                entrées)
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Admin</th>
+                  <th scope="col">Statut</th>
+                  <th scope="col">Début</th>
+                  <th scope="col">Expiration</th>
+                  <th scope="col">Motif</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let session of sessions">
+                  <td>
+                    <span class="fr-text--bold">
+                      {{ session.supervisorEmail }}
+                    </span>
+                  </td>
+                  <td>
+                    <span
+                      *ngIf="session.status === 'ACTIVE'"
+                      class="fr-badge fr-badge--sm fr-badge--success"
+                    >
+                      Active
+                    </span>
+                    <span
+                      *ngIf="session.status === 'EXPIRED'"
+                      class="fr-badge fr-badge--sm fr-badge--warning"
+                    >
+                      Expirée
+                    </span>
+                    <span
+                      *ngIf="session.status === 'REVOKED'"
+                      class="fr-badge fr-badge--sm fr-badge--error"
+                    >
+                      Révoquée
+                    </span>
+                  </td>
+                  <td>
+                    {{ session.startDate | date : "dd/MM/yyyy HH:mm" }}
+                  </td>
+                  <td>
+                    <ng-container *ngIf="session.revokedAt; else expiresTpl">
+                      {{ session.revokedAt | date : "dd/MM/yyyy HH:mm" }}
+                    </ng-container>
+                    <ng-template #expiresTpl>
+                      <span class="fr-text--mention-grey">
+                        {{ session.expiresAt | date : "dd/MM/yyyy HH:mm" }}
+                      </span>
+                    </ng-template>
+                  </td>
+                  <td>{{ reasonLabel(session.revokedReason) }}</td>
+                  <td>
+                    <button
+                      *ngIf="session.status === 'ACTIVE'"
+                      type="button"
+                      class="fr-btn fr-btn--secondary fr-btn--sm"
+                      (click)="revoke(session)"
+                    >
+                      Révoquer
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
