@@ -57,6 +57,7 @@
                   type="button"
                   (click)="setDecisionAttente()"
                   class="fr-btn"
+                  appSupportModeDisable
                 >
                   <i class="fr-icon-error-fill" aria-hidden="true"></i>
                   Soumettre la demande
@@ -72,6 +73,7 @@
                 (click)="setDecisionAttente()"
                 type="button"
                 class="fr-btn fr-btn--secondary"
+                appSupportModeDisable
               >
                 <i class="fr-icon-time-line fr-mr-1w" aria-hidden="true"></i>
                 Soumettre la demande
@@ -114,6 +116,7 @@
                 class="fr-btn fr-btn--tertiary"
                 type="button"
                 (click)="editInfos = true"
+                appSupportModeDisable
               >
                 <i class="fr-icon-edit-line" aria-hidden="true"></i>
                 Modifier
@@ -160,6 +163,7 @@
                 class="fr-btn fr-btn--tertiary"
                 type="button"
                 (click)="editContactDetails = true"
+                appSupportModeDisable
               >
                 <i class="fr-icon-edit-line" aria-hidden="true"></i>
                 Modifier
@@ -206,6 +210,7 @@
                 type="button"
                 class="fr-btn fr-btn--tertiary"
                 (click)="editEntretien = true"
+                appSupportModeDisable
               >
                 <i class="fr-icon-edit-line" aria-hidden="true"></i>
                 Modifier
@@ -297,6 +302,7 @@
                 label="Modifier"
                 ariaLabel="Modifier les pièces jointes"
                 (action)="editPJ = true"
+                appSupportModeDisable
               ></app-button>
               } @else {
               <button

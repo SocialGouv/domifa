@@ -13,6 +13,7 @@
       type="button"
       (click)="showForm()"
       class="fr-btn fr-btn--secondary fr-icon-edit-line fr-btn--icon-left"
+      appSupportModeDisable
     >
       Modifier le transfert
     </button>
@@ -67,6 +68,7 @@
         (click)="openConfirmation()"
         aria-label="Supprimer le transfert"
         class="fr-btn fr-icon-delete-line"
+        appSupportModeDisable
       ></button>
     </p>
   </div>
@@ -206,6 +208,7 @@
           type="submit"
           [loading]="loading"
           label="Enregistrer le transfert"
+          appSupportModeDisable
         ></app-button>
       </div>
     </div>
@@ -238,6 +241,7 @@
         [disabled]="loading"
         [attr.aria-busy]="loading"
         type="button"
+        appSupportModeDisable
       >
         @if (!loading) { Confirmer la suppression } @else {
         <span

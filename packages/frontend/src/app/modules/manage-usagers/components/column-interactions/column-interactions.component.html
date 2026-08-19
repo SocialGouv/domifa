@@ -10,6 +10,7 @@
     [title]="'Ajout d\'un passage pour ' + usager.fullName"
     class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
     (click)="setSingleInteraction(usager, 'visite')"
+    appSupportModeDisable
   >
     <span class="ri-walk-line" aria-hidden="true"></span>
   </button>
@@ -22,6 +23,7 @@
     [title]="'Ajout d\'un appel téléphonique pour ' + usager.fullName"
     class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
     (click)="setSingleInteraction(usager, 'appel')"
+    appSupportModeDisable
   >
     <span class="fr-icon-phone-line" aria-hidden="true"></span>
   </button>
@@ -38,6 +40,7 @@
     [title]="'Ajout d\'un courrier pour ' + usager.fullName"
     class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
     (click)="setSingleInteraction(usager, 'courrierIn')"
+    appSupportModeDisable
   >
     <span class="fr-icon-mail-line" aria-hidden="true"></span>
   </button>
@@ -53,6 +56,7 @@
     [id]="'reception-' + usager.ref"
     class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
     (click)="openInteractionInModal()"
+    appSupportModeDisable
   >
     <span class="ri-mail-add-line" aria-hidden="true"></span>
   </button>
@@ -70,6 +74,7 @@
     "
     [tooltip]="distributionTooltip"
     (click)="openInteractionOutModal()"
+    appSupportModeDisable
   >
     <span class="fr-icon-mail-open-line" aria-hidden="true"></span>
     <strong class="notification">

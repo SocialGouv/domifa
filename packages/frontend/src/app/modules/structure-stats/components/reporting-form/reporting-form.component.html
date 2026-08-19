@@ -12,6 +12,7 @@
     class="fr-btn fr-btn--secondary fr-icon-edit-line fr-btn--icon-left"
     type="button"
     (click)="openModal()"
+    appSupportModeDisable
   >
     Modifier le rapport
   </button>
@@ -342,6 +343,7 @@
         [loading]="loading"
         label="Envoyer le rapport"
         (action)="sendQuestionsForm()"
+        appSupportModeDisable
       ></app-button>
       <button
         class="fr-btn fr-btn--secondary"

@@ -12,6 +12,7 @@
       (click)="openForm()"
       type="button"
       class="fr-btn fr-btn--secondary fr-icon-edit-line fr-btn--icon-left"
+      appSupportModeDisable
     >
       Modifier les procurations
     </button>
@@ -68,6 +69,7 @@
         type="button"
         (click)="openConfirmation(i)"
         class="fr-btn fr-icon-delete-line"
+        appSupportModeDisable
       ></button>
     </div>
   </div>
@@ -251,6 +253,7 @@
         type="submit"
         [loading]="loading"
         label="Enregistrer les procurations"
+        appSupportModeDisable
       ></app-button>
       @if (form.controls.length < 5) {
       <app-button
@@ -260,6 +263,7 @@
         color="secondary"
         icon="add"
         customClass="fr-ml-1w"
+        appSupportModeDisable
       ></app-button>
 
       }
@@ -296,6 +300,7 @@
         [disabled]="loading"
         [attr.aria-busy]="loading"
         type="button"
+        appSupportModeDisable
       >
         @if (!loading) { Confirmer la suppression } @else {
         <span
