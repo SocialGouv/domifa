@@ -12,6 +12,7 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags } from "@nestjs/swagger";
 import {
+  AllowInSupportMode,
   AllowUserProfiles,
   CurrentUser,
   CurrentUsager,
@@ -82,6 +83,7 @@ export class InteractionsController {
 
   @Post("search/:usagerRef")
   @UseGuards(UsagerAccessGuard)
+  @AllowInSupportMode()
   public async getInteractions(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentUser() user: UserStructureAuthenticated,
@@ -97,6 +99,7 @@ export class InteractionsController {
 
   @Post("search-login-portail/:usagerRef")
   @UseGuards(UsagerAccessGuard)
+  @AllowInSupportMode()
   public async getLoginPortailHistory(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentUser() user: UserStructureAuthenticated,

@@ -43,6 +43,7 @@ import { AppUserGuard, UsagerNoteAccessGuard } from "../../auth/guards";
 
 import { ObjectLiteral } from "typeorm";
 import {
+  AllowInSupportMode,
   AllowUserProfiles,
   AllowUserStructureRoles,
 } from "../../auth/decorators";
@@ -57,6 +58,7 @@ import { PageOptionsDto } from "../dto";
 export class UsagerNotesController {
   @Post("search/:usagerRef/:archived")
   @UseGuards(UsagerAccessGuard)
+  @AllowInSupportMode()
   public async getUsagerNotes(
     @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager,
