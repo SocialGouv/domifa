@@ -51,6 +51,7 @@
               type="button"
               (click)="openHardResetModal()"
               class="fr-btn fr-btn--tertiary fr-btn--icon-left fr-icon-delete-line"
+              appSupportModeDisable
             >
               Supprimer tous les domiciliés
             </button>
@@ -117,6 +118,7 @@
         [attr.aria-busy]="loading"
         (click)="hardResetConfirm()"
         type="button"
+        appSupportModeDisable
       >
         @if (!loading) {
         <span>Confirmer la suppression</span>

@@ -545,6 +545,7 @@
       type="submit"
       [loading]="loading"
       label="Enregistrer les modifications"
+      appSupportModeDisable
     ></app-button>
 
     <div
@@ -555,6 +556,7 @@
         type="submit"
         [loading]="loading"
         label="Suivant"
+        appSupportModeDisable
       ></app-button>
       <a routerLink="/manage" class="fr-btn fr-btn--secondary">
         Continuer plus tard
@@ -598,6 +600,7 @@
         type="button"
         class="fr-btn fr-btn--primary"
         (click)="submitEntretien()"
+        appSupportModeDisable
       >
         <span *ngIf="!loading">Continuer sans entretien</span>
         <span *ngIf="loading">

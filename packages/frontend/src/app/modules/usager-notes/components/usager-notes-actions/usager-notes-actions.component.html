@@ -5,7 +5,7 @@
 >
   <ng-template #contentTemplate>
     @if (!note.archived) {
-    <dsfrx-dropdownmenu-item (selectItem)="pinNote(note)">
+    <dsfrx-dropdownmenu-item (selectItem)="pinNote(note)" appSupportModeDisable>
       <div>
         <span class="fr-icon-bookmark-line" aria-hidden="true"></span>
         {{ note.pinned ? "Désépingler" : "Épingler" }} la note
@@ -13,7 +13,10 @@
     </dsfrx-dropdownmenu-item>
     }
 
-    <dsfrx-dropdownmenu-item (selectItem)="openActionModal('ARCHIVE')">
+    <dsfrx-dropdownmenu-item
+      (selectItem)="openActionModal('ARCHIVE')"
+      appSupportModeDisable
+    >
       <div>
         <span
           [class]="
@@ -30,6 +33,7 @@
     <dsfrx-dropdownmenu-item
       class="fr-menu__link--danger"
       (selectItem)="openActionModal('DELETE')"
+      appSupportModeDisable
     >
       <div>
         <span class="fr-icon-delete-line" aria-hidden="true"></span>
@@ -77,6 +81,7 @@
         label="Confirmer"
         (action)="confirmAction()"
         [customClass]="choosenAction === 'DELETE' ? 'fr-btn--danger' : ''"
+        appSupportModeDisable
       ></app-button>
       <button
         type="button"

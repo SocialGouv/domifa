@@ -193,6 +193,7 @@
               icon="user"
               color="secondary"
               (action)="setSingleInteraction(usager.ref, 'visite')"
+              appSupportModeDisable
             ></app-button>
 
             <app-button
@@ -202,6 +203,7 @@
               icon="phone"
               color="secondary"
               (action)="setSingleInteraction(usager.ref, 'appel')"
+              appSupportModeDisable
             ></app-button>
           </div>
           }
@@ -211,6 +213,7 @@
             type="button"
             class="fr-my-1 fr-btn fr-mr-1w"
             (click)="openInteractionInModal()"
+            appSupportModeDisable
           >
             <span class="fr-icon-mail-line fr-mr-2w" aria-hidden="true"></span>
 
@@ -222,6 +225,7 @@
             type="button"
             class="fr-my-1 fr-btn fr-btn--secondary fr-mr-2w"
             (click)="openInteractionOutModal()"
+            appSupportModeDisable
           >
             <span
               class="fr-icon-mail-open-line fr-mr-2w"
