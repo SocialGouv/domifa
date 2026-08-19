@@ -74,9 +74,8 @@
                   </label>
                 </div>
               </th>
-              } @if (filters.statut === UsagersFilterCriteriaStatut.TOUS) {
-              <th scope="col" role="columnheader">STATUT</th>
               }
+
               <th scope="col" role="columnheader">
                 <div class="fr-cell--sort">
                   <span>ID</span>
@@ -95,6 +94,10 @@
                   </button>
                 </div>
               </th>
+
+              @if (filters.statut === UsagersFilterCriteriaStatut.TOUS) {
+              <th scope="col" role="columnheader">STATUT</th>
+              }
 
               <th scope="col" role="columnheader">
                 <div class="fr-cell--sort">
@@ -208,13 +211,25 @@
                     (change)="toggleSelection(usager.ref)"
                   />
                   <label class="fr-label" [for]="'select-' + usager.ref">
-                    <span class="fr-sr-only"
-                      >Sélectionner {{ usager.fullName }}</span
-                    >
+                    <span class="fr-sr-only">
+                      Sélectionner {{ usager.fullName }}
+                    </span>
                   </label>
                 </div>
               </th>
-              } @if (filters.statut === UsagersFilterCriteriaStatut.TOUS) {
+              }
+
+              <td
+                class="manage-usager-ref clickable"
+                (click)="goToProfil(usager)"
+                tabindex="0"
+              >
+                <span>
+                  {{ usager.customRef ? usager.customRef : usager.ref }}
+                </span>
+              </td>
+
+              @if (filters.statut === UsagersFilterCriteriaStatut.TOUS) {
               <td class="clickable fr-text--left">
                 <span
                   [class]="'fr-badge fr-badge--sm ' + usager?.statusInfo?.color"
@@ -223,15 +238,6 @@
                 </span>
               </td>
               }
-              <td
-                class="manage-usager-ref clickable"
-                (click)="goToProfil(usager)"
-                tabindex="0"
-              >
-                <span
-                  >{{ usager.customRef ? usager.customRef : usager.ref }}</span
-                >
-              </td>
 
               <td class="clickable table-name td-name">
                 @if (usager?.pinnedNote) {

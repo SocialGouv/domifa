@@ -79,3 +79,8 @@
   width: 40px !important;
   text-align: center;
 }
+
+.fr-table__content table thead th {
+  background-image: none;
+  border-bottom: 1px solid var(--border-plain-grey);
+}
