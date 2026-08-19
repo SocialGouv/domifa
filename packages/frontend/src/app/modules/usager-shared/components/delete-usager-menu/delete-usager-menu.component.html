@@ -5,6 +5,7 @@
     type="button"
     class="fr-icon-delete-line fr-btn--icon-left fr-btn"
     (click)="onDeleteClick()"
+    appSupportModeDisable
   >
     {{
       context === "PROFIL" ? "Supprimer ce dossier" : "Supprimer cette demande"
@@ -17,6 +18,7 @@
   class="fr-btn fr-btn--primary fr-btn--sm fr-icon-delete-line fr-btn--icon-left"
   aria-label="Supprimer la dernière décision"
   (click)="deleteDecisionModal.open()"
+  appSupportModeDisable
 >
   <span>Supprimer la dernière décision</span>
 </button>
@@ -52,6 +54,7 @@
           label="Confirmer la suppression"
           icon="check"
           (action)="deleteDecision()"
+          appSupportModeDisable
         ></app-button>
         <button
           type="button"
@@ -113,6 +116,7 @@
           [loading]="loading"
           label="Confirmer la suppression"
           (action)="deleteUsager()"
+          appSupportModeDisable
         ></app-button>
         <button
           class="fr-btn fr-btn--secondary"

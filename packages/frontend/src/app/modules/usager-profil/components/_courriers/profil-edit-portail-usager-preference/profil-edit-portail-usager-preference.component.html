@@ -9,6 +9,7 @@
     type="button"
     [disabled]="loading"
     [attr.aria-busy]="loading"
+    appSupportModeDisable
   >
     @if (loading) {
     <span class="fr-sr-only">Patientez...</span>
@@ -120,6 +121,7 @@
         (click)="resetPassword()"
         type="button"
         [attr.aria-busy]="loading"
+        appSupportModeDisable
       >
         @if (!loading) {
         <span>
