@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-} from "@nestjs/common";
-import { Not, QueryFailedError } from "typeorm";
+import { BadRequestException, Injectable } from "@nestjs/common";
 
 import { UserStructureAuthenticated } from "../../../_common/model";
 import { userStructureRepository } from "../../../database";
@@ -23,30 +18,17 @@ export class UserStructureEmailUpdaterService {
       throw new BadRequestException("SAME_EMAIL");
     }
 
+    // Recherche sur toute la base (pas seulement les comptes actifs) : la
+    // contrainte unique en base ne distingue pas les comptes soft-deleted,
+    // donc un email déjà pris par l'un d'eux ferait de toute façon échouer
+    // l'update ci-dessous.
     const existing = await userStructureRepository.findOneBy({
       email: newEmail,
-      status: Not("DELETE"),
     });
     if (existing) {
-      throw new ConflictException("EMAIL_ALREADY_USED");
+      throw new BadRequestException("BAD_REQUEST");
     }
 
-    try {
-      await userStructureRepository.update(
-        { id: user.id },
-        { email: newEmail }
-      );
-    } catch (err) {
-      // Filet de sécurité si un utilisateur soft-deleted détient encore
-      // l'email cible : le pré-check ci-dessus l'exclut via status != DELETE,
-      // mais la contrainte unique en base ne fait pas cette distinction.
-      if (
-        err instanceof QueryFailedError &&
-        (err as unknown as { code?: string }).code === "23505"
-      ) {
-        throw new ConflictException("EMAIL_ALREADY_USED");
-      }
-      throw err;
-    }
+    await userStructureRepository.update({ id: user.id }, { email: newEmail });
   }
 }

@@ -77,7 +77,8 @@ import {
   UserStructureEmailChangeLogContext,
   UserStructureRoleChangeLogContext,
 } from "../../app-logs/types/app-log-context.types";
-import { appLogger, anonymizeEmail } from "../../../util";
+import { appLogger } from "../../../util";
+import { redactEmail } from "../../otp/otp.utils";
 import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
 import { domifaConfig } from "../../../config";
 
@@ -426,12 +427,15 @@ export class UsersController {
   // Edition de l'email quand on est déjà connecté
   @Post("edit-my-email")
   @UseGuards(OtpGuard)
-  @RequireOtp("EMAIL_CHANGE")
+  @RequireOtp("USER_EMAIL_SELF_UPDATE")
   // Limite dédiée : le code OTP n'est pas lié à l'email ciblé, donc un même
   // code valide pourrait sinon être réutilisé pour tester l'existence de
-  // plusieurs adresses (énumération de comptes) via EMAIL_ALREADY_USED.
+  // plusieurs adresses (énumération de comptes). Blocage volontairement long :
+  // à 3/min avec un blocage court, un attaquant patient garde un débit non
+  // négligeable sur une journée (et plus encore avec plusieurs instances,
+  // le compteur de throttle n'étant pas partagé entre pods).
   @Throttle({
-    short: { limit: 3, ttl: 60_000, blockDuration: 900_000 }, // 3 req/min, block 15min
+    short: { limit: 3, ttl: 60_000, blockDuration: 24 * 60 * 60 * 1000 }, // 3 req/min, block 24h
   })
   @ApiOperation({ summary: "Edition de l'email depuis le compte user" })
   @HttpCode(HttpStatus.OK)
@@ -440,17 +444,25 @@ export class UsersController {
     @Body() dto: EmailDto
   ): Promise<ApiMessage> {
     const oldEmail = user.email;
-    await this.userStructureEmailUpdaterService.updateEmail({
-      user,
-      newEmail: dto.email,
-    });
+    try {
+      await this.userStructureEmailUpdaterService.updateEmail({
+        user,
+        newEmail: dto.email,
+      });
+    } catch (err) {
+      if (err instanceof BadRequestException) {
+        throw err;
+      }
+      appLogger.error(err);
+      throw new BadRequestException("EDIT_EMAIL_FAIL");
+    }
 
     await this.appLogService.create<UserStructureEmailChangeLogContext>({
       ...buildStructureActorFields(user),
       action: "USER_EMAIL_SELF_UPDATE",
       context: {
-        oldEmail: anonymizeEmail(oldEmail),
-        newEmail: anonymizeEmail(dto.email),
+        oldEmail: redactEmail(oldEmail),
+        newEmail: redactEmail(dto.email),
       },
     });
 
