@@ -1,12 +1,15 @@
 import { main } from "./common/lib"
-import { truncateDateToMonthFromString } from "./common/data-helpers"
+import {
+  truncateJsonDateToMonth,
+  truncateTimestampColumnToMonth,
+} from "./common/data-helpers"
 
 // Stats projection already stripped by dataCleanerForStats.service.ts: only the
 // birth dates are copied verbatim. Do not write into the JSON columns, it would
 // add keys the projection does not have.
 function anonymize(values: Record<string, any>) {
   if (values.dateNaissance) {
-    values.dateNaissance = truncateDateToMonthFromString(values.dateNaissance)
+    values.dateNaissance = truncateTimestampColumnToMonth(values.dateNaissance)
   }
 
   if (values.ayantsDroits) {
@@ -14,7 +17,7 @@ function anonymize(values: Record<string, any>) {
     values.ayantsDroits = JSON.stringify(
       (ayantsDroits ?? []).map((ayantDroit: any) => ({
         ...ayantDroit,
-        dateNaissance: truncateDateToMonthFromString(ayantDroit.dateNaissance),
+        dateNaissance: truncateJsonDateToMonth(ayantDroit.dateNaissance),
       }))
     )
   }

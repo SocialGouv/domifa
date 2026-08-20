@@ -4,7 +4,8 @@ import {
   fullName,
   lastName,
   randomInt,
-  truncateDateToMonthFromString,
+  truncateJsonDateToMonth,
+  truncateTimestampColumnToMonth,
 } from "./common/data-helpers"
 import { fakeDecision } from "./common/entities"
 import { fakerFR as faker } from "@faker-js/faker"
@@ -15,9 +16,9 @@ function anonymizeHistorique(raw: string) {
   return JSON.stringify(
     historique.map((decision: any) => ({
       ...fakeDecision(decision),
-      dateDecision: truncateDateToMonthFromString(decision.dateDecision),
-      dateDebut: truncateDateToMonthFromString(decision.dateDebut),
-      dateFin: truncateDateToMonthFromString(decision.dateFin),
+      dateDecision: truncateJsonDateToMonth(decision.dateDecision),
+      dateDebut: truncateJsonDateToMonth(decision.dateDebut),
+      dateFin: truncateJsonDateToMonth(decision.dateFin),
     }))
   )
 }
@@ -30,7 +31,7 @@ function anonymizeAyantsDroits(raw: string) {
       ...ayantDroit,
       prenom: firstName(),
       nom: lastName(),
-      dateNaissance: truncateDateToMonthFromString(ayantDroit.dateNaissance),
+      dateNaissance: truncateJsonDateToMonth(ayantDroit.dateNaissance),
     }))
   )
 }
@@ -42,7 +43,7 @@ function anonymizeImport(raw: string) {
     ...usagerImport,
     userId: randomInt(),
     userName: fullName(),
-    date: truncateDateToMonthFromString(usagerImport.date),
+    date: truncateJsonDateToMonth(usagerImport.date),
   })
 }
 
@@ -53,7 +54,7 @@ function anonymizeRdv(raw: string) {
     ...rdv,
     userId: randomInt(),
     userName: fullName(),
-    dateRdv: truncateDateToMonthFromString(rdv.dateRdv),
+    dateRdv: truncateJsonDateToMonth(rdv.dateRdv),
   })
 }
 
@@ -64,9 +65,9 @@ function anonymizeOptions(raw: string) {
     (procuration: any) => ({
       nom: lastName(),
       prenom: firstName(),
-      dateNaissance: truncateDateToMonthFromString(procuration.dateNaissance),
-      dateFin: truncateDateToMonthFromString(procuration.dateFin),
-      dateDebut: truncateDateToMonthFromString(procuration.dateDebut),
+      dateNaissance: truncateJsonDateToMonth(procuration.dateNaissance),
+      dateFin: truncateJsonDateToMonth(procuration.dateFin),
+      dateDebut: truncateJsonDateToMonth(procuration.dateDebut),
     })
   )
 
@@ -111,7 +112,7 @@ function anonymize(values: Record<string, any>) {
   }
 
   if (values.dateNaissance) {
-    values.dateNaissance = truncateDateToMonthFromString(values.dateNaissance)
+    values.dateNaissance = truncateTimestampColumnToMonth(values.dateNaissance)
   }
 }
 
