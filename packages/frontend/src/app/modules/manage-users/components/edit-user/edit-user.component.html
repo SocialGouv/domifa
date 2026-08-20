@@ -2,19 +2,19 @@
 <div class="head-page">
   <div class="fr-container">
     <h1>
-      <span class="fr-icon-admin-line" aria-hidden="true"></span>Mon compte
+      <span class="fr-icon-admin-line" aria-hidden="true"></span>
+      Mon compte
     </h1>
   </div>
 </div>
-
 <div class="fr-content-container-light fr-py-3w">
   <div class="fr-container">
     <div class="fr-content">
       @if (me?.role !== 'facteur' && me?.role !== 'agent') {
       <section class="fr-my-4w">
         <h2 class="fr-h3">
-          <span class="fr-icon-calendar-line" aria-hidden="true"></span> Mes
-          prochains rendez-vous
+          <span class="fr-icon-calendar-line" aria-hidden="true"></span>
+          Mes prochains rendez-vous
         </h2>
         @if (usagers$ | async; as nextMeetings) { @if (!nextMeetings?.length) {
         <div class="fr-callout fr-callout--info">
@@ -63,7 +63,10 @@
         <div
           class="fr-grid-row fr-grid-row--middle fr-justify-content-between fr-my-4w"
         >
-          <h2 class="fr-h3 fr-mb-0">Informations personnelles</h2>
+          <h2 class="fr-h3 fr-mb-0">
+            <span class="fr-icon-user-line" aria-hidden="true"></span>
+            Informations personnelles
+          </h2>
           @if (!editUser) {
           <button
             (click)="initUserForm()"
@@ -77,30 +80,26 @@
         </div>
 
         @if (!editUser) {
-        <div class="fr-grid-row fr-grid-row--gutters">
-          <div class="fr-col-md-3 fr-col-12">
-            <p class="fr-mb-1w">
-              <strong>NOM</strong><br />
-              {{ me.nom }}
-            </p>
-          </div>
-          <div class="fr-col-md-3 fr-col-12">
-            <p class="fr-mb-1w">
-              <strong>PRÉNOM</strong><br />
-              {{ me.prenom }}
-            </p>
-          </div>
-          <div class="fr-col-3">
-            <p class="fr-mb-1w">
-              <strong>EMAIL</strong><br />
-              {{ me.email }}
-            </p>
-          </div>
-          <div class="fr-col-3">
-            <p class="fr-mb-1w">
-              <strong>Fonction</strong><br />
-              {{ me | fonctionFormat }}
-            </p>
+        <div class="fr-callout fr-callout--info">
+          <div class="fr-grid-row fr-grid-row--gutters">
+            <div class="fr-col-md-4 fr-col-12">
+              <p class="fr-callout--text fr-mb-1w">
+                <strong>NOM</strong><br />
+                {{ me.nom }}
+              </p>
+            </div>
+            <div class="fr-col-md-4 fr-col-12">
+              <p class="fr-callout--text fr-mb-1w">
+                <strong>PRÉNOM</strong><br />
+                {{ me.prenom }}
+              </p>
+            </div>
+            <div class="fr-col-4">
+              <p class="fr-callout--text fr-mb-1w">
+                <strong>Fonction</strong><br />
+                {{ me | fonctionFormat }}
+              </p>
+            </div>
           </div>
         </div>
         } @if (editUser) {
@@ -155,7 +154,6 @@
               >
                 <label class="fr-label" for="prenom">Prénom</label>
                 <p class="fr-hint-text empty-hint"></p>
-
                 <input
                   type="text"
                   class="fr-input"
@@ -212,7 +210,105 @@
               type="submit"
               [loading]="loading"
               label="Enregistrer les changements"
-            ></app-button>
+            >
+            </app-button>
+          </div>
+        </form>
+        }
+      </section>
+
+      <section class="fr-mb-4w">
+        <div
+          class="fr-grid-row fr-grid-row--middle fr-justify-content-between fr-mb-2w"
+        >
+          <h2 class="fr-h3 fr-my-0">
+            <span class="fr-icon-mail-line" aria-hidden="true"></span>
+            Adresse email
+          </h2>
+          @if (!editEmail) {
+          <button
+            (click)="initEmailForm()"
+            type="button"
+            class="fr-btn fr-btn--secondary"
+          >
+            <span class="fr-icon-edit-line fr-mr-1w" aria-hidden="true"></span>
+            Modifier mon adresse email
+          </button>
+          }
+        </div>
+
+        @if (!editEmail) {
+        <div class="fr-callout fr-callout--info">
+          <p class="fr-callout__text">{{ me.email }}</p>
+        </div>
+        } @if (editEmail && emailForm) {
+        <form [formGroup]="emailForm" (ngSubmit)="updateMyEmail()">
+          <div class="fr-grid-row fr-grid-row--gutters">
+            <div class="fr-col-12 fr-col-md-6">
+              <div
+                class="fr-input-group"
+                [class.fr-input-group--error]="
+                  (emailForm.controls.email.dirty || submitted) &&
+                  emailForm.controls.email.errors
+                "
+              >
+                <label class="fr-label" for="email"
+                  >Nouvelle adresse email</label
+                >
+                <p class="fr-hint-text">
+                  Un code de confirmation à 6 chiffres sera envoyé à l'adresse
+                  email : <b>{{ me.email }}</b>
+                </p>
+                <input
+                  type="email"
+                  class="fr-input"
+                  id="email"
+                  formControlName="email"
+                  name="email"
+                  autocomplete="off"
+                  [class.fr-input--error]="
+                    (emailForm.controls.email.dirty || submitted) &&
+                    emailForm.controls.email.errors
+                  "
+                  [attr.aria-describedby]="
+                    (emailForm.controls.email.dirty || submitted) &&
+                    emailForm.controls.email.errors
+                      ? 'invalid-email'
+                      : null
+                  "
+                  [attr.aria-invalid]="
+                    (emailForm.controls.email.dirty || submitted) &&
+                    emailForm.controls.email.errors
+                      ? true
+                      : false
+                  "
+                  required
+                />
+                @if (submitted && emailForm.controls.email.errors) {
+                <p class="fr-error-text" id="invalid-email">
+                  Veuillez saisir une adresse email valide
+                </p>
+                }
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="fr-btns-group fr-btns-group--center fr-btns-group--inline fr-mt-3w"
+          >
+            <button
+              type="button"
+              (click)="editEmail = false"
+              class="fr-btn fr-btn--secondary"
+            >
+              Annuler les modifications
+            </button>
+            <app-button
+              type="submit"
+              [loading]="loading"
+              label="Enregistrer les changements"
+            >
+            </app-button>
           </div>
         </form>
         }
@@ -247,9 +343,9 @@
           <div class="fr-grid-row fr-grid-row--gutters">
             <div class="fr-col-md-4 fr-col-12">
               <div class="fr-password">
-                <label class="fr-label" for="oldPassword"
-                  >Ancien mot de passe</label
-                >
+                <label class="fr-label" for="oldPassword">
+                  Ancien mot de passe
+                </label>
                 <div class="fr-input-wrap">
                   <input
                     class="fr-password__input fr-input"
@@ -305,7 +401,8 @@
               type="submit"
               [loading]="loading"
               label="Enregistrer les changements"
-            ></app-button>
+            >
+            </app-button>
           </div>
         </form>
         }

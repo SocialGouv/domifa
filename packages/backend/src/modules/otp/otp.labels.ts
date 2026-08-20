@@ -20,4 +20,5 @@ export const OTP_ACTION_MOTIF_LABELS: Record<
   DELETE_USER_BY_ADMIN: "Suppression d'un utilisateur",
   UNBLOCK_BREVO_CONTACT:
     "Déblocage du contact Brevo (blocklist transactionnelle)",
+  USER_EMAIL_SELF_UPDATE: "Modification de l'adresse email par l'utilisateur",
 };

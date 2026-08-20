@@ -69,7 +69,7 @@ export function generateOtpActionEmailHtml(params: { code: string }): string {
                 <!-- Intro text -->
                 <tr>
                   <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.5; color: #000000; padding-bottom: 20px;">
-                    Une action que vous avez entreprise sur DomiFa requiert un code de confirmation. Copiez-collez ce code dans l'interface :
+                    Pour finaliser votre action sur DomiFa, copiez et collez le code ci-dessous dans l'interface :
                   </td>
                 </tr>
 

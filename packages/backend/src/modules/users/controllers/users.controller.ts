@@ -2,6 +2,7 @@ import {
   UserStructureProfile,
   UserStructure,
   ALL_USER_STRUCTURE_ROLES,
+  ApiMessage,
 } from "@domifa/common";
 import { Not } from "typeorm";
 import {
@@ -10,6 +11,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   HttpStatus,
   Param,
   ParseUUIDPipe,
@@ -20,6 +22,7 @@ import {
   Res,
   UseGuards,
 } from "@nestjs/common";
+import { Throttle } from "@nestjs/throttler";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Request as ExpressRequest, Response } from "express";
@@ -46,6 +49,7 @@ import {
   UpdateRoleDto,
   UserEditDto,
   EditMyPasswordDto,
+  EmailDto,
   NewReferrerIdDto,
 } from "../dto";
 import {
@@ -53,6 +57,7 @@ import {
   userStructureSecurityPasswordUpdater,
 } from "../services";
 import { UserStructureDecisionService } from "../services/user-structure-decision/user-structure-decision.service";
+import { UserStructureEmailUpdaterService } from "../services/userStructureEmailUpdater.service";
 import { OtpGuard } from "../../otp/guards/otp.guard";
 import { RequireOtp } from "../../otp/decorators/require-otp.decorator";
 // Direct path (not via the `portail-admin` barrel): the barrel re-exports
@@ -69,9 +74,11 @@ import {
 } from "../../app-logs/app-logs.helpers";
 import {
   UserStructureCreateLogContext,
+  UserStructureEmailChangeLogContext,
   UserStructureRoleChangeLogContext,
 } from "../../app-logs/types/app-log-context.types";
 import { appLogger } from "../../../util";
+import { redactEmail } from "../../otp/otp.utils";
 import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
 import { domifaConfig } from "../../../config";
 
@@ -86,7 +93,8 @@ export class UsersController {
   constructor(
     private readonly appLogService: AppLogsService,
     private readonly brevoSenderService: BrevoSenderService,
-    private readonly userStructureDecisionService: UserStructureDecisionService
+    private readonly userStructureDecisionService: UserStructureDecisionService,
+    private readonly userStructureEmailUpdaterService: UserStructureEmailUpdaterService
   ) {}
 
   @Get("")
@@ -413,5 +421,50 @@ export class UsersController {
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "EDIT_PASSWORD_FAIL" });
     }
+  }
+
+  // Edition de l'email quand on est déjà connecté
+  @Post("edit-my-email")
+  @UseGuards(OtpGuard)
+  @RequireOtp("USER_EMAIL_SELF_UPDATE")
+  // Limite dédiée : le code OTP n'est pas lié à l'email ciblé, donc un même
+  // code valide pourrait sinon être réutilisé pour tester l'existence de
+  // plusieurs adresses (énumération de comptes). Blocage volontairement long :
+  // à 3/min avec un blocage court, un attaquant patient garde un débit non
+  // négligeable sur une journée (et plus encore avec plusieurs instances,
+  // le compteur de throttle n'étant pas partagé entre pods).
+  @Throttle({
+    short: { limit: 3, ttl: 60_000, blockDuration: 24 * 60 * 60 * 1000 }, // 3 req/min, block 24h
+  })
+  @ApiOperation({ summary: "Edition de l'email depuis le compte user" })
+  @HttpCode(HttpStatus.OK)
+  public async editEmail(
+    @CurrentUser() user: UserStructureAuthenticated,
+    @Body() dto: EmailDto
+  ): Promise<ApiMessage> {
+    const oldEmail = user.email;
+    try {
+      await this.userStructureEmailUpdaterService.updateEmail({
+        user,
+        newEmail: dto.email,
+      });
+    } catch (err) {
+      if (err instanceof BadRequestException) {
+        throw err;
+      }
+      appLogger.error(err);
+      throw new BadRequestException("EDIT_EMAIL_FAIL");
+    }
+
+    await this.appLogService.create<UserStructureEmailChangeLogContext>({
+      ...buildStructureActorFields(user),
+      action: "USER_EMAIL_SELF_UPDATE",
+      context: {
+        oldEmail: redactEmail(oldEmail),
+        newEmail: redactEmail(dto.email),
+      },
+    });
+
+    return { message: "OK" };
   }
 }

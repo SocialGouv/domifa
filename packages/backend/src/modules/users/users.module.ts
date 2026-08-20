@@ -12,6 +12,7 @@ import { AppLogsService } from "../app-logs/app-logs.service";
 import { ExpiredTemporaryBlockCleaner } from "./services/crons/expired-temporary-block-cleaner.service";
 import { ExpiredTokenCleaner } from "./services/crons/expired-token-cleaner.service";
 import { UserStructureDecisionService } from "./services/user-structure-decision/user-structure-decision.service";
+import { UserStructureEmailUpdaterService } from "./services/userStructureEmailUpdater.service";
 
 @Module({
   controllers: [
@@ -32,6 +33,7 @@ import { UserStructureDecisionService } from "./services/user-structure-decision
     ExpiredTemporaryBlockCleaner,
     ExpiredTokenCleaner,
     UserStructureDecisionService,
+    UserStructureEmailUpdaterService,
   ],
 })
 export class UsersModule {}
