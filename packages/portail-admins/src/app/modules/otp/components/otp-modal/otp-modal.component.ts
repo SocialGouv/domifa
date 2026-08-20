@@ -19,8 +19,8 @@ import {
   OTP_MAX_ATTEMPTS,
   OTP_RESEND_COOLDOWN_SECONDS,
   OTP_RESEND_LABEL,
-  OTP_RESEND_WAIT_LABEL,
   OtpErrorCode,
+  buildOtpResendWaitLabel,
   OtpPromptOptions,
 } from "@domifa/common";
 import { OtpPromptService } from "../../services/otp-prompt.service";
@@ -60,7 +60,8 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly subscription = new Subscription();
   private isOpen = false;
   private unlistenCancel: (() => void) | null = null;
-  private resendTimer: ReturnType<typeof setTimeout> | null = null;
+  private resendTimer: ReturnType<typeof setInterval> | null = null;
+  private resendSecondsLeft = 0;
 
   constructor(
     private readonly promptService: OtpPromptService,
@@ -201,19 +202,26 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
   private startResendCooldown(): void {
     this.clearResendTimer();
     this.resendLocked = true;
-    this.resendLabel = OTP_RESEND_WAIT_LABEL;
-    this.resendTimer = setTimeout(() => {
-      this.resendTimer = null;
-      this.resendLocked = false;
-      this.resendLabel = OTP_RESEND_LABEL;
+    this.resendSecondsLeft = OTP_RESEND_COOLDOWN_SECONDS;
+    this.resendLabel = buildOtpResendWaitLabel(this.resendSecondsLeft);
+    this.resendTimer = setInterval(() => {
+      this.resendSecondsLeft -= 1;
+      if (this.resendSecondsLeft <= 0) {
+        this.clearResendTimer();
+        this.resendLocked = false;
+        this.resendLabel = OTP_RESEND_LABEL;
+      } else {
+        this.resendLabel = buildOtpResendWaitLabel(this.resendSecondsLeft);
+      }
       this.cdr.markForCheck();
-    }, OTP_RESEND_COOLDOWN_SECONDS * 1000);
+    }, 1000);
   }
 
   private clearResendTimer(): void {
     if (this.resendTimer !== null) {
-      clearTimeout(this.resendTimer);
+      clearInterval(this.resendTimer);
       this.resendTimer = null;
     }
+    this.resendSecondsLeft = 0;
   }
 }
