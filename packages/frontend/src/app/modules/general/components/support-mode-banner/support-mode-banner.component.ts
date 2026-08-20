@@ -34,7 +34,12 @@ export class SupportModeBannerComponent implements OnInit, OnDestroy {
   }
 
   public quit(): void {
-    this.authService.logout();
+    // logout() only clears local state — logoutFromBackend() hits
+    // GET structures/auth/logout first, which is where the support-session
+    // revoke hook lives (structures-auth.controller.ts). Without it the
+    // support_session row stays ACTIVE until the cron sweeps it up to an
+    // hour later.
+    this.authService.logoutFromBackend();
   }
 
   private tick(): void {
@@ -45,7 +50,7 @@ export class SupportModeBannerComponent implements OnInit, OnDestroy {
       new Date(this.me.supportModeExpiresAt).getTime() - Date.now();
     if (remainingMs <= 0) {
       this.remainingLabel = "00:00:00";
-      this.authService.logout();
+      this.authService.logoutFromBackend();
       return;
     }
     this.remainingLabel = formatDuration(remainingMs);

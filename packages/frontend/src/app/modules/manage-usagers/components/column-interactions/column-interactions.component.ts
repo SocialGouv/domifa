@@ -16,13 +16,14 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { InteractionService } from "../../../usager-shared/services";
 import { INTERACTIONS_LABELS_SINGULIER, InteractionType } from "@domifa/common";
 import { InteractionInForApi } from "../../../usager-shared/interfaces/interaction";
+import { SupportModeDisableDirective } from "../../../shared/directives/support-mode-disable.directive";
 
 @Component({
   selector: "app-manage-usagers-interactions",
   templateUrl: "./column-interactions.component.html",
   styleUrls: ["./column-interactions.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DsfrTooltipDirective],
+  imports: [DsfrTooltipDirective, SupportModeDisableDirective],
 })
 export class ColumnInteractionsComponent implements OnChanges, OnDestroy {
   @Output()

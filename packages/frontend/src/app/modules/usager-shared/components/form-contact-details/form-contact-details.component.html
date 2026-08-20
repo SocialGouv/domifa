@@ -1,5 +1,9 @@
 <ng-container *ngIf="currentUserSubject$ | async as me">
-  <form [formGroup]="contactDetailsForm" (ngSubmit)="updateInfos()">
+  <form
+    [formGroup]="contactDetailsForm"
+    (ngSubmit)="updateInfos()"
+    appSupportModeDisable
+  >
     <div class="fr-grid-row fr-grid-row--gutters">
       @if ( me.structure.sms.enabledByDomifa &&
       me.structure.sms.enabledByStructure ) {

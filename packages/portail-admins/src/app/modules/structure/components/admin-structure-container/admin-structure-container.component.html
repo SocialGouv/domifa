@@ -1,7 +1,7 @@
 <div class="fr-content-container">
   <div class="fr-container">
+    @if (loading) {
     <div
-      *ngIf="loading"
       role="alert"
       aria-busy="true"
       aria-label="Chargement de la structure..."
@@ -12,192 +12,190 @@
         label="Chargement de la structure..."
       ></dsfr-ext-spinner>
     </div>
-    <ng-container *ngIf="!loading && structure">
-      <div class="fr-py-3w" id="subnav">
-        <div class="fr-grid-row">
-          <a routerLink="/structure" class="fr-link w-auto"
-            ><span class="fr-icon-arrow-left-s-line"></span>Retour<span
-              class="fr-sr-only"
-            >
-              à la liste des structures</span
-            >
-          </a>
-        </div>
-        <div
-          class="fr-grid-row fr-pt-2w fr-justify-content-between fr-align-items-center"
-        >
-          <h1
-            [class]="
-              structure.statut === 'SUPPRIME'
-                ? 'fr-text-title--grey fr-p-0w fr-m-0w'
-                : 'fr-text-title--blue-france fr-p-0w fr-m-0w'
-            "
+    } @if (!loading && structure) {
+    <div class="fr-py-3w" id="subnav">
+      <div class="fr-grid-row">
+        <a routerLink="/structure" class="fr-link w-auto"
+          ><span class="fr-icon-arrow-left-s-line"></span>Retour<span
+            class="fr-sr-only"
           >
-            {{ structure.id }} - {{ structure.nom }} - {{ structure.ville }}
-            <ng-container *ngIf="structure.statut === 'SUPPRIME'">
-              (supprimée)</ng-container
-            >
-            <ng-container *ngIf="structure.statut === 'REFUS'">
-              (refusée)</ng-container
-            >
-          </h1>
-          <dsfr-button
-            *ngIf="canUseSupportMode"
-            label="Activer mode support"
-            variant="secondary"
-            (click)="openSupportSessionModal()"
-          ></dsfr-button>
-        </div>
+            à la liste des structures</span
+          >
+        </a>
       </div>
-
-      <div class="fr-tabs">
-        <ul
-          class="fr-tabs__list"
-          role="tablist"
-          aria-label="Onglets de la structures"
-        >
-          <li role="presentation">
-            <a
-              type="button"
-              class="fr-tabs__tab"
-              role="link"
-              routerLink="/structure/{{ structure.uuid }}"
-              routerLinkActive
-              #infosRla="routerLinkActive"
-              [routerLinkActiveOptions]="{ exact: true }"
-              [attr.aria-selected]="infosRla.isActive"
-            >
-              Informations
-            </a>
-          </li>
-          <li role="presentation">
-            <a
-              type="button"
-              id="storybook-tab-1"
-              class="fr-tabs__tab"
-              role="link"
-              aria-controls="storybook-tab-1-panel"
-              [routerLink]="'users'"
-              routerLinkActive
-              #usersRla="routerLinkActive"
-              [attr.aria-selected]="usersRla.isActive"
-            >
-              Utilisateurs
-            </a>
-          </li>
-          <li role="presentation">
-            <a
-              type="button"
-              id="storybook-tab-2"
-              class="fr-tabs__tab"
-              tabindex="-1"
-              role="link"
-              aria-controls="storybook-tab-2-panel"
-              [routerLink]="'stats'"
-              routerLinkActive
-              #statsRla="routerLinkActive"
-              [attr.aria-selected]="statsRla.isActive"
-            >
-              Statistiques
-            </a>
-          </li>
-          <li role="presentation">
-            <a
-              type="button"
-              id="storybook-tab-3"
-              class="fr-tabs__tab"
-              tabindex="-1"
-              role="link"
-              aria-controls="storybook-tab-3-panel"
-              [routerLink]="'activity'"
-              routerLinkActive
-              #activityRla="routerLinkActive"
-              [attr.aria-selected]="activityRla.isActive"
-            >
-              Suivi de l'activité
-            </a>
-          </li>
-          <li role="presentation">
-            <a
-              type="button"
-              class="fr-tabs__tab"
-              role="link"
-              [routerLink]="'security-logs'"
-              routerLinkActive
-              #securityRla="routerLinkActive"
-              [attr.aria-selected]="securityRla.isActive"
-            >
-              Suivi sécurité
-            </a>
-          </li>
-          <li role="presentation">
-            <a
-              type="button"
-              class="fr-tabs__tab"
-              role="link"
-              [routerLink]="'sessions'"
-              routerLinkActive
-              #sessionsRla="routerLinkActive"
-              [attr.aria-selected]="sessionsRla.isActive"
-            >
-              Sessions
-            </a>
-          </li>
-          <li role="presentation">
-            <a
-              type="button"
-              class="fr-tabs__tab"
-              role="link"
-              [routerLink]="'support-sessions'"
-              routerLinkActive
-              #supportSessionsRla="routerLinkActive"
-              [attr.aria-selected]="supportSessionsRla.isActive"
-            >
-              Sessions support
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="fr-content">
-        <router-outlet> </router-outlet>
-      </div>
-
-      <dsfr-modal
-        class="text-start"
-        icon="fr-icon-alert-line"
-        #supportSessionModal
-        dialogId="supportSessionModal"
-        titleModal="Activer le mode support"
-        [concealingBackdrop]="false"
-        [autoCloseOnAction]="false"
-        size="SM"
+      <div
+        class="fr-grid-row fr-pt-2w fr-justify-content-between fr-align-items-center"
       >
-        <p>
-          Vous aurez accès à la structure
-          <span class="fr-text--bold">{{ structure.nom }}</span>
-          pendant 1 heure, en lecture seule.
-        </p>
-        <ng-template #modalFooterTemplate>
-          <dsfr-buttons-group
-            inline="LG"
-            alignment="reverse"
-            iconPosition="left"
-            groupMarkup="div"
+        <h1
+          [class]="
+            structure.statut === 'SUPPRIME'
+              ? 'fr-text-title--grey fr-p-0w fr-m-0w'
+              : 'fr-text-title--blue-france fr-p-0w fr-m-0w'
+          "
+        >
+          {{ structure.id }} - {{ structure.nom }} - {{ structure.ville }}
+
+          @if (structure.statut === 'SUPPRIME') { (supprimée) } @if
+          (structure.statut === 'REFUS') { (refusée) }
+        </h1>
+        @if (canUseSupportMode) {
+        <dsfr-button
+          icon="fr-icon-admin-line"
+          label="Activer mode support"
+          variant="primary"
+          (click)="openSupportSessionModal()"
+        ></dsfr-button>
+        }
+      </div>
+    </div>
+
+    <div class="fr-tabs">
+      <ul
+        class="fr-tabs__list"
+        role="tablist"
+        aria-label="Onglets de la structures"
+      >
+        <li role="presentation">
+          <a
+            type="button"
+            class="fr-tabs__tab"
+            role="link"
+            routerLink="/structure/{{ structure.uuid }}"
+            routerLinkActive
+            #infosRla="routerLinkActive"
+            [routerLinkActiveOptions]="{ exact: true }"
+            [attr.aria-selected]="infosRla.isActive"
           >
-            <dsfr-button
-              (click)="activateSupportSession()"
-              [disabled]="activatingSupportSession"
-              label="Activer"
-            ></dsfr-button>
-            <dsfr-button
-              (click)="supportSessionModal.close()"
-              label="Annuler"
-              variant="secondary"
-            ></dsfr-button>
-          </dsfr-buttons-group>
-        </ng-template>
-      </dsfr-modal>
-    </ng-container>
+            Informations
+          </a>
+        </li>
+        <li role="presentation">
+          <a
+            type="button"
+            id="storybook-tab-1"
+            class="fr-tabs__tab"
+            role="link"
+            aria-controls="storybook-tab-1-panel"
+            [routerLink]="'users'"
+            routerLinkActive
+            #usersRla="routerLinkActive"
+            [attr.aria-selected]="usersRla.isActive"
+          >
+            Utilisateurs
+          </a>
+        </li>
+        <li role="presentation">
+          <a
+            type="button"
+            id="storybook-tab-2"
+            class="fr-tabs__tab"
+            tabindex="-1"
+            role="link"
+            aria-controls="storybook-tab-2-panel"
+            [routerLink]="'stats'"
+            routerLinkActive
+            #statsRla="routerLinkActive"
+            [attr.aria-selected]="statsRla.isActive"
+          >
+            Statistiques
+          </a>
+        </li>
+        <li role="presentation">
+          <a
+            type="button"
+            id="storybook-tab-3"
+            class="fr-tabs__tab"
+            tabindex="-1"
+            role="link"
+            aria-controls="storybook-tab-3-panel"
+            [routerLink]="'activity'"
+            routerLinkActive
+            #activityRla="routerLinkActive"
+            [attr.aria-selected]="activityRla.isActive"
+          >
+            Suivi de l'activité
+          </a>
+        </li>
+        <li role="presentation">
+          <a
+            type="button"
+            class="fr-tabs__tab"
+            role="link"
+            [routerLink]="'security-logs'"
+            routerLinkActive
+            #securityRla="routerLinkActive"
+            [attr.aria-selected]="securityRla.isActive"
+          >
+            Suivi sécurité
+          </a>
+        </li>
+        <li role="presentation">
+          <a
+            type="button"
+            class="fr-tabs__tab"
+            role="link"
+            [routerLink]="'sessions'"
+            routerLinkActive
+            #sessionsRla="routerLinkActive"
+            [attr.aria-selected]="sessionsRla.isActive"
+          >
+            Sessions
+          </a>
+        </li>
+        <li role="presentation">
+          <a
+            type="button"
+            class="fr-tabs__tab"
+            role="link"
+            [routerLink]="'support-sessions'"
+            routerLinkActive
+            #supportSessionsRla="routerLinkActive"
+            [attr.aria-selected]="supportSessionsRla.isActive"
+          >
+            Sessions support
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="fr-content">
+      <router-outlet> </router-outlet>
+    </div>
+
+    <dsfr-modal
+      class="text-start"
+      icon="fr-icon-alert-line"
+      #supportSessionModal
+      dialogId="supportSessionModal"
+      titleModal="Activer le mode support"
+      [concealingBackdrop]="false"
+      [autoCloseOnAction]="false"
+    >
+      <p>
+        Vous aurez accès à la structure
+        <span class="fr-text--bold">{{ structure.nom }}</span>
+        pendant 1 heure, en lecture seule.
+      </p>
+      <ng-template #modalFooterTemplate>
+        <dsfr-buttons-group
+          inline="LG"
+          alignment="reverse"
+          iconPosition="left"
+          groupMarkup="div"
+        >
+          <dsfr-button
+            (click)="activateSupportSession()"
+            [disabled]="activatingSupportSession"
+            label="Activer"
+          ></dsfr-button>
+          <dsfr-button
+            (click)="supportSessionModal.close()"
+            label="Annuler"
+            variant="secondary"
+          ></dsfr-button>
+        </dsfr-buttons-group>
+      </ng-template>
+    </dsfr-modal>
+    }
   </div>
 </div>
