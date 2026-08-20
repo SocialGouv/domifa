@@ -51,6 +51,7 @@ export class AuthGuard {
         const isOnBlockingPage = isOnAcceptCguPage || isOnRenewPasswordPage;
 
         if (
+          !currentUser.supportMode &&
           !hasAcceptedCurrentCgu(currentUser.acceptTerms) &&
           !isOnBlockingPage
         ) {
