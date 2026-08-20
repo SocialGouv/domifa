@@ -34,15 +34,8 @@ Avant de lancer la partie anonymisation, il faut effectuer la partie DB du setup
   ```
 - lancer `pnpm build` ou `pnpm dev` dans `.anonymizer`
 - **📥 Télécharger Greenmask** : récupérer la version v0.2.22 depuis [les releases GitHub](https://github.com/GreenmaskIO/greenmask/releases/tag/v0.2.22) et l'ajouter à votre `PATH`. Alternative sans installation : `docker run --rm greenmask/greenmask:v0.2.22`
-- **✅ Vérifier la config** avant tout dump : `greenmask validate --config config.local.yaml` — contrôle chaque transformer, chaque colonne et chaque fonction de template contre le schéma réel de la base
+- **✅ Vérifier la config** avant tout dump : `greenmask validate --config config.local.yaml`
 - lancer `./.anonymizer/anonymize.sh`
-
-> ⚠️ **Le job de production n'utilise pas cette version.** Il tourne avec le binaire greenmask fourni
-> par son image, actuellement antérieur à v0.2.9, et un transformer inconnu du binaire fait échouer
-> le dump à la validation, avant tout traitement. `config.yaml` ne doit donc utiliser que des
-> transformers disponibles dans la version de production : les transformers récents (`RandomCompany`
-> et suivants) sont à proscrire tant que l'image n'est pas mise à jour. `anonymize-prod.sh` affiche
-> la version du binaire au démarrage du job.
 
 ### 🎯 Fonctionnement du script
 
@@ -56,9 +49,7 @@ Le script `anonymize.sh` :
 ### ⏳ Rétention des journaux
 
 `app_log` et `app_log_security` sont limités aux **6 derniers mois** via `subset_conds` dans
-`config.yaml`. Ces deux tables croissent sans limite en production et n'ont aucune clé étrangère,
-donc la condition ne peut pas se propager à une autre table. Pour changer la fenêtre, éditer
-l'intervalle SQL dans les deux blocs concernés.
+`config.yaml`. Pour changer la fenêtre, éditer l'intervalle SQL dans les deux blocs.
 
 ## Outils utilisés 🛠️
 
