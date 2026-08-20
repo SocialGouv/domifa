@@ -1,3 +1,11 @@
+## [2.257.7](https://github.com/SocialGouv/domifa/compare/v2.257.6...v2.257.7) (2026-08-20)
+
+
+### Bug Fixes
+
+* **anon:** fix greenmask ([fc4217d](https://github.com/SocialGouv/domifa/commit/fc4217d453a630be6048b9a2eedec30c1e9833c6))
+* **anon:** fix greenmask ([a7d4871](https://github.com/SocialGouv/domifa/commit/a7d48710b6d14ed56099b52ea7b317ffa4d61789))
+
 ## [2.257.6](https://github.com/SocialGouv/domifa/compare/v2.257.5...v2.257.6) (2026-08-20)
 
 
