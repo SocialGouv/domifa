@@ -11,6 +11,7 @@ export {
   city,
   truncateDateToMonthFromString,
   uuid,
+  maskMiddle,
 }
 
 function firstName() {
@@ -53,6 +54,19 @@ function randomInt(
   options: { min?: number; max?: number } = { min: 1, max: 10000000 }
 ): number {
   return faker.number.int(options)
+}
+
+// Output is not a parsable address: compare it as a string or display it.
+function maskMiddle(value: string | null): string | null {
+  if (!value || value === "null") {
+    return null
+  }
+
+  if (value.length <= 4) {
+    return "*".repeat(value.length)
+  }
+
+  return `${value.slice(0, 2)}${"*".repeat(value.length - 4)}${value.slice(-2)}`
 }
 
 function truncateDateToMonthFromString(date: string | null): string | null {

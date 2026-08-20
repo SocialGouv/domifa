@@ -15,6 +15,8 @@ storage:
     prefix: "/anonymizer/pg_dumps"
     # force_path_style: true
 
+# One `Cmd` block per table at most: each spawns a node process and round-trips
+# every row through it.
 dump:
   transformation:
     - schema: public
@@ -79,73 +81,24 @@ dump:
               - operation: set
                 path: uuid
                 value_template: "{{ quote fakerUUID }}"
-        - name: "Cmd"
-          # --- historique
-          params:
-            driver:
-              name: "json"
-            validate: true
-            timeout: 3600s
-            expected_exit_code: -1
-            executable: "node"
-
-            args:
-              - "./dist/usager--historique.js"
-            columns:
-              - name: "historique"
-                skip_on_null_input: true
-        - name: "Cmd"
-          # --- ayantsDroits
-          params:
-            driver:
-              name: "json"
-            validate: true
-            timeout: 3600s
-            expected_exit_code: -1
-            executable: "node"
-
-            args:
-              - "./dist/usager--ayants-droits.js"
-            columns:
-              - name: "ayantsDroits"
-                skip_on_null_input: true
-        - name: "Cmd"
-          # --- import
-          params:
-            driver:
-              name: "json"
-            validate: true
-            timeout: 3600s
-            expected_exit_code: -1
-            executable: "node"
-
-            args:
-              - "./dist/usager--import.js"
-            columns:
-              - name: "import"
-                skip_on_null_input: true
-        - name: "Cmd"
-          # --- rdv
-          params:
-            driver:
-              name: "json"
-            validate: true
-            timeout: 3600s
-            expected_exit_code: -1
-            executable: "node"
-
-            args:
-              - "./dist/usager--rdv.js"
-            columns:
-              - name: "rdv"
-                skip_on_null_input: true
         - name: Replace
           params:
             column: migrated
             value: true
             keep_null: false
+        - name: SetNull
+          params:
+            column: langue
+        - name: SetNull
+          params:
+            column: nationalite
+        - name: SetNull
+          params:
+            column: customRef
+        - name: SetNull
+          params:
+            column: numeroDistribution
         - name: "Cmd"
-          # --- options
           params:
             driver:
               name: "json"
@@ -155,9 +108,43 @@ dump:
             executable: "node"
 
             args:
-              - "./dist/usager--options.js"
+              - "./dist/usager--all-columns.js"
             columns:
+              - name: "historique"
+                skip_on_null_input: true
+              - name: "ayantsDroits"
+                skip_on_null_input: true
+              - name: "import"
+                skip_on_null_input: true
+              - name: "rdv"
+                skip_on_null_input: true
               - name: "options"
+                skip_on_null_input: true
+              - name: "dateNaissance"
+                skip_on_null_input: true
+
+    - schema: public
+      name: usager_history_states
+      # Stats projection already stripped by dataCleanerForStats.service.ts.
+      transformers:
+        - name: SetNull
+          params:
+            column: nationalite
+        - name: "Cmd"
+          params:
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            expected_exit_code: -1
+            executable: "node"
+
+            args:
+              - "./dist/usager-history-states--dates.js"
+            columns:
+              - name: "dateNaissance"
+                skip_on_null_input: true
+              - name: "ayantsDroits"
                 skip_on_null_input: true
 
     - schema: public
@@ -166,6 +153,11 @@ dump:
         - name: SetNull
           params:
             column: hardReset
+        - name: "Template"
+          params:
+            column: "email"
+            template: |
+              {{ printf "structure-%s@domifa-fake.fabrique.social.gouv.fr" (fakerUUID) }}
         - name: Json
           params:
             column: telephone
@@ -176,6 +168,56 @@ dump:
               - operation: set
                 path: numero
                 value: "0600000000"
+        - name: SetNull
+          params:
+            column: organismeTypeDetail
+        - name: SetNull
+          params:
+            column: reseauDetail
+        - name: RandomCompany
+          params:
+            columns:
+              - name: nom
+                template: "{{ .CompanyName }}"
+        - name: RealAddress
+          params:
+            columns:
+              - name: adresse
+                template: "{{ .Address }}"
+        - name: SetNull
+          params:
+            column: complementAdresse
+        - name: RandomString
+          params:
+            column: siret
+            min_length: 14
+            max_length: 14
+            symbols: "0123456789"
+        - name: RandomString
+          params:
+            column: agrement
+            min_length: 10
+            max_length: 10
+            symbols: "0123456789"
+        - name: RandomFloat
+          params:
+            column: latitude
+            min: 41.3
+            max: 51.1
+            decimal: 6
+        - name: RandomFloat
+          params:
+            column: longitude
+            min: -5.2
+            max: 9.6
+            decimal: 6
+        - name: Json
+          params:
+            column: adresseCourrier
+            operations:
+              - operation: set
+                path: adresse
+                value_template: "{{ quote fakerRealAddress.Address }}"
         - name: Json
           params:
             column: responsable
@@ -186,6 +228,42 @@ dump:
               - operation: set
                 path: prenom
                 value_template: "{{ quote fakerFirstName }}"
+              - operation: set
+                path: fonction
+                value_template: "{{ quote fakerWord }}"
+        - name: Json
+          params:
+            column: decision
+            operations:
+              - operation: set
+                path: motifDetails
+                value: null
+              - operation: set
+                path: userName
+                value_template: "{{ quote fakerName }}"
+              - operation: set
+                path: userId
+                value_template: "{{ randomInt 0 1000000000}}"
+        - name: Json
+          params:
+            column: sms
+            operations:
+              - operation: set
+                path: senderName
+                value: null
+              - operation: set
+                path: senderDetails
+                value: null
+        - name: Json
+          params:
+            column: registrationData
+            operations:
+              - operation: set
+                path: sourceDetail
+                value: null
+              - operation: set
+                path: marketToolOther
+                value: null
 
     - schema: public
       name: user_structure
@@ -197,21 +275,32 @@ dump:
                 template: "{{ .FirstName }}"
               - name: nom
                 template: "{{ .LastName }}"
-        - name: "Cmd"
+        - name: TemplateRecord
           params:
-            driver:
-              name: "json"
-            validate: true
-            timeout: 3600s
-            expected_exit_code: -1
-            executable: "node"
-
-            args:
-              - "./dist/user-usager--password.js"
             columns:
-              - name: "password"
-                skip_on_null_input: true
-
+              - "email"
+            template: |
+              {{ .SetColumnValue "email" (printf "%v-%v-%v@domifa-fake.fabrique.social.gouv.fr" (.GetColumnValue "role") (.GetColumnValue "structureId") (.GetColumnValue "id")) }}
+        - name: Replace
+          params:
+            column: password
+            value: "$2b$10$a03v2pqxniae1zkRzupgQer.k0sQKd7W/50LhiYcbuw18sikL3RV2"
+        - name: SetNull
+          params:
+            column: fonctionDetail
+        - name: Json
+          params:
+            column: decision
+            operations:
+              - operation: set
+                path: motifDetails
+                value: null
+              - operation: set
+                path: userName
+                value_template: "{{ quote fakerName }}"
+              - operation: set
+                path: userId
+                value_template: "{{ randomInt 0 1000000000}}"
     - schema: public
       name: user_supervisor
       transformers:
@@ -222,6 +311,50 @@ dump:
                 template: "{{ .FirstName }}"
               - name: nom
                 template: "{{ .LastName }}"
+        - name: TemplateRecord
+          params:
+            columns:
+              - "email"
+            template: |
+              {{ .SetColumnValue "email" (printf "%v-%v@domifa-fake.fabrique.social.gouv.fr" (.GetColumnValue "role") (.GetColumnValue "id")) }}
+        - name: Replace
+          params:
+            column: password
+            value: "$2b$10$a03v2pqxniae1zkRzupgQer.k0sQKd7W/50LhiYcbuw18sikL3RV2"
+        - name: Json
+          params:
+            column: decision
+            operations:
+              - operation: set
+                path: motifDetails
+                value: null
+              - operation: set
+                path: userName
+                value_template: "{{ quote fakerName }}"
+              - operation: set
+                path: userId
+                value_template: "{{ randomInt 0 1000000000}}"
+    - schema: public
+      name: user_usager
+      transformers:
+        - name: Replace
+          params:
+            column: password
+            value: ""
+        - name: Replace
+          params:
+            column: salt
+            value: ""
+        - name: Json
+          params:
+            column: lastPasswordResetStructureUser
+            operations:
+              - operation: set
+                path: userId
+                value_template: "{{ randomInt 0 1000000000}}"
+              - operation: set
+                path: userName
+                value_template: "{{ quote fakerName }}"
         - name: "Cmd"
           params:
             driver:
@@ -232,29 +365,12 @@ dump:
             executable: "node"
 
             args:
-              - "./dist/user-structure--email.js"
+              - "./dist/user-usager--login.js"
             columns:
-              - name: "email"
-                skip_on_null_input: true
-              - name: "role"
-                not_affected: true
+              - name: "login"
                 skip_on_null_input: true
               - name: "id"
                 not_affected: true
-                skip_on_null_input: true
-        - name: "Cmd"
-          params:
-            driver:
-              name: "json"
-            validate: true
-            timeout: 3600s
-            expected_exit_code: -1
-            executable: "node"
-
-            args:
-              - "./dist/user-usager--password.js"
-            columns:
-              - name: "password"
                 skip_on_null_input: true
 
     - schema: public
@@ -269,6 +385,11 @@ dump:
             column: "userName"
             template: |
               {{ quote fakerName }}
+        - name: "Template"
+          params:
+            column: "userId"
+            template: |
+              {{ randomInt 1 1000000 }}
 
     - schema: public
       name: usager_options_history
@@ -285,11 +406,34 @@ dump:
             column: "userName"
             template: |
               {{ quote fakerName }}
+        - name: "Template"
+          params:
+            column: "userId"
+            template: |
+              {{ randomInt 1 1000000 }}
         - name: RealAddress
           params:
             columns:
               - name: adresse
                 template: "{{.Address}}"
+        - name: "Cmd"
+          params:
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            expected_exit_code: -1
+            executable: "node"
+
+            args:
+              - "./dist/usager-options-history--dates.js"
+            columns:
+              - name: "dateNaissance"
+                skip_on_null_input: true
+              - name: "dateDebut"
+                skip_on_null_input: true
+              - name: "dateFin"
+                skip_on_null_input: true
 
     - schema: public
       name: usager_docs
@@ -340,9 +484,93 @@ dump:
         - name: SetNull
           params:
             column: accompagnementDetail
+        - name: SetNull
+          params:
+            column: rattachement
 
     - schema: public
-      name: user_usager
+      name: user_structure_security
+      transformers:
+        - name: SetNull
+          params:
+            column: temporaryTokens
+        - name: SetNull
+          params:
+            column: fingerprintHash
+        - name: "Cmd"
+          params:
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            expected_exit_code: -1
+            executable: "node"
+
+            args:
+              - "./dist/user-security--sessions.js"
+            columns:
+              - name: "currentSession"
+                skip_on_null_input: true
+              - name: "sessionsHistory"
+                skip_on_null_input: true
+
+    - schema: public
+      name: user_supervisor_security
+      transformers:
+        - name: SetNull
+          params:
+            column: temporaryTokens
+        - name: SetNull
+          params:
+            column: fingerprintHash
+        - name: "Cmd"
+          params:
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            expected_exit_code: -1
+            executable: "node"
+
+            args:
+              - "./dist/user-security--sessions.js"
+            columns:
+              - name: "currentSession"
+                skip_on_null_input: true
+              - name: "sessionsHistory"
+                skip_on_null_input: true
+
+    - schema: public
+      name: user_usager_security
+      transformers:
+        - name: SetNull
+          params:
+            column: temporaryTokens
+        - name: SetNull
+          params:
+            column: fingerprintHash
+        - name: "Cmd"
+          params:
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            expected_exit_code: -1
+            executable: "node"
+
+            args:
+              - "./dist/user-security--sessions.js"
+            columns:
+              - name: "currentSession"
+                skip_on_null_input: true
+              - name: "sessionsHistory"
+                skip_on_null_input: true
+
+    - schema: public
+      name: app_log_security
+      # Retention window. No foreign key on this table, so no propagation.
+      subset_conds:
+        - 'public.app_log_security."createdAt" > now() - interval ''6 months'''
       transformers:
         - name: "Cmd"
           params:
@@ -354,27 +582,81 @@ dump:
             executable: "node"
 
             args:
-              - "./dist/user-usager--password.js"
+              - "./dist/app-log-security--all-columns.js"
             columns:
-              - name: "password"
+              - name: "ip"
                 skip_on_null_input: true
-        - name: Json
-          params:
-            column: lastPasswordResetStructureUser
-            operations:
-              - operation: set
-                path: userId
-                value: "1"
-              - operation: set
-                path: userName
-                value: "Nom"
+              - name: "userAgent"
+                skip_on_null_input: true
+              - name: "userName"
+                skip_on_null_input: true
+              - name: "context"
+                skip_on_null_input: true
 
     - schema: public
-      name: user_structure_security
+      name: app_log
+      # Retention window. No foreign key on this table, so no propagation.
+      subset_conds:
+        - 'public.app_log."createdAt" > now() - interval ''6 months'''
+      transformers:
+        - name: "Cmd"
+          params:
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            expected_exit_code: -1
+            executable: "node"
+
+            args:
+              - "./dist/app-log--all-columns.js"
+            columns:
+              - name: "userName"
+                skip_on_null_input: true
+              - name: "createdBy"
+                skip_on_null_input: true
+              - name: "context"
+                skip_on_null_input: true
+
+    - schema: public
+      name: app_ip_ban
       transformers:
         - name: SetNull
           params:
-            column: temporaryTokens
+            column: context
+        - name: "Cmd"
+          params:
+            driver:
+              name: "json"
+            validate: true
+            timeout: 3600s
+            expected_exit_code: -1
+            executable: "node"
+
+            args:
+              - "./dist/app-ip-ban--all-columns.js"
+            columns:
+              - name: "ip"
+                skip_on_null_input: true
+              - name: "sources"
+                skip_on_null_input: true
+              - name: "uuid"
+                not_affected: true
+                skip_on_null_input: true
+
+    - schema: public
+      name: otp
+      transformers:
+        - name: "Template"
+          params:
+            column: "email"
+            template: |
+              {{ printf "otp-%s@domifa-fake.fabrique.social.gouv.fr" (fakerUUID) }}
+        - name: "Template"
+          params:
+            column: "fingerprintHash"
+            template: |
+              {{ quote fakerUUID }}
 
     - schema: public
       name: message_sms
@@ -406,6 +688,9 @@ dump:
             keep_null: true
         - name: SetNull
           params:
+            column: errorMessage
+        - name: SetNull
+          params:
             column: reminderMetas
         - name: SetNull
           params:
@@ -414,27 +699,18 @@ dump:
     - schema: public
       name: usager_notes
       transformers:
-        - name: "Cmd"
+        - name: RandomSentence
           params:
-            driver:
-              name: "json"
-            validate: true
-            timeout: 3600s
-            expected_exit_code: -1
-            executable: "node"
-
-            args:
-              - "./dist/usager-notes--all-columns.js"
+            column: message
+            keep_null: true
+        - name: TemplateRecord
+          params:
             columns:
-              - name: archived
-                not_affected: true
-                skip_on_null_input: true
-              - name: message
-                skip_on_null_input: true
-              - name: createdBy
-                skip_on_null_input: true
-              - name: archivedBy
-                skip_on_null_input: true
+              - "createdBy"
+              - "archivedBy"
+            template: |
+              {{ .SetColumnValue "createdBy" (printf "{\"userId\": %v, \"userName\": %q}" (randomInt 1 1000000) fakerName) }}
+              {{ if .GetColumnValue "archived" }}{{ .SetColumnValue "archivedBy" (printf "{\"userId\": %v, \"userName\": %q}" (randomInt 1 1000000) fakerName) }}{{ end }}
 
     - schema: public
       name: structure_doc
@@ -443,9 +719,54 @@ dump:
           params:
             column: label
             keep_null: true
+        - name: SetNull
+          params:
+            column: encryptionContext
+        - name: SetNull
+          params:
+            column: encryptionVersion
         - name: Json
           params:
             column: createdBy
+            operations:
+              - operation: set
+                path: id
+                value_template: "{{ randomInt 0 1000000000}}"
+              - operation: set
+                path: nom
+                value_template: "{{ quote fakerFirstLastName }}"
+              - operation: set
+                path: prenom
+                value_template: "{{ quote fakerFirstName }}"
+
+    - schema: public
+      name: structure_information
+      transformers:
+        - name: RandomSentence
+          params:
+            column: title
+            keep_null: true
+        - name: RandomSentence
+          params:
+            column: description
+            keep_null: true
+        - name: Json
+          params:
+            column: createdBy
+            operations:
+              - operation: set
+                path: userId
+                value_template: "{{ randomInt 0 1000000000}}"
+              - operation: set
+                path: userName
+                value_template: "{{ quote fakerName }}"
+
+    - schema: public
+      name: structure_stats_reporting
+      transformers:
+        - name: Json
+          params:
+            column: completedBy
             operations:
               - operation: set
                 path: id
