@@ -121,6 +121,7 @@ export class ManageUsagersPageComponent
   public filters$: Subject<UsagersFilterCriteria> = new ReplaySubject(1);
 
   public nbResults: number;
+  public showNbResults = false;
   public needToPrint: boolean;
 
   public pageSize: number;
@@ -541,6 +542,7 @@ export class ManageUsagersPageComponent
     }) as UsagerFormModel[];
 
     this.nbResults = this.filteredUsagers.length;
+    this.updateShowNbResults();
 
     this.applySorting();
 
@@ -551,6 +553,17 @@ export class ManageUsagersPageComponent
         this.needToPrint = false;
       }, 1500);
     }
+  }
+
+  private updateShowNbResults(): void {
+    const totalForStatut = this.filters.statut
+      ? this.usagersCountByStatus[this.filters.statut]
+      : this.usagersCountByStatus.TOUS;
+
+    const hasActiveFilter =
+      this.activeFilterCount > 0 || !!this.filters.searchString;
+
+    this.showNbResults = hasActiveFilter && this.nbResults !== totalForStatut;
   }
 
   private resetFiltersInStatus(): void {

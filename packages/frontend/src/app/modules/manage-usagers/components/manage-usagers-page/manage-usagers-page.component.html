@@ -5,7 +5,11 @@
     <div
       class="fr-justify-content-between fr-align-items-center fr-display-flex"
     >
-      <h1 class="fr-h3 fr-m-0 text-start">Domiciliés</h1>
+      <h1 class="fr-h3 fr-m-0 text-start">
+        @if (showNbResults && !searching) { Domiciliés&nbsp;:
+        {{ nbResults }} résultat{{ nbResults > 1 ? "s" : "" }} } @else {
+        Domiciliés }
+      </h1>
       <div class="fr-text--right">
         <a
           *ngIf="me?.role !== 'facteur' && me?.role !== 'agent'"
@@ -21,6 +25,10 @@
         </a>
       </div>
     </div>
+    <p class="fr-sr-only" role="status" aria-live="polite" aria-atomic="true">
+      @if (!searching) { {{ nbResults }} résultat{{ nbResults > 1 ? "s" : "" }}
+      }
+    </p>
     <div class="fr-container">
       <div role="tablist" id="statut-selector" class="fr-mt-2w fr-grid-row">
         <button
@@ -302,15 +310,6 @@
             ></span>
             Impression en cours... } @else { Imprimer }
           </button>
-        </div>
-
-        <div class="fr-col-12 fr-col-md-6 fr-col-offset-md-3">
-          <p
-            class="fr-text--sm fr-text-mention--grey fr-mt-1w fr-mb-0w"
-            aria-live="polite"
-          >
-            @if (!searching) { {{ nbResults }} résultat(s) }
-          </p>
         </div>
       </div>
 
