@@ -1,3 +1,10 @@
+## [2.257.9](https://github.com/SocialGouv/domifa/compare/v2.257.8...v2.257.9) (2026-08-20)
+
+
+### Bug Fixes
+
+* **frontend:** fix display of seconds ([40d1833](https://github.com/SocialGouv/domifa/commit/40d18332913663ec544b88e63fe67e89e60232aa))
+
 ## [2.257.8](https://github.com/SocialGouv/domifa/compare/v2.257.7...v2.257.8) (2026-08-20)
 
 
