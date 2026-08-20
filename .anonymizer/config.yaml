@@ -174,11 +174,6 @@ dump:
         - name: SetNull
           params:
             column: reseauDetail
-        - name: RandomCompany
-          params:
-            columns:
-              - name: nom
-                template: "{{ .CompanyName }}"
         - name: RealAddress
           params:
             columns:

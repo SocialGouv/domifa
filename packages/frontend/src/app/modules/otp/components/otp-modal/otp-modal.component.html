@@ -32,7 +32,8 @@
       "
     >
       <label class="fr-label" for="otp-code-input"
-        >Saisissez le code reçu par email. Il est valable 30 minutes</label
+        >Saisissez le code reçu par email. Il est valable
+        {{ otpExpirationMinutes }} minutes</label
       >
       <input
         #otpCodeInput

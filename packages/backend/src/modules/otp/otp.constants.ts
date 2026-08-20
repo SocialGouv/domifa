@@ -1,6 +1,9 @@
-import { OTP_RESEND_COOLDOWN_SECONDS } from "@domifa/common";
+import {
+  OTP_EXPIRATION_MINUTES,
+  OTP_RESEND_COOLDOWN_SECONDS,
+} from "@domifa/common";
 
-export const OTP_EXPIRATION_MINUTES = 30;
+export { OTP_EXPIRATION_MINUTES };
 export const OTP_BLOCK_DURATION_MINUTES = 60;
 
 // Derived (ms). Preferred at call sites — avoids the * 60 * 1000 inline math.

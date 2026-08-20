@@ -1,0 +1,11 @@
+import { OTP_RESEND_COOLDOWN_SECONDS } from "./OTP_RESEND_COOLDOWN_SECONDS.const";
+
+const OTP_RESEND_COOLDOWN_MINUTES = Math.round(
+  OTP_RESEND_COOLDOWN_SECONDS / 60
+);
+
+export const OTP_RESEND_LABEL = "Envoyer un nouveau code";
+
+export const OTP_RESEND_WAIT_LABEL = `${OTP_RESEND_LABEL} dans ${OTP_RESEND_COOLDOWN_MINUTES} minute${
+  OTP_RESEND_COOLDOWN_MINUTES > 1 ? "s" : ""
+}`;
