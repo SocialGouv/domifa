@@ -1,3 +1,10 @@
+## [2.257.6](https://github.com/SocialGouv/domifa/compare/v2.257.5...v2.257.6) (2026-08-20)
+
+
+### Bug Fixes
+
+* **backend:** fix greenmask & text for otp ([bd24e46](https://github.com/SocialGouv/domifa/commit/bd24e46e656283fbf91f29fc21d76da26d9f52a6))
+
 ## [2.257.5](https://github.com/SocialGouv/domifa/compare/v2.257.4...v2.257.5) (2026-08-20)
 
 
