@@ -1,7 +1,8 @@
-export function main<T extends { d: any }>(
-  anonymize: (columns: Record<string, T[]>) => void
-) {
-  const stdin = process.stdin
+import { createInterface } from "node:readline"
+
+type Attribute = { d: any; n?: boolean }
+
+export function main(anonymize: (columns: Record<string, any>) => void) {
   const stdout = process.stdout
   const stderr = process.stderr
 
@@ -11,20 +12,28 @@ export function main<T extends { d: any }>(
     stderr.write("SIGTERM received\n")
   })
 
-  stdin.on("data", function (lineBuffer) {
+  const lines = createInterface({ input: process.stdin })
+
+  lines.on("line", function (line) {
+    if (line.length === 0) {
+      return
+    }
+
     try {
-      const line: Record<string, T> = JSON.parse(lineBuffer.toString())
+      const attributes: Record<string, Attribute> = JSON.parse(line)
       const columns = Object.fromEntries(
-        Object.entries(line).map(([columnName, columnValue]) => [
+        Object.entries(attributes).map(([columnName, attribute]) => [
           columnName,
-          columnValue.d,
+          attribute.n ? null : attribute.d,
         ])
       )
       anonymize(columns)
       const anonymizedLine = Object.fromEntries(
         Object.entries(columns).map(([columnName, columnValue]) => [
           columnName,
-          { d: columnValue },
+          columnValue === null || columnValue === undefined
+            ? { d: "", n: true }
+            : { d: columnValue, n: false },
         ])
       )
       stdout.write(JSON.stringify(anonymizedLine) + "\n")
@@ -39,7 +48,7 @@ export function main<T extends { d: any }>(
     }
   })
 
-  stdin.on("end", function () {
+  lines.on("close", function () {
     stderr.write("Anonymizer ended\n")
   })
 }
