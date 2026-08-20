@@ -243,6 +243,8 @@ export class StructuresAuthController {
       fonction: user.fonction,
       fonctionDetail: user.fonctionDetail,
       acceptTerms: user.acceptTerms,
+      passwordLastUpdate: user.passwordLastUpdate,
+      createdAt: user.createdAt,
       structure: user.structure,
       structureId: user.structureId,
       domifaVersion: domifaConfig().version.toString(),

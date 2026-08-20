@@ -124,10 +124,6 @@ export class ManageUsersService {
     );
   }
 
-  public getLastPasswordUpdate(): Observable<Date | null> {
-    return this.http.get<Date | null>(`${this.endPoint}/last-password-update`);
-  }
-
   public registerUserSupervisor(data: string): Observable<ApiMessage> {
     return this.http.post<ApiMessage>(
       `${this.endPoint}/register-user-supervisor`,
