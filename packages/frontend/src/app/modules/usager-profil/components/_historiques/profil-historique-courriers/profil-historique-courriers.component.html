@@ -51,6 +51,7 @@
                   aria-label="Supprimer l'interaction"
                   (click)="openDeleteInteractionModal(interaction)"
                   class="fr-btn fr-btn--sm fr-icon-delete-line"
+                  appSupportModeDisable
                 ></button>
                 }
               </td>
@@ -131,6 +132,7 @@
         [loading]="loading"
         label="Confirmer la suppression"
         (action)="deleteInteraction()"
+        appSupportModeDisable
       ></app-button>
       <button
         type="button"
