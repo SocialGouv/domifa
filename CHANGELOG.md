@@ -1,3 +1,10 @@
+## [2.257.4](https://github.com/SocialGouv/domifa/compare/v2.257.3...v2.257.4) (2026-08-20)
+
+
+### Bug Fixes
+
+* **anon:** upgrade greenmask & add columns ([6f1657c](https://github.com/SocialGouv/domifa/commit/6f1657c2a80bb79792a5316bee217d4a4ae4a4d2))
+
 ## [2.257.3](https://github.com/SocialGouv/domifa/compare/v2.257.2...v2.257.3) (2026-08-15)
 
 
