@@ -279,12 +279,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
               // silent cancel) for OTP_FAILED / OTP_CANCELLED; nothing more to do here.
               return;
             }
-            if (err?.error?.message === "EMAIL_ALREADY_USED") {
-              this.toastService.error(
-                "Cette adresse email est déjà utilisée par un autre compte"
-              );
-              return;
-            }
+
             if (err?.error?.message === "SAME_EMAIL") {
               this.toastService.error(
                 "Cette adresse email est identique à votre adresse actuelle"
