@@ -1,6 +1,4 @@
 import {
-  Usager,
-  UsagerDecision,
   CriteriaSearchField,
   getUsagerDeadlines,
   ETAPE_ENTRETIEN,
@@ -34,6 +32,19 @@ import {
 } from "../../database";
 
 import { SearchUsagerDto } from "../dto";
+import { filterUsagerHistorique } from "../utils";
+
+export const MAX_USAGERS_RADIES_PREVIEW = 1600;
+export const MAX_USAGERS_RADIES_SEARCH_RESULTS_WITHOUT_CRITERIA = 100;
+
+// Une limite sans ordre n'est pas une limite : Postgres rend les lignes dans
+// l'ordre du tas, qu'un simple UPDATE déplace, si bien que la fenêtre change
+// toute seule d'un appel à l'autre et fait disparaître des dossiers sans que
+// rien ne l'indique. Le tri sur `ref` est servi par l'index unique
+// (structureId, ref) : sur une requête limitée, il est gratuit. Il n'est donc
+// posé que là où il y a une fenêtre à stabiliser — sur une requête sans
+// limite, il ferait basculer le plan en tri sur disque pour rien.
+const USAGER_BOUNDED_ORDER = { ref: "DESC" } as const;
 
 @Controller("search-usagers")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -69,43 +80,30 @@ export class SearchUsagersController {
         structureId: user.structureId,
       },
       select: USAGER_LIGHT_ATTRIBUTES,
-      take: chargerTousRadies ? undefined : 1600,
+      // L'aperçu est la seule fenêtre limitée : elle a besoin d'un ordre.
+      ...(chargerTousRadies
+        ? {}
+        : { order: USAGER_BOUNDED_ORDER, take: MAX_USAGERS_RADIES_PREVIEW }),
     });
 
-    const usagersRadiesTotalCount = chargerTousRadies
-      ? usagersRadiesFirsts.length
-      : await usagerRepository.count({
-          where: {
-            statut: "RADIE",
-            structureId: user.structureId,
-          },
-        });
-
-    const filterHistorique = (usager: Usager) => {
-      if (usager.historique && Array.isArray(usager.historique)) {
-        usager.historique = usager.historique.map((item: UsagerDecision) => ({
-          statut: item.statut,
-          dateDecision: item.dateDecision,
-          dateDebut: item.dateDebut,
-          dateFin: item.dateFin,
-        })) as UsagerDecision[];
-      }
-      return usager;
-    };
-
-    const usagersMerges = [...usagersNonRadies, ...usagersRadiesFirsts].map(
-      filterHistorique
-    );
+    const usagersRadiesTotalCount = await usagerRepository.count({
+      where: {
+        statut: "RADIE",
+        structureId: user.structureId,
+      },
+    });
 
     return {
       usagersRadiesTotalCount,
-      usagers: usagersMerges,
+      usagers: [...usagersNonRadies, ...usagersRadiesFirsts].map(
+        filterUsagerHistorique
+      ),
     };
   }
 
   @Get("update-manage")
   public async updateManage(@CurrentUser() user: UserStructureAuthenticated) {
-    return await usagerRepository
+    const usagers = await usagerRepository
       .createQueryBuilder()
       .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
       .where(
@@ -116,6 +114,8 @@ export class SearchUsagersController {
         }
       )
       .getRawMany();
+
+    return usagers.map(filterUsagerHistorique);
   }
 
   @Get("count")
@@ -208,16 +208,25 @@ export class SearchUsagersController {
       }
     }
 
-    if (
+    const hasNoCriteria =
       !search.searchString &&
       !search?.echeance &&
       !search?.entretien &&
       typeof search?.referrerId === "undefined" &&
-      !search?.lastInteractionDate
-    ) {
-      query.take(100);
+      !search?.lastInteractionDate;
+
+    // Une recherche par critères rend tous ses résultats : c'est le seul moyen,
+    // pour l'interface, de retrouver un radié absent de l'aperçu. Seul le cas
+    // sans aucun critère est limité — il ne sert qu'à amorcer la liste — et,
+    // parce qu'il l'est, il reçoit un ordre.
+    if (hasNoCriteria) {
+      query
+        .orderBy(`usager."ref"`, "DESC")
+        .take(MAX_USAGERS_RADIES_SEARCH_RESULTS_WITHOUT_CRITERIA);
     }
 
-    return await query.getRawMany();
+    const usagers = await query.getRawMany();
+
+    return usagers.map(filterUsagerHistorique);
   }
 }
