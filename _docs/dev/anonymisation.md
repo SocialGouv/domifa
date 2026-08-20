@@ -37,6 +37,13 @@ Avant de lancer la partie anonymisation, il faut effectuer la partie DB du setup
 - **✅ Vérifier la config** avant tout dump : `greenmask validate --config config.local.yaml` — contrôle chaque transformer, chaque colonne et chaque fonction de template contre le schéma réel de la base
 - lancer `./.anonymizer/anonymize.sh`
 
+> ⚠️ **Le job de production n'utilise pas cette version.** Il tourne avec le binaire greenmask fourni
+> par son image, actuellement antérieur à v0.2.9, et un transformer inconnu du binaire fait échouer
+> le dump à la validation, avant tout traitement. `config.yaml` ne doit donc utiliser que des
+> transformers disponibles dans la version de production : les transformers récents (`RandomCompany`
+> et suivants) sont à proscrire tant que l'image n'est pas mise à jour. `anonymize-prod.sh` affiche
+> la version du binaire au démarrage du job.
+
 ### 🎯 Fonctionnement du script
 
 Le script `anonymize.sh` :

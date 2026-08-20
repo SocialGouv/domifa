@@ -15,18 +15,15 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { Subscription } from "rxjs";
 import {
   OTP_ERROR_LABELS,
+  OTP_EXPIRATION_MINUTES,
   OTP_MAX_ATTEMPTS,
   OTP_RESEND_COOLDOWN_SECONDS,
+  OTP_RESEND_LABEL,
+  OTP_RESEND_WAIT_LABEL,
   OtpErrorCode,
   OtpPromptOptions,
 } from "@domifa/common";
 import { OtpPromptService } from "../../services/otp-prompt.service";
-
-const RESEND_LABEL = "Envoyer un nouveau code";
-const RESEND_COOLDOWN_MINUTES = Math.round(OTP_RESEND_COOLDOWN_SECONDS / 60);
-const RESEND_WAIT_LABEL = `${RESEND_LABEL} dans ${RESEND_COOLDOWN_MINUTES} minute${
-  RESEND_COOLDOWN_MINUTES > 1 ? "s" : ""
-}`;
 
 @Component({
   selector: "app-otp-modal",
@@ -58,7 +55,8 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
   public previousErrorCode: OtpErrorCode | null = null;
   public attemptCount = 0;
   public resendLocked = false;
-  public resendLabel = RESEND_LABEL;
+  public resendLabel = OTP_RESEND_LABEL;
+  public readonly otpExpirationMinutes = OTP_EXPIRATION_MINUTES;
 
   private readonly subscription = new Subscription();
   private isOpen = false;
@@ -197,18 +195,18 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.codeControl.reset("");
     this.clearResendTimer();
     this.resendLocked = false;
-    this.resendLabel = RESEND_LABEL;
+    this.resendLabel = OTP_RESEND_LABEL;
     this.cdr.markForCheck();
   }
 
   private startResendCooldown(): void {
     this.clearResendTimer();
     this.resendLocked = true;
-    this.resendLabel = RESEND_WAIT_LABEL;
+    this.resendLabel = OTP_RESEND_WAIT_LABEL;
     this.resendTimer = setTimeout(() => {
       this.resendTimer = null;
       this.resendLocked = false;
-      this.resendLabel = RESEND_LABEL;
+      this.resendLabel = OTP_RESEND_LABEL;
       this.cdr.markForCheck();
     }, OTP_RESEND_COOLDOWN_SECONDS * 1000);
   }
