@@ -1,3 +1,10 @@
+## [2.257.5](https://github.com/SocialGouv/domifa/compare/v2.257.4...v2.257.5) (2026-08-20)
+
+
+### Bug Fixes
+
+* **frontend:** add counter & 5minutes to OTP ([1b9b766](https://github.com/SocialGouv/domifa/commit/1b9b766cefa613106e6182823462a453b5051a23))
+
 ## [2.257.4](https://github.com/SocialGouv/domifa/compare/v2.257.3...v2.257.4) (2026-08-20)
 
 
