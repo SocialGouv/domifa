@@ -1,3 +1,10 @@
+## [2.257.8](https://github.com/SocialGouv/domifa/compare/v2.257.7...v2.257.8) (2026-08-20)
+
+
+### Bug Fixes
+
+* **anon:** fix date for columns ([856c394](https://github.com/SocialGouv/domifa/commit/856c3948217b13bf9473172fe1cb1b4aefd724b7))
+
 ## [2.257.7](https://github.com/SocialGouv/domifa/compare/v2.257.6...v2.257.7) (2026-08-20)
 
 
