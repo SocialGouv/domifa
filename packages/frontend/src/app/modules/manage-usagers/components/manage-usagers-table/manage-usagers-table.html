@@ -17,6 +17,7 @@
         type="button"
         (click)="openDeleteUsagersModal()"
         class="fr-btn fr-btn--sm fr-my-1w fr-mx-1w fr-btn--secondary"
+        appSupportModeDisable
       >
         <span class="fr-mr-1w fr-icon-delete-line" aria-hidden="true"></span>
         @if (selectedRefs.size === 1) { Supprimer le domicilié } @if
@@ -425,6 +426,7 @@
         [loading]="loadingDelete"
         label="Confirmer la suppression"
         (action)="deleteUsagers()"
+        appSupportModeDisable
       ></app-button>
       <button
         class="fr-btn fr-btn--secondary"
