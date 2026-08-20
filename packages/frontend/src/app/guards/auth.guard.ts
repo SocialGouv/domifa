@@ -38,6 +38,7 @@ export class AuthGuard {
 
         if (
           currentUser !== null &&
+          !currentUser.supportMode &&
           !hasAcceptedCurrentCgu(currentUser.acceptTerms) &&
           !isOnAcceptCguPage
         ) {
