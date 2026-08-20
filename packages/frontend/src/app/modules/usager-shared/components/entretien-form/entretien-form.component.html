@@ -2,6 +2,7 @@
   *ngIf="entretienForm"
   [formGroup]="entretienForm"
   (ngSubmit)="submitEntretien()"
+  appSupportModeDisable
 >
   <h2 class="fr-h2" *ngIf="!editEntretien">Entretien avec le demandeur</h2>
 

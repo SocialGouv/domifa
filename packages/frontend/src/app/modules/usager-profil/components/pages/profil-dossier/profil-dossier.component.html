@@ -28,6 +28,7 @@
                 type="button"
                 class="fr-btn fr-btn--secondary"
                 (click)="editInfos = true"
+                appSupportModeDisable
               >
                 <i class="fr-icon-edit-line" aria-hidden="true"></i>
                 Modifier
@@ -77,6 +78,7 @@
                 icon="edit"
                 label="Modifier les informations"
                 (action)="openContactForm()"
+                appSupportModeDisable
               ></app-button>
               <button
                 type="button"
@@ -125,6 +127,7 @@
                 icon="edit"
                 label="Modifier l'entretien social"
                 (action)="openEntretien()"
+                appSupportModeDisable
               ></app-button>
               <button
                 type="button"
