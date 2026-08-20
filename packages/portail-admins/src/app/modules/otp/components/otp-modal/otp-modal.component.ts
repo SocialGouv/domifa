@@ -22,6 +22,12 @@ import {
 } from "@domifa/common";
 import { OtpPromptService } from "../../services/otp-prompt.service";
 
+const RESEND_LABEL = "Envoyer un nouveau code";
+const RESEND_COOLDOWN_MINUTES = Math.round(OTP_RESEND_COOLDOWN_SECONDS / 60);
+const RESEND_WAIT_LABEL = `${RESEND_LABEL} dans ${RESEND_COOLDOWN_MINUTES} minute${
+  RESEND_COOLDOWN_MINUTES > 1 ? "s" : ""
+}`;
+
 @Component({
   selector: "app-otp-modal",
   imports: [CommonModule, ReactiveFormsModule, DsfrModalComponent],
@@ -50,12 +56,13 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
   public submitting = false;
   public previousErrorCode: OtpErrorCode | null = null;
   public attemptCount = 0;
-  public resendCooldown = 0;
+  public resendLocked = false;
+  public resendLabel = RESEND_LABEL;
 
   private readonly subscription = new Subscription();
   private isOpen = false;
   private unlistenCancel: (() => void) | null = null;
-  private resendTimer: ReturnType<typeof setInterval> | null = null;
+  private resendTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor(
     private readonly promptService: OtpPromptService,
@@ -83,7 +90,7 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public ngAfterViewInit(): void {
     // Block the native <dialog> Escape behavior. Preventing `cancel` keeps
-    // the modal open until the user clicks Annuler.
+    // the modal open until the user closes it from the DSFR header button.
     const dialog = this.otpModal?.dsfrModal?.nativeElement as
       | HTMLElement
       | undefined;
@@ -119,12 +126,8 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.promptService.submit(this.codeControl.value);
   }
 
-  public cancel(): void {
-    this.promptService.cancel();
-  }
-
   public resend(): void {
-    if (this.submitting || this.resendCooldown > 0) {
+    if (this.submitting || this.resendLocked) {
       return;
     }
     this.submitted = false;
@@ -192,25 +195,26 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.previousErrorCode = null;
     this.codeControl.reset("");
     this.clearResendTimer();
-    this.resendCooldown = 0;
+    this.resendLocked = false;
+    this.resendLabel = RESEND_LABEL;
     this.cdr.markForCheck();
   }
 
   private startResendCooldown(): void {
     this.clearResendTimer();
-    this.resendCooldown = OTP_RESEND_COOLDOWN_SECONDS;
-    this.resendTimer = setInterval(() => {
-      this.resendCooldown -= 1;
-      if (this.resendCooldown <= 0) {
-        this.clearResendTimer();
-      }
+    this.resendLocked = true;
+    this.resendLabel = RESEND_WAIT_LABEL;
+    this.resendTimer = setTimeout(() => {
+      this.resendTimer = null;
+      this.resendLocked = false;
+      this.resendLabel = RESEND_LABEL;
       this.cdr.markForCheck();
-    }, 1000);
+    }, OTP_RESEND_COOLDOWN_SECONDS * 1000);
   }
 
   private clearResendTimer(): void {
     if (this.resendTimer !== null) {
-      clearInterval(this.resendTimer);
+      clearTimeout(this.resendTimer);
       this.resendTimer = null;
     }
   }

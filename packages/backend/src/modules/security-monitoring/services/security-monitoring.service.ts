@@ -92,7 +92,7 @@ export class SecurityMonitoringService {
     //     mistyping, plus email scanners (SafeLinks, AV prefetch) hitting
     //     stale reset / activation URLs.
     //   * OTP_REQUEST_LIMIT : 10 OTP requests in an hour. Legit users hitting
-    //     "Renvoyer le code".
+    //     "Envoyer un nouveau code".
     // Both rows stay in app_log_security for audit — only the alert pipeline
     // is silenced.
     const NOISY_TEMP_BLOCK_REASONS = new Set([

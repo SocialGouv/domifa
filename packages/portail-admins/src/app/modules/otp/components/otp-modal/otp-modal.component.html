@@ -32,7 +32,7 @@
       "
     >
       <label class="fr-label" for="otp-code-input"
-        >Saisissez le code reçu</label
+        >Saisissez le code reçu par email. Il est valable 30 minutes</label
       >
       <input
         #otpCodeInput
@@ -75,16 +75,9 @@
         class="fr-btn fr-btn--secondary"
         type="button"
         (click)="resend()"
-        [disabled]="submitting || isLocked || resendCooldown > 0"
+        [disabled]="submitting || isLocked || resendLocked"
       >
-        Renvoyer le code@if (resendCooldown > 0) { ({{ resendCooldown }}s) }
-      </button>
-      <button
-        class="fr-btn fr-btn--tertiary-no-outline"
-        type="button"
-        (click)="cancel()"
-      >
-        Annuler
+        {{ resendLabel }}
       </button>
     </div>
   </ng-template>
