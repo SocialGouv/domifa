@@ -21,4 +21,4 @@ cat config.yaml \
 pnpm install
 pnpm build
 
-greenmask dump --config config.local.yaml -j 1 --exclude-table-data $exclude_tables
+greenmask dump --config config.local.yaml --log-level debug --pgzip -j 4 --exclude-table-data $exclude_tables

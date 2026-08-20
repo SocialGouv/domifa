@@ -33,7 +33,8 @@ Avant de lancer la partie anonymisation, il faut effectuer la partie DB du setup
   pnpm install --frozen-lockfile
   ```
 - lancer `pnpm build` ou `pnpm dev` dans `.anonymizer`
-- **📥 Télécharger Greenmask** : récupérer la version v0.1.14 depuis [les releases GitHub](https://github.com/GreenmaskIO/greenmask/releases/tag/v0.1.14) et l'ajouter à votre `PATH`
+- **📥 Télécharger Greenmask** : récupérer la version v0.2.22 depuis [les releases GitHub](https://github.com/GreenmaskIO/greenmask/releases/tag/v0.2.22) et l'ajouter à votre `PATH`. Alternative sans installation : `docker run --rm greenmask/greenmask:v0.2.22`
+- **✅ Vérifier la config** avant tout dump : `greenmask validate --config config.local.yaml` — contrôle chaque transformer, chaque colonne et chaque fonction de template contre le schéma réel de la base
 - lancer `./.anonymizer/anonymize.sh`
 
 ### 🎯 Fonctionnement du script
@@ -41,9 +42,16 @@ Avant de lancer la partie anonymisation, il faut effectuer la partie DB du setup
 Le script `anonymize.sh` :
 
 1. **🔧 Génère** une configuration Greenmask dynamique à partir du template `config.yaml`
-2. **📦 Effectue** un dump anonymisé de la base source (avec 10 processus parallèles)
-3. **🔄 Restaure** automatiquement le dump dans la base de destination
+2. **📦 Effectue** un dump anonymisé de la base source (10 processus parallèles, compression parallèle `--pgzip`)
+3. **🔄 Restaure** automatiquement le dump dans la base de destination (`pg_restore -j 4`)
 4. **🧹 Nettoie** la base de destination avant restauration (`--clean --if-exists`)
+
+### ⏳ Rétention des journaux
+
+`app_log` et `app_log_security` sont limités aux **6 derniers mois** via `subset_conds` dans
+`config.yaml`. Ces deux tables croissent sans limite en production et n'ont aucune clé étrangère,
+donc la condition ne peut pas se propager à une autre table. Pour changer la fenêtre, éditer
+l'intervalle SQL dans les deux blocs concernés.
 
 ## Outils utilisés 🛠️
 
