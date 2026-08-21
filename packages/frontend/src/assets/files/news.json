@@ -1,5 +1,33 @@
 [
   {
+    "date": "2026-08-21",
+    "description": "Améliorations sur la recherche et la connexion",
+    "content": [
+      {
+        "type": "bug",
+        "categorie": "🔎 Résultats de recherche",
+        "message": [
+          "Le nombre de résultats correspondant à vos filtres est désormais de nouveau affiché."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "🔐 Code de connexion (OTP)",
+        "message": [
+          "La fenêtre de saisie du code de connexion a été enrichie afin de vous apporter davantage d’informations et de faciliter votre connexion."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "📧 Modification de votre adresse email",
+        "message": [
+          "Vous pouvez à nouveau modifier votre adresse email depuis la plateforme.",
+          "Pour sécuriser cette action, un code de connexion vous sera demandé afin de confirmer la modification."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2026-08-13",
     "description": "Affiches de connexion à Mon DomiFa, vidéo de présentation et fiches pratiques",
     "content": [
