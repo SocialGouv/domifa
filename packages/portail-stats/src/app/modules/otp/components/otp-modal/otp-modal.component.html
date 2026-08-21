@@ -1,0 +1,91 @@
+<dsfr-modal
+  class="fr-text--left"
+  #otpModal
+  [titleModal]="'Confirmation par code'"
+  [modalSize]="'MD'"
+  dialogId="otpModal"
+  [autoCloseOnAction]="false"
+  [concealingBackdrop]="false"
+  (conceal)="onConceal()"
+>
+  <p>Un code de vérification à 6 chiffres vous a été envoyé par email.</p>
+  <p class="fr-mb-2w">
+    Veuillez patienter quelques instants et
+    <strong>vérifier vos courriers indésirables (spams)</strong>
+    si vous ne recevez pas le code.
+  </p>
+  <div class="fr-alert fr-alert--info fr-alert--sm fr-mb-2w">
+    <p>
+      <strong
+        >Pour les structures ne recevant pas les codes de vérification</strong
+      >, nous vous invitons à demander à vos services informatiques ou de
+      sécurité de mettre en liste blanche l'adresse suivante :
+      <strong>contact.domifa&#64;fabrique.social.gouv.fr</strong>
+    </p>
+  </div>
+
+  <form (submit)="onSubmit($event)">
+    <div
+      class="fr-input-group"
+      [class.fr-input-group--error]="
+        (submitted && codeControl.errors) || previousErrorCode || isLocked
+      "
+    >
+      <label class="fr-label" for="otp-code-input"
+        >Saisissez le code reçu</label
+      >
+      <input
+        #otpCodeInput
+        type="text"
+        inputmode="numeric"
+        autocomplete="one-time-code"
+        pattern="[0-9]{6}"
+        class="fr-input"
+        id="otp-code-input"
+        maxlength="6"
+        minlength="6"
+        [formControl]="codeControl"
+        [class.fr-input--error]="
+          (submitted && codeControl.errors) || previousErrorCode || isLocked
+        "
+        [attr.disabled]="isLocked ? true : null"
+      />
+      @if (errorMessage) {
+      <p class="fr-error-text">{{ errorMessage }}</p>
+      } @else if (submitted && codeControl.errors) {
+      <p class="fr-error-text">Le code doit comporter exactement 6 chiffres.</p>
+      }
+    </div>
+    <button type="submit" hidden aria-hidden="true" tabindex="-1"></button>
+  </form>
+
+  <ng-template #modalFooterTemplate>
+    <div
+      class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg"
+    >
+      <button
+        class="fr-btn"
+        type="button"
+        (click)="submit()"
+        [disabled]="isLocked || submitting || codeControl.invalid"
+      >
+        Valider
+      </button>
+      <button
+        class="fr-btn fr-btn--secondary"
+        type="button"
+        (click)="resend()"
+        [disabled]="submitting || isLocked || resendCooldown > 0"
+      >
+        Renvoyer le code@if (resendCooldown > 0) { ({{ resendCooldown }}s) }
+      </button>
+      <button
+        class="fr-btn fr-btn--tertiary-no-outline"
+        type="button"
+        (click)="cancel()"
+      >
+        Annuler
+      </button>
+    </div>
+  </ng-template>
+</dsfr-modal>

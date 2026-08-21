@@ -68,6 +68,18 @@ describe("AppThrottlerGuard - bot/origin filter", () => {
       expect(res.status).toBe(200);
     });
 
+    it("passes with Origin = portail-stats", async () => {
+      const portailStatsOrigin = domifaConfig().apps.portailStatsUrl.replace(
+        /\/$/,
+        ""
+      );
+      const res = await supertest(context.app.getHttpServer())
+        .get("/test-bot-guard/ping")
+        .set("User-Agent", REAL_BROWSER_UA)
+        .set("Origin", portailStatsOrigin);
+      expect(res.status).toBe(200);
+    });
+
     it("falls back to Referer when Origin is absent", async () => {
       const res = await supertest(context.app.getHttpServer())
         .get("/test-bot-guard/ping")

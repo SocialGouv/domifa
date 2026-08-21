@@ -4,6 +4,7 @@ import { AppEnvironment } from "./AppEnvironment.type";
 export const environment: AppEnvironment = {
   frontendUrl: "${DOMIFA_FRONTEND_URL}", // https://domifa-api.fabrique.social.gouv.fr/
   apiUrl: "${DOMIFA_BACKEND_URL}", // https://domifa-api.fabrique.social.gouv.fr/
+  portailStatsUrl: "${DOMIFA_PORTAIL_STATS_URL}", // https://pilotage-domifa.fabrique.social.gouv.fr/
   production: true,
   env: "${DOMIFA_ENV_ID}",
   sentryDsnPortailAdmin: "${DOMIFA_SENTRY_DSN_PORTAIL_ADMIN}",

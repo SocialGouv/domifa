@@ -198,7 +198,7 @@ jobs:
         id: env
         uses: socialgouv/kontinuous/.github/actions/env@v1
         with:
-          subdomain: api
+          subdomain: api,pilotage
 
       - name: 🔑 Login to registry
         uses: docker/login-action@v4
@@ -223,7 +223,77 @@ jobs:
             DOMIFA_ENV_ID=dev
             DOMIFA_BACKEND_URL=https://${{ steps.env.outputs.subdomain_api }}.ovh.fabrique.social.gouv.fr/
             DOMIFA_FRONTEND_URL=https://${{ steps.env.outputs.subdomain }}.ovh.fabrique.social.gouv.fr/
+            DOMIFA_PORTAIL_STATS_URL=https://${{ steps.env.outputs.subdomain_pilotage }}.ovh.fabrique.social.gouv.fr/
             DOMIFA_SENTRY_DSN_PORTAIL_ADMIN=https://dc9ede612eba2fcb6abf404bd44b9b3b@sentry2.fabrique.social.gouv.fr/11
+          push: true
+
+  build-portail-stats:
+    permissions:
+      contents: read
+      id-token: write # OIDC identity for buildkit-operator /route auth
+    environment: build-review
+    outputs:
+      tags: ${{ steps.meta.outputs.tags }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⏬ Checkout code repository
+        uses: actions/checkout@v4
+
+      - name: 📌 Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ vars.REGISTRY_URL }}/${{ vars.PROJECT_NAME }}/${{ github.event.repository.name }}/portail-stats
+          tags: |
+            type=sha,prefix=persist-,format=long,enable=${{
+              github.ref_name == 'dev' ||
+              github.ref_name == 'develop' ||
+              github.ref_name == 'preprod' ||
+              github.ref_name == 'main' ||
+              github.ref_name == 'master' ||
+              github.ref_name == 'persist' ||
+              startsWith(github.ref_name, 'persist/') ||
+              contains(github.ref_name, '/persist') ||
+              contains(github.ref_name, '/persist/') ||
+              startsWith(github.ref_name, 'persist-') ||
+              endsWith(github.ref_name, '-persist') ||
+              contains(github.ref_name, '-persist-') ||
+              contains(github.ref_name, '/persist-') ||
+              contains(github.ref_name, '-persist/')
+            }},priority=840
+            type=sha,prefix=sha-,format=long,priority=890
+            type=ref,event=branch,priority=600
+
+      - name: Env
+        id: env
+        uses: socialgouv/kontinuous/.github/actions/env@v1
+        with:
+          subdomain: api,admin
+
+      - name: 🔑 Login to registry
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ vars.REGISTRY_URL }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: 📦 Build and push Docker image for portail-stats
+        uses: socialgouv/buildkit-operator@v1
+        with:
+          buildd-url: ${{ vars.BUILDKIT_OPERATOR_BUILDD_URL }}
+          gateway-host: ${{ vars.BUILDKIT_OPERATOR_GATEWAY_HOST }}
+          ca: ${{ secrets.BUILDKIT_OPERATOR_CA }}
+          cert: ${{ secrets.BUILDKIT_OPERATOR_CERT }}
+          key: ${{ secrets.BUILDKIT_OPERATOR_KEY }}
+          context: "."
+          file: "packages/portail-stats/Dockerfile"
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            DOMIFA_ENV_ID=dev
+            DOMIFA_BACKEND_URL=https://${{ steps.env.outputs.subdomain_api }}.ovh.fabrique.social.gouv.fr/
+            DOMIFA_FRONTEND_URL=https://${{ steps.env.outputs.subdomain }}.ovh.fabrique.social.gouv.fr/
+            DOMIFA_PORTAIL_ADMINS_URL=https://${{ steps.env.outputs.subdomain_admin }}.ovh.fabrique.social.gouv.fr/
           push: true
 
   build-portail-usagers:
@@ -301,6 +371,7 @@ jobs:
         build-backend,
         build-frontend,
         build-portail-admins,
+        build-portail-stats,
         build-portail-usagers,
       ]
     name: "Deploy on Kubernetes 🐳"

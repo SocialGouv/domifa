@@ -7,17 +7,21 @@ Application de gestion de la domiciliation pour les personnes sans domicile stab
 ```
 packages/
   backend/          # API NestJS (TypeScript, TypeORM, PostgreSQL + PostGIS)
-  frontend/         # App Angular 19 - interface structures (DSFR)
-  portail-usagers/  # App Angular 18 - portail bénéficiaires (DSFR)
-  portail-admins/   # App Angular 18 - admin (DSFR)
+  frontend/         # App Angular 20 - interface structures (DSFR)
+  portail-usagers/  # App Angular 20 - portail bénéficiaires (DSFR)
+  portail-admins/   # App Angular 20 - admin super-admin-domifa (DSFR)
+  portail-stats/    # App Angular 20 - pilotage / statistiques (DSFR)
   common/           # Types et utilitaires partagés
 ```
+
+`portail-stats` est déployé sur le sous-domaine `pilotage-{host}`, mais le package,
+l'image Docker et la clé kontinuous s'appellent tous `portail-stats`.
 
 ## Stack technique
 
 - **Node** >= 22, **pnpm** 10.x, **Lerna** 8.x (independent versioning)
 - **Backend** : NestJS 11, TypeORM 0.3, PostgreSQL 16 (PostGIS), Passport JWT, Pino, Swagger
-- **Frontends** : Angular 19 (frontend) / Angular 18 (portail-usagers, portail-admins), RxJS, NgRx (frontend), DSFR (toutes les apps)
+- **Frontends** : Angular 20 (toutes les apps), RxJS, NgRx (frontend, portail-admins), DSFR (toutes les apps)
 - **Tests** : Jest (backend + frontends), Supertest (backend HTTP)
 - **CI/CD** : GitHub Actions, semantic-release, Docker multi-stage, Kubernetes (Kontinuous)
 
@@ -52,6 +56,7 @@ pnpm --filter @domifa/frontend build
 | Frontend         | 4200 |
 | Portail Usagers  | 4201 |
 | Portail Admins   | 4202 |
+| Portail Stats    | 4203 |
 | MinIO (S3)       | 9000/9001 |
 | Metabase         | 3002 |
 
@@ -71,7 +76,7 @@ Conventional Commits obligatoires (commitlint + husky) :
 type(scope): message
 ```
 Types : `feat`, `fix`, `chore`, `refactor`, `test`, `docs`, `perf`
-Scopes : `backend`, `frontend`, `portail-usagers`, `portail-admins`, `ci`
+Scopes : `backend`, `frontend`, `portail-usagers`, `portail-admins`, `portail-stats`, `ci`
 
 ### Code style
 - Prettier (2 espaces, single quotes)

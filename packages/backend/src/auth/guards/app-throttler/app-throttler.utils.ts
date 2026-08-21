@@ -219,6 +219,7 @@ export function getAllowedOrigins(): Set<string> {
     stripTrailingSlash(apps.frontendUrl),
     stripTrailingSlash(apps.portailUsagersUrl),
     stripTrailingSlash(apps.portailAdminUrl),
+    stripTrailingSlash(apps.portailStatsUrl),
   ]);
 }
 

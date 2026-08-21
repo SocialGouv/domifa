@@ -51,11 +51,13 @@ export async function bootstrapApplication(): Promise<{
     const frontendUrl = domifaConfig().apps.frontendUrl;
     const portailUsagersUrl = domifaConfig().apps.portailUsagersUrl;
     const portailAdminUrl = domifaConfig().apps.portailAdminUrl;
+    const portailStatsUrl = domifaConfig().apps.portailStatsUrl;
 
     const whitelist = [
       frontendUrl.slice(0, -1),
       portailUsagersUrl.slice(0, -1),
       portailAdminUrl.slice(0, -1),
+      portailStatsUrl.slice(0, -1),
     ];
 
     if (["dev", "local", "test"].includes(domifaConfig().envId)) {

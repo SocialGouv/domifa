@@ -1,0 +1,18 @@
+<button
+  [type]="type"
+  [class]="buttonClasses"
+  [disabled]="disabled || loading"
+  [attr.aria-busy]="loading || null"
+  [attr.aria-label]="ariaLabel || null"
+  [attr.title]="isIconOnly ? ariaLabel : null"
+  (click)="onClick()"
+>
+  @if (loading) {
+  <span class="fr-spinner fr-spinner--sm" aria-hidden="true"></span>
+  <span role="status">{{ loadingText }}</span>
+  } @else if (isIconOnly) {
+  <span class="fr-sr-only">{{ ariaLabel || label }}</span>
+  } @else {
+  {{ label }}
+  }
+</button>

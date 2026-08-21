@@ -30,6 +30,8 @@ describe("loadConfig", () => {
 
     expect(config.apps.backendUrl).toBeDefined();
     expect(config.apps.portailUsagersUrl).toBeDefined();
+    expect(config.apps.portailAdminUrl).toBeDefined();
+    expect(config.apps.portailStatsUrl).toBeDefined();
 
     expect(config.postgres.host).toBeDefined();
     expect(config.postgres.port).toBeDefined();
@@ -68,6 +70,8 @@ describe("loadConfig", () => {
     expect(config.apps.frontendUrl).toBeDefined();
     expect(config.apps.backendUrl).toBeDefined();
     expect(config.apps.portailUsagersUrl).toBeDefined();
+    expect(config.apps.portailAdminUrl).toBeDefined();
+    expect(config.apps.portailStatsUrl).toBeDefined();
 
     expect(config.postgres.host).toBeDefined();
     expect(config.postgres.port).toBeDefined();
@@ -101,6 +105,7 @@ describe("loadConfig", () => {
       DOMIFA_FRONTEND_URL: "https://domifa.xxx",
       DOMIFA_PORTAIL_USAGERS_URL: "https://mon-domifa.xxx",
       DOMIFA_PORTAIL_ADMINS_URL: "https://admin.domifa.xxx",
+      DOMIFA_PORTAIL_STATS_URL: "https://pilotage.domifa.xxx",
       DOMIFA_BACKEND_URL: "https://backend.domifa.xxx",
       DOMIFA_ADMIN_EMAIL: "some@mail.xxx",
       DOMIFA_SMS_API_KEY: "xxx",

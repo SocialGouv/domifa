@@ -1,0 +1,78 @@
+<app-custom-toastr></app-custom-toastr>
+<dsfr-skiplinks [links]="skipLinks"></dsfr-skiplinks>
+<div #notice class="fr-notice fr-notice--info">
+  <div class="fr-container">
+    <div class="fr-notice__body">
+      <p>
+        <span class="fr-notice__title"
+          >Avertissement sur la collecte de données</span
+        >
+        <span class="fr-notice__desc"
+          >Nous collectons des données anonymisées à des fins statistiques via
+          l'outil français Matomo. Pour tout savoir sur notre utilisation des
+          données, consultez notre</span
+        >
+        <a
+          class="fr-notice__link"
+          [routerLink]="['/confidentialite']"
+          ariaCurrentWhenActive="page"
+          routerLinkActive="router-link-active"
+          >politique de confidentialité.
+        </a>
+      </p>
+      <button
+        (click)="dismissNotice()"
+        type="button"
+        class="fr-btn--close fr-btn"
+      >
+        Masquer le message
+      </button>
+    </div>
+  </div>
+</div>
+<dsfr-header
+  [logoLabel]="'République<br/>Française'"
+  [operatorImageAlt]="'Outil de pilotage de la domiciliation'"
+  [operatorImagePath]="'../assets/images/logo-dsfr.svg'"
+  [ariaLabel]="'Menu principal'"
+  [logoLink]="{ routerLink: '/' }"
+  [headerToolsLinks]="user ? headerToolsLinks : []"
+  (linkSelect)="logout($event)"
+  [menu]="user ? menuHeaderItems : []"
+></dsfr-header>
+<main role="main" id="page" class="fr-pb-6w">
+  <app-custom-toastr></app-custom-toastr>
+  <router-outlet></router-outlet>
+</main>
+<dsfr-footer
+  [logo]="{
+    label: 'République<br>Française',
+    imageAlt: 'République française logo',
+    tooltipMessage: '',
+    navigation: { routerLink: '/' }
+  }"
+  [mandatoryLinks]="[
+    {
+      label: 'Accessibilité : non conforme',
+      link: 'https://domifa.fabrique.social.gouv.fr/accessibilite',
+    },
+    {
+      label: 'Mentions légales',
+      link: '/mentions-legales',
+    },
+    {
+      label: 'Conditions générales d’utilisation',
+      link: '/cgu',
+    },
+    {
+      label: 'Politique de confidentialité',
+      link: '/confidentialite',
+    },
+    {
+      label: 'Plan du site',
+      link: '/plan-site',
+    }
+  ]"
+  license="Sauf mention explicite de propriété intellectuelle détenue par des tiers, les contenus de ce site sont proposés sous <a href='https://github.com/etalab/licence-ouverte/blob/master/LO.md' _target='_blank'>licence etalab-2.0</a>"
+></dsfr-footer>
+<app-otp-modal></app-otp-modal>

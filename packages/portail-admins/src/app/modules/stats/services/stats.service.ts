@@ -1,9 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { MetabaseParams } from "@domifa/common";
+import { MetabaseParams, StructureListForStats } from "@domifa/common";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
-import { StructureListForStats } from "../types/StructureListForStats.type";
 
 const BASE_URL = `${environment.apiUrl}admin/national-stats`;
 

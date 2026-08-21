@@ -20,6 +20,7 @@ backend-cron:
     DOMIFA_FRONTEND_URL: "https://{{ .Values.global.host }}/"
     DOMIFA_PORTAIL_USAGERS_URL: "https://mon-{{ .Values.global.host }}/"
     DOMIFA_PORTAIL_ADMINS_URL: "https://admin-{{ .Values.global.host }}/"
+    DOMIFA_PORTAIL_STATS_URL: "https://pilotage-{{ .Values.global.host }}/"
   env: &backendEnv
     - name: S3_BUCKET_ENDPOINT
       valueFrom:
@@ -136,6 +137,17 @@ portail-admins:
 
   host: "admin-{{ .Values.global.host }}"
   certSecretName: portail-admins-crt
+
+portail-stats:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+  host: "pilotage-{{ .Values.global.host }}"
+  certSecretName: portail-stats-crt
 
 portail-usagers:
   resources:
