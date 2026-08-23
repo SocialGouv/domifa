@@ -39,3 +39,11 @@ export const OTP_DUAL_SEND_DOMAINS: readonly string[] = [
 // prod cannot break Tipimail delivery.
 export const OTP_TIPIMAIL_FROM =
   "DomiFa <ne-pas-repondre@diffusion.fabrique.social.gouv.fr>";
+
+// Mirrors the subjects set on the Brevo OTP templates: the SMTP path builds
+// its own email, and the Brevo path overrides the template subject outside
+// prod so the [DEMO] tag shows up.
+export const OTP_EMAIL_SUBJECTS: Record<"login" | "action", string> = {
+  login: "Votre code de connexion DomiFa",
+  action: "Votre code de confirmation DomiFa",
+};

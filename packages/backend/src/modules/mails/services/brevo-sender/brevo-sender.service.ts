@@ -42,6 +42,7 @@ import {
 } from "../../../../database";
 import { userSecurityResetPasswordInitiator } from "../../../users/services";
 import { isDeletedEmail } from "./deleted-email.guard";
+import { demoEmailSubject } from "../../utils/demo-email-subject";
 
 // Environments where every Brevo call (send, list sync, contact read, etc.)
 // is replaced by an info log and a mocked response: `test` (CI suites must
@@ -175,19 +176,21 @@ export class BrevoSenderService {
       const sendSmtpEmail = new SendSmtpEmail();
 
       if (subject) {
-        sendSmtpEmail.subject = subject;
+        sendSmtpEmail.subject = demoEmailSubject(subject);
       }
 
       sendSmtpEmail.templateId = templateId;
+
+      const redirectAllTo = config.email.emailAddressRedirectAllTo;
       sendSmtpEmail.to =
-        domifaConfig().envId === "prod"
-          ? cleanRecipients
-          : [
+        config.envId !== "prod" && redirectAllTo
+          ? [
               {
-                email: domifaConfig().email.emailAddressRedirectAllTo,
+                email: redirectAllTo,
                 name: "DomiFa Préprod",
               },
-            ];
+            ]
+          : cleanRecipients;
 
       sendSmtpEmail.params = params;
       sendSmtpEmail.replyTo = replyTo;
