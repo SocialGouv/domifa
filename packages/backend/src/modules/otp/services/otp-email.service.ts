@@ -65,17 +65,26 @@ export class OtpEmailService implements OnModuleInit {
       return;
     }
 
-    if (config.envId === "local") {
+    // Plaintext OTP in the console on developer/dev environments, whether or
+    // not the email itself goes out. prod and preprod never reach this branch.
+    if (config.envId === "local" || config.envId === "dev") {
       this.logger.log(
-        `[OTP LOCAL] code=${code} purpose=${purpose} to=${emailLog} (envoi reel ignore en local)`
+        `[OTP ${config.envId.toUpperCase()}] code=${code} purpose=${purpose} to=${emailLog}`
       );
-      return;
     }
 
-    if (!config.email.emailsEnabled || config.envId === "test") {
+    // local never sends: no mail provider is reachable from a developer
+    // machine, the console log above is the delivery channel.
+    if (
+      !config.email.emailsEnabled ||
+      config.envId === "test" ||
+      config.envId === "local"
+    ) {
       this.logger.log(
         `[EMAILS DISABLED] OTP email non envoye - To: ${emailLog}, Raison: ${
-          config.email.emailsEnabled ? "envId=test" : "emailsEnabled=false"
+          config.email.emailsEnabled
+            ? `envId=${config.envId}`
+            : "emailsEnabled=false"
         }`
       );
       return;

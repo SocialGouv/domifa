@@ -119,7 +119,7 @@ describe("OtpEmailService", () => {
     });
 
     expect(mockSendMail).not.toHaveBeenCalled();
-    expect(logSpy).toHaveBeenCalledTimes(1);
+    expect(mockBrevoSendEmailWithTemplate).not.toHaveBeenCalled();
     expect(logSpy.mock.calls[0][0]).toContain("424242");
     expect(logSpy.mock.calls[0][0]).toContain("[OTP LOCAL]");
   });
@@ -137,6 +137,90 @@ describe("OtpEmailService", () => {
     });
 
     expect(mockSendMail).not.toHaveBeenCalled();
+  });
+
+  describe("Dev OTP logging", () => {
+    it("should log the plaintext OTP code in dev", async () => {
+      mockConfig.mockReturnValue(
+        buildConfig({
+          envId: "dev",
+          email: {
+            emailsEnabled: true,
+            emailAddressRedirectAllTo: "dev-test@x.com",
+            otpProvider: "brevo",
+          },
+        })
+      );
+      const logSpy = jest
+        .spyOn(service["logger"], "log")
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        .mockImplementation(() => {});
+
+      await service.sendOtpEmail({
+        email: BREVO_ONLY_EMAIL,
+        prenom: "Alice",
+        code: "424242",
+        purpose: "LOGIN",
+      });
+
+      expect(logSpy.mock.calls[0][0]).toContain("[OTP DEV]");
+      expect(logSpy.mock.calls[0][0]).toContain("424242");
+      // The log is additional: delivery is unchanged in dev.
+      expect(mockBrevoSendEmailWithTemplate).toHaveBeenCalledTimes(1);
+    });
+
+    it("should log the plaintext OTP code in dev even when emails are disabled", async () => {
+      mockConfig.mockReturnValue(
+        buildConfig({ envId: "dev", email: { emailsEnabled: false } })
+      );
+      const logSpy = jest
+        .spyOn(service["logger"], "log")
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        .mockImplementation(() => {});
+
+      await service.sendOtpEmail({
+        email: BREVO_ONLY_EMAIL,
+        prenom: "Alice",
+        code: "424242",
+        purpose: "LOGIN",
+      });
+
+      expect(logSpy.mock.calls[0][0]).toContain("[OTP DEV]");
+      expect(logSpy.mock.calls[0][0]).toContain("424242");
+      expect(mockBrevoSendEmailWithTemplate).not.toHaveBeenCalled();
+      expect(mockSendMail).not.toHaveBeenCalled();
+    });
+
+    it("should NOT log the plaintext OTP code in preprod nor prod", async () => {
+      for (const envId of ["preprod", "prod"]) {
+        mockConfig.mockReturnValue(
+          buildConfig({
+            envId,
+            email: {
+              emailsEnabled: true,
+              emailAddressRedirectAllTo: "",
+              otpProvider: "brevo",
+            },
+          })
+        );
+        const logSpy = jest
+          .spyOn(service["logger"], "log")
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          .mockImplementation(() => {});
+
+        await service.sendOtpEmail({
+          email: BREVO_ONLY_EMAIL,
+          prenom: "Alice",
+          code: "424242",
+          purpose: "LOGIN",
+        });
+
+        for (const call of logSpy.mock.calls) {
+          expect(String(call[0])).not.toContain("424242");
+        }
+        logSpy.mockRestore();
+      }
+    });
   });
 
   describe("Brevo-only routing (default)", () => {
