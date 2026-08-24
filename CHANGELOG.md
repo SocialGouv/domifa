@@ -1,3 +1,13 @@
+# [2.258.0](https://github.com/SocialGouv/domifa/compare/v2.257.9...v2.258.0) (2026-08-24)
+
+
+### Features
+
+* **back, front:** fix code review ([58d23a0](https://github.com/SocialGouv/domifa/commit/58d23a053f478966408039f87274b2046b8e0f7a))
+* **backend, frontend:** structure can modify their emails ([b154e4a](https://github.com/SocialGouv/domifa/commit/b154e4acefda938ff3623bd0355b435b040fcc80))
+* **front, back:** fix code review ([000661b](https://github.com/SocialGouv/domifa/commit/000661bc1b0e4e4c271d2572b205dca7733ed745))
+* **frontend:** change hint on modify email form ([cc4b3a5](https://github.com/SocialGouv/domifa/commit/cc4b3a532b941cc460e03cff59785f0d10ef221a))
+
 ## [2.257.9](https://github.com/SocialGouv/domifa/compare/v2.257.8...v2.257.9) (2026-08-20)
 
 
