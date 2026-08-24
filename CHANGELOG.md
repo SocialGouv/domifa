@@ -1,3 +1,11 @@
+## [2.258.1](https://github.com/SocialGouv/domifa/compare/v2.258.0...v2.258.1) (2026-08-24)
+
+
+### Bug Fixes
+
+* **backend:** add OTP in logs for dev mode ([e2e700e](https://github.com/SocialGouv/domifa/commit/e2e700edf7ae7260dfe646b79ee00c6ff31e1778))
+* **frontend:** add news ([01c7860](https://github.com/SocialGouv/domifa/commit/01c7860fe9608efeb6d2021d05fade3676091744))
+
 # [2.258.0](https://github.com/SocialGouv/domifa/compare/v2.257.9...v2.258.0) (2026-08-24)
 
 
