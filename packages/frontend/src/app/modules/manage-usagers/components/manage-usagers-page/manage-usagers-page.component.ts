@@ -165,7 +165,13 @@ export class ManageUsagersPageComponent
   }
 
   public ngOnInit(): void {
-    if (!hasAcceptedCurrentCgu(this.me?.acceptTerms)) {
+    // AuthGuard already bypasses its own CGU redirect for support-mode
+    // sessions (see auth.guard.ts) — this defensive re-check must do the
+    // same, otherwise a support session impersonating an account that never
+    // accepted the current CGU silently no-ops here and the page is stuck
+    // on its initial loading state forever (none of the data subscriptions
+    // below ever get wired up).
+    if (!this.me?.supportMode && !hasAcceptedCurrentCgu(this.me?.acceptTerms)) {
       return;
     }
 
