@@ -13,7 +13,10 @@
   </p>
   <div class="fr-phone-input-group">
     <span class="phone-flag-indicator" aria-hidden="true">
-      <span class="iti__flag" [ngClass]="'iti__' + selectedCountry.iso2"></span>
+      <span
+        class="iti__flag"
+        [ngClass]="'iti__' + flagIso2(selectedCountry.iso2)"
+      ></span>
     </span>
     <dsfrx-dropdownmenu
       modalSize="SM"
@@ -64,7 +67,7 @@
                 <span
                   aria-hidden="true"
                   class="iti__flag"
-                  [ngClass]="'iti__' + country.iso2"
+                  [ngClass]="'iti__' + flagIso2(country.iso2)"
                 ></span>
               </span>
               <span class="fr-text--sm">{{ country.name }}</span>

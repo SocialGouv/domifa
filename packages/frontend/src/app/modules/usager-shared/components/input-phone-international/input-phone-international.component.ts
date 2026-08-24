@@ -282,6 +282,14 @@ export class PhoneInputComponent
     return item.iso2;
   }
 
+  // intl-tel-input affiche depuis la 28.1 le nouveau drapeau identitaire
+  // rouge-vert-noir de la Martinique (adopté par la CTM en 2023) au lieu
+  // du drapeau français utilisé pour les autres DROM (GP, RE, GF, YT) :
+  // on force le drapeau français pour rester cohérent avec les autres.
+  public flagIso2(iso2: string): string {
+    return iso2 === "mq" ? "fr" : iso2;
+  }
+
   writeValue(value: Telephone | null): void {
     if (!this.allCountries || this.allCountries.length === 0)
       this.fetchCountryData();
