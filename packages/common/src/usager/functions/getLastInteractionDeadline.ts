@@ -4,12 +4,12 @@ import {
   subDays,
   subMonths,
 } from "date-fns";
-import { PassageDeadline, Usager } from "../interfaces";
+import { LastInteractionDeadline, Usager } from "../interfaces";
 
-export const getPassageDeadline = (
+export const getLastInteractionDeadline = (
   usager?: Pick<Usager, "decision" | "lastInteraction">
-): PassageDeadline => {
-  const deadline: PassageDeadline = {
+): LastInteractionDeadline => {
+  const deadline: LastInteractionDeadline = {
     isActive: false,
     dateToDisplay: null,
     daysSinceLastPassage: 0,

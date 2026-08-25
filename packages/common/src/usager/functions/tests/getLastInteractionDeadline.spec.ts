@@ -1,8 +1,8 @@
 import { subDays, subMonths } from "date-fns";
 import { USAGER_VALIDE_MOCK } from "../../../mocks";
-import { getPassageDeadline } from "../getPassageDeadline";
+import { getLastInteractionDeadline } from "../getLastInteractionDeadline";
 
-describe("[getPassageDeadline] Display the passage deadline info", () => {
+describe("[getLastInteractionDeadline] Display the last interaction deadline info", () => {
   const buildUsager = (dateInteraction: Date | null) => ({
     ...USAGER_VALIDE_MOCK,
     decision: { ...USAGER_VALIDE_MOCK.decision, statut: "VALIDE" as const },
@@ -14,7 +14,7 @@ describe("[getPassageDeadline] Display the passage deadline info", () => {
 
   it("No color: last passage a few days ago", () => {
     const usager = buildUsager(subDays(new Date(), 2));
-    const result = getPassageDeadline(usager);
+    const result = getLastInteractionDeadline(usager);
 
     expect(result.isActive).toEqual(true);
     expect(result.color).toBeNull();
@@ -23,25 +23,25 @@ describe("[getPassageDeadline] Display the passage deadline info", () => {
   it("No color: last passage exactly two months ago", () => {
     const usager = buildUsager(subMonths(new Date(), 2));
 
-    expect(getPassageDeadline(usager).color).toBeNull();
+    expect(getLastInteractionDeadline(usager).color).toBeNull();
   });
 
   it("Orange: last passage more than two months ago (PREVIOUS_TWO_MONTHS)", () => {
     const usager = buildUsager(subDays(subMonths(new Date(), 2), 3));
 
-    expect(getPassageDeadline(usager).color).toEqual("bg-warning");
+    expect(getLastInteractionDeadline(usager).color).toEqual("bg-warning");
   });
 
   it("No red yet: last passage exactly three months ago", () => {
     const usager = buildUsager(subMonths(new Date(), 3));
 
-    expect(getPassageDeadline(usager).color).toEqual("bg-warning");
+    expect(getLastInteractionDeadline(usager).color).toEqual("bg-warning");
   });
 
   it("Red: last passage more than three months ago (PREVIOUS_THREE_MONTHS)", () => {
     const usager = buildUsager(subMonths(new Date(), 6));
 
-    expect(getPassageDeadline(usager).color).toEqual("bg-danger");
+    expect(getLastInteractionDeadline(usager).color).toEqual("bg-danger");
   });
 
   it("Inactive: usager not VALIDE", () => {
@@ -50,7 +50,7 @@ describe("[getPassageDeadline] Display the passage deadline info", () => {
       decision: { ...USAGER_VALIDE_MOCK.decision, statut: "RADIE" as const },
     };
 
-    expect(getPassageDeadline(usager)).toEqual({
+    expect(getLastInteractionDeadline(usager)).toEqual({
       isActive: false,
       dateToDisplay: null,
       daysSinceLastPassage: 0,
@@ -61,6 +61,6 @@ describe("[getPassageDeadline] Display the passage deadline info", () => {
   it("Inactive: no last interaction date", () => {
     const usager = buildUsager(null);
 
-    expect(getPassageDeadline(usager).isActive).toEqual(false);
+    expect(getLastInteractionDeadline(usager).isActive).toEqual(false);
   });
 });
