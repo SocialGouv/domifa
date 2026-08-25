@@ -5,7 +5,6 @@ import {
   OnInit,
   Renderer2,
 } from "@angular/core";
-import { Subscription } from "rxjs";
 import { AuthService } from "../services/auth.service";
 
 const TOOLTIP = "Action non disponible en mode support";
@@ -16,6 +15,22 @@ const FIELD_SELECTOR = "input, select, textarea";
 // read-only admin support session. Apply to write-triggering CTAs
 // (create/edit/delete, uploads, block/unblock...) — the write-blocking
 // interceptor + backend guard are the actual enforcement, this is UX only.
+//
+// PERF NOTE: support-mode state is read ONCE, synchronously, in ngOnInit —
+// no BehaviorSubject subscription. This is safe because a support session
+// never flips on/off while a tagged component stays mounted: activation
+// happens via a full-page handoff at /support-entry, and every exit path
+// (manual "Quitter", auto-expiry, structure logout) does a full
+// window.location redirect that tears down the whole Angular app rather
+// than toggling state in place (see AuthService.logout /
+// SupportEntryComponent). If that assumption ever stops holding, this
+// directive would need to go back to a live subscription.
+// When the session is NOT support-mode (the overwhelming majority of the
+// time, for every regular user), ngOnInit is a single property read and
+// nothing else — no listener attached, no DOM write, no observer. This
+// directive is applied to elements that can appear hundreds of times on
+// one page (e.g. a row action rendered per usager in the dossiers table),
+// so keeping the non-support-mode path free is what makes that viable.
 //
 // The click is intercepted in the CAPTURE phase on the host element itself,
 // not via the `disabled` attribute/property: several targets (`<app-button>`,
@@ -40,7 +55,6 @@ const FIELD_SELECTOR = "input, select, textarea";
   standalone: true,
 })
 export class SupportModeDisableDirective implements OnInit, OnDestroy {
-  private readonly subscription = new Subscription();
   private isSupportMode = false;
   private mutationObserver?: MutationObserver;
   private readonly fieldsDisabledByUs = new Set<
@@ -54,51 +68,36 @@ export class SupportModeDisableDirective implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
+    this.isSupportMode =
+      this.authService.currentUserValue?.supportMode === true;
+    if (!this.isSupportMode) {
+      return;
+    }
+
     this.el.nativeElement.addEventListener("click", this.onCaptureClick, {
       capture: true,
     });
 
-    this.subscription.add(
-      this.authService.currentUserSubject.subscribe((user) => {
-        this.isSupportMode = user?.supportMode === true;
-        if (this.isSupportMode) {
-          this.renderer.setAttribute(
-            this.el.nativeElement,
-            "aria-disabled",
-            "true"
-          );
-          this.renderer.setAttribute(this.el.nativeElement, "title", TOOLTIP);
-          this.renderer.setStyle(this.el.nativeElement, "opacity", "0.5");
-          this.renderer.setStyle(
-            this.el.nativeElement,
-            "cursor",
-            "not-allowed"
-          );
-          this.startDisablingFormFields();
-        } else {
-          this.renderer.removeAttribute(this.el.nativeElement, "aria-disabled");
-          this.renderer.removeAttribute(this.el.nativeElement, "title");
-          this.renderer.removeStyle(this.el.nativeElement, "opacity");
-          this.renderer.removeStyle(this.el.nativeElement, "cursor");
-          this.stopDisablingFormFields();
-        }
-      })
-    );
+    this.renderer.setAttribute(this.el.nativeElement, "aria-disabled", "true");
+    this.renderer.setAttribute(this.el.nativeElement, "title", TOOLTIP);
+    this.renderer.setStyle(this.el.nativeElement, "opacity", "0.5");
+    this.renderer.setStyle(this.el.nativeElement, "cursor", "not-allowed");
+    this.startDisablingFormFields();
   }
 
   public ngOnDestroy(): void {
+    if (!this.isSupportMode) {
+      return;
+    }
     this.el.nativeElement.removeEventListener("click", this.onCaptureClick, {
       capture: true,
     });
-    this.subscription.unsubscribe();
     this.mutationObserver?.disconnect();
   }
 
   private readonly onCaptureClick = (event: Event): void => {
-    if (this.isSupportMode) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-    }
+    event.preventDefault();
+    event.stopImmediatePropagation();
   };
 
   private startDisablingFormFields(): void {
@@ -111,14 +110,6 @@ export class SupportModeDisableDirective implements OnInit, OnDestroy {
       childList: true,
       subtree: true,
     });
-  }
-
-  private stopDisablingFormFields(): void {
-    this.mutationObserver?.disconnect();
-    for (const field of this.fieldsDisabledByUs) {
-      field.disabled = false;
-    }
-    this.fieldsDisabledByUs.clear();
   }
 
   private disableFields(): void {
