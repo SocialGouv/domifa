@@ -46,9 +46,9 @@ describe("configParser", () => {
         {
           POSTGRES_HOST: "localhost",
           POSTGRES_PORT: "5432",
-          DOMIFA_SWAGGER_ENABLE: "false",
+          DOMIFA_CRON_ENABLED: "false",
         },
-        "DOMIFA_SWAGGER_ENABLE"
+        "DOMIFA_CRON_ENABLED"
       )
     ).toEqual(false);
     expect(
@@ -56,9 +56,9 @@ describe("configParser", () => {
         {
           POSTGRES_HOST: "localhost",
           POSTGRES_PORT: "5432",
-          DOMIFA_SWAGGER_ENABLE: "true",
+          DOMIFA_CRON_ENABLED: "true",
         },
-        "DOMIFA_SWAGGER_ENABLE"
+        "DOMIFA_CRON_ENABLED"
       )
     ).toEqual(true);
   });

@@ -24,7 +24,6 @@ import {
 } from "@nestjs/common";
 import { Throttle } from "@nestjs/throttler";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Request as ExpressRequest, Response } from "express";
 import { buildSecurityLogRequestContext } from "../../../util/express";
 import {
@@ -85,7 +84,6 @@ import { domifaConfig } from "../../../config";
 const userProfile: UserProfile = "structure";
 
 @Controller("users")
-@ApiTags("users")
 @AllowUserProfiles("structure")
 @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -214,10 +212,6 @@ export class UsersController {
   }
 
   @AllowUserStructureRoles("admin")
-  @ApiOperation({
-    summary:
-      "Réassigner les dossiers d'un utilisateur qu'on souhaite supprimer ou à qui on change les droits, à un autre utilisateur",
-  })
   @UseGuards(CanGetUserStructureGuard)
   @Get("reassign-referrers/:userUuid")
   public async reAssignReferrersToAnotherUser(
@@ -250,10 +244,6 @@ export class UsersController {
   }
 
   @AllowUserStructureRoles("admin")
-  @ApiBearerAuth("Administrateurs")
-  @ApiOperation({
-    summary: "Compter les dossiers associés à un utilisateur",
-  })
   @UseGuards(CanGetUserStructureGuard)
   @Get("count-referrers/:userUuid")
   public async countReferrers(
@@ -267,8 +257,6 @@ export class UsersController {
   }
 
   @AllowUserStructureRoles("admin")
-  @ApiBearerAuth("Administrateurs")
-  @ApiOperation({ summary: "Supprimer un utilisateur" })
   @UseGuards(CanGetUserStructureGuard, OtpGuard)
   @RequireOtp("DELETE_USER_BY_ADMIN")
   @Delete(":userUuid")
@@ -299,7 +287,6 @@ export class UsersController {
   }
 
   @Patch()
-  @ApiOperation({ summary: "Modifier mes informations" })
   public async patch(
     @CurrentUser() user: UserStructureAuthenticated,
     @Body() userDto: UserEditDto,
@@ -399,7 +386,6 @@ export class UsersController {
 
   // Edition d'un mot de passe quand on est déjà connecté
   @Post("edit-my-password")
-  @ApiOperation({ summary: "Edition du mot de passe depuis le compte user" })
   public async editPassword(
     @Req() req: ExpressRequest,
     @CurrentUser() user: UserStructureAuthenticated,
@@ -436,7 +422,6 @@ export class UsersController {
   @Throttle({
     short: { limit: 3, ttl: 60_000, blockDuration: 24 * 60 * 60 * 1000 }, // 3 req/min, block 24h
   })
-  @ApiOperation({ summary: "Edition de l'email depuis le compte user" })
   @HttpCode(HttpStatus.OK)
   public async editEmail(
     @CurrentUser() user: UserStructureAuthenticated,

@@ -6,22 +6,13 @@ import {
   MaxLength,
   ValidateIf,
 } from "class-validator";
-import { ApiProperty } from "@nestjs/swagger";
 import { Trim } from "../../../_common/decorators";
 
 export class StructureAdresseCourrierDto {
-  @ApiProperty({
-    type: Boolean,
-    required: true,
-  })
   @IsBoolean()
   @IsNotEmpty()
   public readonly actif: boolean;
 
-  @ApiProperty({
-    type: String,
-    required: false,
-  })
   @ValidateIf((o) => o.actif === true)
   @IsString()
   @IsNotEmpty()
@@ -29,10 +20,6 @@ export class StructureAdresseCourrierDto {
   @Trim()
   public readonly adresse: string;
 
-  @ApiProperty({
-    type: String,
-    required: false,
-  })
   @IsString()
   @IsNotEmpty()
   @MaxLength(200)
@@ -40,10 +27,6 @@ export class StructureAdresseCourrierDto {
   @ValidateIf((o) => o.actif === true)
   public readonly ville: string;
 
-  @ApiProperty({
-    type: String,
-    required: false,
-  })
   @IsString()
   @IsNotEmpty()
   @MaxLength(5)

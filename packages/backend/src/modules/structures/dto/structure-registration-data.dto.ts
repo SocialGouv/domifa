@@ -8,7 +8,6 @@ import {
   ValidateIf,
   IsIn,
 } from "class-validator";
-import { ApiProperty } from "@nestjs/swagger";
 import { Transform } from "class-transformer";
 import {
   RegistrationSources,
@@ -20,10 +19,6 @@ import {
   SOURCES_OPTIONS,
 } from "@domifa/common";
 export class StructureRegistrationDto {
-  @ApiProperty({
-    description: "Source d'inscription de la structure",
-    example: "PROSPECTION_DIRECTE",
-  })
   @IsIn(REGISTRATION_SOURCES_VALUES)
   source: RegistrationSources;
 

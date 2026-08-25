@@ -11,7 +11,6 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AllowUserProfiles, CurrentUser } from "../../../../auth/decorators";
 import { AppUserGuard } from "../../../../auth/guards";
 import { UserUsagerAuthenticated } from "../../../../_common/model";
@@ -35,8 +34,6 @@ import { join } from "node:path";
 
 @Controller("portail-usagers/profile")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
-@ApiBearerAuth()
-@ApiTags("profile")
 export class PortailUsagersProfileController {
   constructor(
     private readonly interactionsService: InteractionsService,

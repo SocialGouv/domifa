@@ -1,5 +1,3 @@
-import { ApiProperty } from "@nestjs/swagger";
-
 import {
   IsBoolean,
   IsEmpty,
@@ -25,19 +23,10 @@ import {
 } from "@domifa/common";
 
 export class InteractionDto {
-  @ApiProperty({
-    type: String,
-    required: true,
-    enum: ALL_INTERACTION_TYPES,
-  })
   @IsIn(ALL_INTERACTION_TYPES)
   @IsNotEmpty()
   public type!: InteractionType;
 
-  @ApiProperty({
-    type: String,
-    required: false,
-  })
   @ValidateIf((o) => INTERACTIONS_IN.indexOf(o.type) !== -1)
   @IsOptional()
   @IsString()
@@ -46,10 +35,6 @@ export class InteractionDto {
   @TrimOrNullTransform()
   public content?: string;
 
-  @ApiProperty({
-    type: Number,
-    required: false,
-  })
   @ValidateIf((o) => INTERACTIONS_OUT.indexOf(o.type) !== -1)
   @IsOptional()
   @IsNumber()
@@ -57,10 +42,6 @@ export class InteractionDto {
   @Max(4)
   public procurationIndex?: number;
 
-  @ApiProperty({
-    type: Number,
-    required: true,
-  })
   @ValidateIf((o) => INTERACTIONS_IN.indexOf(o.type) !== -1)
   @IsNumber()
   @IsNotEmpty()

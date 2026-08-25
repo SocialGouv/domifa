@@ -1,4 +1,3 @@
-import { ApiPropertyOptional } from "@nestjs/swagger";
 import { Transform, Type } from "class-transformer";
 import {
   IsArray,
@@ -32,7 +31,6 @@ export type SuspiciousFilterUserType =
   (typeof SUSPICIOUS_FILTER_USER_TYPES)[number];
 
 export class SuspiciousActivityQueryDto extends PageOptionsDto {
-  @ApiPropertyOptional({ enum: SUSPICIOUS_LOG_ACTIONS, isArray: true })
   @IsOptional()
   // ?actions=X (single value) is parsed as a string by Express's qs parser —
   // coerce it back to an array so @IsArray + @IsIn(each) work consistently
@@ -48,38 +46,32 @@ export class SuspiciousActivityQueryDto extends PageOptionsDto {
   @IsIn(SUSPICIOUS_LOG_ACTIONS, { each: true })
   readonly actions?: SuspiciousLogAction[];
 
-  @ApiPropertyOptional({ type: Date })
   @IsOptional()
   @Type(() => Date)
   @IsDate()
   readonly dateFrom?: Date;
 
-  @ApiPropertyOptional({ type: Date })
   @IsOptional()
   @Type(() => Date)
   @IsDate()
   readonly dateTo?: Date;
 
-  @ApiPropertyOptional({ maxLength: 64 })
   @IsOptional()
   @IsString()
   @MaxLength(64)
   readonly ip?: string;
 
-  @ApiPropertyOptional({ maxLength: 255 })
   @IsOptional()
   @IsString()
   @MaxLength(255)
   readonly identifier?: string;
 
-  @ApiPropertyOptional({ minimum: 1 })
   @IsOptional()
   @Type(() => Number)
   @IsInt()
   @Min(1)
   readonly userId?: number;
 
-  @ApiPropertyOptional({ enum: SUSPICIOUS_FILTER_USER_TYPES })
   @IsOptional()
   @IsIn(SUSPICIOUS_FILTER_USER_TYPES)
   readonly userType?: SuspiciousFilterUserType;

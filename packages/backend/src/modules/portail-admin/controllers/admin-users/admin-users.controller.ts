@@ -20,7 +20,6 @@ import { buildSecurityLogRequestContext } from "../../../../util/express";
 import { OtpGuard } from "../../../otp/guards/otp.guard";
 import { RequireOtp } from "../../../otp/decorators/require-otp.decorator";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiTags, ApiBearerAuth, ApiOperation } from "@nestjs/swagger";
 import { UserAdminAuthenticated } from "../../../../_common/model";
 import {
   AllowUserProfiles,
@@ -69,10 +68,8 @@ import { CurrentSupervisor } from "../../../../auth/decorators/current-superviso
 import { BrevoSenderService } from "../../../mails/services/brevo-sender/brevo-sender.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
-@ApiTags("dashboard")
 @AllowUserProfiles("supervisor")
 @AllowUserSupervisorRoles("super-admin-domifa")
-@ApiBearerAuth()
 @Controller("admin/users")
 export class AdminUsersController {
   constructor(
@@ -190,20 +187,11 @@ export class AdminUsersController {
     return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({
-    summary: "Liste des utilisateurs des structures (vue super-admin)",
-  })
   @Get("structure-users")
   public async getStructureUsers(): Promise<UsersForAdminList[]> {
     return this.adminStructuresService.getUsersForAdmin();
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({
-    summary:
-      "Compte les contacts Brevo bloqués (campagnes + transactionnel). Lecture seule.",
-  })
   @Get("brevo/blocked-counts")
   public async getBrevoBlockedCounts(): Promise<{
     campaignBlocked: number | null;
@@ -216,11 +204,6 @@ export class AdminUsersController {
     return { campaignBlocked, transactionalBlocked };
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({
-    summary:
-      "Liste paginée des contacts Brevo bloqués transactionnellement (hard bounces, plaintes spam).",
-  })
   @Get("brevo/blocked-contacts")
   public async getBrevoBlockedContacts(
     @Query() pageOptions: PageOptionsDto
@@ -234,11 +217,6 @@ export class AdminUsersController {
     return { data, total };
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({
-    summary:
-      "Résout l'URL de fiche Brevo d'un contact à partir de son email (pour deep-link admin).",
-  })
   @Get("brevo/contact-link")
   public async getBrevoContactLink(
     @Query("email") email: string
@@ -253,11 +231,6 @@ export class AdminUsersController {
     return { url: `https://app.brevo.com/contact/index/${status.id}` };
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({
-    summary:
-      "Débloque un email de la blocklist transactionnelle Brevo (utilisé par la page d'administration).",
-  })
   @Delete("brevo/blocked-contacts/:email")
   public async unblockBrevoBlockedContact(
     @Req() req: ExpressRequest,
@@ -290,8 +263,6 @@ export class AdminUsersController {
     return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({ summary: "Débloquer un utilisateur supervisor (OTP requis)" })
   @Patch("supervisor/:uuid/unblock")
   @UseGuards(OtpGuard)
   @RequireOtp("UNBLOCK_USER")
@@ -330,8 +301,6 @@ export class AdminUsersController {
     return res.status(HttpStatus.OK).json({ status: "ACTIVE" });
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({ summary: "Logs d'activité d'un utilisateur supervisor" })
   @Get("supervisor/:uuid/logs")
   public async getSupervisorUserLogs(
     @CurrentSupervisor() _user: UserAdminAuthenticated,
@@ -353,10 +322,6 @@ export class AdminUsersController {
     });
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({
-    summary: "Logs de sécurité d'un utilisateur supervisor",
-  })
   @Get("supervisor/:uuid/security-logs")
   public async getSupervisorSecurityLogs(
     @Param("uuid", new ParseUUIDPipe()) uuid: string,
@@ -377,10 +342,6 @@ export class AdminUsersController {
     });
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({
-    summary: "Événements Brevo (logs mailing) d'un utilisateur supervisor",
-  })
   @Get("supervisor/:uuid/email-events")
   public async getSupervisorEmailEvents(
     @Param("uuid", new ParseUUIDPipe()) uuid: string,
@@ -402,11 +363,6 @@ export class AdminUsersController {
     });
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({
-    summary:
-      "Statut Brevo (blocklist transactionnelle) d'un utilisateur supervisor",
-  })
   @Get("supervisor/:uuid/brevo/status")
   public async getSupervisorBrevoStatus(
     @Param("uuid", new ParseUUIDPipe()) uuid: string
@@ -421,11 +377,6 @@ export class AdminUsersController {
     return this.brevoSenderService.getContactStatus({ email: target.email });
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({
-    summary:
-      "Débloque le contact d'un superviseur côté Brevo (kind=campaign : flag emailBlacklisted, kind=transactional : blocklist SMTP)",
-  })
   @Delete("supervisor/:uuid/brevo/blocklist/:kind")
   public async unblockSupervisorBrevoContact(
     @Req() req: ExpressRequest,
@@ -466,8 +417,6 @@ export class AdminUsersController {
     return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({ summary: "Logs d'activité d'un utilisateur de structure" })
   @Get("structure-user/:uuid/logs")
   public async getStructureUserLogs(
     @CurrentSupervisor() _user: UserAdminAuthenticated,
@@ -489,10 +438,6 @@ export class AdminUsersController {
     });
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({
-    summary: "Logs de sécurité d'un utilisateur de structure",
-  })
   @Get("structure-user/:uuid/security-logs")
   public async getStructureUserSecurityLogs(
     @Param("uuid", new ParseUUIDPipe()) uuid: string,
@@ -513,10 +458,6 @@ export class AdminUsersController {
     });
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({
-    summary: "Événements Brevo (logs mailing) d'un utilisateur de structure",
-  })
   @Get("structure-user/:uuid/email-events")
   public async getStructureUserEmailEvents(
     @Param("uuid", new ParseUUIDPipe()) uuid: string,
@@ -538,11 +479,6 @@ export class AdminUsersController {
     });
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({
-    summary:
-      "Statut Brevo (blocklist transactionnelle) d'un utilisateur de structure",
-  })
   @Get("structure-user/:uuid/brevo/status")
   public async getStructureUserBrevoStatus(
     @Param("uuid", new ParseUUIDPipe()) uuid: string
@@ -557,11 +493,6 @@ export class AdminUsersController {
     return this.brevoSenderService.getContactStatus({ email: target.email });
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({
-    summary:
-      "Débloque le contact d'un utilisateur de structure côté Brevo (kind=campaign|transactional)",
-  })
   @Delete("structure-user/:uuid/brevo/blocklist/:kind")
   public async unblockStructureUserBrevoContact(
     @Req() req: ExpressRequest,
@@ -617,8 +548,6 @@ export class AdminUsersController {
     );
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({ summary: "Bloquer un utilisateur supervisor (OTP requis)" })
   @Patch("supervisor/:uuid/block")
   @UseGuards(OtpGuard)
   @RequireOtp("BLOCK_USER_BY_ADMIN")
@@ -666,8 +595,6 @@ export class AdminUsersController {
     return res.status(HttpStatus.OK).json({ status: "BLOCKED" });
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({ summary: "Liste des utilisateurs superviseurs" })
   @Get("")
   public async getUsersSupervisors(): Promise<UserSupervisor[]> {
     return userSupervisorRepository.find({

@@ -1,4 +1,3 @@
-import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsNotEmpty, ValidateNested } from "class-validator";
 import { StructureDto } from "./structure.dto";
@@ -10,10 +9,6 @@ export class StructureWithUserDto {
   @IsNotEmpty()
   public structure!: StructureDto;
 
-  @ApiProperty({
-    type: Object,
-    required: true,
-  })
   @ValidateNested()
   @Type(() => UserDto)
   @IsNotEmpty()

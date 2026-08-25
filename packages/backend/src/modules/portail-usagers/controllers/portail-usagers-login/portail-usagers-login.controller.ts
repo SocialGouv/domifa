@@ -9,7 +9,6 @@ import {
   Res,
   UseGuards,
 } from "@nestjs/common";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import {
   ExpiredTokenTable,
   UserUsagerLoginTable,
@@ -40,7 +39,6 @@ import { userUsagerSecurityPasswordChecker } from "../../services/user-usager-se
 import { logSecurityEventForUser } from "../../../app-logs/app-log-security-writer";
 
 @Controller("portail-usagers/auth")
-@ApiTags("auth")
 export class PortailUsagersLoginController {
   constructor(private readonly usagersAuthService: UsagersAuthService) {}
 
@@ -112,7 +110,6 @@ export class PortailUsagersLoginController {
     }
   }
 
-  @ApiBearerAuth()
   @UseGuards(AuthGuard("jwt"), AppUserGuard)
   @AllowUserProfiles("usager")
   @Get("logout")

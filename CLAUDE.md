@@ -20,7 +20,7 @@ l'image Docker et la clé kontinuous s'appellent tous `portail-stats`.
 ## Stack technique
 
 - **Node** >= 22, **pnpm** 10.x, **Lerna** 8.x (independent versioning)
-- **Backend** : NestJS 11, TypeORM 0.3, PostgreSQL 16 (PostGIS), Passport JWT, Pino, Swagger
+- **Backend** : NestJS 11, TypeORM 0.3, PostgreSQL 16 (PostGIS), Passport JWT, Pino
 - **Frontends** : Angular 20 (toutes les apps), RxJS, NgRx (frontend, portail-admins), DSFR (toutes les apps)
 - **Tests** : Jest (backend + frontends), Supertest (backend HTTP)
 - **CI/CD** : GitHub Actions, semantic-release, Docker multi-stage, Kubernetes (Kontinuous)
@@ -52,7 +52,6 @@ pnpm --filter @domifa/frontend build
 | Service          | Port |
 |------------------|------|
 | Backend API      | 3000 |
-| Swagger docs     | 3000/api/docs |
 | Frontend         | 4200 |
 | Portail Usagers  | 4201 |
 | Portail Admins   | 4202 |

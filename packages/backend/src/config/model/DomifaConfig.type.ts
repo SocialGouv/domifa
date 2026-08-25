@@ -40,7 +40,6 @@ export type DomifaConfig = {
     bucketRegion: string; //  S3_BUCKET_REGION
   };
   dev: {
-    swaggerEnabled: boolean; // DOMIFA_SWAGGER_ENABLE
     sentry: {
       enabled: boolean; // DOMIFA_SENTRY_ENABLED (default: enabled if SENTRY_DSN is defined)
       sentryDsn: string; // DOMIFA_SENTRY_DSN_BACKEND

@@ -18,7 +18,6 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 
 import {
   AllowUserProfiles,
@@ -62,8 +61,6 @@ import { generateCerfaData } from "../utils";
 import { readFile } from "fs-extra";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
-@ApiTags("docs")
-@ApiBearerAuth()
 @Controller("docs")
 @AllowUserProfiles("structure")
 @AllowUserStructureRoles("simple", "responsable", "admin")
@@ -74,9 +71,6 @@ export class UsagerDocsController {
     private readonly quotaEnforcer: BehavioralQuotaEnforcerService
   ) {}
 
-  @ApiOperation({
-    summary: "Téléverser des pièces-jointes dans le dossier d'un usager",
-  })
   @Post(":usagerRef")
   @UseGuards(UsagerAccessGuard)
   @UseInterceptors(

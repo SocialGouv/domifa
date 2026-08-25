@@ -1,4 +1,3 @@
-import { ApiProperty } from "@nestjs/swagger";
 import {
   IsEmail,
   IsEmpty,
@@ -24,10 +23,6 @@ import { Telephone } from "@domifa/common";
 import { cleanFormDataValue } from "../../util";
 
 export class ContactSupportDto {
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @IsNotEmpty()
   @IsString()
   @IsEmail()
@@ -35,10 +30,6 @@ export class ContactSupportDto {
   @LowerCaseTransform()
   public email!: string;
 
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @IsNotEmpty()
   @IsString()
   @MinLength(2)
@@ -46,10 +37,6 @@ export class ContactSupportDto {
   @StripTagsTransform()
   public name!: string;
 
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @IsNotEmpty()
   @IsString()
   @MinLength(2)
@@ -57,10 +44,6 @@ export class ContactSupportDto {
   @StripTagsTransform()
   public structureName!: string;
 
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @IsNotEmpty()
   @IsString()
   @MinLength(10)
@@ -68,10 +51,6 @@ export class ContactSupportDto {
   @StripTagsTransform()
   public content!: string;
 
-  @ApiProperty({
-    type: Number,
-    required: false,
-  })
   @IsOptional()
   @IsInt()
   @Min(1)
@@ -80,10 +59,6 @@ export class ContactSupportDto {
   })
   public readonly structureId!: number;
 
-  @ApiProperty({
-    type: Number,
-    required: false,
-  })
   @IsOptional()
   @IsInt()
   @Min(1)
@@ -92,10 +67,6 @@ export class ContactSupportDto {
   })
   public readonly userId!: number;
 
-  @ApiProperty({
-    type: String,
-    required: false,
-  })
   @IsNotEmpty()
   @IsString()
   @MinLength(2)

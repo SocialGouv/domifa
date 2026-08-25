@@ -1,5 +1,3 @@
-import { ApiProperty } from "@nestjs/swagger";
-
 import { IsEmail, IsNotEmpty } from "class-validator";
 import {
   IsValidPassword,
@@ -8,20 +6,12 @@ import {
 } from "../../../_common/decorators";
 
 export class StructureAdminLoginDto {
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @Trim()
   @LowerCaseTransform()
   @IsNotEmpty()
   @IsEmail()
   public readonly email!: string;
 
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @IsNotEmpty()
   @IsValidPassword("password", true)
   public readonly password!: string;

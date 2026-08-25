@@ -12,7 +12,6 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiTags } from "@nestjs/swagger";
 import {
   AppUserGuard,
   StructureInformationAccessGuard,
@@ -30,7 +29,6 @@ import { ExpressResponse, getCreatedByUserStructure } from "../../../../util";
 import { StructureInformation } from "@domifa/common";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
-@ApiTags("structure-information")
 @AllowUserStructureRoles("admin")
 @AllowUserProfiles("structure")
 @Controller("structure-information")

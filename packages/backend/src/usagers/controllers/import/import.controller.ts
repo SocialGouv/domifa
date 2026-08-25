@@ -13,7 +13,6 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { diskStorage } from "multer";
 import { CurrentUser } from "../../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../../auth/guards";
@@ -77,8 +76,6 @@ const UsagersImportFileInterceptor = FileInterceptor("file", {
 });
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
-@ApiTags("import")
-@ApiBearerAuth()
 @Controller("import")
 @AllowUserStructureRoles("responsable", "admin")
 @AllowUserProfiles("structure")
