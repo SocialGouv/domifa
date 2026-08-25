@@ -35,7 +35,7 @@ import { AllowUserStructureRoles } from "./decorators";
 import { ALL_USER_STRUCTURE_ROLES, UserStructure } from "@domifa/common";
 import { appLogger } from "../util";
 import { logSecurityEventForUser } from "../modules/app-logs/app-log-security-writer";
-import { revokeSupportSessionOnStructureLogout } from "../modules/portail-admin/services/support-session/support-session-closer";
+import { SupportSessionService } from "../modules/support-session/support-session.service";
 
 const userProfile: UserProfile = "structure";
 
@@ -66,7 +66,8 @@ function readStructureTrustCookie(req: ExpressRequest): string | undefined {
 export class StructuresAuthController {
   constructor(
     private readonly structuresAuthService: StructuresAuthService,
-    private readonly loginOtpService: LoginOtpService
+    private readonly loginOtpService: LoginOtpService,
+    private readonly supportSessionService: SupportSessionService
   ) {}
 
   @Post("login")
@@ -197,7 +198,7 @@ export class StructuresAuthController {
     await expiredTokenRepositiory.save(tokenToBlacklist);
 
     if (user.supportMode) {
-      await revokeSupportSessionOnStructureLogout(user.id);
+      await this.supportSessionService.revokeForStructureLogout(user.id);
     }
 
     await logSecurityEventForUser(
