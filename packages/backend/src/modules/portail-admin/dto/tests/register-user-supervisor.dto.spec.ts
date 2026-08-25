@@ -55,3 +55,61 @@ describe("RegisterUserSupervisorDto — super-admin-domifa role assignment", () 
     expect(roleError).toBeDefined();
   });
 });
+
+describe("RegisterUserSupervisorDto — territories", () => {
+  const createDto = (
+    role: RegisterUserSupervisorDto["role"],
+    territories: unknown
+  ): RegisterUserSupervisorDto => {
+    const dto = new RegisterUserSupervisorDto();
+    dto.nom = "Smith";
+    dto.prenom = "John";
+    dto.email = "test@example.com";
+    dto.role = role;
+    dto.territories = territories as string[];
+    return dto;
+  };
+  const territoriesErrors = async (dto: RegisterUserSupervisorDto) =>
+    (await validate(dto)).filter((e) => e.property === "territories");
+
+  it("requires an empty list for a national role", async () => {
+    expect(await territoriesErrors(createDto("national", []))).toHaveLength(0);
+    expect(await territoriesErrors(createDto("national", ["75"]))).toHaveLength(
+      1
+    );
+  });
+
+  it("requires at least one territory for department and region roles", async () => {
+    expect(await territoriesErrors(createDto("department", []))).toHaveLength(
+      1
+    );
+    expect(await territoriesErrors(createDto("region", []))).toHaveLength(1);
+  });
+
+  it("checks every element against the list matching the role", async () => {
+    expect(
+      await territoriesErrors(createDto("department", ["75", "93"]))
+    ).toHaveLength(0);
+    expect(
+      await territoriesErrors(createDto("department", ["75", "zzz"]))
+    ).toHaveLength(1);
+    expect(await territoriesErrors(createDto("region", ["99"]))).toHaveLength(
+      1
+    );
+    expect(await territoriesErrors(createDto("region", ["11"]))).toHaveLength(
+      0
+    );
+  });
+
+  it("rejects duplicates, nested arrays and non-string elements", async () => {
+    expect(
+      await territoriesErrors(createDto("department", ["75", "75"]))
+    ).toHaveLength(1);
+    expect(
+      await territoriesErrors(createDto("department", [["75"]]))
+    ).toHaveLength(1);
+    expect(await territoriesErrors(createDto("department", [75]))).toHaveLength(
+      1
+    );
+  });
+});

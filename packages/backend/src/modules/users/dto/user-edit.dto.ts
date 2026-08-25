@@ -6,8 +6,8 @@ import {
   IsString,
   MaxLength,
   MinLength,
-  ValidateIf,
 } from "class-validator";
+import { ValidateIfElseNull } from "../../../_common/decorators";
 
 export class UserEditDto {
   @MinLength(2)
@@ -37,7 +37,7 @@ export class UserEditDto {
   @MinLength(2)
   @MaxLength(255)
   @IsString()
-  @ValidateIf((u) => u.fonction === UserFonction.AUTRE)
+  @ValidateIfElseNull((u) => u.fonction === UserFonction.AUTRE)
   @IsNotEmpty()
   @Transform(({ value }: TransformFnParams) => {
     if (value) {

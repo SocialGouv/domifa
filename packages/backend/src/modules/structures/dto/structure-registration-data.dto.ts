@@ -1,12 +1,12 @@
 import {
-  IsString,
-  IsNumber,
   IsBoolean,
+  IsIn,
   IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
   MaxLength,
   Min,
-  ValidateIf,
-  IsIn,
 } from "class-validator";
 import { Transform } from "class-transformer";
 import {
@@ -18,11 +18,12 @@ import {
   REGISTRATION_SOURCES_VALUES,
   SOURCES_OPTIONS,
 } from "@domifa/common";
+import { ValidateIfElseNull } from "../../../_common/decorators";
 export class StructureRegistrationDto {
   @IsIn(REGISTRATION_SOURCES_VALUES)
   source: RegistrationSources;
 
-  @ValidateIf(
+  @ValidateIfElseNull(
     (obj) =>
       SOURCES_OPTIONS.find((o) => o.value === obj.source)?.requiresDetail ===
       true
@@ -37,19 +38,19 @@ export class StructureRegistrationDto {
   @Transform(({ value }) => Number(value))
   activeUsersCount: number;
 
-  @ValidateIf((obj) => obj.structureType === "asso")
+  @IsOptional()
   @IsBoolean()
   dsp?: boolean;
 
   @IsIn(CURRENT_TOOL_VALUES)
   currentTool: CurrentTool;
 
-  @ValidateIf((obj) => obj.currentTool === "OUTIL_MARCHE")
+  @ValidateIfElseNull((obj) => obj.currentTool === "OUTIL_MARCHE")
   @IsNotEmpty()
   @IsIn(MARKET_TOOL_VALUES)
   marketTool?: MarketTool;
 
-  @ValidateIf(
+  @ValidateIfElseNull(
     (obj) => obj.currentTool === "OUTIL_MARCHE" && obj.marketTool === "AUTRE"
   )
   @IsNotEmpty()

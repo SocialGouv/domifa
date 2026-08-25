@@ -1,4 +1,5 @@
 import {
+  ArrayUnique,
   IsArray,
   IsIn,
   IsNotEmpty,
@@ -35,6 +36,8 @@ export class PatchUserSupervisorDto {
   public role!: UserSupervisorRole;
 
   @IsArray()
+  @IsString({ each: true })
+  @ArrayUnique()
   @IsValidGeographicRole({
     message: "La valeur géographique doit correspondre au rôle sélectionné",
   })

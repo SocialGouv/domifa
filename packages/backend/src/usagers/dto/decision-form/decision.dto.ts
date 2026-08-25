@@ -8,7 +8,6 @@ import {
   IsString,
   MaxLength,
   MinLength,
-  ValidateIf,
 } from "class-validator";
 
 import {
@@ -18,14 +17,17 @@ import {
   UsagerDecision,
   UsagerTypeDom,
 } from "@domifa/common";
-import { StripTagsTransform } from "../../../_common/decorators";
+import {
+  StripTagsTransform,
+  ValidateIfElseNull,
+} from "../../../_common/decorators";
 
 export class DecisionDto implements UsagerDecision {
   @IsIn(["INSTRUCTION", "VALIDE", "ATTENTE_DECISION", "REFUS", "RADIE"])
   @IsNotEmpty()
   public statut!: UsagerDecisionStatut;
 
-  @ValidateIf((o) => o.statut === "VALIDE")
+  @ValidateIfElseNull((o) => o.statut === "VALIDE")
   @IsNotEmpty()
   @IsDate()
   @Transform(({ value }: TransformFnParams) => {
@@ -33,7 +35,7 @@ export class DecisionDto implements UsagerDecision {
   })
   public dateDebut!: Date;
 
-  @ValidateIf(
+  @ValidateIfElseNull(
     (o) => o.statut === "VALIDE" || o.statut === "REFUS" || o.statut === "RADIE"
   )
   @IsNotEmpty()
@@ -43,7 +45,7 @@ export class DecisionDto implements UsagerDecision {
   })
   public dateFin!: Date;
 
-  @ValidateIf((o) => o.statut === "REFUS" || o.statut === "RADIE")
+  @ValidateIfElseNull((o) => o.statut === "REFUS" || o.statut === "RADIE")
   @IsNotEmpty()
   @IsIn([
     "A_SA_DEMANDE",
@@ -60,7 +62,7 @@ export class DecisionDto implements UsagerDecision {
   ])
   public motif!: UsagerDecisionMotif;
 
-  @ValidateIf(
+  @ValidateIfElseNull(
     (o) => (o.statut === "REFUS" || o.statut === "RADIE") && o.motif === "AUTRE"
   )
   @IsNotEmpty()
@@ -70,12 +72,12 @@ export class DecisionDto implements UsagerDecision {
   @StripTagsTransform()
   public motifDetails!: string;
 
-  @ValidateIf((o) => o.statut === "REFUS")
+  @ValidateIfElseNull((o) => o.statut === "REFUS")
   @IsNotEmpty()
   @IsIn(["asso", "ccas", "cias", "other"])
   public orientation!: UsagerDecisionOrientation;
 
-  @ValidateIf((o) => o.statut === "REFUS")
+  @ValidateIfElseNull((o) => o.statut === "REFUS")
   @IsNotEmpty()
   @MinLength(5)
   @MaxLength(1000)

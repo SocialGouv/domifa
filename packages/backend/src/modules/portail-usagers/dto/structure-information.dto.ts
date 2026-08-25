@@ -5,11 +5,11 @@ import {
   IsIn,
   IsBoolean,
   MaxLength,
-  ValidateIf,
 } from "class-validator";
 import { Transform, Type } from "class-transformer";
 import { StructureInformationType } from "@domifa/common";
 import sanitizeHtml from "sanitize-html";
+import { ValidateIfElseNull } from "../../../_common/decorators";
 
 export class StructureInformationDto {
   @IsString()
@@ -41,13 +41,13 @@ export class StructureInformationDto {
   )
   description: string;
 
-  @ValidateIf((o) => o.isTemporary === true)
+  @ValidateIfElseNull((o) => o.isTemporary === true)
   @IsDate()
   @IsNotEmpty()
   @Type(() => Date)
   startDate: Date;
 
-  @ValidateIf((o) => o.isTemporary === true)
+  @ValidateIfElseNull((o) => o.isTemporary === true)
   @IsDate()
   @IsNotEmpty()
   @Type(() => Date)

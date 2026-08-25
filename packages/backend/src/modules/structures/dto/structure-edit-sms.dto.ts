@@ -15,6 +15,12 @@ import { StructureMessageSmsSchedule } from "@domifa/common";
 import { ScheduleDto } from "./schedule.dto";
 import { Type } from "class-transformer";
 
+const isSmsSenderFieldValidated = (
+  o: StructureEditSmsDto,
+  value: unknown
+): boolean =>
+  o.enabledByStructure === true || (value !== null && value !== undefined);
+
 export class StructureEditSmsDto {
   @IsEmpty()
   public enabledByDomifa: boolean;
@@ -23,7 +29,7 @@ export class StructureEditSmsDto {
   @IsBoolean()
   public enabledByStructure: boolean;
 
-  @ValidateIf((o) => o.enabledByStructure === true)
+  @ValidateIf(isSmsSenderFieldValidated)
   @MaxLength(11)
   @MinLength(1)
   @IsNotEmpty()
@@ -32,7 +38,7 @@ export class StructureEditSmsDto {
   @TrimOrNullTransform()
   public senderName: string;
 
-  @ValidateIf((o) => o.enabledByStructure === true)
+  @ValidateIf(isSmsSenderFieldValidated)
   @MaxLength(30)
   @MinLength(1)
   @IsString()

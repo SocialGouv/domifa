@@ -16,7 +16,6 @@ import {
   IsObject,
   IsBoolean,
   IsArray,
-  ValidateIf,
   ValidateNested,
   IsNumber,
 } from "class-validator";
@@ -28,6 +27,7 @@ import {
   IsValidPhone,
 } from "../../../_common/decorators";
 import { UsagerAyantDroitDto } from "../UsagerAyantDroitDto";
+import { TelephoneDto } from "../../../_common/dto/telephone.dto";
 
 export class CreateUsagerDto {
   @IsIn(["homme", "femme"])
@@ -99,6 +99,8 @@ export class CreateUsagerDto {
 
   @IsObject()
   @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => TelephoneDto)
   @IsValidPhone("telephone", false, true)
   public telephone!: Telephone;
 
@@ -108,9 +110,6 @@ export class CreateUsagerDto {
 
   @IsOptional()
   @IsArray()
-  @ValidateIf((o) => {
-    return o?.ayantsDroits?.length > 0;
-  })
   @ValidateNested({ each: true })
   @Type(() => UsagerAyantDroitDto)
   public ayantsDroits!: UsagerAyantDroit[];

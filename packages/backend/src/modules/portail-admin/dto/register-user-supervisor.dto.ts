@@ -1,4 +1,5 @@
 import {
+  ArrayUnique,
   IsArray,
   IsEmail,
   IsIn,
@@ -43,6 +44,8 @@ export class RegisterUserSupervisorDto {
   public role!: UserSupervisorRole;
 
   @IsArray()
+  @IsString({ each: true })
+  @ArrayUnique()
   @IsValidGeographicRole({
     message: "La valeur géographique doit correspondre au rôle sélectionné",
   })

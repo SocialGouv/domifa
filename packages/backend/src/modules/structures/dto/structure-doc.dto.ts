@@ -4,22 +4,23 @@ import {
   IsNotEmpty,
   IsString,
   MaxLength,
-  MinLength,
-  ValidateIf,
 } from "class-validator";
 import {
   STRUCTURE_CUSTOM_DOC_AVAILABLE,
   StructureCustomDocType,
 } from "@domifa/common";
-import { StripTagsTransform } from "../../../_common/decorators";
+import {
+  StripTagsTransform,
+  Trim,
+  ValidateIfElseNull,
+} from "../../../_common/decorators";
 import { Transform } from "class-transformer";
 
 export class StructureDocDto {
-  @ValidateIf((o) => o.custom === true)
   @IsNotEmpty()
   @IsString()
-  @MinLength(2)
   @MaxLength(100)
+  @Trim()
   @StripTagsTransform()
   public label: string;
 
@@ -32,7 +33,7 @@ export class StructureDocDto {
   })
   public custom: boolean;
 
-  @ValidateIf((o) => o.custom === true)
+  @ValidateIfElseNull((o) => o.custom === true || o.custom === "true")
   @IsIn(STRUCTURE_CUSTOM_DOC_AVAILABLE)
   public customDocType?: StructureCustomDocType;
 }

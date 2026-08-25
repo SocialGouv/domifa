@@ -7,9 +7,12 @@ import {
   IsString,
   MaxLength,
   MinLength,
-  ValidateIf,
 } from "class-validator";
-import { IsValidPassword, Trim } from "../../../_common/decorators";
+import {
+  IsValidPassword,
+  Trim,
+  ValidateIfElseNull,
+} from "../../../_common/decorators";
 import { StructureCommon, UserFonction } from "@domifa/common";
 
 export class UserDto {
@@ -38,7 +41,7 @@ export class UserDto {
   @MinLength(2)
   @MaxLength(255)
   @IsString()
-  @ValidateIf((u) => u.fonction === UserFonction.AUTRE)
+  @ValidateIfElseNull((u) => u.fonction === UserFonction.AUTRE)
   @IsNotEmpty()
   public readonly fonctionDetail: string | null;
 
