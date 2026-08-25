@@ -9,7 +9,6 @@ import {
   Req,
   Res,
 } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Request as ExpressRequest } from "express";
 import { ParseTokenPipe } from "../../../_common/decorators";
 import { appLogger, ExpressResponse } from "../../../util";
@@ -26,7 +25,6 @@ import { domifaConfig } from "../../../config";
 const userProfile: UserProfile = "structure";
 
 @Controller("users")
-@ApiTags("users")
 export class UsersPublicController {
   constructor(private readonly brevoSenderService: BrevoSenderService) {}
   @Get("check-password-token/:userId/:token")
@@ -75,7 +73,6 @@ export class UsersPublicController {
     }
   }
 
-  @ApiOperation({ summary: "Reset du mot de passe : envoi du lien par mail" })
   @Post("get-password-token")
   public async generatePasswordToken(
     @Req() req: ExpressRequest,

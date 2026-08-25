@@ -12,7 +12,6 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 
 import {
@@ -68,9 +67,7 @@ import { AssignReferrersDto } from "../dto/assign-referrers.dto";
 import { In, Not } from "typeorm";
 import { UsagersLogsService } from "../services/usagers-logs.service";
 @Controller("usagers")
-@ApiTags("usagers")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
-@ApiBearerAuth()
 @AllowUserStructureRoles("simple", "responsable", "admin")
 @AllowUserProfiles("structure")
 export class UsagersController {

@@ -19,7 +19,6 @@ import {
   ExpressResponse,
 } from "../../../../util/express";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 
 import { PageOptionsDto } from "../../../../usagers/dto/pagination/page-options.dto";
 
@@ -69,10 +68,8 @@ import { DeleteUserDto } from "../../../users/dto";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures")
-@ApiTags("dashboard")
 @AllowUserProfiles("supervisor")
 @AllowUserSupervisorRoles("super-admin-domifa")
-@ApiBearerAuth()
 export class AdminStructuresController {
   constructor(
     private readonly adminStructuresService: AdminStructuresService,
@@ -131,8 +128,6 @@ export class AdminStructuresController {
     });
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({ summary: "Logs d'activité d'une structure" })
   @Get(":structureUuid/logs")
   public async getStructureLogs(
     @CurrentSupervisor() _user: UserAdminAuthenticated,
@@ -153,8 +148,6 @@ export class AdminStructuresController {
     });
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({ summary: "Logs de sécurité d'une structure" })
   @Get(":structureUuid/security-logs")
   public async getStructureSecurityLogs(
     @CurrentSupervisor() _user: UserAdminAuthenticated,
@@ -181,11 +174,6 @@ export class AdminStructuresController {
     });
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({
-    summary:
-      "Dernières sessions des utilisateurs d'une structure (active + historique)",
-  })
   @Get(":structureUuid/sessions")
   public async getStructureSessions(
     @CurrentSupervisor() _user: UserAdminAuthenticated,

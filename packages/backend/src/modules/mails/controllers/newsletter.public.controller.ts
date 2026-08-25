@@ -1,11 +1,9 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
 import { EmailDto } from "../../users/dto/email.dto";
 import { BrevoSenderService } from "../services/brevo-sender/brevo-sender.service";
 import { appLogger } from "../../../util";
 
 @Controller("newsletter")
-@ApiTags("newsletter")
 export class NewsletterPublicController {
   constructor(private readonly brevoSenderService: BrevoSenderService) {}
 

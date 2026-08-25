@@ -11,7 +11,6 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 
 import { StructureLoginDto } from "../modules/users/dto";
@@ -62,7 +61,6 @@ function readStructureTrustCookie(req: ExpressRequest): string | undefined {
 }
 
 @Controller("structures/auth")
-@ApiTags("auth")
 export class StructuresAuthController {
   constructor(
     private readonly structuresAuthService: StructuresAuthService,
@@ -179,7 +177,6 @@ export class StructuresAuthController {
     }
   }
 
-  @ApiBearerAuth()
   @UseGuards(AuthGuard("jwt"), AppUserGuard)
   @AllowUserProfiles("structure")
   @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
@@ -217,7 +214,6 @@ export class StructuresAuthController {
     return true;
   }
 
-  @ApiBearerAuth()
   @UseGuards(AuthGuard("jwt"), AppUserGuard)
   @AllowUserProfiles("structure")
   @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)

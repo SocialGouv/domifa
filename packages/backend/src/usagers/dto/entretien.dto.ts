@@ -1,4 +1,3 @@
-import { ApiProperty } from "@nestjs/swagger";
 import {
   IsBoolean,
   IsIn,
@@ -42,11 +41,6 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   )
   public revenusDetail!: string;
 
-  @ApiProperty({
-    type: String,
-    required: false,
-    enum: Object.keys(ENTRETIEN_TYPE_MENAGE),
-  })
   @IsOptional()
   @IsIn(Object.keys(ENTRETIEN_TYPE_MENAGE))
   public typeMenage!: UsagerEntretienTypeMenage;
@@ -57,11 +51,6 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @StripTagsTransform()
   public rattachement!: string;
 
-  @ApiProperty({
-    type: String,
-    required: false,
-    enum: Object.keys(ENTRETIEN_LIEN_COMMUNE),
-  })
   @IsOptional()
   @IsIn(Object.keys(ENTRETIEN_LIEN_COMMUNE))
   public liencommune!: UsagerEntretienLienCommune;
@@ -75,11 +64,6 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   )
   public liencommuneDetail!: string;
 
-  @ApiProperty({
-    type: String,
-    required: false,
-    enum: Object.keys(ENTRETIEN_RESIDENCE),
-  })
   @IsOptional()
   @IsIn(Object.keys(ENTRETIEN_RESIDENCE))
   public residence!: UsagerEntretienResidence;
@@ -106,19 +90,10 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   )
   public orientationDetail!: string;
 
-  @ApiProperty({
-    type: String,
-    required: false,
-    enum: Object.keys(ENTRETIEN_CAUSE_INSTABILITE),
-  })
   @IsOptional()
   @IsIn(Object.keys(ENTRETIEN_CAUSE_INSTABILITE))
   public cause!: UsagerEntretienCause;
 
-  @ApiProperty({
-    type: String,
-    required: false,
-  })
   @IsOptional()
   @IsString()
   @MaxLength(1000)
@@ -128,19 +103,10 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   )
   public causeDetail!: string;
 
-  @ApiProperty({
-    type: String,
-    required: false,
-    enum: Object.keys(ENTRETIEN_RAISON_DEMANDE),
-  })
   @IsOptional()
   @IsIn(Object.keys(ENTRETIEN_RAISON_DEMANDE))
   public raison!: UsagerEntretienRaisonDemande;
 
-  @ApiProperty({
-    type: String,
-    required: false,
-  })
   @IsOptional()
   @IsString()
   @MaxLength(1000)
@@ -150,18 +116,10 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   )
   public raisonDetail!: string;
 
-  @ApiProperty({
-    type: Boolean,
-    required: false,
-  })
   @IsOptional()
   @IsBoolean()
   public accompagnement!: boolean;
 
-  @ApiProperty({
-    type: String,
-    required: false,
-  })
   @IsOptional()
   @IsString()
   @MaxLength(1000)
@@ -171,29 +129,16 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   )
   public accompagnementDetail!: string;
 
-  @ApiProperty({
-    type: String,
-    required: false,
-  })
   @IsOptional()
   @IsString()
   @MaxLength(2000)
   @StripTagsTransform()
   public commentaires!: string;
 
-  @ApiProperty({
-    type: String,
-    required: false,
-    enum: Object.keys(ENTRETIEN_SITUATION_PRO),
-  })
   @IsOptional()
   @IsIn(Object.keys(ENTRETIEN_SITUATION_PRO))
   public situationPro!: UsagerEntretienSituationPro;
 
-  @ApiProperty({
-    type: String,
-    required: false,
-  })
   @IsOptional()
   @IsString()
   @StripTagsTransform()

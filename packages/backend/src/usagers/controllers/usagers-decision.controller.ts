@@ -12,7 +12,6 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 
 import { usagerNotesRepository, usagerRepository } from "../../database";
@@ -41,11 +40,9 @@ import { getLastInteractionOut } from "../../modules/interactions/services";
 import { canAddDecision } from "../guards";
 
 @Controller("usagers-decision")
-@ApiTags("usagers-decision")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserStructureRoles("simple", "responsable", "admin")
 @AllowUserProfiles("structure")
-@ApiBearerAuth()
 export class UsagersDecisionController {
   constructor(
     private readonly usagersService: UsagersService,

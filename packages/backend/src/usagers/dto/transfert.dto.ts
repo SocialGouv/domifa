@@ -6,7 +6,6 @@ import {
   MaxLength,
   MinLength,
 } from "class-validator";
-import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams } from "class-transformer";
 
 import { StripTagsTransform, Trim } from "../../_common/decorators";
@@ -19,10 +18,6 @@ export class TransfertDto implements UsagerOptionsTransfert {
   })
   public actif!: boolean;
 
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @IsNotEmpty()
   @IsString()
   @MaxLength(200)
@@ -30,10 +25,6 @@ export class TransfertDto implements UsagerOptionsTransfert {
   @StripTagsTransform()
   public nom!: string;
 
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @IsNotEmpty()
   @IsString()
   @MaxLength(400)
@@ -42,10 +33,6 @@ export class TransfertDto implements UsagerOptionsTransfert {
   @Trim()
   public adresse!: string;
 
-  @ApiProperty({
-    type: Date,
-    required: true,
-  })
   @IsNotEmpty()
   @IsDate()
   @Transform(({ value }: TransformFnParams) => {
@@ -53,10 +40,6 @@ export class TransfertDto implements UsagerOptionsTransfert {
   })
   public dateDebut!: Date;
 
-  @ApiProperty({
-    type: Date,
-    required: true,
-  })
   @IsNotEmpty()
   @IsDate()
   @Transform(({ value }: TransformFnParams) => {

@@ -39,7 +39,6 @@ import { appLogger, ExpressResponse, getPhoneString } from "../../../../util";
 import { Response } from "express";
 
 import { AuthGuard } from "@nestjs/passport";
-import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 import {
   StructureEditPortailUsagerDto,
   UpdatePortailUsagerOptionsDto,
@@ -57,11 +56,9 @@ import { format } from "date-fns";
 import * as XLSX from "xlsx";
 
 @Controller("portail-usagers-manager")
-@ApiTags("portail-usagers-manager")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserProfiles("structure")
 @AllowUserStructureRoles("responsable", "admin")
-@ApiBearerAuth()
 export class PortailUsagersManagerController {
   constructor(private readonly appLogsService: AppLogsService) {}
 

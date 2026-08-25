@@ -17,7 +17,6 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth } from "@nestjs/swagger";
 import { format, parse, subMinutes } from "date-fns";
 import { Not } from "typeorm";
 import { UserStructureAuthenticated } from "../../_common/model";
@@ -39,7 +38,6 @@ import { SearchUsagerDto } from "../dto";
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserProfiles("structure")
 @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
-@ApiBearerAuth()
 export class SearchUsagersController {
   @Get()
   public async findAllByStructure(

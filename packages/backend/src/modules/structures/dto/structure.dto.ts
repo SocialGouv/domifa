@@ -1,5 +1,4 @@
 import { StructureOptionsDto } from "./structure-options.dto";
-import { ApiProperty } from "@nestjs/swagger";
 import { Transform, Type } from "class-transformer";
 import {
   Equals,
@@ -41,29 +40,16 @@ import {
 import { StructureRegistrationDto } from "./structure-registration-data.dto";
 
 export class StructureDto {
-  @ApiProperty({
-    type: String,
-    required: true,
-    enum: STRUCTURE_TYPE_MAP,
-  })
   @IsNotEmpty()
   @IsIn(STRUCTURE_TYPE_MAP)
   public structureType!: StructureType;
 
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @IsNotEmpty()
   @IsString()
   @MaxLength(1000)
   @Trim()
   public adresse!: string;
 
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @IsString()
   @IsNotEmpty()
   @TrimOrNullTransform()
@@ -71,67 +57,41 @@ export class StructureDto {
   @Trim()
   public nom!: string;
 
-  @ApiProperty({
-    type: String,
-    required: false,
-  })
   @IsOptional()
   @IsString()
   @MaxLength(400)
   @TrimOrNullTransform()
   public complementAdresse!: string;
 
-  @ApiProperty({
-    type: Number,
-    required: true,
-  })
   @Min(0)
   @IsNumber()
   @IsNotEmpty()
   public capacite!: number;
 
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @IsNotEmpty()
   @IsString()
   @MaxLength(5)
   @Matches(ValidationRegexp.postcode)
   public codePostal!: string;
 
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @IsNotEmpty()
   @IsString()
   @Trim()
   @MaxLength(100)
   public ville!: string;
 
-  @ApiProperty({
-    type: String,
-  })
   @IsOptional()
   @IsString()
   @MaxLength(200)
   @TrimOrNullTransform()
   public agrement!: string;
 
-  @ApiProperty({
-    type: String,
-  })
   @IsOptional()
   @IsString()
   @MinLength(2)
   @MaxLength(5)
   public departement!: string;
 
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @IsNotEmpty()
   @IsString()
   @IsEmail()
@@ -139,37 +99,21 @@ export class StructureDto {
   @Trim()
   public email!: string;
 
-  @ApiProperty({
-    type: Object,
-    required: true,
-  })
   @IsNotEmpty()
   @IsObject()
   @IsValidPhone("telephone", true, false)
   public telephone: Telephone;
 
-  @ApiProperty({
-    required: true,
-    type: Object,
-  })
   @IsNotEmpty()
   @ValidateNested()
   @Type(() => StructureResponsableDto)
   public responsable!: StructureResponsableDto;
 
-  @ApiProperty({
-    required: false,
-    type: Object,
-  })
   @ValidateNested()
   @Type(() => StructureAdresseCourrierDto)
   @IsNotEmpty()
   public adresseCourrier!: StructureAdresseCourrierDto;
 
-  @ApiProperty({
-    type: Object,
-    required: true,
-  })
   @ValidateNested()
   @Type(() => StructureOptionsDto)
   @IsNotEmpty()
@@ -206,10 +150,6 @@ export class StructureDto {
   @Equals(true)
   acceptCgu: boolean;
 
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @ValidateIf((o) => o.structureType === "asso")
   @IsNotEmpty()
   @IsString()
@@ -217,11 +157,6 @@ export class StructureDto {
   @MaxLength(100)
   public reseau!: string;
 
-  @ApiProperty({
-    type: String,
-    required: false,
-    nullable: true,
-  })
   @ValidateIf((o) => o.structureType === "asso" && o.reseau === "Autre réseau")
   @IsNotEmpty()
   @IsString()

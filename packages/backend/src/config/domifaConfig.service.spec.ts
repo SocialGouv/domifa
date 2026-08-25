@@ -40,7 +40,6 @@ describe("loadConfig", () => {
     expect(config.postgres.database).toEqual(env.POSTGRES_DATABASE);
     expect(config.postgres.ssl).toEqual(env.POSTGRES_SSL);
 
-    expect(config.dev.swaggerEnabled).toEqual(false);
     expect(config.dev.sentry.enabled).toEqual(false);
 
     expect(config.email.emailsEnabled).toEqual(false);
@@ -80,7 +79,6 @@ describe("loadConfig", () => {
     expect(config.postgres.database).toEqual(env.POSTGRES_DATABASE);
     expect(config.postgres.ssl).toEqual(env.POSTGRES_SSL);
 
-    expect(config.dev.swaggerEnabled).toEqual(true);
     expect(config.dev.sentry.enabled).toEqual(false);
 
     expect(config.email.emailsEnabled).toEqual(false);
@@ -125,7 +123,6 @@ describe("loadConfig", () => {
     expect(config.postgres.database).toEqual(env.POSTGRES_DATABASE);
     expect(config.postgres.ssl).toEqual(env.POSTGRES_SSL);
 
-    expect(config.dev.swaggerEnabled).toEqual(false);
     expect(config.dev.sentry.enabled).toEqual(false);
 
     expect(config.email.emailsEnabled).toEqual(false);

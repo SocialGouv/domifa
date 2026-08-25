@@ -14,7 +14,6 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 
 import { CurrentUser } from "../../../auth/decorators/current-user.decorator";
@@ -39,8 +38,6 @@ import { validateDocTemplate } from "../../../usagers/utils/custom-docs";
 import { StructureDocTypesAvailable } from "@domifa/common";
 import { appLogger } from "../../../util";
 
-@ApiTags("structure-docs")
-@ApiBearerAuth()
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("structure-docs")
 @AllowUserProfiles("structure")
@@ -79,7 +76,6 @@ export class StructureDocController {
     }
   }
 
-  @ApiOperation({ summary: "Upload de documents personnalisables" })
   @Post("")
   @AllowUserStructureRoles("responsable", "admin")
   @UseInterceptors(

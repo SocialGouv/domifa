@@ -162,7 +162,6 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       bucketRootDir: configParser.parseString(x, "S3_BUCKET_ROOT_DIR"),
     },
     dev: {
-      swaggerEnabled: configParser.parseBoolean(x, "DOMIFA_SWAGGER_ENABLE"),
       sentry: {
         enabled:
           configParser.parseBoolean(x, "DOMIFA_SENTRY_ENABLED", {

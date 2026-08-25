@@ -8,7 +8,6 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Not } from "typeorm";
 
 import {
@@ -30,8 +29,6 @@ import { AppointmentInvitationService } from "../services/appointment-invitation
 import { appLogger } from "../../util/logs/AppLogger.service";
 import { captureException } from "@sentry/nestjs";
 
-@ApiTags("agenda")
-@ApiBearerAuth()
 @Controller("agenda")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserProfiles("structure")
@@ -43,7 +40,6 @@ export class AgendaController {
   ) {}
 
   @Get("")
-  @ApiOperation({ summary: "Liste des rendez-vous à venir" })
   public async getAll(@CurrentUser() user: UserStructureAuthenticated) {
     return await usagerRepository.findNextMeetings({
       userId: user.id,

@@ -22,7 +22,6 @@ export type DomifaEnv = {
 
   DOMIFA_ENV_ID: string;
   DOMIFA_VERSION: string;
-  DOMIFA_SWAGGER_ENABLE: string;
   DOMIFA_EMAILS_ENABLE: string;
   DOMIFA_ADMIN_EMAIL: string;
   DOMIFA_EMAIL_ADDRESS_REDIRECT_ALL_TO: string;
