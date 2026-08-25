@@ -2,9 +2,9 @@ import { Injectable } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { SentryCron } from "@sentry/nestjs";
 
-import { isCronEnabled } from "../../../../config/services/isCronEnabled.service";
-import { appLogger } from "../../../../util";
-import { SupportSessionService } from "../support-session/support-session.service";
+import { isCronEnabled } from "../../config/services/isCronEnabled.service";
+import { appLogger } from "../../util";
+import { SupportSessionService } from "./support-session.service";
 
 @Injectable()
 export class SupportSessionExpiryCleaner {
