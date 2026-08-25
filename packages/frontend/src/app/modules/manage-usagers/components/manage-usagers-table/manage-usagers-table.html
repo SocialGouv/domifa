@@ -339,6 +339,7 @@
                 @defer (on viewport; prefetch on idle) {
                 <app-manage-usagers-interactions
                   [usager]="usager"
+                  [readOnly]="isSupportModeReadOnly"
                   template="small-buttons"
                 ></app-manage-usagers-interactions>
                 } @placeholder {
@@ -349,6 +350,7 @@
                 @defer (on viewport; prefetch on idle) {
                 <app-manage-usagers-interactions
                   [usager]="usager"
+                  [readOnly]="isSupportModeReadOnly"
                   template="big-buttons"
                   (openReception)="openInteractionInModal($event)"
                   (openDistribution)="openInteractionOutModal($event)"
