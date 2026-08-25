@@ -1,3 +1,10 @@
+# [2.259.0](https://github.com/SocialGouv/domifa/compare/v2.258.1...v2.259.0) (2026-08-25)
+
+
+### Features
+
+* **backend:** add stats portail ([ce7b962](https://github.com/SocialGouv/domifa/commit/ce7b962c5d1aceb2cb559cc8adfeb7a2b1580ca4))
+
 ## [2.258.1](https://github.com/SocialGouv/domifa/compare/v2.258.0...v2.258.1) (2026-08-24)
 
 
