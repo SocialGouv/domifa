@@ -1,4 +1,4 @@
-export interface PassageDeadline {
+export interface LastInteractionDeadline {
   isActive: boolean;
   dateToDisplay: Date | null;
   daysSinceLastPassage: number;

@@ -12,7 +12,7 @@ import {
 import { type UsagerAyantDroit } from "./UsagerAyantDroit.interface";
 import { type UsagerDecision } from "./UsagerDecision.interface";
 import { type DecisionDeadline } from "./DecisionDeadline.interface";
-import { type PassageDeadline } from "./PassageDeadline.interface";
+import { type LastInteractionDeadline } from "./LastInteractionDeadline.interface";
 import { type UsagerEntretien } from "./UsagerEntretien.interface";
 import { type UsagerLastInteraction } from "./UsagerLastInteraction.interface";
 import { UsagerRdvInfo } from "./rdv";
@@ -62,7 +62,7 @@ export interface Usager extends AppEntity {
   nbNotes?: number;
   statusInfos?: any;
   decisionDeadline?: DecisionDeadline | null;
-  passageDeadline?: PassageDeadline | null;
+  lastInteractionDeadline?: LastInteractionDeadline | null;
   rdvInfo?: UsagerRdvInfo;
   migrated?: boolean;
 }
