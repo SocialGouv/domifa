@@ -20,8 +20,7 @@ import { UserSupervisorDecisionService } from "./services/user-supervisor-decisi
 import { UserStructureDecisionService } from "../users/services/user-structure-decision/user-structure-decision.service";
 import { UserStructureEmailUpdaterService } from "../users/services/userStructureEmailUpdater.service";
 import { OtpModule } from "../otp/otp.module";
-import { SupportSessionService } from "./services/support-session/support-session.service";
-import { SupportSessionExpiryCleaner } from "./services/crons/support-session-expiry-cleaner.service";
+import { SupportSessionModule } from "../support-session/support-session.module";
 
 @Module({
   controllers: [
@@ -32,7 +31,12 @@ import { SupportSessionExpiryCleaner } from "./services/crons/support-session-ex
     AdminUsersController,
   ],
 
-  imports: [AuthModule, MailsModule, forwardRef(() => OtpModule)],
+  imports: [
+    AuthModule,
+    MailsModule,
+    forwardRef(() => OtpModule),
+    SupportSessionModule,
+  ],
   providers: [
     AdminSecurityService,
     AppLogsService,
@@ -45,8 +49,6 @@ import { SupportSessionExpiryCleaner } from "./services/crons/support-session-ex
     UserStructureDecisionService,
     UserStructureEmailUpdaterService,
     UserSupervisorDecisionService,
-    SupportSessionService,
-    SupportSessionExpiryCleaner,
   ],
 })
 export class PortailAdminModule {}
