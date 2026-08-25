@@ -1,0 +1,52 @@
+<div class="fr-background-alt--grey h-100">
+  <div class="fr-col-12 fr-col-md-12 px-2">
+    <div class="fr-mx-auto fr-py-6w fr-text--center" *ngIf="loading">
+      <p>Confirmation de votre nouvelle adresse email en cours...</p>
+    </div>
+
+    <div class="fr-mx-auto fr-py-6w" *ngIf="!loading && success">
+      <div class="fr-text--center">
+        <span
+          class="fr-display--md fr-icon-checkbox-circle-line fr-text-default--success"
+          aria-hidden="true"
+        ></span>
+      </div>
+
+      <h1 class="fr-h2 fr-my-3w">Votre adresse email a bien été modifiée</h1>
+      <p>
+        Vous pouvez désormais vous connecter à DomiFa avec votre nouvelle
+        adresse. Merci de vous reconnecter.
+      </p>
+
+      <div class="fr-input-group">
+        <a
+          routerLink="/connexion"
+          type="button"
+          class="fr-btn fr-display-flex fr-flex-column w-100"
+        >
+          Me connecter
+        </a>
+      </div>
+    </div>
+
+    <div class="fr-mx-auto fr-py-6w" *ngIf="!loading && !success">
+      <div class="fr-alert fr-alert--error">
+        <h2 class="fr-alert__title">Ce lien n'est plus valable</h2>
+        <p>
+          Il a peut-être déjà été utilisé ou a expiré. Vous pouvez recommencer
+          la demande de modification depuis votre compte.
+        </p>
+      </div>
+
+      <div class="fr-input-group fr-mt-3w">
+        <a
+          routerLink="/connexion"
+          type="button"
+          class="fr-btn fr-btn--secondary fr-display-flex fr-flex-column w-100"
+        >
+          Revenir à la connexion
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

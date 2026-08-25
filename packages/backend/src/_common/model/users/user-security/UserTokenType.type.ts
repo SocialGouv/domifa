@@ -1,1 +1,1 @@
-export type UserTokenType = "create-user" | "reset-password";
+export type UserTokenType = "create-user" | "reset-password" | "email-change";

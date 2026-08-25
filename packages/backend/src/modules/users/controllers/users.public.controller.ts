@@ -19,14 +19,23 @@ import {
   userSecurityResetPasswordInitiator,
   userSecurityResetPasswordUpdater,
 } from "../services";
+import { UserStructureEmailUpdaterService } from "../services/userStructureEmailUpdater.service";
 import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
 import { domifaConfig } from "../../../config";
+import { AppLogsService } from "../../app-logs/app-logs.service";
+import { buildStructureActorFields } from "../../app-logs/app-logs.helpers";
+import { UserStructureEmailChangeLogContext } from "../../app-logs/types/app-log-context.types";
+import { redactEmail } from "../../otp/otp.utils";
 
 const userProfile: UserProfile = "structure";
 
 @Controller("users")
 export class UsersPublicController {
-  constructor(private readonly brevoSenderService: BrevoSenderService) {}
+  constructor(
+    private readonly brevoSenderService: BrevoSenderService,
+    private readonly appLogService: AppLogsService,
+    private readonly userStructureEmailUpdaterService: UserStructureEmailUpdaterService
+  ) {}
   @Get("check-password-token/:userId/:token")
   public async checkPasswordToken(
     @Req() req: ExpressRequest,
@@ -102,5 +111,56 @@ export class UsersPublicController {
       appLogger.error(err);
     }
     return res.status(HttpStatus.OK).json({ message: "OK" });
+  }
+
+  // Page de confirmation atteinte via le lien mailé : applique le
+  // changement d'email (auto-déclenché au chargement de la page côté front).
+  @Post("confirm-email-update/:userId/:token")
+  public async confirmEmailUpdate(
+    @Param("userId", new ParseIntPipe()) userId: number,
+    @Param("token", new ParseTokenPipe()) token: string,
+    @Res() res: ExpressResponse
+  ) {
+    try {
+      const result =
+        await this.userStructureEmailUpdaterService.confirmEmailUpdate({
+          userId,
+          token,
+        });
+
+      await this.appLogService.create<UserStructureEmailChangeLogContext>({
+        ...buildStructureActorFields(result),
+        action: "USER_EMAIL_SELF_UPDATE_CONFIRMED",
+        context: {
+          oldEmail: redactEmail(result.oldEmail),
+          newEmail: redactEmail(result.newEmail),
+        },
+      });
+
+      // Même template partagé que la demande, motif "confirme" : envoyé aux
+      // deux adresses pour que l'ancienne détecte un changement non désiré.
+      await Promise.all(
+        [result.oldEmail, result.newEmail].map((email) =>
+          this.brevoSenderService.sendEmailWithTemplate({
+            templateId: domifaConfig().brevo.templates.userEmailUpdated,
+            subject: "Votre adresse email DomiFa a été modifiée",
+            to: [{ email, name: result.prenom }],
+            params: {
+              motif: "confirme",
+              ancienEmail: result.oldEmail,
+              nouvelEmail: result.newEmail,
+              prenom: result.prenom,
+            },
+          })
+        )
+      );
+
+      return res.status(HttpStatus.OK).json({ message: "OK" });
+    } catch (err) {
+      appLogger.error(err);
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "TOKEN_INVALID" });
+    }
   }
 }

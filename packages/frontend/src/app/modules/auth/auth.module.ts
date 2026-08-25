@@ -5,6 +5,7 @@ import { LoginContainerComponent } from "./components/login-container/login-cont
 import { LoginFormComponent } from "./components/login/login-form.component";
 import { SharedModule } from "../shared/shared.module";
 import { ResetPasswordComponent } from "../users/components/reset-password/reset-password.component";
+import { ConfirmEmailUpdateComponent } from "../users/components/confirm-email-update/confirm-email-update.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
@@ -12,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     LoginContainerComponent,
     LoginFormComponent,
     ResetPasswordComponent,
+    ConfirmEmailUpdateComponent,
   ],
   exports: [LoginContainerComponent],
   imports: [

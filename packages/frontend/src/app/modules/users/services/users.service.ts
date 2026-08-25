@@ -37,6 +37,19 @@ export class UsersService {
     return this.http.post(`${this.endPoint}/reset-password`, data);
   }
 
+  public confirmEmailUpdate({
+    userId,
+    token,
+  }: {
+    userId: string;
+    token: string;
+  }): Observable<ApiMessage> {
+    return this.http.post<ApiMessage>(
+      `${this.endPoint}/confirm-email-update/${userId}/${token}`,
+      {}
+    );
+  }
+
   public registerUser(
     data: Pick<
       UserStructure,
