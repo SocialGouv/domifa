@@ -18,7 +18,10 @@ import {
   REGISTRATION_SOURCES_VALUES,
   SOURCES_OPTIONS,
 } from "@domifa/common";
-import { ValidateIfElseNull } from "../../../_common/decorators";
+import {
+  StripTagsTransform,
+  ValidateIfElseNull,
+} from "../../../_common/decorators";
 export class StructureRegistrationDto {
   @IsIn(REGISTRATION_SOURCES_VALUES)
   source: RegistrationSources;
@@ -31,6 +34,7 @@ export class StructureRegistrationDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(500)
+  @StripTagsTransform()
   sourceDetail?: string;
 
   @IsNumber()
@@ -56,5 +60,6 @@ export class StructureRegistrationDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(200)
+  @StripTagsTransform()
   marketToolOther?: string;
 }

@@ -1,3 +1,4 @@
+import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 import { RegisterUserSupervisorDto } from "../register-user-supervisor.dto";
 
@@ -99,6 +100,31 @@ describe("RegisterUserSupervisorDto — territories", () => {
     expect(await territoriesErrors(createDto("region", ["11"]))).toHaveLength(
       0
     );
+  });
+
+  it("bounds each element and the list size", async () => {
+    expect(
+      await territoriesErrors(createDto("department", ["x".repeat(500)]))
+    ).toHaveLength(1);
+    expect(
+      await territoriesErrors(
+        createDto(
+          "department",
+          Array.from({ length: 200 }, (_, i) => `${i}`)
+        )
+      )
+    ).toHaveLength(1);
+  });
+
+  it("sanitizes names", async () => {
+    const dto = plainToInstance(RegisterUserSupervisorDto, {
+      ...createDto("national", []),
+      nom: "  <b>Smith</b>  ",
+      prenom: "<script>alert(1)</script>John",
+    });
+    expect(await validate(dto)).toHaveLength(0);
+    expect(dto.nom).toEqual("Smith");
+    expect(dto.prenom).toEqual("John");
   });
 
   it("rejects duplicates, nested arrays and non-string elements", async () => {

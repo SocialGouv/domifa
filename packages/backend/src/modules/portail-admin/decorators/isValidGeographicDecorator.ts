@@ -10,6 +10,11 @@ const TERRITORY_LISTS: Record<string, string[]> = {
   region: Object.keys(REGIONS_LISTE),
 };
 
+export const TERRITORY_CODES: string[] = [
+  ...TERRITORY_LISTS.department,
+  ...TERRITORY_LISTS.region,
+];
+
 // Territories must be empty for national roles and must all belong to the
 // list matching the role (departments or regions) otherwise.
 export function IsValidGeographicRole(validationOptions?: ValidationOptions) {

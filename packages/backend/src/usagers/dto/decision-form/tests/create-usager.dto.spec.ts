@@ -1,5 +1,6 @@
 import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
+import { TelephoneDto } from "../../../../_common/dto/telephone.dto";
 import { CreateUsagerDto } from "../create-usager.dto";
 
 const base = {
@@ -28,6 +29,15 @@ describe("CreateUsagerDto — telephone and ayantsDroits", () => {
     });
     const errors = await validate(dto, { whitelist: true });
     expect(errors.map((e) => e.property)).toEqual(["telephone"]);
+  });
+
+  it("bounds the phone number length before libphonenumber parses it", async () => {
+    const dto = plainToInstance(TelephoneDto, {
+      countryCode: "fr",
+      numero: "0".repeat(21),
+    });
+    const errors = await validate(dto);
+    expect(errors.map((e) => e.property)).toEqual(["numero"]);
   });
 
   it("rejects a non-array ayantsDroits", async () => {

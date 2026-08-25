@@ -19,6 +19,18 @@ describe("StructureAdresseCourrierDto", () => {
     expect(dto.codePostal).toBeNull();
   });
 
+  it("sanitizes address fields", async () => {
+    const dto = plainToInstance(StructureAdresseCourrierDto, {
+      actif: true,
+      adresse: "  1 rue <b>de la</b>   Paix ",
+      ville: "<img src=x onerror=alert(1)>Paris",
+      codePostal: "75001",
+    });
+    expect(await validate(dto)).toHaveLength(0);
+    expect(dto.adresse).toEqual("1 rue de la Paix");
+    expect(dto.ville).toEqual("Paris");
+  });
+
   it("validates address fields when the mailing address is active", async () => {
     const dto = plainToInstance(StructureAdresseCourrierDto, {
       actif: true,
@@ -32,10 +44,31 @@ describe("StructureAdresseCourrierDto", () => {
 });
 
 describe("StructureDocDto", () => {
-  it("always requires a label, custom document or not", async () => {
-    const dto = plainToInstance(StructureDocDto, { custom: "false" });
-    const errors = await validate(dto);
-    expect(errors.map((e) => e.property)).toEqual(["label"]);
+  it("requires a label on a custom document only", async () => {
+    const custom = plainToInstance(StructureDocDto, {
+      custom: "true",
+      customDocType: "attestation_postale",
+    });
+    expect((await validate(custom)).map((e) => e.property)).toEqual(["label"]);
+
+    const regular = plainToInstance(StructureDocDto, { custom: "false" });
+    expect(await validate(regular)).toHaveLength(0);
+    expect(regular.label).toBeUndefined();
+  });
+
+  it("still validates and sanitizes a label sent with a regular document", async () => {
+    const tooLong = plainToInstance(StructureDocDto, {
+      custom: "false",
+      label: "x".repeat(101),
+    });
+    expect((await validate(tooLong)).map((e) => e.property)).toEqual(["label"]);
+
+    const tagged = plainToInstance(StructureDocDto, {
+      custom: "false",
+      label: "<script>alert(1)</script>Règlement",
+    });
+    expect(await validate(tagged)).toHaveLength(0);
+    expect(tagged.label).toEqual("Règlement");
   });
 
   it("nulls customDocType on a non-custom document", async () => {

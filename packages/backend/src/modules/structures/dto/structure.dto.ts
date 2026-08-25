@@ -24,7 +24,6 @@ import {
   IsValidPhone,
   StripTagsTransform,
   Trim,
-  TrimOrNullTransform,
   ValidateIfElseNull,
 } from "../../../_common/decorators";
 import { cleanSiret } from "@domifa/common";
@@ -48,20 +47,19 @@ export class StructureDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(1000)
-  @Trim()
+  @StripTagsTransform()
   public adresse!: string;
 
   @IsString()
   @IsNotEmpty()
-  @TrimOrNullTransform()
   @MaxLength(400)
-  @Trim()
+  @StripTagsTransform()
   public nom!: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(400)
-  @TrimOrNullTransform()
+  @StripTagsTransform()
   public complementAdresse!: string;
 
   @Min(0)
@@ -77,14 +75,14 @@ export class StructureDto {
 
   @IsNotEmpty()
   @IsString()
-  @Trim()
+  @StripTagsTransform()
   @MaxLength(100)
   public ville!: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(200)
-  @TrimOrNullTransform()
+  @StripTagsTransform()
   public agrement!: string;
 
   @IsOptional()
@@ -156,7 +154,7 @@ export class StructureDto {
   @ValidateIfElseNull((o) => o.structureType === "asso")
   @IsNotEmpty()
   @IsString()
-  @Trim()
+  @StripTagsTransform()
   @MaxLength(100)
   public reseau!: string;
 
@@ -165,7 +163,7 @@ export class StructureDto {
   )
   @IsNotEmpty()
   @IsString()
-  @Trim()
+  @StripTagsTransform()
   @MaxLength(100)
   public reseauDetail?: string | null;
 

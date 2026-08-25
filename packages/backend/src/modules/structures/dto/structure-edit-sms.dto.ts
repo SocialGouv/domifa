@@ -10,7 +10,10 @@ import {
   ValidateIf,
   ValidateNested,
 } from "class-validator";
-import { TrimOrNullTransform } from "../../../_common/decorators";
+import {
+  StripTagsTransform,
+  TrimOrNullTransform,
+} from "../../../_common/decorators";
 import { StructureMessageSmsSchedule } from "@domifa/common";
 import { ScheduleDto } from "./schedule.dto";
 import { Type } from "class-transformer";
@@ -43,6 +46,7 @@ export class StructureEditSmsDto {
   @MinLength(1)
   @IsString()
   @IsNotEmpty()
+  @StripTagsTransform()
   public senderDetails: string;
 
   @IsNotEmpty()

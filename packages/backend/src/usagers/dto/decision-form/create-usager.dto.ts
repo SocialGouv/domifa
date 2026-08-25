@@ -6,18 +6,19 @@ import {
 } from "@domifa/common";
 import { Type } from "class-transformer";
 import {
-  IsIn,
-  IsNotEmpty,
-  IsString,
-  MaxLength,
-  IsOptional,
+  ArrayMaxSize,
+  IsArray,
+  IsBoolean,
   IsDateString,
   IsEmail,
-  IsObject,
-  IsBoolean,
-  IsArray,
-  ValidateNested,
+  IsIn,
+  IsNotEmpty,
   IsNumber,
+  IsObject,
+  IsOptional,
+  IsString,
+  MaxLength,
+  ValidateNested,
 } from "class-validator";
 import {
   Trim,
@@ -110,6 +111,7 @@ export class CreateUsagerDto {
 
   @IsOptional()
   @IsArray()
+  @ArrayMaxSize(20)
   @ValidateNested({ each: true })
   @Type(() => UsagerAyantDroitDto)
   public ayantsDroits!: UsagerAyantDroit[];

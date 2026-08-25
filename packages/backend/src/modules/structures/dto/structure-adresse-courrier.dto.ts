@@ -5,7 +5,10 @@ import {
   IsString,
   MaxLength,
 } from "class-validator";
-import { Trim, ValidateIfElseNull } from "../../../_common/decorators";
+import {
+  StripTagsTransform,
+  ValidateIfElseNull,
+} from "../../../_common/decorators";
 
 export class StructureAdresseCourrierDto {
   @IsBoolean()
@@ -16,13 +19,13 @@ export class StructureAdresseCourrierDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(200)
-  @Trim()
+  @StripTagsTransform()
   public readonly adresse: string;
 
   @IsString()
   @IsNotEmpty()
   @MaxLength(200)
-  @Trim()
+  @StripTagsTransform()
   @ValidateIfElseNull((o) => o.actif === true)
   public readonly ville: string;
 

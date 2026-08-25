@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+} from "class-validator";
 import {
   IsValidPassword,
   Trim,
@@ -11,11 +17,13 @@ export class UsagerLoginDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(2)
+  @MaxLength(100)
   public readonly login!: string;
 
   @IsNotEmpty()
   @IsString()
   @MinLength(6)
+  @MaxLength(100)
   public readonly password!: string;
 
   @IsOptional()
