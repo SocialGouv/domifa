@@ -15,11 +15,15 @@ export type SecurityLogRequestContext = {
   userAgent?: string;
 };
 
-// PASSWORD_RESET and PASSWORD_CHANGED both invalidate the active session: a
-// fresh credential must not coexist with the previous JWT fingerprint. Manual
-// logout intentionally doesn't clear the DB session (so trust-token reconnect
-// stays possible) — that's why it's absent from this union.
-export type SessionTerminationReason = "PASSWORD_RESET" | "PASSWORD_CHANGED";
+// PASSWORD_RESET, PASSWORD_CHANGED and EMAIL_CHANGED all invalidate the
+// active session: a fresh credential/identity must not coexist with the
+// previous JWT fingerprint. Manual logout intentionally doesn't clear the DB
+// session (so trust-token reconnect stays possible) — that's why it's absent
+// from this union.
+export type SessionTerminationReason =
+  | "PASSWORD_RESET"
+  | "PASSWORD_CHANGED"
+  | "EMAIL_CHANGED";
 
 export type LogSecurityEventParams = {
   action: SecurityLogAction;

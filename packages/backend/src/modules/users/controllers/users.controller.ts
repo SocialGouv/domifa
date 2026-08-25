@@ -22,7 +22,6 @@ import {
   Res,
   UseGuards,
 } from "@nestjs/common";
-import { Throttle } from "@nestjs/throttler";
 import { AuthGuard } from "@nestjs/passport";
 import { Request as ExpressRequest, Response } from "express";
 import { buildSecurityLogRequestContext } from "../../../util/express";
@@ -409,27 +408,26 @@ export class UsersController {
     }
   }
 
-  // Edition de l'email quand on est déjà connecté
+  // Demande de changement d'email quand on est déjà connecté : n'applique
+  // rien, envoie un lien de confirmation à la nouvelle adresse + une alerte
+  // à l'ancienne. Pas de @Throttle dédié : l'OTP (RequireOtp) suffit déjà à
+  // limiter le débit — un ancien throttle avec un ttl de 60s était tombé sur
+  // le même palier que le tier global "medium" et bannissait l'IP
+  // définitivement au bout de 4 essais (2 codes faux + 1 renvoi).
   @Post("edit-my-email")
   @UseGuards(OtpGuard)
-  @RequireOtp("USER_EMAIL_SELF_UPDATE")
-  // Limite dédiée : le code OTP n'est pas lié à l'email ciblé, donc un même
-  // code valide pourrait sinon être réutilisé pour tester l'existence de
-  // plusieurs adresses (énumération de comptes). Blocage volontairement long :
-  // à 3/min avec un blocage court, un attaquant patient garde un débit non
-  // négligeable sur une journée (et plus encore avec plusieurs instances,
-  // le compteur de throttle n'étant pas partagé entre pods).
-  @Throttle({
-    short: { limit: 3, ttl: 60_000, blockDuration: 24 * 60 * 60 * 1000 }, // 3 req/min, block 24h
+  @RequireOtp("USER_EMAIL_SELF_UPDATE_REQUESTED")
+  @ApiOperation({
+    summary: "Demande de modification de l'email depuis le compte user",
   })
   @HttpCode(HttpStatus.OK)
   public async editEmail(
     @CurrentUser() user: UserStructureAuthenticated,
     @Body() dto: EmailDto
   ): Promise<ApiMessage> {
-    const oldEmail = user.email;
+    let result;
     try {
-      await this.userStructureEmailUpdaterService.updateEmail({
+      result = await this.userStructureEmailUpdaterService.requestEmailUpdate({
         user,
         newEmail: dto.email,
       });
@@ -441,12 +439,45 @@ export class UsersController {
       throw new BadRequestException("EDIT_EMAIL_FAIL");
     }
 
+    // Adresse déjà utilisée par un autre compte : même réponse que le
+    // succès, aucun mail ni log, pour ne pas servir d'oracle d'énumération.
+    if (result.alreadyUsed) {
+      return { message: "OK" };
+    }
+
     await this.appLogService.create<UserStructureEmailChangeLogContext>({
       ...buildStructureActorFields(user),
-      action: "USER_EMAIL_SELF_UPDATE",
+      action: "USER_EMAIL_SELF_UPDATE_REQUESTED",
       context: {
-        oldEmail: redactEmail(oldEmail),
-        newEmail: redactEmail(dto.email),
+        oldEmail: redactEmail(result.oldEmail),
+        newEmail: redactEmail(result.newEmail),
+      },
+    });
+
+    // Contrat des params pour le template Brevo partagé
+    // DOMIFA_BREVO_TEMPLATES_USER_EMAIL_UPDATED (motif différencie le
+    // contenu affiché) :
+    //  - "confirmation" → nouvelle adresse, contient le lien à cliquer
+    //  - "alerte"       → ancienne adresse, "ce n'est pas vous ?"
+    await this.brevoSenderService.sendEmailWithTemplate({
+      templateId: domifaConfig().brevo.templates.userEmailUpdated,
+      subject: "Confirmez votre nouvelle adresse email DomiFa",
+      to: [{ email: result.newEmail, name: result.prenom }],
+      params: {
+        motif: "confirmation",
+        lien: result.lien,
+        prenom: result.prenom,
+      },
+    });
+
+    await this.brevoSenderService.sendEmailWithTemplate({
+      templateId: domifaConfig().brevo.templates.userEmailUpdated,
+      subject: "Une modification de votre adresse email a été demandée",
+      to: [{ email: result.oldEmail, name: result.prenom }],
+      params: {
+        motif: "alerte",
+        nouvelEmail: result.newEmail,
+        prenom: result.prenom,
       },
     });
 

@@ -261,15 +261,11 @@ export class EditUserComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.editEmail = false;
             this.submitted = false;
-            // currentUserValue est encore l'ancien email en cache : on
-            // recharge le profil serveur (au lieu de le supposer à jour).
-            this.subscription.add(
-              this.authService.isAuth().subscribe(() => {
-                this.me = this.authService.currentUserValue;
-              })
-            );
+            // L'adresse n'est pas encore appliquée : elle ne le sera qu'au
+            // clic sur le lien de confirmation reçu par mail. this.me.email
+            // reste donc volontairement l'ancienne adresse.
             this.toastService.success(
-              "Félicitations ! : votre adresse email a été modifiée avec succès"
+              "Un lien de confirmation vous a été envoyé à votre nouvelle adresse email. Il est valable 24h."
             );
           },
           error: (err) => {

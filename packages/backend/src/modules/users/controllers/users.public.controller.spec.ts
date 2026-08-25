@@ -8,6 +8,8 @@ import { UsagersModule } from "../../../usagers/usagers.module";
 import { AppTestContext, AppTestHelper } from "../../../util/test";
 import { UsersPublicController } from "./users.public.controller";
 import { MailsModule } from "../../mails/mails.module";
+import { AppLogsService } from "../../app-logs/app-logs.service";
+import { UserStructureEmailUpdaterService } from "../services/userStructureEmailUpdater.service";
 
 describe("Users Public Controller", () => {
   let controller: UsersPublicController;
@@ -17,6 +19,7 @@ describe("Users Public Controller", () => {
     context = await AppTestHelper.bootstrapTestApp({
       controllers: [UsersPublicController],
       imports: [MailsModule, StructuresModule, UsagersModule, HttpModule],
+      providers: [AppLogsService, UserStructureEmailUpdaterService],
     });
     controller = context.module.get<UsersPublicController>(
       UsersPublicController

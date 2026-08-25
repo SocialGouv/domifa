@@ -81,6 +81,10 @@ export type DomifaConfig = {
       otpLogin: number; // DOMIFA_BREVO_TEMPLATES_OTP_LOGIN
       // OTP action confirmation email template (used when otpProvider === "brevo")
       otpAction: number; // DOMIFA_BREVO_TEMPLATES_OTP_ACTION
+      // Shared email-change template (request → new address with the
+      // confirmation link, request → old address alert, confirmation →
+      // both addresses), differentiated via params.motif
+      userEmailUpdated: number; // DOMIFA_BREVO_TEMPLATES_USER_EMAIL_UPDATED
     };
   };
   email: {

@@ -52,7 +52,7 @@ export type UserStructureCreateLogContext = {
 };
 
 export type UserStructureEmailChangeLogContext = {
-  // USER_EMAIL_SELF_UPDATE
+  // USER_EMAIL_SELF_UPDATE_REQUESTED | USER_EMAIL_SELF_UPDATE_CONFIRMED
   oldEmail: string; // anonymisé via redactEmail()
   newEmail: string; // anonymisé via redactEmail()
 };

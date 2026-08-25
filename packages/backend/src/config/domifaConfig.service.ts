@@ -298,6 +298,13 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             required: emailsEnabled,
           }
         ),
+        userEmailUpdated: configParser.parseInteger(
+          x,
+          "DOMIFA_BREVO_TEMPLATES_USER_EMAIL_UPDATED",
+          {
+            required: emailsEnabled,
+          }
+        ),
       },
     },
     email: {
