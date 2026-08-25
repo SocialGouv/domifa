@@ -1,5 +1,4 @@
 import { Body, Controller, HttpStatus, Post, Res } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
 import { ExpressResponse } from "../../../util/express";
 import { StructureWithUserDto } from "../dto/structure-with-user.dto";
 import { StructureDto } from "../dto/structure.dto";
@@ -11,7 +10,6 @@ import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-send
 import { appLogger } from "../../../util";
 import { domifaConfig } from "../../../config";
 @Controller("structures")
-@ApiTags("structures")
 export class StructuresPublicController {
   constructor(
     private readonly structureService: StructuresService,

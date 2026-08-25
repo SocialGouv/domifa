@@ -1,4 +1,3 @@
-import { ApiProperty } from "@nestjs/swagger";
 import {
   IsBoolean,
   IsNotEmpty,
@@ -9,11 +8,6 @@ import {
 import { StripTagsTransform, Trim } from "../../../_common/decorators";
 
 export class PatchUsagerDocDto {
-  @ApiProperty({
-    type: String,
-    required: true,
-    maxLength: 100,
-  })
   @IsNotEmpty()
   @MaxLength(100)
   @MinLength(2)
@@ -22,10 +16,6 @@ export class PatchUsagerDocDto {
   @StripTagsTransform()
   public label!: string;
 
-  @ApiProperty({
-    type: Boolean,
-    required: true,
-  })
   @IsNotEmpty()
   @IsBoolean()
   public shared!: boolean;

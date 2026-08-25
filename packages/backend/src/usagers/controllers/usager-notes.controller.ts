@@ -13,7 +13,6 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 import { CurrentUser } from "../../auth/decorators/current-user.decorator";
 import { UsagerAccessGuard } from "../../auth/guards/usager-access.guard";
@@ -48,8 +47,6 @@ import {
 } from "../../auth/decorators";
 import { PageOptionsDto } from "../dto";
 
-@ApiTags("usagers-notes")
-@ApiBearerAuth()
 @Controller("usagers-notes")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserProfiles("structure")

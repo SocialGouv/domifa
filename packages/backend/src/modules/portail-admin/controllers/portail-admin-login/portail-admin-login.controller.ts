@@ -10,7 +10,6 @@ import {
   Res,
   UseGuards,
 } from "@nestjs/common";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 import {
   ExpressRequest,
@@ -45,7 +44,6 @@ import { appLogger } from "../../../../util";
 
 const userProfile: UserProfile = "supervisor";
 @Controller("portail-admins/auth")
-@ApiTags("auth")
 export class PortailAdminLoginController {
   constructor(
     private readonly adminsAuthService: AdminsAuthService,
@@ -128,7 +126,6 @@ export class PortailAdminLoginController {
     return res.status(HttpStatus.OK).json(accessToken);
   }
 
-  @ApiBearerAuth()
   @UseGuards(AuthGuard("jwt"), AppUserGuard)
   @AllowUserProfiles("supervisor")
   @AllowUserSupervisorRoles(...USER_SUPERVISOR_ROLES)

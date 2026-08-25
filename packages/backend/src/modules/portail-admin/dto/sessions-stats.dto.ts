@@ -1,4 +1,3 @@
-import { ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsInt, IsOptional, Min } from "class-validator";
 
@@ -8,10 +7,6 @@ import { IsInt, IsOptional, Min } from "class-validator";
 export { SessionsStats } from "@domifa/common";
 
 export class SessionsStatsQueryDto {
-  @ApiPropertyOptional({
-    minimum: 1,
-    description: "Restreint l'agrégat à une structure. Omis = vue plateforme.",
-  })
   @IsOptional()
   @Type(() => Number)
   @IsInt()

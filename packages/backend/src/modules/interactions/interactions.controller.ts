@@ -10,7 +10,6 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiTags } from "@nestjs/swagger";
 import {
   AllowUserProfiles,
   CurrentUser,
@@ -42,7 +41,6 @@ import {
 import { MessageSmsService } from "../sms/services/message-sms.service";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
-@ApiTags("interactions")
 @AllowUserProfiles("structure")
 @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
 @Controller("interactions")

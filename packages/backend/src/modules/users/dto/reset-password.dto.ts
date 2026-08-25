@@ -1,4 +1,3 @@
-import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams } from "class-transformer";
 import {
   IsInt,
@@ -12,19 +11,11 @@ import {
 import { IsValidPassword, MatchField } from "../../../_common/decorators";
 
 export class ResetPasswordDto {
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @IsNotEmpty()
   @IsString()
   @IsValidPassword("password")
   public readonly password!: string;
 
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @IsNotEmpty()
   @IsString()
   @IsValidPassword("passwordConfirmation")

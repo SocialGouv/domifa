@@ -13,7 +13,6 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 import { CurrentUsager } from "../../auth/decorators/current-usager.decorator";
 
@@ -41,8 +40,6 @@ import {
 } from "@domifa/common";
 import { AppUserGuard } from "../../auth/guards";
 
-@ApiTags("usagers-options")
-@ApiBearerAuth()
 @Controller("usagers-options")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)

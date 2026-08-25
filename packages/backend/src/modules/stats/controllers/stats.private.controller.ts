@@ -12,7 +12,6 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { format } from "date-fns";
 import { UserStructureAuthenticated } from "../../../_common/model";
@@ -34,7 +33,6 @@ import { StructureStatsReportingDto, StatsDto } from "../dto";
 import { structureStatsInPeriodGenerator } from "../services";
 
 @Controller("stats")
-@ApiTags("stats")
 @AllowUserProfiles("structure")
 @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
 @UseGuards(AuthGuard("jwt"), AppUserGuard)

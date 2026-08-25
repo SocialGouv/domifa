@@ -7,7 +7,6 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import {
   AllowUserProfiles,
@@ -71,8 +70,6 @@ const logProcessState = (label: string) => {
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserProfiles("structure")
 @AllowUserStructureRoles("responsable", "admin")
-@ApiTags("export")
-@ApiBearerAuth()
 @Controller("export")
 export class ExportStructureUsagersController {
   constructor(

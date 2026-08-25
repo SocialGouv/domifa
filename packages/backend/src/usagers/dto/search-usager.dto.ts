@@ -1,4 +1,3 @@
-import { ApiProperty } from "@nestjs/swagger";
 import { IsIn, IsNumber, IsOptional, ValidateIf } from "class-validator";
 import {
   CriteriaSearchField,
@@ -12,10 +11,6 @@ import { Transform } from "class-transformer";
 import { ValidateSearchField } from "../decorators";
 
 export class SearchUsagerDto {
-  @ApiProperty({
-    example: "dupuis",
-    description: "Nom ou prénom",
-  })
   @Transform(({ value, obj }) => {
     if (!value) {
       return null;

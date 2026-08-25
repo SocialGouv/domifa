@@ -1,10 +1,5 @@
 import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
-import {
-  DocumentBuilder,
-  SwaggerCustomOptions,
-  SwaggerModule,
-} from "@nestjs/swagger";
 
 import { DataSource } from "typeorm";
 import { AppModule } from "./app.module";
@@ -77,8 +72,6 @@ export async function bootstrapApplication(): Promise<{
     app.use(cookieParser());
     app.getHttpAdapter().getInstance().disable("x-powered-by");
 
-    configureSwagger(app);
-
     app.useGlobalPipes(
       new ValidationPipe({
         whitelist: true,
@@ -101,34 +94,5 @@ export async function bootstrapApplication(): Promise<{
       sentry: true,
     });
     throw err;
-  }
-}
-
-function configureSwagger(app: INestApplication) {
-  const DOMIFA_SWAGGER_CONTEXT = "sw-api";
-  if (domifaConfig().dev.swaggerEnabled) {
-    const backendUrl = domifaConfig().apps.backendUrl;
-    // enable swagger ui http://localhost:3000/api-json & http://localhost:3000/${DOMIFA_SWAGGER_CONTEXT}
-    appLogger.warn(
-      `Swagger UI enabled: ${backendUrl}${DOMIFA_SWAGGER_CONTEXT}`
-    );
-
-    appLogger.warn(
-      `Swagger JSON download: ${backendUrl}${DOMIFA_SWAGGER_CONTEXT}-json`
-    );
-    const options = new DocumentBuilder()
-      .setTitle("Domifa")
-      .setDescription("API description")
-      .setVersion("1.0")
-      .addBearerAuth({
-        type: "http",
-        scheme: "bearer",
-        bearerFormat: "JWT",
-      })
-      .build();
-
-    const document = SwaggerModule.createDocument(app, options);
-    const swaggerOptions: SwaggerCustomOptions = {};
-    SwaggerModule.setup(DOMIFA_SWAGGER_CONTEXT, app, document, swaggerOptions);
   }
 }

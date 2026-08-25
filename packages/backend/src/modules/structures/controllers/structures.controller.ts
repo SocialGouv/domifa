@@ -9,7 +9,6 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import {
   AllowUserProfiles,
   AllowUserStructureRoles,
@@ -50,10 +49,8 @@ import { STRUCTURE_DTO_KEYS } from "../constants/STRUCTURE_DTO_KEYS.const";
 // Usage
 @Controller("structures")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
-@ApiTags("structures")
 @AllowUserProfiles("structure")
 @AllowUserStructureRoles("admin")
-@ApiBearerAuth()
 export class StructuresController {
   constructor(
     private readonly structureService: StructuresService,
@@ -173,7 +170,6 @@ export class StructuresController {
     return user.structure;
   }
 
-  @ApiBearerAuth()
   @Post("hard-reset-confirm")
   @UseGuards(OtpGuard)
   @RequireOtp("RESET_USAGERS")

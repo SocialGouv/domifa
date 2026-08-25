@@ -1,4 +1,3 @@
-import { ApiProperty } from "@nestjs/swagger";
 import {
   IsEmail,
   IsIn,
@@ -18,10 +17,6 @@ import {
 } from "@domifa/common";
 
 export class RegisterUserStructureAdminDto {
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @MinLength(2)
   @MaxLength(100)
   @IsNotEmpty()
@@ -31,10 +26,6 @@ export class RegisterUserStructureAdminDto {
   })
   public readonly prenom!: string;
 
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @MinLength(2)
   @MaxLength(100)
   @IsNotEmpty()
@@ -44,19 +35,12 @@ export class RegisterUserStructureAdminDto {
   })
   public readonly nom!: string;
 
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @MinLength(2)
   @MaxLength(100)
   @IsNotEmpty()
   @IsIn(Object.keys(UserFonction))
   public readonly fonction!: UserFonction;
 
-  @ApiProperty({
-    type: String,
-  })
   @MinLength(2)
   @MaxLength(100)
   @IsString()
@@ -70,20 +54,11 @@ export class RegisterUserStructureAdminDto {
   })
   public readonly fonctionDetail: string | null;
 
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @IsNotEmpty()
   @IsEmail()
   @LowerCaseTransform()
   public readonly email!: string;
 
-  @ApiProperty({
-    type: String,
-    required: true,
-    enum: ALL_USER_STRUCTURE_ROLES,
-  })
   @IsNotEmpty()
   @IsIn(ALL_USER_STRUCTURE_ROLES)
   public readonly role!: UserStructureRole;

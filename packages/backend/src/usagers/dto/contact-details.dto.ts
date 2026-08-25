@@ -1,5 +1,4 @@
 import { Telephone } from "@domifa/common";
-import { ApiProperty } from "@nestjs/swagger";
 import {
   IsOptional,
   IsEmail,
@@ -14,20 +13,12 @@ import {
 } from "../../_common/decorators";
 
 export class ContactDetailsDto {
-  @ApiProperty({
-    example: "test@test.fr",
-    description: "Email du domicilié",
-  })
   @IsOptional()
   @IsEmail()
   @TrimOrNullTransform()
   @LowerCaseTransform()
   public email!: string;
 
-  @ApiProperty({
-    type: Object,
-    required: false,
-  })
   @IsObject()
   @IsNotEmpty()
   @IsValidPhone("telephone", false, true)

@@ -1,4 +1,3 @@
-import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams } from "class-transformer";
 import {
   IsDate,
@@ -22,18 +21,10 @@ import {
 import { StripTagsTransform } from "../../../_common/decorators";
 
 export class DecisionDto implements UsagerDecision {
-  @ApiProperty({
-    type: String,
-    required: true,
-    enum: ["INSTRUCTION", "VALIDE", "ATTENTE_DECISION", "REFUS", "RADIE"],
-  })
   @IsIn(["INSTRUCTION", "VALIDE", "ATTENTE_DECISION", "REFUS", "RADIE"])
   @IsNotEmpty()
   public statut!: UsagerDecisionStatut;
 
-  @ApiProperty({
-    type: Date,
-  })
   @ValidateIf((o) => o.statut === "VALIDE")
   @IsNotEmpty()
   @IsDate()
@@ -42,9 +33,6 @@ export class DecisionDto implements UsagerDecision {
   })
   public dateDebut!: Date;
 
-  @ApiProperty({
-    type: Date,
-  })
   @ValidateIf(
     (o) => o.statut === "VALIDE" || o.statut === "REFUS" || o.statut === "RADIE"
   )
@@ -55,9 +43,6 @@ export class DecisionDto implements UsagerDecision {
   })
   public dateFin!: Date;
 
-  @ApiProperty({
-    type: String,
-  })
   @ValidateIf((o) => o.statut === "REFUS" || o.statut === "RADIE")
   @IsNotEmpty()
   @IsIn([
@@ -75,9 +60,6 @@ export class DecisionDto implements UsagerDecision {
   ])
   public motif!: UsagerDecisionMotif;
 
-  @ApiProperty({
-    type: String,
-  })
   @ValidateIf(
     (o) => (o.statut === "REFUS" || o.statut === "RADIE") && o.motif === "AUTRE"
   )
@@ -88,17 +70,11 @@ export class DecisionDto implements UsagerDecision {
   @StripTagsTransform()
   public motifDetails!: string;
 
-  @ApiProperty({
-    type: String,
-  })
   @ValidateIf((o) => o.statut === "REFUS")
   @IsNotEmpty()
   @IsIn(["asso", "ccas", "cias", "other"])
   public orientation!: UsagerDecisionOrientation;
 
-  @ApiProperty({
-    type: String,
-  })
   @ValidateIf((o) => o.statut === "REFUS")
   @IsNotEmpty()
   @MinLength(5)
@@ -107,11 +83,6 @@ export class DecisionDto implements UsagerDecision {
   @StripTagsTransform()
   public orientationDetails!: string;
 
-  @ApiProperty({
-    example: "2020-1",
-    required: false,
-    description: "Id personnalisé",
-  })
   @IsOptional()
   @IsString()
   @MaxLength(100)

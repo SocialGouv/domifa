@@ -11,7 +11,6 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 
 import {
@@ -48,8 +47,6 @@ import {
 } from "@domifa/common";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
-@ApiTags("usagers-structure-docs")
-@ApiBearerAuth()
 @Controller("usagers-structure-docs")
 @AllowUserStructureRoles("simple", "admin", "agent", "responsable")
 @AllowUserProfiles("structure")
@@ -59,7 +56,6 @@ export class UsagerStructureDocsController {
     private readonly fileManagerService: FileManagerService
   ) {}
 
-  @ApiOperation({ summary: "Télécharger un document pré-rempli" })
   @Get("structure/:usagerRef/:structureDocUuid")
   @UseGuards(UsagerAccessGuard)
   public async getStructureCustomDoc(
@@ -127,10 +123,6 @@ export class UsagerStructureDocsController {
     }
   }
 
-  @ApiOperation({
-    summary:
-      "Télécharger un document pré-rempli fourni par Domifa (courrier radiation, identifiants, attestation postale)",
-  })
   @Post("domifa/:usagerRef/:docType")
   @UseGuards(UsagerAccessGuard)
   public async getDomifaCustomDoc(

@@ -1,5 +1,4 @@
 import { UserFonction } from "@domifa/common";
-import { ApiProperty } from "@nestjs/swagger";
 import { Transform, TransformFnParams } from "class-transformer";
 import {
   IsIn,
@@ -11,10 +10,6 @@ import {
 } from "class-validator";
 
 export class UserEditDto {
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @MinLength(2)
   @MaxLength(100)
   @IsNotEmpty()
@@ -24,10 +19,6 @@ export class UserEditDto {
   })
   public readonly prenom!: string;
 
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @MinLength(2)
   @MaxLength(100)
   @IsNotEmpty()
@@ -37,19 +28,12 @@ export class UserEditDto {
   })
   public readonly nom!: string;
 
-  @ApiProperty({
-    type: String,
-    required: true,
-  })
   @MinLength(2)
   @MaxLength(100)
   @IsIn(Object.keys(UserFonction))
   @IsString()
   public readonly fonction!: UserFonction;
 
-  @ApiProperty({
-    type: String,
-  })
   @MinLength(2)
   @MaxLength(255)
   @IsString()

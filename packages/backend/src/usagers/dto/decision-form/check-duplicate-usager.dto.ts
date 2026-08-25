@@ -1,4 +1,3 @@
-import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsString, MaxLength } from "class-validator";
 
 import {
@@ -7,11 +6,6 @@ import {
 } from "../../../_common/decorators";
 
 export class CheckDuplicateUsagerDto {
-  @ApiProperty({
-    example: "Dubois",
-    description: "Nom",
-    required: true,
-  })
   @IsString()
   @IsNotEmpty()
   @MaxLength(400)
@@ -19,11 +13,6 @@ export class CheckDuplicateUsagerDto {
   @LowerCaseTransform()
   public nom: string;
 
-  @ApiProperty({
-    example: "Pierre",
-    description: "Prénom",
-    required: true,
-  })
   @IsNotEmpty()
   @IsString()
   @MaxLength(400)
