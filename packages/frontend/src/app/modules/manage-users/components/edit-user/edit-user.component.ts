@@ -263,9 +263,12 @@ export class EditUserComponent implements OnInit, OnDestroy {
             this.submitted = false;
             // L'adresse n'est pas encore appliquée : elle ne le sera qu'au
             // clic sur le lien de confirmation reçu par mail. this.me.email
-            // reste donc volontairement l'ancienne adresse.
+            // reste donc volontairement l'ancienne adresse. Le message reste
+            // volontairement conditionnel : le backend répond pareil que
+            // l'adresse soit libre ou déjà utilisée par un autre compte,
+            // pour ne pas servir d'oracle d'énumération.
             this.toastService.success(
-              "Un lien de confirmation vous a été envoyé à votre nouvelle adresse email. Il est valable 24h."
+              "Si cette adresse n'est pas déjà utilisée par un autre compte, vous allez recevoir un lien pour la confirmer (valable 24h)."
             );
           },
           error: (err) => {

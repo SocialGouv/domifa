@@ -3,11 +3,14 @@ import { BadRequestException, Injectable } from "@nestjs/common";
 
 import { UserStructureAuthenticated } from "../../../_common/model";
 import {
+  myDataSource,
   userStructureRepository,
   userStructureSecurityRepository,
+  UserStructureSecurityTable,
+  UserStructureTable,
 } from "../../../database";
 import { domifaConfig } from "../../../config";
-import { tokenGenerator } from "../../../util";
+import { appLogger, tokenGenerator } from "../../../util";
 import { isDeletedEmail } from "../../mails/services/brevo-sender/deleted-email.guard";
 import { terminateUserSession } from "./userSessionTerminator.service";
 
@@ -68,9 +71,11 @@ export class UserStructureEmailUpdaterService {
       { temporaryTokens: { type: "email-change", token, validity, newEmail } }
     );
 
+    // uuid plutôt que id : évite d'exposer un identifiant énumérable dans le
+    // lien mailé.
     const lien = `${
       domifaConfig().apps.frontendUrl
-    }users/confirm-email-update/${user.id}/${token}`;
+    }users/confirm-email-update/${user.uuid}/${token}`;
 
     return {
       alreadyUsed: false,
@@ -85,10 +90,10 @@ export class UserStructureEmailUpdaterService {
   // mailé. Réutilise le pattern anti-replay du reset password : le token est
   // invalidé avant d'appliquer le changement.
   public async confirmEmailUpdate({
-    userId,
+    uuid,
     token,
   }: {
-    userId: number;
+    uuid: string;
     token: string;
   }): Promise<{
     id: number;
@@ -99,20 +104,32 @@ export class UserStructureEmailUpdaterService {
     oldEmail: string;
     newEmail: string;
   }> {
-    const user = await userStructureRepository.findOneBy({ id: userId });
-    const userSecurity = await userStructureSecurityRepository.findOneBy({
-      userId,
-    });
+    const user = await userStructureRepository.findOneBy({ uuid });
+    const userSecurity = user
+      ? await userStructureSecurityRepository.findOneBy({ userId: user.id })
+      : null;
 
-    if (
-      !user ||
-      user.status === "DELETE" ||
-      user.status === "BLOCKED" ||
-      userSecurity?.temporaryTokens?.type !== "email-change" ||
-      userSecurity.temporaryTokens.token !== token ||
-      !userSecurity.temporaryTokens.newEmail ||
-      new Date(userSecurity.temporaryTokens.validity) < new Date()
-    ) {
+    if (!user || user.status === "DELETE" || user.status === "BLOCKED") {
+      appLogger.warn(
+        `[confirmEmailUpdate] compte introuvable ou inactif (uuid=${uuid})`
+      );
+      throw new BadRequestException("TOKEN_INVALID");
+    }
+
+    if (userSecurity?.temporaryTokens?.type !== "email-change") {
+      appLogger.warn(
+        `[confirmEmailUpdate] aucune demande de changement d'email en attente (userId=${user.id})`
+      );
+      throw new BadRequestException("TOKEN_INVALID");
+    }
+
+    if (userSecurity.temporaryTokens.token !== token) {
+      appLogger.warn(`[confirmEmailUpdate] token invalide (userId=${user.id})`);
+      throw new BadRequestException("TOKEN_INVALID");
+    }
+
+    if (new Date(userSecurity.temporaryTokens.validity) < new Date()) {
+      appLogger.warn(`[confirmEmailUpdate] token expiré (userId=${user.id})`);
       throw new BadRequestException("TOKEN_INVALID");
     }
 
@@ -125,21 +142,31 @@ export class UserStructureEmailUpdaterService {
       email: newEmail,
     });
     if (existing) {
+      appLogger.warn(
+        `[confirmEmailUpdate] adresse prise entre-temps (userId=${user.id})`
+      );
       throw new BadRequestException("TOKEN_INVALID");
     }
 
-    // Token à usage unique : invalidé avant d'appliquer, pour qu'un retry
-    // concurrent ne puisse pas le rejouer.
-    await userStructureSecurityRepository.update(
-      { userId },
-      { temporaryTokens: null }
-    );
-
-    await userStructureRepository.update({ id: userId }, { email: newEmail });
+    // Token à usage unique invalidé avant d'appliquer le changement, dans la
+    // même transaction que l'update de l'email : un échec partiel laisserait
+    // sinon le compte sans token valide ni email à jour.
+    await myDataSource.transaction(async (manager) => {
+      await manager.update(
+        UserStructureSecurityTable,
+        { userId: user.id },
+        { temporaryTokens: null }
+      );
+      await manager.update(
+        UserStructureTable,
+        { id: user.id },
+        { email: newEmail }
+      );
+    });
 
     await terminateUserSession({
       userProfile: "structure",
-      userId,
+      userId: user.id,
       reason: "EMAIL_CHANGED",
       structureId: user.structureId,
       role: user.role,

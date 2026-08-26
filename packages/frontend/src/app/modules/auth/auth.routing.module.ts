@@ -28,10 +28,12 @@ const routes: Routes = [
         path: "users/reset-password/:userId/:token",
       },
       {
-        // Pas de LoggedGuard : accessible même connecté (on déconnecte
-        // silencieusement dans le composant plutôt que de bloquer l'accès).
+        // Pas de LoggedGuard : accessible même connecté. Le backend révoque
+        // déjà la session serveur en cas de succès ; le prochain appel API
+        // du navigateur suffira à faire réagir l'intercepteur global, sans
+        // faire disparaître cette page sous les yeux de la personne.
         component: ConfirmEmailUpdateComponent,
-        path: "users/confirm-email-update/:userId/:token",
+        path: "users/confirm-email-update/:uuid/:token",
       },
     ],
   },

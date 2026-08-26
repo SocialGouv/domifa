@@ -417,9 +417,6 @@ export class UsersController {
   @Post("edit-my-email")
   @UseGuards(OtpGuard)
   @RequireOtp("USER_EMAIL_SELF_UPDATE_REQUESTED")
-  @ApiOperation({
-    summary: "Demande de modification de l'email depuis le compte user",
-  })
   @HttpCode(HttpStatus.OK)
   public async editEmail(
     @CurrentUser() user: UserStructureAuthenticated,
