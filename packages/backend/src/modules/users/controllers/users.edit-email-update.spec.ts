@@ -302,7 +302,7 @@ describe("Users email update — request + confirmation", () => {
 
       // L'ancien token (TARGET_A) ne fonctionne plus.
       const staleConfirm = await AppTestHttpClient.post(
-        `/users/confirm-email-update/${primaryUserId}/${firstToken}`,
+        `/users/confirm-email-update/${primaryUuid}/${firstToken}`,
         { context, authenticate: false }
       );
       expect(staleConfirm.status).toBe(HttpStatus.BAD_REQUEST);
@@ -377,7 +377,7 @@ describe("Users email update — request + confirmation", () => {
     it("token faux → 400, email inchangé, aucun log confirmation", async () => {
       const before = await confirmedLogCount();
       const res = await AppTestHttpClient.post(
-        `/users/confirm-email-update/${primaryUserId}/not-the-right-token`,
+        `/users/confirm-email-update/${primaryUuid}/not-the-right-token`,
         { context, authenticate: false }
       );
       expect(res.status).toBe(HttpStatus.BAD_REQUEST);
@@ -389,21 +389,23 @@ describe("Users email update — request + confirmation", () => {
       expect(user.email).toBe(PRIMARY_EMAIL);
     });
 
-    it("token valide mais userId d'un autre compte → 400, aucun compte modifié", async () => {
-      const otherId =
-        TESTS_USERS_STRUCTURE.BY_EMAIL["s1-instructeur@yopmail.com"].id;
+    it("token valide mais uuid d'un autre compte → 400, aucun compte modifié", async () => {
+      const other =
+        TESTS_USERS_STRUCTURE.BY_EMAIL["s1-instructeur@yopmail.com"];
       const before = await confirmedLogCount();
       const token = await currentToken();
 
       const res = await AppTestHttpClient.post(
-        `/users/confirm-email-update/${otherId}/${token}`,
+        `/users/confirm-email-update/${other.uuid}/${token}`,
         { context, authenticate: false }
       );
       expect(res.status).toBe(HttpStatus.BAD_REQUEST);
       expect(await confirmedLogCount()).toBe(before);
 
-      const other = await userStructureRepository.findOneBy({ id: otherId });
-      expect(other.email).toBe("s1-instructeur@yopmail.com");
+      const otherRow = await userStructureRepository.findOneBy({
+        id: other.id,
+      });
+      expect(otherRow.email).toBe("s1-instructeur@yopmail.com");
     });
 
     it("token expiré → 400, email inchangé", async () => {
@@ -424,7 +426,7 @@ describe("Users email update — request + confirmation", () => {
       );
 
       const res = await AppTestHttpClient.post(
-        `/users/confirm-email-update/${primaryUserId}/${token}`,
+        `/users/confirm-email-update/${primaryUuid}/${token}`,
         { context, authenticate: false }
       );
       expect(res.status).toBe(HttpStatus.BAD_REQUEST);
@@ -462,7 +464,7 @@ describe("Users email update — request + confirmation", () => {
         );
 
       const res = await AppTestHttpClient.post(
-        `/users/confirm-email-update/${primaryUserId}/${token}`,
+        `/users/confirm-email-update/${primaryUuid}/${token}`,
         { context, authenticate: false }
       );
       expect(res.status).toBe(HttpStatus.BAD_REQUEST);
@@ -483,7 +485,7 @@ describe("Users email update — request + confirmation", () => {
       const before = await confirmedLogCount();
 
       const res = await AppTestHttpClient.post(
-        `/users/confirm-email-update/${primaryUserId}/${confirmedToken}`,
+        `/users/confirm-email-update/${primaryUuid}/${confirmedToken}`,
         { context, authenticate: false }
       );
 
@@ -513,7 +515,7 @@ describe("Users email update — request + confirmation", () => {
       const before = await confirmedLogCount();
 
       const res = await AppTestHttpClient.post(
-        `/users/confirm-email-update/${primaryUserId}/${confirmedToken}`,
+        `/users/confirm-email-update/${primaryUuid}/${confirmedToken}`,
         { context, authenticate: false }
       );
       expect(res.status).toBe(HttpStatus.BAD_REQUEST);

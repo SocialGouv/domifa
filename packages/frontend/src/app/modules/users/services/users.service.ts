@@ -38,14 +38,14 @@ export class UsersService {
   }
 
   public confirmEmailUpdate({
-    userId,
+    uuid,
     token,
   }: {
-    userId: string;
+    uuid: string;
     token: string;
   }): Observable<ApiMessage> {
     return this.http.post<ApiMessage>(
-      `${this.endPoint}/confirm-email-update/${userId}/${token}`,
+      `${this.endPoint}/confirm-email-update/${uuid}/${token}`,
       {}
     );
   }

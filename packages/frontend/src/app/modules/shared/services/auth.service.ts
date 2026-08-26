@@ -138,7 +138,13 @@ export class AuthService {
     state?: RouterStateSnapshot,
     sessionExpired?: boolean
   ): Promise<void> {
-    this.clearSession();
+    this.currentUserSubject.next(null);
+    this.store.dispatch(usagerActions.clearCache());
+    this.safeStorage.removeItem("currentUser");
+    this.safeStorage.removeItem("MANAGE");
+
+    getCurrentScope().setTag("structure", "none");
+    getCurrentScope().setUser({});
 
     if (sessionExpired) {
       this.toastr.warning("Votre session a expiré, merci de vous reconnecter");
@@ -158,24 +164,6 @@ export class AuthService {
     } else {
       this.router.navigate(["/connexion"]);
     }
-  }
-
-  // Clears local session state without navigating or notifying — used by
-  // pages the user can land on while still (staleily) logged in, such as the
-  // email-change confirmation page, which must stay put and show its own
-  // success/error state rather than redirect to /connexion.
-  public clearSessionSilently(): void {
-    this.clearSession();
-  }
-
-  private clearSession(): void {
-    this.currentUserSubject.next(null);
-    this.store.dispatch(usagerActions.clearCache());
-    this.safeStorage.removeItem("currentUser");
-    this.safeStorage.removeItem("MANAGE");
-
-    getCurrentScope().setTag("structure", "none");
-    getCurrentScope().setUser({});
   }
 
   private getMatomoParams(): Record<string, string> {

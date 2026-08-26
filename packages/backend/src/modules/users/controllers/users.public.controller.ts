@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
+  ParseUUIDPipe,
   Post,
   Req,
   Res,
@@ -115,52 +116,56 @@ export class UsersPublicController {
 
   // Page de confirmation atteinte via le lien mailé : applique le
   // changement d'email (auto-déclenché au chargement de la page côté front).
-  @Post("confirm-email-update/:userId/:token")
+  // uuid plutôt que userId : évite d'exposer un identifiant énumérable.
+  @Post("confirm-email-update/:uuid/:token")
   public async confirmEmailUpdate(
-    @Param("userId", new ParseIntPipe()) userId: number,
+    @Param("uuid", new ParseUUIDPipe()) uuid: string,
     @Param("token", new ParseTokenPipe()) token: string,
     @Res() res: ExpressResponse
   ) {
+    // Try/catch ciblé sur la seule opération qui peut légitimement échouer
+    // (token invalide/expiré) : si elle passe, tout ce qui suit (log, mails)
+    // n'est plus mappé à TOKEN_INVALID en cas de bug.
+    let result;
     try {
-      const result =
-        await this.userStructureEmailUpdaterService.confirmEmailUpdate({
-          userId,
-          token,
-        });
-
-      await this.appLogService.create<UserStructureEmailChangeLogContext>({
-        ...buildStructureActorFields(result),
-        action: "USER_EMAIL_SELF_UPDATE_CONFIRMED",
-        context: {
-          oldEmail: redactEmail(result.oldEmail),
-          newEmail: redactEmail(result.newEmail),
-        },
+      result = await this.userStructureEmailUpdaterService.confirmEmailUpdate({
+        uuid,
+        token,
       });
-
-      // Même template partagé que la demande, motif "confirme" : envoyé aux
-      // deux adresses pour que l'ancienne détecte un changement non désiré.
-      await Promise.all(
-        [result.oldEmail, result.newEmail].map((email) =>
-          this.brevoSenderService.sendEmailWithTemplate({
-            templateId: domifaConfig().brevo.templates.userEmailUpdated,
-            subject: "Votre adresse email DomiFa a été modifiée",
-            to: [{ email, name: result.prenom }],
-            params: {
-              motif: "confirme",
-              ancienEmail: result.oldEmail,
-              nouvelEmail: result.newEmail,
-              prenom: result.prenom,
-            },
-          })
-        )
-      );
-
-      return res.status(HttpStatus.OK).json({ message: "OK" });
     } catch (err) {
       appLogger.error(err);
       return res
         .status(HttpStatus.BAD_REQUEST)
         .json({ message: "TOKEN_INVALID" });
     }
+
+    await this.appLogService.create<UserStructureEmailChangeLogContext>({
+      ...buildStructureActorFields(result),
+      action: "USER_EMAIL_SELF_UPDATE_CONFIRMED",
+      context: {
+        oldEmail: redactEmail(result.oldEmail),
+        newEmail: redactEmail(result.newEmail),
+      },
+    });
+
+    // Même template partagé que la demande, motif "confirme" : envoyé aux
+    // deux adresses pour que l'ancienne détecte un changement non désiré.
+    await Promise.all(
+      [result.oldEmail, result.newEmail].map((email) =>
+        this.brevoSenderService.sendEmailWithTemplate({
+          templateId: domifaConfig().brevo.templates.userEmailUpdated,
+          subject: "Votre adresse email DomiFa a été modifiée",
+          to: [{ email, name: result.prenom }],
+          params: {
+            motif: "confirme",
+            ancienEmail: result.oldEmail,
+            nouvelEmail: result.newEmail,
+            prenom: result.prenom,
+          },
+        })
+      )
+    );
+
+    return res.status(HttpStatus.OK).json({ message: "OK" });
   }
 }
