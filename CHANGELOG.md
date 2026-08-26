@@ -1,3 +1,10 @@
+# [2.260.0](https://github.com/SocialGouv/domifa/compare/v2.259.0...v2.260.0) (2026-08-26)
+
+
+### Features
+
+* **front:** add communication kit tab ([cfe2af7](https://github.com/SocialGouv/domifa/commit/cfe2af750f6c6fa336b9c731eb5a39508d8572dc))
+
 # [2.259.0](https://github.com/SocialGouv/domifa/compare/v2.258.1...v2.259.0) (2026-08-25)
 
 
