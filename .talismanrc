@@ -16,9 +16,9 @@ fileignoreconfig:
 - filename: .kontinuous/env/prod/templates/backend.sealed-secret.yaml
   checksum: f2c977d7195c52b4ede22d9413e237b8a150f314356356d2142a9ba0f88db979
 - filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
-  checksum: 18c7c81914ab87ee80621746712b943ad7cafd322e1b94c4d7bc1c87b66b8a4c
+  checksum: c008343c2ef61313eb235b9b149056b23c24c959fb899adfa369bb9d385f44ce
 - filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
-  checksum: 19359089405671e8a8ddb4b3e960b08c72d1e87b141879da4ef5c5d3b83193b9
+  checksum: d58eccf7db0bc9da4ae5913259905bc69e72f57ba468fad964084e287f5fb98e
 - filename: package.json
   checksum: b1f4068d2168777918ef4fa6b222d46315fe5396a762a72302dfbd1751545add
 - filename: packages/backend/src/_migrations/1781813895170-auto-migration.ts
@@ -30,7 +30,7 @@ fileignoreconfig:
 - filename: packages/backend/src/_migrations/1787045027655-add-support-mode.ts
   checksum: 130e850944ac6cb35e89050f3fabe847772fde10c92c4f391c7321686e12666e
 - filename: packages/backend/src/_migrations/_init-db/domifa_test_schema.sql
-  checksum: 8a8f9a18c94a77d7400f256c230eceb0a040e87c51b2a20398ed2b61348ec6b6
+  checksum: bfd486076e06a427968f56c2ef99fc0cbdf0f982b8cb25e953ff3bc4611f4dbc
 - filename: packages/frontend/src/app/modules/general/components/decouvrir-domifa/decouvrir-domifa.component.html
   checksum: a55373935e6910c40194a0df61d6dc33355db938c6d382d4e458e449a074b160
 - filename: packages/frontend/src/app/modules/general/components/static-pages/politique/politique.component.html
