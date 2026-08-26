@@ -1,0 +1,15 @@
+.statut-signal {
+  border-radius: 100%;
+  margin-right: 4px;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+}
+
+.bg-danger {
+  background-color: var(--background-action-high-error);
+}
+
+.bg-warning {
+  background-color: #e4794a;
+}
