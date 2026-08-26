@@ -59,7 +59,10 @@ function buildUsager({
   const ayantsDroits = buildAyantsDroits(usagerRow);
 
   const customRef = usagerRow.customRef;
-  const telephone = usagerRow.telephone;
+  const telephone = {
+    countryCode: usagerRow.telephone.countryCode,
+    numero: usagerRow.telephone.numero.replace(/\s+/g, ""),
+  };
   const email = usagerRow.email;
 
   //
@@ -172,43 +175,46 @@ function buildEntretien(usagerRow): Partial<UsagerEntretien> {
   entretien.typeMenage = usagerRow.typeMenage ?? null;
 
   entretien.accompagnement = usagerRow.accompagnement;
-  if (usagerRow.accompagnement) {
-    entretien.accompagnementDetail = usagerRow.accompagnementDetail;
-  }
+  entretien.accompagnementDetail =
+    usagerRow.accompagnement === true
+      ? usagerRow.accompagnementDetail ?? null
+      : null;
 
   entretien.situationPro = usagerRow.situationPro ?? null;
-  if (usagerRow?.situationPro && usagerRow?.situationProDetail) {
-    entretien.situationProDetail = usagerRow.situationProDetail;
-  }
+  entretien.situationProDetail =
+    usagerRow.situationPro === "AUTRE"
+      ? usagerRow.situationProDetail ?? null
+      : null;
 
   entretien.revenus = usagerRow.revenus;
-  if (usagerRow?.revenus && usagerRow?.revenusDetail) {
-    entretien.revenusDetail = usagerRow.revenusDetail;
-  }
+  entretien.revenusDetail =
+    usagerRow.revenus === true ? usagerRow.revenusDetail ?? null : null;
 
   entretien.liencommune = usagerRow.liencommune;
-  if (usagerRow?.liencommune && usagerRow?.liencommuneDetail) {
-    entretien.liencommuneDetail = usagerRow.liencommuneDetail;
-  }
+  entretien.liencommuneDetail =
+    usagerRow.liencommune === "AUTRE"
+      ? usagerRow.liencommuneDetail ?? null
+      : null;
 
   entretien.residence = usagerRow.residence ?? null;
-  if (usagerRow?.residence && usagerRow?.residenceDetaildentielle) {
-    entretien.residenceDetail = usagerRow.residenceDetail;
-  }
+  entretien.residenceDetail =
+    usagerRow.residence === "AUTRE" ? usagerRow.residenceDetail ?? null : null;
 
   entretien.orientation = usagerRow.orientation;
-  if (usagerRow?.orientation && usagerRow?.orientationDetail) {
-    entretien.orientationDetail = usagerRow.orientationDetail;
-  }
+  entretien.orientationDetail =
+    usagerRow.orientation === true ? usagerRow.orientationDetail ?? null : null;
 
   entretien.raison = usagerRow.raisonDemande ?? null;
-  if (usagerRow?.raisonDemande && usagerRow?.raisonDemandeDetail) {
-    entretien.raisonDetail = usagerRow.raisonDemandeDetail;
-  }
+  entretien.raisonDetail =
+    usagerRow.raisonDemande === "AUTRE"
+      ? usagerRow.raisonDemandeDetail ?? null
+      : null;
 
   entretien.cause = usagerRow.causeInstabilite ?? null;
-  if (usagerRow?.causeInst && usagerRow?.causeDetailabilite) {
-    entretien.causeDetail = usagerRow.causeDetail;
-  }
+  entretien.causeDetail =
+    usagerRow.causeInstabilite === "AUTRE"
+      ? usagerRow.causeDetail ?? null
+      : null;
+
   return entretien;
 }

@@ -1,18 +1,18 @@
 import { IsDate, IsNotEmpty, IsString, MaxLength } from "class-validator";
 import { Transform, TransformFnParams } from "class-transformer";
-import { Trim } from "../../_common/decorators";
+import { StripTagsTransform } from "../../_common/decorators";
 
 export class ProcurationDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(200)
-  @Trim()
+  @StripTagsTransform()
   public nom!: string;
 
   @IsNotEmpty()
   @IsString()
   @MaxLength(200)
-  @Trim()
+  @StripTagsTransform()
   public prenom!: string;
 
   @IsNotEmpty()

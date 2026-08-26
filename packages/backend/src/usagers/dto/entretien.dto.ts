@@ -5,7 +5,10 @@ import {
   IsString,
   MaxLength,
 } from "class-validator";
-import { StripTagsTransform } from "../../_common/decorators";
+import {
+  StripTagsTransform,
+  ValidateIfElseNull,
+} from "../../_common/decorators";
 import {
   ENTRETIEN_CAUSE_INSTABILITE,
   ENTRETIEN_LIEN_COMMUNE,
@@ -21,7 +24,6 @@ import {
   UsagerEntretienSituationPro,
   UsagerEntretienTypeMenage,
 } from "@domifa/common";
-import { Transform } from "class-transformer";
 
 export class EntretienDto implements Partial<UsagerEntretien> {
   @IsOptional()
@@ -36,9 +38,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @IsString()
   @MaxLength(1000)
   @StripTagsTransform()
-  @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
-    obj.revenus ? value : null
-  )
+  @ValidateIfElseNull((o) => o.revenus === true)
   public revenusDetail!: string;
 
   @IsOptional()
@@ -59,9 +59,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @IsString()
   @StripTagsTransform()
   @MaxLength(1000)
-  @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
-    obj.liencommune === "AUTRE" && value ? value.toString().trim() : null
-  )
+  @ValidateIfElseNull((o) => o.liencommune === "AUTRE")
   public liencommuneDetail!: string;
 
   @IsOptional()
@@ -72,9 +70,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @IsString()
   @MaxLength(1000)
   @StripTagsTransform()
-  @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
-    obj.residence === "AUTRE" && value ? value.toString().trim() : null
-  )
+  @ValidateIfElseNull((o) => o.residence === "AUTRE")
   public residenceDetail!: string;
 
   @IsOptional()
@@ -85,9 +81,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @IsString()
   @MaxLength(1000)
   @StripTagsTransform()
-  @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
-    obj.orientation ? value : null
-  )
+  @ValidateIfElseNull((o) => o.orientation === true)
   public orientationDetail!: string;
 
   @IsOptional()
@@ -98,9 +92,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @IsString()
   @MaxLength(1000)
   @StripTagsTransform()
-  @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
-    obj.cause === "AUTRE" && value ? value.toString().trim() : null
-  )
+  @ValidateIfElseNull((o) => o.cause === "AUTRE")
   public causeDetail!: string;
 
   @IsOptional()
@@ -111,9 +103,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @IsString()
   @MaxLength(1000)
   @StripTagsTransform()
-  @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
-    obj.raison === "AUTRE" && value ? value.toString().trim() : null
-  )
+  @ValidateIfElseNull((o) => o.raison === "AUTRE")
   public raisonDetail!: string;
 
   @IsOptional()
@@ -124,9 +114,7 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @IsString()
   @MaxLength(1000)
   @StripTagsTransform()
-  @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
-    obj.accompagnement && value ? value.toString().trim() : null
-  )
+  @ValidateIfElseNull((o) => o.accompagnement === true)
   public accompagnementDetail!: string;
 
   @IsOptional()
@@ -143,8 +131,6 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   @IsString()
   @StripTagsTransform()
   @MaxLength(1000)
-  @Transform(({ value, obj }: { value: string; obj: EntretienDto }) =>
-    obj.situationPro === "AUTRE" ? value : null
-  )
-  public situationProDetail!: UsagerEntretienSituationPro;
+  @ValidateIfElseNull((o) => o.situationPro === "AUTRE")
+  public situationProDetail!: string;
 }

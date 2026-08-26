@@ -1,4 +1,11 @@
-import { IsIn, IsNumber, IsOptional, ValidateIf } from "class-validator";
+import {
+  IsIn,
+  IsNumber,
+  IsOptional,
+  IsString,
+  MaxLength,
+  ValidateIf,
+} from "class-validator";
 import {
   CriteriaSearchField,
   normalizeString,
@@ -25,6 +32,8 @@ export class SearchUsagerDto {
     return normalizeString(value).trim();
   })
   @ValidateIf((obj) => obj.searchStringField)
+  @IsString()
+  @MaxLength(100)
   @ValidateSearchField()
   public searchString!: string;
 

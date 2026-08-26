@@ -10,10 +10,19 @@ import {
   ValidateIf,
   ValidateNested,
 } from "class-validator";
-import { TrimOrNullTransform } from "../../../_common/decorators";
+import {
+  StripTagsTransform,
+  TrimOrNullTransform,
+} from "../../../_common/decorators";
 import { StructureMessageSmsSchedule } from "@domifa/common";
 import { ScheduleDto } from "./schedule.dto";
 import { Type } from "class-transformer";
+
+const isSmsSenderFieldValidated = (
+  o: StructureEditSmsDto,
+  value: unknown
+): boolean =>
+  o.enabledByStructure === true || (value !== null && value !== undefined);
 
 export class StructureEditSmsDto {
   @IsEmpty()
@@ -23,7 +32,7 @@ export class StructureEditSmsDto {
   @IsBoolean()
   public enabledByStructure: boolean;
 
-  @ValidateIf((o) => o.enabledByStructure === true)
+  @ValidateIf(isSmsSenderFieldValidated)
   @MaxLength(11)
   @MinLength(1)
   @IsNotEmpty()
@@ -32,11 +41,12 @@ export class StructureEditSmsDto {
   @TrimOrNullTransform()
   public senderName: string;
 
-  @ValidateIf((o) => o.enabledByStructure === true)
+  @ValidateIf(isSmsSenderFieldValidated)
   @MaxLength(30)
   @MinLength(1)
   @IsString()
   @IsNotEmpty()
+  @StripTagsTransform()
   public senderDetails: string;
 
   @IsNotEmpty()

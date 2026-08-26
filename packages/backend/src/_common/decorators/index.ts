@@ -4,4 +4,5 @@ export * from "./IsValidPasswordDecorator";
 export * from "./IsValidPhoneDecorator";
 export * from "./MatchFieldDecorator";
 export * from "./parse-pipes";
+export * from "./ValidateIfElseNullDecorator";
 export * from "./transformers";

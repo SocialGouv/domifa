@@ -80,3 +80,28 @@ describe("usagersImportValidator parse valid data", () => {
     });
   });
 });
+
+describe("usagersImportValidator — phone formats", () => {
+  it("reads international, dotted and dashed numbers like the API", async () => {
+    for (const cell of [
+      "+33 6 02 03 04 05",
+      "0033602030405",
+      "06.02.03.04.05",
+      "06-02 03/04 05",
+    ]) {
+      const row = [...TEST_VALID_IMPORT_ROW];
+      row[7] = cell;
+      const { usagerRow, errors } =
+        await usagersImportValidator.parseAndValidate({
+          row,
+          context,
+          rowNumber: 10,
+        });
+      expect(errors).toEqual([]);
+      expect(usagerRow.telephone).toEqual({
+        countryCode: "fr",
+        numero: "06 02 03 04 05",
+      });
+    }
+  });
+});
