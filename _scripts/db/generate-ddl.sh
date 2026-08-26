@@ -55,6 +55,8 @@ sed -i '' \
   -e '/^[[:space:]]*CREATE SCHEMA /d' \
   -e '/^[[:space:]]*ALTER SCHEMA /d' \
   -e '/^[[:space:]]*\\connect /d' \
+  -e '/^[[:space:]]*\\restrict /d' \
+  -e '/^[[:space:]]*\\unrestrict /d' \
   -e '/^[[:space:]]*$/d' \
   "${OUTPUT_FILE}"
 
