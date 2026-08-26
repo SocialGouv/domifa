@@ -67,6 +67,7 @@ import { FileManagerService } from "../../util/file-manager/file-manager.service
 import { AssignReferrersDto } from "../dto/assign-referrers.dto";
 import { In, Not } from "typeorm";
 import { UsagersLogsService } from "../services/usagers-logs.service";
+import { filterUsagerHistorique } from "../utils";
 @Controller("usagers")
 @ApiTags("usagers")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -438,6 +439,6 @@ export class UsagersController {
       },
     });
 
-    return res.status(200).json(updatedUsagers);
+    return res.status(200).json(updatedUsagers.map(filterUsagerHistorique));
   }
 }

@@ -95,7 +95,7 @@ export function addLogContext(fields: pino.Bindings) {
 type RequestWithId = Request & { id: string | string[] };
 
 function redactAuthorizationHeader(req: SerializedRequest): SerializedRequest {
-  const authorization = req.headers.authorization;
+  const authorization = req.headers?.authorization;
   if (authorization) {
     req.headers = {
       ...req.headers,
@@ -124,7 +124,14 @@ function readRequestId(req: RequestWithId): string {
   return raw;
 }
 
-function httpLogger(req: RequestWithId, res: Response, next: NextFunction) {
+// Exporté pour le test : `logHttpRequests` est désactivé en environnement de
+// test, le middleware n'est donc jamais exercé via `setupLog` — c'est ainsi
+// que le crash ci-dessus a traversé la CI.
+export function httpLogger(
+  req: RequestWithId,
+  res: Response,
+  next: NextFunction
+) {
   req.id = readRequestId(req);
   const startTime = Date.now();
 
@@ -132,6 +139,24 @@ function httpLogger(req: RequestWithId, res: Response, next: NextFunction) {
     req,
     body: req.body,
   });
+
+  // L'accès n'est journalisé qu'à la fin de la réponse. Une requête qui bloque
+  // l'event loop n'en émet donc jamais : quand le pod est tué, elle reste
+  // introuvable et l'incident inattribuable. Cette ligne, volontairement
+  // minimale, la rend visible — sans `http_request` portant le même `req.id`,
+  // c'est la coupable. Les sondes sont exclues : readiness et liveness
+  // appellent /healthz toutes les 5 et 10 s, pour rien de traçable.
+  // Champs PLATS, hors de la clé `req` : celle-ci passe par le serializer
+  // pino, qui attend une vraie requête Express — un objet partiel en sortait
+  // sans `headers` et faisait lever la rédaction d'Authorization, donc 500
+  // sur CHAQUE requête non-healthz. Invisible en test et en local, où
+  // `logHttpRequests` est désactivé : seul un déploiement réel l'exécutait.
+  if (req.originalUrl !== "/healthz") {
+    rootLogger.info(
+      { requestId: req.id, method: req.method, url: req.originalUrl },
+      "http_request_start"
+    );
+  }
 
   function onResFinished() {
     res.removeListener("close", onResFinished);
