@@ -7,14 +7,13 @@ import {
   MinLength,
 } from "class-validator";
 import { Transform } from "class-transformer";
-import { StripTagsTransform, Trim } from "../../../_common/decorators";
+import { StripTagsTransform } from "../../../_common/decorators";
 
 export class PostUsagerDocDto {
   @IsNotEmpty()
   @MaxLength(100)
   @MinLength(2)
   @IsString()
-  @Trim()
   @StripTagsTransform()
   public label!: string;
 

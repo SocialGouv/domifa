@@ -76,7 +76,7 @@ function buildRowAsUsagerObject(
 
   rowAsObject.telephone = {
     countryCode: context.countryCode || "fr",
-    numero: rowAsObject?.telephone?.replace(/\D/g, "") || "",
+    numero: rowAsObject?.telephone?.replace(/[^\d+]/g, "") || "",
   };
 
   rowAsObject.ayantsDroits = [];

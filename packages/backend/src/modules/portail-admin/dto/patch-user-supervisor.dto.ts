@@ -1,4 +1,6 @@
 import {
+  ArrayMaxSize,
+  ArrayUnique,
   IsArray,
   IsIn,
   IsNotEmpty,
@@ -6,8 +8,11 @@ import {
   MaxLength,
   MinLength,
 } from "class-validator";
-import { Transform, TransformFnParams } from "class-transformer";
-import { IsValidGeographicRole } from "../../../_common/decorators";
+import {
+  IsValidGeographicRole,
+  StripTagsTransform,
+  TERRITORY_CODES,
+} from "../../../_common/decorators";
 import { UserSupervisorRole } from "@domifa/common";
 import { USER_SUPERVISOR_ASSIGNABLE_ROLES } from "../../../_common/model/users/user-supervisor";
 
@@ -16,18 +21,14 @@ export class PatchUserSupervisorDto {
   @MaxLength(100)
   @IsNotEmpty()
   @IsString()
-  @Transform(({ value }: TransformFnParams) => {
-    return value.toString().trim();
-  })
+  @StripTagsTransform()
   public prenom!: string;
 
   @MinLength(2)
   @MaxLength(100)
   @IsNotEmpty()
   @IsString()
-  @Transform(({ value }: TransformFnParams) => {
-    return value.toString().trim();
-  })
+  @StripTagsTransform()
   public nom!: string;
 
   @IsNotEmpty()
@@ -35,6 +36,11 @@ export class PatchUserSupervisorDto {
   public role!: UserSupervisorRole;
 
   @IsArray()
+  @ArrayMaxSize(TERRITORY_CODES.length)
+  @IsString({ each: true })
+  @MaxLength(3, { each: true })
+  @IsIn(TERRITORY_CODES, { each: true })
+  @ArrayUnique()
   @IsValidGeographicRole({
     message: "La valeur géographique doit correspondre au rôle sélectionné",
   })

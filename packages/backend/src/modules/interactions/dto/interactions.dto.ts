@@ -9,11 +9,10 @@ import {
   IsString,
   Max,
   Min,
-  ValidateIf,
 } from "class-validator";
 import {
   StripTagsTransform,
-  TrimOrNullTransform,
+  ValidateIfElseNull,
 } from "../../../_common/decorators";
 import { ALL_INTERACTION_TYPES } from "../../../_common/model";
 import {
@@ -27,22 +26,21 @@ export class InteractionDto {
   @IsNotEmpty()
   public type!: InteractionType;
 
-  @ValidateIf((o) => INTERACTIONS_IN.indexOf(o.type) !== -1)
+  @ValidateIfElseNull((o) => INTERACTIONS_IN.includes(o.type))
   @IsOptional()
   @IsString()
   @MaxLength(5000)
-  @StripTagsTransform()
-  @TrimOrNullTransform()
+  @StripTagsTransform({ multiline: true })
   public content?: string;
 
-  @ValidateIf((o) => INTERACTIONS_OUT.indexOf(o.type) !== -1)
+  @ValidateIfElseNull((o) => INTERACTIONS_OUT.includes(o.type))
   @IsOptional()
   @IsNumber()
   @Min(0)
   @Max(4)
   public procurationIndex?: number;
 
-  @ValidateIf((o) => INTERACTIONS_IN.indexOf(o.type) !== -1)
+  @ValidateIfElseNull((o) => INTERACTIONS_IN.includes(o.type))
   @IsNumber()
   @IsNotEmpty()
   @Min(1)

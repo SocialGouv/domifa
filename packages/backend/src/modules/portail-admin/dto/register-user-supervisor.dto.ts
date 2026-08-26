@@ -1,4 +1,6 @@
 import {
+  ArrayMaxSize,
+  ArrayUnique,
   IsArray,
   IsEmail,
   IsIn,
@@ -7,11 +9,14 @@ import {
   MaxLength,
   MinLength,
 } from "class-validator";
-import { Transform, TransformFnParams } from "class-transformer";
 
 import { IsValidGeographicRole } from "../decorators";
 import { UserSupervisorRole } from "@domifa/common";
-import { LowerCaseTransform } from "../../../_common/decorators";
+import {
+  LowerCaseTransform,
+  StripTagsTransform,
+  TERRITORY_CODES,
+} from "../../../_common/decorators";
 import { USER_SUPERVISOR_ASSIGNABLE_ROLES } from "../../../_common/model/users/user-supervisor";
 
 export class RegisterUserSupervisorDto {
@@ -19,18 +24,14 @@ export class RegisterUserSupervisorDto {
   @MaxLength(100)
   @IsNotEmpty()
   @IsString()
-  @Transform(({ value }: TransformFnParams) => {
-    return value.toString().trim();
-  })
+  @StripTagsTransform()
   public prenom!: string;
 
   @MinLength(2)
   @MaxLength(100)
   @IsNotEmpty()
   @IsString()
-  @Transform(({ value }: TransformFnParams) => {
-    return value.toString().trim();
-  })
+  @StripTagsTransform()
   public nom!: string;
 
   @IsNotEmpty()
@@ -43,6 +44,11 @@ export class RegisterUserSupervisorDto {
   public role!: UserSupervisorRole;
 
   @IsArray()
+  @ArrayMaxSize(TERRITORY_CODES.length)
+  @IsString({ each: true })
+  @MaxLength(3, { each: true })
+  @IsIn(TERRITORY_CODES, { each: true })
+  @ArrayUnique()
   @IsValidGeographicRole({
     message: "La valeur géographique doit correspondre au rôle sélectionné",
   })

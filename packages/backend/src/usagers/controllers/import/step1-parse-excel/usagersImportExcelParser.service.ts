@@ -1,4 +1,5 @@
 import * as ExcelJS from "exceljs";
+import { stripTags } from "../../../../_common/decorators/transformers";
 import { UsagersImportRow } from "../model";
 import { format } from "date-fns";
 import { stat } from "fs-extra";
@@ -271,5 +272,5 @@ function cleanString(str: string): string {
     return undefined;
   }
 
-  return str?.trim();
+  return stripTags(str) ?? undefined;
 }

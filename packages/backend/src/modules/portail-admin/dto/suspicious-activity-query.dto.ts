@@ -1,5 +1,6 @@
 import { Transform, Type } from "class-transformer";
 import {
+  ArrayMaxSize,
   IsArray,
   IsDate,
   IsIn,
@@ -43,6 +44,7 @@ export class SuspiciousActivityQueryDto extends PageOptionsDto {
       : [value]
   )
   @IsArray()
+  @ArrayMaxSize(SUSPICIOUS_LOG_ACTIONS.length)
   @IsIn(SUSPICIOUS_LOG_ACTIONS, { each: true })
   readonly actions?: SuspiciousLogAction[];
 

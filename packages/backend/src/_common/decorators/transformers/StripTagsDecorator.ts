@@ -1,31 +1,38 @@
-import {
-  Transform,
-  TransformFnParams,
-  TransformOptions,
-} from "class-transformer";
-
+import { Transform, TransformFnParams } from "class-transformer";
 import striptags from "striptags";
-import sanitizeHtml from "sanitize-html";
 
+export interface StripTagsOptions {
+  multiline?: boolean;
+}
+
+// Plain-text sanitizer shared by the DTOs and the XLSX import, for fields the
+// frontends render through `{{ }}`: removes tags and NUL bytes, normalises
+// whitespace, nulls empty strings.
+export function stripTags(
+  value: string,
+  { multiline = false }: StripTagsOptions = {}
+): string | null {
+  const stripped = striptags(value).replaceAll("\0", "");
+
+  const result = multiline
+    ? stripped
+        .replaceAll(/\r\n?/g, "\n")
+        .replaceAll(/[^\S\n]+/g, " ")
+        .replaceAll(/ ?\n ?/g, "\n")
+        .replaceAll(/\n{3,}/g, "\n\n")
+        .trim()
+    : stripped.replaceAll(/\s+/g, " ").trim();
+
+  return result === "" ? null : result;
+}
+
+// Non-string values are left untouched so that @IsString rejects them.
 export function StripTagsTransform(
-  transformOptions?: TransformOptions
-): (target: any, key: string) => void {
-  return Transform((sourceData: TransformFnParams) => {
-    if (typeof sourceData.value !== "string") {
-      return null;
-    }
-
-    if (sourceData.value.trim() === "") {
-      return null;
-    }
-
-    const sanitized = sanitizeHtml(sourceData.value);
-
-    const result = striptags(sanitized)
-      .replaceAll(/[\\$~*<>{}]/gi, "")
-      .replaceAll(/\s+/g, " ")
-      .trim();
-
-    return result === "" ? null : result;
-  }, transformOptions);
+  options: StripTagsOptions = {}
+): PropertyDecorator {
+  return Transform((sourceData: TransformFnParams) =>
+    typeof sourceData.value === "string"
+      ? stripTags(sourceData.value, options)
+      : sourceData.value
+  );
 }

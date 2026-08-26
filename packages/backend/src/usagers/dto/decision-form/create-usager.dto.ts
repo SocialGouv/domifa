@@ -6,28 +6,28 @@ import {
 } from "@domifa/common";
 import { Type } from "class-transformer";
 import {
-  IsIn,
-  IsNotEmpty,
-  IsString,
-  MaxLength,
-  IsOptional,
+  ArrayMaxSize,
+  IsArray,
+  IsBoolean,
   IsDateString,
   IsEmail,
-  IsObject,
-  IsBoolean,
-  IsArray,
-  ValidateIf,
-  ValidateNested,
+  IsIn,
+  IsNotEmpty,
   IsNumber,
+  IsObject,
+  IsOptional,
+  IsString,
+  MaxLength,
+  ValidateNested,
 } from "class-validator";
 import {
-  Trim,
   StripTagsTransform,
   TrimOrNullTransform,
   LowerCaseTransform,
   IsValidPhone,
 } from "../../../_common/decorators";
 import { UsagerAyantDroitDto } from "../UsagerAyantDroitDto";
+import { TelephoneDto } from "../../../_common/dto/telephone.dto";
 
 export class CreateUsagerDto {
   @IsIn(["homme", "femme"])
@@ -37,14 +37,12 @@ export class CreateUsagerDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(200)
-  @Trim()
   @StripTagsTransform()
   public nom: string;
 
   @IsNotEmpty()
   @MaxLength(200)
   @IsString()
-  @Trim()
   @StripTagsTransform()
   public prenom!: string;
 
@@ -52,7 +50,6 @@ export class CreateUsagerDto {
   @IsString()
   @MaxLength(400)
   @StripTagsTransform()
-  @TrimOrNullTransform()
   public surnom!: string;
 
   @IsNotEmpty()
@@ -63,13 +60,11 @@ export class CreateUsagerDto {
   @MaxLength(100)
   @IsString()
   @StripTagsTransform()
-  @Trim()
   public villeNaissance!: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(20)
-  @TrimOrNullTransform()
   @StripTagsTransform()
   public langue!: string | null;
 
@@ -81,7 +76,6 @@ export class CreateUsagerDto {
   @IsOptional()
   @IsString()
   @StripTagsTransform()
-  @TrimOrNullTransform()
   @MaxLength(50)
   public customRef!: string;
 
@@ -99,6 +93,8 @@ export class CreateUsagerDto {
 
   @IsObject()
   @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => TelephoneDto)
   @IsValidPhone("telephone", false, true)
   public telephone!: Telephone;
 
@@ -108,9 +104,7 @@ export class CreateUsagerDto {
 
   @IsOptional()
   @IsArray()
-  @ValidateIf((o) => {
-    return o?.ayantsDroits?.length > 0;
-  })
+  @ArrayMaxSize(20)
   @ValidateNested({ each: true })
   @Type(() => UsagerAyantDroitDto)
   public ayantsDroits!: UsagerAyantDroit[];
@@ -119,6 +113,5 @@ export class CreateUsagerDto {
   @MaxLength(50)
   @IsString()
   @StripTagsTransform()
-  @TrimOrNullTransform()
   public numeroDistribution!: string;
 }

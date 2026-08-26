@@ -136,6 +136,10 @@ export class ManageStructureInformationFormComponent implements OnDestroy {
         .get("isTemporary")
         ?.valueChanges.subscribe((value: boolean) => {
           const validator = value ? [Validators.required] : null;
+          if (!value) {
+            this.tempMessageForm.get("startDate")?.setValue(null);
+            this.tempMessageForm.get("endDate")?.setValue(null);
+          }
           this.tempMessageForm.get("startDate")?.setValidators(validator);
           this.tempMessageForm.get("endDate")?.setValidators(validator);
           this.tempMessageForm.get("startDate")?.updateValueAndValidity();
@@ -151,9 +155,9 @@ export class ManageStructureInformationFormComponent implements OnDestroy {
         return { required: true };
       }
 
-      const div = document.createElement("div");
-      div.innerHTML = value;
-      const text = div.textContent || div.innerText || "";
+      const text =
+        new DOMParser().parseFromString(value, "text/html").body.textContent ??
+        "";
 
       if (text.trim().length < 10) {
         return { minlength: true };

@@ -23,7 +23,7 @@ import { DecisionRadiationFormComponent } from "./components/decision-radiation-
 import { FormContactDetailsComponent } from "./components/form-contact-details/form-contact-details.component";
 import { InputNationalityComponent } from "./components/input-nationality/input-nationality.component";
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
-import { SafeHtmlPipe, SortArrayPipe } from "../shared/pipes";
+import { SortArrayPipe } from "../shared/pipes";
 import { DisplayTableImageComponent } from "../shared/components/display-table-image/display-table-image.component";
 import { FullNamePipe } from "./pipes";
 import { EditUsagerDocComponent } from "./components/edit-usager-doc/edit-usager-doc.component";
@@ -90,7 +90,6 @@ import { DisplayAyantsDroitsComponent } from "./components/display-ayants-droits
     CommonModule,
     DisplayTableImageComponent,
     FormsModule,
-    SafeHtmlPipe,
     ReactiveFormsModule,
     DsfrDatePickerComponent,
     DsfrAutocompleteComponent,

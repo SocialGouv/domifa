@@ -1,4 +1,5 @@
 import { UsagerFormModel } from "./../../interfaces/UsagerFormModel";
+import { ENTRETIEN_DETAIL_FIELDS } from "./entretien-form.constants";
 import {
   Component,
   EventEmitter,
@@ -120,6 +121,16 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
         [NoWhiteSpaceValidator, Validators.maxLength(1000)],
       ],
     });
+
+    for (const { field, detail, shownFor } of ENTRETIEN_DETAIL_FIELDS) {
+      this.subscription.add(
+        this.entretienForm.get(field)?.valueChanges.subscribe((value) => {
+          if (value !== shownFor) {
+            this.entretienForm.get(detail)?.setValue(null);
+          }
+        })
+      );
+    }
   }
 
   public closeModal(): void {

@@ -45,6 +45,19 @@ describe("phone schema", () => {
     }
   });
 
+  it("reads international prefixes from the spreadsheet", async () => {
+    for (const numero of [
+      "+33 6 01 02 02 04",
+      "0033601020204",
+      "+33601020204",
+    ]) {
+      expect(await phone().validate({ numero, countryCode: "fr" })).toEqual({
+        countryCode: "fr",
+        numero: "06 01 02 02 04",
+      });
+    }
+  });
+
   it("invalid phone", async () => {
     await expect(
       phone().validate({ numero: "01/02/03/04/05", countryCode: "fr" })

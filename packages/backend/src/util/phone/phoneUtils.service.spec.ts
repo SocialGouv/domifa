@@ -19,3 +19,33 @@ describe("Telephone utils", () => {
     );
   });
 });
+
+describe("getPhoneString — international input", () => {
+  it("reads +33 / 0033 prefixes and formats them nationally", () => {
+    for (const numero of [
+      "+33612345678",
+      "+33 6 12 34 56 78",
+      "0033612345678",
+      "+33 (0)6 12 34 56 78",
+    ]) {
+      expect(getPhoneString({ countryCode: "fr", numero })).toEqual(
+        "06 12 34 56 78"
+      );
+    }
+  });
+
+  it("keeps the + so a number from another region than countryCode is still read", () => {
+    expect(
+      getPhoneString({
+        countryCode: "fr",
+        numero: "+262 692 12 34 56",
+      }).replace(/\s+/g, "")
+    ).toEqual("0692123456");
+  });
+
+  it("does not mutate its argument", () => {
+    const telephone = { countryCode: "fr", numero: "06-12-34-56-78" };
+    getPhoneString(telephone);
+    expect(telephone.numero).toEqual("06-12-34-56-78");
+  });
+});

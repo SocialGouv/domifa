@@ -28,12 +28,12 @@ export const UsagersImportUsagerSchema = yup
     civilite: oneOfString(["H", "F"]).required(),
     nom: yup.string().max(200).required(),
     prenom: yup.string().max(200).required(),
-    surnom: yup.string().max(100),
+    surnom: yup.string().max(400),
     dateNaissance: dateUtcSchema()
       .min(yup.ref("$minDate"))
       .max(yup.ref("$today"))
       .required(),
-    lieuNaissance: yup.string().required().max(1000),
+    lieuNaissance: yup.string().required().max(100),
     telephone: phone(),
     email: email().notRequired(),
     statutDom: oneOfString(["VALIDE", "REFUS", "RADIE"]).required(),
@@ -95,8 +95,8 @@ export const UsagersImportUsagerSchema = yup
     ayantsDroits: yup
       .array(
         yup.object({
-          nom: yup.string().required(),
-          prenom: yup.string().required(),
+          nom: yup.string().max(200).required(),
+          prenom: yup.string().max(200).required(),
           dateNaissance: dateUtcSchema()
             .min(yup.ref("$minDate"))
             .max(yup.ref("$today"))
