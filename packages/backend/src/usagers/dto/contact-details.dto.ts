@@ -1,16 +1,19 @@
 import { Telephone } from "@domifa/common";
 import {
-  IsOptional,
+  IsBoolean,
   IsEmail,
   IsNotEmpty,
-  IsBoolean,
   IsObject,
+  IsOptional,
+  ValidateNested,
 } from "class-validator";
 import {
   TrimOrNullTransform,
   LowerCaseTransform,
   IsValidPhone,
 } from "../../_common/decorators";
+import { Type } from "class-transformer";
+import { TelephoneDto } from "../../_common/dto/telephone.dto";
 
 export class ContactDetailsDto {
   @IsOptional()
@@ -21,6 +24,8 @@ export class ContactDetailsDto {
 
   @IsObject()
   @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => TelephoneDto)
   @IsValidPhone("telephone", false, true)
   public telephone!: Telephone;
 

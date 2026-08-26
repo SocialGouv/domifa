@@ -165,6 +165,12 @@ export const updateComplementAdress = (
 ): void => {
   const isRequired = actif === true ? [Validators.required] : null;
 
+  if (actif !== true) {
+    for (const field of ["adresse", "codePostal", "ville"]) {
+      structureForm.get("adresseCourrier")?.get(field)?.setValue(null);
+    }
+  }
+
   structureForm
     .get("adresseCourrier")
     ?.get("adresse")

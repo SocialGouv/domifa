@@ -33,6 +33,7 @@ import { StructureDocDto } from "../dto/structure-doc.dto";
 import { structureDocRepository, StructureDocTable } from "../../../database";
 import { FILES_SIZE_LIMIT } from "../../../util/file-manager";
 import { join } from "node:path";
+import sanitizeFilename from "sanitize-filename";
 import { FileManagerService } from "../../../util/file-manager/file-manager.service";
 import { validateDocTemplate } from "../../../usagers/utils/custom-docs";
 import { StructureDocTypesAvailable } from "@domifa/common";
@@ -142,7 +143,9 @@ export class StructureDocController {
       displayInPortailUsager: false,
       filetype: file.mimetype,
       path,
-      label: structureDocDto.label,
+      label:
+        structureDocDto.label ??
+        sanitizeFilename(file.originalname).slice(0, 100),
       custom: structureDocDto.custom,
       structureId: user.structureId,
       customDocType: structureDocDto.customDocType,

@@ -10,10 +10,8 @@ export const getPhoneString = (
     return "";
   }
 
-  telephone.numero = telephone.numero.replace(/\D/g, "");
-
   const numero = phoneUtil.parse(
-    telephone.numero,
+    telephone.numero.replace(/[^\d+]/g, ""),
     telephone?.countryCode?.toLowerCase()
   );
   if (phoneUtil.isValidNumber(numero)) {

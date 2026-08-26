@@ -217,7 +217,16 @@ export const setupFormSubscriptions = (
           ?.get("dsp")
           ?.setValidators(Validators.required);
       } else {
-        form.get("reseauDetail")?.setValue(null);
+        for (const name of [
+          "agrement",
+          "organismeType",
+          "organismeTypeDetail",
+          "reseau",
+          "reseauDetail",
+        ]) {
+          form.get(name)?.setValue(null);
+        }
+        form.get("registrationData")?.get("dsp")?.setValue(null);
       }
 
       assoOnlyFields.forEach((name) =>

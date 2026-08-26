@@ -3,14 +3,21 @@ import {
   IsEmpty,
   IsInt,
   IsNotEmpty,
+  IsObject,
   IsOptional,
   IsString,
   MaxLength,
   Min,
   MinLength,
+  ValidateNested,
 } from "class-validator";
 
-import { Transform, TransformFnParams } from "class-transformer";
+import {
+  plainToInstance,
+  Transform,
+  TransformFnParams,
+  Type,
+} from "class-transformer";
 
 import { MessageEmailAttachment } from "../mails/types/MessageEmailAttachment.type";
 import {
@@ -18,9 +25,24 @@ import {
   LowerCaseTransform,
   StripTagsTransform,
 } from "../../_common/decorators";
-import sanitizeHtml from "sanitize-html";
 import { Telephone } from "@domifa/common";
 import { cleanFormDataValue } from "../../util";
+import { TelephoneDto } from "../../_common/dto/telephone.dto";
+
+// Multipart/form-data delivers the nested telephone as a JSON string.
+const parseMultipartTelephone = (value: unknown): unknown => {
+  if (typeof value !== "string") {
+    return value;
+  }
+  try {
+    const parsed = JSON.parse(value);
+    return typeof parsed === "object" && parsed !== null
+      ? plainToInstance(TelephoneDto, parsed)
+      : value;
+  } catch {
+    return value;
+  }
+};
 
 export class ContactSupportDto {
   @IsNotEmpty()
@@ -71,32 +93,14 @@ export class ContactSupportDto {
   @IsString()
   @MinLength(2)
   @MaxLength(500)
-  @Transform(({ value }: TransformFnParams) => {
-    value = sanitizeHtml(value);
-    return value.toString().trim();
-  })
+  @StripTagsTransform()
   public subject!: string;
 
-  @Transform(({ value }: TransformFnParams) => {
-    // Multipart/form-data delivers JSON-encoded objects as strings — parse
-    // safely so downstream code receives a real Telephone object.
-    if (typeof value === "string") {
-      try {
-        value = JSON.parse(value);
-      } catch {
-        return value;
-      }
-    }
-    if (!value || typeof value !== "object" || Array.isArray(value)) {
-      return value;
-    }
-    // Explicit allowlist: blocks prototype pollution and strips junk keys.
-    return {
-      numero: typeof value.numero === "string" ? value.numero : undefined,
-      countryCode:
-        typeof value.countryCode === "string" ? value.countryCode : undefined,
-    };
-  })
+  @IsNotEmpty()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => TelephoneDto)
+  @Transform(({ value }: TransformFnParams) => parseMultipartTelephone(value))
   @IsValidPhone("phone", true, false)
   public phone!: Telephone;
 

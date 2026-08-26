@@ -16,7 +16,6 @@ import {
   MaxLength,
   Min,
   MinLength,
-  ValidateIf,
   ValidateNested,
 } from "class-validator";
 import { StructureAdresseCourrierDto, StructureResponsableDto } from ".";
@@ -25,7 +24,7 @@ import {
   IsValidPhone,
   StripTagsTransform,
   Trim,
-  TrimOrNullTransform,
+  ValidateIfElseNull,
 } from "../../../_common/decorators";
 import { cleanSiret } from "@domifa/common";
 import { ValidationRegexp } from "../../../usagers/controllers/import/step2-validate-row";
@@ -38,6 +37,7 @@ import {
   Telephone,
 } from "@domifa/common";
 import { StructureRegistrationDto } from "./structure-registration-data.dto";
+import { TelephoneDto } from "../../../_common/dto/telephone.dto";
 
 export class StructureDto {
   @IsNotEmpty()
@@ -47,20 +47,19 @@ export class StructureDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(1000)
-  @Trim()
+  @StripTagsTransform()
   public adresse!: string;
 
   @IsString()
   @IsNotEmpty()
-  @TrimOrNullTransform()
   @MaxLength(400)
-  @Trim()
+  @StripTagsTransform()
   public nom!: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(400)
-  @TrimOrNullTransform()
+  @StripTagsTransform()
   public complementAdresse!: string;
 
   @Min(0)
@@ -76,14 +75,14 @@ export class StructureDto {
 
   @IsNotEmpty()
   @IsString()
-  @Trim()
+  @StripTagsTransform()
   @MaxLength(100)
   public ville!: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(200)
-  @TrimOrNullTransform()
+  @StripTagsTransform()
   public agrement!: string;
 
   @IsOptional()
@@ -101,6 +100,8 @@ export class StructureDto {
 
   @IsNotEmpty()
   @IsObject()
+  @ValidateNested()
+  @Type(() => TelephoneDto)
   @IsValidPhone("telephone", true, false)
   public telephone: Telephone;
 
@@ -132,14 +133,14 @@ export class StructureDto {
   @IsTimeZone()
   public timeZone: TimeZone;
 
-  @ValidateIf((o) => {
-    return o.structureType === "asso";
-  })
+  @ValidateIfElseNull((o) => o.structureType === "asso")
   @IsIn(Object.keys(STRUCTURE_ORGANISME_TYPE_LABELS))
   @IsNotEmpty()
   public organismeType: StructureOrganismeType;
 
-  @ValidateIf((o) => o.structureType === "asso" && o.organismeType === "AUTRE")
+  @ValidateIfElseNull(
+    (o) => o.structureType === "asso" && o.organismeType === "AUTRE"
+  )
   @StripTagsTransform()
   @IsString()
   @IsNotEmpty()
@@ -150,22 +151,24 @@ export class StructureDto {
   @Equals(true)
   acceptCgu: boolean;
 
-  @ValidateIf((o) => o.structureType === "asso")
+  @ValidateIfElseNull((o) => o.structureType === "asso")
   @IsNotEmpty()
   @IsString()
-  @Trim()
+  @StripTagsTransform()
   @MaxLength(100)
   public reseau!: string;
 
-  @ValidateIf((o) => o.structureType === "asso" && o.reseau === "Autre réseau")
+  @ValidateIfElseNull(
+    (o) => o.structureType === "asso" && o.reseau === "Autre réseau"
+  )
   @IsNotEmpty()
   @IsString()
-  @Trim()
+  @StripTagsTransform()
   @MaxLength(100)
   public reseauDetail?: string | null;
 
   @Transform(({ value }) => cleanSiret(value))
-  @ValidateIf((o) => o.noSiret !== true)
+  @ValidateIfElseNull((o) => o.noSiret !== true)
   @IsString()
   @IsSIRET()
   siret: string | null;
@@ -174,6 +177,7 @@ export class StructureDto {
   @IsBoolean()
   noSiret: boolean | null;
 
+  @IsOptional()
   @ValidateNested()
   @Type(() => StructureRegistrationDto)
   registrationData: StructureRegistrationDto;
