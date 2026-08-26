@@ -6,6 +6,7 @@ import { FaqDiscoverComponent } from "./fragments/faq-discover/faq-discover.comp
 import { FaqUsageComponent } from "./fragments/faq-usage/faq-usage.component";
 import { FaqFichesComponent } from "./fragments/faq-fiches/faq-fiches.component";
 import { FaqVideoTutorialComponent } from "./fragments/faq-video-tutorial/faq-video-tutorial.component";
+import { FaqCommunicationKitComponent } from "./fragments/faq-communication-kit/faq-communication-kit.component";
 
 const routes: Routes = [
   {
@@ -18,6 +19,7 @@ const routes: Routes = [
       { path: "securite-et-confidentialite", component: FaqSecurityComponent },
       { path: "fiches-pratiques", component: FaqFichesComponent },
       { path: "tutoriels-videos", component: FaqVideoTutorialComponent },
+      { path: "communication-kit", component: FaqCommunicationKitComponent },
     ],
   },
 ];
