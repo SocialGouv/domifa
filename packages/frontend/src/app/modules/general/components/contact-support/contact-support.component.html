@@ -198,8 +198,8 @@
 
       <!-- Objet -->
       <div
-        class="fr-input-group fr-mb-3w"
-        [class.fr-input-group--error]="
+        class="fr-select-group fr-mb-3w"
+        [class.fr-select-group--error]="
           (f.subject.dirty || submitted) && f.subject.errors
         "
       >
@@ -207,11 +207,9 @@
           Objet de votre message: demande de support, partenariat, formation,
           etc.
         </label>
-        <input
-          type="text"
-          class="fr-input"
+        <select
+          class="fr-select"
           id="subject"
-          appCleanStr
           formControlName="subject"
           name="subject"
           [attr.aria-invalid]="
@@ -220,23 +218,71 @@
           [attr.aria-describedby]="
             (f.subject.dirty || submitted) && f.subject.errors
               ? 'invalid-subject'
-              : 'subject-help'
+              : null
+          "
+          aria-required="true"
+          required
+        >
+          <option value="" disabled selected hidden>
+            Sélectionnez l'objet de votre message
+          </option>
+          @for (subjectOption of CONTACT_SUBJECTS; track subjectOption) {
+          <option [value]="subjectOption">{{ subjectOption }}</option>
+          }
+        </select>
+        <div class="fr-messages-group" aria-live="polite">
+          @if ((submitted || f.subject.dirty) && f.subject.errors) {
+          <p id="invalid-subject" class="fr-message fr-message--error">
+            Veuillez sélectionner l'objet de votre message
+          </p>
+          }
+        </div>
+      </div>
+
+      <!-- Objet : autre demande -->
+      @if (f.subject.value === CONTACT_SUBJECT_OTHER) {
+      <div
+        class="fr-input-group fr-mb-3w"
+        [class.fr-input-group--error]="
+          (f.subjectOther.dirty || submitted) && f.subjectOther.errors
+        "
+      >
+        <label class="fr-label" for="subjectOther">
+          Précisez l'objet de votre demande :
+        </label>
+        <input
+          type="text"
+          class="fr-input"
+          id="subjectOther"
+          appCleanStr
+          formControlName="subjectOther"
+          name="subjectOther"
+          [attr.aria-invalid]="
+            (f.subjectOther.dirty || submitted) && f.subjectOther.errors
+              ? true
+              : false
+          "
+          [attr.aria-describedby]="
+            (f.subjectOther.dirty || submitted) && f.subjectOther.errors
+              ? 'invalid-subject-other'
+              : 'subject-other-help'
           "
           aria-required="true"
           required
         />
         <div class="fr-messages-group" aria-live="polite">
-          @if (!(submitted || f.subject.dirty) || !f.subject.errors) {
-          <p id="subject-help" class="fr-message fr-message--info">
+          @if (!(submitted || f.subjectOther.dirty) || !f.subjectOther.errors) {
+          <p id="subject-other-help" class="fr-message fr-message--info">
             2 caractères minimum
           </p>
-          } @if ((submitted || f.subject.dirty) && f.subject.errors) {
-          <p id="invalid-subject" class="fr-message fr-message--error">
-            Veuillez indiquer l'objet de votre message, 2 caractères minimum
+          } @if ((submitted || f.subjectOther.dirty) && f.subjectOther.errors) {
+          <p id="invalid-subject-other" class="fr-message fr-message--error">
+            Veuillez préciser l'objet de votre demande, 2 caractères minimum
           </p>
           }
         </div>
       </div>
+      }
 
       <!-- Message -->
       <div

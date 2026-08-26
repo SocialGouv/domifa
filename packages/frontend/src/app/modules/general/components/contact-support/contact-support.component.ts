@@ -49,6 +49,19 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
   public me!: UserStructure | null;
   public readonly PREFERRED_COUNTRIES: Iso2[] = PREFERRED_COUNTRIES;
 
+  public readonly CONTACT_SUBJECT_OTHER = "Autre demande";
+  public readonly CONTACT_SUBJECTS: string[] = [
+    "Je souhaite inscrire ou supprimer ma structure",
+    "Je souhaite suivre une formation",
+    "Je souhaite soumettre des propositions d'évolutions",
+    "J'ai une question sur les statistiques / le rapport d'activité",
+    "J'ai une question juridique / sécurité",
+    "J'ai une question sur le portail domicilié Mon DomiFa",
+    "J'ai besoin d'une assistance technique (imports de données, bug, modifications de comptes, explication d'une fonctionnalité)",
+    "Je souhaite signaler un problème d'accessibilité",
+    this.CONTACT_SUBJECT_OTHER,
+  ];
+
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
     private readonly generalService: GeneralService,
@@ -107,10 +120,8 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
         name,
         [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
       ],
-      subject: [
-        "",
-        [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
-      ],
+      subject: ["", [Validators.required]],
+      subjectOther: ["", []],
       structureId: [structureId, []],
       structureName: [
         structureName,
@@ -118,6 +129,25 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
       ],
       userId: [userId, []],
     });
+
+    this.subscription.add(
+      this.contactForm.controls.subject.valueChanges.subscribe(
+        (subject: string) => {
+          const subjectOther = this.contactForm.controls.subjectOther;
+          if (subject === this.CONTACT_SUBJECT_OTHER) {
+            subjectOther.setValidators([
+              Validators.required,
+              Validators.minLength(2),
+              NoWhiteSpaceValidator,
+            ]);
+          } else {
+            subjectOther.setValue("");
+            subjectOther.clearValidators();
+          }
+          subjectOther.updateValueAndValidity();
+        }
+      )
+    );
   }
 
   public onFileChange(event: Event): void {
@@ -149,8 +179,13 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
       formData.append("file", this.contactForm.controls.fileSource.value);
     }
 
+    const subject =
+      this.contactForm.controls.subject.value === this.CONTACT_SUBJECT_OTHER
+        ? this.contactForm.controls.subjectOther.value
+        : this.contactForm.controls.subject.value;
+
     formData.append("name", this.contactForm.controls.name.value);
-    formData.append("subject", this.contactForm.controls.subject.value);
+    formData.append("subject", subject);
     formData.append("userId", this.contactForm.controls.userId.value);
     formData.append(
       "phone",
