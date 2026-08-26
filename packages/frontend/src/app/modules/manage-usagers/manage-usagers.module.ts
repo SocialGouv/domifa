@@ -16,6 +16,7 @@ import { ManageUsagersPageComponent } from "./components/manage-usagers-page/man
 import { ManageUsagersRoutingModule } from "./manage-usagers-routing.module";
 import { ManageDownloadDocsComponent } from "./components/manage-download-docs/manage-download-docs.component";
 import { ColumnInformationsComponent } from "./components/column-informations/column-informations.component";
+import { ColumnLastInteractionComponent } from "./components/column-last-interaction/column-last-interaction.component";
 
 import { ManageFiltersComponent } from "./components/manage-filters/manage-filters.component";
 import { ColumnInteractionsComponent } from "./components/column-interactions/column-interactions.component";
@@ -48,6 +49,7 @@ import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
     FormsModule,
     UsagerSharedModule,
     ColumnInformationsComponent,
+    ColumnLastInteractionComponent,
     ColumnInteractionsComponent,
     SharedModule,
     DateFrConditionalDirective,
