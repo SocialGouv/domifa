@@ -43,16 +43,13 @@ import {
 import { userSecurityResetPasswordInitiator } from "../../../users/services";
 import { isDeletedEmail } from "./deleted-email.guard";
 
-// Environments where every Brevo call (send, list sync, contact read, etc.)
-// is replaced by an info log and a mocked response: `test` (CI suites must
-// stay offline) and `local` (developers shouldn't hammer the shared Brevo
-// account from their machine). All other environments hit the real API.
+// Brevo is only ever called from prod: the account (contacts, lists,
+// blocklists, transactional history) is shared, so every other environment
+// gets an info log and a mocked response instead. Outside prod the only
+// email that still goes out is the OTP, through Tipimail SMTP (see
+// OtpEmailService).
 function isBrevoCallSkipped(config: DomifaConfig): boolean {
-  return (
-    !config.email.emailsEnabled ||
-    config.envId === "test" ||
-    config.envId === "local"
-  );
+  return !config.email.emailsEnabled || config.envId !== "prod";
 }
 
 @Injectable()
@@ -179,15 +176,9 @@ export class BrevoSenderService {
       }
 
       sendSmtpEmail.templateId = templateId;
-      sendSmtpEmail.to =
-        domifaConfig().envId === "prod"
-          ? cleanRecipients
-          : [
-              {
-                email: domifaConfig().email.emailAddressRedirectAllTo,
-                name: "DomiFa Préprod",
-              },
-            ];
+      // Only reachable in prod (isBrevoCallSkipped short-circuits everywhere
+      // else), so no recipient redirection is needed here anymore.
+      sendSmtpEmail.to = cleanRecipients;
 
       sendSmtpEmail.params = params;
       sendSmtpEmail.replyTo = replyTo;

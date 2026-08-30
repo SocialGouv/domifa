@@ -97,6 +97,14 @@ export class OtpEmailService implements OnModuleInit {
     const recipientLog = redactEmail(recipient);
     const isLogin = purpose === "LOGIN";
 
+    // Outside prod every Brevo call is disabled (shared account, see
+    // isBrevoCallSkipped in brevo-sender.service): the OTP is the only email
+    // that must still go out, through Tipimail SMTP.
+    if (config.envId !== "prod") {
+      await this.sendViaSmtp({ recipient, code, isLogin, purpose, emailLog });
+      return;
+    }
+
     // Default routing: Brevo only. For whitelisted domains
     // (OTP_FORCED_SMTP_DOMAINS) whose mail filters occasionally quarantine
     // Brevo, we also fire Tipimail via SMTP with the SAME code so the user

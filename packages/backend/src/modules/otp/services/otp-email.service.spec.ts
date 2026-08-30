@@ -151,6 +151,7 @@ describe("OtpEmailService", () => {
           },
         })
       );
+      mockSendMail.mockResolvedValue({ messageId: "<smtp-1>" });
       const logSpy = jest
         .spyOn(service["logger"], "log")
         // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -165,8 +166,9 @@ describe("OtpEmailService", () => {
 
       expect(logSpy.mock.calls[0][0]).toContain("[OTP DEV]");
       expect(logSpy.mock.calls[0][0]).toContain("424242");
-      // The log is additional: delivery is unchanged in dev.
-      expect(mockBrevoSendEmailWithTemplate).toHaveBeenCalledTimes(1);
+      // The log is additional: outside prod delivery goes through Tipimail.
+      expect(mockSendMail).toHaveBeenCalledTimes(1);
+      expect(mockBrevoSendEmailWithTemplate).not.toHaveBeenCalled();
     });
 
     it("should log the plaintext OTP code in dev even when emails are disabled", async () => {
@@ -192,6 +194,7 @@ describe("OtpEmailService", () => {
     });
 
     it("should NOT log the plaintext OTP code in preprod nor prod", async () => {
+      mockSendMail.mockResolvedValue({ messageId: "<smtp-1>" });
       for (const envId of ["preprod", "prod"]) {
         mockConfig.mockReturnValue(
           buildConfig({
@@ -288,7 +291,7 @@ describe("OtpEmailService", () => {
       expect(mockSendMail).not.toHaveBeenCalled();
     });
 
-    it("should redirect to test address in non-prod when configured", async () => {
+    it("should send via Tipimail SMTP only, to the redirect address, in non-prod", async () => {
       mockConfig.mockReturnValue(
         buildConfig({
           envId: "preprod",
@@ -299,6 +302,7 @@ describe("OtpEmailService", () => {
           },
         })
       );
+      mockSendMail.mockResolvedValue({ messageId: "<smtp-1>" });
 
       await service.sendOtpEmail({
         email: BREVO_ONLY_EMAIL,
@@ -307,10 +311,10 @@ describe("OtpEmailService", () => {
         purpose: "LOGIN",
       });
 
-      expect(mockBrevoSendEmailWithTemplate.mock.calls[0][0].to).toEqual([
-        { email: "preprod-test@x.com", name: "preprod-test@x.com" },
-      ]);
-      expect(mockSendMail).not.toHaveBeenCalled();
+      expect(mockSendMail).toHaveBeenCalledTimes(1);
+      expect(mockSendMail.mock.calls[0][0].to).toBe("preprod-test@x.com");
+      expect(mockSendMail.mock.calls[0][0].html).toContain("123456");
+      expect(mockBrevoSendEmailWithTemplate).not.toHaveBeenCalled();
     });
   });
 

@@ -66,6 +66,7 @@ import {
 } from "../../../app-logs/types/app-log-context.types";
 import { CurrentSupervisor } from "../../../../auth/decorators/current-supervisor.decorator";
 import { BrevoSenderService } from "../../../mails/services/brevo-sender/brevo-sender.service";
+import { domifaConfig } from "../../../../config";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserProfiles("supervisor")
@@ -192,11 +193,21 @@ export class AdminUsersController {
     return this.adminStructuresService.getUsersForAdmin();
   }
 
+  // The Brevo blocklist page reads and mutates the shared Brevo account:
+  // outside prod these endpoints answer the "Brevo disabled" shapes without
+  // ever calling the API.
+  private isBrevoBlocklistEnabled(): boolean {
+    return domifaConfig().envId === "prod";
+  }
+
   @Get("brevo/blocked-counts")
   public async getBrevoBlockedCounts(): Promise<{
     campaignBlocked: number | null;
     transactionalBlocked: number | null;
   }> {
+    if (!this.isBrevoBlocklistEnabled()) {
+      return { campaignBlocked: null, transactionalBlocked: null };
+    }
     const [campaignBlocked, transactionalBlocked] = await Promise.all([
       this.brevoSenderService.countCampaignBlacklisted(),
       this.brevoSenderService.countTransactionalBlocked(),
@@ -208,6 +219,9 @@ export class AdminUsersController {
   public async getBrevoBlockedContacts(
     @Query() pageOptions: PageOptionsDto
   ): Promise<{ data: BrevoBlockedContact[]; total: number | null }> {
+    if (!this.isBrevoBlocklistEnabled()) {
+      return { data: [], total: null };
+    }
     const take = pageOptions.take ?? 50;
     const skip = ((pageOptions.page ?? 1) - 1) * take;
     const [data, total] = await Promise.all([
@@ -223,6 +237,9 @@ export class AdminUsersController {
   ): Promise<{ url: string | null }> {
     if (typeof email !== "string" || !email.includes("@")) {
       throw new BadRequestException("INVALID_EMAIL");
+    }
+    if (!this.isBrevoBlocklistEnabled()) {
+      return { url: null };
     }
     const status = await this.brevoSenderService.getContactStatus({ email });
     if (!status.existsInBrevo || !status.id) {
@@ -240,6 +257,11 @@ export class AdminUsersController {
   ): Promise<ExpressResponse> {
     if (!email || !email.includes("@")) {
       throw new BadRequestException("INVALID_EMAIL");
+    }
+    if (!this.isBrevoBlocklistEnabled()) {
+      return res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "BREVO_BLOCKLIST_DISABLED_OUTSIDE_PROD" });
     }
     await this.brevoSenderService.unblockBrevoTransactional({ email });
     try {
