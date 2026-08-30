@@ -2,4 +2,5 @@
 export * from "./location.service";
 export * from "./structureCreator.service";
 export * from "./structureHardReset.service";
+export * from "./structuresMerge.service";
 export * from "./structures.service";

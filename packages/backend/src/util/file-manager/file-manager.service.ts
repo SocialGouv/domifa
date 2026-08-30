@@ -1,4 +1,5 @@
 import {
+  CopyObjectCommand,
   DeleteObjectCommand,
   DeleteObjectsCommand,
   GetObjectCommand,
@@ -6,10 +7,9 @@ import {
   ListObjectsV2Command,
   S3Client,
 } from "@aws-sdk/client-s3";
-import { Readable } from "stream";
 import { domifaConfig } from "../../config";
 import { Upload } from "@aws-sdk/lib-storage";
-import { PassThrough } from "node:stream";
+import { PassThrough, Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
 
 import { Injectable } from "@nestjs/common";
@@ -97,6 +97,113 @@ export class FileManagerService {
     } catch (e) {
       appLogger.error(e);
       throw new Error("CANNOT_DELETE_FILE");
+    }
+  }
+
+  public async listObjectsUnderPrefix(
+    prefix: string
+  ): Promise<{ key: string; size: number }[]> {
+    const objects: { key: string; size: number }[] = [];
+    let continuationToken: string | undefined;
+
+    do {
+      const page = await this.s3.send(
+        new ListObjectsV2Command({
+          Bucket: domifaConfig().upload.bucketName,
+          Prefix: prefix,
+          ContinuationToken: continuationToken,
+        })
+      );
+      for (const { Key, Size } of page.Contents ?? []) {
+        if (Key) {
+          objects.push({ key: Key, size: Size ?? 0 });
+        }
+      }
+      continuationToken = page.IsTruncated
+        ? page.NextContinuationToken
+        : undefined;
+    } while (continuationToken);
+
+    return objects;
+  }
+
+  public async listKeysUnderPrefix(prefix: string): Promise<string[]> {
+    return (await this.listObjectsUnderPrefix(prefix)).map(({ key }) => key);
+  }
+
+  // S3 has no folders: objects are listed then copied one by one (server-side).
+  // Idempotent: an object already present at the target with the same size is skipped.
+  public async copyAllUnderPrefix(
+    sourcePrefix: string,
+    targetPrefix: string
+  ): Promise<{ total: number; copied: number; skipped: number }> {
+    const bucket = domifaConfig().upload.bucketName;
+    const objects = await this.listObjectsUnderPrefix(sourcePrefix);
+    const total = objects.length;
+    let copied = 0;
+    let skipped = 0;
+
+    appLogger.warn(
+      `[file-manager] copy ${total} objects: ${sourcePrefix} -> ${targetPrefix}`
+    );
+
+    for (const [index, { key, size }] of objects.entries()) {
+      const targetKey = targetPrefix + key.slice(sourcePrefix.length);
+      const position = `[${index + 1}/${total}]`;
+
+      const existingSize = await this.getObjectSize(targetKey);
+      if (existingSize === size) {
+        skipped++;
+        appLogger.warn(
+          `[file-manager] ${position} skip (already at target, ${size} bytes): ${targetKey}`
+        );
+        continue;
+      }
+
+      await this.s3.send(
+        new CopyObjectCommand({
+          Bucket: bucket,
+          CopySource: encodeURI(`${bucket}/${key}`),
+          Key: targetKey,
+        })
+      );
+
+      const copiedSize = await this.getObjectSize(targetKey);
+      if (copiedSize !== size) {
+        throw new Error(
+          `[file-manager] ${position} size mismatch after copy: ${key} (${size} bytes) -> ${targetKey} (${copiedSize} bytes)`
+        );
+      }
+
+      copied++;
+      appLogger.warn(
+        `[file-manager] ${position} copied (${size} bytes): ${key} -> ${targetKey}`
+      );
+    }
+
+    appLogger.warn(
+      `[file-manager] copy done: ${copied} copied, ${skipped} skipped, ${total} total`
+    );
+    return { total, copied, skipped };
+  }
+
+  private async getObjectSize(key: string): Promise<number | null> {
+    try {
+      const head = await this.s3.send(
+        new HeadObjectCommand({
+          Bucket: domifaConfig().upload.bucketName,
+          Key: key,
+        })
+      );
+      return head.ContentLength ?? 0;
+    } catch (error) {
+      if (
+        error?.name === "NotFound" ||
+        error?.$metadata?.httpStatusCode === 404
+      ) {
+        return null;
+      }
+      throw error;
     }
   }
 
