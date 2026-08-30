@@ -1,3 +1,10 @@
+## [2.260.1](https://github.com/SocialGouv/domifa/compare/v2.260.0...v2.260.1) (2026-08-30)
+
+
+### Bug Fixes
+
+* **backend:** migrate of structure ([723e01e](https://github.com/SocialGouv/domifa/commit/723e01e2fdeb68ff42403fef45575766907ed661))
+
 # [2.260.0](https://github.com/SocialGouv/domifa/compare/v2.259.0...v2.260.0) (2026-08-26)
 
 
