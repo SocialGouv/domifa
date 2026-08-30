@@ -1,3 +1,10 @@
+## [2.260.2](https://github.com/SocialGouv/domifa/compare/v2.260.1...v2.260.2) (2026-08-30)
+
+
+### Bug Fixes
+
+* **backend:** fix brevo & migration test ([7ffac88](https://github.com/SocialGouv/domifa/commit/7ffac888e9c0e5336bbf68b7862db3deaba92ffe))
+
 ## [2.260.1](https://github.com/SocialGouv/domifa/compare/v2.260.0...v2.260.1) (2026-08-30)
 
 
