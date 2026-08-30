@@ -17,7 +17,11 @@ export class AnalyseMergeStructure957Into8911788118667000
   name = "AnalyseMergeStructure957Into8911788118667000";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    if (domifaConfig().envId !== "prod") {
+    if (
+      domifaConfig().envId === "dev" ||
+      domifaConfig().envId === "local" ||
+      domifaConfig().envId === "test"
+    ) {
       return;
     }
     const service = new StructuresMergeService();
