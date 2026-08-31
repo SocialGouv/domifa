@@ -60,8 +60,8 @@ export class LoginDropdownComponent implements OnInit {
         icon: "fr-icon-mail-line",
       },
       {
-        label: "DGCS",
-        link: "https://admin-domifa.fabrique.social.gouv.fr/",
+        label: "DGCS, DDETS, DREETS",
+        link: "https://pilotage-domifa.fabrique.social.gouv.fr/",
         target: "_blank",
         icon: "fr-icon-building-line",
       },
