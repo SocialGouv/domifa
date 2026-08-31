@@ -1,3 +1,10 @@
+# [2.261.0](https://github.com/SocialGouv/domifa/compare/v2.260.2...v2.261.0) (2026-08-31)
+
+
+### Features
+
+* **front:** fix code review ([566d1ff](https://github.com/SocialGouv/domifa/commit/566d1ff5da701e2adf2328c75b4fbe35b69f9983))
+
 ## [2.260.2](https://github.com/SocialGouv/domifa/compare/v2.260.1...v2.260.2) (2026-08-30)
 
 
