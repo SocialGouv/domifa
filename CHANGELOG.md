@@ -1,3 +1,10 @@
+## [2.261.2](https://github.com/SocialGouv/domifa/compare/v2.261.1...v2.261.2) (2026-08-31)
+
+
+### Bug Fixes
+
+* **backend:** enforce DTO validation and sanitizing, align import and frontends ([c434730](https://github.com/SocialGouv/domifa/commit/c434730e49337cc92c118337f42e0a884601103e))
+
 ## [2.261.1](https://github.com/SocialGouv/domifa/compare/v2.261.0...v2.261.1) (2026-08-31)
 
 
