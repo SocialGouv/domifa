@@ -1,3 +1,10 @@
+# [2.262.0](https://github.com/SocialGouv/domifa/compare/v2.261.2...v2.262.0) (2026-08-31)
+
+
+### Features
+
+* **backend:** merge structure 957 into 891 on preprod ([59b31ce](https://github.com/SocialGouv/domifa/commit/59b31cedf794a891ad2bd7bfa06947653d354530))
+
 ## [2.261.2](https://github.com/SocialGouv/domifa/compare/v2.261.1...v2.261.2) (2026-08-31)
 
 
