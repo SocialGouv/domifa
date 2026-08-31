@@ -11,10 +11,10 @@ const OPTIONS: StructureMergeOptions = {
   customRef: { type: "prefix", value: "F-" },
 };
 
-export class AnalyseMergeStructure957Into8911788118667000
+export class AnalyseMergeStructure957Into8911788118667001
   implements MigrationInterface
 {
-  name = "AnalyseMergeStructure957Into8911788118667000";
+  name = "AnalyseMergeStructure957Into8911788118667001";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     if (
