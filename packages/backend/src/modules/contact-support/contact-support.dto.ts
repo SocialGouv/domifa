@@ -1,6 +1,7 @@
 import {
   IsEmail,
   IsEmpty,
+  IsIn,
   IsInt,
   IsNotEmpty,
   IsObject,
@@ -9,6 +10,7 @@ import {
   MaxLength,
   Min,
   MinLength,
+  ValidateIf,
   ValidateNested,
 } from "class-validator";
 
@@ -25,7 +27,11 @@ import {
   LowerCaseTransform,
   StripTagsTransform,
 } from "../../_common/decorators";
-import { Telephone } from "@domifa/common";
+import {
+  CONTACT_SUPPORT_SUBJECTS,
+  ContactSupportSubject,
+  Telephone,
+} from "@domifa/common";
 import { cleanFormDataValue } from "../../util";
 import { TelephoneDto } from "../../_common/dto/telephone.dto";
 
@@ -91,10 +97,17 @@ export class ContactSupportDto {
 
   @IsNotEmpty()
   @IsString()
+  @IsIn(CONTACT_SUPPORT_SUBJECTS)
+  public subject!: ContactSupportSubject;
+
+  // Only required when `subject` is the "AUTRE" (free text) option.
+  @ValidateIf((dto: ContactSupportDto) => dto.subject === "AUTRE")
+  @IsNotEmpty()
+  @IsString()
   @MinLength(2)
   @MaxLength(500)
   @StripTagsTransform()
-  public subject!: string;
+  public subjectOther?: string;
 
   @IsNotEmpty()
   @IsObject()

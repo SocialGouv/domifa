@@ -226,8 +226,10 @@
           <option value="" disabled>
             Sélectionnez l'objet de votre message
           </option>
-          @for (subjectOption of CONTACT_SUBJECTS; track subjectOption) {
-          <option [value]="subjectOption">{{ subjectOption }}</option>
+          @for (subjectOption of CONTACT_SUBJECTS; track subjectOption.value) {
+          <option [value]="subjectOption.value">
+            {{ subjectOption.label }}
+          </option>
           }
         </select>
         <div class="fr-messages-group" aria-live="polite">

@@ -2,6 +2,7 @@
 export * from "./_core";
 export * from "./app-logs";
 export * from "./brevo";
+export * from "./contact-support";
 export * from "./import";
 export * from "./interactions";
 export * from "./message-sms";
