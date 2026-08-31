@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, AfterViewInit } from "@angular/core";
 
 import { Subscription } from "rxjs";
-import { environment } from "../../../../../environments/environment";
 
 import { AuthService } from "../../../shared/services/auth.service";
 import { WelcomeService } from "../../services/welcome.service";
@@ -15,8 +14,6 @@ import { MatomoTracker } from "ngx-matomo-client";
 })
 export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   public matomoInfo: boolean;
-
-  public readonly portailAdminUrl = environment.portailAdminUrl;
 
   public pendingNews = false;
   public me: UserStructure | null = null;
