@@ -1,4 +1,8 @@
-import { UserStructure } from "@domifa/common";
+import {
+  CONTACT_SUPPORT_SUBJECT_LABELS,
+  ContactSupportSubject,
+  UserStructure,
+} from "@domifa/common";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
@@ -49,18 +53,16 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
   public me!: UserStructure | null;
   public readonly PREFERRED_COUNTRIES: Iso2[] = PREFERRED_COUNTRIES;
 
-  public readonly CONTACT_SUBJECT_OTHER = "Autre demande";
-  public readonly CONTACT_SUBJECTS: string[] = [
-    "Je souhaite inscrire ou supprimer ma structure",
-    "Je souhaite suivre une formation",
-    "Je souhaite soumettre des propositions d'évolutions",
-    "J'ai une question sur les statistiques / le rapport d'activité",
-    "J'ai une question juridique / sécurité",
-    "J'ai une question sur le portail domicilié Mon DomiFa",
-    "J'ai besoin d'une assistance technique (imports de données, bug, modifications de comptes, explication d'une fonctionnalité)",
-    "Je souhaite signaler un problème d'accessibilité",
-    this.CONTACT_SUBJECT_OTHER,
-  ];
+  public readonly CONTACT_SUBJECT_OTHER: ContactSupportSubject = "AUTRE";
+  public readonly CONTACT_SUBJECTS: {
+    value: ContactSupportSubject;
+    label: string;
+  }[] = Object.entries(CONTACT_SUPPORT_SUBJECT_LABELS).map(
+    ([value, label]) => ({
+      value: value as ContactSupportSubject,
+      label,
+    })
+  );
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
@@ -132,7 +134,7 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.contactForm.controls.subject.valueChanges.subscribe(
-        (subject: string) => {
+        (subject: ContactSupportSubject) => {
           const subjectOther = this.contactForm.controls.subjectOther;
           if (subject === this.CONTACT_SUBJECT_OTHER) {
             subjectOther.setValidators([
@@ -179,13 +181,14 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
       formData.append("file", this.contactForm.controls.fileSource.value);
     }
 
-    const subject =
-      this.contactForm.controls.subject.value === this.CONTACT_SUBJECT_OTHER
-        ? this.contactForm.controls.subjectOther.value
-        : this.contactForm.controls.subject.value;
-
+    // The backend resolves the final human-readable subject from the
+    // validated key (+ free text when "AUTRE" is selected).
     formData.append("name", this.contactForm.controls.name.value);
-    formData.append("subject", subject);
+    formData.append("subject", this.contactForm.controls.subject.value);
+    formData.append(
+      "subjectOther",
+      this.contactForm.controls.subjectOther.value
+    );
     formData.append("userId", this.contactForm.controls.userId.value);
     formData.append(
       "phone",

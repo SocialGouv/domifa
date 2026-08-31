@@ -23,6 +23,7 @@ import { ContactSupportTable, contactSupportRepository } from "../../database";
 import { getPhoneString } from "../../util";
 import { BrevoSenderService } from "../mails/services/brevo-sender/brevo-sender.service";
 import { domifaConfig } from "../../config";
+import { CONTACT_SUPPORT_SUBJECT_LABELS } from "@domifa/common";
 
 @Controller("contact")
 export class ContactSupportController {
@@ -70,7 +71,18 @@ export class ContactSupportController {
       ? getPhoneString(contactSupportDto.phone) || null
       : null;
 
-    const dataToSave = new ContactSupportTable({ ...contactSupportDto, phone });
+    // "AUTRE" carries its free-text detail in `subjectOther` (validated in
+    // the DTO); every other value maps to a fixed, trusted label.
+    const subjectLabel =
+      contactSupportDto.subject === "AUTRE"
+        ? contactSupportDto.subjectOther
+        : CONTACT_SUPPORT_SUBJECT_LABELS[contactSupportDto.subject];
+
+    const dataToSave = new ContactSupportTable({
+      ...contactSupportDto,
+      subject: subjectLabel,
+      phone,
+    });
 
     if (file) {
       dataToSave.attachment = {
@@ -81,7 +93,7 @@ export class ContactSupportController {
 
     await contactSupportRepository.save(dataToSave);
 
-    const subject = `[SUPPORT] ${contactSupportDto.subject} - ${contactSupportDto.structureName}`;
+    const subject = `[SUPPORT] ${subjectLabel} - ${contactSupportDto.structureName}`;
 
     const params = {
       structure: contactSupportDto?.structureId
@@ -91,7 +103,7 @@ export class ContactSupportController {
       content: contactSupportDto.content,
       email: contactSupportDto.email,
       name: contactSupportDto.name,
-      subject: contactSupportDto.subject,
+      subject: subjectLabel,
       structureName: contactSupportDto.structureName,
     };
 
