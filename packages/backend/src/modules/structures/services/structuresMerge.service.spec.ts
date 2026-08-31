@@ -74,13 +74,189 @@ describe("StructuresMergeService (database)", () => {
   let fileManagerService: FileManagerService;
   let service: StructuresMergeService;
 
-  const SOURCE_ID = 3;
-  const TARGET_ID = 1;
-  const options: StructureMergeOptions = {
-    source: SOURCE_ID,
-    target: TARGET_ID,
-    customRef: { type: "auto" },
-  };
+  // Structures and rows are seeded inside the rolled-back transaction, with
+  // ids taken from the sequences: the spec never depends on the shared
+  // fixtures, which other specs running against the same database mutate.
+  let SOURCE_ID: number;
+  let TARGET_ID: number;
+  let options: StructureMergeOptions;
+
+  async function seedStructure(name: string): Promise<number> {
+    const [{ id }] = await queryRunner.query(
+      `INSERT INTO "structure"
+         (version, adresse, "codePostal", departement, region, email,
+          "registrationDate", nom, options, responsable, "structureType",
+          ville, "timeZone", telephone, decision, statut)
+       VALUES (1, '1 rue du test', '75001', '75', '11', $1, now(), $2, '{}',
+          '{"nom": "Test", "prenom": "Test", "fonction": "Test"}', 'asso',
+          'Paris', 'Europe/Paris', '{"countryCode": "fr", "numero": "0601020304"}',
+          '{"statut": "VALIDE"}', 'VALIDE')
+       RETURNING id`,
+      [`${name}@yopmail.com`, name]
+    );
+    return id;
+  }
+
+  async function seedUsager(
+    structureId: number,
+    ref: number,
+    customRef: string | null
+  ): Promise<string> {
+    const [{ uuid }] = await queryRunner.query(
+      `INSERT INTO "usager"
+         (version, ref, "customRef", "structureId", nom, prenom, sexe,
+          "dateNaissance", "villeNaissance", decision, historique,
+          "lastInteraction", options, telephone, nom_prenom_surnom_ref)
+       VALUES (1, $1, $2, $3, $4, 'Test', 'homme', '1980-01-01', 'Paris',
+          '{"statut": "VALIDE"}', '[]', '{}', '{}',
+          '{"countryCode": "fr", "numero": "0601020304"}', $5)
+       RETURNING uuid`,
+      [ref, customRef, structureId, `Usager${ref}`, `usager${ref} test ${ref}`]
+    );
+    return uuid;
+  }
+
+  async function seedDossierRows(
+    structureId: number,
+    uuid: string,
+    ref: number
+  ): Promise<void> {
+    await queryRunner.query(
+      `INSERT INTO "usager_entretien" (version, "usagerUUID", "structureId", "usagerRef")
+       VALUES (1, $1, $2, $3)`,
+      [uuid, structureId, ref]
+    );
+    await queryRunner.query(
+      `INSERT INTO "usager_notes" (version, "usagerUUID", "structureId", "usagerRef", message)
+       VALUES (1, $1, $2, $3, 'note')`,
+      [uuid, structureId, ref]
+    );
+    await queryRunner.query(
+      `INSERT INTO "usager_docs"
+         (version, "usagerUUID", "structureId", "usagerRef", path, label, filetype, "createdBy")
+       VALUES (1, $1, $2, $3, 'doc.pdf', 'doc', 'application/pdf', 'Agent Test')`,
+      [uuid, structureId, ref]
+    );
+    await queryRunner.query(
+      `INSERT INTO "interactions"
+         (version, "dateInteraction", "structureId", type, "usagerRef", "userName", "usagerUUID")
+       VALUES (1, now(), $1, 'courrierIn', $2, 'Agent Test', $3)`,
+      [structureId, ref, uuid]
+    );
+    await queryRunner.query(
+      `INSERT INTO "usager_history_states"
+         (version, "usagerUUID", "structureId", "ayantsDroits", decision,
+          entretien, "createdEvent", "historyBeginDate")
+       VALUES (1, $1, $2, '[]', '{"statut": "VALIDE"}', '{}', 'new-decision', now())`,
+      [uuid, structureId]
+    );
+    await queryRunner.query(
+      `INSERT INTO "usager_options_history"
+         (version, "usagerUUID", "structureId", action, type)
+       VALUES (1, $1, $2, 'ENABLE', 'transfert')`,
+      [uuid, structureId]
+    );
+    const [{ id: userUsagerId }] = await queryRunner.query(
+      `INSERT INTO "user_usager" (version, "usagerUUID", "structureId", login, password, salt)
+       VALUES (1, $1, $2, $3, 'password-hash', 'salt')
+       RETURNING id`,
+      [uuid, structureId, `merge-spec-${uuid}`]
+    );
+    await queryRunner.query(
+      `INSERT INTO "user_usager_login" (version, "usagerUUID", "structureId")
+       VALUES (1, $1, $2)`,
+      [uuid, structureId]
+    );
+    await queryRunner.query(
+      `INSERT INTO "user_usager_security" (version, "userId", "structureId")
+       VALUES (1, $1, $2)`,
+      [userUsagerId, structureId]
+    );
+  }
+
+  async function seedAgent(
+    structureId: number,
+    email: string
+  ): Promise<number> {
+    const [{ id }] = await queryRunner.query(
+      `INSERT INTO "user_structure" (version, email, nom, password, prenom, "structureId")
+       VALUES (1, $1, 'Agent', 'password-hash', 'Test', $2)
+       RETURNING id`,
+      [email, structureId]
+    );
+    await queryRunner.query(
+      `INSERT INTO "user_structure_security" (version, "userId", "structureId")
+       VALUES (1, $1, $2)`,
+      [id, structureId]
+    );
+    return id;
+  }
+
+  async function seedSms(structureId: number, ref: number): Promise<void> {
+    await queryRunner.query(
+      `INSERT INTO "message_sms"
+         (version, "usagerRef", "structureId", content, "smsId",
+          "scheduledDate", "phoneNumber", "senderName")
+       VALUES (1, $1, $2, 'sms', 'sms-id', now(), '0601020304', 'DomiFa')`,
+      [ref, structureId]
+    );
+  }
+
+  async function seedMergeData(): Promise<void> {
+    SOURCE_ID = await seedStructure("merge-spec-source");
+    TARGET_ID = await seedStructure("merge-spec-target");
+    options = {
+      source: SOURCE_ID,
+      target: TARGET_ID,
+      customRef: { type: "auto" },
+    };
+
+    // 4 dossiers on the source (the resume test interrupts on the third),
+    // one of them with a customised ref
+    for (const [ref, customRef] of [
+      [1, null],
+      [2, "DOSSIER-2"],
+      [3, null],
+      [4, null],
+    ] as const) {
+      const uuid = await seedUsager(SOURCE_ID, ref, customRef);
+      await seedDossierRows(SOURCE_ID, uuid, ref);
+    }
+    // target refs 1 (collision when refOffset is 0) and 12 (the refOffset)
+    await seedUsager(TARGET_ID, 1, null);
+    await seedUsager(TARGET_ID, 12, null);
+
+    const sourceAgentId = await seedAgent(
+      SOURCE_ID,
+      "merge-spec-agent-source@yopmail.com"
+    );
+    await seedAgent(SOURCE_ID, "merge-spec-agent-source-2@yopmail.com");
+    await seedAgent(TARGET_ID, "merge-spec-agent-target@yopmail.com");
+
+    await seedSms(SOURCE_ID, 1);
+    await seedSms(SOURCE_ID, 2);
+    await seedSms(TARGET_ID, 1);
+    await queryRunner.query(
+      `INSERT INTO "app_log" (version, "usagerRef", "structureId", action)
+       VALUES (1, 1, $1, 'MERGE_SPEC_TEST')`,
+      [SOURCE_ID]
+    );
+    await queryRunner.query(
+      `INSERT INTO "app_log_security" (version, "structureId", action)
+       VALUES (1, $1, 'MERGE_SPEC_TEST')`,
+      [SOURCE_ID]
+    );
+    await queryRunner.query(
+      `INSERT INTO "expired_token" (version, "userId", "structureId", token, "userProfile")
+       VALUES (1, $1, $2, 'token', 'structure')`,
+      [sourceAgentId, SOURCE_ID]
+    );
+    await queryRunner.query(
+      `INSERT INTO "contact_support" (version, "structureId", content, email, name)
+       VALUES (1, $1, 'message', 'merge-spec-contact@yopmail.com', 'Test')`,
+      [SOURCE_ID]
+    );
+  }
 
   beforeAll(async () => {
     context = await AppTestHelper.bootstrapTestApp({});
@@ -95,6 +271,7 @@ describe("StructuresMergeService (database)", () => {
     queryRunner = myDataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
+    await seedMergeData();
   });
 
   afterEach(async () => {
