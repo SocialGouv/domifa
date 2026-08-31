@@ -9,9 +9,13 @@ import {
 } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
+import { environment } from "../../../../../environments/environment";
 import { regexp } from "../../../../shared/utils/validators";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
-import { PortailAdminAuthLoginForm } from "../../types";
+import {
+  PortailAdminAuthLoginForm,
+  SUPERVISOR_PORTAL_STORAGE_KEY,
+} from "../../types";
 import { AdminAuthService } from "../../services/admin-auth.service";
 import { PortailAdminAuthApiResponse } from "@domifa/common";
 import { ButtonComponent } from "../../../shared/components/button/button.component";
@@ -44,6 +48,10 @@ export class AdminLoginComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    if (window.localStorage.getItem(SUPERVISOR_PORTAL_STORAGE_KEY)) {
+      window.location.href = environment.portailStatsUrl;
+      return;
+    }
     this.titleService.setTitle("Connexion à l'administration de DomiFa");
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || "/";
     this.initForm();
@@ -99,7 +107,11 @@ export class AdminLoginComponent implements OnInit {
             this.router.navigate(["/structure"]);
           }
         } else {
-          this.router.navigate(["/stats"]);
+          window.localStorage.setItem(
+            SUPERVISOR_PORTAL_STORAGE_KEY,
+            apiAuthResponse.user.role
+          );
+          window.location.href = environment.portailStatsUrl;
         }
       },
     });
