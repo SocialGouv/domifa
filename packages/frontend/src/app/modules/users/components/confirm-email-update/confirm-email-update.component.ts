@@ -4,6 +4,7 @@ import { Title } from "@angular/platform-browser";
 import { Subscription } from "rxjs";
 
 import { UsersService } from "../../services/users.service";
+import { AuthService } from "../../../shared/services/auth.service";
 
 @Component({
   selector: "app-confirm-email-update",
@@ -19,17 +20,13 @@ export class ConfirmEmailUpdateComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly usersService: UsersService,
+    private readonly authService: AuthService,
     private readonly titleService: Title
   ) {}
 
   public ngOnInit(): void {
     this.titleService.setTitle("Confirmation de votre nouvelle adresse email");
 
-    // Le backend révoque déjà la session serveur (terminateUserSession) en
-    // cas de succès : si quelqu'un était connecté sur ce navigateur, son
-    // prochain appel API échouera en 401 et sera géré normalement par
-    // l'intercepteur global. On ne déconnecte pas nous-mêmes ici pour éviter
-    // de faire disparaître cette page sous les yeux de la personne qui la lit.
     const { uuid, token } = this.route.snapshot.params;
 
     this.subscription.add(
@@ -37,6 +34,16 @@ export class ConfirmEmailUpdateComponent implements OnInit {
         next: () => {
           this.loading = false;
           this.success = true;
+
+          // Le backend a déjà révoqué la session serveur (terminateUserSession).
+          // On aligne l'état client dessus seulement maintenant, une fois le
+          // message de succès affiché : le nettoyer plus tôt (avant la
+          // réponse) ferait clignoter le header vers l'état déconnecté sous
+          // les yeux de la personne pendant le chargement. Le faire ici évite
+          // aussi qu'un appel authentifié ultérieur (ex. clic sur un lien du
+          // menu) échoue en 401 avec un message trompeur ("session expirée")
+          // sur un navigateur qui affiche encore le header connecté.
+          this.authService.clearSessionSilently();
         },
         error: () => {
           this.loading = false;
