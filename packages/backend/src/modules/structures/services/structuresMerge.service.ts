@@ -6,11 +6,16 @@ import { appLogger, cleanPath, FileManagerService } from "../../../util";
 import {
   StructureMergeCounts,
   StructureMergeCustomRefRule,
+  StructureMergeDocRow,
+  StructureMergeFilesDiff,
+  StructureMergeFilesInventory,
+  StructureMergeFilesPreflight,
   StructureMergeFilesResult,
   StructureMergeOptions,
   StructureMergePreflight,
   StructureMergeRef,
   StructureMergeResult,
+  StructureMergeS3Object,
 } from "../types/structures-merge.types";
 import {
   STRUCTURE_MERGE_BULK_TABLES,
@@ -81,6 +86,56 @@ export function computeSearchField(
     customRef ?? ref,
   ].filter(Boolean);
   return normalizeString(parts.join(" "));
+}
+
+export function docFileKey(
+  structurePrefix: string,
+  doc: StructureMergeDocRow
+): string {
+  return `${structurePrefix}${cleanPath(doc.usagerUUID)}/${doc.path}.sfe`;
+}
+
+export function countDocsWithoutFile(
+  structurePrefix: string,
+  docs: StructureMergeDocRow[],
+  objects: StructureMergeS3Object[]
+): number {
+  const keys = new Set(objects.map((o) => o.key));
+  return docs.filter((doc) => !keys.has(docFileKey(structurePrefix, doc)))
+    .length;
+}
+
+// Objects of usagers outside `usagerUUIDs` (deleted dossiers) are orphans:
+// never copied, only counted.
+export function compareStructureFiles(
+  sourcePrefix: string,
+  targetPrefix: string,
+  sourceObjects: StructureMergeS3Object[],
+  targetObjects: StructureMergeS3Object[],
+  usagerUUIDs: Set<string>
+): StructureMergeFilesDiff {
+  const targetSizes = new Map(targetObjects.map((o) => [o.key, o.size]));
+  const diff: StructureMergeFilesDiff = {
+    checked: 0,
+    present: 0,
+    missing: [],
+    orphans: 0,
+  };
+  for (const { key, size } of sourceObjects) {
+    const relative = key.slice(sourcePrefix.length);
+    const usagerUUID = relative.split("/")[0] ?? "";
+    if (!usagerUUIDs.has(usagerUUID)) {
+      diff.orphans++;
+      continue;
+    }
+    diff.checked++;
+    if (targetSizes.get(targetPrefix + relative) === size) {
+      diff.present++;
+    } else {
+      diff.missing.push(key);
+    }
+  }
+  return diff;
 }
 
 export class StructuresMergeService {
@@ -185,6 +240,13 @@ export class StructuresMergeService {
       [source.id]
     );
 
+    const files = await this.inventoryFiles(
+      queryRunner,
+      source,
+      target,
+      usagers.map((u) => u.uuid)
+    );
+
     return {
       source,
       target,
@@ -197,7 +259,116 @@ export class StructuresMergeService {
       users,
       customRefCollisions,
       refs,
+      files,
     };
+  }
+
+  // S3 side of the counting: objects under each structure prefix, usager_docs
+  // rows without a file, and which source objects are already at the target.
+  // `usagerUUIDs`: the usagers whose files must be found at the target.
+  private async inventoryFiles(
+    queryRunner: QueryRunner,
+    source: StructureRow,
+    target: StructureRow,
+    usagerUUIDs: string[]
+  ): Promise<StructureMergeFilesPreflight> {
+    const sourcePrefix = this.structurePrefix(source);
+    const targetPrefix = this.structurePrefix(target);
+    const [sourceObjects, targetObjects] = await Promise.all([
+      this.fileManagerService.listObjectsUnderPrefix(sourcePrefix),
+      this.fileManagerService.listObjectsUnderPrefix(targetPrefix),
+    ]);
+    const docs = async (
+      structure: StructureRow
+    ): Promise<StructureMergeDocRow[]> =>
+      queryRunner.query(
+        `SELECT "usagerUUID", "path" FROM "usager_docs" WHERE "structureId" = $1`,
+        [structure.id]
+      );
+    // Keys have always been built with cleanPath (uuid without dashes); an
+    // object under the raw uuid is unreachable by the app and is not copied.
+    const legacy = async (structure: StructureRow): Promise<number> =>
+      (
+        await this.fileManagerService.listObjectsUnderPrefix(
+          `${join(
+            domifaConfig().upload.bucketRootDir,
+            "usager-documents",
+            structure.uuid
+          )}/`
+        )
+      ).length;
+    const inventory = async (
+      structure: StructureRow,
+      prefix: string,
+      objects: StructureMergeS3Object[]
+    ): Promise<StructureMergeFilesInventory> => ({
+      count: objects.length,
+      bytes: objects.reduce((sum, o) => sum + o.size, 0),
+      docsWithoutFile: countDocsWithoutFile(
+        prefix,
+        await docs(structure),
+        objects
+      ),
+      legacy: await legacy(structure),
+    });
+
+    return {
+      source: await inventory(source, sourcePrefix, sourceObjects),
+      target: await inventory(target, targetPrefix, targetObjects),
+      diff: compareStructureFiles(
+        sourcePrefix,
+        targetPrefix,
+        sourceObjects,
+        targetObjects,
+        new Set(usagerUUIDs.map((uuid) => cleanPath(uuid)))
+      ),
+    };
+  }
+
+  // After the merge: every file of a usager now attached to the target must
+  // be at the target with the same size, and no usager_docs row of the target
+  // may have lost its file.
+  private async checkFiles(
+    queryRunner: QueryRunner,
+    preflight: StructureMergePreflight
+  ): Promise<StructureMergeFilesPreflight> {
+    const { source, target } = preflight;
+    const moved: { uuid: string }[] = await queryRunner.query(
+      `SELECT "uuid" FROM "usager" WHERE "structureId" = $1`,
+      [target.id]
+    );
+    const files = await this.inventoryFiles(
+      queryRunner,
+      source,
+      target,
+      moved.map((u) => u.uuid)
+    );
+    this.logFiles(files);
+
+    const brokenBefore =
+      preflight.files.source.docsWithoutFile +
+      preflight.files.target.docsWithoutFile;
+    const errors: string[] = [];
+    if (files.diff.missing.length > 0) {
+      errors.push(
+        `${files.diff.missing.length} fichiers de B absents (ou de taille différente) sur A`
+      );
+      for (const key of files.diff.missing.slice(0, 50)) {
+        this.log(`  ✘ manquant sur A : ${key}`);
+      }
+    }
+    if (files.target.docsWithoutFile > brokenBefore) {
+      errors.push(
+        `usager_docs sans fichier sur A : ${files.target.docsWithoutFile} (max attendu ${brokenBefore})`
+      );
+    }
+    if (errors.length > 0) {
+      throw new Error(`${TAG} files check failed: ${errors.join(" ; ")}`);
+    }
+    this.log(
+      `  └─ ✔ ${files.diff.present} fichiers de B présents sur A à la même taille`
+    );
+    return files;
   }
 
   // Resumable: every step only touches rows still attached to the source, so
@@ -206,9 +377,6 @@ export class StructuresMergeService {
     queryRunner: QueryRunner,
     options: StructureMergeOptions
   ): Promise<StructureMergeResult> {
-    if (typeof options.refOffset !== "number" || options.refOffset < 0) {
-      throw new Error(`${TAG} refOffset is required (see analysis output)`);
-    }
     const preflight = await this.preflight(queryRunner, options);
     if (!preflight) {
       throw new Error(
@@ -234,7 +402,7 @@ export class StructuresMergeService {
     };
 
     this.log(RULE);
-    this.log(`▶ ÉTAPE 1/4 — ${refs.length} dossiers, un par un`);
+    this.log(`▶ ÉTAPE 1/5 — ${refs.length} dossiers, un par un`);
 
     for (const [index, ref] of refs.entries()) {
       const position = `[${index + 1}/${refs.length}]`;
@@ -272,7 +440,7 @@ export class StructuresMergeService {
     }
 
     this.log(RULE);
-    this.log(`▶ ÉTAPE 2/4 — annexes de "${source.nom}" (update massif)`);
+    this.log(`▶ ÉTAPE 2/5 — annexes de "${source.nom}" (update massif)`);
     await this.inTransaction(queryRunner, async () => {
       for (const table of STRUCTURE_MERGE_BULK_TABLES_WITH_REF) {
         const [, count] = await queryRunner.query(
@@ -292,7 +460,7 @@ export class StructuresMergeService {
     this.log(`  └─ ✔ annexes déplacées`);
 
     this.log(RULE);
-    this.log(`▶ ÉTAPE 3/4 — comptes des agents de "${source.nom}"`);
+    this.log(`▶ ÉTAPE 3/5 — comptes des agents de "${source.nom}"`);
     await this.inTransaction(queryRunner, async () => {
       for (const table of STRUCTURE_MERGE_USER_TABLES) {
         const [, count] = await queryRunner.query(
@@ -305,11 +473,19 @@ export class StructuresMergeService {
     this.log(`  └─ ✔ agents déplacés`);
 
     this.log(RULE);
-    this.log(`▶ ÉTAPE 4/4 — contrôle final (même comptage que l'analyse)`);
+    this.log(`▶ ÉTAPE 4/5 — contrôle final (même comptage que l'analyse)`);
     const after = await this.countRows(queryRunner, options);
     this.checkFinal(before, after, options);
 
-    return { dossiers: refs.length, files, before, after };
+    this.log(RULE);
+    this.log(`▶ ÉTAPE 5/5 — contrôle des fichiers S3 (B → A)`);
+    const filesCheck = await this.checkFiles(queryRunner, preflight);
+    this.log(RULE);
+    this.log(
+      `✔ FUSION TERMINÉE — plus rien sur #${options.source}, A = A avant + B avant sur toutes les tables, fichiers de B présents sur A`
+    );
+
+    return { dossiers: refs.length, files, filesCheck, before, after };
   }
 
   private async moveDossier(
@@ -433,9 +609,8 @@ export class StructuresMergeService {
         } → target #${options.target})`
       );
     }
-    this.log(RULE);
     this.log(
-      `✔ FUSION TERMINÉE — plus rien sur #${options.source}, A = A avant + B avant sur toutes les tables`
+      `  └─ ✔ plus rien sur #${options.source}, A = A avant + B avant sur toutes les tables`
     );
   }
 
@@ -485,6 +660,7 @@ export class StructuresMergeService {
       `  collisions de customRef sur A après règle : ${preflight.customRefCollisions.length}`,
       { customRefCollisions: preflight.customRefCollisions }
     );
+    this.logFiles(preflight.files);
     for (const ref of refs) {
       this.log(
         `  dossier ${ref.usagerUUID} : ref ${ref.oldRef} → ${ref.newRef}, customRef "${ref.oldCustomRef}" → "${ref.newCustomRef}"`
@@ -527,6 +703,46 @@ export class StructuresMergeService {
       newCustomRef,
       searchField: computeSearchField(usager, newRef, newCustomRef),
     };
+  }
+
+  private logFiles(files: StructureMergeFilesPreflight): void {
+    const mb = (bytes: number) => (bytes / 1024 / 1024).toFixed(1);
+    this.log(
+      `  ${this.padTable("fichiers S3 usager-documents")} ${this.pad(
+        "sur B"
+      )} ${this.pad("sur A")}`
+    );
+    this.log(
+      `  ${this.padTable("fichiers")} ${this.pad(
+        files.source.count
+      )} ${this.pad(files.target.count)}`
+    );
+    this.log(
+      `  ${this.padTable("volume (Mo)")} ${this.pad(
+        mb(files.source.bytes)
+      )} ${this.pad(mb(files.target.bytes))}`
+    );
+    this.log(
+      `  ${this.padTable("usager_docs sans fichier")} ${this.pad(
+        files.source.docsWithoutFile
+      )} ${this.pad(files.target.docsWithoutFile)}`
+    );
+    this.log(
+      `  ${this.padTable("legacy (uuid avec tirets)")} ${this.pad(
+        files.source.legacy
+      )} ${this.pad(files.target.legacy)}`
+    );
+    this.log(
+      `  fichiers de B à retrouver sur A : ${files.diff.checked} (présents : ${files.diff.present}, manquants : ${files.diff.missing.length}, orphelins hors dossiers ignorés : ${files.diff.orphans})`
+    );
+  }
+
+  private structurePrefix(structure: StructureRow): string {
+    return `${join(
+      domifaConfig().upload.bucketRootDir,
+      "usager-documents",
+      cleanPath(structure.uuid)
+    )}/`;
   }
 
   private usagerDocumentsPrefix(
