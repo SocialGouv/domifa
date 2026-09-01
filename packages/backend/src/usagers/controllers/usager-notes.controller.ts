@@ -25,6 +25,7 @@ import {
   PageMeta,
   PageResults,
   ALL_USER_STRUCTURE_ROLES,
+  SUPPORT_READ_ROLES,
 } from "@domifa/common";
 import { CreateNoteDto } from "../dto/create-note.dto";
 import {
@@ -54,6 +55,7 @@ import { PageOptionsDto } from "../dto";
 export class UsagerNotesController {
   @Post("search/:usagerRef/:archived")
   @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles(...SUPPORT_READ_ROLES)
   public async getUsagerNotes(
     @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager,
@@ -181,6 +183,7 @@ export class UsagerNotesController {
 
   @Get("count/:usagerRef")
   @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles(...SUPPORT_READ_ROLES)
   public async countNotes(
     @CurrentUser() _currentUser: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager,

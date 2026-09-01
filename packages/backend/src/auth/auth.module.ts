@@ -4,6 +4,7 @@ import { PassportModule } from "@nestjs/passport";
 import { domifaConfig } from "../config";
 import { AdminsAuthService } from "../modules/portail-admin/services/admins-auth.service";
 import { OtpModule } from "../modules/otp/otp.module";
+import { SupportSessionModule } from "../modules/support-session/support-session.module";
 import { UsagersAuthService } from "../modules/portail-usagers/services/usagers-auth.service";
 import { JwtStrategy } from "./jwt/jwt.strategy";
 import { LoginOtpService } from "./services/login-otp.service";
@@ -33,6 +34,7 @@ import { StructuresAuthController } from "./structures-auth.controller";
       },
     }),
     forwardRef(() => OtpModule),
+    forwardRef(() => SupportSessionModule),
   ],
   providers: [
     JwtStrategy,

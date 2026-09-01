@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Router, RouterStateSnapshot } from "@angular/router";
 import { jwtDecode } from "jwt-decode";
 import { BehaviorSubject, Observable, firstValueFrom, of } from "rxjs";
-import { catchError, map } from "rxjs/operators";
+import { catchError, map, switchMap } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
 
 import { usagerActions, UsagerState } from "../../../shared";
@@ -19,7 +19,8 @@ import { Store } from "@ngrx/store";
 // an OTP cycle on every reconnection. It is rotated on every backend response
 // that issues a new access JWT. Also mirrored server-side in an httpOnly
 // cookie so browsers that wipe localStorage (private mode, cleanup extensions)
-// still get a trusted-device pass on the next login.
+// still get a trusted-device pass on the next login. Never used for the
+// dedicated "support" account — see persistTrustTokenFromAccess.
 const TRUST_TOKEN_STORAGE_KEY = "structureTrustToken";
 
 @Injectable({
@@ -36,7 +37,12 @@ export class AuthService {
     private readonly store: Store<UsagerState>,
     private readonly safeStorage: SafeStorageService
   ) {
-    const dataStorage = this.safeStorage.getItem("currentUser");
+    // The dedicated "support" account's session lives in sessionStorage
+    // (dies with the tab); every other role uses localStorage. Check
+    // sessionStorage first since it's the narrower, more specific case.
+    const dataStorage =
+      this.safeStorage.getItem("currentUser", sessionStorage) ??
+      this.safeStorage.getItem("currentUser");
     this.currentUserSubject = new BehaviorSubject<UserStructure | null>(
       dataStorage ? JSON.parse(dataStorage) : null
     );
@@ -72,16 +78,35 @@ export class AuthService {
         { withCredentials: true }
       )
       .pipe(
-        map((token: { access_token: string }) => {
+        switchMap((token: { access_token: string }) => {
           const user = userStructureBuilder.buildUserStructure(
             jwtDecode(token.access_token)
           );
-
           user.access_token = token.access_token;
+
+          if (user.role === "support") {
+            // The JWT's own structureId is a never-trusted placeholder for
+            // this account — the real, current structure only comes from
+            // GET /me, which resolves it from the active attachment. No
+            // trust token either: a shared account never "remembers" a
+            // device.
+            this.store.dispatch(usagerActions.clearCache());
+            this.setUser(user);
+            return this.http.get<UserStructure>(`${this.endPoint}/me`).pipe(
+              map((apiUser: UserStructure) => {
+                const refreshed =
+                  userStructureBuilder.buildUserStructure(apiUser);
+                refreshed.access_token = token.access_token;
+                this.setUser(refreshed);
+                return refreshed;
+              })
+            );
+          }
+
           this.persistTrustTokenFromAccess(token.access_token);
           this.store.dispatch(usagerActions.clearCache());
           this.setUser(user);
-          return user;
+          return of(user);
         })
       );
   }
@@ -106,7 +131,10 @@ export class AuthService {
   }
 
   public isAuth(): Observable<boolean> {
-    if (this.safeStorage.getItem("currentUser") === null) {
+    if (
+      this.safeStorage.getItem("currentUser", sessionStorage) === null &&
+      this.safeStorage.getItem("currentUser") === null
+    ) {
       return of(false);
     }
 
@@ -140,8 +168,12 @@ export class AuthService {
   ): Promise<void> {
     this.currentUserSubject.next(null);
     this.store.dispatch(usagerActions.clearCache());
+    // Clear both backends unconditionally — cheap, and avoids having to
+    // track which one the current session actually used.
     this.safeStorage.removeItem("currentUser");
+    this.safeStorage.removeItem("currentUser", sessionStorage);
     this.safeStorage.removeItem("MANAGE");
+    this.safeStorage.removeItem("MANAGE", sessionStorage);
 
     getCurrentScope().setTag("structure", "none");
     getCurrentScope().setUser({});
@@ -177,7 +209,8 @@ export class AuthService {
   }
 
   private setUser(user: UserStructure) {
-    this.safeStorage.setItem("currentUser", JSON.stringify(user));
+    const backend = user.role === "support" ? sessionStorage : localStorage;
+    this.safeStorage.setItem("currentUser", JSON.stringify(user), backend);
     this.currentUserSubject.next(user);
 
     // Configuration Sentry centralisée ici

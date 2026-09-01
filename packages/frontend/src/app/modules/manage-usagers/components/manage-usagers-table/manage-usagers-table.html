@@ -17,6 +17,7 @@
         type="button"
         (click)="openDeleteUsagersModal()"
         class="fr-btn fr-btn--sm fr-my-1w fr-mx-1w fr-btn--secondary"
+        appSupportModeDisable
       >
         <span class="fr-mr-1w fr-icon-delete-line" aria-hidden="true"></span>
         @if (selectedRefs.size === 1) { Supprimer le domicilié } @if
@@ -328,6 +329,7 @@
                 @defer (on viewport; prefetch on idle) {
                 <app-manage-usagers-interactions
                   [usager]="usager"
+                  [readOnly]="isSupportModeReadOnly"
                   template="small-buttons"
                 ></app-manage-usagers-interactions>
                 } @placeholder {
@@ -338,6 +340,7 @@
                 @defer (on viewport; prefetch on idle) {
                 <app-manage-usagers-interactions
                   [usager]="usager"
+                  [readOnly]="isSupportModeReadOnly"
                   template="big-buttons"
                   (openReception)="openInteractionInModal($event)"
                   (openDistribution)="openInteractionOutModal($event)"
@@ -425,6 +428,7 @@
         [loading]="loadingDelete"
         label="Confirmer la suppression"
         (action)="deleteUsagers()"
+        appSupportModeDisable
       ></app-button>
       <button
         class="fr-btn fr-btn--secondary"

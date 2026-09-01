@@ -5,7 +5,7 @@ import {
   UserUsagerWithUsagerInfo,
   PageMeta,
   PageResults,
-  ALL_USER_STRUCTURE_ROLES,
+  SUPPORT_READ_ROLES,
 } from "@domifa/common";
 import {
   Body,
@@ -118,6 +118,7 @@ export class PortailUsagersManagerController {
   }
 
   @Get("stats")
+  @AllowUserStructureRoles("responsable", "admin", "support")
   public async getUserUsagerStats(
     @CurrentUser() currentUser: UserStructureAuthenticated
   ): Promise<UsagersCountByStatus> {
@@ -364,6 +365,7 @@ export class PortailUsagersManagerController {
     }
   }
 
+  @AllowUserStructureRoles("responsable", "admin", "support")
   @Post("all-accounts")
   public async getAllAccounts(
     @Body() pageOptionsDto: PageOptionsDto,
@@ -384,7 +386,7 @@ export class PortailUsagersManagerController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
+  @AllowUserStructureRoles(...SUPPORT_READ_ROLES)
   @Get("profile/:usagerRef")
   public async findOne(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,

@@ -33,11 +33,11 @@ import { buildStructureActorFields } from "../../app-logs/app-logs.helpers";
 
 import { AppUserGuard } from "../../../auth/guards";
 import {
-  ALL_USER_STRUCTURE_ROLES,
   DEPARTEMENTS_MAP,
   getDepartementFromCodePostal,
   getRegionCodeFromDepartement,
   Structure,
+  SUPPORT_READ_ROLES,
 } from "@domifa/common";
 import { FileManagerService } from "../../../util/file-manager/file-manager.service";
 import { domifaConfig } from "../../../config";
@@ -164,7 +164,7 @@ export class StructuresController {
     return res.status(HttpStatus.OK).json(retour);
   }
 
-  @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
+  @AllowUserStructureRoles(...SUPPORT_READ_ROLES)
   @Get("ma-structure")
   public getMyStructure(@CurrentUser() user: UserStructureAuthenticated) {
     return user.structure;

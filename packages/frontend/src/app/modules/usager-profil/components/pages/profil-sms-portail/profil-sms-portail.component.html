@@ -1,21 +1,21 @@
 <div class="fr-content-container-light">
+  @if (me) {
   <app-profil-head
     [usager]="usager"
     [section]="section"
-    *ngIf="me"
     [me]="me"
   ></app-profil-head>
+  } @if (usager) {
   <div class="fr-container" *ngIf="usager">
     <div class="fr-content">
-      <div
-        class="fr-col-md-12 fr-my-4w"
-        *ngIf="me.structure.portailUsager.enabledByStructure"
-      >
+      @if (me.structure.portailUsager.enabledByStructure) {
+      <div class="fr-col-md-12 fr-my-4w">
         <app-profil-edit-portail-usager-preference
           [usager]="usager"
           [me]="me"
         ></app-profil-edit-portail-usager-preference>
       </div>
+      }
 
       <div class="fr-grid-row fr-my-3w">
         <div class="fr-col-md-12">
@@ -26,38 +26,40 @@
               <i class="fr-icon-at-line" aria-hidden="true"></i>
               Informations de contact
             </h2>
-            <ng-container *ngIf="usager?.decisionDeadline?.isActive">
-              <app-button
-                *ngIf="!editContactDetails"
-                color="secondary"
-                icon="edit"
-                label="Modifier les informations"
-                (action)="openContactForm()"
-              ></app-button>
-              <button
-                type="button"
-                class="fr-btn fr-btn--secondary"
-                *ngIf="editContactDetails"
-                (click)="editContactDetails = false"
-              >
-                <span
-                  class="fr-icon-close-line fr-mr-2w"
-                  aria-hidden="true"
-                ></span>
-                Annuler les modifications
-              </button>
-            </ng-container>
+            @if (usager?.decisionDeadline?.isActive) { @if (!editContactDetails)
+            {
+            <app-button
+              color="secondary"
+              icon="edit"
+              label="Modifier les informations"
+              (action)="openContactForm()"
+              appSupportModeDisable
+            ></app-button>
+            } @if (editContactDetails) {
+            <button
+              type="button"
+              class="fr-btn fr-btn--secondary"
+              (click)="editContactDetails = false"
+            >
+              <span
+                class="fr-icon-close-line fr-mr-2w"
+                aria-hidden="true"
+              ></span>
+              Annuler les modifications
+            </button>
+            } }
           </div>
+          @if (editContactDetails) {
           <app-form-contact-details
-            *ngIf="editContactDetails"
             [(editContactDetails)]="editContactDetails"
             [usager]="usager"
           ></app-form-contact-details>
+          } @if (!editContactDetails) {
           <app-display-contact-details
-            *ngIf="!editContactDetails"
             [usager]="usager"
             [me]="me"
           ></app-display-contact-details>
+          }
         </div>
       </div>
     </div>
@@ -70,4 +72,5 @@
     ></app-delete-usager-menu>
     }
   </div>
+  }
 </div>

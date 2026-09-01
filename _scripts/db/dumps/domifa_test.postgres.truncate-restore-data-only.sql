@@ -21,6 +21,7 @@
  TRUNCATE TABLE public.structure_doc RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.structure_information RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.structure_stats_reporting RESTART IDENTITY CASCADE;
+ TRUNCATE TABLE public.support_session RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.typeorm_metadata RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.usager RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.usager_docs RESTART IDENTITY CASCADE;
@@ -40,6 +41,7 @@
 -- PostgreSQL database dump
 --
 
+\restrict JOntfmEgHufLclqCiPT1pYDdTViwvMO8iJ05KbaUgsFYyQ1iVE5d2gPbvAEut1T
 
 -- Dumped from database version 16.14
 -- Dumped by pg_dump version 16.14
@@ -561,6 +563,14 @@ COPY public.structure_stats_reporting (uuid, "createdAt", "updatedAt", version, 
 
 
 --
+-- Data for Name: support_session; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.support_session (uuid, "createdAt", "updatedAt", version, "supervisorId", "supervisorEmail", "structureId", "targetUserStructureId", "startDate", "expiresAt", status, "revokedAt", "revokedBy", "revokedReason") FROM stdin;
+\.
+
+
+--
 -- Data for Name: typeorm_metadata; Type: TABLE DATA; Schema: public; Owner: -
 --
 
@@ -663,18 +673,18 @@ c9192746-debf-48de-bd13-6fb5b2ee866b	2022-03-08 23:22:50.29536+01	2022-03-08 23:
 -- Data for Name: user_structure; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.user_structure (uuid, "createdAt", "updatedAt", version, email, fonction, id, "lastLogin", nom, password, prenom, role, "structureId", mails, "passwordLastUpdate", "acceptTerms", "fonctionDetail", status, "emailStatus", decision) FROM stdin;
-663b9baa-2880-406c-a93a-32fe65528037	2020-11-17 14:18:47.658346+01	2020-11-17 14:18:47.658346+01	1	s1-instructeur@yopmail.com	\N	2	\N	Juste	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Isabelle	simple	1	{"guide": false, "import": false}	\N	\N	\N	ACTIVE	GENERIC_SUSPECTED	\N
-59c846d8-0592-4790-a5e2-1daae9b8776e	2020-11-14 14:18:27.658736+01	2020-11-14 14:18:27.658736+01	1	s1-facteur@yopmail.com	\N	6	2021-06-28 15:27:26.095+02	Dupuis	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Facteur 1	facteur	1	{"guide": true, "import": true}	\N	\N	\N	ACTIVE	GENERIC_SUSPECTED	\N
-d81c5566-94f9-4ee4-ab57-a604a654f79b	2020-11-17 14:32:22.193933+01	2020-11-17 14:39:14.015103+01	17	s3-admin@yopmail.com	\N	5	2020-11-17 14:39:13.796+01	Roseline	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Parmentier	admin	3	{"guide": false, "import": false}	2020-11-17 14:39:14.013+01	\N	\N	ACTIVE	GENERIC_SUSPECTED	\N
-d19ece1f-d32b-498c-9427-eb12b1251163	2020-11-17 14:26:29.482634+01	2020-11-17 14:26:29.490297+01	2	s3-facteur@yopmail.com	\N	4	\N	Test	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Facteur	facteur	3	{"guide": false, "import": false}	\N	\N	\N	ACTIVE	GENERIC_SUSPECTED	\N
-b0140303-79e3-436c-9c41-1eaefeeaed6e	2020-11-17 14:23:20.248011+01	2022-03-09 00:20:21.36073+01	9	s1-gestionnaire@yopmail.com	\N	3	2022-03-09 00:20:21.356+01	Smith	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Peter	responsable	1	{"guide": false, "import": false}	\N	\N	\N	ACTIVE	GENERIC_SUSPECTED	\N
-343b62db-6c85-4896-b994-18c8c89b710f	2022-03-17 17:25:53.798318+01	2022-03-23 22:08:39.505536+01	36	s5-admin@yopmail.com	\N	11	2022-03-23 22:08:39.502+01	Pali	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Mauricette	admin	5	{"guide": false, "import": false}	2022-03-17 17:25:53.78+01	\N	\N	ACTIVE	GENERIC_SUSPECTED	\N
-4e049e3d-bb65-48e5-8661-b1ccdc9db985	2021-09-21 00:03:26.186917+02	2025-07-18 19:04:01.796244+02	3	s3-instructeur@yopmail.com	AUTRE	8	\N	Jacquet	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Aimé	simple	3	{"guide": false, "import": false}	\N	\N	\N	ACTIVE	GENERIC_SUSPECTED	\N
-44f1cfe8-eae9-49d5-aedb-76dda856c413	2021-02-01 17:12:30.90825+01	2025-07-18 19:04:01.813538+02	3	s4-admin@yopmail.com	AUTRE	7	\N	Test	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Import	admin	4	{"guide": false, "import": false}	\N	\N	\N	ACTIVE	GENERIC_SUSPECTED	\N
-f6b20e00-77e7-46e6-b48d-8cca69161042	2020-11-17 14:32:22.193+01	2025-07-18 19:04:01.814984+02	5	s3-gestionnaire@yopmail.com	DIRECTEUR_RESPONSABLE	10	2021-12-06 16:26:01.365+01	Etchebest	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Philippe	responsable	3	{"guide": false, "import": false}	\N	\N	\N	ACTIVE	GENERIC_SUSPECTED	\N
-132e6e51-1612-44cc-b277-eca0a6d11c16	2020-11-14 14:18:27.658736+01	2025-09-18 22:55:07.545893+02	3	s1-agent@yopmail.com	\N	12	2025-09-18 22:55:04.854+02	Dragon	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Agent 1	agent	1	{"guide": true, "import": true}	\N	2025-09-18 22:55:07.545+02	\N	ACTIVE	GENERIC_SUSPECTED	\N
-da01f451-9c4f-4f6c-98bb-c635277e33e7	2020-11-17 14:18:47.658346+01	2024-10-30 22:34:43.742052+01	392	preprod.domifa@fabrique.social.gouv.fr	\N	1	2024-10-30 22:34:43.742+01	Roméro	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Patrick	admin	1	{"guide": false, "import": false}	\N	2023-02-14 18:33:51.261+01	\N	ACTIVE	PERSONAL	\N
+COPY public.user_structure (uuid, "createdAt", "updatedAt", version, email, fonction, id, "lastLogin", nom, password, prenom, role, "structureId", mails, "passwordLastUpdate", "acceptTerms", "fonctionDetail", status, "emailStatus", decision, "isSupportMode") FROM stdin;
+663b9baa-2880-406c-a93a-32fe65528037	2020-11-17 14:18:47.658346+01	2020-11-17 14:18:47.658346+01	1	s1-instructeur@yopmail.com	\N	2	\N	Juste	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Isabelle	simple	1	{"guide": false, "import": false}	\N	\N	\N	ACTIVE	GENERIC_SUSPECTED	\N	f
+59c846d8-0592-4790-a5e2-1daae9b8776e	2020-11-14 14:18:27.658736+01	2020-11-14 14:18:27.658736+01	1	s1-facteur@yopmail.com	\N	6	2021-06-28 15:27:26.095+02	Dupuis	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Facteur 1	facteur	1	{"guide": true, "import": true}	\N	\N	\N	ACTIVE	GENERIC_SUSPECTED	\N	f
+d81c5566-94f9-4ee4-ab57-a604a654f79b	2020-11-17 14:32:22.193933+01	2020-11-17 14:39:14.015103+01	17	s3-admin@yopmail.com	\N	5	2020-11-17 14:39:13.796+01	Roseline	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Parmentier	admin	3	{"guide": false, "import": false}	2020-11-17 14:39:14.013+01	\N	\N	ACTIVE	GENERIC_SUSPECTED	\N	f
+d19ece1f-d32b-498c-9427-eb12b1251163	2020-11-17 14:26:29.482634+01	2020-11-17 14:26:29.490297+01	2	s3-facteur@yopmail.com	\N	4	\N	Test	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Facteur	facteur	3	{"guide": false, "import": false}	\N	\N	\N	ACTIVE	GENERIC_SUSPECTED	\N	f
+b0140303-79e3-436c-9c41-1eaefeeaed6e	2020-11-17 14:23:20.248011+01	2022-03-09 00:20:21.36073+01	9	s1-gestionnaire@yopmail.com	\N	3	2022-03-09 00:20:21.356+01	Smith	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Peter	responsable	1	{"guide": false, "import": false}	\N	\N	\N	ACTIVE	GENERIC_SUSPECTED	\N	f
+343b62db-6c85-4896-b994-18c8c89b710f	2022-03-17 17:25:53.798318+01	2022-03-23 22:08:39.505536+01	36	s5-admin@yopmail.com	\N	11	2022-03-23 22:08:39.502+01	Pali	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Mauricette	admin	5	{"guide": false, "import": false}	2022-03-17 17:25:53.78+01	\N	\N	ACTIVE	GENERIC_SUSPECTED	\N	f
+4e049e3d-bb65-48e5-8661-b1ccdc9db985	2021-09-21 00:03:26.186917+02	2025-07-18 19:04:01.796244+02	3	s3-instructeur@yopmail.com	AUTRE	8	\N	Jacquet	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Aimé	simple	3	{"guide": false, "import": false}	\N	\N	\N	ACTIVE	GENERIC_SUSPECTED	\N	f
+44f1cfe8-eae9-49d5-aedb-76dda856c413	2021-02-01 17:12:30.90825+01	2025-07-18 19:04:01.813538+02	3	s4-admin@yopmail.com	AUTRE	7	\N	Test	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Import	admin	4	{"guide": false, "import": false}	\N	\N	\N	ACTIVE	GENERIC_SUSPECTED	\N	f
+f6b20e00-77e7-46e6-b48d-8cca69161042	2020-11-17 14:32:22.193+01	2025-07-18 19:04:01.814984+02	5	s3-gestionnaire@yopmail.com	DIRECTEUR_RESPONSABLE	10	2021-12-06 16:26:01.365+01	Etchebest	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Philippe	responsable	3	{"guide": false, "import": false}	\N	\N	\N	ACTIVE	GENERIC_SUSPECTED	\N	f
+132e6e51-1612-44cc-b277-eca0a6d11c16	2020-11-14 14:18:27.658736+01	2025-09-18 22:55:07.545893+02	3	s1-agent@yopmail.com	\N	12	2025-09-18 22:55:04.854+02	Dragon	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Agent 1	agent	1	{"guide": true, "import": true}	\N	2025-09-18 22:55:07.545+02	\N	ACTIVE	GENERIC_SUSPECTED	\N	f
+da01f451-9c4f-4f6c-98bb-c635277e33e7	2020-11-17 14:18:47.658346+01	2024-10-30 22:34:43.742052+01	392	preprod.domifa@fabrique.social.gouv.fr	\N	1	2024-10-30 22:34:43.742+01	Roméro	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Patrick	admin	1	{"guide": false, "import": false}	\N	2023-02-14 18:33:51.261+01	\N	ACTIVE	PERSONAL	\N	f
 \.
 
 
@@ -701,8 +711,8 @@ eaa26d58-eb9c-423a-9ce7-d18ac1a9d3ec	2021-03-15 16:53:55.740856+01	2025-09-18 22
 -- Data for Name: user_supervisor; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.user_supervisor (uuid, "createdAt", "updatedAt", version, email, fonction, id, "lastLogin", nom, password, prenom, "passwordLastUpdate", "acceptTerms", territories, role, status, decision) FROM stdin;
-da01f451-9c4f-4f6c-98bb-c635277e33e7	2020-11-17 14:18:47.658+01	2024-10-30 22:34:43.742+01	392	preprod.domifa@fabrique.social.gouv.fr	\N	1	2024-10-30 22:34:43.742+01	Roméro	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Patrick	\N	2023-02-14 18:33:51.261+01	[]	super-admin-domifa	ACTIVE	\N
+COPY public.user_supervisor (uuid, "createdAt", "updatedAt", version, email, fonction, id, "lastLogin", nom, password, prenom, "passwordLastUpdate", "acceptTerms", territories, role, status, decision, support) FROM stdin;
+da01f451-9c4f-4f6c-98bb-c635277e33e7	2020-11-17 14:18:47.658+01	2024-10-30 22:34:43.742+01	392	preprod.domifa@fabrique.social.gouv.fr	\N	1	2024-10-30 22:34:43.742+01	Roméro	$2a$10$GQ5/A/bv3NU/lHeaEP35EuOSHQkapPtU1RHy/G1nHuNwujOkovosa	Patrick	\N	2023-02-14 18:33:51.261+01	[]	super-admin-domifa	ACTIVE	\N	\N
 \.
 
 
@@ -791,4 +801,5 @@ SELECT pg_catalog.setval('public.user_usager_id_seq', 2, true);
 -- PostgreSQL database dump complete
 --
 
+\unrestrict JOntfmEgHufLclqCiPT1pYDdTViwvMO8iJ05KbaUgsFYyQ1iVE5d2gPbvAEut1T
 

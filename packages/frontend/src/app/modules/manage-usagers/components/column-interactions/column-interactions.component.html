@@ -4,10 +4,12 @@
   <button
     type="button"
     [id]="'visite-' + usager.ref"
-    [disabled]="isInteractionLoading.visite"
+    [disabled]="isInteractionLoading.visite || readOnly"
     [attr.aria-busy]="isInteractionLoading.visite"
     [attr.aria-label]="'Ajout d\'un passage pour ' + usager.fullName"
-    [title]="'Ajout d\'un passage pour ' + usager.fullName"
+    [title]="
+      readOnly ? readOnlyTooltip : 'Ajout d\'un passage pour ' + usager.fullName
+    "
     class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
     (click)="setSingleInteraction(usager, 'visite')"
   >
@@ -16,10 +18,14 @@
   <button
     type="button"
     [id]="'appel-' + usager.ref"
-    [disabled]="isInteractionLoading.appel"
+    [disabled]="isInteractionLoading.appel || readOnly"
     [attr.aria-busy]="isInteractionLoading.appel"
     [attr.aria-label]="'Ajout d\'un appel téléphonique pour ' + usager.fullName"
-    [title]="'Ajout d\'un appel téléphonique pour ' + usager.fullName"
+    [title]="
+      readOnly
+        ? readOnlyTooltip
+        : 'Ajout d\'un appel téléphonique pour ' + usager.fullName
+    "
     class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
     (click)="setSingleInteraction(usager, 'appel')"
   >
@@ -32,10 +38,14 @@
   <button
     type="button"
     [id]="'courrierIn-' + usager.ref"
-    [disabled]="isInteractionLoading.courrierIn"
+    [disabled]="isInteractionLoading.courrierIn || readOnly"
     [attr.aria-busy]="isInteractionLoading.courrierIn"
     [attr.aria-label]="'Ajout d\'un courrier pour ' + usager.fullName"
-    [title]="'Ajout d\'un courrier pour ' + usager.fullName"
+    [title]="
+      readOnly
+        ? readOnlyTooltip
+        : 'Ajout d\'un courrier pour ' + usager.fullName
+    "
     class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
     (click)="setSingleInteraction(usager, 'courrierIn')"
   >
@@ -48,9 +58,12 @@
       'Réception de courriers, colis ou recommandés pour ' + usager.fullName
     "
     [title]="
-      'Réception de courriers, colis ou recommandés pour ' + usager.fullName
+      readOnly
+        ? readOnlyTooltip
+        : 'Réception de courriers, colis ou recommandés pour ' + usager.fullName
     "
     [id]="'reception-' + usager.ref"
+    [disabled]="readOnly"
     class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
     (click)="openInteractionInModal()"
   >
@@ -68,7 +81,8 @@
       ' courriers de ' +
       usager.fullName
     "
-    [tooltip]="distributionTooltip"
+    [disabled]="readOnly"
+    [tooltip]="readOnly ? readOnlyTooltip : distributionTooltip"
     (click)="openInteractionOutModal()"
   >
     <span class="fr-icon-mail-open-line" aria-hidden="true"></span>

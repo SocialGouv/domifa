@@ -46,6 +46,15 @@ export class ColumnInteractionsComponent implements OnChanges, OnDestroy {
   @Input()
   public usager!: UsagerFormModel;
 
+  // Set once by the parent table from its own single support-mode check
+  // (see ManageUsagersTableComponent) rather than each row subscribing to
+  // auth state itself — this component is instantiated per row (deferred
+  // on viewport), so it needs to stay a plain, no-cost `@Input` binding.
+  @Input()
+  public readOnly = false;
+
+  public readonly readOnlyTooltip = "Action non disponible en mode support";
+
   public distributionTooltip = "";
 
   private readonly subscription = new Subscription();
