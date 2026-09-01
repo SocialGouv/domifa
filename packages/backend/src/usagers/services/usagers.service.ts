@@ -191,8 +191,6 @@ export class UsagersService {
     ) {
       newDecision.dateFin = newDecision?.dateFin ? newDecision.dateFin : now;
       newDecision.dateDebut = newDecision.dateFin;
-
-      usager.dateDerniereDom = null;
     } else if (newDecision.statut === "VALIDE") {
       const actualLastInteraction = new Date(
         usager.lastInteraction.dateInteraction
@@ -208,16 +206,20 @@ export class UsagersService {
         usager.customRef = newDecision.customRef;
       }
 
-      // Date de premiere dom = date de début si aucune autre date n'est spécifiée
-      if (!usager.datePremiereDom) {
+      // Date de la domiciliation en cours et ininterrompue : ne repart que
+      // si la décision précédente était un refus/une radiation (typeDom
+      // repositionné à PREMIERE_DOM dans ce cas, voir renouvellement()).
+      // On ne la modifie jamais depuis la branche REFUS/RADIE ci-dessus :
+      // si la radiation/le refus est ensuite supprimé(e) par erreur, cette
+      // date doit rester intacte.
+      if (usager.typeDom === "PREMIERE_DOM") {
         usager.datePremiereDom = newDecision.dateDebut;
       }
 
-      // Date de la domiciliation en cours et ininterrompue : ne repart que
-      // s'il n'y en avait pas (1ère domiciliation, ou domiciliation
-      // relancée après une radiation/un refus de renouvellement)
-      if (!usager.dateDerniereDom) {
-        usager.dateDerniereDom = newDecision.dateDebut;
+      // Plus ancienne date de domiciliation connue : renseignée une seule
+      // fois, jamais modifiée ensuite (contrairement à datePremiereDom)
+      if (!usager.dateAncienneteDom) {
+        usager.dateAncienneteDom = newDecision.dateDebut;
       }
     }
 
@@ -246,7 +248,7 @@ export class UsagersService {
         etapeDemande: usager.etapeDemande,
         typeDom: usager.typeDom,
         datePremiereDom: usager.datePremiereDom,
-        dateDerniereDom: usager.dateDerniereDom,
+        dateAncienneteDom: usager.dateAncienneteDom,
       }
     );
     return usager;

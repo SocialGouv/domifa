@@ -338,7 +338,7 @@ CREATE TABLE public.usager (
     langue text,
     email text,
     "datePremiereDom" timestamp with time zone,
-    "dateDerniereDom" timestamp with time zone,
+    "dateAncienneteDom" timestamp with time zone,
     "typeDom" text DEFAULT 'PREMIERE_DOM'::text NOT NULL,
     decision jsonb NOT NULL,
     historique jsonb NOT NULL,

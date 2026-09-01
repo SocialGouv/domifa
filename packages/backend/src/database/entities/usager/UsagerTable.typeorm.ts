@@ -98,7 +98,7 @@ export class UsagerTable
   public datePremiereDom!: Date | null;
 
   @Column({ type: "timestamptz", nullable: true })
-  public dateDerniereDom!: Date | null;
+  public dateAncienneteDom!: Date | null;
 
   @Column({ type: "text", nullable: false, default: "PREMIERE_DOM" })
   public typeDom!: UsagerTypeDom;
