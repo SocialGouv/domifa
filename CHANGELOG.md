@@ -1,3 +1,18 @@
+# [2.263.0](https://github.com/SocialGouv/domifa/compare/v2.262.0...v2.263.0) (2026-09-01)
+
+
+### Bug Fixes
+
+* **portail-admins:** ship robots.txt in build assets ([99520be](https://github.com/SocialGouv/domifa/commit/99520becec9df19a4ec0e0e6b91f5f2d741ed86f))
+* **portail-admins:** store supervisor portal flag only for DGCS DDETS DREETS roles ([7d5abab](https://github.com/SocialGouv/domifa/commit/7d5abab5e064327485bc49aa3785bd7fbd7a2c83))
+* **portail-stats:** ship robots.txt in build assets ([66f969e](https://github.com/SocialGouv/domifa/commit/66f969ed012e15392301be029ded7a50270af877))
+
+
+### Features
+
+* **frontend:** replace admin link with pilotage link in navbar menu ([94bb3e2](https://github.com/SocialGouv/domifa/commit/94bb3e2695ffa93925821abf60ef75ab664a3b1e))
+* **portail-admins:** redirect DGCS DDETS DREETS members to pilotage portal on login ([6e30729](https://github.com/SocialGouv/domifa/commit/6e30729fe36e44c1ab985a51703fde6eac6dafe7))
+
 # [2.262.0](https://github.com/SocialGouv/domifa/compare/v2.261.2...v2.262.0) (2026-08-31)
 
 
