@@ -159,7 +159,6 @@ export const buildDecision = (
     | "typeDom"
     | "decision"
     | "datePremiereDom"
-    | "dateDerniereDom"
     | "historique"
     | "lastInteraction"
   >,
@@ -169,8 +168,6 @@ export const buildDecision = (
   const motif = generateMotifLabel(usager.decision);
   const { dateDebutDom, dateFinDom, decisionUserPremierDom } =
     getDateDecision(usager);
-
-  const datePremiereDom = usager.dateDerniereDom ?? usager.datePremiereDom;
 
   return {
     STATUT_DOM: USAGER_DECISION_STATUT_LABELS[usager.decision.statut],
@@ -221,9 +218,13 @@ export const buildDecision = (
       DATE_FORMAT.JOUR
     ),
     PREMIERE_DOM_NOM_AGENT: decisionUserPremierDom ?? "",
-    DATE_PREMIERE_DOM: dateFormat(datePremiereDom, structure.timeZone, format),
+    DATE_PREMIERE_DOM: dateFormat(
+      usager.datePremiereDom,
+      structure.timeZone,
+      format
+    ),
     DATE_PREMIERE_DOM_FORMAT_COURT: dateFormat(
-      datePremiereDom,
+      usager.datePremiereDom,
       structure.timeZone,
       DATE_FORMAT.JOUR
     ),

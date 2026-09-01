@@ -102,10 +102,9 @@ function buildUsager({
     }
   }
 
-  const dateDerniereDom =
-    usagerRow.statutDom === "RADIE" || usagerRow.statutDom === "REFUS"
-      ? null
-      : datePremiereDom;
+  // La plus ancienne date de domiciliation connue correspond, à l'import, à
+  // la date de première domiciliation renseignée (jamais modifiée ensuite)
+  const dateAncienneteDom = datePremiereDom;
 
   if (usagerRow.typeDom === "PREMIERE") {
     usagerRow.typeDom = "PREMIERE_DOM";
@@ -130,7 +129,7 @@ function buildUsager({
     customRef,
     dateNaissance: usagerRow.dateNaissance,
     datePremiereDom,
-    dateDerniereDom,
+    dateAncienneteDom,
     import: {
       date: new Date(),
       userId: user.id,
