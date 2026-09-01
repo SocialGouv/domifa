@@ -1,3 +1,18 @@
+# [2.265.0](https://github.com/SocialGouv/domifa/compare/v2.264.2...v2.265.0) (2026-09-01)
+
+
+### Bug Fixes
+
+* code review ([3bdc130](https://github.com/SocialGouv/domifa/commit/3bdc13028fc8bca209757f328a9a9b40f7c6fe38))
+
+
+### Features
+
+* **front:** fix code review ([d23f306](https://github.com/SocialGouv/domifa/commit/d23f306fe3021b704faea74150c799a2006d2a65))
+* **front, back:** fix code review ([bb53f94](https://github.com/SocialGouv/domifa/commit/bb53f94899199d44e38fb6ea2952ed5e4df241da))
+* **frontend, back:** secure update email process ([7572e0f](https://github.com/SocialGouv/domifa/commit/7572e0fe72e6ca813f6b45a9bcc6f3f5375a8b28))
+* **frontend, back:** secure update email process ([b6a0558](https://github.com/SocialGouv/domifa/commit/b6a0558eb947af499257faf5086a1a8a85c551e9))
+
 ## [2.264.2](https://github.com/SocialGouv/domifa/compare/v2.264.1...v2.264.2) (2026-09-01)
 
 
