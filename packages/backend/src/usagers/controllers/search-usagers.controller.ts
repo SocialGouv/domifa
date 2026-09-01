@@ -4,7 +4,7 @@ import {
   CriteriaSearchField,
   getUsagerDeadlines,
   ETAPE_ENTRETIEN,
-  ALL_USER_STRUCTURE_ROLES,
+  SUPPORT_READ_ROLES,
 } from "@domifa/common";
 import {
   BadRequestException,
@@ -37,7 +37,7 @@ import { SearchUsagerDto } from "../dto";
 @Controller("search-usagers")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserProfiles("structure")
-@AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
+@AllowUserStructureRoles(...SUPPORT_READ_ROLES)
 export class SearchUsagersController {
   @Get()
   public async findAllByStructure(

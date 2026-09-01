@@ -59,6 +59,7 @@ import {
   Usager,
   ETAPE_DOCUMENTS,
   ALL_USER_STRUCTURE_ROLES,
+  SUPPORT_READ_ROLES,
 } from "@domifa/common";
 import { UsagerHistoryStateService } from "../services/usagerHistoryState.service";
 import { domifaConfig } from "../../config";
@@ -289,6 +290,7 @@ export class UsagersController {
     return currentUsager;
   }
 
+  @AllowUserStructureRoles("simple", "responsable", "admin", "support")
   @Post("check-duplicates-name")
   public async checkDuplicates(
     @Body() duplicateUsagerDto: CheckDuplicateUsagerDto,
@@ -374,7 +376,7 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
+  @AllowUserStructureRoles(...SUPPORT_READ_ROLES)
   @Get(":usagerRef")
   public findOne(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,

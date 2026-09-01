@@ -41,7 +41,7 @@
         @if (canUseSupportMode) {
         <dsfr-button
           icon="fr-icon-admin-line"
-          label="Activer mode support"
+          label="Rattacher le compte support"
           variant="primary"
           (click)="openSupportSessionModal()"
         ></dsfr-button>
@@ -167,14 +167,16 @@
       icon="fr-icon-alert-line"
       #supportSessionModal
       dialogId="supportSessionModal"
-      titleModal="Activer le mode support"
+      titleModal="Rattacher le compte support"
       [concealingBackdrop]="false"
       [autoCloseOnAction]="false"
     >
       <p>
-        Vous aurez accès à la structure
+        Le compte support DomiFa Admin sera rattaché à la structure
         <span class="fr-text--bold">{{ structure.nom }}</span>
-        pendant 1 heure, en lecture seule.
+        pendant 1 heure, en lecture seule. Il devra ensuite se connecter
+        normalement (email, mot de passe, code de vérification) sur
+        l'application structure pour y accéder.
       </p>
       <ng-template #modalFooterTemplate>
         <dsfr-buttons-group
@@ -186,7 +188,7 @@
           <dsfr-button
             (click)="activateSupportSession()"
             [disabled]="activatingSupportSession"
-            label="Activer"
+            label="Rattacher"
           ></dsfr-button>
           <dsfr-button
             (click)="supportSessionModal.close()"
