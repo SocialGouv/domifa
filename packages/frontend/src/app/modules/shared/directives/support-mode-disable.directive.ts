@@ -16,15 +16,15 @@ const FIELD_SELECTOR = "input, select, textarea";
 // (create/edit/delete, uploads, block/unblock...) — the write-blocking
 // interceptor + backend guard are the actual enforcement, this is UX only.
 //
-// PERF NOTE: support-mode state is read ONCE, synchronously, in ngOnInit —
-// no BehaviorSubject subscription. This is safe because a support session
-// never flips on/off while a tagged component stays mounted: activation
-// happens via a full-page handoff at /support-entry, and every exit path
-// (manual "Quitter", auto-expiry, structure logout) does a full
-// window.location redirect that tears down the whole Angular app rather
-// than toggling state in place (see AuthService.logout /
-// SupportEntryComponent). If that assumption ever stops holding, this
-// directive would need to go back to a live subscription.
+// PERF NOTE: support-mode state (role === "support") is read ONCE,
+// synchronously, in ngOnInit — no BehaviorSubject subscription. This is safe
+// because a support session never flips on/off while a tagged component
+// stays mounted: activation happens via a fresh login (full Angular app
+// bootstrap), and this directive is only ever applied inside routed content
+// — every exit path (manual "Quitter", auto-expiry) navigates to /connexion,
+// which tears down and unmounts that routed content, taking any tagged
+// element with it. If that assumption ever stops holding, this directive
+// would need to go back to a live subscription.
 // When the session is NOT support-mode (the overwhelming majority of the
 // time, for every regular user), ngOnInit is a single property read and
 // nothing else — no listener attached, no DOM write, no observer. This
@@ -68,8 +68,7 @@ export class SupportModeDisableDirective implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.isSupportMode =
-      this.authService.currentUserValue?.supportMode === true;
+    this.isSupportMode = this.authService.currentUserValue?.role === "support";
     if (!this.isSupportMode) {
       return;
     }

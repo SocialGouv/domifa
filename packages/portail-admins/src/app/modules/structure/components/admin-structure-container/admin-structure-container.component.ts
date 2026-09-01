@@ -21,7 +21,6 @@ import {
 import { StructureService } from "../../services/structure.service";
 import { AdminAuthService } from "../../../admin-auth/services/admin-auth.service";
 import { CustomToastService } from "../../../shared/services";
-import { environment } from "../../../../../environments/environment";
 
 const SUPPORT_MODE_ALLOWED_EMAIL_DOMAIN = "@fabrique.social.gouv.fr";
 
@@ -116,16 +115,18 @@ export class AdminStructureContainerComponent implements OnInit, OnDestroy {
         next: (response) => {
           this.activatingSupportSession = false;
           this.supportSessionModal.close();
-          window.open(
-            `${environment.frontendUrl}support-entry?token=${encodeURIComponent(
-              response.accessToken
-            )}`,
-            "_blank"
+          const until = new Date(response.expiresAt).toLocaleTimeString(
+            "fr-FR",
+            { hour: "2-digit", minute: "2-digit" }
+          );
+          this.toastr.success(
+            `Compte support rattaché à ${response.structureNom} jusqu'à ${until}. ` +
+              `Il peut maintenant se connecter normalement sur l'application structure.`
           );
         },
         error: () => {
           this.activatingSupportSession = false;
-          this.toastr.error("Impossible d'activer le mode support");
+          this.toastr.error("Impossible de rattacher le compte support");
         },
       });
   }

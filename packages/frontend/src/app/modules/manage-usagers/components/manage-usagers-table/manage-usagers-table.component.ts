@@ -119,8 +119,10 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   ) {
     this.me = this.authService.currentUserValue;
     this.canEditUsagers =
-      this.me?.role !== "facteur" && this.me?.role !== "agent";
-    this.isSupportModeReadOnly = this.me?.supportMode === true;
+      this.me?.role !== "facteur" &&
+      this.me?.role !== "agent" &&
+      this.me?.role !== "support";
+    this.isSupportModeReadOnly = this.me?.role === "support";
     this.usagers = [];
     this.selectedRefs.clear();
   }

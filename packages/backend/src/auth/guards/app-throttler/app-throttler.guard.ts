@@ -430,6 +430,15 @@ export class AppThrottlerGuard extends ThrottlerGuard {
     logContext: ThrottleBlockedLogContext
   ): Promise<void> {
     if (jwtUser?.userId) {
+      // "temporary", not the default "permanent": a burst of requests from an
+      // already-authenticated session (a chatty client, a buggy retry loop,
+      // a slow connection re-firing XHRs) is a rate-limit problem, not
+      // evidence of a compromised or malicious account. Permanently blocking
+      // here bricked any account that tripped it — worst case, the single
+      // shared "support" account, where one client-side burst on login took
+      // the whole feature down for every admin until someone flipped
+      // `status` back in the DB by hand. Mirrors the IP-targeted branch
+      // below, which was already "temporary".
       await this.applyAutoBlock({
         userProfile: jwtUser.userProfile as UserProfile,
         userId: jwtUser.userId,
@@ -438,6 +447,7 @@ export class AppThrottlerGuard extends ThrottlerGuard {
         userAgent: logContext.userAgent,
         blockedUserExtra: this.buildBlockedUserExtra(jwtUser),
         extra: { throttle: logContext },
+        lockType: "temporary",
       });
       return;
     }

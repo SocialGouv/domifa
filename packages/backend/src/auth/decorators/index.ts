@@ -1,5 +1,4 @@
 //@index('./*', f => `export * from '${f.path}'`)
-export * from "./AllowInSupportMode.decorator";
 export * from "./AllowUserProfiles.decorator";
 export * from "./AllowUserStructureRoles.decorator";
 export * from "./AllowUserSupervisorRoles.decorator";

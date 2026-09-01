@@ -28,7 +28,7 @@ fileignoreconfig:
 - filename: packages/backend/src/_migrations/1782820564935-auto-migration.ts
   checksum: 569cea2b8baf6c5159c29e7f94036534318c51a9800299107b9c3cbc7fd6a542
 - filename: packages/backend/src/_migrations/1787045027655-add-support-mode.ts
-  checksum: 130e850944ac6cb35e89050f3fabe847772fde10c92c4f391c7321686e12666e
+  checksum: 3f123d0b30964f99dc349f6971b6033109ca83df62f90da36a98dcc06517ba20
 - filename: packages/backend/src/_migrations/_init-db/domifa_test_schema.sql
   checksum: bfd486076e06a427968f56c2ef99fc0cbdf0f982b8cb25e953ff3bc4611f4dbc
 - filename: packages/frontend/src/app/modules/general/components/decouvrir-domifa/decouvrir-domifa.component.html

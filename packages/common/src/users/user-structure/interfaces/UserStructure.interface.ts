@@ -27,11 +27,9 @@ export type UserStructure = CommonUser & {
   domifaVersion?: string;
   access_token?: string;
 
-  // Admin support-mode read-only impersonation — decoded from the JWT by
-  // userStructureBuilder, read by the yellow banner + write-blocking guard
-  // in packages/frontend.
-  supportMode?: true;
-  supportSessionUuid?: string;
-  supervisorEmail?: string;
-  supportModeExpiresAt?: string;
+  // Set only when role === "support": expiry of the active attachment to
+  // the current structure, returned by GET structures/auth/me — read by the
+  // yellow banner + write-blocking guard in packages/frontend, both keyed
+  // off role === "support" rather than a dedicated flag.
+  supportAttachmentExpiresAt?: string;
 };

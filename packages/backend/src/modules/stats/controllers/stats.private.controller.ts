@@ -1,5 +1,5 @@
 import {
-  ALL_USER_STRUCTURE_ROLES,
+  SUPPORT_READ_ROLES,
   StructureStatsReportingQuestions,
 } from "@domifa/common";
 import {
@@ -34,7 +34,7 @@ import { structureStatsInPeriodGenerator } from "../services";
 
 @Controller("stats")
 @AllowUserProfiles("structure")
-@AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
+@AllowUserStructureRoles(...SUPPORT_READ_ROLES)
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 export class StatsPrivateController {
   constructor(private readonly appLogsService: AppLogsService) {}

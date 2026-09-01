@@ -8,6 +8,7 @@ import {
   userStructureRepository,
   structureRepository,
   appLogsRepository,
+  supportSessionRepository,
 } from "../../database";
 import { appLogger } from "../../util";
 import {
@@ -88,49 +89,6 @@ export class StructuresAuthService {
     session: CurrentUserSession
   ) {
     return this.signAccessTokenForSession(user, session);
-  }
-
-  // Admin support-mode read-only impersonation: same payload shape as a
-  // normal login, flagged `supportMode` and capped at `expiresInSeconds`
-  // (1h) instead of the default 12h access-token lifetime. No trust token —
-  // support sessions never use the "remember this device" reconnect path.
-  public signSupportModeToken(
-    user: UserStructure,
-    session: CurrentUserSession,
-    support: {
-      supportSessionUuid: string;
-      supervisorId: number;
-      supervisorEmail: string;
-      expiresInSeconds: number;
-    }
-  ): { access_token: string } {
-    const payload: UserStructureJwtPayload = {
-      _jwtPayloadVersion: CURRENT_JWT_PAYLOAD_VERSION,
-      _userId: user.id,
-      _userProfile: "structure",
-      email: user.email,
-      id: user.id,
-      userId: user.id,
-      lastLogin: user.lastLogin,
-      nom: user.nom,
-      prenom: user.prenom,
-      fonction: user.fonction,
-      fonctionDetail: user.fonctionDetail,
-      role: user.role,
-      acceptTerms: user.acceptTerms,
-      structureId: user.structureId,
-      domifaVersion: domifaConfig().version.toString(),
-      fingerprintHash: session.fingerprintHash,
-      supportMode: true,
-      supportSessionUuid: support.supportSessionUuid,
-      supervisorId: support.supervisorId,
-      supervisorEmail: support.supervisorEmail,
-    };
-    return {
-      access_token: this.jwtService.sign(payload, {
-        expiresIn: support.expiresInSeconds,
-      }),
-    };
   }
 
   private signAccessTokenForSession(
@@ -311,14 +269,41 @@ export class StructuresAuthService {
 
   public async findAuthUser(
     payload: Pick<UserStructureJwtPayload, "_userId" | "_userProfile">
-  ): Promise<UserStructureAuthenticated> {
+  ): Promise<UserStructureAuthenticated | false> {
     const user = await userStructureRepository.findOne({
       where: { id: payload._userId, status: Not("DELETE") },
       select: APP_USER_PUBLIC_ATTRIBUTES,
     });
+    if (!user) {
+      return false;
+    }
+
+    // The support account's own `structureId` column is a mandatory-but-
+    // never-trusted placeholder FK — its real, current structure is
+    // whichever one a super-admin has actively attached it to. No active
+    // attachment => this account can't authenticate at all, which also
+    // doubles as an immediate revocation path independent of the session
+    // fingerprint (disabled in test env, see jwt.strategy.ts).
+    let structureId = user.structureId;
+    let supportAttachmentExpiresAt: Date | undefined;
+    if (user.role === "support") {
+      const attachment = await supportSessionRepository.findOne({
+        where: { targetUserStructureId: user.id, status: "ACTIVE" },
+      });
+      // `status === "ACTIVE"` alone isn't enough: it only reflects what the
+      // 10-minute expiry cron has processed so far. Comparing expiresAt here
+      // makes the cutoff immediate and independent of that cron (which can be
+      // disabled per-env via isCronEnabled()), instead of granting up to ~10
+      // extra minutes of access past the advertised attachment window.
+      if (!attachment || attachment.expiresAt.getTime() <= Date.now()) {
+        return false;
+      }
+      structureId = attachment.structureId;
+      supportAttachmentExpiresAt = attachment.expiresAt;
+    }
 
     const structure: StructureCommon = await structureRepository.findOne({
-      where: { id: user.structureId },
+      where: { id: structureId },
       select: [
         "uuid",
         "updatedAt",
@@ -357,7 +342,12 @@ export class StructuresAuthService {
       _userId: payload._userId,
       _userProfile: payload._userProfile,
       ...user,
+      // Overridden below `...user` on purpose: for a "support" account, the
+      // account's own placeholder column must not win over the resolved
+      // attachment structure.
+      structureId,
       structure,
+      supportAttachmentExpiresAt,
     };
   }
 }

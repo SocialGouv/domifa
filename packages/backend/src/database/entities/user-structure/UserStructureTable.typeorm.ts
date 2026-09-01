@@ -80,13 +80,6 @@ export class UserStructureTable
   @Column({ type: "jsonb", nullable: true })
   decision: UserStructureDecision | null;
 
-  // True while this account is being used by an admin support-mode session
-  // (read-only impersonation). Defensive DB-level indicator kept in sync
-  // with support_session; the JWT's `supportMode` flag is the source of
-  // truth enforced per-request.
-  @Column({ type: "boolean", default: false })
-  isSupportMode: boolean;
-
   public constructor(entity?: Partial<UserStructureTable>) {
     super(entity);
     Object.assign(this, entity);

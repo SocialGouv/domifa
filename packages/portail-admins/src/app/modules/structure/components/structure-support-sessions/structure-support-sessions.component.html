@@ -1,6 +1,6 @@
 <div class="fr-mt-3w">
   <div class="fr-grid-row fr-grid-row--middle fr-mb-2w">
-    <h2 class="fr-h4 fr-mb-0 fr-col">Sessions support</h2>
+    <h2 class="fr-h4 fr-mb-0 fr-col">Rattachements support</h2>
     <button
       type="button"
       class="fr-btn fr-btn--secondary fr-btn--sm fr-icon-refresh-line fr-btn--icon-left"
@@ -12,8 +12,8 @@
   </div>
 
   <p class="fr-text--sm fr-text--mention-grey">
-    Historique des sessions de mode support (accès en lecture seule à la
-    structure par un administrateur DOMIFA), du plus récent au plus ancien.
+    Historique des rattachements du compte support (accès en lecture seule à la
+    structure), du plus récent au plus ancien.
   </p>
 
   <div
@@ -31,7 +31,7 @@
 
   <ng-container *ngIf="!loading && loaded">
     <div *ngIf="sessions.length === 0" class="fr-alert fr-alert--info">
-      <p>Aucune session support enregistrée pour cette structure.</p>
+      <p>Aucun rattachement support enregistré pour cette structure.</p>
     </div>
 
     <div *ngIf="sessions.length > 0" class="fr-table fr-table--no-outer-border">
@@ -40,14 +40,14 @@
           <div class="fr-table__content">
             <table>
               <caption class="fr-sr-only">
-                Sessions support de la structure ({{
+                Rattachements support de la structure ({{
                   sessions.length
                 }}
                 entrées)
               </caption>
               <thead>
                 <tr>
-                  <th scope="col">Admin</th>
+                  <th scope="col">Rattaché par</th>
                   <th scope="col">Statut</th>
                   <th scope="col">Début</th>
                   <th scope="col">Expiration</th>
@@ -103,7 +103,7 @@
                       class="fr-btn fr-btn--secondary fr-btn--sm"
                       (click)="revoke(session)"
                     >
-                      Révoquer
+                      Détacher
                     </button>
                   </td>
                 </tr>
