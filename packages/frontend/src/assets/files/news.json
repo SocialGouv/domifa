@@ -1,13 +1,21 @@
 [
   {
-    "date": "2026-08-21",
-    "description": "Améliorations sur la recherche et la connexion",
+    "date": "2026-09-01",
+    "description": "Kit de communication, formulaire de contact et connexion",
     "content": [
       {
-        "type": "bug",
-        "categorie": "🔎 Résultats de recherche",
+        "type": "new",
+        "categorie": "📣 Kit de communication",
         "message": [
-          "Le nombre de résultats correspondant à vos filtres est désormais de nouveau affiché."
+          "Logos, visuels, vidéos, mails types, publications réseaux sociaux… tout pour promouvoir DomiFa.",
+          "👉 « FAQ » > « Kit de communication »."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "✉️ Formulaire de contact",
+        "message": [
+          "L’objet de votre message se choisit désormais dans une liste, pour orienter plus vite votre demande."
         ]
       },
       {
@@ -19,10 +27,9 @@
       },
       {
         "type": "bug",
-        "categorie": "📧 Modification de votre adresse email",
+        "categorie": "🔎 Résultats de recherche",
         "message": [
-          "Vous pouvez à nouveau modifier votre adresse email depuis la plateforme.",
-          "Pour sécuriser cette action, un code de connexion vous sera demandé afin de confirmer la modification."
+          "Le nombre de résultats correspondant à vos filtres est désormais de nouveau affiché."
         ]
       }
     ]
@@ -290,13 +297,9 @@
         "categorie": "👥 Gestion des référents",
         "message": [
           "Vous pouvez désormais assigner une personne référente au sein de la structure pour chaque domicilié.",
-
           "Vous pouvez renseigner un référent pour un dossier existant.",
-
           "Vous pouvez également renseigner un référent pour les nouveaux dossiers via le formulaire d'inscription.",
-
           "Depuis la liste des domiciliés, vous pouvez assigner un référent à plusieurs dossiers grâce à la sélection multiple.",
-
           "Vous pouvez également filtrer par référent dans l'export de la base de données."
         ]
       },
@@ -332,7 +335,6 @@
         "categorie": "🔍 Recherche et tri",
         "message": [
           "Vous pouvez désormais rechercher le dossier d'un domicilié avec son numéro de téléphone. \nCe nouveau filtre s'ajoute aux filtres existants à savoir la date de naissance, le nom, prénom ou l'ID du domicilié",
-
           "Vous pouvez désormais trier les dossiers domiciliés par date de rendez-vous dans l'onglet \"à compléter\". \nCe tri permet d'avoir un meilleur suivi des prochains rendez-vous avec les domiciliés"
         ]
       },
@@ -1122,7 +1124,6 @@
       }
     ]
   },
-
   {
     "date": "2023-02-15",
     "description": "",
@@ -1762,7 +1763,6 @@
       }
     ]
   },
-
   {
     "date": "2021-05-26",
     "description": "Vos retours ont été pris en compte",
@@ -1795,7 +1795,6 @@
       }
     ]
   },
-
   {
     "date": "2021-04-14",
     "content": [
@@ -1984,7 +1983,6 @@
       }
     ]
   },
-
   {
     "date": "2020-08-06",
     "description": "Une refonte de l’interface utilisateur ainsi qu’un nouveau rôle de gestionnaire !",
@@ -2239,7 +2237,6 @@
           "Possibilité d'ajouter ou supprimer des ayants-droit"
         ]
       },
-
       {
         "type": "new",
         "categorie": "Entretien social",
