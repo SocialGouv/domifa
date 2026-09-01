@@ -4,6 +4,7 @@ import {
   SupportSession,
   SupportSessionRevokedReason,
   SupportSessionStatus,
+  UserStructureRole,
 } from "@domifa/common";
 
 @Index("IDX_support_session_structureId_status", ["structureId", "status"])
@@ -34,6 +35,13 @@ export class SupportSessionTable
 
   @Column({ type: "text", default: "ACTIVE" })
   status: SupportSessionStatus;
+
+  // The target account's real role at the moment it was overwritten to
+  // "support" — restored onto user_structure.role when this attachment
+  // closes (see SupportSessionService.closeSession). Left populated after
+  // close as a historical record.
+  @Column({ type: "text", nullable: true })
+  originalRole: UserStructureRole | null;
 
   @Column({ type: "timestamptz", nullable: true })
   revokedAt: Date | null;

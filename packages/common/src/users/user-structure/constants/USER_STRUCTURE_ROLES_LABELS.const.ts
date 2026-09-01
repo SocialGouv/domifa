@@ -8,4 +8,5 @@ export const USER_STRUCTURE_ROLES_LABELS: {
   simple: "Instructeur",
   facteur: "Facteur",
   agent: "Agent d'accueil",
+  support: "Compte support",
 };

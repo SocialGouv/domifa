@@ -81,11 +81,11 @@ export class SupportModeBannerComponent implements OnInit, OnDestroy {
   }
 
   private tick(): void {
-    if (!this.me?.supportMode || !this.me.supportModeExpiresAt) {
+    if (this.me?.role !== "support" || !this.me.supportAttachmentExpiresAt) {
       return;
     }
     const remainingMs =
-      new Date(this.me.supportModeExpiresAt).getTime() - Date.now();
+      new Date(this.me.supportAttachmentExpiresAt).getTime() - Date.now();
     if (remainingMs <= 0) {
       this.remainingLabel = "00:00:00";
       // logoutFromBackend does its own navigation/window.location redirect

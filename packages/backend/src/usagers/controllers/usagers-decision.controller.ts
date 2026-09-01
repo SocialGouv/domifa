@@ -85,7 +85,7 @@ export class UsagersDecisionController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("responsable", "admin")
+  @AllowUserStructureRoles("responsable", "admin", "support")
   @Get("last-usagers-refs/:usagerRef")
   public async getLastUsagerIds(
     @CurrentUser() user: UserStructureAuthenticated,
@@ -112,7 +112,7 @@ export class UsagersDecisionController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("responsable", "admin")
+  @AllowUserStructureRoles("responsable", "admin", "support")
   @Post("check-duplicates-custom-ref/:usagerRef")
   public async checkDuplicatesUsagerRef(
     @Body() duplicateUsagerRefDto: CheckDuplicateUsagerRefDto,
