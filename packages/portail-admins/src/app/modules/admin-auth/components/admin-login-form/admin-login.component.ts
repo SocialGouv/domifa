@@ -14,6 +14,7 @@ import { regexp } from "../../../../shared/utils/validators";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import {
   PortailAdminAuthLoginForm,
+  SUPERVISOR_PORTAL_ROLES,
   SUPERVISOR_PORTAL_STORAGE_KEY,
 } from "../../types";
 import { AdminAuthService } from "../../services/admin-auth.service";
@@ -100,18 +101,19 @@ export class AdminLoginComponent implements OnInit {
         const redirectToAfterLogin =
           this.route.snapshot.queryParams.redirectToAfterLogin;
 
-        if (apiAuthResponse.user.role === "super-admin-domifa") {
-          if (redirectToAfterLogin) {
-            this.router.navigateByUrl(redirectToAfterLogin);
-          } else {
-            this.router.navigate(["/structure"]);
-          }
-        } else {
+        if (SUPERVISOR_PORTAL_ROLES.includes(apiAuthResponse.user.role)) {
           window.localStorage.setItem(
             SUPERVISOR_PORTAL_STORAGE_KEY,
             apiAuthResponse.user.role
           );
           window.location.href = environment.portailStatsUrl;
+          return;
+        }
+
+        if (redirectToAfterLogin) {
+          this.router.navigateByUrl(redirectToAfterLogin);
+        } else {
+          this.router.navigate(["/structure"]);
         }
       },
     });
