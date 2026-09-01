@@ -4,7 +4,7 @@ import { Subscription } from "rxjs";
 
 import { AuthService } from "../../../shared/services/auth.service";
 import { WelcomeService } from "../../services/welcome.service";
-import { UserStructure } from "@domifa/common";
+import { getPasswordChangeStatus, UserStructure } from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
 @Component({
   selector: "app-navbar",
@@ -59,6 +59,15 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   public logout(): void {
     this.authService.logoutFromBackend();
+  }
+
+  public get isPasswordRenewalRequired(): boolean {
+    return this.me
+      ? getPasswordChangeStatus(
+          this.me.passwordLastUpdate,
+          this.me.createdAt
+        ) === "EXPIRED"
+      : false;
   }
 
   ngAfterViewInit(): void {

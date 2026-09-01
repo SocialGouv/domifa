@@ -92,6 +92,9 @@ export const LOG_ACTION_LABELS: Record<LogAction, string> = {
   LOGOUT: "Déconnexion",
   CHANGE_PASSWORD_SUCCESS: "Mot de passe modifié",
   CHANGE_PASSWORD_ERROR: "Tentative de modification du mot de passe échouée",
+  RESET_OUTDATED_PASSWORD_SUCCESS: "Mot de passe expiré mis à jour",
+  RESET_OUTDATED_PASSWORD_FAIL:
+    "Tentative de renouvellement d'un mot de passe expiré echouée",
   RESET_PASSWORD_REQUEST: "Demande de réinitialisation du mot de passe",
   RESET_PASSWORD_SUCCESS: "Mot de passe réinitialisé",
   RESET_PASSWORD_ERROR: "Tentative de réinitialisation du mot de passe échouée",

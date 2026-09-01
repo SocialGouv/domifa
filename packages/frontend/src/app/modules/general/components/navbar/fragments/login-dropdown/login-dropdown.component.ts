@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { DsfrLink } from "@edugouvfr/ngx-dsfr";
 
 import { AuthService } from "../../../../../shared/services";
-import { UserStructure } from "@domifa/common";
+import { getPasswordChangeStatus, UserStructure } from "@domifa/common";
 import { Router } from "@angular/router";
 
 @Component({
@@ -69,6 +69,11 @@ export class LoginDropdownComponent implements OnInit {
   }
 
   private buildUserLinks(): void {
+    if (this.isPasswordRenewalRequired) {
+      this.dsfrLinks = [];
+      return;
+    }
+
     this.dsfrLinks = [
       {
         label: "Nouveautés",
@@ -149,5 +154,14 @@ export class LoginDropdownComponent implements OnInit {
 
   get isSmsEnabled(): boolean {
     return this._me?.structure?.sms?.enabledByDomifa ?? false;
+  }
+
+  get isPasswordRenewalRequired(): boolean {
+    return this._me
+      ? getPasswordChangeStatus(
+          this._me.passwordLastUpdate,
+          this._me.createdAt
+        ) === "EXPIRED"
+      : false;
   }
 }

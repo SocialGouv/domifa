@@ -2,6 +2,8 @@ import { myDataSource } from "../../database/services/_postgres/appTypeormManage
 import {
   appLogSecurityRepository,
   otpRepository,
+  userStructureRepository,
+  userSupervisorRepository,
   userUsagerRepository,
 } from "../../database";
 import {
@@ -12,7 +14,7 @@ import {
 } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import supertest from "supertest";
-import { DataSource } from "typeorm";
+import { DataSource, MoreThan } from "typeorm";
 import { appTypeormManager } from "../../database";
 import { UsagerTable } from "../../database";
 import {
@@ -91,6 +93,7 @@ async function bootstrapTestApp(
   initApp: { initApp?: boolean } = { initApp: false }
 ): Promise<AppTestContext> {
   await bootstrapTestConnection();
+  await freshenAllPasswordDates();
 
   const module = await Test.createTestingModule(metadata).compile();
   const context: AppTestContext = {
@@ -139,6 +142,24 @@ async function bootstrapTestConnection(): Promise<DataSource> {
   return await appTypeormManager.connect({
     reuseConnexion: true,
   });
+}
+
+// Keeps every structure/supervisor fixture's passwordLastUpdate current so
+// the annual password-renewal check (getPasswordChangeStatus) never trips
+// unexpectedly depending on how old the test DB dump is. Runs once per suite
+// bootstrap instead of being patched into each spec/helper individually.
+// Tests that specifically exercise the "expired password" path (e.g. the
+// edit-my-password renewal-logging test) set an old date back onto their
+// fixture themselves, right before the assertion.
+async function freshenAllPasswordDates(): Promise<void> {
+  await userStructureRepository.update(
+    { id: MoreThan(0) },
+    { passwordLastUpdate: new Date() }
+  );
+  await userSupervisorRepository.update(
+    { id: MoreThan(0) },
+    { passwordLastUpdate: new Date() }
+  );
 }
 
 /**

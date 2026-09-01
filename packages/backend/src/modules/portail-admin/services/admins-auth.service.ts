@@ -49,6 +49,8 @@ export class AdminsAuthService {
         prenom: user.prenom,
         status: user.status,
         lastLogin: user.lastLogin,
+        passwordLastUpdate: user.passwordLastUpdate,
+        createdAt: user.createdAt,
       },
     };
     return response;
