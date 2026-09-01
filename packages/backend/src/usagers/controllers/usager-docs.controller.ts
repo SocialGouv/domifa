@@ -249,7 +249,7 @@ export class UsagerDocsController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("admin", "agent", "responsable", "simple")
+  @AllowUserStructureRoles("admin", "agent", "responsable", "simple", "support")
   @Get("cerfa/:usagerRef/:typeCerfa")
   public async getCerfa(
     @Res() res: Response,
@@ -298,6 +298,7 @@ export class UsagerDocsController {
 
   @Get(":usagerRef")
   @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin", "support")
   public async getUsagerDocuments(
     @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
     @CurrentUsager() currentUsager: Usager

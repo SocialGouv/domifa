@@ -58,6 +58,7 @@ export class UsagerStructureDocsController {
 
   @Get("structure/:usagerRef/:structureDocUuid")
   @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles("simple", "admin", "agent", "responsable", "support")
   public async getStructureCustomDoc(
     @CurrentUsager() usager: Usager,
     @CurrentUser() user: UserStructureAuthenticated,

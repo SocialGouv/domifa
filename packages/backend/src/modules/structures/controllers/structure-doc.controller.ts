@@ -46,7 +46,7 @@ export class StructureDocController {
   constructor(private readonly fileManagerService: FileManagerService) {}
 
   @Get(":uuid")
-  @AllowUserStructureRoles("simple", "responsable", "admin", "agent")
+  @AllowUserStructureRoles("simple", "responsable", "admin", "agent", "support")
   public async getStructureDoc(
     @Param("uuid", new ParseUUIDPipe()) uuid: string,
     @CurrentUser() user: UserStructureAuthenticated,
@@ -182,7 +182,7 @@ export class StructureDocController {
   }
 
   @Get("")
-  @AllowUserStructureRoles("simple", "responsable", "admin", "agent")
+  @AllowUserStructureRoles("simple", "responsable", "admin", "agent", "support")
   public async getStructureDocs(
     @CurrentUser() user: UserStructureAuthenticated
   ) {

@@ -44,10 +44,14 @@ describe("Interactions Controller", () => {
       StructuresAuthService
     );
 
-    user = await structureAuthService.findAuthUser({
+    const foundUser = await structureAuthService.findAuthUser({
       _userId: 2,
       _userProfile: "structure",
     });
+    if (!foundUser) {
+      throw new Error("Expected test fixture user id=2 to authenticate");
+    }
+    user = foundUser;
 
     usager = await usagerRepository.findOneBy({
       ref: 1,
