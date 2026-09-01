@@ -1,8 +1,8 @@
-<div class="support-mode-banner" *ngIf="me?.supportMode" role="alert">
+<div class="support-mode-banner" *ngIf="me?.role === 'support'" role="alert">
   <span>
-    Vous êtes connecté en tant que
-    <strong>{{ me?.prenom }} {{ me?.nom }}</strong> ({{ me?.supervisorEmail }}
-    en mode support). Durée de la session restante :
+    Vous êtes connecté en tant que compte support, rattaché à
+    <strong>{{ me?.structure?.nom }}</strong
+    >. Durée du rattachement restante :
     <strong>{{ remainingLabel }}</strong>
   </span>
   <button

@@ -15,13 +15,6 @@ export type UserStructureJwtPayload = UseBaseJwtPayload<"structure"> & {
   domifaVersion: string;
   fingerprintHash: string;
   trustToken?: string;
-  // Admin support-mode read-only impersonation. Present only when this
-  // token was issued by SupportSessionService.activate — see
-  // SupportModeWriteGuard for the write-blocking enforcement.
-  supportMode?: true;
-  supportSessionUuid?: string;
-  supervisorId?: number;
-  supervisorEmail?: string;
 };
 
 export interface StructureTrustJwtPayload {

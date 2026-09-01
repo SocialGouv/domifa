@@ -31,7 +31,7 @@ import { ExpiredTokenTable, expiredTokenRepositiory } from "../database";
 import { domifaConfig } from "../config";
 import { userSecurityPasswordChecker } from "../modules/users/services";
 import { AllowUserStructureRoles } from "./decorators";
-import { ALL_USER_STRUCTURE_ROLES, UserStructure } from "@domifa/common";
+import { SUPPORT_READ_ROLES, UserStructure } from "@domifa/common";
 import { appLogger } from "../util";
 import { logSecurityEventForUser } from "../modules/app-logs/app-log-security-writer";
 import { SupportSessionService } from "../modules/support-session/support-session.service";
@@ -181,7 +181,7 @@ export class StructuresAuthController {
 
   @UseGuards(AuthGuard("jwt"), AppUserGuard)
   @AllowUserProfiles("structure")
-  @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
+  @AllowUserStructureRoles(...SUPPORT_READ_ROLES)
   @Get("logout")
   public async logout(
     @Req() req: ExpressRequest,
@@ -195,7 +195,7 @@ export class StructuresAuthController {
     });
     await expiredTokenRepositiory.save(tokenToBlacklist);
 
-    if (user.supportMode) {
+    if (user.role === "support") {
       await this.supportSessionService.revokeForStructureLogout(user.id);
     }
 
@@ -222,7 +222,7 @@ export class StructuresAuthController {
 
   @UseGuards(AuthGuard("jwt"), AppUserGuard)
   @AllowUserProfiles("structure")
-  @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
+  @AllowUserStructureRoles(...SUPPORT_READ_ROLES)
   @Get("me")
   public me(
     @Res() res: Response,
@@ -247,10 +247,8 @@ export class StructuresAuthController {
       acceptTerms: user.acceptTerms,
       structure: user.structure,
       structureId: user.structureId,
+      supportAttachmentExpiresAt: user.supportAttachmentExpiresAt,
       domifaVersion: domifaConfig().version.toString(),
-      supportMode: user.supportMode,
-      supportSessionUuid: user.supportSessionUuid,
-      supervisorEmail: user.supervisorEmail,
     });
   }
 }

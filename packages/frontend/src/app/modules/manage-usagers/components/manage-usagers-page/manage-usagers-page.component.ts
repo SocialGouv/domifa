@@ -171,7 +171,10 @@ export class ManageUsagersPageComponent
     // accepted the current CGU silently no-ops here and the page is stuck
     // on its initial loading state forever (none of the data subscriptions
     // below ever get wired up).
-    if (!this.me?.supportMode && !hasAcceptedCurrentCgu(this.me?.acceptTerms)) {
+    if (
+      this.me?.role !== "support" &&
+      !hasAcceptedCurrentCgu(this.me?.acceptTerms)
+    ) {
       return;
     }
 

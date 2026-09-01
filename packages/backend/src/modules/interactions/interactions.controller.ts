@@ -11,7 +11,6 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import {
-  AllowInSupportMode,
   AllowUserProfiles,
   CurrentUser,
   CurrentUsager,
@@ -38,6 +37,7 @@ import {
   PageMeta,
   PageResults,
   ALL_USER_STRUCTURE_ROLES,
+  SUPPORT_READ_ROLES,
 } from "@domifa/common";
 import { MessageSmsService } from "../sms/services/message-sms.service";
 
@@ -81,7 +81,7 @@ export class InteractionsController {
 
   @Post("search/:usagerRef")
   @UseGuards(UsagerAccessGuard)
-  @AllowInSupportMode()
+  @AllowUserStructureRoles(...SUPPORT_READ_ROLES)
   public async getInteractions(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentUser() user: UserStructureAuthenticated,
@@ -97,7 +97,7 @@ export class InteractionsController {
 
   @Post("search-login-portail/:usagerRef")
   @UseGuards(UsagerAccessGuard)
-  @AllowInSupportMode()
+  @AllowUserStructureRoles(...SUPPORT_READ_ROLES)
   public async getLoginPortailHistory(
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
     @CurrentUser() user: UserStructureAuthenticated,

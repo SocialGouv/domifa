@@ -6,7 +6,6 @@ import {
 import {
   CanActivate,
   ExecutionContext,
-  ForbiddenException,
   Injectable,
   UnauthorizedException,
 } from "@nestjs/common";
@@ -218,14 +217,6 @@ export class AppUserGuard implements CanActivate {
         throw new UnauthorizedException("ACCOUNT_NOT_ACTIVE");
       }
 
-      if (
-        user._userProfile === "structure" &&
-        (user as UserStructureAuthenticated).supportMode &&
-        !this.isWriteRequestAllowedInSupportMode(context, request)
-      ) {
-        throw new ForbiddenException("SUPPORT_MODE_READ_ONLY");
-      }
-
       if (user._userProfile === "usager") {
         return true;
       }
@@ -246,23 +237,5 @@ export class AppUserGuard implements CanActivate {
     }
 
     return false;
-  }
-
-  // Support-mode sessions are read-only impersonation: any mutating request
-  // is blocked unless the route opted in via @AllowInSupportMode() (e.g. a
-  // POST-based search endpoint that doesn't write anything).
-  private isWriteRequestAllowedInSupportMode(
-    context: ExecutionContext,
-    request: { method: string }
-  ): boolean {
-    const SAFE_METHODS = ["GET", "HEAD", "OPTIONS"];
-    if (SAFE_METHODS.includes(request.method)) {
-      return true;
-    }
-    return (
-      this.reflector.get<boolean>("allowInSupportMode", context.getHandler()) ??
-      this.reflector.get<boolean>("allowInSupportMode", context.getClass()) ??
-      false
-    );
   }
 }

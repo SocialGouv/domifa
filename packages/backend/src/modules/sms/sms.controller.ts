@@ -1,7 +1,7 @@
 import {
-  ALL_USER_STRUCTURE_ROLES,
   PageMeta,
   PageResults,
+  SUPPORT_READ_ROLES,
   Usager,
 } from "@domifa/common";
 import { Controller, UseGuards, Post, Body } from "@nestjs/common";
@@ -18,7 +18,7 @@ import { PageOptionsDto } from "../../usagers/dto";
 @Controller("sms")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserProfiles("structure")
-@AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
+@AllowUserStructureRoles(...SUPPORT_READ_ROLES)
 export class SmsController {
   @UseGuards(UsagerAccessGuard)
   @Post("usager/:usagerRef")
