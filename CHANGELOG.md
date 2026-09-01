@@ -1,3 +1,10 @@
+## [2.264.2](https://github.com/SocialGouv/domifa/compare/v2.264.1...v2.264.2) (2026-09-01)
+
+
+### Bug Fixes
+
+* **backend:** start migration ([7478372](https://github.com/SocialGouv/domifa/commit/7478372898f601d339b3a357e44981b950c28304))
+
 ## [2.264.1](https://github.com/SocialGouv/domifa/compare/v2.264.0...v2.264.1) (2026-09-01)
 
 
