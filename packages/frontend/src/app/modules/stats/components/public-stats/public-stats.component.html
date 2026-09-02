@@ -1,9 +1,23 @@
-<div class="breadcrumb fr-py-3w fr-py-md-4 fr-m-0" *ngIf="regionId">
-  <a routerLink="/">Accueil</a>
-  &gt;
-  <a routerLink="/stats"> Statistiques de DomiFa </a>
-  &gt; {{ regions[REGIONS_SEO_ID[regionId]] }}
-</div>
+<nav
+  *ngIf="regionId"
+  class="breadcrumb fr-py-3w fr-py-md-4 fr-m-0"
+  role="navigation"
+  aria-label="vous êtes ici :"
+>
+  <div class="fr-container">
+    <ol class="breadcrumb__list">
+      <li>
+        <a routerLink="/">Accueil</a>
+      </li>
+      <li>
+        <a routerLink="/stats">Statistiques de DomiFa</a>
+      </li>
+      <li>
+        <span aria-current="page">{{ regions[REGIONS_SEO_ID[regionId]] }}</span>
+      </li>
+    </ol>
+  </div>
+</nav>
 
 <div class="fr-background-contrast--blue-ecume" *ngIf="stats">
   <div class="fr-container">
@@ -138,7 +152,8 @@
                 <div class="fr-h3 fr-mb-0 fr-text-title--blue-france">
                   <span
                     [countUp]="stats?.courrierInCount"
-                    [options]="countOptions"
+                    [countUpOptions]="countOptions"
+                    [reanimateOnClick]="false"
                   ></span>
                 </div>
                 <span> courriers enregistrés </span>
@@ -156,11 +171,11 @@
                 />
               </div>
               <div class="fr-display-flex fr-flex-column fr-text--center">
-                <div class="fr-h3 fr-mb-0" aria-hidden="true">
+                <div class="fr-h3 fr-mb-0 fr-text-title--blue-france">
                   <span
-                    class="fr-mb-0 fr-text-title--blue-france"
                     [countUp]="stats?.courrierOutCount"
-                    [options]="countOptions"
+                    [countUpOptions]="countOptions"
+                    [reanimateOnClick]="false"
                   ></span>
                 </div>
                 <span>courriers distribués</span>
@@ -210,7 +225,7 @@
                 class="fr-display-flex fr-flex-column fr-align-self-center fr-text--center"
               >
                 <span class="fr-h2 fr-mb-0 pb-0 fr-text-title--blue-france">
-                  {{ stats?.structuresCount | number : "1.0-3" : "fr" }}</span
+                  {{ stats?.actifs | number : "1.0-0" }}</span
                 >
                 <span>Domiciliés</span>
               </div>
