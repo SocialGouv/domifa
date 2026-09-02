@@ -15,6 +15,10 @@ export class AddUsagerDateAncienneteDom1786973009184
   name = "AddUsagerDateAncienneteDom1786973009184";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(
+      `ALTER TABLE "usager" ADD "dateAncienneteDom" timestamptz`
+    );
+
     if (
       domifaConfig().envId !== "prod" &&
       domifaConfig().envId !== "preprod" &&
@@ -22,10 +26,6 @@ export class AddUsagerDateAncienneteDom1786973009184
     ) {
       return;
     }
-
-    await queryRunner.query(
-      `ALTER TABLE "usager" ADD "dateAncienneteDom" timestamptz`
-    );
 
     const result = await queryRunner.query(
       `UPDATE "usager" SET "dateAncienneteDom" = "datePremiereDom"`
