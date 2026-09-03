@@ -392,12 +392,216 @@ FROM d;
 
 ---
 
+## Construire les questions sans SQL (éditeur Metabase)
+
+Objectif de cette section : une fois les Modèles A/B créés, **ne plus écrire une
+seule ligne de SQL** pour les blocs 1 à 3. On travaille uniquement dans
+l'éditeur visuel (« notebook ») de Metabase. Le SQL des blocs ci-dessus reste
+là pour **vérifier** que la question visuelle sort le même chiffre.
+
+### Étape 0 — Créer les deux modèles (une seule fois)
+
+Un « modèle » Metabase = une question sauvegardée qu'on marque comme modèle et
+qui se comporte ensuite comme une table.
+
+1. **Nouveau** (bouton `+` en haut à droite) → **Question SQL**.
+2. Choisir la base **DomiFa** (la base analytique anonymisée), coller le SQL du
+   **Modèle A** (`ayants_droit_deplies`), cliquer **Exécuter** (▶) pour vérifier.
+3. **Enregistrer** → nom `Modèle A — ayants_droit_deplies` → collection
+   **« Familles / ayants droit »** (la créer si besoin).
+4. Ouvrir la question enregistrée → menu **…** → **Transformer en modèle**
+   (*Turn into a model*).
+5. Onglet **Métadonnées** du modèle : vérifier/typer les colonnes —
+   - `structure_id` → type **Clé étrangère** ciblant `Structure.ID` (indispensable
+     pour la jointure à la souris en 2.x) ;
+   - `date_naissance` → **Date/heure** ;
+   - `age` → **Nombre** ;
+   - `est_enfant_majeur` → **Catégorie** ou booléen ;
+   - `lien`, `usager_statut` → **Catégorie**.
+   Enregistrer.
+6. Refaire les points 1 → 5 pour le **Modèle B**
+   (`Modèle B — dossiers_avec_ayants_droit`). Typer `structure_id` en clé
+   étrangère, `type_menage` / `usager_statut` en catégorie, tous les `nb_*` en
+   nombre.
+
+À partir d'ici, dans **Nouveau → Question**, les deux modèles apparaissent comme
+sources sous **Modèles → Familles / ayants droit**.
+
+### Vocabulaire de l'éditeur visuel
+
+| Bouton éditeur | Équivalent SQL |
+|---|---|
+| **Filtrer** | `WHERE` |
+| **Résumer** → *Compter les lignes* | `count(*)` |
+| **Résumer** → *Nombre de valeurs distinctes de X* | `count(DISTINCT x)` |
+| **Résumer** → « Regrouper par » | `GROUP BY` |
+| **Colonne personnalisée** | colonne calculée (`CASE`, `>`, `concat`…) |
+| **Joindre les données** | `JOIN` |
+| **Trier** | `ORDER BY` |
+| **Limite de lignes** | `LIMIT` |
+
+> **Où on ne peut PAS se passer de SQL** : les pourcentages « X sur le total »
+> dans une **même** question (`count(*) OVER ()`). Solutions à la souris :
+> afficher le numérateur et le total en **deux questions** posées côte à côte
+> sur le dashboard, ou utiliser la visualisation **« Nombre »** avec un objectif.
+> Sinon on garde le bloc SQL correspondant. Les chiffres bruts (numérateur +
+> total) suffisent à l'analyse.
+
+---
+
+### Bloc 1 — Volumes
+
+#### 1.1 — Total ayants droit + dossiers avec au moins un ayant droit
+
+Trois questions distinctes (ou une seule avec plusieurs métriques) :
+
+- **Total ayants droit** — Source **Modèle A** → **Résumer** → *Compter les
+  lignes*. (Modèle A = 1 ligne par ayant droit, donc le décompte brut = total AD.)
+- **Dossiers avec ≥ 1 AD** — Source **Modèle A** → **Résumer** → *Nombre de
+  valeurs distinctes de* `usager_uuid`.
+- **Total dossiers** — Source **Modèle B** → **Résumer** → *Compter les lignes*.
+  (Modèle B = 1 ligne par dossier, y compris ceux à 0 AD.)
+
+Part (%) = « Dossiers avec ≥ 1 AD » ÷ « Total dossiers », affichée en juxtaposant
+les deux cartes sur le dashboard.
+
+#### 1.2 — Distribution du nombre d'ayants droit par dossier (0, 1, 2, 3, 4, 5+)
+
+Source **Modèle B**.
+
+1. **Colonne personnalisée** → nom `tranche` → expression :
+   ```
+   case([nb_ayants_droits] >= 5, "5+", concat([nb_ayants_droits], ""))
+   ```
+   (le `concat(... , "")` force le texte, sinon Metabase refuse de mélanger
+   nombre et `"5+"`).
+2. **Résumer** → *Compter les lignes*.
+3. « Regrouper par » → `tranche`.
+4. **Trier** → `tranche` croissant (l'ordre texte `0,1,2,3,4,5+` est correct ici).
+5. Visualisation : **Barres**.
+
+#### 1.3 — Répartition par lien de parenté
+
+Source **Modèle A**.
+
+1. **Résumer** → *Compter les lignes*.
+2. « Regrouper par » → `lien`.
+3. **Trier** → « Décompte » décroissant.
+4. Visualisation : **Camembert** (ou barres). Les liens `NULL` apparaissent comme
+   une part « vide » — c'est voulu (cf. limites connues).
+
+#### 1.4 — Dossiers avec un conjoint en ayant droit ⭐
+
+Source **Modèle B**.
+
+1. **Filtrer** → `nb_conjoints` → **Supérieur à** → `0`.
+2. **Résumer** → *Compter les lignes*.
+3. Visualisation : **Nombre**.
+
+Pour le % : poser à côté la carte « Total dossiers » (1.1) ; ou dupliquer cette
+question sans le filtre et utiliser deux séries.
+
+#### 1.5 — Dossiers avec au moins un enfant majeur + nombre d'enfants majeurs
+
+Source **Modèle A**.
+
+1. **Filtrer** → `est_enfant_majeur` → **est vrai** (`true`).
+2. **Résumer**, deux métriques :
+   - *Compter les lignes* → **nombre d'enfants majeurs** ;
+   - *Nombre de valeurs distinctes de* `usager_uuid` → **nombre de dossiers**.
+3. Pas de regroupement → une ligne, deux colonnes. Visualisation : **Nombre** ou
+   **Tableau**.
+
+> `est_enfant_majeur` vaut déjà `false` pour tout ce qui n'est pas un enfant
+> avec date de naissance et ≥ 18 ans : le filtre `= true` suffit, pas besoin de
+> re-filtrer sur `lien`.
+
+---
+
+### Bloc 2 — Structures (Top 20)
+
+Les trois questions suivent le **même squelette**, seul le filtre change. Toutes
+sur le **Modèle A**.
+
+**Squelette commun :**
+
+1. Source **Modèle A**.
+2. **Joindre les données** → table **Structure** → condition
+   `structure_id` (Modèle A) = `ID` (Structure). Type **jointure gauche**.
+   *(possible à la souris seulement si `structure_id` est typé « clé étrangère »
+   dans les métadonnées du modèle — cf. Étape 0.5.)*
+3. **Résumer**, deux métriques :
+   - *Compter les lignes* ;
+   - *Nombre de valeurs distinctes de* `usager_uuid`.
+4. « Regrouper par » → `Structure → Nom` **et** `Structure → Departement`.
+5. **Trier** → « Décompte » décroissant.
+6. **Limite de lignes** → `20`.
+7. Visualisation : **Tableau**.
+
+| Question | Étape en plus (avant le « Résumer ») |
+|---|---|
+| 2.1 — Top structures / ayants droit | aucune |
+| 2.2 — Top structures / conjoints | **Filtrer** → `lien` → **est** → `CONJOINT` |
+| 2.3 — Top structures / enfants majeurs | **Filtrer** → `est_enfant_majeur` → **est vrai** |
+
+---
+
+### Bloc 3 — Cohérence avec l'entretien
+
+Toutes sur le **Modèle B** (il porte déjà `type_menage` et `nb_conjoints`).
+
+**Colonne personnalisée commune** aux trois, à recréer dans chaque question :
+nom `a_conjoint_ad`, expression :
+```
+case([nb_conjoints] > 0, "avec conjoint AD", "sans conjoint AD")
+```
+
+#### 3.0 — Croisement typeMenage × présence d'un conjoint en AD
+
+1. Colonne perso `a_conjoint_ad` (ci-dessus).
+2. **Résumer** → *Compter les lignes*.
+3. « Regrouper par » → `type_menage` **et** `a_conjoint_ad`.
+4. Visualisation : **Tableau croisé dynamique** (*pivot table*) — `type_menage`
+   en lignes, `a_conjoint_ad` en colonnes, « Décompte » dans les cellules.
+5. Les dossiers sans entretien apparaissent sur une ligne `type_menage` vide :
+   la renommer « (entretien non renseigné) » via les réglages de visualisation
+   si besoin.
+
+#### 3.1 — Dossiers « couple » à l'entretien **sans** conjoint en AD
+
+1. **Filtrer** → `type_menage` → **est** → cocher `COUPLE_AVEC_ENFANT` **et**
+   `COUPLE_SANS_ENFANT`.
+2. Colonne perso `a_conjoint_ad`.
+3. **Résumer** → *Compter les lignes*, « Regrouper par » `a_conjoint_ad`.
+4. Lecture directe : la ligne « sans conjoint AD » = le chiffre cherché ; le
+   total des deux lignes = « dossiers couple à l'entretien ».
+
+#### 3.2 — Dossiers « isolé » à l'entretien **avec** un conjoint en AD
+
+1. **Filtrer** → `type_menage` → **contient** → `ISOLE`
+   *(capture `HOMME_ISOLE_*` et `FEMME_ISOLE_*` d'un coup)*.
+2. Colonne perso `a_conjoint_ad`.
+3. **Résumer** → *Compter les lignes*, « Regrouper par » `a_conjoint_ad`.
+4. La ligne « avec conjoint AD » = le chiffre cherché (incohérence isolé + conjoint).
+
+---
+
+### Vérifier une question
+
+Pour chaque question construite à la souris : ouvrir le bloc SQL correspondant
+plus haut dans une question SQL jetable, exécuter, comparer le nombre. Ils
+doivent être identiques (au filtrage de `statut` près — ici : aucun filtre).
+
+---
+
 ## Montage du dashboard Metabase
 
 1. Créer **Modèle A** et **Modèle B** (section ci-dessus), les ranger dans une
    collection « Familles / ayants droit ».
-2. Créer une question native par bloc ci-dessus (garder la numérotation dans le
-   titre pour suivre la checklist du ticket).
+2. Créer une question par bloc ci-dessus (garder la numérotation dans le titre
+   pour suivre la checklist du ticket). Privilégier l'**éditeur** sur les
+   Modèles A/B (voir « Construire les questions sans SQL ») ; garder le SQL natif
+   uniquement quand un % ou un `OVER ()` le justifie.
 3. Dashboard « Usage des ayants droit » avec 3 sections :
    - **Volumes** : 1.1 (chiffres clés), 1.2 (barres), 1.3 (camembert/barres),
      1.4 (chiffre + %), 1.5 (chiffre + %).
