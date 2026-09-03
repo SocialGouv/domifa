@@ -1,3 +1,10 @@
+# [2.266.0](https://github.com/SocialGouv/domifa/compare/v2.265.0...v2.266.0) (2026-09-03)
+
+
+### Features
+
+* **front:** fix label menu ([063c876](https://github.com/SocialGouv/domifa/commit/063c87638492d8503f4450cfbffc21762fc59d7b))
+
 # [2.265.0](https://github.com/SocialGouv/domifa/compare/v2.264.2...v2.265.0) (2026-09-01)
 
 
