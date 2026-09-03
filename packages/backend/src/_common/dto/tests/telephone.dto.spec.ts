@@ -70,7 +70,7 @@ const SUPPORT_JSON = `{
   "email": "Contact@Example.ORG",
   "name": "Jane Doe",
   "structureName": "CCAS de Test",
-  "subject": "Question sur mon dossier",
+  "subject": "QUESTION_MON_DOMIFA",
   "content": "Bonjour, j'ai une question sur mon dossier.",
   "phone": "{\\"countryCode\\":\\"fr\\",\\"numero\\":\\"01 45 67 89 01\\"}"
 }`;
