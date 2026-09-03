@@ -45,7 +45,14 @@ export interface Usager extends AppEntity {
   typeDom: UsagerTypeDom;
   statut: UsagerDecisionStatut;
 
+  // Date de début de la domiciliation en cours et ininterrompue : repart de
+  // la date de la décision qui suit une radiation ou un refus de
+  // renouvellement (voir UsagersService.setDecision)
   datePremiereDom: Date;
+  // Plus ancienne date de domiciliation connue pour cet usager, renseignée
+  // une seule fois et jamais modifiée ensuite (contrairement à
+  // datePremiereDom)
+  dateAncienneteDom?: Date | null;
   import?: UsagerImport;
 
   decision: UsagerDecision;
