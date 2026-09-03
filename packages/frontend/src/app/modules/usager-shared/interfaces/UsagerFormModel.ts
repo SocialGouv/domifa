@@ -18,8 +18,10 @@ import {
   UsagerDecisionStatut,
   UsagerOptions,
   getDecisionDeadline,
+  getLastInteractionDeadline,
   getPersonFullName,
   DecisionDeadline,
+  LastInteractionDeadline,
 } from "@domifa/common";
 import { formatInternationalPhoneNumber } from "../../../shared/phone/formatInternationalPhoneNumber";
 
@@ -60,6 +62,7 @@ export class UsagerFormModel implements Usager {
   public options: UsagerOptions;
 
   public decisionDeadline: DecisionDeadline;
+  public lastInteractionDeadline: LastInteractionDeadline;
   public rdvInfo: UsagerRdvInfo;
 
   public statusInfo: {
@@ -156,6 +159,8 @@ export class UsagerFormModel implements Usager {
 
     this.decisionDeadline =
       usager?.decisionDeadline ?? getDecisionDeadline(usager);
+    this.lastInteractionDeadline =
+      usager?.lastInteractionDeadline ?? getLastInteractionDeadline(usager);
     this.rdvInfo = getRdvInfo({
       rdv: this.rdv,
       etapeDemande: this.etapeDemande,

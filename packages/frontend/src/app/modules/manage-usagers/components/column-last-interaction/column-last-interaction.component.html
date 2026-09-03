@@ -1,0 +1,8 @@
+@if (usager?.lastInteractionDeadline?.isActive &&
+usager?.lastInteractionDeadline?.color) {
+<span [class]="'statut-signal ' + usager.lastInteractionDeadline.color"></span>
+@if (usager?.lastInteractionDeadline?.color === 'bg-danger') {
+<span class="fr-sr-only">Plus de 3 mois sans passage</span>
+} @else {
+<span class="fr-sr-only">Plus de 2 mois sans passage</span>
+} } {{ usager.lastInteraction.dateInteraction | date : "dd/MM/yy" }}

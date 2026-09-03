@@ -14,13 +14,31 @@ describe("[getDecisionDeadline] Display the decision deadline info", () => {
 
     const dateFinForTest = new Date();
 
-    // Ending today: NOT overdue, still active until D+1
+    // Ending today: NOT overdue, still active until D+1 => warning, not danger
     usager.decision.dateFin = new Date();
     expect(getDecisionDeadline(usager)).toEqual({
       isActive: true,
-      color: "bg-danger",
+      color: "bg-warning",
       dateToDisplay: new Date("2020-04-30T00:00:00.000Z"),
       daysBeforeEnd: 0,
+    });
+
+    // Ended yesterday: overdue by D+1 => danger
+    usager.decision.dateFin = subDays(dateFinForTest, 1);
+    expect(getDecisionDeadline(usager)).toEqual({
+      isActive: true,
+      color: "bg-danger",
+      dateToDisplay: new Date("2020-04-29T00:00:00.000Z"),
+      daysBeforeEnd: -1,
+    });
+
+    // Ending in 15 days: still just an approaching-deadline warning, never danger
+    usager.decision.dateFin = addDays(dateFinForTest, 15);
+    expect(getDecisionDeadline(usager)).toEqual({
+      isActive: true,
+      color: "bg-warning",
+      dateToDisplay: new Date("2020-05-15T00:00:00.000Z"),
+      daysBeforeEnd: 15,
     });
 
     // Ended 15 days ago

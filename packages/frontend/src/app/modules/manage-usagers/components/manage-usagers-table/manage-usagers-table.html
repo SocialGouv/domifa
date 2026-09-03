@@ -300,7 +300,13 @@
               } @if (filters.statut === UsagersFilterCriteriaStatut.VALIDE ||
               filters.statut === UsagersFilterCriteriaStatut.TOUS) {
               <td class="clickable" tabindex="0" (click)="goToProfil(usager)">
-                {{ usager.lastInteraction.dateInteraction | date : "dd/MM/yy" }}
+                @defer (on viewport; prefetch on idle) {
+                <app-column-last-interaction
+                  [usager]="usager"
+                ></app-column-last-interaction>
+                } @placeholder {
+                <span>&nbsp;</span>
+                }
               </td>
               }
               <td
@@ -314,9 +320,13 @@
                   [class]="'statut-signal ' + usager.decisionDeadline.color"
                 ></span>
                 @if (usager?.decisionDeadline?.color === 'bg-danger') {
-                <span class="fr-sr-only">Moins de 2 semaines ou dépassée</span>
+                <span class="fr-sr-only"
+                  >Échéance de domiciliation dépassée</span
+                >
                 } @else {
-                <span class="fr-sr-only">Moins de 2 mois</span>
+                <span class="fr-sr-only"
+                  >Fin de domiciliation dans moins de 2 mois</span
+                >
                 } } @if (usager?.decisionDeadline?.dateToDisplay) {
                 <span
                   >{{ usager.decisionDeadline?.dateToDisplay | date : "dd/MM/yy"
