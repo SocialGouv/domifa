@@ -1,3 +1,10 @@
+## [2.266.2](https://github.com/SocialGouv/domifa/compare/v2.266.1...v2.266.2) (2026-09-04)
+
+
+### Bug Fixes
+
+* **backend:** fix templates email ([3d8e89e](https://github.com/SocialGouv/domifa/commit/3d8e89ea767eb3f0e606cf864cdd2b7a4e402d52))
+
 ## [2.266.1](https://github.com/SocialGouv/domifa/compare/v2.266.0...v2.266.1) (2026-09-04)
 
 
