@@ -44,4 +44,24 @@ li a {
 
 .breadcrumb {
   background: var(--background-alt-blue-ecume);
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: flex;
+      align-items: center;
+    }
+
+    li:not(:last-child)::after {
+      content: "›";
+      margin: 0 0.5rem;
+      color: var(--text-mention-grey);
+    }
+  }
 }
