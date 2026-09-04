@@ -148,8 +148,7 @@ export class UsersPublicController {
       },
     });
 
-    // Même template partagé que la demande, motif "confirme" : envoyé aux
-    // deux adresses pour que l'ancienne détecte un changement non désiré.
+    // Sent to both addresses so the old one can detect an unwanted change.
     await Promise.all(
       [result.oldEmail, result.newEmail].map((email) =>
         this.brevoSenderService.sendEmailWithTemplate({
@@ -157,7 +156,6 @@ export class UsersPublicController {
           subject: "Votre adresse email DomiFa a été modifiée",
           to: [{ email, name: result.prenom }],
           params: {
-            motif: "confirme",
             ancienEmail: result.oldEmail,
             nouvelEmail: result.newEmail,
             prenom: result.prenom,

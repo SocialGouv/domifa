@@ -451,28 +451,21 @@ export class UsersController {
       },
     });
 
-    // Contrat des params pour le template Brevo partagé
-    // DOMIFA_BREVO_TEMPLATES_USER_EMAIL_UPDATED (motif différencie le
-    // contenu affiché) :
-    //  - "confirmation" → nouvelle adresse, contient le lien à cliquer
-    //  - "alerte"       → ancienne adresse, "ce n'est pas vous ?"
     await this.brevoSenderService.sendEmailWithTemplate({
-      templateId: domifaConfig().brevo.templates.userEmailUpdated,
+      templateId: domifaConfig().brevo.templates.userEmailUpdateConfirmation,
       subject: "Confirmez votre nouvelle adresse email DomiFa",
       to: [{ email: result.newEmail, name: result.prenom }],
       params: {
-        motif: "confirmation",
         lien: result.lien,
         prenom: result.prenom,
       },
     });
 
     await this.brevoSenderService.sendEmailWithTemplate({
-      templateId: domifaConfig().brevo.templates.userEmailUpdated,
+      templateId: domifaConfig().brevo.templates.userEmailUpdateAlert,
       subject: "Une modification de votre adresse email a été demandée",
       to: [{ email: result.oldEmail, name: result.prenom }],
       params: {
-        motif: "alerte",
         nouvelEmail: result.newEmail,
         prenom: result.prenom,
       },
