@@ -1,3 +1,10 @@
+## [2.266.1](https://github.com/SocialGouv/domifa/compare/v2.266.0...v2.266.1) (2026-09-04)
+
+
+### Bug Fixes
+
+* **backend:** delete useless migration ([782ab3a](https://github.com/SocialGouv/domifa/commit/782ab3a31372cbf1a0fe1980d961a7be5968ca39))
+
 # [2.266.0](https://github.com/SocialGouv/domifa/compare/v2.265.0...v2.266.0) (2026-09-03)
 
 
