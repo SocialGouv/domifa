@@ -1,8 +1,11 @@
+@if (regionId) {
 <nav
-  *ngIf="regionId"
   class="breadcrumb fr-py-3w fr-py-md-4 fr-m-0"
   role="navigation"
-  aria-label="vous êtes ici :"
+  [attr.aria-label]="
+    'vous êtes ici : statistiques de DomiFa, région ' +
+    regions[REGIONS_SEO_ID[regionId]]
+  "
 >
   <div class="fr-container">
     <ol class="breadcrumb__list">
@@ -18,6 +21,7 @@
     </ol>
   </div>
 </nav>
+}
 
 <div class="fr-background-contrast--blue-ecume" *ngIf="stats">
   <div class="fr-container">
