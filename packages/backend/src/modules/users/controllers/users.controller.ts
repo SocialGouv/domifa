@@ -31,6 +31,7 @@ import {
   UserStructureAuthenticated,
 } from "../../../_common/model";
 import {
+  AllowExpiredPassword,
   AllowUserStructureRoles,
   CurrentUser,
   CurrentChosenUserStructure,
@@ -119,6 +120,11 @@ export class UsersController {
     return users;
   }
 
+  // CGU acceptance is checked before the password-renewal redirect in the
+  // Angular guard (AuthGuard) — an account with both an unaccepted CGU
+  // update and an EXPIRED password must still be able to clear this step,
+  // or it can never reach either blocking page.
+  @AllowExpiredPassword()
   @Get("accept-terms")
   public async acceptTerms(@CurrentUser() user: UserStructureAuthenticated) {
     await userStructureRepository.update(
@@ -371,6 +377,7 @@ export class UsersController {
   }
 
   // Edition d'un mot de passe quand on est déjà connecté
+  @AllowExpiredPassword()
   @Post("edit-my-password")
   public async editPassword(
     @Req() req: ExpressRequest,
