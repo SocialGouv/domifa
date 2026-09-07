@@ -19,6 +19,7 @@ import { EmailDto, EditMyPasswordDto, ResetPasswordDto } from "../dto";
 import { UserAdminAuthenticated, UserProfile } from "../../../_common/model";
 import { USER_SUPERVISOR_ROLES } from "../../../_common/model/users/user-supervisor";
 import {
+  AllowExpiredPassword,
   AllowUserProfiles,
   AllowUserSupervisorRoles,
   CurrentUser,
@@ -129,6 +130,7 @@ export class UsersSupervisorController {
   @UseGuards(AuthGuard("jwt"), AppUserGuard)
   @AllowUserProfiles("supervisor")
   @AllowUserSupervisorRoles(...USER_SUPERVISOR_ROLES)
+  @AllowExpiredPassword()
   @Post("edit-my-password")
   public async editPassword(
     @Req() req: ExpressRequest,
