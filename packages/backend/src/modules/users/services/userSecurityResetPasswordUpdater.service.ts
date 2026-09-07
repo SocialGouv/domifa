@@ -83,6 +83,9 @@ async function confirmResetPassword({
     newPassword,
     successAction: "RESET_PASSWORD_SUCCESS",
     sessionReason: "PASSWORD_RESET",
+    // Resetting credentials must not approve a pending account. In particular,
+    // structure administrators are activated only by the supervisor workflow.
+    activatePendingAccount: false,
     requestContext,
   });
 

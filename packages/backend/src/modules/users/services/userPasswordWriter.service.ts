@@ -23,9 +23,9 @@ type PasswordSubject = {
 };
 
 // One place for the "I just changed someone's password" follow-up: persist
-// the new hash, activate PENDING accounts, clear soft-lock + OTP lockout, log
-// the success and terminate the active session. Called by both the change-
-// password and the reset-password flows so they stay in sync.
+// the new hash, optionally activate PENDING accounts, clear soft-lock + OTP
+// lockout, log the success and terminate the active session. Called by both
+// the change-password and reset-password flows so they stay in sync.
 export const userPasswordWriter = {
   applyNewPassword,
 };
@@ -36,6 +36,7 @@ async function applyNewPassword({
   newPassword,
   successAction,
   sessionReason,
+  activatePendingAccount = true,
   requestContext,
 }: {
   user: PasswordSubject;
@@ -43,6 +44,7 @@ async function applyNewPassword({
   newPassword: string;
   successAction: SecurityLogAction;
   sessionReason: SessionTerminationReason;
+  activatePendingAccount?: boolean;
   requestContext?: SecurityLogRequestContext;
 }): Promise<void> {
   // `getUserRepository` only covers structure / supervisor; for usager we go
@@ -64,7 +66,12 @@ async function applyNewPassword({
 
   // BLOCKED accounts stay BLOCKED; the helpers below are no-op when the
   // status condition doesn't match.
-  await userStatusManager.activateFromPending({ userProfile, userId: user.id });
+  if (activatePendingAccount) {
+    await userStatusManager.activateFromPending({
+      userProfile,
+      userId: user.id,
+    });
+  }
   await userStatusManager.clearTemporaryBlock({ userProfile, userId: user.id });
 
   await logSecurityEventForUser(successAction, userProfile, user, {
