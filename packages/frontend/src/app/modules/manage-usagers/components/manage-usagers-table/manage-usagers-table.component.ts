@@ -43,7 +43,7 @@ import { UsagersFilterCriteria } from "../../classes";
   animations: [fadeInOut],
   selector: "app-manage-manage-usagers-table",
   templateUrl: "./manage-usagers-table.html",
-  styleUrls: ["./manage-usagers-table.scss"],
+  styleUrls: ["./manage-usagers-table.scss", "../pastille.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
