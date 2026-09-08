@@ -1,3 +1,17 @@
+# [2.267.0](https://github.com/SocialGouv/domifa/compare/v2.266.2...v2.267.0) (2026-09-08)
+
+
+### Bug Fixes
+
+* delete aria current on span ([d03fdd1](https://github.com/SocialGouv/domifa/commit/d03fdd1ff413ff8a9ebdfa08a62e7c2fc1518c2e))
+* **stats:** fix stats numbers ([175303c](https://github.com/SocialGouv/domifa/commit/175303ca0cce8cd17afe2e9519d3e5516e384f2f))
+* count up ([00d82f2](https://github.com/SocialGouv/domifa/commit/00d82f2353390795d9dd71fa02f4ca9eb9d2d34c))
+
+
+### Features
+
+* **front:** code review ([095f646](https://github.com/SocialGouv/domifa/commit/095f6465b0326f1031626fc522eaf00785635656))
+
 ## [2.266.2](https://github.com/SocialGouv/domifa/compare/v2.266.1...v2.266.2) (2026-09-04)
 
 
