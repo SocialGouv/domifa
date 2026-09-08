@@ -31,7 +31,7 @@ export class DecouvrirDomifaComponent {
     {
       heading: "Février 2022",
       description:
-        "Création d’un portail pour les domiciliés, Mon DomiFa, dédié au suivi de la domiciliation et l’arrivée de courrier.",
+        "Création d’un portail pour les personnes domiciliées, Mon DomiFa, dédié au suivi de la domiciliation et l’arrivée de courrier.",
       actions: [],
       current: false,
       detailBottom: "",
