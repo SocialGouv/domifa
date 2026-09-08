@@ -120,10 +120,6 @@ export class UsersController {
     return users;
   }
 
-  // CGU acceptance is checked before the password-renewal redirect in the
-  // Angular guard (AuthGuard) — an account with both an unaccepted CGU
-  // update and an EXPIRED password must still be able to clear this step,
-  // or it can never reach either blocking page.
   @AllowExpiredPassword()
   @Get("accept-terms")
   public async acceptTerms(@CurrentUser() user: UserStructureAuthenticated) {

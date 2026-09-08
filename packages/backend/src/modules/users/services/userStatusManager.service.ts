@@ -12,7 +12,6 @@ export const userStatusManager = {
   markUserAsTemporarilyBlocked,
   clearTemporaryBlock,
   getUserStatusFromDb,
-  getPasswordDatesFromDb,
   unblockUser,
   activateFromPending,
 };
@@ -97,25 +96,6 @@ async function getUserStatusFromDb({
     select: { status: true },
   });
   return row?.status ?? null;
-}
-
-// Used by AppUserGuard to enforce the annual password-renewal policy
-// (getPasswordChangeStatus) server-side, not just in the Angular guard.
-async function getPasswordDatesFromDb({
-  userProfile,
-  userId,
-}: {
-  userProfile: UserProfile;
-  userId: number;
-}): Promise<{ passwordLastUpdate: Date | null; createdAt: Date } | null> {
-  const repo = getRepoFor(userProfile);
-  const row = await repo.findOne({
-    where: { id: userId },
-    select: { passwordLastUpdate: true, createdAt: true },
-  });
-  return row
-    ? { passwordLastUpdate: row.passwordLastUpdate, createdAt: row.createdAt }
-    : null;
 }
 
 function getRepoFor(userProfile: UserProfile) {
