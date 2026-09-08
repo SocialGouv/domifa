@@ -10,25 +10,25 @@ import {
   FAMILLES_SCORE_SAME_PERSON,
 } from "../constants/FAMILLES_ANALYSIS.const";
 import {
-  DossierLite,
+  DossierLight,
   StructureFamillesRow,
 } from "../types/famillesAnalysis.types";
 import {
+  bestMatch,
   countCommonChildren,
   isAdultOn,
-  matchBest,
   normalizeCompareKey,
   toParisDay,
 } from "./famillesMatching";
 
-const TAG = "[familles-analyse]";
+const TAG = "[familles-analysis]";
 
 type RawAyantDroit = Partial<UsagerAyantDroit> & {
   // very old rows stored the link under `lienParente`
   lienParente?: AyantDroiLienParent;
 };
 
-export type UsagerRawRow = {
+export type UsagerRow = {
   uuid: string;
   nom: string;
   prenom: string;
@@ -50,18 +50,18 @@ export class FamillesAnalysisService {
 
     const globalExactKeys = await this.buildGlobalExactIndex(queryRunner);
     appLogger.warn(
-      `${TAG} index national des correspondances exactes: ${globalExactKeys.size} clés`
+      `${TAG} national exact-match index: ${globalExactKeys.size} keys`
     );
 
     const structureIds: number[] = (
       await queryRunner.query(`SELECT "id" FROM "structure" ORDER BY "id"`)
     ).map((r: { id: number }) => r.id);
-    appLogger.warn(`${TAG} ${structureIds.length} structures à analyser`);
+    appLogger.warn(`${TAG} ${structureIds.length} structures to process`);
 
     const rows: StructureFamillesRow[] = [];
     for (let i = 0; i < structureIds.length; i++) {
       const structureId = structureIds[i];
-      const raw: UsagerRawRow[] = await queryRunner.query(
+      const usagers: UsagerRow[] = await queryRunner.query(
         `SELECT "uuid", "nom", "prenom", "dateNaissance", "ayantsDroits"
            FROM "usager" WHERE "structureId" = $1`,
         [structureId]
@@ -69,14 +69,14 @@ export class FamillesAnalysisService {
 
       const row = computeStructureFamillesRow(
         structureId,
-        raw.map(toDossierLite),
+        usagers.map(toDossierLight),
         globalExactKeys
       );
       rows.push(row);
 
       appLogger.warn(
         `${TAG} structure ${structureId} (${i + 1}/${structureIds.length}) — ` +
-          `${row.dossiers} dossiers, ${row.ayants_droit} ayants droit, ` +
+          `${row.dossiers} dossiers, ${row.ayants_droit} dependants, ` +
           `${row.couples} couples, gap ${row.gap_personnes} (${row.gap_pourcentage}%)`
       );
     }
@@ -101,9 +101,9 @@ export class FamillesAnalysisService {
 
     const keys = new Set<string>();
     for (const row of rows) {
-      const dobDay = toParisDay(row.dateNaissance);
-      if (dobDay) {
-        keys.add(`${dobDay}|${normalizeCompareKey(row.nom, row.prenom)}`);
+      const birthDay = toParisDay(row.dateNaissance);
+      if (birthDay) {
+        keys.add(`${birthDay}|${normalizeCompareKey(row.nom, row.prenom)}`);
       }
     }
     return keys;
@@ -114,7 +114,7 @@ export class FamillesAnalysisService {
       FAMILLES_ANALYSIS_CSV_PATH,
       Buffer.from(csv, "utf-8")
     );
-    appLogger.warn(`${TAG} CSV déposé sur S3: ${FAMILLES_ANALYSIS_CSV_PATH}`);
+    appLogger.warn(`${TAG} CSV uploaded to S3: ${FAMILLES_ANALYSIS_CSV_PATH}`);
   }
 
   private logSummary(
@@ -125,7 +125,7 @@ export class FamillesAnalysisService {
     const sum = (key: keyof StructureFamillesRow) =>
       rows.reduce((acc, r) => acc + r[key], 0);
 
-    appLogger.warn(`${TAG} terminé en ${Math.round(durationMs / 1000)}s`, {
+    appLogger.warn(`${TAG} done in ${Math.round(durationMs / 1000)}s`, {
       structures: rows.length,
       dossiers: sum("dossiers"),
       ayants_droit: sum("ayants_droit"),
@@ -140,68 +140,73 @@ export class FamillesAnalysisService {
       gap_personnes: sum("gap_personnes"),
     });
     // Full CSV in the logs as a fallback if pulling it from prod S3 is awkward.
-    appLogger.warn(`${TAG} CSV complet:\n${csv}`);
+    appLogger.warn(`${TAG} full CSV:\n${csv}`);
   }
 }
 
 // Raw `usager` row (birth date as timestamptz, ayants droits as jsonb) reduced
 // to what the comparison needs.
-export function toDossierLite(raw: UsagerRawRow): DossierLite {
+export function toDossierLight(usager: UsagerRow): DossierLight {
   return {
-    uuid: raw.uuid,
-    dobDay: toParisDay(raw.dateNaissance),
-    key: normalizeCompareKey(raw.nom, raw.prenom),
-    ayantsDroits: (raw.ayantsDroits ?? []).map((ad) => ({
+    uuid: usager.uuid,
+    birthDay: toParisDay(usager.dateNaissance),
+    key: normalizeCompareKey(usager.nom, usager.prenom),
+    ayantsDroits: (usager.ayantsDroits ?? []).map((ad) => ({
       nom: ad.nom ?? "",
       prenom: ad.prenom ?? "",
       lien: ad.lien ?? ad.lienParente ?? "AUTRE",
-      dobDay: toParisDay(ad.dateNaissance as Date | string | null),
+      birthDay: toParisDay(ad.dateNaissance as Date | string | null),
       key: normalizeCompareKey(ad.nom, ad.prenom),
     })),
   };
 }
 
-// All the counters for one structure. Pure: no database, no clock beyond
-// "now" for the adult-child age test.
+// All the counters for one structure. Pure: no database, no clock beyond `now`
+// for the adult-child age test.
 export function computeStructureFamillesRow(
   structureId: number,
-  dossiers: DossierLite[],
+  dossiers: DossierLight[],
   globalExactKeys: Set<string>,
   now: number = Date.now()
 ): StructureFamillesRow {
-  const dossiersByDob = indexByDob(dossiers);
+  const dossiersByBirthDay = groupByBirthDay(dossiers);
   const row = emptyRow(structureId);
   row.dossiers = dossiers.length;
 
   // ── Volumes ─────────────────────────────────────────────────────────────
   for (const dossier of dossiers) {
     row.ayants_droit += dossier.ayantsDroits.length;
-    let hasConjoint = false;
+    let hasSpouse = false;
     for (const ad of dossier.ayantsDroits) {
-      if (!ad.dobDay) {
+      if (!ad.birthDay) {
         row.ayants_droit_sans_date_naissance++;
       }
       if (ad.lien === "CONJOINT") {
-        hasConjoint = true;
+        hasSpouse = true;
       }
     }
-    if (hasConjoint) {
+    if (hasSpouse) {
       row.dossiers_avec_conjoint++;
     }
   }
 
   // ── Conjoints & couples ─────────────────────────────────────────────────
   // pairKey ("uuidA|uuidB", uuids sorted) -> the two dossiers of the couple
-  const couplePairs = new Map<string, [DossierLite, DossierLite]>();
-  // "declarerUuid->partnerUuid" for every conjoint found (score >= SAME_PERSON)
-  const declaredSpouse = new Set<string>();
+  const couplePairs = new Map<string, [DossierLight, DossierLight]>();
+  // "declarerUuid->spouseUuid" for every spouse found (score >= SAME_PERSON)
+  const declaredSpouseLinks = new Set<string>();
 
   for (const dossier of dossiers) {
     for (const ad of dossier.ayantsDroits) {
       if (ad.lien !== "CONJOINT") {
         continue;
       }
-      const match = matchBest(ad.key, ad.dobDay, dossiersByDob, dossier.uuid);
+      const match = bestMatch(
+        ad.key,
+        ad.birthDay,
+        dossiersByBirthDay,
+        dossier.uuid
+      );
 
       if (match.score >= FAMILLES_SCORE_IDENTIQUE) {
         row.conjoints_identiques++;
@@ -210,7 +215,10 @@ export function computeStructureFamillesRow(
       } else if (match.score >= FAMILLES_SCORE_DOUTEUX) {
         row.conjoints_douteux++;
         continue;
-      } else if (ad.dobDay && globalExactKeys.has(`${ad.dobDay}|${ad.key}`)) {
+      } else if (
+        ad.birthDay &&
+        globalExactKeys.has(`${ad.birthDay}|${ad.key}`)
+      ) {
         row.conjoints_autre_structure++;
         continue;
       } else {
@@ -218,15 +226,15 @@ export function computeStructureFamillesRow(
         continue;
       }
 
-      // conjoint found in this structure -> the couple
-      const partner = match.candidate;
-      if (!partner) {
+      // spouse found in this structure -> the couple
+      const spouse = match.candidate;
+      if (!spouse) {
         continue;
       }
-      declaredSpouse.add(`${dossier.uuid}->${partner.uuid}`);
-      const pairKey = [dossier.uuid, partner.uuid].sort().join("|");
+      declaredSpouseLinks.add(`${dossier.uuid}->${spouse.uuid}`);
+      const pairKey = [dossier.uuid, spouse.uuid].sort().join("|");
       if (!couplePairs.has(pairKey)) {
-        couplePairs.set(pairKey, [dossier, partner]);
+        couplePairs.set(pairKey, [dossier, spouse]);
       }
     }
   }
@@ -237,32 +245,32 @@ export function computeStructureFamillesRow(
   for (const [pairKey, [a, b]] of couplePairs) {
     const [uuidA, uuidB] = pairKey.split("|");
     if (
-      declaredSpouse.has(`${uuidA}->${uuidB}`) &&
-      declaredSpouse.has(`${uuidB}->${uuidA}`)
+      declaredSpouseLinks.has(`${uuidA}->${uuidB}`) &&
+      declaredSpouseLinks.has(`${uuidB}->${uuidA}`)
     ) {
       row.couples_croises++;
     }
 
-    const enfantsA = a.ayantsDroits.filter((ad) => ad.lien === "ENFANT");
-    const enfantsB = b.ayantsDroits.filter((ad) => ad.lien === "ENFANT");
-    const communs = countCommonChildren(enfantsA, enfantsB);
+    const childrenA = a.ayantsDroits.filter((ad) => ad.lien === "ENFANT");
+    const childrenB = b.ayantsDroits.filter((ad) => ad.lien === "ENFANT");
+    const common = countCommonChildren(childrenA, childrenB);
 
-    if (enfantsA.length === 0 && enfantsB.length === 0) {
+    if (childrenA.length === 0 && childrenB.length === 0) {
       row.couples_sans_enfant++;
     } else if (
-      communs > 0 &&
-      communs === enfantsA.length &&
-      communs === enfantsB.length
+      common > 0 &&
+      common === childrenA.length &&
+      common === childrenB.length
     ) {
       row.couples_memes_enfants++;
-    } else if (communs > 0) {
+    } else if (common > 0) {
       row.couples_enfants_en_partie_communs++;
     } else {
       // children on at least one side, none in common (includes the case
       // where only one dossier declares children) — see plan note
       row.couples_enfants_differents++;
     }
-    row.enfants_comptes_deux_fois += communs;
+    row.enfants_comptes_deux_fois += common;
 
     if (
       a.ayantsDroits.some((ad) => ad.lien === "PARENT") ||
@@ -272,21 +280,21 @@ export function computeStructureFamillesRow(
     }
   }
 
-  // ── Adult children / parents that have their own dossier here ───────────
+  // ── Adult children / parents that also have their own dossier here ──────
   for (const dossier of dossiers) {
     for (const ad of dossier.ayantsDroits) {
       if (ad.lien === "ENFANT") {
         if (
-          isAdultOn(ad.dobDay, now) &&
-          matchBest(ad.key, ad.dobDay, dossiersByDob, dossier.uuid).score >=
-            FAMILLES_SCORE_IDENTIQUE
+          isAdultOn(ad.birthDay, now) &&
+          bestMatch(ad.key, ad.birthDay, dossiersByBirthDay, dossier.uuid)
+            .score >= FAMILLES_SCORE_IDENTIQUE
         ) {
           row.enfants_majeurs_avec_dossier++;
         }
       } else if (ad.lien === "PARENT") {
         if (
-          matchBest(ad.key, ad.dobDay, dossiersByDob, dossier.uuid).score >=
-          FAMILLES_SCORE_IDENTIQUE
+          bestMatch(ad.key, ad.birthDay, dossiersByBirthDay, dossier.uuid)
+            .score >= FAMILLES_SCORE_IDENTIQUE
         ) {
           row.parents_avec_dossier++;
         }
@@ -294,7 +302,7 @@ export function computeStructureFamillesRow(
     }
   }
 
-  // ── People counted twice ───────────────────────────────────────────────
+  // ── How many people are counted twice ──────────────────────────────────
   row.personnes_comptees_aujourdhui = row.dossiers + row.ayants_droit;
   row.personnes_reelles_estimees =
     row.personnes_comptees_aujourdhui -
@@ -314,23 +322,25 @@ export function computeStructureFamillesRow(
 
 export function toCsv(rows: StructureFamillesRow[]): string {
   const header = FAMILLES_ANALYSIS_COLUMNS.join(",");
-  const lines = rows.map((row) =>
-    FAMILLES_ANALYSIS_COLUMNS.map((col) => row[col]).join(",")
+  const body = rows.map((row) =>
+    FAMILLES_ANALYSIS_COLUMNS.map((column) => row[column]).join(",")
   );
-  return [header, ...lines, ""].join("\n");
+  return [header, ...body, ""].join("\n");
 }
 
-function indexByDob(dossiers: DossierLite[]): Map<string, DossierLite[]> {
-  const byDob = new Map<string, DossierLite[]>();
+function groupByBirthDay(
+  dossiers: DossierLight[]
+): Map<string, DossierLight[]> {
+  const byDay = new Map<string, DossierLight[]>();
   for (const dossier of dossiers) {
-    if (!dossier.dobDay) {
+    if (!dossier.birthDay) {
       continue;
     }
-    const list = byDob.get(dossier.dobDay) ?? [];
+    const list = byDay.get(dossier.birthDay) ?? [];
     list.push(dossier);
-    byDob.set(dossier.dobDay, list);
+    byDay.set(dossier.birthDay, list);
   }
-  return byDob;
+  return byDay;
 }
 
 function emptyRow(structureId: number): StructureFamillesRow {
