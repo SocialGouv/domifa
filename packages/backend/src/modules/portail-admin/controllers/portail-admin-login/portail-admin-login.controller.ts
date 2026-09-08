@@ -130,6 +130,7 @@ export class PortailAdminLoginController {
   @UseGuards(AuthGuard("jwt"), AppUserGuard)
   @AllowUserProfiles("supervisor")
   @AllowUserSupervisorRoles(...USER_SUPERVISOR_ROLES)
+  @AllowExpiredPassword()
   @Get("logout")
   public async logout(
     @Req() req: ExpressRequest,

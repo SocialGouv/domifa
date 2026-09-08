@@ -126,6 +126,19 @@ describe("AppUserGuard > password renewal enforcement", () => {
         );
       }
     });
+
+    it("still allows logout once the password is EXPIRED", async () => {
+      await setStructurePasswordLastUpdate(new Date("2000-01-01"));
+      await AppTestHelper.authenticateStructure(STRUCTURE_FIXTURE, {
+        context,
+      });
+
+      const response = await AppTestHttpClient.get("/structures/auth/logout", {
+        context,
+      });
+
+      expect(response.status).toBe(HttpStatus.OK);
+    });
   });
 
   describe("> supervisor profile", () => {
@@ -190,6 +203,20 @@ describe("AppUserGuard > password renewal enforcement", () => {
           { password: hash }
         );
       }
+    });
+
+    it("still allows logout once the password is EXPIRED", async () => {
+      await setSupervisorPasswordLastUpdate(new Date("2000-01-01"));
+      await AppTestHelper.authenticateSupervisor(SUPERVISOR_FIXTURE, {
+        context,
+      });
+
+      const response = await AppTestHttpClient.get(
+        "/portail-admins/auth/logout",
+        { context }
+      );
+
+      expect(response.status).toBe(HttpStatus.OK);
     });
   });
 });
