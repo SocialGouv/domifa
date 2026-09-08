@@ -1,5 +1,4 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
-import { domifaConfig } from "../config";
 
 export class AddPasswordHistory1787065723037 implements MigrationInterface {
   name = "AddPasswordHistory1787065723037";
