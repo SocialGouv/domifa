@@ -1,6 +1,7 @@
 import { SeoService } from "./../../../shared/services/seo.service";
 import { StatsService } from "./../../services/stats.service";
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { CountUpOptions } from "countup.js";
 
 import { fadeInOut } from "../../../../shared";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -42,7 +43,8 @@ export class PublicStatsComponent implements OnInit, OnDestroy {
   public readonly DEPARTEMENTS_COM = DEPARTEMENTS_COM;
   public readonly STRUCTURE_TYPE_MAP = STRUCTURE_TYPE_MAP;
 
-  public readonly countOptions = {
+  // reanimateOnClick disabled: clicking the counter otherwise restarts it from 0
+  public readonly countOptions: CountUpOptions = {
     duration: 2,
     separator: " ",
   };
