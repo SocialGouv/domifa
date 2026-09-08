@@ -181,6 +181,7 @@ export class StructuresAuthController {
   @UseGuards(AuthGuard("jwt"), AppUserGuard)
   @AllowUserProfiles("structure")
   @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
+  @AllowExpiredPassword()
   @Get("logout")
   public async logout(
     @Req() req: ExpressRequest,
