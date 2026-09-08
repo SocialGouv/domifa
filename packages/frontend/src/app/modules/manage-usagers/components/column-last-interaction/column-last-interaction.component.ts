@@ -5,7 +5,7 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 @Component({
   selector: "app-column-last-interaction",
   templateUrl: "./column-last-interaction.component.html",
-  styleUrls: ["./column-last-interaction.component.scss"],
+  styleUrls: ["../pastille.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DatePipe],
 })
