@@ -10,10 +10,10 @@ import {
   FAMILLES_SCORE_TRES_PROCHE,
 } from "../constants/FAMILLES_ANALYSIS.const";
 import {
-  AyantDroitLite,
-  DossierLite,
-  FamillesMatchBucket,
-  FamillesMatchResult,
+  AyantDroitLight,
+  DossierLight,
+  MatchBucket,
+  MatchResult,
 } from "../types/famillesAnalysis.types";
 
 const PARIS_TZ = "Europe/Paris";
@@ -24,6 +24,7 @@ const DATE_ONLY = /^\d{4}-\d{2}-\d{2}$/;
 const cleanPart = (value: string | null | undefined): string =>
   normalizeString(value ?? "").replace(/\s/g, "");
 
+// Normalized "nom|prenom" key used for every name comparison.
 export const normalizeCompareKey = (
   nom: string | null | undefined,
   prenom: string | null | undefined
@@ -69,33 +70,33 @@ export const scoreFromDistance = (a: string, b: string): number => {
   return Math.round((1 - distance(a, b) / maxLen) * 100);
 };
 
-export const bucketFromScore = (score: number): FamillesMatchBucket => {
+export const bucketFromScore = (score: number): MatchBucket => {
   if (score >= FAMILLES_SCORE_IDENTIQUE) {
-    return "identique";
+    return "identical";
   }
   if (score >= FAMILLES_SCORE_TRES_PROCHE) {
-    return "tres_proche";
+    return "very_close";
   }
   if (score >= FAMILLES_SCORE_DOUTEUX) {
-    return "douteux";
+    return "doubtful";
   }
-  return "non_trouve";
+  return "not_found";
 };
 
 // Best dossier for a person, among the dossiers sharing their birth day.
-// Levenshtein is only ever computed inside a single birth-day bucket.
-export const matchBest = (
+// Levenshtein is only ever computed inside a single birth-day group.
+export const bestMatch = (
   targetKey: string,
-  dobDay: string | null,
-  candidatesByDob: Map<string, DossierLite[]>,
+  birthDay: string | null,
+  candidatesByDay: Map<string, DossierLight[]>,
   excludeUuid?: string
-): FamillesMatchResult => {
-  if (!dobDay) {
+): MatchResult => {
+  if (!birthDay) {
     return { score: 0, candidate: null };
   }
 
-  let best: FamillesMatchResult = { score: -1, candidate: null };
-  for (const candidate of candidatesByDob.get(dobDay) ?? []) {
+  let best: MatchResult = { score: -1, candidate: null };
+  for (const candidate of candidatesByDay.get(birthDay) ?? []) {
     if (excludeUuid && candidate.uuid === excludeUuid) {
       continue;
     }
@@ -112,30 +113,30 @@ export const matchBest = (
 // comparison rule (same birth day, key score >= SAME_PERSON). Greedy 1-to-1
 // pairing: each child on side B is matched at most once.
 export const countCommonChildren = (
-  childrenA: Pick<AyantDroitLite, "dobDay" | "key">[],
-  childrenB: Pick<AyantDroitLite, "dobDay" | "key">[]
+  childrenA: Pick<AyantDroitLight, "birthDay" | "key">[],
+  childrenB: Pick<AyantDroitLight, "birthDay" | "key">[]
 ): number => {
   const usedB = new Set<number>();
   let common = 0;
 
   for (const childA of childrenA) {
-    if (!childA.dobDay) {
+    if (!childA.birthDay) {
       continue;
     }
-    let bestIdx = -1;
+    let bestIndex = -1;
     let bestScore = -1;
     for (let i = 0; i < childrenB.length; i++) {
-      if (usedB.has(i) || childrenB[i].dobDay !== childA.dobDay) {
+      if (usedB.has(i) || childrenB[i].birthDay !== childA.birthDay) {
         continue;
       }
       const score = scoreFromDistance(childA.key, childrenB[i].key);
       if (score > bestScore) {
         bestScore = score;
-        bestIdx = i;
+        bestIndex = i;
       }
     }
-    if (bestIdx >= 0 && bestScore >= FAMILLES_SCORE_SAME_PERSON) {
-      usedB.add(bestIdx);
+    if (bestIndex >= 0 && bestScore >= FAMILLES_SCORE_SAME_PERSON) {
+      usedB.add(bestIndex);
       common++;
     }
   }
@@ -145,20 +146,23 @@ export const countCommonChildren = (
 
 // Age >= 18 at the reference instant, from the "yyyy-MM-dd" birth day.
 export const isAdultOn = (
-  dobDay: string | null,
+  birthDay: string | null,
   reference: number
 ): boolean => {
-  if (!dobDay) {
+  if (!birthDay) {
     return false;
   }
-  const dob = parseISO(dobDay);
-  if (!isValid(dob)) {
+  const birthDate = parseISO(birthDay);
+  if (!isValid(birthDate)) {
     return false;
   }
   const ref = new Date(reference);
-  let age = ref.getFullYear() - dob.getFullYear();
-  const monthDelta = ref.getMonth() - dob.getMonth();
-  if (monthDelta < 0 || (monthDelta === 0 && ref.getDate() < dob.getDate())) {
+  let age = ref.getFullYear() - birthDate.getFullYear();
+  const monthDelta = ref.getMonth() - birthDate.getMonth();
+  if (
+    monthDelta < 0 ||
+    (monthDelta === 0 && ref.getDate() < birthDate.getDate())
+  ) {
     age--;
   }
   return age >= 18;

@@ -26,7 +26,7 @@ export class AnalyseFamillesAyantsDroits1788791349494
     const env = domifaConfig().envId;
     if (env !== "prod" && env !== "preprod") {
       appLogger.warn(
-        `[familles-analyse] ignorée: env "${env}" (prod/preprod uniquement)`
+        `[familles-analysis] skipped: env "${env}" (prod/preprod only)`
       );
       return;
     }

@@ -1,39 +1,36 @@
 import { AyantDroiLienParent } from "@domifa/common";
 
-// Bucket a Levenshtein score falls into. Exported to Metabase as ranges rather
-// than a yes/no decision, so the "couple" threshold can be re-tuned there
-// without re-running the analysis.
-export type FamillesMatchBucket =
-  | "identique"
-  | "tres_proche"
-  | "douteux"
-  | "non_trouve";
+// Score range a match falls into. Exported to Metabase as ranges rather than a
+// yes/no decision, so the "couple" threshold can be re-tuned there without
+// re-running the analysis.
+export type MatchBucket = "identical" | "very_close" | "doubtful" | "not_found";
 
-// A dependant reduced to what the comparison needs. `dobDay` is the calendar
+// A dependant reduced to what the comparison needs. `birthDay` is the calendar
 // day in Europe/Paris ("yyyy-MM-dd"), `key` the normalized "nom|prenom".
-export interface AyantDroitLite {
+export interface AyantDroitLight {
   nom: string;
   prenom: string;
   lien: AyantDroiLienParent;
-  dobDay: string | null;
+  birthDay: string | null;
   key: string;
 }
 
 // A dossier reduced to what the comparison needs.
-export interface DossierLite {
+export interface DossierLight {
   uuid: string;
-  dobDay: string | null;
+  birthDay: string | null;
   key: string;
-  ayantsDroits: AyantDroitLite[];
+  ayantsDroits: AyantDroitLight[];
 }
 
-export interface FamillesMatchResult {
+export interface MatchResult {
   score: number;
-  candidate: DossierLite | null;
+  candidate: DossierLight | null;
 }
 
 // One CSV line: raw counters for a single structure. Everything else (national
 // totals, ratios, tops) is computed in Metabase after joining on `structure`.
+// Field names are the CSV column names and are kept verbatim.
 export interface StructureFamillesRow {
   structureId: number;
   // Volumes

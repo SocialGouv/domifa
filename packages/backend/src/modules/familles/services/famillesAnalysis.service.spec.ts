@@ -1,14 +1,14 @@
 import {
   computeStructureFamillesRow,
   toCsv,
-  toDossierLite,
-  UsagerRawRow,
+  toDossierLight,
+  UsagerRow,
 } from "./famillesAnalysis.service";
 import { FAMILLES_ANALYSIS_COLUMNS } from "../constants/FAMILLES_ANALYSIS.const";
 
 // Spec example: Karim declares Sonia (conjoint), Lina, Adam.
 // Sonia declares Karim (conjoint), Lina, Adam, Yanis.
-function household(soniaFirstNameOnKarimDossier: string): UsagerRawRow[] {
+function household(soniaFirstNameOnKarimDossier: string): UsagerRow[] {
   const lina = {
     nom: "Kadi",
     prenom: "Lina",
@@ -67,7 +67,7 @@ function household(soniaFirstNameOnKarimDossier: string): UsagerRawRow[] {
 
 describe("computeStructureFamillesRow — spec example", () => {
   it("counts 2 identical conjoints, 1 crossed couple, partly common children", () => {
-    const dossiers = household("Sonia").map(toDossierLite);
+    const dossiers = household("Sonia").map(toDossierLight);
     const row = computeStructureFamillesRow(42, dossiers, new Set());
 
     expect(row.structureId).toBe(42);
@@ -97,7 +97,7 @@ describe("computeStructureFamillesRow — spec example", () => {
   });
 
   it("still forms the couple when Sonia is typed 'Sonai' on Karim's dossier", () => {
-    const dossiers = household("Sonai").map(toDossierLite);
+    const dossiers = household("Sonai").map(toDossierLight);
     const row = computeStructureFamillesRow(42, dossiers, new Set());
 
     expect(row.conjoints_identiques).toBe(1);
@@ -113,18 +113,18 @@ describe("computeStructureFamillesRow — conjoint outcomes", () => {
   const dossier = (
     uuid: string,
     prenom: string,
-    dob: string,
-    ayantsDroits: UsagerRawRow["ayantsDroits"] = []
-  ): UsagerRawRow => ({
+    day: string,
+    ayantsDroits: UsagerRow["ayantsDroits"] = []
+  ): UsagerRow => ({
     uuid,
     nom: "Martin",
     prenom,
-    dateNaissance: new Date(`${dob}T12:00:00.000Z`),
+    dateNaissance: new Date(`${day}T12:00:00.000Z`),
     ayantsDroits,
   });
 
   it("flags a conjoint that only has a dossier in another structure", () => {
-    const rows = [
+    const dossiers = [
       dossier("a", "Alice", "1980-06-06", [
         {
           nom: "Martin",
@@ -133,18 +133,18 @@ describe("computeStructureFamillesRow — conjoint outcomes", () => {
           dateNaissance: "1982-07-07",
         },
       ]),
-    ].map(toDossierLite);
+    ].map(toDossierLight);
 
     const elsewhere = new Set<string>(["1982-07-07|martin|bob"]);
-    const row = computeStructureFamillesRow(1, rows, elsewhere);
+    const row = computeStructureFamillesRow(1, dossiers, elsewhere);
 
     expect(row.conjoints_autre_structure).toBe(1);
     expect(row.conjoints_non_trouves).toBe(0);
     expect(row.couples).toBe(0);
   });
 
-  it("counts a conjoint found nowhere as non_trouve", () => {
-    const rows = [
+  it("counts a conjoint found nowhere as not-found", () => {
+    const dossiers = [
       dossier("a", "Alice", "1980-06-06", [
         {
           nom: "Martin",
@@ -153,9 +153,9 @@ describe("computeStructureFamillesRow — conjoint outcomes", () => {
           dateNaissance: "1982-07-07",
         },
       ]),
-    ].map(toDossierLite);
+    ].map(toDossierLight);
 
-    const row = computeStructureFamillesRow(1, rows, new Set());
+    const row = computeStructureFamillesRow(1, dossiers, new Set());
     expect(row.conjoints_non_trouves).toBe(1);
     expect(row.conjoints_autre_structure).toBe(0);
   });
@@ -163,7 +163,7 @@ describe("computeStructureFamillesRow — conjoint outcomes", () => {
 
 describe("toCsv", () => {
   it("emits the header then one line per structure, in column order", () => {
-    const dossiers = household("Sonia").map(toDossierLite);
+    const dossiers = household("Sonia").map(toDossierLight);
     const row = computeStructureFamillesRow(42, dossiers, new Set());
     const csv = toCsv([row]);
     const lines = csv.trimEnd().split("\n");

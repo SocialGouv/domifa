@@ -1,13 +1,13 @@
 import {
+  bestMatch,
   bucketFromScore,
   countCommonChildren,
   isAdultOn,
-  matchBest,
   normalizeCompareKey,
   scoreFromDistance,
   toParisDay,
 } from "./famillesMatching";
-import { DossierLite } from "../types/famillesAnalysis.types";
+import { DossierLight } from "../types/famillesAnalysis.types";
 
 describe("normalizeCompareKey", () => {
   it("lowercases, strips accents, spaces and hyphens", () => {
@@ -57,49 +57,48 @@ describe("scoreFromDistance", () => {
 
 describe("bucketFromScore", () => {
   it("splits on 100 / 75 / 50", () => {
-    expect(bucketFromScore(100)).toBe("identique");
-    expect(bucketFromScore(99)).toBe("tres_proche");
-    expect(bucketFromScore(75)).toBe("tres_proche");
-    expect(bucketFromScore(74)).toBe("douteux");
-    expect(bucketFromScore(50)).toBe("douteux");
-    expect(bucketFromScore(49)).toBe("non_trouve");
+    expect(bucketFromScore(100)).toBe("identical");
+    expect(bucketFromScore(99)).toBe("very_close");
+    expect(bucketFromScore(75)).toBe("very_close");
+    expect(bucketFromScore(74)).toBe("doubtful");
+    expect(bucketFromScore(50)).toBe("doubtful");
+    expect(bucketFromScore(49)).toBe("not_found");
   });
 });
 
-describe("matchBest", () => {
-  const dossier = (uuid: string, dobDay: string, key: string): DossierLite => ({
-    uuid,
-    dobDay,
-    key,
-    ayantsDroits: [],
-  });
+describe("bestMatch", () => {
+  const dossier = (
+    uuid: string,
+    birthDay: string,
+    key: string
+  ): DossierLight => ({ uuid, birthDay, key, ayantsDroits: [] });
 
   it("only compares candidates that share the birth day", () => {
-    const byDob = new Map<string, DossierLite[]>([
+    const byDay = new Map<string, DossierLight[]>([
       ["1987-02-02", [dossier("s", "1987-02-02", "benali|sonia")]],
       ["1999-09-09", [dossier("x", "1999-09-09", "benali|sonia")]],
     ]);
-    const match = matchBest("benali|sonia", "1987-02-02", byDob);
+    const match = bestMatch("benali|sonia", "1987-02-02", byDay);
     expect(match.score).toBe(100);
     expect(match.candidate?.uuid).toBe("s");
   });
 
   it("excludes the declaring dossier and returns 0 when nothing is left", () => {
-    const byDob = new Map<string, DossierLite[]>([
+    const byDay = new Map<string, DossierLight[]>([
       ["1987-02-02", [dossier("self", "1987-02-02", "benali|sonia")]],
     ]);
-    expect(matchBest("benali|sonia", "1987-02-02", byDob, "self").score).toBe(
+    expect(bestMatch("benali|sonia", "1987-02-02", byDay, "self").score).toBe(
       0
     );
   });
 
   it("returns 0 when the person has no birth day", () => {
-    expect(matchBest("benali|sonia", null, new Map()).score).toBe(0);
+    expect(bestMatch("benali|sonia", null, new Map()).score).toBe(0);
   });
 });
 
 describe("countCommonChildren", () => {
-  const child = (dobDay: string, key: string) => ({ dobDay, key });
+  const child = (birthDay: string, key: string) => ({ birthDay, key });
 
   it("counts children present on both sides, once each", () => {
     const a = [
@@ -115,8 +114,8 @@ describe("countCommonChildren", () => {
   });
 
   it("ignores children without a birth day", () => {
-    const a = [{ dobDay: null, key: "kadi|lina" }];
-    const b = [{ dobDay: null, key: "kadi|lina" }];
+    const a = [{ birthDay: null, key: "kadi|lina" }];
+    const b = [{ birthDay: null, key: "kadi|lina" }];
     expect(countCommonChildren(a, b)).toBe(0);
   });
 });
