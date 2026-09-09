@@ -1,3 +1,18 @@
+# [2.268.0](https://github.com/SocialGouv/domifa/compare/v2.267.0...v2.268.0) (2026-09-09)
+
+
+### Bug Fixes
+
+* **frontend:** use the DSFR warning token for the pastille ([48ac892](https://github.com/SocialGouv/domifa/commit/48ac89287354c039dde620a9c05a6c8b98fd4bb5)), closes [#e4794](https://github.com/SocialGouv/domifa/issues/e4794)
+* adding pastille.scss ([1899acd](https://github.com/SocialGouv/domifa/commit/1899acdc834af1d02f5e7a46decd8f429b2c076f))
+
+
+### Features
+
+* **front:** fix code review ([55d790f](https://github.com/SocialGouv/domifa/commit/55d790f6434571116cebddf7ee8b2bff6ba6f4a4))
+* **frontend:** change indicator color for usagers decision deadline ([170285f](https://github.com/SocialGouv/domifa/commit/170285f21aeed5a2477c01de7dd2bb2d0f2d13f8))
+* **frontend:** fix code review ([e514968](https://github.com/SocialGouv/domifa/commit/e5149680618ee9c6f555f16c6febb7bb096c039b))
+
 # [2.267.0](https://github.com/SocialGouv/domifa/compare/v2.266.2...v2.267.0) (2026-09-08)
 
 
