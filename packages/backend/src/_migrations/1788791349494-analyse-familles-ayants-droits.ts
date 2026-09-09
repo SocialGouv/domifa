@@ -30,7 +30,16 @@ export class AnalyseFamillesAyantsDroits1788791349494
       );
       return;
     }
-    await new FamillesAnalysisService().run(queryRunner);
+    try {
+      await new FamillesAnalysisService().run(queryRunner);
+    } catch (error) {
+      // a read-only analysis must never block the API boot: migrations run
+      // inside DataSource.initialize() on prod/preprod
+      appLogger.error(`[familles-analysis] failed, skipped`, {
+        error,
+        sentry: true,
+      });
+    }
   }
 
   public async down(): Promise<void> {
