@@ -1,9 +1,4 @@
-import {
-  differenceInCalendarDays,
-  endOfDay,
-  subDays,
-  subMonths,
-} from "date-fns";
+import { endOfDay, subDays, subMonths } from "date-fns";
 import { LastInteractionDeadline, Usager } from "../interfaces";
 
 export const getLastInteractionDeadline = (
@@ -12,7 +7,6 @@ export const getLastInteractionDeadline = (
   const deadline: LastInteractionDeadline = {
     isActive: false,
     dateToDisplay: null,
-    daysSinceLastPassage: 0,
     color: null,
   };
 
@@ -25,10 +19,6 @@ export const getLastInteractionDeadline = (
 
   deadline.isActive = true;
   deadline.dateToDisplay = new Date(usager.lastInteraction.dateInteraction);
-  deadline.daysSinceLastPassage = differenceInCalendarDays(
-    new Date(),
-    deadline.dateToDisplay
-  );
 
   // Same deadlines as the "dernier passage" filter on the manage page (getUsagerDeadlines).
   const now = new Date();
