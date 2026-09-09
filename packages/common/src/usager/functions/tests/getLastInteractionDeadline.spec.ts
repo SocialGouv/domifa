@@ -53,7 +53,6 @@ describe("[getLastInteractionDeadline] Display the last interaction deadline inf
     expect(getLastInteractionDeadline(usager)).toEqual({
       isActive: false,
       dateToDisplay: null,
-      daysSinceLastPassage: 0,
       color: null,
     });
   });
