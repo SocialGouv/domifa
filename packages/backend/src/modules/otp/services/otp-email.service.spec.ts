@@ -27,6 +27,7 @@ jest.mock("../../mails/services/brevo-sender/brevo-sender.service", () => ({
   },
 }));
 
+import { createTransport } from "nodemailer";
 import { OtpEmailService } from "./otp-email.service";
 import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
 import { generateOtpEmailHtml } from "../templates/otp-email.template";
@@ -139,39 +140,8 @@ describe("OtpEmailService", () => {
     expect(mockSendMail).not.toHaveBeenCalled();
   });
 
-  describe("Dev OTP logging", () => {
-    it("should log the plaintext OTP code in dev", async () => {
-      mockConfig.mockReturnValue(
-        buildConfig({
-          envId: "dev",
-          email: {
-            emailsEnabled: true,
-            emailAddressRedirectAllTo: "dev-test@x.com",
-            otpProvider: "brevo",
-          },
-        })
-      );
-      mockSendMail.mockResolvedValue({ messageId: "<smtp-1>" });
-      const logSpy = jest
-        .spyOn(service["logger"], "log")
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        .mockImplementation(() => {});
-
-      await service.sendOtpEmail({
-        email: BREVO_ONLY_EMAIL,
-        prenom: "Alice",
-        code: "424242",
-        purpose: "LOGIN",
-      });
-
-      expect(logSpy.mock.calls[0][0]).toContain("[OTP DEV]");
-      expect(logSpy.mock.calls[0][0]).toContain("424242");
-      // The log is additional: outside prod delivery goes through Tipimail.
-      expect(mockSendMail).toHaveBeenCalledTimes(1);
-      expect(mockBrevoSendEmailWithTemplate).not.toHaveBeenCalled();
-    });
-
-    it("should log the plaintext OTP code in dev even when emails are disabled", async () => {
+  describe("Plaintext OTP logging", () => {
+    it("should NOT log the plaintext OTP code in dev even when emails are disabled", async () => {
       mockConfig.mockReturnValue(
         buildConfig({ envId: "dev", email: { emailsEnabled: false } })
       );
@@ -187,15 +157,14 @@ describe("OtpEmailService", () => {
         purpose: "LOGIN",
       });
 
-      expect(logSpy.mock.calls[0][0]).toContain("[OTP DEV]");
-      expect(logSpy.mock.calls[0][0]).toContain("424242");
-      expect(mockBrevoSendEmailWithTemplate).not.toHaveBeenCalled();
-      expect(mockSendMail).not.toHaveBeenCalled();
+      for (const call of logSpy.mock.calls) {
+        expect(String(call[0])).not.toContain("424242");
+      }
     });
 
-    it("should NOT log the plaintext OTP code in preprod nor prod", async () => {
+    it("should NOT log the plaintext OTP code in dev, preprod nor prod", async () => {
       mockSendMail.mockResolvedValue({ messageId: "<smtp-1>" });
-      for (const envId of ["preprod", "prod"]) {
+      for (const envId of ["dev", "preprod", "prod"]) {
         mockConfig.mockReturnValue(
           buildConfig({
             envId,
@@ -391,6 +360,45 @@ describe("OtpEmailService", () => {
           purpose: "LOGIN",
         })
       ).rejects.toThrow("SMTP boom");
+    });
+
+    it("should lock file and URL access on the SMTP transport", async () => {
+      await service.sendOtpEmail({
+        email: DUAL_SEND_EMAIL,
+        prenom: "Alice",
+        code: "123456",
+        purpose: "LOGIN",
+      });
+
+      expect(createTransport).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          disableFileAccess: true,
+          disableUrlAccess: true,
+        })
+      );
+    });
+
+    it("should log the nodemailer error code when SMTP fails", async () => {
+      mockSendMail.mockRejectedValue(
+        Object.assign(new Error("Invalid login"), { code: "EAUTH" })
+      );
+      mockBrevoSendEmailWithTemplate.mockRejectedValue(new Error("Brevo boom"));
+      const errorSpy = jest
+        .spyOn(service["logger"], "error")
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        .mockImplementation(() => {});
+
+      await expect(
+        service.sendOtpEmail({
+          email: DUAL_SEND_EMAIL,
+          prenom: "Alice",
+          code: "123456",
+          purpose: "LOGIN",
+        })
+      ).rejects.toThrow("Invalid login");
+      expect(
+        errorSpy.mock.calls.some(([msg]) => String(msg).includes("[EAUTH]"))
+      ).toBe(true);
     });
 
     it("should NOT throw when Brevo template id is missing but SMTP delivers", async () => {

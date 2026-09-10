@@ -99,6 +99,7 @@ export class AgendaController {
         currentUser
       ).catch((error) => {
         appLogger.error(
+          "[AGENDA] Échec de l'envoi de l'email de confirmation de rendez-vous",
           {
             context: {
               usagerRef: updatedUsager.ref,
@@ -107,9 +108,7 @@ export class AgendaController {
               dateRdv: updatedUsager.rdv?.dateRdv,
             },
             error,
-            sentry: true,
-          },
-          "[AGENDA] Échec de l'envoi de l'email de confirmation de rendez-vous"
+          }
         );
         captureException(error, {
           tags: {
