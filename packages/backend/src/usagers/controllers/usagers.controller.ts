@@ -66,6 +66,7 @@ import { AssignReferrersDto } from "../dto/assign-referrers.dto";
 import { In, Not } from "typeorm";
 import { UsagersLogsService } from "../services/usagers-logs.service";
 import { UsagerRefParam, EtapeDemandeParam } from "../../_common/decorators";
+import { withAyantsDroitsUuid } from "../services/ayantsDroits.util";
 @Controller("usagers")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserStructureRoles("simple", "responsable", "admin")
@@ -129,6 +130,11 @@ export class UsagersController {
       countryCode: usagerDto.telephone.countryCode,
       numero: getPhoneString(usagerDto.telephone).replace(/\s+/g, ""),
     };
+
+    usagerDto.ayantsDroits = withAyantsDroitsUuid(
+      usagerDto.ayantsDroits,
+      currentUsager.ayantsDroits
+    );
 
     await usagerRepository.update(
       { uuid: currentUsager.uuid },
