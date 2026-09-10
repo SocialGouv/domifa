@@ -21,7 +21,10 @@ const isSameAyantDroit = (
 /**
  * Ensures every ayant droit carries a stable `uuid`.
  *
- * - keeps an incoming `uuid` when it is present and not already used
+ * - honours an incoming `uuid` only when it already belongs to the dossier
+ *   (present in `existing`): lets the frontend round-trip the id through an edit
+ *   that changes nom / prenom / lien / dateNaissance, while a client can never
+ *   inject an arbitrary id (on creation `existing` is empty, so nothing is trusted)
  * - otherwise reuses the `uuid` of a matching `existing` ayant droit
  *   (same nom / prenom / lien / dateNaissance) so edits don't regenerate ids
  * - falls back to a fresh v4 uuid
@@ -32,11 +35,18 @@ export function withAyantsDroitsUuid(
   incoming: Partial<UsagerAyantDroit>[] = [],
   existing: UsagerAyantDroit[] = []
 ): UsagerAyantDroit[] {
+  const knownUuids = new Set(
+    (existing ?? []).map((ayantDroit) => ayantDroit?.uuid).filter(Boolean)
+  );
   const usedUuids = new Set<string>();
   const availableExisting = [...(existing ?? [])];
 
   return (incoming ?? []).map((ayantDroit) => {
-    if (ayantDroit?.uuid && !usedUuids.has(ayantDroit.uuid)) {
+    if (
+      ayantDroit?.uuid &&
+      knownUuids.has(ayantDroit.uuid) &&
+      !usedUuids.has(ayantDroit.uuid)
+    ) {
       usedUuids.add(ayantDroit.uuid);
       return { ...ayantDroit, uuid: ayantDroit.uuid } as UsagerAyantDroit;
     }
