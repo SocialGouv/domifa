@@ -52,6 +52,7 @@ describe("EtatCivilParentFormComponent", () => {
     const testForm: any = {
       ayantsDroits: [
         {
+          uuid: "f6a1b0c9-7e8f-4901-8a2b-3c4d5e6f7a8b",
           dateNaissance: "01/08/2022",
           lien: "ENFANT",
           nom: "AD NOM",
@@ -80,6 +81,7 @@ describe("EtatCivilParentFormComponent", () => {
     expect(component.getEtatCivilForm(testForm)).toEqual({
       ayantsDroits: [
         {
+          uuid: "f6a1b0c9-7e8f-4901-8a2b-3c4d5e6f7a8b",
           dateNaissance: new Date("2022-08-01T12:00:00.000Z"),
           lien: "ENFANT",
           nom: "AD NOM",
