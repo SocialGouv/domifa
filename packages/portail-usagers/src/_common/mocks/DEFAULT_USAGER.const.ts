@@ -8,6 +8,7 @@ export const DEFAULT_USAGER: PortailUsagerPublic = {
   ref: 1,
   ayantsDroits: [
     {
+      uuid: "0a1b2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d",
       dateNaissance: new Date("1978-12-20T00:00:00.000Z"),
       lien: "CONJOINT",
       nom: "Karamoko",

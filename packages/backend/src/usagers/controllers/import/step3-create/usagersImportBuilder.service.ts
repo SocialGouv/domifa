@@ -163,6 +163,7 @@ function buildUsager({
 function buildAyantsDroits(usagerRow): UsagerAyantDroit[] {
   return usagerRow.ayantsDroits.map((ad) => {
     const ayantDroit: UsagerAyantDroit = {
+      uuid: uuidv4(),
       dateNaissance: ad.dateNaissance,
       lien: ad.lienParente,
       nom: ad.nom,

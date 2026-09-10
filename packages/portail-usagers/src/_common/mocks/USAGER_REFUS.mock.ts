@@ -27,6 +27,7 @@ export const USAGER_REFUS_MOCK: PortailUsagerPublic = {
   rdv: null,
   ayantsDroits: [
     {
+      uuid: "1b2c3d4e-5f6a-4b7c-8d9e-0f1a2b3c4d5e",
       nom: "Karamoko",
       prenom: "Mauricette",
       dateNaissance: new Date("1978-12-20T00:00:00.000Z"),
