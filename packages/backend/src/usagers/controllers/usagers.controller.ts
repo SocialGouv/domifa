@@ -133,10 +133,12 @@ export class UsagersController {
       numero: getPhoneString(usagerDto.telephone).replace(/\s+/g, ""),
     };
 
-    usagerDto.ayantsDroits = withAyantsDroitsUuid(
-      usagerDto.ayantsDroits,
-      currentUsager.ayantsDroits
-    );
+    if (usagerDto.ayantsDroits) {
+      usagerDto.ayantsDroits = withAyantsDroitsUuid(
+        usagerDto.ayantsDroits,
+        currentUsager.ayantsDroits
+      );
+    }
 
     await usagerRepository.update(
       { uuid: currentUsager.uuid },
