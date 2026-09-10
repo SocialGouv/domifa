@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { AdminStructureContainerComponent } from "./admin-structure-container.component";
 import { ActivatedRoute, provideRouter } from "@angular/router";
+import { provideHttpClient } from "@angular/common/http";
 import { SharedModule } from "../../../shared/shared.module";
 import { CommonModule } from "@angular/common";
 import { STRUCTURE_MOCK } from "../../../../mocks/STRUCTURE_MOCK.mock";
@@ -20,6 +21,7 @@ describe("AdminStructureContainerComponent", () => {
       imports: [CommonModule, SharedModule, AdminStructureContainerComponent],
       providers: [
         provideRouter([]),
+        provideHttpClient(),
         provideMockStore({
           initialState: {
             [structuresFeature.name]: {
