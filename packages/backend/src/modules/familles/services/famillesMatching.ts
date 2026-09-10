@@ -1,4 +1,4 @@
-import { format, isValid, parseISO } from "date-fns";
+import { differenceInYears, format, isValid, parseISO } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 import { distance } from "fastest-levenshtein";
 import { normalizeString } from "@domifa/common";
@@ -30,9 +30,10 @@ export const normalizeCompareKey = (
   prenom: string | null | undefined
 ): string => `${cleanPart(nom)}|${cleanPart(prenom)}`;
 
-// Calendar day in Europe/Paris. The dossier birth date is a timestamptz, the
-// dependant one is a JSON string; both are brought to the same Paris day so a
-// timezone offset does not shift them apart by a day.
+// Calendar day as "yyyy-MM-dd". A plain date string (an ayant droit's, stored
+// without a timezone and usually already "yyyy-MM-dd") is returned untouched; a
+// dossier's `timestamptz`, read back as an instant, is resolved to its
+// Europe/Paris day so the result does not depend on the Node process timezone.
 export const toParisDay = (
   value: Date | string | null | undefined
 ): string | null => {
@@ -153,17 +154,5 @@ export const isAdultOn = (
     return false;
   }
   const birthDate = parseISO(birthDay);
-  if (!isValid(birthDate)) {
-    return false;
-  }
-  const ref = new Date(reference);
-  let age = ref.getFullYear() - birthDate.getFullYear();
-  const monthDelta = ref.getMonth() - birthDate.getMonth();
-  if (
-    monthDelta < 0 ||
-    (monthDelta === 0 && ref.getDate() < birthDate.getDate())
-  ) {
-    age--;
-  }
-  return age >= 18;
+  return isValid(birthDate) && differenceInYears(reference, birthDate) >= 18;
 };
