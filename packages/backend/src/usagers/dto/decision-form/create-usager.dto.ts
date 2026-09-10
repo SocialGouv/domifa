@@ -1,9 +1,4 @@
-import {
-  UsagerSexe,
-  COUNTRIES,
-  Telephone,
-  UsagerAyantDroit,
-} from "@domifa/common";
+import { UsagerSexe, COUNTRIES, Telephone } from "@domifa/common";
 import { Type } from "class-transformer";
 import {
   ArrayMaxSize,
@@ -107,7 +102,7 @@ export class CreateUsagerDto {
   @ArrayMaxSize(20)
   @ValidateNested({ each: true })
   @Type(() => UsagerAyantDroitDto)
-  public ayantsDroits!: UsagerAyantDroit[];
+  public ayantsDroits!: UsagerAyantDroitDto[];
 
   @IsOptional()
   @MaxLength(50)
