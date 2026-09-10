@@ -29,10 +29,34 @@ describe("withAyantsDroitsUuid", () => {
     expect(result[0].uuid).not.toEqual(result[1].uuid);
   });
 
-  it("keeps an incoming uuid untouched", () => {
+  it("keeps an incoming uuid that already belongs to the dossier", () => {
     const uuid = "11111111-1111-4111-8111-111111111111";
-    const [result] = withAyantsDroitsUuid([baseAyantDroit({ uuid })]);
+    const existing: UsagerAyantDroit[] = [
+      baseAyantDroit({ uuid }) as UsagerAyantDroit,
+    ];
+    const [result] = withAyantsDroitsUuid([baseAyantDroit({ uuid })], existing);
     expect(result.uuid).toEqual(uuid);
+  });
+
+  it("keeps a round-tripped uuid even when identity fields changed (rename)", () => {
+    const uuid = "55555555-5555-4555-8555-555555555555";
+    const existing: UsagerAyantDroit[] = [
+      baseAyantDroit({ uuid, prenom: "Jane" }) as UsagerAyantDroit,
+    ];
+    // same row, renamed, uuid sent back by the form
+    const [result] = withAyantsDroitsUuid(
+      [baseAyantDroit({ uuid, prenom: "Janet" })],
+      existing
+    );
+    expect(result.uuid).toEqual(uuid);
+    expect(result.prenom).toEqual("Janet");
+  });
+
+  it("ignores an incoming uuid unknown to the dossier (creation / forged id)", () => {
+    const forged = "99999999-9999-4999-8999-999999999999";
+    const [result] = withAyantsDroitsUuid([baseAyantDroit({ uuid: forged })]);
+    expect(result.uuid).not.toEqual(forged);
+    expect(isUuid(result.uuid)).toBe(true);
   });
 
   it("reuses the uuid of a matching existing ayant droit (edit path)", () => {

@@ -205,4 +205,31 @@ describe("CreateUsagerDto — corrupted payloads", () => {
     expect(dto.ayantsDroits[0].nom).toEqual("Nom");
     expect(dto.ayantsDroits[0].lien).toEqual("ENFANT");
   });
+
+  it("keeps a valid ayant droit uuid and tolerates an empty / missing one", async () => {
+    const uuid = "b0f9c8d7-1e2a-4b3c-8d4e-5f6a7b8c9d0e";
+    const dto = build(
+      JSON.parse(`{ "ayantsDroits": [
+        { "uuid": "${uuid}", "lien": "ENFANT", "nom": "A", "prenom": "B", "dateNaissance": "2022-05-02" },
+        { "uuid": "", "lien": "CONJOINT", "nom": "C", "prenom": "D", "dateNaissance": "2022-05-02" },
+        { "lien": "PARENT", "nom": "E", "prenom": "F", "dateNaissance": "2022-05-02" }
+      ] }`)
+    );
+    expect(await validate(dto, { whitelist: true })).toHaveLength(0);
+    expect(dto.ayantsDroits[0].uuid).toEqual(uuid);
+    expect(dto.ayantsDroits[1].uuid).toEqual("");
+  });
+
+  it("rejects a non-uuid string in the uuid field", async () => {
+    const dto = build(
+      JSON.parse(`{ "ayantsDroits": [
+        { "uuid": "not-a-uuid", "lien": "ENFANT", "nom": "A", "prenom": "B", "dateNaissance": "2022-05-02" }
+      ] }`)
+    );
+    const errors = await validate(dto, { whitelist: true });
+    expect(errors.map((e) => e.property)).toEqual(["ayantsDroits"]);
+    expect(errors[0].children?.[0]?.children?.map((c) => c.property)).toEqual([
+      "uuid",
+    ]);
+  });
 });
