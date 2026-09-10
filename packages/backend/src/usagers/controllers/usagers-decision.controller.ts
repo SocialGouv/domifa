@@ -38,6 +38,8 @@ import {
 import { format } from "date-fns";
 import { getLastInteractionOut } from "../../modules/interactions/services";
 import { canAddDecision } from "../guards";
+import { appLogger } from "../../util";
+import { captureMessage } from "@sentry/nestjs";
 
 @Controller("usagers-decision")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -52,19 +54,34 @@ export class UsagersDecisionController {
   @UseGuards(UsagerAccessGuard)
   @Post(":usagerRef")
   public async setDecision(
+    @Res() res: Response,
     @Body() decision: DecisionDto,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: Usager,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
-  ): Promise<Usager> {
+  ) {
     if (!canAddDecision(user.role, decision.statut)) {
       throw new ForbiddenException("INSUFFICIENT_PERMISSIONS_FOR_DECISION");
     }
+
+    if (decision.statut === "VALIDE" && usager.decision.statut === "VALIDE") {
+      const errorMessage = `[DOUBLE_VALIDATION] usagerRef: ${usager.ref}, structureId: ${usager.structureId}, userId: ${user.id}`;
+      appLogger.warn(errorMessage);
+      captureMessage(errorMessage);
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "USAGER_ALREADY_VALIDE" });
+    }
+
     decision.userName = `${user.prenom} ${user.nom}`;
     decision.userId = user.id;
 
-    return await this.usagersService.setDecision(usager, decision);
+    const updatedUsager = await this.usagersService.setDecision(
+      usager,
+      decision
+    );
+    return res.status(HttpStatus.OK).json(updatedUsager);
   }
 
   @UseGuards(UsagerAccessGuard)

@@ -75,6 +75,10 @@ export const CUSTOM_DOCS_LABELS: {
   DATE_PREMIERE_DOM: "Date de la 1ere domiciliation: 12 octobre 2020",
   DATE_PREMIERE_DOM_FORMAT_COURT:
     "Date de la 1ere domiciliation (ex: 12/10/2020)",
+  DATE_ANCIENNETE_DOM:
+    "Date de la plus ancienne domiciliation connue: 12 octobre 2020",
+  DATE_ANCIENNETE_DOM_FORMAT_COURT:
+    "Date de la plus ancienne domiciliation connue (ex: 12/10/2020)",
   DATE_DERNIER_PASSAGE: "Date de dernier passage (ex: 01/09/2020 à 10h45)",
 
   // ENTRETIEN

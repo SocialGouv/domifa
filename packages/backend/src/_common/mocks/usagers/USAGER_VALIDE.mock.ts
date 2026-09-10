@@ -13,6 +13,7 @@ export const USAGER_VALIDE_MOCK: Usager = {
   sexe: "homme",
   dateNaissance: new Date("1988-11-02T00:00:00.000Z"),
   datePremiereDom: new Date("2018-10-01T00:00:00.000Z"),
+  dateAncienneteDom: new Date("2016-05-12T00:00:00.000Z"),
   villeNaissance: "Paris",
   langue: null,
   email: "fake-mail@yopmail.com",
