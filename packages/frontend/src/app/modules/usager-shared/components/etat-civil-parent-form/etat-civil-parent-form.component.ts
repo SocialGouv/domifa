@@ -199,6 +199,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
 
   public newAyantDroit(ayantDroit: AyantDroit) {
     return this.formBuilder.group({
+      uuid: [ayantDroit.uuid ?? ""],
       dateNaissance: [
         ayantDroit.dateNaissance
           ? formatDateToFr(ayantDroit?.dateNaissance)
@@ -236,6 +237,7 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     const ayantsDroits: UsagerAyantDroit[] = formValue.ayantsDroits.map(
       (ayantDroit: UsagerFormAyantDroit) => {
         return {
+          uuid: ayantDroit.uuid,
           lien: ayantDroit.lien,
           nom: ayantDroit.nom.trim(),
           prenom: ayantDroit.prenom.trim(),

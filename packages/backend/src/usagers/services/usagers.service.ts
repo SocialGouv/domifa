@@ -7,6 +7,7 @@ import {
 } from "../../database";
 import { UserStructureAuthenticated } from "../../_common/model";
 
+import { withAyantsDroitsUuid } from "./ayantsDroits.util";
 import { usagersCreator } from "./usagersCreator.service";
 import { usagerVisibleHistoryManager } from "./usagerVisibleHistoryManager.service";
 
@@ -40,8 +41,9 @@ export class UsagersService {
     usagerDto: CreateUsagerDto,
     user: Pick<UserStructureProfile, "id" | "structureId" | "prenom" | "nom">
   ): Promise<Usager> {
-    const usager = new UsagerTable(usagerDto);
+    const usager = new UsagerTable(usagerDto as Partial<UsagerTable>);
     usagersCreator.setUsagerDefaultAttributes(usager);
+    usager.ayantsDroits = withAyantsDroitsUuid(usager.ayantsDroits);
     const now = new Date();
 
     usager.etapeDemande = ETAPE_RENDEZ_VOUS;
