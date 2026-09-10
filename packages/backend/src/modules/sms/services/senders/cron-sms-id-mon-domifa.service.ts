@@ -67,8 +67,9 @@ export class CronSmsMonDomiFaService {
         `[SMS BATCH] Batch terminé - ${smsToSend.length} SMS traités`
       );
     } catch (error) {
-      console.log(error);
-      appLogger.error("[SMS BATCH] Erreur lors de l'envoi du batch:", error);
+      appLogger.error("[SMS BATCH] Erreur lors de l'envoi du batch", {
+        error,
+      });
     }
   }
 }
