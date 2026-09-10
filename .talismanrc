@@ -1,4 +1,5 @@
 fileignoreconfig:
+
 - filename: .anonymizer/config.yaml
   checksum: 1c140b276ba06918e1b46964a0c3883b0c212c9def9008d9dcb5de8531e0bd1b
 - filename: .anonymizer/pnpm-lock.yaml
@@ -15,21 +16,21 @@ fileignoreconfig:
   checksum: 80935aa31e4cdc001d755b0ab13c0d4f72b0cf7a72bac2820cf841acec403d32
 - filename: .kontinuous/env/prod/templates/backend.sealed-secret.yaml
   checksum: 9386738b9f3f377080f5f584222df91d740e3d2e72539e91d68b39944d6f36e6
-- filename: _scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
+- filename: \_scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
   checksum: 6dc832cab399623595b5f8ee24f3a97be6b8fd6531e6468988de5e6456dad40e
-- filename: _scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
+- filename: \_scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
   checksum: 79e37543f30cebb6bfd2498551128473c2317d68ef3ffde7d47e869c193734b6
 - filename: package.json
   checksum: b1f4068d2168777918ef4fa6b222d46315fe5396a762a72302dfbd1751545add
-- filename: packages/backend/src/_migrations/1781813895170-auto-migration.ts
+- filename: packages/backend/src/\_migrations/1781813895170-auto-migration.ts
   checksum: a06e0eaf9a6a41d1ebbf8a6eda4046b42bc116694f7cbad88f66dc889267eadd
-- filename: packages/backend/src/_migrations/1782293071088-auto-migration.ts
+- filename: packages/backend/src/\_migrations/1782293071088-auto-migration.ts
   checksum: 0b70bd0ee11b139bd667c5d4db95a1781703898377aa99633804141c694df876
-- filename: packages/backend/src/_migrations/1782820564935-auto-migration.ts
+- filename: packages/backend/src/\_migrations/1782820564935-auto-migration.ts
   checksum: 569cea2b8baf6c5159c29e7f94036534318c51a9800299107b9c3cbc7fd6a542
-- filename: packages/backend/src/_migrations/1789650942380-email-delivery-issue-report.ts
+- filename: packages/backend/src/\_migrations/1789650942380-email-delivery-issue-report.ts
   checksum: 27b30903e350c810884209af85ddc0555ad1a728f304c34d03661ec7c164d321
-- filename: packages/backend/src/_migrations/_init-db/domifa_test_schema.sql
+- filename: packages/backend/src/\_migrations/\_init-db/domifa_test_schema.sql
   checksum: 8a8f9a18c94a77d7400f256c230eceb0a040e87c51b2a20398ed2b61348ec6b6
 - filename: packages/frontend/src/app/modules/general/components/decouvrir-domifa/decouvrir-domifa.component.html
   checksum: a55373935e6910c40194a0df61d6dc33355db938c6d382d4e458e449a074b160
@@ -63,5 +64,5 @@ fileignoreconfig:
   checksum: dfdbbe1892cf17b22d28f529914eb5df3a07063d5e3071e59c36c907020260d3
 - filename: pnpm-lock.yaml
   checksum: 41bbdafeadfcd6d8a5d43f5a803a683cd7623c3c49fb01fe3582f46437f4b93f
-threshold: medium
-version: "1.0"
+  threshold: medium
+  version: "1.0"

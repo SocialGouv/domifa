@@ -293,7 +293,7 @@ export class AdminStructuresController {
 
       return res.status(HttpStatus.OK).json(updatedStructure);
     } catch (error) {
-      console.error("INTERNAL_ERROR", error);
+      appLogger.error("[ADMIN STRUCTURES] INTERNAL_ERROR", { error });
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
         message: "INTERNAL_SERVER_ERROR",
       });
