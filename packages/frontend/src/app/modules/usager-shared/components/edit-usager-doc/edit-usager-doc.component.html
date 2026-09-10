@@ -6,6 +6,7 @@
   color="secondary"
   customClass="fr-btn--sm  fr-mx-1w"
   [loading]="loading"
+  appSupportModeDisable
 >
 </app-button>
 
@@ -104,6 +105,7 @@
         [disabled]="loading"
         [attr.aria-busy]="loading"
         [attr.aria-label]="'Valider la modification du document: ' + doc.label"
+        appSupportModeDisable
       >
         Valider
       </button>

@@ -5,6 +5,7 @@ import {
   DsfrDropdownMenuComponent,
   DsfrDropdownMenuItemComponent,
 } from "@edugouvfr/ngx-dsfr-ext";
+import { SupportModeDisableDirective } from "../../../../shared/directives/support-mode-disable.directive";
 
 @Component({
   animations: [fadeIn],
@@ -12,7 +13,11 @@ import {
   standalone: true,
   templateUrl: "./landing-page-portail.component.html",
   styleUrls: ["./landing-page-portail.component.scss"],
-  imports: [DsfrDropdownMenuComponent, DsfrDropdownMenuItemComponent],
+  imports: [
+    DsfrDropdownMenuComponent,
+    DsfrDropdownMenuItemComponent,
+    SupportModeDisableDirective,
+  ],
 })
 export class LandingPagePortailComponent {
   public isLandingPage = input(true);

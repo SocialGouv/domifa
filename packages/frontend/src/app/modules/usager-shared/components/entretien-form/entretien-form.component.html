@@ -2,6 +2,7 @@
   *ngIf="entretienForm"
   [formGroup]="entretienForm"
   (ngSubmit)="submitEntretien()"
+  appSupportModeDisable
 >
   <h2 class="fr-h2" *ngIf="!editEntretien">Entretien avec le demandeur</h2>
 
@@ -500,8 +501,10 @@
       <div class="fr-input-group">
         <label class="fr-label" for="rattachement"
           >Cette domiciliation est-elle réalisée au titre d'une autre commune ou
-          d'un autre arrondissement ? (Répondre à cette question si l’organisme domiciliataire est un centre intercommunal d’action sociale (CIAS)
-          ou un centre communal d’action sociale (CCAS) dont la commune est divisée en arrondissements).</label
+          d'un autre arrondissement ? (Répondre à cette question si l’organisme
+          domiciliataire est un centre intercommunal d’action sociale (CIAS) ou
+          un centre communal d’action sociale (CCAS) dont la commune est divisée
+          en arrondissements).</label
         >
         <input
           type="text"
@@ -540,6 +543,7 @@
       type="submit"
       [loading]="loading"
       label="Enregistrer les modifications"
+      appSupportModeDisable
     ></app-button>
 
     <div
@@ -550,6 +554,7 @@
         type="submit"
         [loading]="loading"
         label="Suivant"
+        appSupportModeDisable
       ></app-button>
       <a routerLink="/manage" class="fr-btn fr-btn--secondary">
         Continuer plus tard
@@ -593,6 +598,7 @@
         type="button"
         class="fr-btn fr-btn--primary"
         (click)="submitEntretien()"
+        appSupportModeDisable
       >
         <span *ngIf="!loading">Continuer sans entretien</span>
         <span *ngIf="loading">

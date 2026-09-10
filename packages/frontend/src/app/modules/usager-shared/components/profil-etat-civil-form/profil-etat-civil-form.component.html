@@ -5,7 +5,12 @@
 >
   @let me = (currentUserSubject$ | async); @if (me) {
 
-  <form [formGroup]="usagerForm" (ngSubmit)="updateInfos()" autocomplete="off">
+  <form
+    [formGroup]="usagerForm"
+    (ngSubmit)="updateInfos()"
+    autocomplete="off"
+    appSupportModeDisable
+  >
     <fieldset class="fr-fieldset">
       <legend class="fr-fieldset__legend--regular fr-fieldset__legend">
         Civilité
@@ -670,6 +675,7 @@
           type="submit"
           [loading]="loading"
           label="Enregistrer les modifications"
+          appSupportModeDisable
         ></app-button>
       </div>
     </div>

@@ -40,6 +40,7 @@ export class AgendaController {
   ) {}
 
   @Get("")
+  @AllowUserStructureRoles("simple", "responsable", "admin", "support")
   public async getAll(@CurrentUser() user: UserStructureAuthenticated) {
     return await usagerRepository.findNextMeetings({
       userId: user.id,

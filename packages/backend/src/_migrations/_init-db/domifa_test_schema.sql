@@ -315,6 +315,22 @@ CREATE TABLE public.structure_stats_reporting (
     "confirmationDate" timestamp with time zone,
     "waitingTime" text
 );
+CREATE TABLE public.support_session (
+    uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
+    "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
+    version integer NOT NULL,
+    "supervisorId" integer NOT NULL,
+    "supervisorEmail" text NOT NULL,
+    "structureId" integer NOT NULL,
+    "targetUserStructureId" integer NOT NULL,
+    "startDate" timestamp with time zone NOT NULL,
+    "expiresAt" timestamp with time zone NOT NULL,
+    status text DEFAULT 'ACTIVE'::text NOT NULL,
+    "revokedAt" timestamp with time zone,
+    "revokedBy" text,
+    "revokedReason" text
+);
 CREATE TABLE public.typeorm_metadata (
     type character varying(255),
     schema character varying(255),
@@ -486,7 +502,8 @@ CREATE TABLE public.user_structure (
     "fonctionDetail" character varying(255),
     status character varying DEFAULT 'PENDING'::character varying NOT NULL,
     "emailStatus" text,
-    decision jsonb
+    decision jsonb,
+    "isSupportMode" boolean DEFAULT false NOT NULL
 );
 CREATE SEQUENCE public.user_structure_id_seq
     START WITH 1
@@ -524,7 +541,8 @@ CREATE TABLE public.user_supervisor (
     territories jsonb DEFAULT '[]'::jsonb NOT NULL,
     role text NOT NULL,
     status character varying DEFAULT 'PENDING'::character varying NOT NULL,
-    decision jsonb
+    decision jsonb,
+    support jsonb
 );
 CREATE SEQUENCE public.user_supervisor_id_seq
     AS integer
@@ -626,6 +644,8 @@ ALTER TABLE ONLY public.public_stats_cache
     ADD CONSTRAINT "PK_891fa81e1045157d39573fb1a64" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.contact_support
     ADD CONSTRAINT "PK_8e4a4781a01061a482fa33e5f5a" PRIMARY KEY (uuid);
+ALTER TABLE ONLY public.support_session
+    ADD CONSTRAINT "PK_9775e45f6521d085ab40f7b7eb2" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.user_structure
     ADD CONSTRAINT "PK_a58dc229068f494a0360b170322" PRIMARY KEY (uuid);
 ALTER TABLE ONLY public.user_structure_security
@@ -706,12 +726,14 @@ CREATE INDEX "IDX_30c4985e1148ec42ad6122f0ff" ON public.structure USING btree ("
 CREATE INDEX "IDX_3cb5af09bf7cd68d7070dbc896" ON public.usager_options_history USING btree ("usagerUUID");
 CREATE INDEX "IDX_3ff6384b58d9d6c5e66104a3e0" ON public.message_sms USING btree ("usagerRef");
 CREATE INDEX "IDX_4252acc4e242ad123a5d7b0625" ON public.expired_token USING btree ("structureId");
+CREATE INDEX "IDX_45b30ad04f808d5939efad9d08" ON public.support_session USING btree ("supervisorId");
 CREATE INDEX "IDX_495b59d0dd15e43b262f2da890" ON public.interactions USING btree ("interactionOutUUID");
 CREATE INDEX "IDX_4a2ef430c9c7a9b4a66db96ec7" ON public.interactions USING btree ("dateInteraction");
 CREATE INDEX "IDX_4cc53946a17ae327fa3c66d1d2" ON public.user_supervisor_security USING btree ("fingerprintHash");
 CREATE INDEX "IDX_547d83b925177cadc602bc7e22" ON public.user_usager USING btree (id);
 CREATE INDEX "IDX_57be1bdd772eb3fea1e201317e" ON public.user_structure_security USING btree ("structureId");
 CREATE INDEX "IDX_5d06e43196df8e4b02ceb16bc9" ON public.usager_notes USING btree (id);
+CREATE INDEX "IDX_5e3b5c549d564047e7d15922ca" ON public.support_session USING btree ("structureId");
 CREATE INDEX "IDX_6193a732dd00abc56e91e92fe4" ON public.usager_entretien USING btree ("structureId");
 CREATE INDEX "IDX_6ca23b363643ae281d2f1eddf2" ON public.usager_notes USING btree ("usagerUUID");
 CREATE INDEX "IDX_6e030c1cdb3fa54d0d735cdc6b" ON public.open_data_places USING btree (region);
@@ -757,6 +779,7 @@ CREATE INDEX "IDX_ef9fade8e5a6dac06ef5031986" ON public.interactions USING btree
 CREATE INDEX "IDX_f072e2874bd87ecb6da2fbd66e" ON public.usager USING btree (nom_prenom_surnom_ref);
 CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON public.interactions USING btree ("usagerUUID");
 CREATE INDEX "IDX_fa4dea9a1ff8deb8fcf47c451e" ON public.structure USING btree (departement);
+CREATE INDEX "IDX_support_session_structureId_status" ON public.support_session USING btree ("structureId", status);
 CREATE INDEX idx_interactions_date ON public.interactions USING btree ("structureId", "usagerUUID", "dateInteraction");
 CREATE INDEX idx_interactions_type ON public.interactions USING btree ("structureId", "usagerUUID", type);
 CREATE INDEX idx_stats_range ON public.usager_history_states USING btree ("historyBeginDate", "historyEndDate", "isActive");

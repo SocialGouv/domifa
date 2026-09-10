@@ -184,6 +184,7 @@
               label="Ajouter un passage"
               icon="user"
               (action)="setSingleInteraction(usager.ref, 'visite')"
+              appSupportModeDisable
             ></app-button>
 
             <app-button
@@ -192,6 +193,7 @@
               label="Ajouter un appel téléphonique"
               icon="phone"
               (action)="setSingleInteraction(usager.ref, 'appel')"
+              appSupportModeDisable
             ></app-button>
           </div>
           }
@@ -201,6 +203,7 @@
             type="button"
             class="fr-my-1 fr-btn fr-mr-1w"
             (click)="openInteractionInModal()"
+            appSupportModeDisable
           >
             <span class="fr-icon-mail-line fr-mr-2w" aria-hidden="true"></span>
 
@@ -212,6 +215,7 @@
             type="button"
             class="fr-my-1 fr-btn fr-mr-2w"
             (click)="openInteractionOutModal()"
+            appSupportModeDisable
           >
             <span
               class="fr-icon-mail-open-line fr-mr-2w"

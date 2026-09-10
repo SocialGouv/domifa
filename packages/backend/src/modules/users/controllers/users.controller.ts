@@ -2,6 +2,7 @@ import {
   UserStructureProfile,
   UserStructure,
   ALL_USER_STRUCTURE_ROLES,
+  SUPPORT_READ_ROLES,
   ApiMessage,
 } from "@domifa/common";
 import { Not } from "typeorm";
@@ -95,6 +96,7 @@ export class UsersController {
   ) {}
 
   @Get("")
+  @AllowUserStructureRoles(...SUPPORT_READ_ROLES)
   public async getUsers(
     @CurrentUser() user: UserStructureAuthenticated
   ): Promise<UserStructureProfile[]> {
@@ -136,6 +138,7 @@ export class UsersController {
   }
 
   @Get("last-password-update")
+  @AllowUserStructureRoles(...SUPPORT_READ_ROLES)
   public async getLastPasswordUpdate(
     @CurrentUser() user: UserStructureAuthenticated,
     @Res() res: Response

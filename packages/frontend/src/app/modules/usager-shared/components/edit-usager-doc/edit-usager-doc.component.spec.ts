@@ -5,6 +5,7 @@ import { EditUsagerDocComponent } from "./edit-usager-doc.component";
 import { provideHttpClient } from "@angular/common/http";
 import { SharedModule } from "../../../shared/shared.module";
 import { ReactiveFormsModule } from "@angular/forms";
+import { NGRX_PROVIDERS_TESTING } from "../../../../shared/store/tests";
 import { UserStructure } from "@domifa/common";
 
 describe("EditUsagerDocComponent", () => {
@@ -15,7 +16,7 @@ describe("EditUsagerDocComponent", () => {
     await TestBed.configureTestingModule({
       declarations: [EditUsagerDocComponent],
       imports: [SharedModule, ReactiveFormsModule],
-      providers: [provideHttpClient()],
+      providers: [provideHttpClient(), ...NGRX_PROVIDERS_TESTING],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 

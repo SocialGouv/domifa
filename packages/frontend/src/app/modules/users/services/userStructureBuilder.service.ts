@@ -27,6 +27,7 @@ function buildUserStructure(item?: Partial<UserStructure>): UserStructure {
     passwordLastUpdate: item?.passwordLastUpdate
       ? new Date(item.passwordLastUpdate)
       : undefined,
+    supportAttachmentExpiresAt: item?.supportAttachmentExpiresAt,
   };
   return user as UserStructure;
 }

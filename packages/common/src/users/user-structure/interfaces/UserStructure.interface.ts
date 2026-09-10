@@ -26,4 +26,10 @@ export type UserStructure = CommonUser & {
   // frontend only
   domifaVersion?: string;
   access_token?: string;
+
+  // Set only when role === "support": expiry of the active attachment to
+  // the current structure, returned by GET structures/auth/me — read by the
+  // yellow banner + write-blocking guard in packages/frontend, both keyed
+  // off role === "support" rather than a dedicated flag.
+  supportAttachmentExpiresAt?: string;
 };

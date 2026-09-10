@@ -1,5 +1,10 @@
 @if (template === 'modal') {
-<button type="button" class="fr-btn fr-btn--secondary" (click)="openModal()">
+<button
+  type="button"
+  class="fr-btn fr-btn--secondary"
+  (click)="openModal()"
+  appSupportModeDisable
+>
   <i class="fr-icon-close-line fr-mr-1w" aria-hidden="true"></i>
   Refuser le dossier
 </button>
@@ -200,6 +205,7 @@
           label="Confirmer le refus"
           icon="check"
           (action)="setDecisionRefus()"
+          appSupportModeDisable
         ></app-button>
         <app-button
           color="secondary"
@@ -401,6 +407,7 @@
         label="Confirmer le refus"
         icon="check"
         (action)="setDecisionRefus()"
+        appSupportModeDisable
       ></app-button>
       <app-button
         color="secondary"

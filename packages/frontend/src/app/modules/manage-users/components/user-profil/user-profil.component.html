@@ -31,6 +31,7 @@
             class="fr-btn fr-btn--secondary fr-icon-user-add-line fr-btn--icon-left"
             aria-controls="register-user-modal"
             data-fr-opened="false"
+            appSupportModeDisable
           >
             Ajouter un utilisateur
           </button>
@@ -136,6 +137,7 @@
                         <ng-template #contentTemplate>
                           <dsfrx-dropdownmenu-item
                             (selectItem)="openUpdateUserModal(user)"
+                            appSupportModeDisable
                           >
                             <i class="fr-icon-edit-fill" aria-hidden="true"></i>
                             Modifier l'utilisateur
@@ -143,6 +145,7 @@
 
                           <dsfrx-dropdownmenu-item
                             (selectItem)="openDeleteConfirmation(user)"
+                            appSupportModeDisable
                           >
                             <i
                               class="fr-icon-delete-fill"
@@ -852,6 +855,7 @@
         class="fr-btn"
         [disabled]="selectedRole === selectedUser.role || loading"
         (click)="submitRoleChange()"
+        appSupportModeDisable
       >
         Valider
       </button>
@@ -910,6 +914,7 @@
         (click)="deleteUser()"
         [disabled]="loading || !deleteMotif"
         [attr.aria-busy]="loading"
+        appSupportModeDisable
       >
         @if (!loading) { Confirmer la suppression } @else { Veuillez
         patienter... }
