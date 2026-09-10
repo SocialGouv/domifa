@@ -170,7 +170,7 @@ export function computeStructureFamillesRow(
   now: number = Date.now()
 ): StructureFamillesRow {
   const dossiersByBirthDay = groupByBirthDay(dossiers);
-  const row = emptyRow(structureId);
+  const row = new StructureFamillesRow(structureId);
   row.dossiers = dossiers.length;
 
   // ── Volumes ─────────────────────────────────────────────────────────────
@@ -341,33 +341,4 @@ function groupByBirthDay(
     byDay.set(dossier.birthDay, list);
   }
   return byDay;
-}
-
-function emptyRow(structureId: number): StructureFamillesRow {
-  return {
-    structureId,
-    dossiers: 0,
-    ayants_droit: 0,
-    ayants_droit_sans_date_naissance: 0,
-    dossiers_avec_conjoint: 0,
-    conjoints_identiques: 0,
-    conjoints_tres_proches: 0,
-    conjoints_douteux: 0,
-    conjoints_non_trouves: 0,
-    conjoints_autre_structure: 0,
-    couples: 0,
-    couples_croises: 0,
-    couples_memes_enfants: 0,
-    couples_enfants_en_partie_communs: 0,
-    couples_enfants_differents: 0,
-    couples_sans_enfant: 0,
-    enfants_comptes_deux_fois: 0,
-    couples_avec_parent: 0,
-    enfants_majeurs_avec_dossier: 0,
-    parents_avec_dossier: 0,
-    personnes_comptees_aujourdhui: 0,
-    personnes_reelles_estimees: 0,
-    gap_personnes: 0,
-    gap_pourcentage: 0,
-  };
 }
