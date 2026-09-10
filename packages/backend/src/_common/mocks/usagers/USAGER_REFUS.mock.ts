@@ -54,6 +54,7 @@ export const USAGER_REFUS_MOCK: Usager = {
     },
   ],
   datePremiereDom: new Date("2018-01-11T00:00:00.000Z"),
+  dateAncienneteDom: new Date("2018-01-11T00:00:00.000Z"),
   langue: null,
   email: "domicilie2@yopmail.com",
   entretien: {

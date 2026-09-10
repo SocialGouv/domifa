@@ -159,6 +159,7 @@ export const buildDecision = (
     | "typeDom"
     | "decision"
     | "datePremiereDom"
+    | "dateAncienneteDom"
     | "historique"
     | "lastInteraction"
   >,
@@ -225,6 +226,16 @@ export const buildDecision = (
     ),
     DATE_PREMIERE_DOM_FORMAT_COURT: dateFormat(
       usager.datePremiereDom,
+      structure.timeZone,
+      DATE_FORMAT.JOUR
+    ),
+    DATE_ANCIENNETE_DOM: dateFormat(
+      usager.dateAncienneteDom,
+      structure.timeZone,
+      format
+    ),
+    DATE_ANCIENNETE_DOM_FORMAT_COURT: dateFormat(
+      usager.dateAncienneteDom,
       structure.timeZone,
       DATE_FORMAT.JOUR
     ),
