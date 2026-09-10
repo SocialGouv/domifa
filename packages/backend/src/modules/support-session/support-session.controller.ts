@@ -9,7 +9,6 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Request as ExpressRequest } from "express";
 import {
   ActivateSupportSessionResponse,
@@ -34,17 +33,11 @@ import { SupportSessionService } from "./support-session.service";
 // slice of the admin API surface.
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("admin/structures/structure/:structureUuid")
-@ApiTags("dashboard")
 @AllowUserProfiles("supervisor")
 @AllowUserSupervisorRoles("super-admin-domifa")
-@ApiBearerAuth()
 export class SupportSessionController {
   constructor(private readonly supportSessionService: SupportSessionService) {}
 
-  @ApiBearerAuth()
-  @ApiOperation({
-    summary: "Activer le mode support (lecture seule) sur une structure",
-  })
   @Post("support-session")
   @UseGuards(StructureAccessGuard)
   public async activateSupportSession(
@@ -59,8 +52,6 @@ export class SupportSessionController {
     });
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({ summary: "Lister les sessions support d'une structure" })
   @Get("support-sessions")
   @UseGuards(StructureAccessGuard)
   public async listSupportSessions(
@@ -70,8 +61,6 @@ export class SupportSessionController {
     return this.supportSessionService.listForStructure(structure.id);
   }
 
-  @ApiBearerAuth()
-  @ApiOperation({ summary: "Révoquer une session support" })
   @Delete("support-session/:supportSessionUuid")
   @UseGuards(StructureAccessGuard)
   public async revokeSupportSession(
