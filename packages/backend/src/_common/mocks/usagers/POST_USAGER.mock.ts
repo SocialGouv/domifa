@@ -40,6 +40,7 @@ export const POST_USAGER: {
     version: 1,
     ayantsDroits: [
       {
+        uuid: "d2b7e6f5-3a4c-4d5e-8f6a-7b8c9d0e1f2a",
         lien: "ENFANT",
         nom: "Nom AD 1",
         prenom: "Prénom AD 1",
