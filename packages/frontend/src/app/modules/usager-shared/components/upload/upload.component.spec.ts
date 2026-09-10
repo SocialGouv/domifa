@@ -10,6 +10,7 @@ import { UsagerFormModel } from "../../interfaces";
 import { UploadComponent } from "./upload.component";
 import { RouterModule } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
+import { NGRX_PROVIDERS_TESTING } from "../../../../shared/store/tests";
 
 describe("UploadComponent", () => {
   let component: UploadComponent;
@@ -27,6 +28,7 @@ describe("UploadComponent", () => {
       providers: [
         provideHttpClient(),
         { provide: APP_BASE_HREF, useValue: "/" },
+        ...NGRX_PROVIDERS_TESTING,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
