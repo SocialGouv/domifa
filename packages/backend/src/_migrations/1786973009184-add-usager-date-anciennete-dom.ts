@@ -16,7 +16,7 @@ export class AddUsagerDateAncienneteDom1786973009184
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `ALTER TABLE "usager" ADD "dateAncienneteDom" timestamptz`
+      `ALTER TABLE "usager" ADD COLUMN IF NOT EXISTS "dateAncienneteDom" timestamptz`
     );
 
     if (
