@@ -1,3 +1,16 @@
+# [2.269.0](https://github.com/SocialGouv/domifa/compare/v2.268.0...v2.269.0) (2026-09-11)
+
+
+### Bug Fixes
+
+* **backend:** add to docs ([1f1b947](https://github.com/SocialGouv/domifa/commit/1f1b947e2ede87620fd3f33ca23abf72b2fb8cd8))
+
+
+### Features
+
+* **back, front:** fix code review ([b1b1b47](https://github.com/SocialGouv/domifa/commit/b1b1b47bc2b5b58e25997a3647c3c030f417d877))
+* **backend:** fix CI ([b89b675](https://github.com/SocialGouv/domifa/commit/b89b6754a07c222f2f33aa597a93fd294ba3e86a))
+
 # [2.268.0](https://github.com/SocialGouv/domifa/compare/v2.267.0...v2.268.0) (2026-09-09)
 
 
