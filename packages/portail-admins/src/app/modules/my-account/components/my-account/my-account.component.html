@@ -1,0 +1,94 @@
+<div class="fr-py-3w">
+  <div class="fr-container">
+    <h1 class="fr-h3">
+      <span class="fr-icon-admin-line" aria-hidden="true"></span>
+      Mon compte
+    </h1>
+
+    @if (me) {
+    <section class="fr-my-4w">
+      <h2 class="fr-h5">Informations personnelles</h2>
+      <div class="fr-grid-row fr-grid-row--gutters">
+        <div class="fr-col-md-3 fr-col-12">
+          <p class="fr-mb-1w">
+            <strong>NOM</strong><br />
+            {{ me.nom }}
+          </p>
+        </div>
+        <div class="fr-col-md-3 fr-col-12">
+          <p class="fr-mb-1w">
+            <strong>PRÉNOM</strong><br />
+            {{ me.prenom }}
+          </p>
+        </div>
+        <div class="fr-col-md-4 fr-col-12">
+          <p class="fr-mb-1w">
+            <strong>EMAIL</strong><br />
+            {{ me.email }}
+          </p>
+        </div>
+      </div>
+    </section>
+    }
+
+    <section class="fr-mb-4w">
+      <div
+        class="fr-grid-row fr-grid-row--middle fr-justify-content-between fr-mb-2w"
+      >
+        <h2 class="fr-h5 fr-my-0">
+          <span class="fr-icon-lock-fill" aria-hidden="true"></span> Mot de
+          passe
+        </h2>
+        @if (!editPassword) {
+        <button
+          (click)="openPasswordForm()"
+          type="button"
+          class="fr-btn fr-btn--secondary"
+        >
+          <span class="fr-icon-edit-line fr-mr-1w" aria-hidden="true"></span>
+          Modifier mon mot de passe
+        </button>
+        }
+      </div>
+
+      <div class="fr-notice fr-notice--info fr-mb-3w">
+        <div class="fr-container">
+          <div class="fr-notice__body">
+            <p>
+              <span class="fr-notice__title fr-mb-2w">
+                Protégez votre accès et les données des personnes que vous
+                accompagnez<br />
+              </span>
+              <span class="fr-notice__desc">
+                Un mot de passe régulièrement renouvelé réduit fortement le
+                risque de piratage de votre compte. Il est recommandé de le
+                modifier au moins une fois par an. <br />
+                - N’utilisez jamais le même mot de passe sur plusieurs
+                services<br />
+                - Privilégiez un mot de passe robuste, facile à retenir mais
+                difficile à deviner<br />
+                - Évitez les informations personnelles évidentes (nom, date de
+                naissance, etc.)
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      @if (!editPassword) {
+      <div class="fr-callout fr-callout--info">
+        <p class="fr-callout__text">{{ lastPasswordUpdate }}</p>
+      </div>
+      } @if (editPassword) {
+      <div class="fr-col-12 fr-col-md-6">
+        <app-edit-password-form
+          cancelLabel="Annuler les modifications"
+          (success)="onPasswordChanged()"
+          (cancelled)="onPasswordCancel()"
+        >
+        </app-edit-password-form>
+      </div>
+      }
+    </section>
+  </div>
+</div>

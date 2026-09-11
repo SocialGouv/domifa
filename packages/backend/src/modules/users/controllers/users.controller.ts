@@ -31,6 +31,7 @@ import {
   UserStructureAuthenticated,
 } from "../../../_common/model";
 import {
+  AllowExpiredPassword,
   AllowUserStructureRoles,
   CurrentUser,
   CurrentChosenUserStructure,
@@ -119,6 +120,7 @@ export class UsersController {
     return users;
   }
 
+  @AllowExpiredPassword()
   @Get("accept-terms")
   public async acceptTerms(@CurrentUser() user: UserStructureAuthenticated) {
     await userStructureRepository.update(
@@ -133,19 +135,6 @@ export class UsersController {
       );
     }
     return true;
-  }
-
-  @Get("last-password-update")
-  public async getLastPasswordUpdate(
-    @CurrentUser() user: UserStructureAuthenticated,
-    @Res() res: Response
-  ) {
-    const newUser = await userStructureRepository.findOne({
-      where: { id: user.id, status: Not("DELETE") },
-      select: ["passwordLastUpdate"],
-    });
-
-    return res.status(HttpStatus.OK).json(newUser?.passwordLastUpdate ?? null);
   }
 
   @AllowUserStructureRoles("admin")
@@ -384,6 +373,7 @@ export class UsersController {
   }
 
   // Edition d'un mot de passe quand on est déjà connecté
+  @AllowExpiredPassword()
   @Post("edit-my-password")
   public async editPassword(
     @Req() req: ExpressRequest,
@@ -401,6 +391,16 @@ export class UsersController {
       });
       return res.status(HttpStatus.OK).json({ message: "OK" });
     } catch (err) {
+      if ((err as Error)?.message === "NEW_PASSWORD_SAME_AS_OLD") {
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: "NEW_PASSWORD_SAME_AS_OLD" });
+      }
+      if ((err as Error)?.message === "NEW_PASSWORD_ALREADY_USED") {
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: "NEW_PASSWORD_ALREADY_USED" });
+      }
       appLogger.error(err);
       return res
         .status(HttpStatus.BAD_REQUEST)

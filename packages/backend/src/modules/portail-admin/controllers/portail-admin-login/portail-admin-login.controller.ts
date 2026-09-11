@@ -25,6 +25,7 @@ import { UserSupervisor } from "@domifa/common";
 import { AuthGuard } from "@nestjs/passport";
 import { USER_SUPERVISOR_ROLES } from "../../../../_common/model/users/user-supervisor";
 import {
+  AllowExpiredPassword,
   AllowUserProfiles,
   AllowUserSupervisorRoles,
   CurrentUser,
@@ -129,6 +130,7 @@ export class PortailAdminLoginController {
   @UseGuards(AuthGuard("jwt"), AppUserGuard)
   @AllowUserProfiles("supervisor")
   @AllowUserSupervisorRoles(...USER_SUPERVISOR_ROLES)
+  @AllowExpiredPassword()
   @Get("logout")
   public async logout(
     @Req() req: ExpressRequest,
@@ -160,6 +162,11 @@ export class PortailAdminLoginController {
   @UseGuards(AuthGuard("jwt"), AppUserGuard)
   @AllowUserProfiles("supervisor")
   @AllowUserSupervisorRoles(...USER_SUPERVISOR_ROLES)
+  // Called by the frontend's isAuth() on every guarded route navigation,
+  // including navigating to the renewal page itself — must stay reachable
+  // once the password is EXPIRED, or the AuthGuard's redirect there would
+  // instead read as a failed isAuth() and force a full logout.
+  @AllowExpiredPassword()
   public async meAdmin(@CurrentUser() currentUser: UserAdminAuthenticated) {
     return userSupervisorRepository.getAdminProfile(currentUser._userId);
   }

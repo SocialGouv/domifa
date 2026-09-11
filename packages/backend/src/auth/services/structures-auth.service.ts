@@ -40,6 +40,7 @@ export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
   "fonction",
   "fonctionDetail",
   "createdAt",
+  "passwordLastUpdate",
 ];
 
 type ReactivationType = "STRUCTURE" | "ACCOUNT";
@@ -110,6 +111,8 @@ export class StructuresAuthService {
       fonctionDetail: user.fonctionDetail,
       role: user.role,
       acceptTerms: user.acceptTerms,
+      passwordLastUpdate: user.passwordLastUpdate,
+      createdAt: user.createdAt,
       structureId: user.structureId,
       domifaVersion: domifaConfig().version.toString(),
       fingerprintHash: session.fingerprintHash,

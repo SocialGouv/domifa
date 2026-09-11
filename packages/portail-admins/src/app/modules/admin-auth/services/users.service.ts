@@ -34,4 +34,12 @@ export class UsersService {
   }) {
     return this.http.post(`${this.endPoint}/reset-password`, data);
   }
+
+  public updateMyPassword(data: {
+    passwordConfirmation: string;
+    password: string;
+    oldPassword: string;
+  }) {
+    return this.http.post(`${this.endPoint}/edit-my-password`, data);
+  }
 }

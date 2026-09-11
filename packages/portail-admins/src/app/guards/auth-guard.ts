@@ -7,8 +7,10 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
 } from "@angular/router";
-import { UserSupervisorRole } from "@domifa/common";
+import { getPasswordChangeStatus, UserSupervisorRole } from "@domifa/common";
 import { CustomToastService } from "../modules/shared/services";
+
+const RENEW_PASSWORD_PATH = "/renouveler-mot-de-passe";
 @Injectable({ providedIn: "root" })
 export class AuthGuard {
   constructor(
@@ -27,6 +29,21 @@ export class AuthGuard {
       map((isAuth: boolean) => {
         if (!isAuth) {
           this.authService.logoutAndRedirect(state);
+          return false;
+        }
+
+        const isOnRenewPasswordPage = state.url.startsWith(RENEW_PASSWORD_PATH);
+
+        if (
+          getPasswordChangeStatus(
+            this.authService.currentUserValue?.passwordLastUpdate,
+            this.authService.currentUserValue?.createdAt
+          ) === "EXPIRED" &&
+          !isOnRenewPasswordPage
+        ) {
+          this.router.navigate([RENEW_PASSWORD_PATH], {
+            queryParams: { returnUrl: state.url },
+          });
           return false;
         }
 
