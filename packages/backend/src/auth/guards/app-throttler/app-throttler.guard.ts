@@ -35,7 +35,7 @@ import {
 import { IpBanCacheService } from "../../../modules/ip-ban";
 import { userStatusManager } from "../../../modules/users/services";
 import { UserProfile } from "../../../_common/model";
-import { appLogger } from "../../../util";
+import { appLogger, redactSensitiveUrl } from "../../../util";
 import { getClientIp } from "../../../util/express/clientRequest.helper";
 import {
   AttemptedTargetRoute,
@@ -189,7 +189,7 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       ip: sanitizeForLog(clientIp),
       userAgent,
       method: sanitizeForLog(request.method) ?? "",
-      url: sanitizeForLog(request.url) ?? "",
+      url: sanitizeForLog(redactSensitiveUrl(request.url ?? "")) ?? "",
       jwtUser,
       attemptedIdentifier: attemptedTarget?.identifier,
       headers: extractRequestHeaders(request),
@@ -250,7 +250,7 @@ export class AppThrottlerGuard extends ThrottlerGuard {
       ip: sanitizeForLog(clientIp),
       userAgent,
       method: sanitizeForLog(request.method) ?? "",
-      url: sanitizeForLog(request.url) ?? "",
+      url: sanitizeForLog(redactSensitiveUrl(request.url ?? "")) ?? "",
       jwtUser,
       reason,
       origin: sanitizeForLog(request.headers["origin"]),

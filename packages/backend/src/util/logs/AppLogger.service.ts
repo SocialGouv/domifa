@@ -13,6 +13,7 @@ import {
   SeverityLevel,
 } from "@sentry/nestjs";
 import { IncomingMessage } from "node:http";
+import { isAxiosError } from "axios";
 import { domifaConfig } from "../../config";
 
 class Store {
@@ -20,7 +21,7 @@ class Store {
 }
 
 const requestContextStorage = new AsyncLocalStorage<Store>();
-const pinoOptions: LoggerOptions = {
+export const pinoOptions: LoggerOptions = {
   redact: {
     paths: [
       "password",
@@ -30,13 +31,22 @@ const pinoOptions: LoggerOptions = {
       "body.password",
       "body.token",
       "body.secret",
+      "body.passwordConfirmation",
+      "body.oldPassword",
+      "body.newPassword",
+      "body.trustToken",
+      "body.otpCode",
+      "req.headers.cookie",
+      'req.headers["otp-code"]',
+      'res.headers["set-cookie"]',
     ],
     censor: "[REDACTED]",
   },
   serializers: {
     req: (request: IncomingMessage) =>
-      redactAuthorizationHeader(pinoSerializers.req(request)),
+      redactSensitiveRequestFields(pinoSerializers.req(request)),
     res: pinoSerializers.res,
+    err: serializeError,
     body: (body) => {
       return body;
     },
@@ -48,13 +58,18 @@ const rootLogger: Logger = traceCaller(pino(pinoOptions));
 function log(
   logger: Logger,
   level: string,
-  message: string,
+  message: string | Error,
   options?: {
     context?: Record<string, any>;
     error?: any | Error;
     sentry?: boolean;
   }
 ) {
+  if (message instanceof Error) {
+    options = { ...options, error: options?.error ?? message };
+    message = message.message;
+  }
+
   const severityLevel: SeverityLevel =
     level === "warn" ? "warning" : (level as SeverityLevel);
 
@@ -94,7 +109,16 @@ export function addLogContext(fields: pino.Bindings) {
 
 type RequestWithId = Request & { id: string | string[] };
 
-function redactAuthorizationHeader(req: SerializedRequest): SerializedRequest {
+const SENSITIVE_URL_PATTERN =
+  /\/(check-password-token|confirm-email-update)\/([^/?#]+)\/[^/?#]+/g;
+
+export function redactSensitiveUrl(url: string): string {
+  return url.replace(SENSITIVE_URL_PATTERN, "/$1/$2/[REDACTED]");
+}
+
+function redactSensitiveRequestFields(
+  req: SerializedRequest
+): SerializedRequest {
   const authorization = req.headers.authorization;
   if (authorization) {
     req.headers = {
@@ -102,8 +126,29 @@ function redactAuthorizationHeader(req: SerializedRequest): SerializedRequest {
       authorization: `${authorization.slice(0, 10)}-REDACTED`,
     };
   }
+  if (req.url) {
+    req.url = redactSensitiveUrl(req.url);
+  }
 
   return req;
+}
+
+export function serializeError(error: unknown) {
+  if (isAxiosError(error)) {
+    return {
+      type: "AxiosError",
+      message: error.message,
+      code: error.code,
+      status: error.response?.status,
+      method: error.config?.method,
+      url: error.config?.url?.split("?")[0],
+      stack: error.stack,
+    };
+  }
+  if (error instanceof Error) {
+    return pinoSerializers.err(error);
+  }
+  return error;
 }
 
 // Alphanumeric + hyphen, capped at 64 chars. The id ends up in log lines and

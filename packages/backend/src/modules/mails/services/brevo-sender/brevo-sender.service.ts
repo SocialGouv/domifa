@@ -202,14 +202,15 @@ export class BrevoSenderService {
           },
         ];
       }
-      console.info(sendSmtpEmail);
       const result = await this.transactionalEmailsApi.sendTransacEmail(
         sendSmtpEmail
       );
-      console.info({ result });
+      appLogger.info("[BREVO] Email envoyé", {
+        context: { templateId, messageId: result.body?.messageId },
+      });
       return result;
     } catch (error) {
-      console.error("Erreur lors de l'envoi du mail:", error);
+      appLogger.error("[BREVO] Erreur lors de l'envoi du mail", { error });
       throw error;
     }
   }

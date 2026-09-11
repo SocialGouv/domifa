@@ -33,6 +33,8 @@ export class SecurityAlertEmailService {
         connectionTimeout: timeoutMs,
         greetingTimeout: timeoutMs,
         socketTimeout: timeoutMs,
+        disableFileAccess: true,
+        disableUrlAccess: true,
       });
     }
     return this.transporter;
@@ -72,10 +74,11 @@ export class SecurityAlertEmailService {
       return { sent: true };
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
+      const code = (error as { code?: string } | null)?.code ?? "UNKNOWN";
       this.logger.error(
         `[SECURITY ALERT] Erreur lors de l'envoi a ${effectiveRecipients.join(
           ", "
-        )}: ${message}`
+        )} [${code}]: ${message}`
       );
       throw error;
     }

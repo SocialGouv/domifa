@@ -86,7 +86,10 @@ export class MessageSmsSenderService {
           MESSAGE_SMS_RESPONSE_ERRORS[responseContent.responseCode];
       }
     } catch (err) {
-      console.log(err);
+      appLogger.error("[SMS] Erreur lors de l'envoi du SMS", {
+        error: err,
+        context: { uuid: message.uuid },
+      });
       updateSms.status = "FAILURE";
       updateSms.errorCount++;
       updateSms.errorMessage = (err as AxiosError)?.message;
