@@ -54,7 +54,7 @@
     "google-libphonenumber": "^3.2.42",
     "ngx-matomo-client": "^8.0.0",
     "rxjs": "^7.8.2",
-    "uuid": "^9.0.1",
+    "uuid": "^14.0.2",
     "zone.js": "~0.15.1"
   },
   "devDependencies": {
