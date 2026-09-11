@@ -1,5 +1,10 @@
-import { UsagerSexe, COUNTRIES, Telephone } from "@domifa/common";
-import { Type } from "class-transformer";
+import {
+  UsagerSexe,
+  COUNTRIES,
+  Telephone,
+  UsagerAyantDroit,
+} from "@domifa/common";
+import { plainToInstance, Transform, Type } from "class-transformer";
 import {
   ArrayMaxSize,
   IsArray,
@@ -12,9 +17,11 @@ import {
   IsObject,
   IsOptional,
   IsString,
+  isUUID,
   MaxLength,
   ValidateNested,
 } from "class-validator";
+import { v4 as uuidv4 } from "uuid";
 import {
   StripTagsTransform,
   TrimOrNullTransform,
@@ -102,7 +109,20 @@ export class CreateUsagerDto {
   @ArrayMaxSize(20)
   @ValidateNested({ each: true })
   @Type(() => UsagerAyantDroitDto)
-  public ayantsDroits!: UsagerAyantDroitDto[];
+  // Give every ayant droit a well-formed uuid: keep the one the frontend rounds
+  // back for an existing row, mint one for a new / empty / malformed row.
+  @Transform(({ value }) =>
+    Array.isArray(value)
+      ? plainToInstance(
+          UsagerAyantDroitDto,
+          value.map((ayantDroit) => ({
+            ...ayantDroit,
+            uuid: isUUID(ayantDroit?.uuid) ? ayantDroit.uuid : uuidv4(),
+          }))
+        )
+      : value
+  )
+  public ayantsDroits!: UsagerAyantDroit[];
 
   @IsOptional()
   @MaxLength(50)
