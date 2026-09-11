@@ -10,4 +10,4 @@ coverage
 .eslintrc.js
 
 .babel.config.js
-.jest.config.js
+jest.config.ts

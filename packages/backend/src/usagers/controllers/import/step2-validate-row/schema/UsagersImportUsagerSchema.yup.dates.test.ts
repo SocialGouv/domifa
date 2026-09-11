@@ -40,7 +40,7 @@ describe("UsagersImportCiviliteSchema dates", () => {
         },
         { context }
       )
-    ).rejects.toThrowError(
+    ).rejects.toThrow(
       "dateDebutDom must be a `date` type, but the final value was: `Invalid Date`."
     );
   });
@@ -56,7 +56,7 @@ describe("UsagersImportCiviliteSchema dates", () => {
         },
         { context }
       )
-    ).rejects.toThrowError(
+    ).rejects.toThrow(
       "dateDebutDom field must be later than 1900-01-01T00:00:00.000Z"
     );
   });
@@ -72,7 +72,7 @@ describe("UsagersImportCiviliteSchema dates", () => {
         },
         { context }
       )
-    ).rejects.toThrowError(
+    ).rejects.toThrow(
       "dateDebutDom must be a `date` type, but the final value was: `Invalid Date`."
     );
   });
@@ -88,7 +88,7 @@ describe("UsagersImportCiviliteSchema dates", () => {
         },
         { context }
       )
-    ).rejects.toThrowError(
+    ).rejects.toThrow(
       "dateFinDom must be a `date` type, but the final value was: `Invalid Date`."
     );
   });
@@ -104,7 +104,7 @@ describe("UsagersImportCiviliteSchema dates", () => {
         },
         { context }
       )
-    ).rejects.toThrowError(
+    ).rejects.toThrow(
       "dateFinDom field must be later than 2022-02-03T12:00:00.000Z"
     );
   });
