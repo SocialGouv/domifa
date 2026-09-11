@@ -1,75 +1,65 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
-import { v4 as uuidv4 } from "uuid";
-import { UsagerAyantDroit } from "@domifa/common";
+import { domifaConfig } from "../config";
 import { appLogger } from "../util";
 
-/**
- * Backfill a stable `uuid` on every ayant droit stored in `usager.ayantsDroits`.
- *
- * - only touches ayants droit that don't already have a `uuid` (replayable: a
- *   second run selects nothing and writes nothing)
- * - processes usagers in batches, each batch in its own transaction
- *   (migrationsTransactionMode is "none")
- * - scope is the `usager` table only, `usager_history_states` is left untouched
- */
+// Backfill a stable `uuid` on every ayant droit stored in `usager.ayantsDroits`.
+// Only ayants droit that don't already have one are touched, so the migration is
+// replayable (a second run updates nothing). Dev/test databases get their data
+// from the dumps, which already carry the uuids, so we skip them here.
+//
+// Done as a single server-side UPDATE, not a SELECT-into-JS-then-write-back:
+// each row's new `ayantsDroits` is computed from that same row's current value
+// as part of the UPDATE itself (Postgres takes the row lock for the statement),
+// so a concurrent PATCH /usagers/:ref landing while this runs can't be silently
+// reverted — there's no read/modify/write window for it to land in.
 export class AddUuidToAyantsDroits1789048027887 implements MigrationInterface {
   name = "AddUuidToAyantsDroits1789048027887";
 
-  private readonly BATCH_SIZE = 500;
-
   public async up(queryRunner: QueryRunner): Promise<void> {
-    let totalUpdated = 0;
-
-    appLogger.warn("[ayantsDroits-uuid] start backfill");
-
-    for (;;) {
-      const rows: { uuid: string; ayantsDroits: UsagerAyantDroit[] }[] =
-        await queryRunner.query(
-          `SELECT uuid, "ayantsDroits"
-             FROM usager
-            WHERE jsonb_typeof("ayantsDroits") = 'array'
-              AND EXISTS (
-                SELECT 1
-                  FROM jsonb_array_elements("ayantsDroits") AS elem
-                 WHERE elem->>'uuid' IS NULL
-              )
-            LIMIT $1`,
-          [this.BATCH_SIZE]
-        );
-
-      if (rows.length === 0) {
-        break;
-      }
-
-      await queryRunner.startTransaction();
-      try {
-        for (const row of rows) {
-          const ayantsDroits = (row.ayantsDroits ?? []).map((ayantDroit) =>
-            ayantDroit?.uuid ? ayantDroit : { ...ayantDroit, uuid: uuidv4() }
-          );
-
-          await queryRunner.query(
-            `UPDATE usager SET "ayantsDroits" = $1 WHERE uuid = $2`,
-            [JSON.stringify(ayantsDroits), row.uuid]
-          );
-        }
-        await queryRunner.commitTransaction();
-      } catch (error) {
-        await queryRunner.rollbackTransaction();
-        throw error;
-      }
-
-      totalUpdated += rows.length;
-      appLogger.warn(`[ayantsDroits-uuid] ${totalUpdated} usagers updated`);
+    const env = domifaConfig().envId;
+    if (env !== "prod" && env !== "preprod" && env !== "local") {
+      appLogger.warn(
+        `[backfill ayantsDroits uuid] ignorée: env "${env}" (prod/preprod/local uniquement)`
+      );
+      return;
     }
 
-    appLogger.warn(
-      `[ayantsDroits-uuid] done — ${totalUpdated} usagers updated in total`
+    const [{ count }]: { count: string }[] = await queryRunner.query(
+      `SELECT count(*) AS count
+         FROM usager
+        WHERE jsonb_typeof("ayantsDroits") = 'array'
+          AND EXISTS (
+            SELECT 1 FROM jsonb_array_elements("ayantsDroits") AS elem
+            WHERE elem->>'uuid' IS NULL
+          )`
     );
+    appLogger.warn(
+      `[backfill ayantsDroits uuid] ${count} usagers à mettre à jour`
+    );
+
+    await queryRunner.query(
+      `UPDATE usager
+          SET "ayantsDroits" = (
+            SELECT jsonb_agg(
+                     CASE
+                       WHEN elem->>'uuid' IS NOT NULL THEN elem
+                       ELSE elem || jsonb_build_object('uuid', gen_random_uuid())
+                     END
+                     ORDER BY ord
+                   )
+              FROM jsonb_array_elements("ayantsDroits") WITH ORDINALITY t(elem, ord)
+          )
+        WHERE jsonb_typeof("ayantsDroits") = 'array'
+          AND EXISTS (
+            SELECT 1 FROM jsonb_array_elements("ayantsDroits") AS elem
+            WHERE elem->>'uuid' IS NULL
+          )`
+    );
+
+    appLogger.warn("[backfill ayantsDroits uuid] terminé");
   }
 
   public async down(): Promise<void> {
-    // No down: `uuid` is now a required field on AyantDroit, removing the ids
-    // would break the contract. Nothing to revert.
+    // `uuid` is now required on AyantDroit: nothing to revert.
   }
 }
