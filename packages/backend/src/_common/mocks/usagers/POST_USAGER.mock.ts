@@ -10,6 +10,8 @@ export const POST_USAGER: {
     numeroDistribution: null,
     ayantsDroits: [
       {
+        // the form sends "" for a new row; the DTO transform replaces it
+        uuid: "",
         lien: "ENFANT",
         nom: "Nom AD 1 ",
         prenom: "Prénom AD 1 ",
