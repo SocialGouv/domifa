@@ -10,6 +10,7 @@ import {
   FAMILLES_SCORE_SAME_PERSON,
 } from "../constants/FAMILLES_ANALYSIS.const";
 import {
+  AyantDroitLight,
   DossierLight,
   StructureFamillesRow,
 } from "../types/famillesAnalysis.types";
@@ -226,6 +227,270 @@ class PersonIdentities {
   }
 }
 
+// Node id of the `adIndex`-th ayant droit of a dossier, for PersonIdentities.
+function adNodeId(dossier: DossierLight, adIndex: number): string {
+  return `${dossier.uuid}#${adIndex}`;
+}
+
+// Registers a dossier and its ayants droit as identity nodes and updates the
+// volume counters (ayants_droit, ayants_droit_sans_date_naissance,
+// dossiers_avec_conjoint) for that one dossier.
+function registerDossierNodes(
+  row: StructureFamillesRow,
+  dossier: DossierLight,
+  personNodes: string[]
+): void {
+  personNodes.push(dossier.uuid);
+  row.ayants_droit += dossier.ayantsDroits.length;
+  let hasSpouse = false;
+  for (const [adIndex, ad] of dossier.ayantsDroits.entries()) {
+    personNodes.push(adNodeId(dossier, adIndex));
+    if (!ad.birthDay) {
+      row.ayants_droit_sans_date_naissance++;
+    }
+    if (ad.lien === "CONJOINT") {
+      hasSpouse = true;
+    }
+  }
+  if (hasSpouse) {
+    row.dossiers_avec_conjoint++;
+  }
+}
+
+// One declared conjoint: buckets it (identical / very close / doubtful /
+// elsewhere / not found) and, if found in this structure, merges the identity
+// and records the couple.
+function matchConjointEntry(
+  row: StructureFamillesRow,
+  dossier: DossierLight,
+  adIndex: number,
+  ad: AyantDroitLight,
+  dossiersByBirthDay: Map<string, DossierLight[]>,
+  globalExactKeys: Set<string>,
+  identities: PersonIdentities,
+  couplePairs: Map<string, [DossierLight, DossierLight]>,
+  declaredSpouseLinks: Set<string>
+): void {
+  if (!ad.birthDay) {
+    // unmeasurable, not "searched and not found": kept out of
+    // conjoints_non_trouves so it doesn't bias the couple count down
+    row.conjoints_sans_date_naissance++;
+    return;
+  }
+  const match = bestMatch(
+    ad.key,
+    ad.birthDay,
+    dossiersByBirthDay,
+    dossier.uuid
+  );
+
+  if (match.score >= FAMILLES_SCORE_IDENTIQUE) {
+    row.conjoints_identiques++;
+  } else if (match.score >= FAMILLES_SCORE_SAME_PERSON) {
+    row.conjoints_tres_proches++;
+  } else if (match.score >= FAMILLES_SCORE_DOUTEUX) {
+    row.conjoints_douteux++;
+    return;
+  } else if (globalExactKeys.has(`${ad.birthDay}|${ad.key}`)) {
+    row.conjoints_autre_structure++;
+    return;
+  } else {
+    row.conjoints_non_trouves++;
+    return;
+  }
+
+  // spouse found in this structure -> the couple, and the same person
+  const spouse = match.candidate;
+  if (!spouse) {
+    return;
+  }
+  identities.union(adNodeId(dossier, adIndex), spouse.uuid);
+  declaredSpouseLinks.add(`${dossier.uuid}->${spouse.uuid}`);
+  const pairKey = [dossier.uuid, spouse.uuid]
+    .sort((a, b) => a.localeCompare(b))
+    .join("|");
+  if (!couplePairs.has(pairKey)) {
+    couplePairs.set(pairKey, [dossier, spouse]);
+  }
+}
+
+// Every declared conjoint of every dossier: fills the conjoints_* buckets and
+// returns the couples found (pairKey -> the two dossiers) plus who declared
+// whom, for matchCoupleChildren below.
+function matchConjoints(
+  row: StructureFamillesRow,
+  dossiers: DossierLight[],
+  dossiersByBirthDay: Map<string, DossierLight[]>,
+  globalExactKeys: Set<string>,
+  identities: PersonIdentities
+): {
+  couplePairs: Map<string, [DossierLight, DossierLight]>;
+  declaredSpouseLinks: Set<string>;
+} {
+  // pairKey ("uuidA|uuidB", uuids sorted) -> the two dossiers of the couple
+  const couplePairs = new Map<string, [DossierLight, DossierLight]>();
+  // "declarerUuid->spouseUuid" for every spouse found (score >= SAME_PERSON)
+  const declaredSpouseLinks = new Set<string>();
+
+  for (const dossier of dossiers) {
+    for (const [adIndex, ad] of dossier.ayantsDroits.entries()) {
+      if (ad.lien !== "CONJOINT") {
+        continue;
+      }
+      matchConjointEntry(
+        row,
+        dossier,
+        adIndex,
+        ad,
+        dossiersByBirthDay,
+        globalExactKeys,
+        identities,
+        couplePairs,
+        declaredSpouseLinks
+      );
+    }
+  }
+
+  row.couples = couplePairs.size;
+  return { couplePairs, declaredSpouseLinks };
+}
+
+// Children, cross-declaration and parents of one couple.
+function matchCoupleChildren(
+  row: StructureFamillesRow,
+  pairKey: string,
+  a: DossierLight,
+  b: DossierLight,
+  declaredSpouseLinks: Set<string>,
+  identities: PersonIdentities
+): void {
+  const [uuidA, uuidB] = pairKey.split("|");
+  if (
+    declaredSpouseLinks.has(`${uuidA}->${uuidB}`) &&
+    declaredSpouseLinks.has(`${uuidB}->${uuidA}`)
+  ) {
+    row.couples_croises++;
+  }
+
+  const childrenA = [...a.ayantsDroits.entries()].filter(
+    ([, ad]) => ad.lien === "ENFANT"
+  );
+  const childrenB = [...b.ayantsDroits.entries()].filter(
+    ([, ad]) => ad.lien === "ENFANT"
+  );
+  const matches = matchCommonChildren(
+    childrenA.map(([, ad]) => ad),
+    childrenB.map(([, ad]) => ad)
+  );
+  for (const { indexA, indexB } of matches) {
+    // the same child declared by both parents: one real person, not two
+    identities.union(
+      adNodeId(a, childrenA[indexA][0]),
+      adNodeId(b, childrenB[indexB][0])
+    );
+  }
+  const common = matches.length;
+
+  if (childrenA.length === 0 && childrenB.length === 0) {
+    row.couples_sans_enfant++;
+  } else if (
+    common > 0 &&
+    common === childrenA.length &&
+    common === childrenB.length
+  ) {
+    row.couples_memes_enfants++;
+  } else if (common > 0) {
+    row.couples_enfants_en_partie_communs++;
+  } else {
+    // children on at least one side, none in common (includes the case
+    // where only one dossier declares children) — see plan note
+    row.couples_enfants_differents++;
+  }
+  row.enfants_comptes_deux_fois += common;
+
+  if (
+    a.ayantsDroits.some((ad) => ad.lien === "PARENT") ||
+    b.ayantsDroits.some((ad) => ad.lien === "PARENT")
+  ) {
+    row.couples_avec_parent++;
+  }
+}
+
+// An adult child (or a parent) that turns out to have their own dossier here
+// is the same person as that dossier — merge the identity.
+function matchOwnDossier(
+  dossier: DossierLight,
+  adIndex: number,
+  ad: AyantDroitLight,
+  dossiersByBirthDay: Map<string, DossierLight[]>,
+  identities: PersonIdentities,
+  onFound: () => void
+): void {
+  const match = bestMatch(
+    ad.key,
+    ad.birthDay,
+    dossiersByBirthDay,
+    dossier.uuid
+  );
+  if (match.score >= FAMILLES_SCORE_IDENTIQUE && match.candidate) {
+    onFound();
+    identities.union(adNodeId(dossier, adIndex), match.candidate.uuid);
+  }
+}
+
+// Adult children and parents declared on one dossier that also have their own
+// dossier in the structure.
+function matchAdultDependants(
+  row: StructureFamillesRow,
+  dossier: DossierLight,
+  dossiersByBirthDay: Map<string, DossierLight[]>,
+  identities: PersonIdentities,
+  now: number
+): void {
+  for (const [adIndex, ad] of dossier.ayantsDroits.entries()) {
+    if (ad.lien === "ENFANT" && isAdultOn(ad.birthDay, now)) {
+      matchOwnDossier(
+        dossier,
+        adIndex,
+        ad,
+        dossiersByBirthDay,
+        identities,
+        () => row.enfants_majeurs_avec_dossier++
+      );
+    } else if (ad.lien === "PARENT") {
+      matchOwnDossier(
+        dossier,
+        adIndex,
+        ad,
+        dossiersByBirthDay,
+        identities,
+        () => row.parents_avec_dossier++
+      );
+    }
+  }
+}
+
+// personnes_reelles_estimees is the number of distinct identities left after
+// every match above (spouse, common child, adult child/parent with their own
+// dossier) has been merged, transitively — so a person matched through more
+// than one route is never subtracted more than once.
+function computePopulationGap(
+  row: StructureFamillesRow,
+  identities: PersonIdentities,
+  personNodes: string[]
+): void {
+  row.personnes_comptees_aujourdhui = row.dossiers + row.ayants_droit;
+  row.personnes_reelles_estimees = identities.countGroups(personNodes);
+  row.gap_personnes =
+    row.personnes_comptees_aujourdhui - row.personnes_reelles_estimees;
+  row.gap_pourcentage =
+    row.personnes_comptees_aujourdhui === 0
+      ? 0
+      : Math.round(
+          (row.gap_personnes / row.personnes_comptees_aujourdhui) * 100
+        );
+}
+
 // All the counters for one structure. Pure: no database, no clock beyond `now`
 // for the adult-child age test.
 export function computeStructureFamillesRow(
@@ -239,187 +504,31 @@ export function computeStructureFamillesRow(
   row.dossiers = dossiers.length;
 
   // One node per dossier and per ayant droit occurrence; matched ones are
-  // merged below. personnes_reelles_estimees is the number of groups left.
+  // merged transitively by the steps below.
   const identities = new PersonIdentities();
   const personNodes: string[] = [];
-  const adNodeId = (dossier: DossierLight, adIndex: number): string =>
-    `${dossier.uuid}#${adIndex}`;
-
-  // ── Volumes ─────────────────────────────────────────────────────────────
-  for (const dossier of dossiers) {
-    personNodes.push(dossier.uuid);
-    row.ayants_droit += dossier.ayantsDroits.length;
-    let hasSpouse = false;
-    for (const [adIndex, ad] of dossier.ayantsDroits.entries()) {
-      personNodes.push(adNodeId(dossier, adIndex));
-      if (!ad.birthDay) {
-        row.ayants_droit_sans_date_naissance++;
-      }
-      if (ad.lien === "CONJOINT") {
-        hasSpouse = true;
-      }
-    }
-    if (hasSpouse) {
-      row.dossiers_avec_conjoint++;
-    }
-  }
-
-  // ── Conjoints & couples ─────────────────────────────────────────────────
-  // pairKey ("uuidA|uuidB", uuids sorted) -> the two dossiers of the couple
-  const couplePairs = new Map<string, [DossierLight, DossierLight]>();
-  // "declarerUuid->spouseUuid" for every spouse found (score >= SAME_PERSON)
-  const declaredSpouseLinks = new Set<string>();
 
   for (const dossier of dossiers) {
-    for (const [adIndex, ad] of dossier.ayantsDroits.entries()) {
-      if (ad.lien !== "CONJOINT") {
-        continue;
-      }
-      if (!ad.birthDay) {
-        // unmeasurable, not "searched and not found": kept out of
-        // conjoints_non_trouves so it doesn't bias the couple count down
-        row.conjoints_sans_date_naissance++;
-        continue;
-      }
-      const match = bestMatch(
-        ad.key,
-        ad.birthDay,
-        dossiersByBirthDay,
-        dossier.uuid
-      );
-
-      if (match.score >= FAMILLES_SCORE_IDENTIQUE) {
-        row.conjoints_identiques++;
-      } else if (match.score >= FAMILLES_SCORE_SAME_PERSON) {
-        row.conjoints_tres_proches++;
-      } else if (match.score >= FAMILLES_SCORE_DOUTEUX) {
-        row.conjoints_douteux++;
-        continue;
-      } else if (globalExactKeys.has(`${ad.birthDay}|${ad.key}`)) {
-        row.conjoints_autre_structure++;
-        continue;
-      } else {
-        row.conjoints_non_trouves++;
-        continue;
-      }
-
-      // spouse found in this structure -> the couple, and the same person
-      const spouse = match.candidate;
-      if (!spouse) {
-        continue;
-      }
-      identities.union(adNodeId(dossier, adIndex), spouse.uuid);
-      declaredSpouseLinks.add(`${dossier.uuid}->${spouse.uuid}`);
-      const pairKey = [dossier.uuid, spouse.uuid].sort().join("|");
-      if (!couplePairs.has(pairKey)) {
-        couplePairs.set(pairKey, [dossier, spouse]);
-      }
-    }
+    registerDossierNodes(row, dossier, personNodes);
   }
 
-  row.couples = couplePairs.size;
+  const { couplePairs, declaredSpouseLinks } = matchConjoints(
+    row,
+    dossiers,
+    dossiersByBirthDay,
+    globalExactKeys,
+    identities
+  );
 
-  // ── Children, cross-declaration and parents of couples ──────────────────
   for (const [pairKey, [a, b]] of couplePairs) {
-    const [uuidA, uuidB] = pairKey.split("|");
-    if (
-      declaredSpouseLinks.has(`${uuidA}->${uuidB}`) &&
-      declaredSpouseLinks.has(`${uuidB}->${uuidA}`)
-    ) {
-      row.couples_croises++;
-    }
-
-    const childrenA = [...a.ayantsDroits.entries()].filter(
-      ([, ad]) => ad.lien === "ENFANT"
-    );
-    const childrenB = [...b.ayantsDroits.entries()].filter(
-      ([, ad]) => ad.lien === "ENFANT"
-    );
-    const matches = matchCommonChildren(
-      childrenA.map(([, ad]) => ad),
-      childrenB.map(([, ad]) => ad)
-    );
-    for (const { indexA, indexB } of matches) {
-      // the same child declared by both parents: one real person, not two
-      identities.union(
-        adNodeId(a, childrenA[indexA][0]),
-        adNodeId(b, childrenB[indexB][0])
-      );
-    }
-    const common = matches.length;
-
-    if (childrenA.length === 0 && childrenB.length === 0) {
-      row.couples_sans_enfant++;
-    } else if (
-      common > 0 &&
-      common === childrenA.length &&
-      common === childrenB.length
-    ) {
-      row.couples_memes_enfants++;
-    } else if (common > 0) {
-      row.couples_enfants_en_partie_communs++;
-    } else {
-      // children on at least one side, none in common (includes the case
-      // where only one dossier declares children) — see plan note
-      row.couples_enfants_differents++;
-    }
-    row.enfants_comptes_deux_fois += common;
-
-    if (
-      a.ayantsDroits.some((ad) => ad.lien === "PARENT") ||
-      b.ayantsDroits.some((ad) => ad.lien === "PARENT")
-    ) {
-      row.couples_avec_parent++;
-    }
+    matchCoupleChildren(row, pairKey, a, b, declaredSpouseLinks, identities);
   }
 
-  // ── Adult children / parents that also have their own dossier here ──────
   for (const dossier of dossiers) {
-    for (const [adIndex, ad] of dossier.ayantsDroits.entries()) {
-      if (ad.lien === "ENFANT") {
-        if (!isAdultOn(ad.birthDay, now)) {
-          continue;
-        }
-        const match = bestMatch(
-          ad.key,
-          ad.birthDay,
-          dossiersByBirthDay,
-          dossier.uuid
-        );
-        if (match.score >= FAMILLES_SCORE_IDENTIQUE && match.candidate) {
-          row.enfants_majeurs_avec_dossier++;
-          identities.union(adNodeId(dossier, adIndex), match.candidate.uuid);
-        }
-      } else if (ad.lien === "PARENT") {
-        const match = bestMatch(
-          ad.key,
-          ad.birthDay,
-          dossiersByBirthDay,
-          dossier.uuid
-        );
-        if (match.score >= FAMILLES_SCORE_IDENTIQUE && match.candidate) {
-          row.parents_avec_dossier++;
-          identities.union(adNodeId(dossier, adIndex), match.candidate.uuid);
-        }
-      }
-    }
+    matchAdultDependants(row, dossier, dossiersByBirthDay, identities, now);
   }
 
-  // ── How many people are counted twice ──────────────────────────────────
-  // personnes_reelles_estimees is the number of distinct identities left after
-  // every match above (spouse, common child, adult child/parent with their own
-  // dossier) has been merged, transitively — so a person matched through more
-  // than one route is never subtracted more than once.
-  row.personnes_comptees_aujourdhui = row.dossiers + row.ayants_droit;
-  row.personnes_reelles_estimees = identities.countGroups(personNodes);
-  row.gap_personnes =
-    row.personnes_comptees_aujourdhui - row.personnes_reelles_estimees;
-  row.gap_pourcentage =
-    row.personnes_comptees_aujourdhui === 0
-      ? 0
-      : Math.round(
-          (row.gap_personnes / row.personnes_comptees_aujourdhui) * 100
-        );
+  computePopulationGap(row, identities, personNodes);
 
   return row;
 }
