@@ -82,7 +82,6 @@
     "@jest/expect-utils": "^29.7.0",
     "@jest/schemas": "^29.6.3",
     "@ngrx/store-devtools": "^20.1.0",
-    "@schematics/update": "^0.1102.18",
     "@sinclair/typebox": "^0.27.0",
     "@types/d3": "^7.4.3",
     "@types/file-saver": "^2.0.7",

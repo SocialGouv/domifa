@@ -74,7 +74,6 @@
     "@angular/language-service": "20.3.30",
     "@jest/expect-utils": "^29.7.0",
     "@jest/schemas": "^29.6.3",
-    "@schematics/update": "^0.1102.18",
     "@sinclair/typebox": "^0.27.0",
     "@types/file-saver": "^2.0.7",
     "@types/jest": "^29.5.14",

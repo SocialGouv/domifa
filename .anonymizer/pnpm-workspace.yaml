@@ -4,3 +4,8 @@ packages: []
 
 engineStrict: true
 nodeVersion: 22.22.0
+
+overrides:
+  "js-yaml@^4": ">=4.3.2 <5"
+  "brace-expansion@^1": ">=1.1.16 <2"
+  "brace-expansion@^2": ">=2.1.2 <3"
