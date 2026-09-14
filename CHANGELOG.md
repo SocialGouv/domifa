@@ -1,3 +1,10 @@
+## [2.269.1](https://github.com/SocialGouv/domifa/compare/v2.269.0...v2.269.1) (2026-09-14)
+
+
+### Bug Fixes
+
+* **frontend:** align region counts and migrate public stats to control flow ([295585d](https://github.com/SocialGouv/domifa/commit/295585dd8ca66e292ea9516e6662ce24d59a3d4b))
+
 # [2.269.0](https://github.com/SocialGouv/domifa/compare/v2.268.0...v2.269.0) (2026-09-11)
 
 
