@@ -15,8 +15,8 @@ import {
 } from "../types/famillesAnalysis.types";
 import {
   bestMatch,
-  countCommonChildren,
   isAdultOn,
+  matchCommonChildren,
   normalizeCompareKey,
   toParisDay,
 } from "./famillesMatching";
@@ -192,6 +192,40 @@ export function toDossierLight(usager: UsagerRow): DossierLight {
   };
 }
 
+// Minimal union-find over string ids. Used to merge every dossier / ayant
+// droit occurrence that gets matched into the same real-person identity, so a
+// person matched through more than one route (e.g. a shared child who also
+// has their own dossier) is only ever counted once — see
+// personnes_reelles_estimees below. Kept local: it's an implementation detail
+// of that one counter, not a reusable matching primitive.
+class PersonIdentities {
+  private readonly parent = new Map<string, string>();
+
+  private find(id: string): string {
+    const current = this.parent.get(id) ?? id;
+    if (current === id) {
+      return id;
+    }
+    const root = this.find(current);
+    this.parent.set(id, root);
+    return root;
+  }
+
+  union(a: string, b: string): void {
+    const rootA = this.find(a);
+    const rootB = this.find(b);
+    if (rootA !== rootB) {
+      this.parent.set(rootA, rootB);
+    }
+  }
+
+  // Number of distinct identities among the given ids (one never merged
+  // counts as its own group of one).
+  countGroups(ids: string[]): number {
+    return new Set(ids.map((id) => this.find(id))).size;
+  }
+}
+
 // All the counters for one structure. Pure: no database, no clock beyond `now`
 // for the adult-child age test.
 export function computeStructureFamillesRow(
@@ -204,11 +238,20 @@ export function computeStructureFamillesRow(
   const row = new StructureFamillesRow(structureId);
   row.dossiers = dossiers.length;
 
+  // One node per dossier and per ayant droit occurrence; matched ones are
+  // merged below. personnes_reelles_estimees is the number of groups left.
+  const identities = new PersonIdentities();
+  const personNodes: string[] = [];
+  const adNodeId = (dossier: DossierLight, adIndex: number): string =>
+    `${dossier.uuid}#${adIndex}`;
+
   // ── Volumes ─────────────────────────────────────────────────────────────
   for (const dossier of dossiers) {
+    personNodes.push(dossier.uuid);
     row.ayants_droit += dossier.ayantsDroits.length;
     let hasSpouse = false;
-    for (const ad of dossier.ayantsDroits) {
+    for (const [adIndex, ad] of dossier.ayantsDroits.entries()) {
+      personNodes.push(adNodeId(dossier, adIndex));
       if (!ad.birthDay) {
         row.ayants_droit_sans_date_naissance++;
       }
@@ -228,7 +271,7 @@ export function computeStructureFamillesRow(
   const declaredSpouseLinks = new Set<string>();
 
   for (const dossier of dossiers) {
-    for (const ad of dossier.ayantsDroits) {
+    for (const [adIndex, ad] of dossier.ayantsDroits.entries()) {
       if (ad.lien !== "CONJOINT") {
         continue;
       }
@@ -260,11 +303,12 @@ export function computeStructureFamillesRow(
         continue;
       }
 
-      // spouse found in this structure -> the couple
+      // spouse found in this structure -> the couple, and the same person
       const spouse = match.candidate;
       if (!spouse) {
         continue;
       }
+      identities.union(adNodeId(dossier, adIndex), spouse.uuid);
       declaredSpouseLinks.add(`${dossier.uuid}->${spouse.uuid}`);
       const pairKey = [dossier.uuid, spouse.uuid].sort().join("|");
       if (!couplePairs.has(pairKey)) {
@@ -285,9 +329,24 @@ export function computeStructureFamillesRow(
       row.couples_croises++;
     }
 
-    const childrenA = a.ayantsDroits.filter((ad) => ad.lien === "ENFANT");
-    const childrenB = b.ayantsDroits.filter((ad) => ad.lien === "ENFANT");
-    const common = countCommonChildren(childrenA, childrenB);
+    const childrenA = [...a.ayantsDroits.entries()].filter(
+      ([, ad]) => ad.lien === "ENFANT"
+    );
+    const childrenB = [...b.ayantsDroits.entries()].filter(
+      ([, ad]) => ad.lien === "ENFANT"
+    );
+    const matches = matchCommonChildren(
+      childrenA.map(([, ad]) => ad),
+      childrenB.map(([, ad]) => ad)
+    );
+    for (const { indexA, indexB } of matches) {
+      // the same child declared by both parents: one real person, not two
+      identities.union(
+        adNodeId(a, childrenA[indexA][0]),
+        adNodeId(b, childrenB[indexB][0])
+      );
+    }
+    const common = matches.length;
 
     if (childrenA.length === 0 && childrenB.length === 0) {
       row.couples_sans_enfant++;
@@ -316,32 +375,43 @@ export function computeStructureFamillesRow(
 
   // ── Adult children / parents that also have their own dossier here ──────
   for (const dossier of dossiers) {
-    for (const ad of dossier.ayantsDroits) {
+    for (const [adIndex, ad] of dossier.ayantsDroits.entries()) {
       if (ad.lien === "ENFANT") {
-        if (
-          isAdultOn(ad.birthDay, now) &&
-          bestMatch(ad.key, ad.birthDay, dossiersByBirthDay, dossier.uuid)
-            .score >= FAMILLES_SCORE_IDENTIQUE
-        ) {
+        if (!isAdultOn(ad.birthDay, now)) {
+          continue;
+        }
+        const match = bestMatch(
+          ad.key,
+          ad.birthDay,
+          dossiersByBirthDay,
+          dossier.uuid
+        );
+        if (match.score >= FAMILLES_SCORE_IDENTIQUE && match.candidate) {
           row.enfants_majeurs_avec_dossier++;
+          identities.union(adNodeId(dossier, adIndex), match.candidate.uuid);
         }
       } else if (ad.lien === "PARENT") {
-        if (
-          bestMatch(ad.key, ad.birthDay, dossiersByBirthDay, dossier.uuid)
-            .score >= FAMILLES_SCORE_IDENTIQUE
-        ) {
+        const match = bestMatch(
+          ad.key,
+          ad.birthDay,
+          dossiersByBirthDay,
+          dossier.uuid
+        );
+        if (match.score >= FAMILLES_SCORE_IDENTIQUE && match.candidate) {
           row.parents_avec_dossier++;
+          identities.union(adNodeId(dossier, adIndex), match.candidate.uuid);
         }
       }
     }
   }
 
   // ── How many people are counted twice ──────────────────────────────────
+  // personnes_reelles_estimees is the number of distinct identities left after
+  // every match above (spouse, common child, adult child/parent with their own
+  // dossier) has been merged, transitively — so a person matched through more
+  // than one route is never subtracted more than once.
   row.personnes_comptees_aujourdhui = row.dossiers + row.ayants_droit;
-  row.personnes_reelles_estimees =
-    row.personnes_comptees_aujourdhui -
-    (row.conjoints_identiques + row.conjoints_tres_proches) -
-    row.enfants_comptes_deux_fois;
+  row.personnes_reelles_estimees = identities.countGroups(personNodes);
   row.gap_personnes =
     row.personnes_comptees_aujourdhui - row.personnes_reelles_estimees;
   row.gap_pourcentage =
