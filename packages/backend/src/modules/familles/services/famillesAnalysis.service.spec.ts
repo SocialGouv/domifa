@@ -180,6 +180,137 @@ describe("computeStructureFamillesRow — conjoint outcomes", () => {
   });
 });
 
+describe("computeStructureFamillesRow — personnes_reelles_estimees dedup", () => {
+  it("subtracts an adult child who also has their own dossier", () => {
+    const dossiers = [
+      {
+        uuid: "henri",
+        nom: "Fort",
+        prenom: "Henri",
+        dateNaissance: new Date("1975-06-06T12:00:00.000Z"),
+        ayantsDroits: [
+          {
+            nom: "Fort",
+            prenom: "Julie",
+            lien: "ENFANT" as const,
+            dateNaissance: "2000-07-07", // adult
+          },
+        ],
+      },
+      {
+        uuid: "julie",
+        nom: "Fort",
+        prenom: "Julie",
+        dateNaissance: new Date("2000-07-07T12:00:00.000Z"),
+        ayantsDroits: [],
+      },
+    ].map(toDossierLight);
+
+    const row = computeStructureFamillesRow(1, dossiers, new Set());
+
+    expect(row.enfants_majeurs_avec_dossier).toBe(1);
+    // 2 dossiers + 1 ayant droit = 3 occurrences of 2 real people (Henri, Julie)
+    expect(row.personnes_comptees_aujourdhui).toBe(3);
+    expect(row.personnes_reelles_estimees).toBe(2);
+    expect(row.gap_personnes).toBe(1);
+  });
+
+  it("subtracts a declared parent who also has their own dossier", () => {
+    const dossiers = [
+      {
+        uuid: "paul",
+        nom: "Roy",
+        prenom: "Paul",
+        dateNaissance: new Date("1980-01-01T12:00:00.000Z"),
+        ayantsDroits: [
+          {
+            nom: "Roy",
+            prenom: "Gerard",
+            lien: "PARENT" as const,
+            dateNaissance: "1950-05-05",
+          },
+        ],
+      },
+      {
+        uuid: "gerard",
+        nom: "Roy",
+        prenom: "Gerard",
+        dateNaissance: new Date("1950-05-05T12:00:00.000Z"),
+        ayantsDroits: [],
+      },
+    ].map(toDossierLight);
+
+    const row = computeStructureFamillesRow(1, dossiers, new Set());
+
+    expect(row.parents_avec_dossier).toBe(1);
+    expect(row.personnes_comptees_aujourdhui).toBe(3);
+    expect(row.personnes_reelles_estimees).toBe(2);
+    expect(row.gap_personnes).toBe(1);
+  });
+
+  it("does not double-subtract a shared adult child who also has a dossier", () => {
+    // Karim and Sonia are a couple; both declare their adult son Marc, who
+    // also has his own dossier. Marc is one real person, declared 3 times
+    // (his dossier + each parent's ayant droit) — the excess is 2, not
+    // enfants_comptes_deux_fois + enfants_majeurs_avec_dossier (1 + 2 = 3),
+    // which would overcorrect.
+    const marc = {
+      nom: "Kadi",
+      prenom: "Marc",
+      lien: "ENFANT" as const,
+      dateNaissance: "1995-01-01",
+    };
+    const dossiers = [
+      {
+        uuid: "karim",
+        nom: "Kadi",
+        prenom: "Karim",
+        dateNaissance: new Date("1985-01-01T12:00:00.000Z"),
+        ayantsDroits: [
+          {
+            nom: "Benali",
+            prenom: "Sonia",
+            lien: "CONJOINT" as const,
+            dateNaissance: "1987-02-02",
+          },
+          marc,
+        ],
+      },
+      {
+        uuid: "sonia",
+        nom: "Benali",
+        prenom: "Sonia",
+        dateNaissance: new Date("1987-02-02T12:00:00.000Z"),
+        ayantsDroits: [
+          {
+            nom: "Kadi",
+            prenom: "Karim",
+            lien: "CONJOINT" as const,
+            dateNaissance: "1985-01-01",
+          },
+          marc,
+        ],
+      },
+      {
+        uuid: "marc",
+        nom: "Kadi",
+        prenom: "Marc",
+        dateNaissance: new Date("1995-01-01T12:00:00.000Z"),
+        ayantsDroits: [],
+      },
+    ].map(toDossierLight);
+
+    const row = computeStructureFamillesRow(1, dossiers, new Set());
+
+    expect(row.enfants_comptes_deux_fois).toBe(1);
+    expect(row.enfants_majeurs_avec_dossier).toBe(2);
+    // 3 dossiers + 4 ayants droit = 7 occurrences of 3 real people
+    expect(row.personnes_comptees_aujourdhui).toBe(7);
+    expect(row.personnes_reelles_estimees).toBe(3);
+    expect(row.gap_personnes).toBe(4);
+  });
+});
+
 describe("toCsv", () => {
   it("emits the header then one line per structure, in column order", () => {
     const dossiers = household("Sonia").map(toDossierLight);

@@ -3,11 +3,13 @@ import {
   bucketFromScore,
   countCommonChildren,
   isAdultOn,
+  matchCommonChildren,
   normalizeCompareKey,
   scoreFromDistance,
   toParisDay,
 } from "./famillesMatching";
 import { DossierLight } from "../types/famillesAnalysis.types";
+import { FAMILLES_SCORE_TRES_PROCHE } from "../constants/FAMILLES_ANALYSIS.const";
 
 describe("normalizeCompareKey", () => {
   it("lowercases, strips accents, spaces and hyphens", () => {
@@ -46,12 +48,23 @@ describe("scoreFromDistance", () => {
     expect(scoreFromDistance("benali|sonia", "benali|sonia")).toBe(100);
   });
 
-  it("gives 83 for 'Sonai' vs 'Sonia' on benali|sonia (2 typos / 12)", () => {
-    expect(scoreFromDistance("benali|sonai", "benali|sonia")).toBe(83);
+  it("gives 80 for 'Sonai' vs 'Sonia' on benali|sonia (nom 100, prenom 60)", () => {
+    expect(scoreFromDistance("benali|sonai", "benali|sonia")).toBe(80);
   });
 
   it("is 0 when both keys are empty", () => {
     expect(scoreFromDistance("", "")).toBe(0);
+  });
+
+  it("does not let a long identical surname mask a different first name", () => {
+    // same surname, unrelated first names: scoring the concatenated string
+    // would give ~77 (surname dilutes the distance) and wrongly form a couple
+    const score = scoreFromDistance(
+      "abcdefghijklmnop|alice",
+      "abcdefghijklmnop|bruno"
+    );
+    expect(score).toBe(50);
+    expect(score).toBeLessThan(FAMILLES_SCORE_TRES_PROCHE);
   });
 });
 
@@ -117,6 +130,23 @@ describe("countCommonChildren", () => {
     const a = [{ birthDay: null, key: "kadi|lina" }];
     const b = [{ birthDay: null, key: "kadi|lina" }];
     expect(countCommonChildren(a, b)).toBe(0);
+  });
+});
+
+describe("matchCommonChildren", () => {
+  it("reports the original index of each match on both sides", () => {
+    const a = [
+      { birthDay: "2012-04-04", key: "kadi|adam" },
+      { birthDay: "2010-03-03", key: "kadi|lina" },
+    ];
+    const b = [
+      { birthDay: "2010-03-03", key: "kadi|lina" },
+      { birthDay: "2012-04-04", key: "kadi|adam" },
+    ];
+    expect(matchCommonChildren(a, b)).toEqual([
+      { indexA: 0, indexB: 1 },
+      { indexA: 1, indexB: 0 },
+    ]);
   });
 });
 

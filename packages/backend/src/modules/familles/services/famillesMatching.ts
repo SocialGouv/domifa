@@ -63,12 +63,37 @@ export const toParisDay = (
 };
 
 // Levenshtein distance turned into a 0-100 score. 100 = strictly identical.
-export const scoreFromDistance = (a: string, b: string): number => {
+const componentScore = (a: string, b: string): number => {
   const maxLen = Math.max(a.length, b.length);
   if (maxLen === 0) {
     return 0;
   }
   return Math.round((1 - distance(a, b) / maxLen) * 100);
+};
+
+// "nom|prenom" -> ["nom", "prenom"]. normalizeCompareKey only ever produces
+// letters/digits either side of a single "|", so splitting on the first one
+// is safe.
+const splitKey = (key: string): [string, string] => {
+  const separator = key.indexOf("|");
+  return separator === -1
+    ? [key, ""]
+    : [key.slice(0, separator), key.slice(separator + 1)];
+};
+
+// Average of the nom score and the prenom score, each scored on its own
+// length. Scoring the concatenated "nom|prenom" key as one string would let a
+// long identical surname dilute a completely different first name — e.g.
+// "dupont-martin|alice" vs "dupont-martin|bruno" scores ~77 on the combined
+// string despite the two first names sharing nothing, enough to be treated as
+// a couple. Averaging the two components keeps the surname from masking the
+// first name.
+export const scoreFromDistance = (a: string, b: string): number => {
+  const [nomA, prenomA] = splitKey(a);
+  const [nomB, prenomB] = splitKey(b);
+  return Math.round(
+    (componentScore(nomA, nomB) + componentScore(prenomA, prenomB)) / 2
+  );
 };
 
 export const bucketFromScore = (score: number): MatchBucket => {
@@ -110,19 +135,26 @@ export const bestMatch = (
   return best.candidate ? best : { score: 0, candidate: null };
 };
 
-// Number of children declared on both dossiers of a couple, using the same
-// comparison rule (same birth day, key score >= SAME_PERSON). Greedy 1-to-1
-// pairing: each child on side B is matched at most once.
-export const countCommonChildren = (
+export interface ChildMatch {
+  indexA: number;
+  indexB: number;
+}
+
+// Children declared on both dossiers of a couple that are the same person,
+// using the same comparison rule (same birth day, key score >= SAME_PERSON).
+// Greedy 1-to-1 pairing: each child on side B is matched at most once. Indices
+// are positions in the arrays as passed in, for the caller to trace each match
+// back to the original ayant droit it came from.
+export const matchCommonChildren = (
   childrenA: Pick<AyantDroitLight, "birthDay" | "key">[],
   childrenB: Pick<AyantDroitLight, "birthDay" | "key">[]
-): number => {
+): ChildMatch[] => {
   const usedB = new Set<number>();
-  let common = 0;
+  const matches: ChildMatch[] = [];
 
-  for (const childA of childrenA) {
+  childrenA.forEach((childA, indexA) => {
     if (!childA.birthDay) {
-      continue;
+      return;
     }
     let bestIndex = -1;
     let bestScore = -1;
@@ -138,12 +170,18 @@ export const countCommonChildren = (
     }
     if (bestIndex >= 0 && bestScore >= FAMILLES_SCORE_SAME_PERSON) {
       usedB.add(bestIndex);
-      common++;
+      matches.push({ indexA, indexB: bestIndex });
     }
-  }
+  });
 
-  return common;
+  return matches;
 };
+
+// Number of children declared on both dossiers of a couple. See matchCommonChildren.
+export const countCommonChildren = (
+  childrenA: Pick<AyantDroitLight, "birthDay" | "key">[],
+  childrenB: Pick<AyantDroitLight, "birthDay" | "key">[]
+): number => matchCommonChildren(childrenA, childrenB).length;
 
 // Age >= 18 at the reference instant, from the "yyyy-MM-dd" birth day.
 export const isAdultOn = (
