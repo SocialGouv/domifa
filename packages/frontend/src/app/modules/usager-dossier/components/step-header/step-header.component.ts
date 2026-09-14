@@ -8,7 +8,6 @@ import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { Store } from "@ngrx/store";
 import { Subscription } from "rxjs";
 import { ETAPES_FORM_DOM_TITRES } from "../../constants";
-import { getPersonFullName } from "@domifa/common";
 
 @Component({
   selector: "app-step-header",
@@ -60,7 +59,7 @@ export class StepHeaderComponent implements OnInit, OnDestroy {
           ? "Renouvellement de "
           : "Création de demande de ";
 
-      title += getPersonFullName(this.usager);
+      title += this.usager.fullName;
     }
 
     title +=

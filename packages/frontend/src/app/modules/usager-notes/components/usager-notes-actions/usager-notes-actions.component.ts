@@ -142,11 +142,11 @@ export class UsagerNotesActionsComponent implements OnDestroy {
 
   private getModalTitle(action: ActionType): string {
     if (action === "DELETE") {
-      return `Supprimer une note de ${this.usager.nom} ${this.usager.prenom}`;
+      return `Supprimer une note de ${this.usager.fullName}`;
     }
     return this.note.archived
-      ? `Désarchiver une note de ${this.usager.nom} ${this.usager.prenom}`
-      : `Archiver une note de ${this.usager.nom} ${this.usager.prenom}`;
+      ? `Désarchiver une note de ${this.usager.fullName}`
+      : `Archiver une note de ${this.usager.fullName}`;
   }
 
   ngOnDestroy(): void {

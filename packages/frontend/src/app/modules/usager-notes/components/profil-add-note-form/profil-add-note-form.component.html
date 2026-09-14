@@ -10,7 +10,7 @@
 <dsfr-modal
   class="fr-text--left"
   #modal
-  [titleModal]="'Nouvelle note concernant ' + usager.nom + ' ' + usager.prenom"
+  [titleModal]="'Nouvelle note concernant ' + usager.fullName"
   [isScrollable]="true"
 >
   <form [formGroup]="addNoteForm">

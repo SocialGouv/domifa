@@ -19,7 +19,7 @@
         class="fr-p-3w fr-my-2w fr-background-alt--blue-cumulus fr-text--center"
       >
         <h2 class="fr-h3 fr-text--center">
-          Le dossier de {{ usager.nom }} {{ usager.prenom }} est complet
+          Le dossier de {{ usager.fullName }} est complet
         </h2>
 
         @if (usager.decision.statut === 'ATTENTE_DECISION') {

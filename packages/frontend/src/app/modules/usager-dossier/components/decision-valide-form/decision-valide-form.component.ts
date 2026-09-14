@@ -213,7 +213,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
   }
 
   public openModal(): void {
-    this.modalTitle = `Confirmer la domiciliation de ${this.usager.nom} ${this.usager.prenom}`;
+    this.modalTitle = `Confirmer la domiciliation de ${this.usager.fullName}`;
     this.decisionValideModal.open();
   }
 
