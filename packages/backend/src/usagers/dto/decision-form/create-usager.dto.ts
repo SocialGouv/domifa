@@ -111,17 +111,23 @@ export class CreateUsagerDto {
   @Type(() => UsagerAyantDroitDto)
   // Give every ayant droit a well-formed uuid: keep the one the frontend rounds
   // back for an existing row, mint one for a new / empty / malformed row.
-  @Transform(({ value }) =>
-    Array.isArray(value)
-      ? plainToInstance(
-          UsagerAyantDroitDto,
-          value.map((ayantDroit) => ({
-            ...ayantDroit,
-            uuid: isUUID(ayantDroit?.uuid) ? ayantDroit.uuid : uuidv4(),
-          }))
-        )
-      : value
-  )
+  @Transform(({ value }) => {
+    if (!Array.isArray(value)) {
+      return value;
+    }
+    const seen = new Set<string>();
+    return plainToInstance(
+      UsagerAyantDroitDto,
+      value.map((ayantDroit) => {
+        const uuid =
+          isUUID(ayantDroit?.uuid) && !seen.has(ayantDroit.uuid)
+            ? ayantDroit.uuid
+            : uuidv4();
+        seen.add(uuid);
+        return { ...ayantDroit, uuid };
+      })
+    );
+  })
   public ayantsDroits!: UsagerAyantDroit[];
 
   @IsOptional()
