@@ -1,5 +1,43 @@
 [
   {
+    "date": "2026-09-14",
+    "description": "Nouvelles pastilles et changement de la date de 1re domiciliation",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "🚦 Des pastilles de couleur pour repérer les dossiers à suivre",
+        "message": [
+          "<strong>Nouveau – Dernier passage :</strong> dans la liste des domiciliés, une pastille s’affiche à côté de la date de dernier passage.\n🟠 Orange : plus de 2 mois sans passage.\n🔴 Rouge : plus de 3 mois sans passage.",
+          "<strong>Modifié – Échéance de domiciliation :</strong> les pastilles de la colonne « Échéance » changent de sens.\n🟠 Orange : fin de domiciliation dans moins de 2 mois.\n🔴 Rouge : <strong>échéance dépassée uniquement</strong> (auparavant, le rouge apparaissait dès 15 jours avant la fin)."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "📅 La date de 1re domiciliation change",
+        "message": [
+          "<strong>Auparavant</strong>, la date de 1re domiciliation restait la date de la toute première domiciliation de la personne, même après une radiation ou un refus.",
+          "<strong>Désormais</strong>, elle correspond au <strong>début de la domiciliation en cours</strong> : si la personne est à nouveau domiciliée après une radiation ou un refus, elle repart de la date de cette nouvelle décision.",
+          "Pour les dossiers existants, rien ne change tant qu’il n’y a pas de nouvelle domiciliation après une radiation ou un refus.",
+          "👉 La date de la toute première domiciliation reste disponible dans vos documents personnalisés avec les nouveaux champs {DATE_ANCIENNETE_DOM} (ex : 12 octobre 2020) et {DATE_ANCIENNETE_DOM_FORMAT_COURT} (ex : 12/10/2020). Pensez à mettre à jour vos modèles si vous utilisez {DATE_PREMIERE_DOM}."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "✅ Validation des dossiers",
+        "message": [
+          "Un dossier déjà validé ne peut plus être validé une seconde fois par erreur (double clic, par exemple)."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "🌐 Pages publiques",
+        "message": [
+          "Les chiffres des statistiques publiques s’affichent correctement, et les textes des pages « Découvrir DomiFa », « Impact » et de la FAQ ont été revus."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2026-09-01",
     "description": "Kit de communication, formulaire de contact et connexion",
     "content": [
