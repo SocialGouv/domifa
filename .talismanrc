@@ -3,7 +3,7 @@ fileignoreconfig:
 - filename: .anonymizer/config.yaml
   checksum: 1c140b276ba06918e1b46964a0c3883b0c212c9def9008d9dcb5de8531e0bd1b
 - filename: .anonymizer/pnpm-lock.yaml
-  checksum: 89bd0cc1f61243028529083c16a0c38ab77834e4be6220449b544fdda62bb3b1
+  checksum: a8887aa51aa45bc21ab5a8efcede71e9fb8a4e5f687365e17674382de4585ec0
 - filename: .anonymizer/ts-transformers/user-usager--login.ts
   checksum: 051414abe0d01c39d46df8f6d6b36b2270f8916faab547220a8b317668219b77
 - filename: .anonymizer/yarn.lock
@@ -63,6 +63,6 @@ fileignoreconfig:
 - filename: packages/portail-usagers/src/app/modules/general/components/\_static/politique/politique.component.ts
   checksum: dfdbbe1892cf17b22d28f529914eb5df3a07063d5e3071e59c36c907020260d3
 - filename: pnpm-lock.yaml
-  checksum: bf39b1dad22e11fb5efbd2b40d12310e1e18ac01b21ee29cd9e7e7fa33c17a77
+  checksum: 3d797f7e5b3f17a1017e70993cfed47101b4ea5275f6f234037668a5f4516913
   threshold: medium
   version: "1.0"

@@ -69,7 +69,6 @@
     "@sentry/profiling-node": "^10.5.0",
     "@sentry/types": "^10.39.0",
     "@socialgouv/streaming-file-encryption": "^1.1.0",
-    "aws-sdk": "^2.1692.0",
     "axios": "^1.13.2",
     "axios-retry": "^4.5.0",
     "bcryptjs": "^2.4.3",
