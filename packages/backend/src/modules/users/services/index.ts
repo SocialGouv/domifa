@@ -1,6 +1,7 @@
 //@index('./*service.ts', f => `export * from '${f.path}'`)
 export * from "./get-user-repository.service";
 export * from "./user-structure-creator.service";
+export * from "./userPasswordWriter.service";
 export * from "./userSecurityEventHistoryManager.service";
 export * from "./userSecurityPasswordChecker.service";
 export * from "./userSecurityPasswordUpdater.service";

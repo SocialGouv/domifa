@@ -13,4 +13,5 @@ export type UserSupervisorPublic = Pick<
   | "status"
   | "acceptTerms"
   | "lastLogin"
+  | "passwordLastUpdate"
 >;

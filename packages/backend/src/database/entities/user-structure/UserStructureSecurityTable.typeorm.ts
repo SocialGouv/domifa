@@ -22,6 +22,11 @@ export class UserStructureSecurityTable extends BaseUserSecurityTable<UserStruct
   @JoinColumn({ name: "structureId", referencedColumnName: "id" })
   public structureId?: number;
 
+  // Bcrypt hashes of the last PASSWORD_HISTORY_SIZE passwords (most recent
+  // first), checked on password change to reject reuse.
+  @Column({ type: "jsonb", default: () => "'[]'" })
+  public passwordHistory: string[];
+
   public constructor(entity?: Partial<UserStructureSecurityTable>) {
     super(entity);
   }

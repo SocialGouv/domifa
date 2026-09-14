@@ -24,7 +24,10 @@ export const userSupervisorRepository = myDataSource
           "nom",
           "email",
           "role",
+          "status",
+          "lastLogin",
           "territories",
+          "passwordLastUpdate",
         ],
       });
     },
