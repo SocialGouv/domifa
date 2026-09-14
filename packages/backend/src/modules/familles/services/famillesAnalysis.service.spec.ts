@@ -159,6 +159,25 @@ describe("computeStructureFamillesRow — conjoint outcomes", () => {
     expect(row.conjoints_non_trouves).toBe(1);
     expect(row.conjoints_autre_structure).toBe(0);
   });
+
+  it("keeps a conjoint with no birth date out of conjoints_non_trouves", () => {
+    const dossiers = [
+      dossier("a", "Alice", "1980-06-06", [
+        {
+          nom: "Martin",
+          prenom: "Bob",
+          lien: "CONJOINT",
+          dateNaissance: null as unknown as string,
+        },
+      ]),
+    ].map(toDossierLight);
+
+    const row = computeStructureFamillesRow(1, dossiers, new Set());
+    expect(row.conjoints_sans_date_naissance).toBe(1);
+    expect(row.conjoints_non_trouves).toBe(0);
+    expect(row.conjoints_autre_structure).toBe(0);
+    expect(row.couples).toBe(0);
+  });
 });
 
 describe("toCsv", () => {

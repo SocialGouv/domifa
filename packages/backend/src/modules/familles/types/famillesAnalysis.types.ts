@@ -44,6 +44,8 @@ export class StructureFamillesRow {
   conjoints_douteux = 0;
   conjoints_non_trouves = 0;
   conjoints_autre_structure = 0;
+  // Declared but unusable for comparison: no birth date on the dependant
+  conjoints_sans_date_naissance = 0;
   // Couples
   couples = 0;
   couples_croises = 0;

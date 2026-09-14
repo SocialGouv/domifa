@@ -25,6 +25,7 @@ export const FAMILLES_ANALYSIS_COLUMNS: (keyof StructureFamillesRow)[] = [
   "conjoints_douteux",
   "conjoints_non_trouves",
   "conjoints_autre_structure",
+  "conjoints_sans_date_naissance",
   "couples",
   "couples_croises",
   "couples_memes_enfants",
