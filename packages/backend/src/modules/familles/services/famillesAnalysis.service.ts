@@ -63,7 +63,7 @@ export class FamillesAnalysisService {
       const structureId = structureIds[i];
       const usagers: UsagerRow[] = await queryRunner.query(
         `SELECT "uuid", "nom", "prenom", "dateNaissance", "ayantsDroits"
-           FROM "usager" WHERE "structureId" = $1`,
+           FROM "usager" WHERE "structureId" = $1 ORDER BY "uuid"`,
         [structureId]
       );
 
