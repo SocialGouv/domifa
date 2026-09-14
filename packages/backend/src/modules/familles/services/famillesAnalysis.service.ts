@@ -88,24 +88,53 @@ export class FamillesAnalysisService {
     return rows;
   }
 
-  // One pass over every dossier of every structure, minimal fields. Holds only
+  // One pass over every dossier of every structure, minimal fields, paginated by
+  // uuid so a national-scale table is never buffered in one go. Holds only
   // "birthDay|nom|prenom" strings for exact matches, used to tell a conjoint
   // that has a dossier in another structure from one that has none at all.
   private async buildGlobalExactIndex(
     queryRunner: QueryRunner
   ): Promise<Set<string>> {
-    const rows: { nom: string; prenom: string; dateNaissance: Date }[] =
-      await queryRunner.query(
-        `SELECT "nom", "prenom", "dateNaissance" FROM "usager"`
-      );
-
+    const pageSize = 5000;
     const keys = new Set<string>();
-    for (const row of rows) {
-      const birthDay = toParisDay(row.dateNaissance);
-      if (birthDay) {
-        keys.add(`${birthDay}|${normalizeCompareKey(row.nom, row.prenom)}`);
+    let lastUuid: string | null = null;
+    let scanned = 0;
+
+    for (;;) {
+      const page: {
+        uuid: string;
+        nom: string;
+        prenom: string;
+        dateNaissance: Date;
+      }[] = await queryRunner.query(
+        lastUuid
+          ? `SELECT "uuid", "nom", "prenom", "dateNaissance" FROM "usager"
+                 WHERE "uuid" > $1 ORDER BY "uuid" LIMIT $2`
+          : `SELECT "uuid", "nom", "prenom", "dateNaissance" FROM "usager"
+                 ORDER BY "uuid" LIMIT $1`,
+        lastUuid ? [lastUuid, pageSize] : [pageSize]
+      );
+      if (page.length === 0) {
+        break;
+      }
+
+      for (const row of page) {
+        const birthDay = toParisDay(row.dateNaissance);
+        if (birthDay) {
+          keys.add(`${birthDay}|${normalizeCompareKey(row.nom, row.prenom)}`);
+        }
+      }
+
+      scanned += page.length;
+      lastUuid = page[page.length - 1].uuid;
+      if (page.length < pageSize) {
+        break;
       }
     }
+
+    appLogger.warn(
+      `${TAG} national exact-match index: ${scanned} usagers scanned`
+    );
     return keys;
   }
 
@@ -132,7 +161,9 @@ export class FamillesAnalysisService {
       conjoints_identiques: sum("conjoints_identiques"),
       conjoints_tres_proches: sum("conjoints_tres_proches"),
       conjoints_douteux: sum("conjoints_douteux"),
+      conjoints_non_trouves: sum("conjoints_non_trouves"),
       conjoints_autre_structure: sum("conjoints_autre_structure"),
+      conjoints_sans_date_naissance: sum("conjoints_sans_date_naissance"),
       couples: sum("couples"),
       couples_croises: sum("couples_croises"),
       enfants_comptes_deux_fois: sum("enfants_comptes_deux_fois"),
@@ -201,6 +232,12 @@ export function computeStructureFamillesRow(
       if (ad.lien !== "CONJOINT") {
         continue;
       }
+      if (!ad.birthDay) {
+        // unmeasurable, not "searched and not found": kept out of
+        // conjoints_non_trouves so it doesn't bias the couple count down
+        row.conjoints_sans_date_naissance++;
+        continue;
+      }
       const match = bestMatch(
         ad.key,
         ad.birthDay,
@@ -215,10 +252,7 @@ export function computeStructureFamillesRow(
       } else if (match.score >= FAMILLES_SCORE_DOUTEUX) {
         row.conjoints_douteux++;
         continue;
-      } else if (
-        ad.birthDay &&
-        globalExactKeys.has(`${ad.birthDay}|${ad.key}`)
-      ) {
+      } else if (globalExactKeys.has(`${ad.birthDay}|${ad.key}`)) {
         row.conjoints_autre_structure++;
         continue;
       } else {
