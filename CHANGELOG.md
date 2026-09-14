@@ -1,3 +1,12 @@
+## [2.269.2](https://github.com/SocialGouv/domifa/compare/v2.269.1...v2.269.2) (2026-09-14)
+
+
+### Bug Fixes
+
+* **frontend:** fix css in stats ([f95cb7f](https://github.com/SocialGouv/domifa/commit/f95cb7f031d9fc46a25ed071caabd392b4f9dd50))
+* **frontend:** set usager fullName in manage list interaction titles ([e6e0133](https://github.com/SocialGouv/domifa/commit/e6e01330ebf98675f30f3a3bad6d13295e49ce30))
+* **frontend:** update news popup for v2.269.1 ([1b48bdb](https://github.com/SocialGouv/domifa/commit/1b48bdb7f8a4542b8b85ed1cdd65cdb7f93c0065))
+
 ## [2.269.1](https://github.com/SocialGouv/domifa/compare/v2.269.0...v2.269.1) (2026-09-14)
 
 
