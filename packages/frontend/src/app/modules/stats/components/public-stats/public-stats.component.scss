@@ -17,6 +17,12 @@
   text-align: left;
 }
 
+.region-count {
+  min-width: 4ch;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
 ul {
   margin: 0;
   padding: 0;

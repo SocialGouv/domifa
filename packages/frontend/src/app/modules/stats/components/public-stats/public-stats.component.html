@@ -14,12 +14,12 @@
     </ol>
   </div>
 </nav>
-}
-
-<div class="fr-background-contrast--blue-ecume" *ngIf="stats">
+} @if (stats) {
+<div class="fr-background-contrast--blue-ecume">
   <div class="fr-container">
     <div class="fr-grid-row fr-grid-row--middle fr-gap-1w fr-grid-row--gutters">
-      <div *ngIf="!regionId" class="fr-col-12 fr-col-md-7 fr-py-3w fr-py-md-5">
+      @if (!regionId) {
+      <div class="fr-col-12 fr-col-md-7 fr-py-3w fr-py-md-5">
         <h1 class="fr-text-title--blue-france fr-mb-1w">
           Statistiques d'utilisation de DomiFa
         </h1>
@@ -27,8 +27,8 @@
           Découvrez nos chiffres clés sur l'utilisation de DomiFa en France.
         </p>
       </div>
-
-      <div *ngIf="regionId" class="fr-col-12 fr-col-md-7 fr-py-3w fr-py-md-5">
+      } @else {
+      <div class="fr-col-12 fr-col-md-7 fr-py-3w fr-py-md-5">
         <h1 class="fr-text-title--blue-france fr-mb-1w">
           Statistiques régionales :
           {{ regions[REGIONS_SEO_ID[regionId]] }}
@@ -40,6 +40,7 @@
           </span>
         </p>
       </div>
+      }
 
       <div class="fr-col-md-5 fr-hidden fr-unhidden-md fr-py-1w">
         <img
@@ -51,13 +52,14 @@
     </div>
   </div>
 </div>
+}
 
 <div class="fr-container">
   <section class="fr-py-4w fr-my-1w">
     <h2>Nous équipons les structures de domiciliation</h2>
     <p>
-      En lien avec les personnes domiciliées, des structures de domiciliation utilisent
-      DomiFa chaque jour pour gérer leur activité.
+      En lien avec les personnes domiciliées, des structures de domiciliation
+      utilisent DomiFa chaque jour pour gérer leur activité.
       <br />
       <a class="fr-link" routerLink="/structures/inscription">
         Vous souhaitez utiliser DomiFa ?
@@ -91,12 +93,10 @@
             <div class="fr-col-12 fr-col-md-7 fr-display-flex fr-flex-column">
               <ul class="py-1">
                 <ul>
+                  @for (structure of stats?.structuresCountByTypeMap | keyvalue;
+                  track structure.key) {
                   <li
                     class="fr-display-flex fr-justify-content-start fr-align-items-center fr-gap-2w"
-                    *ngFor="
-                      let structure of stats?.structuresCountByTypeMap
-                        | keyvalue
-                    "
                   >
                     <span
                       class="fr-text--lead fr-mr-2w fr-mb-0 fr-text-title--blue-france fr-text--bold"
@@ -106,6 +106,7 @@
                       {{ STRUCTURE_TYPE_LABELS[structure.key] }}
                     </span>
                   </li>
+                  }
                 </ul>
               </ul>
             </div>
@@ -202,14 +203,14 @@
       </div>
       <div class="fr-col-12 fr-col-md-4">
         <div class="fr-background-alt--blue-ecume fr-p-3w h-100">
-          <div
-            *ngIf="stats"
-            class="fr-display-flex fr-flex-column fr-gap-3w w-100 h-100"
-          >
+          @if (stats) {
+          <div class="fr-display-flex fr-flex-column fr-gap-3w w-100 h-100">
             <div
               class="fr-display-flex fr-flex-column fr-justify-content-start fr-gap-2w"
             >
-              <h3 class="fr-h4">Personnes domiciliées accompagnées sur DomiFa</h3>
+              <h3 class="fr-h4">
+                Personnes domiciliées accompagnées sur DomiFa
+              </h3>
               <div class="fr-text--center">
                 <img
                   class="stat-picto-img--lg"
@@ -228,6 +229,7 @@
               </div>
             </div>
           </div>
+          }
         </div>
       </div>
     </div>
@@ -239,21 +241,16 @@
     <app-stats-charts [publicStats]="stats"></app-stats-charts>
   </section>
 
-  <section
-    class="py-3 fr-py-md-4w"
-    *ngIf="
-      regionId && REGIONS_OUTRE_MER.indexOf(REGIONS_SEO_ID[regionId]) === -1
-    "
-  >
+  @if (regionId && REGIONS_OUTRE_MER.indexOf(REGIONS_SEO_ID[regionId]) === -1) {
+  <section class="py-3 fr-py-md-4w">
     <div class="fr-grid-row">
       <div class="fr-col-md-6">
         <h3>Structures par département</h3>
 
         <ul>
-          <li
-            class="fr-py-1w"
-            *ngFor="let structure of stats?.structuresCountByRegion"
-          >
+          @for (structure of stats?.structuresCountByRegion; track
+          structure.region) {
+          <li class="fr-py-1w">
             <span class="underline region-name">
               {{
                 DEPARTEMENTS_METROPOLE[structure.region]
@@ -265,24 +262,18 @@
               {{ structure.count }}
             </span>
           </li>
+          }
         </ul>
       </div>
     </div>
   </section>
-
-  <section class="fr-py-md-4w fr-my-md-4w" *ngIf="!regionId">
+  } @if (!regionId) {
+  <section class="fr-py-md-4w fr-my-md-4w">
     <h3 class="fr-mb-0">Nous répondons présents partout en France !</h3>
-    <p>
-      DomiFa est utilisé dans la majorité des régions françaises.<br/>
-      <a routerLink="/stats/impact"
-        >Découvrez les témoignages de nos utilisateurs partout en France</a
-      >
-    </p>
+    <p>DomiFa est utilisé dans la majorité des régions françaises.</p>
     <br />
-    <div
-      class="fr-grid-row fr-display-flex fr-align-items-center"
-      *ngIf="!stats"
-    >
+    @if (!stats) {
+    <div class="fr-grid-row fr-display-flex fr-align-items-center">
       <div class="fr-col-md-12 fr-text--center">
         <div @fadeInOut aria-live="polite">
           <span
@@ -293,7 +284,8 @@
         </div>
       </div>
     </div>
-    <div class="fr-grid-row" *ngIf="stats">
+    } @else {
+    <div class="fr-grid-row">
       <div class="fr-col-md-5 fr-text--center px-4">
         <app-stats-map
           [statsRegionsValues]="statsRegionsValues"
@@ -307,11 +299,14 @@
           <h4>Liste des régions</h4>
           <div class="region-list">
             <ul>
+              @for (structure of stats?.structuresCountByRegion; track
+              structure.region) {
               <li
                 class="fr-display-flex fr-justify-content-start fr-gap-2w fr-align-items-center"
-                *ngFor="let structure of stats?.structuresCountByRegion"
               >
-                <span class="fr-text-title--blue-france fr-mr-2w fr-text--bold">
+                <span
+                  class="region-count fr-text-title--blue-france fr-text--bold"
+                >
                   {{ structure.count }}
                 </span>
                 <span>
@@ -330,12 +325,14 @@
                   </a></span
                 >
               </li>
-
+              } @for (departementCom of DEPARTEMENTS_COM | keyvalue; track
+              departementCom.key) {
               <li
                 class="fr-display-flex fr-justify-content-start fr-gap-2w fr-align-items-center"
-                *ngFor="let departementCom of DEPARTEMENTS_COM | keyvalue"
               >
-                <span class="fr-text-title--blue-france fr-mr-2w fr-text--bold">
+                <span
+                  class="region-count fr-text-title--blue-france fr-text--bold"
+                >
                   {{ statsRegionsValues[departementCom.value.regionCode] }}
                 </span>
                 <span>
@@ -349,12 +346,15 @@
                   </a>
                 </span>
               </li>
+              }
             </ul>
           </div>
         </section>
       </div>
     </div>
+    }
   </section>
+  }
 </div>
 <section>
   <div
