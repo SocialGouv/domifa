@@ -6,6 +6,7 @@ import {
   UsagerOptions,
   getDecisionDeadline,
   getLastInteractionDeadline,
+  getPersonFullName,
 } from "@domifa/common";
 import { Decision, Rdv } from "../../modules/usager-shared/interfaces";
 import { countStandByInteractions } from "../../modules/usager-shared/utils";
@@ -16,6 +17,7 @@ import { Telephone } from "../../../_common/model";
 export const setUsagerInformation = (usager: Usager): any => {
   return {
     ...usager,
+    fullName: getPersonFullName(usager),
     statusInfo: {
       text: USAGER_DECISION_STATUT_LABELS[usager?.decision?.statut],
       color: USAGER_DECISION_STATUT_COLORS[usager?.decision?.statut],

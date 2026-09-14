@@ -22,6 +22,11 @@ describe("setUsagerInformation", () => {
     expect(result.decision.dateFin).toBeInstanceOf(Date);
   });
 
+  it("Should complete 'fullName'", () => {
+    const result = setUsagerInformation({ ...USAGER_VALIDE_MOCK });
+    expect(result.fullName).toEqual("Mme MARTINE Sembat");
+  });
+
   describe("Should complete 'statusInfo'", () => {
     it("Should complete 'statusInfo' for 'VALIDE'", () => {
       const result = setUsagerInformation({ ...USAGER_VALIDE_MOCK });
