@@ -8,6 +8,6 @@ module.exports = {
     "^environments/(.*)$": "<rootDir>/src/environments/$1",
   },
   transformIgnorePatterns: [
-    "node_modules/(?!.*\\.mjs$|uuid|@edugouvfr/ngx-dsfr)",
+    "node_modules/(?!.*(\\.mjs$|uuid|@edugouvfr/ngx-dsfr))",
   ],
 };

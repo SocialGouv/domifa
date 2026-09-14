@@ -8,6 +8,6 @@ module.exports = {
   },
   setupFilesAfterEnv: ["<rootDir>/setup-jest.ts"],
   transformIgnorePatterns: [
-    "node_modules/(?!.*\\.mjs$|uuid|@edugouvfr/ngx-dsfr)",
+    "node_modules/(?!.*(\\.mjs$|uuid|@edugouvfr/ngx-dsfr))",
   ],
 };
