@@ -16,6 +16,8 @@ export const LOG_ACTION_LABELS: Record<LogAction, string> = {
   USAGERS_DOCS_DELETE: "Suppression d'un document d'usager",
   USAGERS_DOCS_RENAME: "Renommage d'un document d'usager",
   USAGERS_DOCS_SHARED: "Partage d'un document d'usager",
+  USAGERS_LIEN_CREATE: "Liaison à un dossier conjoint",
+  USAGERS_LIEN_DELETE: "Suppression du lien avec un dossier conjoint",
   USAGERS_PATCH_SMS_PHONE_NUMBER: "Modification du téléphone (SMS) d'un usager",
   USAGERS_PATCH_EMAIL: "Modification de l'email d'un usager",
   USAGERS_ENABLE_SMS: "Activation des SMS pour un usager",

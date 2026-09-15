@@ -16,7 +16,8 @@ type HistorySections =
   | "sms"
   | "procurations"
   | "login-portail"
-  | "transferts";
+  | "transferts"
+  | "liens";
 @Component({
   selector: "app-profil-historique",
   templateUrl: "./profil-historique.component.html",
@@ -37,6 +38,7 @@ export class ProfilHistoriqueComponent
     "sms",
     "notes",
     "login-portail",
+    "liens",
   ];
 
   public sections: { id: HistorySections; name: string }[] = [
@@ -60,6 +62,10 @@ export class ProfilHistoriqueComponent
     {
       id: "transferts",
       name: "Transferts",
+    },
+    {
+      id: "liens",
+      name: "Liens",
     },
   ];
 

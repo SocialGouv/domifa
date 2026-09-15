@@ -26,7 +26,10 @@ import { FileManagerService } from "../util/file-manager/file-manager.service";
 import { AppLogsService } from "../modules/app-logs/app-logs.service";
 import { MailsModule } from "../modules/mails/mails.module";
 import { SearchUsagersController } from "./controllers/search-usagers.controller";
+import { UsagersLienController } from "./controllers/usagers-lien.controller";
 import { UsagersLogsService } from "./services/usagers-logs.service";
+import { UsagerLienService } from "./services/usagerLien.service";
+import { UsagerLienLogsService } from "./services/usagerLienLogs.service";
 import { AppointmentInvitationService } from "./services";
 
 @Module({
@@ -41,6 +44,7 @@ import { AppointmentInvitationService } from "./services";
     ExportStructureUsagersController,
     UsagerOptionsController,
     SearchUsagersController,
+    UsagersLienController,
   ],
   exports: [
     UsagersService,
@@ -68,6 +72,8 @@ import { AppointmentInvitationService } from "./services";
     AppLogsService,
     AppointmentInvitationService,
     UsagersLogsService,
+    UsagerLienService,
+    UsagerLienLogsService,
   ],
 })
 export class UsagersModule {}
