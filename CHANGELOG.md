@@ -1,3 +1,10 @@
+# [2.270.0](https://github.com/SocialGouv/domifa/compare/v2.269.2...v2.270.0) (2026-09-15)
+
+
+### Features
+
+* **front:** fix pastille color ([af4f191](https://github.com/SocialGouv/domifa/commit/af4f19160dfecb987d891656fa22df73cd228066))
+
 ## [2.269.2](https://github.com/SocialGouv/domifa/compare/v2.269.1...v2.269.2) (2026-09-14)
 
 
