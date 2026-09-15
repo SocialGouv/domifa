@@ -65,11 +65,9 @@ export class OtpEmailService implements OnModuleInit {
       return;
     }
 
-    // Plaintext OTP in the console on developer/dev environments, whether or
-    // not the email itself goes out. prod and preprod never reach this branch.
-    if (config.envId === "local" || config.envId === "dev") {
+    if (config.envId === "local") {
       this.logger.log(
-        `[OTP ${config.envId.toUpperCase()}] code=${code} purpose=${purpose} to=${emailLog}`
+        `[OTP LOCAL] code=${code} purpose=${purpose} to=${emailLog}`
       );
     }
 
@@ -229,8 +227,9 @@ export class OtpEmailService implements OnModuleInit {
       );
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
+      const code = (error as { code?: string } | null)?.code ?? "UNKNOWN";
       this.logger.error(
-        `Erreur lors de l'envoi de l'email OTP a ${recipientLog}: ${message}`
+        `Erreur lors de l'envoi de l'email OTP a ${recipientLog} [${code}]: ${message}`
       );
       throw error;
     }
@@ -247,6 +246,8 @@ export class OtpEmailService implements OnModuleInit {
         connectionTimeout: timeoutMs,
         greetingTimeout: timeoutMs,
         socketTimeout: timeoutMs,
+        disableFileAccess: true,
+        disableUrlAccess: true,
       });
     }
     return this.transporter;

@@ -1,11 +1,82 @@
 import { Request } from "express";
+import { IncomingHttpHeaders } from "node:http";
 import validator from "validator";
 
 const IP_MAX_LEN = 45;
 const UA_MAX_LEN = 512;
+const LOG_VALUE_MAX_LEN = 512;
 // eslint-disable-next-line no-control-regex
 const CONTROL_CHARS = /[\x00-\x1F\x7F]/g;
 const IPV6_MAPPED_PREFIX = "::ffff:";
+
+export const SENTRY_HEADERS = [
+  "host",
+  "user-agent",
+  "content-type",
+  "content-length",
+  "origin",
+  "x-forwarded-for",
+  "x-real-ip",
+  "authorization",
+] as const;
+
+export const HTTP_LOG_HEADERS = [
+  "host",
+  "user-agent",
+  "content-type",
+  "content-length",
+  "origin",
+  "referer",
+  "accept",
+  "accept-language",
+  "accept-encoding",
+  "sec-fetch-site",
+  "sec-fetch-mode",
+  "sec-fetch-dest",
+  "sec-fetch-user",
+  "sec-ch-ua",
+  "sec-ch-ua-mobile",
+  "sec-ch-ua-platform",
+  "upgrade-insecure-requests",
+  "dnt",
+  "x-forwarded-for",
+  "x-real-ip",
+  "x-forwarded-proto",
+  "x-forwarded-host",
+  "x-original-url",
+  "x-rewrite-url",
+  "x-http-method-override",
+  "transfer-encoding",
+  "authorization",
+] as const;
+
+export function sanitizeLogValue(raw: unknown): string | undefined {
+  const value = Array.isArray(raw) ? raw.join(", ") : raw;
+  if (typeof value !== "string") {
+    return undefined;
+  }
+  const cleaned = value.replace(CONTROL_CHARS, "").trim();
+  if (cleaned.length === 0) {
+    return undefined;
+  }
+  return cleaned.slice(0, LOG_VALUE_MAX_LEN);
+}
+
+export function pickLoggableHeaders(
+  headers: IncomingHttpHeaders | Record<string, string | undefined>,
+  names: readonly string[]
+): Record<string, string> {
+  const picked: Record<string, string> = {};
+  for (const name of names) {
+    const value = sanitizeLogValue(headers[name]);
+    if (!value) {
+      continue;
+    }
+    picked[name] =
+      name === "authorization" ? `${value.slice(0, 10)}-REDACTED` : value;
+  }
+  return picked;
+}
 
 export function getClientIp(req: Request): string {
   return normalizeIp(pickIpCandidate(req));
