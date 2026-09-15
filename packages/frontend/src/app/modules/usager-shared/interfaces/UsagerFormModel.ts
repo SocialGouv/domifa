@@ -49,6 +49,7 @@ export class UsagerFormModel implements Usager {
   public decision: Decision;
   public typeDom: UsagerTypeDom; // PREMIERE / RENOUVELLEMENT
   public datePremiereDom: Date | null;
+  public dateAncienneteDom: Date | null;
 
   public lastInteraction: {
     dateInteraction: Date | null;
@@ -127,6 +128,10 @@ export class UsagerFormModel implements Usager {
 
     this.datePremiereDom = usager?.datePremiereDom
       ? new Date(usager.datePremiereDom)
+      : null;
+
+    this.dateAncienneteDom = usager?.dateAncienneteDom
+      ? new Date(usager.dateAncienneteDom)
       : null;
 
     this.historique = usager?.historique
