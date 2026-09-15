@@ -1,4 +1,11 @@
-import { Component, Input, OnDestroy, ViewChild } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges,
+  ViewChild,
+} from "@angular/core";
 import { Router } from "@angular/router";
 import { CustomToastService } from "src/app/modules/shared/services/custom-toast.service";
 
@@ -7,8 +14,9 @@ import { ETAPES_DEMANDE_URL, UsagerLight } from "../../../../../_common/model";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
 import { DocumentService } from "../../../usager-shared/services/document.service";
 import { UsagerDecisionService } from "../../../usager-shared/services/usager-decision.service";
+import { UsagerLienService } from "../../../usager-shared/services/usager-lien.service";
 import { Subscription } from "rxjs";
-import { UserStructure, CerfaDocType } from "@domifa/common";
+import { UserStructure, CerfaDocType, UsagerLienSummary } from "@domifa/common";
 import { ProfilHeadSection } from "../../ProfilHeadSection.Type";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 
@@ -18,7 +26,7 @@ import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
   styleUrls: ["./profil-head.component.css"],
   standalone: false,
 })
-export class ProfilHeadComponent implements OnDestroy {
+export class ProfilHeadComponent implements OnChanges, OnDestroy {
   @Input({ required: true }) public usager!: UsagerFormModel;
   @Input({ required: true }) public me!: UserStructure;
   @Input({ required: true }) public section!: ProfilHeadSection;
@@ -27,6 +35,7 @@ export class ProfilHeadComponent implements OnDestroy {
   public renewModal!: DsfrModalComponent;
 
   public loading = false;
+  public lienConjoint: UsagerLienSummary | null = null;
   public readonly ETAPES_DEMANDE_URL = ETAPES_DEMANDE_URL;
   public readonly CerfaDocType = CerfaDocType;
 
@@ -36,8 +45,27 @@ export class ProfilHeadComponent implements OnDestroy {
     private readonly toastService: CustomToastService,
     private readonly router: Router,
     private readonly usagerDecisionService: UsagerDecisionService,
-    private readonly documentService: DocumentService
-  ) {}
+    private readonly documentService: DocumentService,
+    private readonly usagerLienService: UsagerLienService
+  ) {
+    this.subscription.add(
+      this.usagerLienService.changed$.subscribe(() => this.loadLienConjoint())
+    );
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.usager && this.usager?.ref) {
+      this.loadLienConjoint();
+    }
+  }
+
+  private loadLienConjoint(): void {
+    this.subscription.add(
+      this.usagerLienService.getLien(this.usager.ref).subscribe({
+        next: (lien) => (this.lienConjoint = lien),
+      })
+    );
+  }
 
   public openRenewModal(): void {
     this.renewModal.open();

@@ -92,6 +92,19 @@
     <div class="fr-callout">
       <p class="fr-callout__text">Aucun ayant droit enregistré</p>
     </div>
+    } @if (ayantDroitConjoint && !lienConjoint) {
+    <div class="fr-callout fr-mb-2w">
+      <p class="fr-callout__text">
+        Un ayant droit conjoint est déclaré mais aucun dossier n'est relié.
+        Toute personne majeure doit disposer d'une domiciliation à son nom.
+        <a
+          [routerLink]="['/profil/dossier/' + usager.ref]"
+          fragment="lien-conjoint"
+        >
+          Relier le dossier du conjoint
+        </a>
+      </p>
+    </div>
     }
   </div>
 

@@ -15,6 +15,7 @@ import {
   UsagerDocsControllerSecurityTests,
   ExportStructureUsagersControllerSecurityTests,
   UsagersStructureDocsControllerSecurityTests,
+  UsagersLienControllerSecurityTests,
 } from "../usagers/controllers/security-tests";
 import { SmsControllerSecurityTests } from "../modules/sms/sms.controller.security-tests";
 import { StatsPrivateControllerSecurityTests } from "../modules/stats/controllers/stats.private.controller.security-tests";
@@ -36,6 +37,7 @@ export const API_SECURITY_STRUCTURE_CONTROLLER_TEST_DEFS: AppTestHttpClientSecur
     ...UsagerDocsControllerSecurityTests,
     ...UsagersControllerSecurityTests,
     ...UsagersDecisionControllerSecurityTests,
+    ...UsagersLienControllerSecurityTests,
     ...UsagersStructureDocsControllerSecurityTests,
     ...UserControllerSecurityTests,
   ];

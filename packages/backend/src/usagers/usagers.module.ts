@@ -26,7 +26,10 @@ import { FileManagerService } from "../util/file-manager/file-manager.service";
 import { AppLogsService } from "../modules/app-logs/app-logs.service";
 import { MailsModule } from "../modules/mails/mails.module";
 import { SearchUsagersController } from "./controllers/search-usagers.controller";
+import { UsagersLienController } from "./controllers/usagers-lien.controller";
 import { UsagersLogsService } from "./services/usagers-logs.service";
+import { UsagerLienService } from "./services/usagerLien.service";
+import { UsagerLienLogsService } from "./services/usagerLienLogs.service";
 import { AppointmentInvitationService } from "./services";
 import { AntivirusModule } from "../modules/antivirus";
 
@@ -42,6 +45,7 @@ import { AntivirusModule } from "../modules/antivirus";
     ExportStructureUsagersController,
     UsagerOptionsController,
     SearchUsagersController,
+    UsagersLienController,
   ],
   exports: [
     UsagersService,
@@ -70,6 +74,8 @@ import { AntivirusModule } from "../modules/antivirus";
     AppLogsService,
     AppointmentInvitationService,
     UsagersLogsService,
+    UsagerLienService,
+    UsagerLienLogsService,
   ],
 })
 export class UsagersModule {}
