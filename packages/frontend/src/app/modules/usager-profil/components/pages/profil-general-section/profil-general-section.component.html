@@ -83,16 +83,13 @@
 
             <div class="fr-col-6 fr-my-1w fr-pr-1w">
               <span class="label">
-                Date de début de la domiciliation en cours
-              </span>
-            </div>
-            <div class="fr-col-6 fr-my-1w">
-              {{ usager.decision.dateDebut | date : "dd MMMM yyyy" }}
-            </div>
-
-            <div class="fr-col-6 fr-my-1w fr-pr-1w">
-              <span class="label">
-                Date de la première domiciliation connue
+                Première domiciliation connue
+                <button
+                  class="fr-icon-information-line fr-icon--sm"
+                  type="button"
+                  aria-label="En savoir plus sur la date de première domiciliation connue"
+                  [tooltip]="premiereDomiciliationConnueTooltip"
+                ></button>
               </span>
             </div>
             <div class="fr-col-6 fr-my-1w">
