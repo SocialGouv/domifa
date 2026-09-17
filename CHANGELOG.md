@@ -1,3 +1,10 @@
+## [2.270.1](https://github.com/SocialGouv/domifa/compare/v2.270.0...v2.270.1) (2026-09-17)
+
+
+### Bug Fixes
+
+* **deps:** group the uuid/dsfr alternation in portails' transformIgnorePatterns ([5eca6e7](https://github.com/SocialGouv/domifa/commit/5eca6e7fff9dc8836c630e42e3492a1cb3d49bbd))
+
 # [2.270.0](https://github.com/SocialGouv/domifa/compare/v2.269.2...v2.270.0) (2026-09-15)
 
 
