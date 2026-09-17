@@ -10,6 +10,7 @@ export const USER_SUPERVISOR_AUTH: UserSupervisorAuthenticated = {
   status: "ACTIVE",
   createdAt: new Date(),
   lastLogin: new Date(),
+  passwordLastUpdate: new Date(),
   acceptTerms: new Date(),
   _userProfile: "supervisor",
   _userId: 1,

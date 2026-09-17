@@ -163,7 +163,13 @@ export class AdminAuthService {
   ) => {
     const storedUser = window.sessionStorage.getItem(USER_KEY);
     if (storedUser) {
-      await firstValueFrom(this.http.get(`${END_POINT_AUTH}/logout`));
+      try {
+        await firstValueFrom(this.http.get(`${END_POINT_AUTH}/logout`));
+      } catch {
+        // Best-effort: the local session must be cleared regardless of
+        // whether the backend call succeeded (network error, unexpected
+        // rejection, ...).
+      }
     }
     this.logoutAndRedirect(state, sessionExpired);
   };
