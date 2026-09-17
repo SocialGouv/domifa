@@ -1,3 +1,10 @@
+# [2.271.0](https://github.com/SocialGouv/domifa/compare/v2.270.1...v2.271.0) (2026-09-17)
+
+
+### Features
+
+* **backend:** route emails by nightly Brevo delivery status ([90af1bd](https://github.com/SocialGouv/domifa/commit/90af1bd61abdc22465ce1919fa6cbe2b8fd03af6))
+
 ## [2.270.1](https://github.com/SocialGouv/domifa/compare/v2.270.0...v2.270.1) (2026-09-17)
 
 
