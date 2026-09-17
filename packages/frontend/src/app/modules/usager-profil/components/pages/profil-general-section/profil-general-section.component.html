@@ -81,11 +81,22 @@
               }}
             </div>
 
-            <div class="fr-col-6 fr-my-1w">
-              <span class="label">Première domiciliation</span>
+            <div class="fr-col-6 fr-my-1w fr-pr-1w">
+              <span class="label">
+                Première domiciliation connue
+                <span
+                  [tooltip]="
+                    'Date de la toute première domiciliation de la personne dans la structure. Cette date ne change pas, que la domiciliation se poursuive en continu ou qu’elle ait connu une radiation ou un refus de renouvellement entretemps.'
+                  "
+                  tabindex="0"
+                  class="fr-icon-information-line fr-icon--sm"
+                  aria-hidden="true"
+                >
+                </span>
+              </span>
             </div>
             <div class="fr-col-6 fr-my-1w">
-              {{ usager.datePremiereDom | date : "dd MMMM yyyy" }}
+              {{ usager.dateAncienneteDom | date : "dd MMMM yyyy" }}
             </div>
 
             <div class="fr-col-6 fr-my-1w">

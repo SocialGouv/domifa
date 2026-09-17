@@ -78,6 +78,20 @@
         </strong>
       </p>
     </div>
+    } @if (showRadiationRefusAlert) {
+    <div class="fr-alert fr-alert--warning fr-mt-2w">
+      <p class="fr-alert__description">
+        La précédente domiciliation de {{ usager | fullName }} a été
+        <strong>{{
+          lastDecision?.statut === "RADIE" ? "radiée" : "refusée"
+        }}</strong>
+        . Cette validation sera donc enregistrée comme une nouvelle
+        domiciliation : la date de début de la domiciliation en cours
+        redémarrera à la date saisie ci-dessus. La date de première
+        domiciliation connue dans la structure, affichée dans le dossier, n'est
+        pas modifiée.
+      </p>
+    </div>
     } @if (duplicates.length > 0) {
     <div class="fr-mt-2w">
       <app-display-duplicates-usager
