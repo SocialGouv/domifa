@@ -133,7 +133,8 @@ export class BrevoSyncCronService {
     event: BrevoEmailEventType
   ): Promise<BrevoEmailEvent[]> {
     const events: BrevoEmailEvent[] = [];
-    for (let offset = 0; ; offset += EVENTS_PAGE_SIZE) {
+    const maxOffset = EVENTS_PAGE_SIZE * 200;
+    for (let offset = 0; offset < maxOffset; offset += EVENTS_PAGE_SIZE) {
       const page = await this.brevoSenderService.getEmailEventsForEmail({
         event,
         days: DELIVERY_ISSUE_DAYS,
@@ -145,6 +146,10 @@ export class BrevoSyncCronService {
         return events;
       }
     }
+    appLogger.warn(
+      `[BREVO DELIVERY ISSUE] Pagination ${event} tronquée à ${maxOffset} événements`
+    );
+    return events;
   }
 
   private async fetchBlocklistedEmails(): Promise<string[]> {
