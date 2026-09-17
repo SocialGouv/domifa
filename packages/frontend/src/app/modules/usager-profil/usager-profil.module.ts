@@ -39,7 +39,11 @@ import { SortArrayPipe } from "../shared/pipes";
 import { DisplayTableImageComponent } from "../shared/components/display-table-image/display-table-image.component";
 
 import { FullNamePipe } from "../usager-shared/pipes";
-import { DsfrModalComponent, DsfrPaginationModule } from "@edugouvfr/ngx-dsfr";
+import {
+  DsfrModalComponent,
+  DsfrPaginationModule,
+  DsfrTooltipDirective,
+} from "@edugouvfr/ngx-dsfr";
 import {
   DsfrDatePickerComponent,
   DsfrAutocompleteComponent,
@@ -91,6 +95,7 @@ import { SetNpaiComponent } from "./components/_general-section/set-npai/set-npa
     UsagerSharedModule,
     DsfrModalComponent,
     DsfrPaginationModule,
+    DsfrTooltipDirective,
     SetNpaiComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],

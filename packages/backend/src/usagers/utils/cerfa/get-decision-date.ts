@@ -7,7 +7,11 @@ export const getDecisionDate = (
   typeCerfa: CerfaDocType,
   usager: Pick<
     Usager,
-    "datePremiereDom" | "decision" | "historique" | "typeDom"
+    | "datePremiereDom"
+    | "dateAncienneteDom"
+    | "decision"
+    | "historique"
+    | "typeDom"
   >,
   decision: UsagerDecision
 ): {
@@ -15,11 +19,16 @@ export const getDecisionDate = (
   dateDebut: DateCerfa;
   dateFin: DateCerfa;
 } => {
-  let datePremiereDom = getDateForCerfa(usager.datePremiereDom);
+  const cerfaDatePremiereDom =
+    usager.typeDom === "RENOUVELLEMENT"
+      ? usager.dateAncienneteDom ?? usager.datePremiereDom
+      : usager.datePremiereDom;
+
+  let datePremiereDom = getDateForCerfa(cerfaDatePremiereDom);
   let dateDebut = getDateForCerfa(decision.dateDebut);
   let dateFin = getDateForCerfa(decision.dateFin);
 
-  if (!usager?.datePremiereDom) {
+  if (!cerfaDatePremiereDom) {
     datePremiereDom = getDateForCerfa(new Date());
   }
 
