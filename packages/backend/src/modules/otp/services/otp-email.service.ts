@@ -13,7 +13,7 @@ import { isDeletedEmail } from "../../mails/services/brevo-sender/deleted-email.
 import { OtpPurpose } from "@domifa/common";
 import { OTP_TIPIMAIL_FROM } from "../otp.constants";
 import { OTP_ACTION_MOTIF_LABELS } from "../otp.labels";
-import { redactEmail, shouldDualSendForDomain } from "../otp.utils";
+import { redactEmail } from "../otp.utils";
 import { generateOtpActionEmailHtml } from "../templates/otp-action-email.template";
 import { generateOtpEmailHtml } from "../templates/otp-email.template";
 
@@ -53,8 +53,11 @@ export class OtpEmailService implements OnModuleInit {
     prenom: string;
     code: string;
     purpose: OtpPurpose;
+    // "Renvoyer le code": a previous code is still active, so the first email
+    // likely never arrived.
+    forceTipimail?: boolean;
   }): Promise<void> {
-    const { email, prenom, code, purpose } = args;
+    const { email, prenom, code, purpose, forceTipimail } = args;
     const config = domifaConfig();
     const emailLog = redactEmail(email);
 
@@ -105,13 +108,22 @@ export class OtpEmailService implements OnModuleInit {
       return;
     }
 
-    // Default routing: Brevo only. For whitelisted domains
-    // (OTP_FORCED_SMTP_DOMAINS) whose mail filters occasionally quarantine
-    // Brevo, we also fire Tipimail via SMTP with the SAME code so the user
-    // receives at least one — fails only if BOTH providers reject.
-    // Delivery redirection to `emailAddressRedirectAllTo` doesn't change
-    // the routing decision (based on the original recipient's domain).
-    if (!shouldDualSendForDomain(email)) {
+    // Default routing: Brevo, with Tipimail as fallback if Brevo rejects.
+    // Users flagged by the nightly delivery issue cron (or whose flag can't
+    // be read) get the SAME code via both providers — fails only if BOTH
+    // reject.
+    const dualSend =
+      forceTipimail ||
+      (await this.brevoSender.hasEmailDeliveryIssue([email]).catch((error) => {
+        this.logger.warn(
+          `Flag emailDeliveryIssue illisible pour ${emailLog}, double envoi: ${
+            error instanceof Error ? error.message : String(error)
+          }`
+        );
+        return true;
+      }));
+
+    if (!dualSend) {
       try {
         await this.sendViaBrevo({ recipient, code, prenom, purpose, isLogin });
         this.logger.log(
@@ -119,11 +131,11 @@ export class OtpEmailService implements OnModuleInit {
         );
       } catch (err) {
         this.logger.error(
-          `OTP Brevo KO a ${recipientLog} (original: ${emailLog}, purpose=${purpose}): ${
+          `OTP Brevo KO a ${recipientLog} (original: ${emailLog}, purpose=${purpose}), secours Tipimail: ${
             err instanceof Error ? err.message : String(err)
           }`
         );
-        throw err;
+        await this.sendViaSmtp({ recipient, code, isLogin, purpose, emailLog });
       }
       return;
     }

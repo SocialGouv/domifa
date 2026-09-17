@@ -338,7 +338,6 @@ CREATE TABLE public.usager (
     langue text,
     email text,
     "datePremiereDom" timestamp with time zone,
-    "dateAncienneteDom" timestamp with time zone,
     "typeDom" text DEFAULT 'PREMIERE_DOM'::text NOT NULL,
     decision jsonb NOT NULL,
     historique jsonb NOT NULL,
@@ -356,7 +355,8 @@ CREATE TABLE public.usager (
     nationalite text,
     statut text DEFAULT 'INSTRUCTION'::text NOT NULL,
     nom_prenom_surnom_ref character varying NOT NULL,
-    "referrerId" integer
+    "referrerId" integer,
+    "dateAncienneteDom" timestamp with time zone
 );
 CREATE TABLE public.usager_docs (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
@@ -487,7 +487,9 @@ CREATE TABLE public.user_structure (
     "fonctionDetail" character varying(255),
     status character varying DEFAULT 'PENDING'::character varying NOT NULL,
     "emailStatus" text,
-    decision jsonb
+    decision jsonb,
+    "emailDeliveryIssue" boolean DEFAULT false NOT NULL,
+    "preferredEmailSender" text
 );
 CREATE SEQUENCE public.user_structure_id_seq
     START WITH 1
@@ -525,7 +527,9 @@ CREATE TABLE public.user_supervisor (
     territories jsonb DEFAULT '[]'::jsonb NOT NULL,
     role text NOT NULL,
     status character varying DEFAULT 'PENDING'::character varying NOT NULL,
-    decision jsonb
+    decision jsonb,
+    "emailDeliveryIssue" boolean DEFAULT false NOT NULL,
+    "preferredEmailSender" text
 );
 CREATE SEQUENCE public.user_supervisor_id_seq
     AS integer

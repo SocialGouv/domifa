@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { In } from "typeorm";
+import { In, IsNull, Not, Raw } from "typeorm";
 import { domifaConfig } from "../../../../config";
 
 import {
@@ -42,6 +42,13 @@ import {
 } from "../../../../database";
 import { userSecurityResetPasswordInitiator } from "../../../users/services";
 import { isDeletedEmail } from "./deleted-email.guard";
+import {
+  BREVO_REPLY_TO,
+  BREVO_SENDERS,
+  BrevoSenderDomain,
+  DEFAULT_BREVO_SENDER_DOMAIN,
+  isBrevoSenderDomain,
+} from "./brevo-senders.const";
 
 // Brevo is only ever called from prod: the account (contacts, lists,
 // blocklists, transactional history) is shared, so every other environment
@@ -183,6 +190,18 @@ export class BrevoSenderService {
       sendSmtpEmail.params = params;
       sendSmtpEmail.replyTo = replyTo;
 
+      const senderDomain = await this.getPreferredSenderDomain(
+        cleanRecipients.map(({ email }) => email)
+      ).catch((error) => {
+        appLogger.warn(
+          "[BREVO SENDER] Lecture de preferredEmailSender impossible, expéditeur par défaut",
+          error
+        );
+        return DEFAULT_BREVO_SENDER_DOMAIN;
+      });
+      sendSmtpEmail.sender = BREVO_SENDERS[senderDomain];
+      sendSmtpEmail.replyTo = replyTo ?? BREVO_REPLY_TO;
+
       if (attachmentPath) {
         const fileContent = readFileSync(attachmentPath);
         const base64Content = fileContent.toString("base64");
@@ -212,6 +231,39 @@ export class BrevoSenderService {
       console.error("Erreur lors de l'envoi du mail:", error);
       throw error;
     }
+  }
+
+  async getPreferredSenderDomain(emails: string[]): Promise<BrevoSenderDomain> {
+    const where = {
+      email: Raw((alias) => `lower(${alias}) IN (:...emails)`, {
+        emails: emails.map((email) => email.toLowerCase()),
+      }),
+      preferredEmailSender: Not(IsNull()),
+    };
+    const select = { preferredEmailSender: true };
+    const [structureUser, supervisor] = await Promise.all([
+      userStructureRepository.findOne({ where, select }),
+      userSupervisorRepository.findOne({ where, select }),
+    ]);
+    const preferred =
+      structureUser?.preferredEmailSender ?? supervisor?.preferredEmailSender;
+    return isBrevoSenderDomain(preferred)
+      ? preferred
+      : DEFAULT_BREVO_SENDER_DOMAIN;
+  }
+
+  async hasEmailDeliveryIssue(emails: string[]): Promise<boolean> {
+    const where = {
+      email: Raw((alias) => `lower(${alias}) IN (:...emails)`, {
+        emails: emails.map((email) => email.toLowerCase()),
+      }),
+      emailDeliveryIssue: true,
+    };
+    const [structureUser, supervisor] = await Promise.all([
+      userStructureRepository.exists({ where }),
+      userSupervisorRepository.exists({ where }),
+    ]);
+    return structureUser || supervisor;
   }
 
   async syncContactToBrevo(user: UserStructureBrevo): Promise<void> {
@@ -479,7 +531,7 @@ export class BrevoSenderService {
     event,
     days,
   }: {
-    email: string;
+    email?: string;
     limit?: number;
     offset?: number;
     event?: BrevoEmailEventType;

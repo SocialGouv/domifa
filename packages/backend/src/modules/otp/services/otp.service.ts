@@ -87,6 +87,7 @@ export class OtpService {
         prenom: context.prenom,
         code: outcome.plainCode,
         purpose: context.purpose,
+        forceTipimail: outcome.isResend,
       });
     }
     // "already_active" & "issued" both mean "one OTP is live for this scope":
@@ -130,7 +131,7 @@ export class OtpService {
       userUuid: context.userUuid,
     });
 
-    return { kind: "issued", plainCode };
+    return { kind: "issued", plainCode, isResend: !!existing };
   }
 
   private async verifyAndConsumeOtp(

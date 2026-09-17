@@ -45,6 +45,11 @@
             <span class="fr-ml-2w" *ngIf="supervisor.status === 'BLOCKED'">
               <span class="fr-badge fr-badge--error">Bloqué</span>
             </span>
+            <span class="fr-ml-1w" *ngIf="supervisor.emailDeliveryIssue">
+              <span class="fr-badge fr-badge--warning"
+                >Email en souffrance</span
+              >
+            </span>
           </div>
           <div
             class="fr-col-12 fr-col-md-4 fr-grid-row fr-grid-row--right fr-align-items-center"

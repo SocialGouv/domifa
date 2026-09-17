@@ -16,6 +16,8 @@ export type UserStructure = CommonUser & {
   role: UserStructureRole | null; // security profile
 
   emailStatus: UserStructureEmailStatus | null;
+  emailDeliveryIssue?: boolean;
+  preferredEmailSender?: string | null;
 
   mails: UserStructureMails;
   structure?: StructureCommon;
