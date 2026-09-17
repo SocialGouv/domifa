@@ -126,7 +126,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     return isBefore(dateFin, getNextYear(dateDebut));
   }
 
-  public get showNouvelleDomiciliationWarning(): boolean {
+  public get showRadiationRefusAlert(): boolean {
     return (
       this.usager.typeDom === "PREMIERE_DOM" &&
       (this.lastDecision?.statut === "RADIE" ||
