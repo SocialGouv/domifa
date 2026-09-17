@@ -50,11 +50,6 @@ export class ProfilGeneralSectionComponent extends BaseUsagerProfilPageComponent
   public loadingVisite = false;
   public loadingAppel = false;
 
-  public readonly premiereDomiciliationConnueTooltip =
-    "Date de la toute première domiciliation de la personne dans la structure. " +
-    "Cette date ne change pas, que la domiciliation se poursuive en continu ou " +
-    "qu'elle ait connu une radiation ou un refus de renouvellement entretemps.";
-
   constructor(
     public authService: AuthService,
     public usagerProfilService: UsagerProfilService,
