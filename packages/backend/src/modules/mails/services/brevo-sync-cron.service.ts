@@ -7,6 +7,17 @@ import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 import { domifaConfig } from "../../../config";
 import { appLogger } from "../../../util";
 import { SYSTEM_ACTOR_FIELDS } from "../../app-logs/app-logs.helpers";
+import { BrevoEmailEvent, BrevoEmailEventType } from "@domifa/common";
+import {
+  EmailDeliveryIssueReason,
+  getEmailDeliveryIssues,
+  getPreferredSenderDomains,
+} from "./brevo-sync-cron.helpers";
+import { BrevoSenderDomain } from "./brevo-sender/brevo-senders.const";
+
+const DELIVERY_ISSUE_DAYS = 90;
+const EVENTS_PAGE_SIZE = 2500;
+const BLOCKLIST_PAGE_SIZE = 100;
 
 @Injectable()
 export class BrevoSyncCronService {
@@ -50,6 +61,104 @@ export class BrevoSyncCronService {
     } catch (error) {
       await this.logError(error);
       throw error;
+    }
+  }
+
+  @Cron(CronExpression.EVERY_DAY_AT_10PM, {
+    timeZone: "Europe/Paris",
+    disabled: !isCronEnabled() || domifaConfig().envId !== "prod",
+  })
+  @SentryCron("brevo-email-delivery-issue-cron", {
+    schedule: {
+      type: "crontab",
+      value: CronExpression.EVERY_DAY_AT_10PM,
+    },
+    timezone: "Europe/Paris",
+    checkinMargin: 10,
+    maxRuntime: 30,
+  })
+  async syncEmailDeliveryIssues(): Promise<{
+    issues: Map<string, EmailDeliveryIssueReason>;
+    preferredSenders: Map<string, BrevoSenderDomain>;
+  }> {
+    const delivered = await this.fetchEvents("delivered");
+    const opened = await this.fetchEvents("opened");
+    const softBounces = await this.fetchEvents("softBounces");
+    const hardBounces = await this.fetchEvents("hardBounces");
+    const blocked = await this.fetchEvents("blocked");
+    const blocklisted = await this.fetchBlocklistedEmails();
+
+    const emailsOf = (events: BrevoEmailEvent[]) =>
+      events.map((event) => event.email);
+    const issues = getEmailDeliveryIssues({
+      delivered: emailsOf(delivered),
+      opened: emailsOf(opened),
+      failed: emailsOf([...softBounces, ...hardBounces, ...blocked]),
+      blocklisted,
+    });
+    const preferredSenders = getPreferredSenderDomains({ delivered, opened });
+
+    const emails = [...issues.keys()];
+    const recipientDomains = [...preferredSenders.keys()];
+    const senders = [...preferredSenders.values()];
+
+    for (const table of ["user_structure", "user_supervisor"]) {
+      await userStructureRepository.query(
+        `UPDATE "${table}" SET "emailDeliveryIssue" = (lower("email") = ANY($1::text[]))
+        WHERE "emailDeliveryIssue" IS DISTINCT FROM (lower("email") = ANY($1::text[]))`,
+        [emails]
+      );
+      await userStructureRepository.query(
+        `WITH preferred AS (
+          SELECT u."id", p.sender
+          FROM "${table}" u
+          LEFT JOIN unnest($1::text[], $2::text[]) AS p(domain, sender)
+            ON p.domain = split_part(lower(u."email"), '@', 2)
+        )
+        UPDATE "${table}" t SET "preferredEmailSender" = preferred.sender
+        FROM preferred
+        WHERE preferred."id" = t."id"
+          AND t."preferredEmailSender" IS DISTINCT FROM preferred.sender`,
+        [recipientDomains, senders]
+      );
+    }
+
+    appLogger.info(
+      `[BREVO DELIVERY ISSUE] ${emails.length} adresses en souffrance, ${recipientDomains.length} domaines avec un expéditeur préféré, sur ${DELIVERY_ISSUE_DAYS}j`
+    );
+    return { issues, preferredSenders };
+  }
+
+  private async fetchEvents(
+    event: BrevoEmailEventType
+  ): Promise<BrevoEmailEvent[]> {
+    const events: BrevoEmailEvent[] = [];
+    for (let offset = 0; ; offset += EVENTS_PAGE_SIZE) {
+      const page = await this.brevoSenderService.getEmailEventsForEmail({
+        event,
+        days: DELIVERY_ISSUE_DAYS,
+        limit: EVENTS_PAGE_SIZE,
+        offset,
+      });
+      events.push(...page);
+      if (page.length < EVENTS_PAGE_SIZE) {
+        return events;
+      }
+    }
+  }
+
+  private async fetchBlocklistedEmails(): Promise<string[]> {
+    const emails: string[] = [];
+    for (let offset = 0; ; offset += BLOCKLIST_PAGE_SIZE) {
+      const page =
+        await this.brevoSenderService.listTransactionalBlockedContacts(
+          offset,
+          BLOCKLIST_PAGE_SIZE
+        );
+      emails.push(...page.map((contact) => contact.email));
+      if (page.length < BLOCKLIST_PAGE_SIZE) {
+        return emails;
+      }
     }
   }
 

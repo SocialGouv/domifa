@@ -18,12 +18,14 @@ jest.mock("../../../config", () => ({
 }));
 
 const mockBrevoSendEmailWithTemplate = jest.fn();
+const mockHasEmailDeliveryIssue = jest.fn();
 // Mock the Brevo sender module so importing it does NOT pull in the
 // database/config chain (which would trigger domifaConfig() at module load
 // time and break the jest.mock hoisting order).
 jest.mock("../../mails/services/brevo-sender/brevo-sender.service", () => ({
   BrevoSenderService: class MockBrevoSenderService {
     sendEmailWithTemplate = mockBrevoSendEmailWithTemplate;
+    hasEmailDeliveryIssue = mockHasEmailDeliveryIssue;
   },
 }));
 
@@ -31,9 +33,9 @@ import { OtpEmailService } from "./otp-email.service";
 import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
 import { generateOtpEmailHtml } from "../templates/otp-email.template";
 
-// Domain listed in OTP_DUAL_SEND_DOMAINS — triggers Brevo + SMTP.
+// User flagged with emailDeliveryIssue — triggers Brevo + SMTP.
 const DUAL_SEND_EMAIL = "user@mulhouse-alsace.fr";
-// Regular domain — Brevo only.
+// Not flagged — Brevo only.
 const BREVO_ONLY_EMAIL = "user@example.com";
 
 function buildConfig(overrides: Record<string, unknown> = {}) {
@@ -73,6 +75,10 @@ describe("OtpEmailService", () => {
     mockConfig.mockReturnValue(buildConfig());
     mockBrevoSendEmailWithTemplate.mockReset();
     mockBrevoSendEmailWithTemplate.mockResolvedValue({ messageId: "brevo-1" });
+    mockHasEmailDeliveryIssue.mockReset();
+    mockHasEmailDeliveryIssue.mockImplementation(async (emails: string[]) =>
+      emails.includes(DUAL_SEND_EMAIL)
+    );
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -81,6 +87,7 @@ describe("OtpEmailService", () => {
           provide: BrevoSenderService,
           useValue: {
             sendEmailWithTemplate: mockBrevoSendEmailWithTemplate,
+            hasEmailDeliveryIssue: mockHasEmailDeliveryIssue,
           },
         },
       ],
@@ -277,8 +284,24 @@ describe("OtpEmailService", () => {
       });
     });
 
-    it("should propagate the error when Brevo fails on a non-whitelisted domain", async () => {
+    it("should fall back to Tipimail when Brevo fails for a non-flagged user", async () => {
       mockBrevoSendEmailWithTemplate.mockRejectedValue(new Error("Brevo boom"));
+      mockSendMail.mockResolvedValue({ messageId: "<smtp-1>" });
+
+      await service.sendOtpEmail({
+        email: BREVO_ONLY_EMAIL,
+        prenom: "Alice",
+        code: "123456",
+        purpose: "LOGIN",
+      });
+
+      expect(mockSendMail).toHaveBeenCalledTimes(1);
+      expect(mockSendMail.mock.calls[0][0].html).toContain("123456");
+    });
+
+    it("should throw when Brevo and the Tipimail fallback both fail", async () => {
+      mockBrevoSendEmailWithTemplate.mockRejectedValue(new Error("Brevo boom"));
+      mockSendMail.mockRejectedValue(new Error("SMTP boom"));
 
       await expect(
         service.sendOtpEmail({
@@ -287,8 +310,43 @@ describe("OtpEmailService", () => {
           code: "123456",
           purpose: "LOGIN",
         })
-      ).rejects.toThrow("Brevo boom");
-      expect(mockSendMail).not.toHaveBeenCalled();
+      ).rejects.toThrow("SMTP boom");
+    });
+
+    it("should send via both providers on resend, even for a non-flagged user", async () => {
+      mockSendMail.mockResolvedValue({ messageId: "<smtp-1>" });
+
+      await service.sendOtpEmail({
+        email: BREVO_ONLY_EMAIL,
+        prenom: "Alice",
+        code: "654321",
+        purpose: "LOGIN",
+        forceTipimail: true,
+      });
+
+      expect(mockHasEmailDeliveryIssue).not.toHaveBeenCalled();
+      expect(mockBrevoSendEmailWithTemplate).toHaveBeenCalledTimes(1);
+      expect(mockSendMail).toHaveBeenCalledTimes(1);
+      expect(mockSendMail.mock.calls[0][0].html).toContain("654321");
+    });
+
+    it("should send via both providers when the flag can't be read", async () => {
+      mockHasEmailDeliveryIssue.mockRejectedValue(new Error("DB boom"));
+      mockSendMail.mockResolvedValue({ messageId: "<smtp-1>" });
+      jest
+        .spyOn(service["logger"], "warn")
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        .mockImplementation(() => {});
+
+      await service.sendOtpEmail({
+        email: BREVO_ONLY_EMAIL,
+        prenom: "Alice",
+        code: "123456",
+        purpose: "LOGIN",
+      });
+
+      expect(mockBrevoSendEmailWithTemplate).toHaveBeenCalledTimes(1);
+      expect(mockSendMail).toHaveBeenCalledTimes(1);
     });
 
     it("should send via Tipimail SMTP only, to the redirect address, in non-prod", async () => {
@@ -318,7 +376,7 @@ describe("OtpEmailService", () => {
     });
   });
 
-  describe("Dual-send routing (whitelisted domains)", () => {
+  describe("Dual-send routing (flagged users)", () => {
     beforeEach(() => {
       mockConfig.mockReturnValue(
         buildConfig({
@@ -333,7 +391,7 @@ describe("OtpEmailService", () => {
       mockSendMail.mockResolvedValue({ messageId: "<smtp-1>" });
     });
 
-    it("should send via both Brevo AND SMTP for a whitelisted domain", async () => {
+    it("should send via both Brevo AND SMTP for a flagged user", async () => {
       await service.sendOtpEmail({
         email: DUAL_SEND_EMAIL,
         prenom: "Alice",

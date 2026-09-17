@@ -631,6 +631,7 @@ export class AdminUsersController {
         territories: true,
         uuid: true,
         status: true,
+        emailDeliveryIssue: true,
       },
     });
   }

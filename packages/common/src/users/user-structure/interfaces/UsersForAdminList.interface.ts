@@ -17,6 +17,7 @@ export type UsersForAdminList = Pick<
 > & {
   structureUuid: string;
   structureName: string;
+  emailDeliveryIssue: boolean;
   temporaryTokens?: {
     type?: string;
     token?: string;

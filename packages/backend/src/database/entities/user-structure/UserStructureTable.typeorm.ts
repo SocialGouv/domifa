@@ -77,6 +77,12 @@ export class UserStructureTable
   @Column({ type: "text", nullable: true })
   emailStatus: UserStructureEmailStatus | null;
 
+  @Column({ type: "boolean", default: false })
+  emailDeliveryIssue: boolean;
+
+  @Column({ type: "text", nullable: true })
+  preferredEmailSender: string | null;
+
   @Column({ type: "jsonb", nullable: true })
   decision: UserStructureDecision | null;
 

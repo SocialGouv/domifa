@@ -6,4 +6,6 @@ export type UserSupervisor = CommonUser & {
   role: UserSupervisorRole;
   territories?: string[];
   decision?: UserSupervisorDecision | null;
+  emailDeliveryIssue?: boolean;
+  preferredEmailSender?: string | null;
 };

@@ -1,6 +1,6 @@
 export type OtpOutcome =
   | { kind: "ok" }
-  | { kind: "issued"; plainCode: string }
+  | { kind: "issued"; plainCode: string; isResend: boolean }
   | { kind: "already_active" }
   | { kind: "invalid"; attemptsRemaining: number }
   | { kind: "expired" }

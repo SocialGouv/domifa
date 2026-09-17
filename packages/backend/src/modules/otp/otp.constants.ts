@@ -21,17 +21,6 @@ export const OTP_MAX_REQUESTS_PER_HOUR = 10;
 // `req.headers`, donc la lecture marche quelle que soit la casse envoyée.
 export const OTP_CODE_HEADER = "otp-code";
 
-// Domains whose mail filters occasionally quarantine Brevo emails. For these
-// recipients the OTP is fired via BOTH Brevo AND the Tipimail SMTP relay
-// (DOMIFA_SMTP_* config) with the same code, so the user receives at least
-// one. Everyone else stays on Brevo-only.
-export const OTP_DUAL_SEND_DOMAINS: readonly string[] = [
-  "mulhouse-alsace.fr",
-  "akatij.fr",
-  "ville-smlt.fr",
-  "mairie-chateaubernard.fr",
-];
-
 // Hardcoded FROM for Tipimail SMTP. DKIM/SPF are configured on
 // diffusion.fabrique.social.gouv.fr — the FROM MUST stay on this domain
 // otherwise deliverability tanks on ISPs that enforce DMARC alignment. We
