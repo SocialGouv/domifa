@@ -90,6 +90,7 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
   public maxEndDate: string;
 
   public lastDecision: Decision | null = null;
+  public showRadiationRefusAlert = false;
   public lastDomiciled: Pick<
     UsagerLight,
     "ref" | "customRef" | "nom" | "prenom" | "sexe" | "structureId"
@@ -126,14 +127,6 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
     return isBefore(dateFin, getNextYear(dateDebut));
   }
 
-  public get showRadiationRefusAlert(): boolean {
-    return (
-      this.usager.typeDom === "PREMIERE_DOM" &&
-      (this.lastDecision?.statut === "RADIE" ||
-        this.lastDecision?.statut === "REFUS")
-    );
-  }
-
   public getLastDecision(): void {
     const indexOfDate =
       this.usager.decision.statut === "ATTENTE_DECISION" ? 3 : 2;
@@ -142,6 +135,11 @@ export class DecisionValideFormComponent implements OnInit, OnDestroy {
       this.lastDecision =
         this.usager.historique[this.usager.historique.length - indexOfDate];
     }
+
+    this.showRadiationRefusAlert =
+      this.usager.typeDom === "PREMIERE_DOM" &&
+      (this.lastDecision?.statut === "RADIE" ||
+        this.lastDecision?.statut === "REFUS");
   }
 
   public ngOnInit(): void {

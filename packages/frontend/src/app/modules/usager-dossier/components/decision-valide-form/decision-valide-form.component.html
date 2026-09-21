@@ -85,11 +85,8 @@
         <strong>{{
           lastDecision?.statut === "RADIE" ? "radiée" : "refusée"
         }}</strong>
-        . Cette validation sera donc enregistrée comme une nouvelle
-        domiciliation : la date de début de la domiciliation en cours
-        redémarrera à la date saisie ci-dessus. La date de première
-        domiciliation connue dans la structure, affichée dans le dossier, n'est
-        pas modifiée.
+        . La date de première domiciliation affichée sur le Cerfa sera donc
+        réinitialisée à la date de début saisie ci-dessus.
       </p>
     </div>
     } @if (duplicates.length > 0) {
