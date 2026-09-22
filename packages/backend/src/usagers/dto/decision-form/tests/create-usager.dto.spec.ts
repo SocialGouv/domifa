@@ -207,6 +207,30 @@ describe("CreateUsagerDto — corrupted payloads", () => {
     expect(dto.ayantsDroits[0].lien).toEqual("ENFANT");
   });
 
+  it("rejects a second CONJOINT ayant droit", async () => {
+    const dto = build(
+      JSON.parse(`{ "ayantsDroits": [
+        { "lien": "CONJOINT", "nom": "Martin", "prenom": "Sonia", "dateNaissance": "1988-05-03" },
+        { "lien": "CONJOINT", "nom": "Autre", "prenom": "Conjoint", "dateNaissance": "1990-01-01" }
+      ] }`)
+    );
+    const errors = await validate(dto, { whitelist: true });
+    expect(errors.map((e) => e.property)).toEqual(["ayantsDroits"]);
+    expect(errors[0].constraints).toHaveProperty("atMostOneConjoint");
+  });
+
+  it("accepts exactly one CONJOINT alongside other ayants droit", async () => {
+    const dto = build(
+      JSON.parse(`{ "ayantsDroits": [
+        { "lien": "CONJOINT", "nom": "Martin", "prenom": "Sonia", "dateNaissance": "1988-05-03" },
+        { "lien": "ENFANT", "nom": "Martin", "prenom": "Jules", "dateNaissance": "2010-01-01" },
+        { "lien": "PARENT", "nom": "Martin", "prenom": "Alice", "dateNaissance": "1960-01-01" },
+        { "lien": "AUTRE", "nom": "Martin", "prenom": "Bob", "dateNaissance": "1970-01-01" }
+      ] }`)
+    );
+    expect(await validate(dto, { whitelist: true })).toHaveLength(0);
+  });
+
   it("keeps a valid ayant droit uuid and mints one for empty / missing / invalid", async () => {
     const uuid = "b0f9c8d7-1e2a-4b3c-8d4e-5f6a7b8c9d0e";
     const dto = build(

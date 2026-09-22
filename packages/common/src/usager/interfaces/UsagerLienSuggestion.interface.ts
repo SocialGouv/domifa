@@ -1,6 +1,6 @@
 import { type UsagerDecisionStatut } from "../types/decision";
 
-// DTO de réponse pour GET usagers-lien/:usagerRef/suggestion.
+// Response DTO for GET usagers-lien/:usagerRef/suggestion.
 export interface UsagerLienSuggestion {
   ayantDroitUuid: string;
   candidate: {

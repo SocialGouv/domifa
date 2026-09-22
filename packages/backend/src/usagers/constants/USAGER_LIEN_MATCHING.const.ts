@@ -1,3 +1,3 @@
-// Score minimal (0-100, cf. scoreNamePair) à partir duquel un candidat est
-// retenu par le matching automatique de suggestion de lien conjoint.
+// Minimum score (0-100, see scoreNamePair) above which a candidate is
+// retained by the automatic conjoint-link suggestion matching.
 export const USAGER_LIEN_MATCH_SCORE_THRESHOLD = 75;

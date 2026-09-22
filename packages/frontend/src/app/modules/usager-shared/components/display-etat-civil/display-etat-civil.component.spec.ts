@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 
 import { DisplayEtatCivilComponent } from "./display-etat-civil.component";
@@ -10,7 +11,7 @@ describe("DisplayEtatCivilComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule],
+      imports: [SharedModule, HttpClientTestingModule],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [DisplayEtatCivilComponent],
     });

@@ -107,4 +107,42 @@ describe("EtatCivilParentFormComponent", () => {
       villeNaissance: "Paris",
     });
   });
+
+  describe("isConjointOptionDisabled", () => {
+    beforeEach(() => {
+      component.initForm();
+      component.resetAyantDroit();
+      component.addAyantDroit(); // index 0
+      component.addAyantDroit(); // index 1
+      component.addAyantDroit(); // index 2
+    });
+
+    it("désactive l'option CONJOINT sur les autres lignes une fois sélectionnée", () => {
+      component.ayantsDroits.controls[0].get("lien")?.setValue("CONJOINT");
+
+      // the row that already holds CONJOINT keeps the option enabled
+      // (otherwise nothing could be selected in its own select anymore)
+      expect(component.isConjointOptionDisabled(0, "CONJOINT")).toBe(false);
+      // other rows can no longer choose CONJOINT
+      expect(component.isConjointOptionDisabled(1, "CONJOINT")).toBe(true);
+      expect(component.isConjointOptionDisabled(2, "CONJOINT")).toBe(true);
+      // other lien types remain available everywhere
+      expect(component.isConjointOptionDisabled(1, "ENFANT")).toBe(false);
+      expect(component.isConjointOptionDisabled(0, "ENFANT")).toBe(false);
+    });
+
+    it("laisse CONJOINT disponible partout tant qu'aucune ligne ne l'a choisi", () => {
+      expect(component.isConjointOptionDisabled(0, "CONJOINT")).toBe(false);
+      expect(component.isConjointOptionDisabled(1, "CONJOINT")).toBe(false);
+      expect(component.isConjointOptionDisabled(2, "CONJOINT")).toBe(false);
+    });
+
+    it("redevient disponible ailleurs si la ligne CONJOINT change de lien", () => {
+      component.ayantsDroits.controls[0].get("lien")?.setValue("CONJOINT");
+      expect(component.isConjointOptionDisabled(1, "CONJOINT")).toBe(true);
+
+      component.ayantsDroits.controls[0].get("lien")?.setValue("ENFANT");
+      expect(component.isConjointOptionDisabled(1, "CONJOINT")).toBe(false);
+    });
+  });
 });

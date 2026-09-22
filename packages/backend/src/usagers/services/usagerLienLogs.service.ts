@@ -13,10 +13,10 @@ export type UsagerLienLogTarget = Pick<UsagerForLogs, "ref" | "uuid"> & {
   prenom: string;
 };
 
-// Écrit deux entrées app_log par événement (une par dossier) pour que la
-// liaison/suppression soit visible dans l'historique des deux fiches. Le
-// contexte porte `acceptedSuggestion` (suggestion acceptée vs liaison
-// manuelle) pour mesurer l'adoption de la fonctionnalité.
+// Writes two app_log entries per event (one per dossier) so the
+// link/unlink is visible in the history of both dossiers. The context
+// carries `acceptedSuggestion` (suggestion accepted vs. manual link) to
+// measure the feature's adoption.
 @Injectable()
 export class UsagerLienLogsService {
   constructor(private readonly appLogsService: AppLogsService) {}

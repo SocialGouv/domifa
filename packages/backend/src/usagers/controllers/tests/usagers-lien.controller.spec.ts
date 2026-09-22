@@ -48,9 +48,9 @@ async function createUsager(
   return response.body as Usager;
 }
 
-// Nest envoie une réponse vide (pas de `null` JSON littéral) quand un
-// handler renvoie `null` — supertest expose alors `response.body` comme
-// `{}` par défaut, faute de contenu à parser.
+// Nest sends an empty response (no literal `null` JSON body) when a
+// handler returns `null` — supertest then exposes `response.body` as
+// `{}` by default, since there's no content to parse.
 function expectNullBody(response: { text: string }): void {
   expect(response.text).toEqual("");
 }
@@ -58,26 +58,38 @@ function expectNullBody(response: { text: string }): void {
 describe("UsagersLien Controller", () => {
   let context: AppTestContext;
 
-  let usagerA: Usager; // a un ayant droit CONJOINT correspondant à B
-  let usagerB: Usager; // cible du matching automatique
-  let usagerC: Usager; // sera relié à E avant les tests (déjà relié à un tiers)
+  let usagerA: Usager; // has a CONJOINT ayant droit matching B
+  let usagerB: Usager; // target of automatic matching
+  let usagerC: Usager; // will be linked to E before the tests (already linked to someone else)
   let usagerE: Usager;
-  let usagerF: Usager; // dossier "neutre", sans lien ni ayant droit
-  let usagerD: Usager; // structure différente (3)
+  let usagerF: Usager; // "neutral" dossier, no link and no ayant droit
+  let usagerD: Usager; // different structure (3)
+  let usagerG: Usager; // ENFANT + PARENT + AUTRE ayants droit, no CONJOINT
+  let usagerH: Usager; // ENFANT + CONJOINT ayant droit (matches I)
+  let usagerI: Usager; // target of the CONJOINT declared on H
   let ayantDroitUuidA: string;
 
   afterAll(async () => {
-    // Nettoyage explicite : ce test crée de vrais usagers via l'API sur une
-    // base partagée entre exécutions locales successives — sans ça, des
-    // "Martin Sonia" homonymes s'accumulent au fil des runs et faussent les
-    // assertions de recherche.
+    // Explicit cleanup: this test creates real usagers via the API on a
+    // database shared across successive local runs — without this, "Martin
+    // Sonia" homonyms pile up run after run and throw off the search
+    // assertions.
     const structure1Admin =
       TESTS_USERS_STRUCTURE.BY_EMAIL["preprod.domifa@fabrique.social.gouv.fr"];
     const structure3Admin =
       TESTS_USERS_STRUCTURE.BY_EMAIL["s3-admin@yopmail.com"];
 
     await AppTestHelper.authenticateStructure(structure1Admin, { context });
-    for (const usager of [usagerA, usagerB, usagerC, usagerE, usagerF]) {
+    for (const usager of [
+      usagerA,
+      usagerB,
+      usagerC,
+      usagerE,
+      usagerF,
+      usagerG,
+      usagerH,
+      usagerI,
+    ]) {
       if (usager) {
         await AppTestHttpClient.delete(`/usagers/${usager.ref}`, { context });
       }
@@ -136,8 +148,67 @@ describe("UsagersLien Controller", () => {
       prenom: "Foxtrot",
     });
 
-    // C est déjà relié à E avant le début des tests, pour vérifier le
-    // comportement "déjà relié à un tiers" en recherche/liaison.
+    // Ayants droit of every kind, no CONJOINT: must never trigger a
+    // suggestion, regardless of their number or type.
+    usagerG = await createUsager(context, {
+      nom: "Usager",
+      prenom: "Golf",
+      ayantsDroits: [
+        {
+          uuid: "",
+          lien: "ENFANT",
+          nom: "Usager",
+          prenom: "Junior",
+          dateNaissance: new Date("2015-01-01"),
+        },
+        {
+          uuid: "",
+          lien: "PARENT",
+          nom: "Usager",
+          prenom: "Senior",
+          dateNaissance: new Date("1950-01-01"),
+        },
+        {
+          uuid: "",
+          lien: "AUTRE",
+          nom: "Usager",
+          prenom: "Cousin",
+          dateNaissance: new Date("1985-01-01"),
+        },
+      ],
+    });
+
+    usagerI = await createUsager(context, {
+      nom: "Hotel",
+      prenom: "Conjointe",
+      dateNaissance: new Date("1992-07-14"),
+    });
+    // An ENFANT (not relevant to matching) is declared alongside the
+    // CONJOINT, to check that the suggestion correctly targets the latter
+    // and ignores other ayant droit types.
+    usagerH = await createUsager(context, {
+      nom: "Usager",
+      prenom: "Hotel",
+      ayantsDroits: [
+        {
+          uuid: "",
+          lien: "ENFANT",
+          nom: "Usager",
+          prenom: "Petit",
+          dateNaissance: new Date("2020-01-01"),
+        },
+        {
+          uuid: "",
+          lien: "CONJOINT",
+          nom: "Hotel",
+          prenom: "Conjointe",
+          dateNaissance: new Date("1992-07-14"),
+        },
+      ],
+    });
+
+    // C is already linked to E before the tests start, to check the
+    // "already linked to someone else" behavior in search/link.
     await AppTestHttpClient.post(`${ENDPOINT}/${usagerC.ref}/link`, {
       context,
       body: { targetUsagerUuid: usagerE.uuid, acceptedSuggestion: false },
@@ -333,6 +404,100 @@ describe("UsagersLien Controller", () => {
     );
     expect(actions).toContain("USAGERS_LIEN_CREATE");
     expect(actions).toContain("USAGERS_LIEN_DELETE");
+  });
+
+  describe("ayants droit de toute sorte", () => {
+    it("aucune suggestion quand le dossier n'a que des ayants droit ENFANT / PARENT / AUTRE", async () => {
+      expect(usagerG.ayantsDroits.map((a) => a.lien).sort()).toEqual(
+        ["AUTRE", "ENFANT", "PARENT"].sort()
+      );
+
+      const response = await AppTestHttpClient.get(
+        `${ENDPOINT}/${usagerG.ref}/suggestion`,
+        { context }
+      );
+      expect(response.status).toBe(200);
+      expectNullBody(response);
+    });
+
+    it("un dossier sans lien reste lisible et sans conjoint quels que soient ses ayants droit", async () => {
+      const response = await AppTestHttpClient.get(
+        `${ENDPOINT}/${usagerG.ref}`,
+        { context }
+      );
+      expect(response.status).toBe(200);
+      expectNullBody(response);
+    });
+
+    it("la suggestion cible le CONJOINT et ignore les autres ayants droit du même dossier", async () => {
+      const ayantDroitEnfant = usagerH.ayantsDroits.find(
+        (a) => a.lien === "ENFANT"
+      );
+      const ayantDroitConjoint = usagerH.ayantsDroits.find(
+        (a) => a.lien === "CONJOINT"
+      );
+      expect(ayantDroitEnfant).toBeDefined();
+      expect(ayantDroitConjoint).toBeDefined();
+
+      const response = await AppTestHttpClient.get(
+        `${ENDPOINT}/${usagerH.ref}/suggestion`,
+        { context }
+      );
+      expect(response.status).toBe(200);
+      expect(response.body.candidate.uuid).toEqual(usagerI.uuid);
+      expect(response.body.ayantDroitUuid).toEqual(ayantDroitConjoint.uuid);
+      expect(response.body.ayantDroitUuid).not.toEqual(ayantDroitEnfant.uuid);
+    });
+
+    it("relier H et I fonctionne normalement malgré l'ayant droit ENFANT présent sur H", async () => {
+      const linkResponse = await AppTestHttpClient.post(
+        `${ENDPOINT}/${usagerH.ref}/link`,
+        {
+          context,
+          body: { targetUsagerUuid: usagerI.uuid, acceptedSuggestion: true },
+        }
+      );
+      expect(linkResponse.status).toBe(201);
+      expect(linkResponse.body.linkedUsager.uuid).toEqual(usagerI.uuid);
+
+      const sideI = await AppTestHttpClient.get(`${ENDPOINT}/${usagerI.ref}`, {
+        context,
+      });
+      expect(sideI.body.linkedUsager.uuid).toEqual(usagerH.uuid);
+
+      const unlinkResponse = await AppTestHttpClient.delete(
+        `${ENDPOINT}/${usagerH.ref}`,
+        { context }
+      );
+      expect(unlinkResponse.status).toBe(200);
+    });
+
+    it("refuse de créer un dossier avec deux ayants droit CONJOINT", async () => {
+      const response = await AppTestHttpClient.post("/usagers", {
+        context,
+        body: buildUsagerPayload({
+          nom: "Usager",
+          prenom: "Juliett",
+          ayantsDroits: [
+            {
+              uuid: "",
+              lien: "CONJOINT",
+              nom: "Un",
+              prenom: "Premier",
+              dateNaissance: new Date("1980-01-01"),
+            },
+            {
+              uuid: "",
+              lien: "CONJOINT",
+              nom: "Deux",
+              prenom: "Second",
+              dateNaissance: new Date("1981-01-01"),
+            },
+          ],
+        }),
+      });
+      expect(response.status).toBe(400);
+    });
   });
 
   it("le facteur voit le lien mais ne peut ni relier ni délier", async () => {

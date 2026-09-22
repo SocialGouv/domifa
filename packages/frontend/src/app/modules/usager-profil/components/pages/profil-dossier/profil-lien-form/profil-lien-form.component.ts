@@ -18,9 +18,9 @@ import { CustomToastService } from "../../../../../shared/services";
 
 const SEARCH_MIN_LENGTH = 2;
 
-// Sélection en cours d'édition, pas encore enregistrée : peut venir du lien
-// existant (pré-rempli à l'ouverture), d'un résultat de recherche ou de la
-// suggestion acceptée. Rien n'est appelé côté API avant "Enregistrer".
+// Selection being edited, not saved yet: can come from the existing link
+// (pre-filled on open), a search result, or the accepted suggestion.
+// Nothing is called on the API before "Enregistrer".
 interface StagedSelection {
   uuid: string;
   nom: string;
@@ -101,7 +101,7 @@ export class ProfilLienFormComponent implements OnInit, OnDestroy {
       : null;
 
     if (!this.currentLien && !this.suggestion) {
-      // La suggestion s'exécute à l'ouverture du formulaire.
+      // The suggestion is fetched when the form opens.
       this.subscription.add(
         this.usagerLienService
           .getSuggestion(this.usager.ref)
@@ -176,7 +176,7 @@ export class ProfilLienFormComponent implements OnInit, OnDestroy {
     const previousUuid = this.currentLien?.linkedUsager.uuid ?? null;
 
     if (targetUuid === previousUuid) {
-      // Rien n'a changé (même conjoint, ou toujours vide).
+      // Nothing changed (same conjoint, or still empty).
       this.editMode = false;
       return;
     }
@@ -193,8 +193,8 @@ export class ProfilLienFormComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // Un conjoint déjà relié doit être dissocié avant d'en choisir un autre
-    // (la contrainte 1-1 refuserait sinon la nouvelle liaison).
+    // An already-linked conjoint must be unlinked before picking another one
+    // (the 1-1 constraint would otherwise reject the new link).
     const doLink = () =>
       this.usagerLienService
         .link(

@@ -27,6 +27,7 @@ import {
   TrimOrNullTransform,
   LowerCaseTransform,
   IsValidPhone,
+  AtMostOneConjoint,
 } from "../../../_common/decorators";
 import { UsagerAyantDroitDto } from "../UsagerAyantDroitDto";
 import { TelephoneDto } from "../../../_common/dto/telephone.dto";
@@ -109,6 +110,7 @@ export class CreateUsagerDto {
   @ArrayMaxSize(20)
   @ValidateNested({ each: true })
   @Type(() => UsagerAyantDroitDto)
+  @AtMostOneConjoint()
   // Give every ayant droit a well-formed uuid: keep the one the frontend rounds
   // back for an existing row, mint one for a new / empty / malformed row.
   @Transform(({ value }) => {

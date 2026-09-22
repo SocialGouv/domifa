@@ -16,7 +16,7 @@ export type LogAction =
   | "USAGERS_DOCS_DELETE"
   | "USAGERS_DOCS_RENAME"
   | "USAGERS_DOCS_SHARED"
-  // Lien conjoint
+  // Conjoint link
   | "USAGERS_LIEN_CREATE"
   | "USAGERS_LIEN_DELETE"
   //
