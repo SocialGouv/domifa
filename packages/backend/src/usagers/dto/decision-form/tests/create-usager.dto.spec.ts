@@ -1,5 +1,5 @@
 import { plainToInstance } from "class-transformer";
-import { validate } from "class-validator";
+import { isUUID, validate } from "class-validator";
 import { CreateUsagerDto } from "../create-usager.dto";
 
 // Real payload posted by the "nouvel usager" form (see POST_USAGER mock)
@@ -51,6 +51,7 @@ describe("CreateUsagerDto — real payload", () => {
     expect(dto.customRef).toBeNull();
     expect(dto.numeroDistribution).toBeNull();
     expect(dto.ayantsDroits[0]).toEqual({
+      uuid: expect.any(String),
       lien: "ENFANT",
       nom: "Nom AD 1",
       prenom: "Prénom AD 1",
@@ -204,5 +205,47 @@ describe("CreateUsagerDto — corrupted payloads", () => {
     expect(first?.children?.map((c) => c.property)).toEqual(["prenom"]);
     expect(dto.ayantsDroits[0].nom).toEqual("Nom");
     expect(dto.ayantsDroits[0].lien).toEqual("ENFANT");
+  });
+
+  it("rejects a second CONJOINT ayant droit", async () => {
+    const dto = build(
+      JSON.parse(`{ "ayantsDroits": [
+        { "lien": "CONJOINT", "nom": "Martin", "prenom": "Sonia", "dateNaissance": "1988-05-03" },
+        { "lien": "CONJOINT", "nom": "Autre", "prenom": "Conjoint", "dateNaissance": "1990-01-01" }
+      ] }`)
+    );
+    const errors = await validate(dto, { whitelist: true });
+    expect(errors.map((e) => e.property)).toEqual(["ayantsDroits"]);
+    expect(errors[0].constraints).toHaveProperty("atMostOneConjoint");
+  });
+
+  it("accepts exactly one CONJOINT alongside other ayants droit", async () => {
+    const dto = build(
+      JSON.parse(`{ "ayantsDroits": [
+        { "lien": "CONJOINT", "nom": "Martin", "prenom": "Sonia", "dateNaissance": "1988-05-03" },
+        { "lien": "ENFANT", "nom": "Martin", "prenom": "Jules", "dateNaissance": "2010-01-01" },
+        { "lien": "PARENT", "nom": "Martin", "prenom": "Alice", "dateNaissance": "1960-01-01" },
+        { "lien": "AUTRE", "nom": "Martin", "prenom": "Bob", "dateNaissance": "1970-01-01" }
+      ] }`)
+    );
+    expect(await validate(dto, { whitelist: true })).toHaveLength(0);
+  });
+
+  it("keeps a valid ayant droit uuid and mints one for empty / missing / invalid", async () => {
+    const uuid = "b0f9c8d7-1e2a-4b3c-8d4e-5f6a7b8c9d0e";
+    const dto = build(
+      JSON.parse(`{ "ayantsDroits": [
+        { "uuid": "${uuid}", "lien": "ENFANT", "nom": "A", "prenom": "B", "dateNaissance": "2022-05-02" },
+        { "uuid": "", "lien": "CONJOINT", "nom": "C", "prenom": "D", "dateNaissance": "2022-05-02" },
+        { "uuid": "not-a-uuid", "lien": "PARENT", "nom": "E", "prenom": "F", "dateNaissance": "2022-05-02" },
+        { "lien": "AUTRE", "nom": "G", "prenom": "H", "dateNaissance": "2022-05-02" }
+      ] }`)
+    );
+    expect(await validate(dto, { whitelist: true })).toHaveLength(0);
+    expect(dto.ayantsDroits[0].uuid).toEqual(uuid);
+    expect(dto.ayantsDroits[1].uuid).not.toEqual("");
+    dto.ayantsDroits.forEach((ad) => expect(isUUID(ad.uuid)).toBe(true));
+    const ids = dto.ayantsDroits.map((ad) => ad.uuid);
+    expect(new Set(ids).size).toEqual(ids.length);
   });
 });

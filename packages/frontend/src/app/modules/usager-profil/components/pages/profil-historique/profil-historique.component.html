@@ -103,6 +103,17 @@
 
         <div
           class="fr-col-md-12"
+          id="tabpanel-liens"
+          [attr.aria-labelledby]="'tab-liens'"
+          [hidden]="currentSection !== 'liens'"
+        >
+          <app-profil-historique-liens
+            [me]="me"
+            [usager]="usager"
+          ></app-profil-historique-liens>
+        </div>
+        <div
+          class="fr-col-md-12"
           id="tabpanel-notes"
           [attr.aria-labelledby]="'tab-notes'"
           [hidden]="currentSection !== 'notes'"

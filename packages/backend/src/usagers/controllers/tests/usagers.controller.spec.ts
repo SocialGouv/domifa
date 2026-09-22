@@ -179,6 +179,32 @@ describe("Usagers Controller", () => {
       expect(response.status).toBe(400);
       expect(response.body).toBeDefined();
     });
+
+    it("❌ Deux ayants droit conjoint à la création", async () => {
+      const response = await AppTestHttpClient.post(ENDPOINT, {
+        context,
+        body: {
+          ...POST_USAGER.payload,
+          ayantsDroits: [
+            {
+              lien: "CONJOINT",
+              nom: "Martin",
+              prenom: "Sonia",
+              dateNaissance: "1988-05-03",
+            },
+            {
+              lien: "CONJOINT",
+              nom: "Autre",
+              prenom: "Conjoint",
+              dateNaissance: "1990-01-01",
+            },
+          ],
+        },
+      });
+
+      expect(response.status).toBe(400);
+      expect(response.body).toBeDefined();
+    });
   });
 
   describe("> Edition d'un domicilié", () => {
@@ -285,6 +311,107 @@ describe("Usagers Controller", () => {
       expect(updatedUsager.customRef).toEqual("2022_1_2");
       expect(updatedUsager.ayantsDroits.length).toEqual(2);
       expect(updatedUsager.ayantsDroits[0].nom).toEqual("Moni");
+    });
+
+    it("❌ Patch avec deux ayants droit conjoint en une seule fois", async () => {
+      const response = await AppTestHttpClient.patch(
+        ENDPOINT + "/" + usagerPatch.ref,
+        {
+          context,
+          body: {
+            ayantsDroits: [
+              {
+                lien: "CONJOINT",
+                nom: "Martin",
+                prenom: "Sonia",
+                dateNaissance: "1988-05-03",
+              },
+              {
+                lien: "CONJOINT",
+                nom: "Autre",
+                prenom: "Conjoint",
+                dateNaissance: "1990-01-01",
+              },
+            ],
+            telephone: { countryCode: "fr", numero: "" },
+            contactByPhone: false,
+            dateNaissance: "1995-06-01",
+            nom: "Rami",
+            prenom: "Phill",
+            sexe: "homme",
+            villeNaissance: "Pakistan",
+          },
+        }
+      );
+
+      expect(response.status).toBe(400);
+    });
+
+    it("✅ Patch avec un seul conjoint puis ❌ tentative d'en ajouter un second", async () => {
+      const withOneConjoint = await AppTestHttpClient.patch(
+        ENDPOINT + "/" + usagerPatch.ref,
+        {
+          context,
+          body: {
+            ayantsDroits: [
+              {
+                lien: "CONJOINT",
+                nom: "Martin",
+                prenom: "Sonia",
+                dateNaissance: "1988-05-03",
+              },
+            ],
+            telephone: { countryCode: "fr", numero: "" },
+            contactByPhone: false,
+            dateNaissance: "1995-06-01",
+            nom: "Rami",
+            prenom: "Phill",
+            sexe: "homme",
+            villeNaissance: "Pakistan",
+          },
+        }
+      );
+      expect(withOneConjoint.status).toBe(200);
+      const usagerWithConjoint: Usager = withOneConjoint.body;
+      expect(usagerWithConjoint.ayantsDroits.length).toEqual(1);
+      expect(usagerWithConjoint.ayantsDroits[0].lien).toEqual("CONJOINT");
+
+      // The existing conjoint must be sent back (round-tripping its uuid)
+      // alongside the new one, to reproduce the "a conjoint is already
+      // present, trying to add a second one" case.
+      const withSecondConjoint = await AppTestHttpClient.patch(
+        ENDPOINT + "/" + usagerPatch.ref,
+        {
+          context,
+          body: {
+            ayantsDroits: [
+              usagerWithConjoint.ayantsDroits[0],
+              {
+                lien: "CONJOINT",
+                nom: "Second",
+                prenom: "Conjoint",
+                dateNaissance: "1991-01-01",
+              },
+            ],
+            telephone: { countryCode: "fr", numero: "" },
+            contactByPhone: false,
+            dateNaissance: "1995-06-01",
+            nom: "Rami",
+            prenom: "Phill",
+            sexe: "homme",
+            villeNaissance: "Pakistan",
+          },
+        }
+      );
+      expect(withSecondConjoint.status).toBe(400);
+
+      // The initial conjoint must remain unchanged after the rejected attempt.
+      const unchanged = await AppTestHttpClient.get(
+        ENDPOINT + "/" + usagerPatch.ref,
+        { context }
+      );
+      expect(unchanged.body.ayantsDroits.length).toEqual(1);
+      expect(unchanged.body.ayantsDroits[0].nom).toEqual("Martin");
     });
   });
 });

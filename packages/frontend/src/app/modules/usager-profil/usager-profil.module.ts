@@ -17,6 +17,7 @@ import { ProfilGeneralHistoriqueCourriersComponent } from "./components/_general
 import { ProfilGeneralSectionComponent } from "./components/pages/profil-general-section/profil-general-section.component";
 import { ProfilHeadComponent } from "./components/profil-head/profil-head.component";
 import { ProfilHistoriqueCourriersComponent } from "./components/_historiques/profil-historique-courriers/profil-historique-courriers.component";
+import { ProfilLienFormComponent } from "./components/pages/profil-dossier/profil-lien-form/profil-lien-form.component";
 import { UsagersProfilProcurationCourrierComponent } from "./components/_courriers/profil-procuration-courrier/profil-procuration-courrier-component";
 import { ProfilStructureDocsComponent } from "./components/_documents/profil-structure-documents/profil-structure-docs.component";
 import { UsagersProfilTransfertCourrierComponent } from "./components/_courriers/profil-transfert-courrier/profil-transfert-courrier-component";
@@ -28,6 +29,7 @@ import { ProfilHistoriqueSmsComponent } from "./components/_historiques/profil-h
 import { ProfilHistoriqueProcurationsComponent } from "./components/_historiques/profil-historique-procurations/profil-historique-procurations.component";
 import { ProfilHistoriqueTransfertsComponent } from "./components/_historiques/profil-historique-transferts/profil-historique-transferts.component";
 import { ProfilHistoriqueDecisionsComponent } from "./components/_historiques/profil-historique-decisions/profil-historique-decisions.component";
+import { ProfilHistoriqueLiensComponent } from "./components/_historiques/profil-historique-liens/profil-historique-liens.component";
 import { ProfilHistoriqueNotesComponent } from "./components/_historiques/profil-historique-notes/profil-historique-notes.component";
 import { TableHeadSortComponent } from "../shared/components/table-head-sort/table-head-sort.component";
 import { ProfilHistoriqueLoginPortailComponent } from "./components/_historiques/profil-historique-login-portail/profil-historique-login-portail.component";
@@ -61,11 +63,13 @@ import { SetNpaiComponent } from "./components/_general-section/set-npai/set-npa
     ProfilHistoriqueComponent,
     ProfilHistoriqueCourriersComponent,
     ProfilHistoriqueDecisionsComponent,
+    ProfilHistoriqueLiensComponent,
     ProfilHistoriqueLoginPortailComponent,
     ProfilHistoriqueNotesComponent,
     ProfilHistoriqueProcurationsComponent,
     ProfilHistoriqueSmsComponent,
     ProfilHistoriqueTransfertsComponent,
+    ProfilLienFormComponent,
     ProfilSmsPortailComponent,
     ProfilStructureDocsComponent,
     UsagersProfilProcurationCourrierComponent,

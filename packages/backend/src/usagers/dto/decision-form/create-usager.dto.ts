@@ -4,7 +4,7 @@ import {
   Telephone,
   UsagerAyantDroit,
 } from "@domifa/common";
-import { Type } from "class-transformer";
+import { plainToInstance, Transform, Type } from "class-transformer";
 import {
   ArrayMaxSize,
   IsArray,
@@ -17,14 +17,17 @@ import {
   IsObject,
   IsOptional,
   IsString,
+  isUUID,
   MaxLength,
   ValidateNested,
 } from "class-validator";
+import { v4 as uuidv4 } from "uuid";
 import {
   StripTagsTransform,
   TrimOrNullTransform,
   LowerCaseTransform,
   IsValidPhone,
+  AtMostOneConjoint,
 } from "../../../_common/decorators";
 import { UsagerAyantDroitDto } from "../UsagerAyantDroitDto";
 import { TelephoneDto } from "../../../_common/dto/telephone.dto";
@@ -107,6 +110,26 @@ export class CreateUsagerDto {
   @ArrayMaxSize(20)
   @ValidateNested({ each: true })
   @Type(() => UsagerAyantDroitDto)
+  @AtMostOneConjoint()
+  // Give every ayant droit a well-formed uuid: keep the one the frontend rounds
+  // back for an existing row, mint one for a new / empty / malformed row.
+  @Transform(({ value }) => {
+    if (!Array.isArray(value)) {
+      return value;
+    }
+    const seen = new Set<string>();
+    return plainToInstance(
+      UsagerAyantDroitDto,
+      value.map((ayantDroit) => {
+        const uuid =
+          isUUID(ayantDroit?.uuid) && !seen.has(ayantDroit.uuid)
+            ? ayantDroit.uuid
+            : uuidv4();
+        seen.add(uuid);
+        return { ...ayantDroit, uuid };
+      })
+    );
+  })
   public ayantsDroits!: UsagerAyantDroit[];
 
   @IsOptional()

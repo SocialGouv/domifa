@@ -608,8 +608,14 @@
                   <option
                     *ngFor="let lien of LIEN_PARENTE_LABELS | keyvalue"
                     [ngValue]="lien.key"
+                    [disabled]="isConjointOptionDisabled(i, lien.key)"
                   >
-                    {{ lien.value }}
+                    {{ lien.value
+                    }}{{
+                      isConjointOptionDisabled(i, lien.key)
+                        ? " (déjà déclaré)"
+                        : ""
+                    }}
                   </option>
                 </select>
                 <div
