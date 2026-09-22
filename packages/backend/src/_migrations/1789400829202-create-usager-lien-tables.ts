@@ -1,15 +1,15 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-// usager_lien : lien "conjoint" (extensible plus tard) entre deux dossiers
-// d'une même structure, stocké en "deux lignes miroir" (une ligne par
-// usager). La contrainte UNIQUE sur "usagerUUID" garantit le 1-1 au niveau
-// base : un usager ne peut jamais apparaître comme "usagerUUID" sur plus
-// d'une ligne. Les deux lignes d'un même lien sont toujours créées /
-// supprimées ensemble par UsagerLienService, dans une transaction.
+// usager_lien: "conjoint" link (extensible later on) between two dossiers
+// of the same structure, stored as "mirrored rows" (one row per usager).
+// The UNIQUE constraint on "usagerUUID" enforces the 1-1 rule at the DB
+// level: a usager can never appear as "usagerUUID" on more than one row.
+// The two rows of a given link are always created / deleted together by
+// UsagerLienService, within a transaction.
 //
-// usager_lien_suggestion_rejetee : persiste le "Ce n'est pas la même
-// personne" du formulaire de liaison, pour que la suggestion de matching
-// automatique ne réapparaisse plus pour ce (dossier, ayant droit).
+// usager_lien_suggestion_rejetee: persists the "This isn't the same
+// person" dismissal from the linking form, so the automatic matching
+// suggestion doesn't reappear for that (dossier, ayant droit) pair.
 export class CreateUsagerLienTables1789400829202 implements MigrationInterface {
   name = "CreateUsagerLienTables1789400829202";
 

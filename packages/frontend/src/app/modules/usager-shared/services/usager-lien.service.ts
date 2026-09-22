@@ -29,9 +29,9 @@ export interface UsagerLienLogEntry {
 export class UsagerLienService {
   public endPoint = environment.apiUrl + "usagers-lien";
 
-  // Émet à chaque relier/délier réussi, pour que les composants qui
-  // affichent le conjoint ailleurs sur la même page (fiche + formulaire
-  // dans l'onglet Dossier) se resynchronisent sans rechargement.
+  // Emits on every successful link/unlink, so components that display the
+  // conjoint elsewhere on the same page (header + form in the Dossier tab)
+  // resync without a page reload.
   private readonly changedSource = new Subject<void>();
   public readonly changed$ = this.changedSource.asObservable();
 

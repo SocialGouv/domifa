@@ -29,9 +29,9 @@ import {
 import { scoreNamePair } from "../utils/usager-lien/usagerLienScoring";
 import { USAGER_LIEN_MATCH_SCORE_THRESHOLD } from "../constants/USAGER_LIEN_MATCHING.const";
 
-// Priorité utilisée pour départager plusieurs candidats à score de matching
-// égal : dossier actif d'abord, radié/refusé en dernier (voir §3 du plan
-// "candidats multiples").
+// Priority used to break ties between candidates with an equal matching
+// score: active dossier first, radié/refusé last (see the plan's
+// "multiple candidates" section).
 const STATUT_RANK: Record<UsagerDecisionStatut, number> = {
   VALIDE: 0,
   INSTRUCTION: 1,
@@ -102,8 +102,8 @@ export class UsagerLienService {
     }
 
     return myDataSource.transaction(async (manager) => {
-      // Sérialise les tentatives concurrentes de lier la même paire (dans
-      // les deux sens) pendant la durée de la transaction.
+      // Serializes concurrent attempts to link the same pair (in either
+      // direction) for the duration of the transaction.
       const lockKey = [currentUsager.uuid, targetUsagerUuid].sort().join(":");
       await acquireAdvisoryXactLock(manager, `usager-lien:${lockKey}`);
 
@@ -114,9 +114,9 @@ export class UsagerLienService {
         throw new BadRequestException("TARGET_NOT_FOUND");
       }
 
-      // Ne jamais faire confiance à un structureId envoyé par le client : on
-      // compare le structureId réel du dossier courant (résolu par
-      // UsagerAccessGuard à partir du JWT) à celui de la cible.
+      // Never trust a structureId sent by the client: compare the real
+      // structureId of the current dossier (resolved by UsagerAccessGuard
+      // from the JWT) against the target's.
       if (target.structureId !== currentUsager.structureId) {
         throw new BadRequestException("CROSS_STRUCTURE_LINK_FORBIDDEN");
       }
@@ -146,8 +146,8 @@ export class UsagerLienService {
           },
         ]);
       } catch (error) {
-        // Filet de sécurité DB (contrainte UNIQUE("usagerUUID")) pour toute
-        // course non couverte par le lock applicatif ci-dessus.
+        // DB-level safety net (the UNIQUE("usagerUUID") constraint) for any
+        // race not covered by the application lock above.
         if (isUniqueViolation(error)) {
           throw new ConflictException("ALREADY_LINKED");
         }
@@ -188,9 +188,9 @@ export class UsagerLienService {
   }): Promise<UsagerLienSuggestion | null> {
     const { currentUsager } = params;
 
-    // Un dossier déjà relié n'a plus besoin de suggestion (1-1 strict) :
-    // c'est ce qui fait disparaître la suggestion côté formulaire une fois
-    // la liaison faite, sans dépendre du frontend pour ne pas l'appeler.
+    // An already-linked dossier no longer needs a suggestion (strict
+    // 1-1): this is what makes the suggestion disappear from the form
+    // once linked, without relying on the frontend to stop calling it.
     const existingLien = await usagerLienRepository.findOneBy({
       usagerUUID: currentUsager.uuid,
     });

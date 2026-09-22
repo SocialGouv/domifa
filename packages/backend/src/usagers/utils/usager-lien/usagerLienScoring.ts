@@ -12,9 +12,9 @@ function componentScore(a: string, b: string): number {
   return Math.round((1 - distance(a, b) / maxLen) * 100);
 }
 
-// Score 0-100 : moyenne du score de similarité (Levenshtein) sur le nom et
-// sur le prénom, calculés séparément — évite qu'un nom de famille long et
-// identique masque un prénom complètement différent.
+// Score 0-100: average of the similarity score (Levenshtein) on the nom
+// and on the prenom, computed separately — this keeps a long, identical
+// surname from masking a completely different first name.
 export function scoreNamePair(
   a: { nom: string; prenom: string },
   b: { nom: string; prenom: string }

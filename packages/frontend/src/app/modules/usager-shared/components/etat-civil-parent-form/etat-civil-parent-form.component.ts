@@ -171,6 +171,23 @@ export class EtatCivilParentFormComponent implements OnDestroy {
     this.updatePlaceHolder(this.usagerForm.value?.telephone?.countryCode);
   }
 
+  // A dossier can only have one CONJOINT ayant droit: the option is
+  // disabled for other rows as soon as one form row already has "CONJOINT"
+  // selected (the row holding it keeps the option enabled so it doesn't
+  // end up stuck on its own value).
+  public isConjointOptionDisabled(index: number, lienKey: string): boolean {
+    if (lienKey !== "CONJOINT") {
+      return false;
+    }
+    const currentValue = this.ayantsDroits.controls[index]?.get("lien")?.value;
+    if (currentValue === "CONJOINT") {
+      return false;
+    }
+    return this.ayantsDroits.controls.some(
+      (control, i) => i !== index && control.get("lien")?.value === "CONJOINT"
+    );
+  }
+
   public addAyantDroit(ayantDroit: AyantDroit = new AyantDroit()): void {
     (this.usagerForm.controls.ayantsDroits as UntypedFormArray).push(
       this.newAyantDroit(ayantDroit)

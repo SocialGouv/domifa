@@ -1,7 +1,7 @@
 import { type UserStructureResume } from "../../users/user-structure";
 import { type UsagerLienType } from "../types/UsagerLienType.type";
 
-// Une ligne de la table usager_lien (stockage "deux lignes miroir" - voir
+// A row of the usager_lien table ("mirrored rows" storage — see
 // UsagerLienTable.typeorm.ts).
 export interface UsagerLien {
   usagerUUID: string;

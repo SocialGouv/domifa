@@ -1,6 +1,6 @@
 ////////////////// IMPORTANT //////////////////
 //
-// Ce fichier doit être importé dans :
+// This file must be imported in:
 // - API_SECURITY_STRUCTURE_CONTROLLER_TEST_DEFS
 //
 
@@ -19,11 +19,11 @@ import {
 const CONTROLLER = "UsagersLienController";
 const WRITE_ROLES = ["simple", "responsable", "admin", "agent"] as const;
 
-// Ces DB dumps ne contiennent pas forcément un usager pour chaque
-// structure/contexte : quand `tryGetExistingUsagerForContext` ne trouve
-// rien, on tombe sur un usagerRef arbitraire (4444444) et
-// UsagerAccessGuard rejette avec BAD_REQUEST, quel que soit le rôle —
-// c'est le même comportement que le reste du module usagers.
+// These DB dumps don't necessarily contain a usager for every
+// structure/context: when `tryGetExistingUsagerForContext` finds nothing,
+// we fall back to an arbitrary usagerRef (4444444) and UsagerAccessGuard
+// rejects with BAD_REQUEST regardless of role — same behaviour as the
+// rest of the usagers module.
 export const UsagersLienControllerSecurityTests: AppTestHttpClientSecurityTestDef[] =
   [
     {
@@ -72,8 +72,8 @@ export const UsagersLienControllerSecurityTests: AppTestHttpClientSecurityTestDe
             context.user,
             {
               roles: [...WRITE_ROLES],
-              // Cible inexistante dans les deux cas (usager introuvable ou
-              // uuid arbitraire) : TARGET_NOT_FOUND / BAD_REQUEST.
+              // Target doesn't exist either way (usager not found or
+              // arbitrary uuid): TARGET_NOT_FOUND / BAD_REQUEST.
               validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
             }
           ),
@@ -97,7 +97,7 @@ export const UsagersLienControllerSecurityTests: AppTestHttpClientSecurityTestDe
             context.user,
             {
               roles: [...WRITE_ROLES],
-              // Pas de lien existant pour ce dossier fraîchement pioché.
+              // No existing link for this freshly picked dossier.
               validExpectedResponseStatus:
                 usager != null ? HttpStatus.NOT_FOUND : HttpStatus.BAD_REQUEST,
             }

@@ -41,19 +41,20 @@ import {
 import { UsagerLienService } from "../services/usagerLien.service";
 import { UsagerLienLogsService } from "../services/usagerLienLogs.service";
 
-// Toutes les routes prennent :usagerRef (dossier courant, résolu par
-// UsagerAccessGuard comme le reste du module usagers). Le dossier CIBLE,
-// lui, est toujours désigné par uuid dans le body/réponse — jamais par ref
-// — car un ref seul ne suffit pas à garantir qu'on parle du même
-// enregistrement entre la recherche/suggestion et l'appel de liaison.
+// Every route takes :usagerRef (the current dossier, resolved by
+// UsagerAccessGuard like the rest of the usagers module). The TARGET
+// dossier, however, is always designated by uuid in the body/response —
+// never by ref — because a ref alone isn't enough to guarantee we're
+// talking about the same record across the search/suggestion call and the
+// link call.
 //
-// Pas de @Throttle() dédié ici : AppThrottlerGuard.generateKey() ne clé
-// que sur (tier, utilisateur) — un même tier "medium" est donc un budget
-// PARTAGÉ avec tout le reste de l'app pour cet utilisateur, pas un budget
-// par route. Un override plus strict que le tier global par défaut (ex.
-// medium: 20/min, copié depuis un formulaire anonyme) a déjà déclenché un
-// AUTO_BLOCK "permanent" sur un compte structure en usage normal. Ces
-// routes restent bien "soumises au throttler" via le tier global hérité.
+// No dedicated @Throttle() here: AppThrottlerGuard.generateKey() only
+// keys on (tier, user) — a given "medium" tier is therefore a budget
+// SHARED with the rest of the app for that user, not a per-route budget.
+// A stricter override than the default global tier (e.g. medium: 20/min,
+// copied from an anonymous form) already triggered a "permanent"
+// AUTO_BLOCK on a structure account under normal usage. These routes are
+// still "subject to the throttler" via the inherited global tier.
 @Controller("usagers-lien")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserProfiles("structure")
@@ -64,8 +65,8 @@ export class UsagersLienController {
     private readonly appLogsService: AppLogsService
   ) {}
 
-  // Lecture ouverte à tous les rôles, facteur inclus : c'est l'affichage en
-  // haut de fiche qui consomme cet endpoint.
+  // Read access open to every role, facteur included: this is what the
+  // dossier header display consumes.
   @UseGuards(UsagerAccessGuard)
   @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
   @Get(":usagerRef")
@@ -119,8 +120,8 @@ export class UsagersLienController {
       currentUsager,
     });
 
-    // Le dossier lié existe toujours (seul le lien a été supprimé) : on le
-    // relit pour le log applicatif (nom/prénom/ref du côté "autre" dossier).
+    // The linked dossier still exists (only the link itself was deleted):
+    // re-read it for the application log (name/ref of the "other" side).
     const linkedUsager = await usagerRepository.findOneByOrFail({
       uuid: linkedUsagerUuid,
     });

@@ -9,11 +9,11 @@ import {
   UserStructureResume,
 } from "@domifa/common";
 
-// Persiste le "Ce n'est pas la même personne" du formulaire de liaison :
-// une ligne par (usagerUUID, ayantDroitUUID) rejetée empêche la suggestion
-// de matching de ressortir pour cette déclaration d'ayant droit précise.
-// Si l'ayant droit est retiré puis redéclaré, il obtient un nouvel uuid
-// donc une suggestion à nouveau fraîche.
+// Persists the "This isn't the same person" dismissal from the linking
+// form: one row per rejected (usagerUUID, ayantDroitUUID) keeps the
+// matching suggestion from resurfacing for that specific ayant droit
+// declaration. If the ayant droit is removed and re-declared, it gets a
+// new uuid and therefore a fresh suggestion.
 @Entity({ name: "usager_lien_suggestion_rejetee" })
 @Unique("UQ_usager_lien_suggestion_rejetee", ["usagerUUID", "ayantDroitUUID"])
 export class UsagerLienSuggestionRejeteeTable

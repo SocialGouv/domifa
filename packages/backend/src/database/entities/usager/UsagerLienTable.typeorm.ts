@@ -10,14 +10,14 @@ import {
   UserStructureResume,
 } from "@domifa/common";
 
-// Stockage "deux lignes miroir" : relier A à B crée une ligne
-// (usagerUUID: A, linkedUsagerUUID: B) et une ligne symétrique
-// (usagerUUID: B, linkedUsagerUUID: A), toujours dans la même transaction
-// (voir UsagerLienService.link/unlink). La contrainte UNIQUE sur
-// "usagerUUID" garantit le 1-1 au niveau base : un usager ne peut jamais
-// être "usagerUUID" sur plus d'une ligne. Les deux FK en CASCADE font que
-// la suppression d'un usager supprime automatiquement les deux côtés du
-// lien, sans code applicatif dédié.
+// "Mirrored rows" storage: linking A to B creates one row
+// (usagerUUID: A, linkedUsagerUUID: B) and a symmetric row
+// (usagerUUID: B, linkedUsagerUUID: A), always within the same transaction
+// (see UsagerLienService.link/unlink). The UNIQUE constraint on
+// "usagerUUID" enforces the 1-1 rule at the DB level: a usager can never be
+// "usagerUUID" on more than one row. The two CASCADE FKs mean deleting a
+// usager automatically deletes both sides of the link, with no dedicated
+// application code.
 @Entity({ name: "usager_lien" })
 @Check("CHK_usager_lien_not_self", `"usagerUUID" <> "linkedUsagerUUID"`)
 export class UsagerLienTable

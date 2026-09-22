@@ -4,9 +4,9 @@ export class LinkUsagerDto {
   @IsUUID()
   public targetUsagerUuid!: string;
 
-  // true si la liaison provient d'un clic sur la suggestion de matching
-  // automatique, false si elle provient de la recherche manuelle — utilisé
-  // uniquement pour le log applicatif (mesure d'adoption).
+  // true when the link comes from clicking the automatic matching
+  // suggestion, false when it comes from the manual search — only used
+  // for the application log (adoption measurement).
   @IsBoolean()
   public acceptedSuggestion!: boolean;
 }

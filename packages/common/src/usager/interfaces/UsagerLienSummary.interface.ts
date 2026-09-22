@@ -1,9 +1,9 @@
 import { type UsagerLienType } from "../types/UsagerLienType.type";
 import { type UsagerDecisionStatut } from "../types/decision";
 
-// DTO de lecture pour GET usagers-lien/:usagerRef — volontairement séparé
-// de l'interface Usager (jamais fusionné dans le dossier lui-même) pour ne
-// rien changer à la sérialisation Cerfa/export/import.
+// Read DTO for GET usagers-lien/:usagerRef — deliberately kept separate
+// from the Usager interface (never merged into the dossier itself) so it
+// doesn't change Cerfa/export/import serialization.
 export interface UsagerLienSummary {
   type: UsagerLienType;
   createdAt: Date;
