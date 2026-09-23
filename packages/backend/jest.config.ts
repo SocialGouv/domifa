@@ -1,4 +1,4 @@
-import { defineConfig } from "jest";
+import type { Config } from "jest";
 import { createJsWithTsPreset } from "ts-jest";
 
 // ESM-only dependencies (pulled by sanitize-html) that must be transpiled to CJS
@@ -11,7 +11,7 @@ const ESM_PACKAGES = [
   "entities",
 ];
 
-export default defineConfig({
+const config: Config = {
   ...createJsWithTsPreset({
     tsconfig: { isolatedModules: true, allowJs: true },
   }),
@@ -19,4 +19,6 @@ export default defineConfig({
   transformIgnorePatterns: [
     `node_modules/(?!(\\.pnpm|${ESM_PACKAGES.join("|")})[/@])`,
   ],
-});
+};
+
+export default config;
