@@ -1,3 +1,23 @@
+# [2.272.0](https://github.com/SocialGouv/domifa/compare/v2.271.0...v2.272.0) (2026-09-23)
+
+
+### Bug Fixes
+
+* **backend:** delete useless logs & upgrade packages ([9122295](https://github.com/SocialGouv/domifa/commit/91222951b91c4d68ed429b1738e4f9ac2a99ec6d))
+* **backend:** drop jest defineConfig resolved against hoisted jest-config 29 ([1610566](https://github.com/SocialGouv/domifa/commit/16105662ad95a41eaaa5aa13e5c373ccf4459848))
+* **backend:** scrub sentry events and keep explicit redacted http logs ([5624570](https://github.com/SocialGouv/domifa/commit/5624570123a7f7a3f9d9fee1f30f5f4e0aec7e8a))
+* **front:** code review ([62d4345](https://github.com/SocialGouv/domifa/commit/62d4345cfbc9c4b0990478213c374dcd07317576))
+
+
+### Features
+
+* **back:** fix code review ([d4705e8](https://github.com/SocialGouv/domifa/commit/d4705e8010e9c7b86930943170687a62763374ad))
+* **front:** adding date domiciliation ([b730d55](https://github.com/SocialGouv/domifa/commit/b730d558181608b8d66ce82067ff1a5fb559ee32))
+* **front:** code review ([dee6431](https://github.com/SocialGouv/domifa/commit/dee6431c2a0d13ad7904ea7cad6d5b040eead796))
+* **front:** code review ([242e172](https://github.com/SocialGouv/domifa/commit/242e172add870c91ed2079c1534d254ad911ed05))
+* **front:** fix code review ([72311c0](https://github.com/SocialGouv/domifa/commit/72311c0bb42e086c5da8972756ee215234d8cabb))
+* **front:** fix code review ([f635f60](https://github.com/SocialGouv/domifa/commit/f635f602b75b628a6ec1f60cd2906a5e63e07927))
+
 # [2.271.0](https://github.com/SocialGouv/domifa/compare/v2.270.1...v2.271.0) (2026-09-17)
 
 
