@@ -19,7 +19,7 @@
     "@commitlint/config-conventional": "^19.8.1",
     "@socialgouv/sre-secrets": "^1.14.5",
     "is-ci": "^4.1.0",
-    "lefthook": "^2.1.9",
+    "lefthook": "^2.1.14",
     "lerna": "^8.2.4",
     "lint-staged": "^16.4.0",
     "node-talisman": "^1.29.22"

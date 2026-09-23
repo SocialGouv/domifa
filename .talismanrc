@@ -1,5 +1,4 @@
 fileignoreconfig:
-
 - filename: .anonymizer/config.yaml
   checksum: 1c140b276ba06918e1b46964a0c3883b0c212c9def9008d9dcb5de8531e0bd1b
 - filename: .anonymizer/pnpm-lock.yaml
@@ -63,6 +62,5 @@ fileignoreconfig:
 - filename: packages/portail-usagers/src/app/modules/general/components/\_static/politique/politique.component.ts
   checksum: dfdbbe1892cf17b22d28f529914eb5df3a07063d5e3071e59c36c907020260d3
 - filename: pnpm-lock.yaml
-  checksum: 14433675b0b9262fe53e816307d1cd8eb752ffa54305e40ac7620b8400090bce
-  threshold: medium
-  version: "1.0"
+  checksum: 044b7db45023df321b4eebd2772cd574c0916e84e799f20b8c7c58bd57083baa
+version: "1.0"
