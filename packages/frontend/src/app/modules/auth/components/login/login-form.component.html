@@ -1,7 +1,8 @@
-<h1 class="fr-h3">Se connecter avec mon compte</h1>
+<h1 class="fr-h3 fr-mb-2w">Se connecter avec mon compte</h1>
+<p class="fr-text--xs fr-text-default--error fr-mb-3w">* champs obligatoires</p>
 <form
   [formGroup]="loginForm"
-  class="fr-display-flex fr-flex-column fr-gap-3w fr-pt-md-4w"
+  class="fr-display-flex fr-flex-column fr-gap-3"
   (ngSubmit)="login()"
 >
   @if (blockedTemp) {
@@ -44,7 +45,7 @@
     "
     class="fr-input-group required"
   >
-    <label class="fr-label" for="email">Adresse email</label>
+    <label class="fr-label" for="email">Identifiant</label>
     <p class="fr-hint-text">Format attendu : nom&#64;domaine.fr</p>
     <input
       type="email"
@@ -123,12 +124,12 @@
       </div>
     </div>
   </div>
-  <div class="fr-my-2w">
+  <div>
     <a routerLink="/users/reset-password" class="fr-link">
       Mot de passe oublié ?
     </a>
   </div>
-  <div class="fr-input-group fr-my-2w fr-text--center">
+  <div class="fr-input-group fr-mb-0 fr-text--center">
     <app-button
       type="submit"
       [loading]="loading"
@@ -138,10 +139,9 @@
     ></app-button>
   </div>
 
-  <hr />
-  <div class="fr-col-12 fr-display-flex fr-flex-column fr-gap-2w">
+  <div class="fr-display-flex fr-flex-column fr-gap-3 fr-mt-4w">
     <h2 class="fr-h5 fr-mb-0">Votre structure n’est pas encore inscrite ?</h2>
-    <div class="fr-input-group fr-my-2w fr-text--center">
+    <div class="fr-input-group fr-mb-0 fr-text--center">
       <a
         routerLink="/structures/inscription"
         id="inscriptionLink"
