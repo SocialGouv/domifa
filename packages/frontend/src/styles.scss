@@ -296,6 +296,11 @@ a.fr-link:has(img):hover {
   height: 100%;
 }
 
+.fr-icon--xl::before,
+.fr-icon--xl::after {
+  --icon-size: 3rem;
+}
+
 // .fr-btn--sort:before {
 //   --icon-size: 0.9rem;
 // }

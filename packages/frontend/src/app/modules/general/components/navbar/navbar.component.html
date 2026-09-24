@@ -12,16 +12,11 @@
             </div>
 
             <div class="fr-header__operator">
-              <a
-                href="/"
-                title="Retour à l'accueil du site - Domifa - République Française"
-              >
-                <img
-                  class="fr-responsive-img"
-                  src="assets/images/logo-dsfr.svg"
-                  alt="Retour à l'accueil du site - Domifa - République Française"
-                />
-              </a>
+              <img
+                class="header-logo"
+                src="assets/images/logo-icon.svg"
+                alt=""
+              />
             </div>
             <div class="fr-header__navbar">
               <button
@@ -36,22 +31,26 @@
               </button>
             </div>
           </div>
-          @if (me?.structure?.nom) {
           <div class="fr-header__service">
-            <a href="/" title="Retour à l'accueil du site - Domifa">
-              <p class="fr-header__service-title">{{ me.structure.nom }}</p>
+            <a href="/" title="Accueil - DomiFa - République Française">
+              <p class="fr-header__service-title">DomiFa</p>
             </a>
+            <p class="fr-header__service-tagline">
+              @if (me?.structure?.nom) {
+              {{ me.structure.nom }}
+              } @else { Le service en ligne qui simplifie la domiciliation des
+              personnes sans domicile stable }
+            </p>
           </div>
-          }
         </div>
 
         <div class="fr-header__tools">
           <div class="fr-header__tools-links">
             <ul class="fr-btns-group">
               @if (!me) {
-              <li class="fr-nav__item fr-hidden-lg">
+              <li>
                 <a
-                  class="fr-nav__link fr-btn fr-btn--tertiary"
+                  class="fr-btn fr-btn--tertiary-no-outline"
                   routerLink="/faq"
                   routerLinkActive=""
                   ariaCurrentWhenActive="page"
@@ -204,7 +203,7 @@
               Nous contacter
             </a>
           </li>
-          <li class="fr-nav__item">
+          <li class="fr-nav__item fr-hidden-lg">
             <a
               class="fr-nav__link"
               routerLink="/faq"
