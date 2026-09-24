@@ -7,6 +7,7 @@ import { MentionsLegalesComponent } from "./modules/general/components/static-pa
 import { PolitiqueComponent } from "./modules/general/components/static-pages/politique/politique.component";
 import { PlanSiteComponent } from "./modules/general/components/static-pages/plan-site/plan-site.component";
 import { RoleRedirectGuard } from "./guards/redirect-guard";
+import { RenewPasswordComponent } from "./modules/my-account/components/renew-password/renew-password.component";
 
 const routes: Routes = [
   {
@@ -45,6 +46,21 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () =>
       import("./modules/stats/stats.module").then((m) => m.StatsModule),
+  },
+  {
+    path: "my-account",
+    title: "Mon compte - Admin DomiFa",
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import("./modules/my-account/my-account.module").then(
+        (m) => m.MyAccountModule
+      ),
+  },
+  {
+    path: "renouveler-mot-de-passe",
+    title: "Renouvellement du mot de passe - Admin DomiFa",
+    canActivate: [AuthGuard],
+    component: RenewPasswordComponent,
   },
   {
     path: "manage-users",

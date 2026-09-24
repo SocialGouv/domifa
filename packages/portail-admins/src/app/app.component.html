@@ -40,6 +40,32 @@
   (linkSelect)="logout($event)"
   [menu]="adminProfile ? menuHeaderItems : []"
 ></dsfr-header>
+
+@if (passwordChangeStatus === 'WARNING' && (currentUrl === '/stats' ||
+currentUrl === '/structure')) {
+<div class="fr-container fr-my-3w">
+  <div class="fr-notice fr-notice--warning">
+    <div class="fr-container">
+      <div class="fr-notice__body">
+        <p>
+          <span class="fr-notice__title">
+            Votre mot de passe arrive à échéance <br />
+          </span>
+          <span class="fr-notice__desc">
+            Pour maintenir la sécurité de votre compte sur DomiFa, pensez à
+            renouveler votre mot de passe. L'opération prend moins d'une minute.
+            <br />
+          </span>
+          <a routerLink="/my-account">
+            Modifier mon mot de passe maintenant →
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+}
+
 <main role="main" id="page" class="fr-pb-6w">
   <app-custom-toastr></app-custom-toastr>
   <router-outlet></router-outlet>

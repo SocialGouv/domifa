@@ -22,6 +22,7 @@ import {
 } from "../util/express";
 import { UserProfile, UserStructureAuthenticated } from "../_common/model";
 import { AllowUserProfiles } from "./decorators/AllowUserProfiles.decorator";
+import { AllowExpiredPassword } from "./decorators/AllowExpiredPassword.decorator";
 import { CurrentUser } from "./decorators/current-user.decorator";
 import { AppUserGuard } from "./guards/AppUserGuard.guard";
 import { LoginOtpService } from "./services/login-otp.service";
@@ -180,6 +181,7 @@ export class StructuresAuthController {
   @UseGuards(AuthGuard("jwt"), AppUserGuard)
   @AllowUserProfiles("structure")
   @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
+  @AllowExpiredPassword()
   @Get("logout")
   public async logout(
     @Req() req: ExpressRequest,
@@ -217,6 +219,11 @@ export class StructuresAuthController {
   @UseGuards(AuthGuard("jwt"), AppUserGuard)
   @AllowUserProfiles("structure")
   @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
+  // Called by the frontend's isAuth() on every guarded route navigation,
+  // including navigating to the renewal page itself — must stay reachable
+  // once the password is EXPIRED, or the AuthGuard's redirect there would
+  // instead read as a failed isAuth() and force a full logout.
+  @AllowExpiredPassword()
   @Get("me")
   public me(
     @Res() res: Response,
@@ -239,6 +246,8 @@ export class StructuresAuthController {
       fonction: user.fonction,
       fonctionDetail: user.fonctionDetail,
       acceptTerms: user.acceptTerms,
+      passwordLastUpdate: user.passwordLastUpdate,
+      createdAt: user.createdAt,
       structure: user.structure,
       structureId: user.structureId,
       domifaVersion: domifaConfig().version.toString(),

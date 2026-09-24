@@ -129,7 +129,13 @@ export class AuthService {
     sessionExpired?: boolean
   ) => {
     if (this.currentUserValue?.access_token) {
-      await firstValueFrom(this.http.get(`${this.endPoint}/logout`));
+      try {
+        await firstValueFrom(this.http.get(`${this.endPoint}/logout`));
+      } catch {
+        // Best-effort: the local session must be cleared regardless of
+        // whether the backend call succeeded (network error, unexpected
+        // rejection, ...).
+      }
     }
     await this.logout(state, sessionExpired);
   };

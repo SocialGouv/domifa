@@ -508,7 +508,8 @@ CREATE TABLE public.user_structure_security (
     "structureId" integer,
     "fingerprintHash" text,
     "currentSession" jsonb,
-    "sessionsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL
+    "sessionsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL,
+    "passwordHistory" jsonb DEFAULT '[]'::jsonb NOT NULL
 );
 CREATE TABLE public.user_supervisor (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,
@@ -548,7 +549,8 @@ CREATE TABLE public.user_supervisor_security (
     "temporaryTokens" jsonb,
     "fingerprintHash" text,
     "currentSession" jsonb,
-    "sessionsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL
+    "sessionsHistory" jsonb DEFAULT '[]'::jsonb NOT NULL,
+    "passwordHistory" jsonb DEFAULT '[]'::jsonb NOT NULL
 );
 CREATE TABLE public.user_usager (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,

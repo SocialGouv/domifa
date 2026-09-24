@@ -17,6 +17,7 @@ import { ManageUsersRoutingModule } from "./manage-users-routing.module";
 import { AssignReferrersComponent } from "./components/assign-referrers/assign-referrers.component";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { DisplayLastLoginComponent } from "src/app/modules/shared/components/display-last-login/display-last-login.component";
+import { EditPasswordFormComponent } from "./components/edit-password-form/edit-password-form.component";
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { DisplayLastLoginComponent } from "src/app/modules/shared/components/dis
     SortArrayPipe,
     DsfrModalComponent,
     DisplayLastLoginComponent,
+    EditPasswordFormComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })
