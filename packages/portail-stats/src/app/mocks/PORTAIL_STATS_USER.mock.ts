@@ -7,6 +7,7 @@ export const PORTAIL_STATS_USER_MOCK: PortailAdminUser = {
   nom: "TEST",
   prenom: "TEST",
   lastLogin: new Date(),
+  passwordLastUpdate: new Date(),
   status: "ACTIVE",
   role: "national",
   territories: [],
