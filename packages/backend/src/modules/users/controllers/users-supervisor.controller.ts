@@ -28,12 +28,12 @@ import { AppUserGuard } from "../../../auth/guards";
 import {
   userSecurityResetPasswordInitiator,
   userSecurityResetPasswordUpdater,
-  userStructureSecurityPasswordUpdater,
 } from "../services";
 import { AppLogsService } from "../../app-logs/app-logs.service";
 import { UserSupervisorCrudLogContext } from "../../app-logs/types/app-log-context.types";
 import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
 import { domifaConfig } from "../../../config";
+import { handleEditMyPasswordRequest } from "./handleEditMyPasswordRequest";
 
 const userProfile: UserProfile = "supervisor";
 
@@ -138,30 +138,12 @@ export class UsersSupervisorController {
     @Res() res: ExpressResponse,
     @Body() editPasswordDto: EditMyPasswordDto
   ) {
-    try {
-      await userStructureSecurityPasswordUpdater.updatePassword({
-        userId: user.id,
-        oldPassword: editPasswordDto.oldPassword,
-        newPassword: editPasswordDto.password,
-        userProfile,
-        requestContext: buildSecurityLogRequestContext(req),
-      });
-      return res.status(HttpStatus.OK).json({ message: "OK" });
-    } catch (err) {
-      if ((err as Error)?.message === "NEW_PASSWORD_SAME_AS_OLD") {
-        return res
-          .status(HttpStatus.BAD_REQUEST)
-          .json({ message: "NEW_PASSWORD_SAME_AS_OLD" });
-      }
-      if ((err as Error)?.message === "NEW_PASSWORD_ALREADY_USED") {
-        return res
-          .status(HttpStatus.BAD_REQUEST)
-          .json({ message: "NEW_PASSWORD_ALREADY_USED" });
-      }
-      appLogger.error(err);
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "EDIT_PASSWORD_FAIL" });
-    }
+    return handleEditMyPasswordRequest({
+      req,
+      res,
+      userId: user.id,
+      userProfile,
+      editPasswordDto,
+    });
   }
 }
