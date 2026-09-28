@@ -55,6 +55,8 @@ fileignoreconfig:
   checksum: c54f1bf45a44280960869561243668e7a92713fb5265f008a95fc3fe66014bf1
 - filename: packages/portail-admins/src/app/modules/general/components/static-pages/politique/politique.component.ts
   checksum: d1cc83582130541b0aff2b8b3984e907b889c057b21f8f251c9b55583e864703
+- filename: packages/portail-stats/src/app/mocks/PORTAIL_STATS_USER.mock.ts
+  checksum: ed144f5454687dd3e28a46e196895e6dd58e08084861fa86dc4201615547b099
 - filename: packages/portail-stats/src/app/modules/auth/components/password-form/password-form.component.spec.ts
   checksum: 6d4c681bd49dae699aaaf2f33fb019793eaafe451b61349e9f88075bb9809dbb
 - filename: packages/portail-stats/src/app/modules/general/components/static-pages/politique/politique.component.ts
