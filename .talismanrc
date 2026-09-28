@@ -34,7 +34,7 @@ fileignoreconfig:
 - filename: packages/backend/src/modules/users/controllers/handleEditMyPasswordRequest.ts
   checksum: 7ec9a91f6f53aa434097177e8088ee778e3f816f7e68734cc742dd64b7dea720
 - filename: packages/backend/src/modules/users/e2e/password-renewal.e2e.spec.ts
-  checksum: e8de03fd926db331dc3500d30c758e2f31d3dfac69dd16fac36e2f5add04bb4a
+  checksum: 6f2f249c06a84ed37da336aa6331abe1e6c67e7e2685eed2986e1a5e16dc1019
 - filename: packages/frontend/src/app/modules/general/components/decouvrir-domifa/decouvrir-domifa.component.html
   checksum: a55373935e6910c40194a0df61d6dc33355db938c6d382d4e458e449a074b160
 - filename: packages/frontend/src/app/modules/general/components/static-pages/politique/politique.component.html
