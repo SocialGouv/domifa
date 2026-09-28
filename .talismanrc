@@ -31,6 +31,8 @@ fileignoreconfig:
   checksum: 27b30903e350c810884209af85ddc0555ad1a728f304c34d03661ec7c164d321
 - filename: packages/backend/src/\_migrations/\_init-db/domifa_test_schema.sql
   checksum: 8a8f9a18c94a77d7400f256c230eceb0a040e87c51b2a20398ed2b61348ec6b6
+- filename: packages/backend/src/modules/users/controllers/handleEditMyPasswordRequest.ts
+  checksum: 7ec9a91f6f53aa434097177e8088ee778e3f816f7e68734cc742dd64b7dea720
 - filename: packages/frontend/src/app/modules/general/components/decouvrir-domifa/decouvrir-domifa.component.html
   checksum: a55373935e6910c40194a0df61d6dc33355db938c6d382d4e458e449a074b160
 - filename: packages/frontend/src/app/modules/general/components/static-pages/politique/politique.component.html
