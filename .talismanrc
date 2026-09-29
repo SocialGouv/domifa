@@ -32,7 +32,7 @@ fileignoreconfig:
 - filename: packages/backend/src/\_migrations/\_init-db/domifa_test_schema.sql
   checksum: 8a8f9a18c94a77d7400f256c230eceb0a040e87c51b2a20398ed2b61348ec6b6
 - filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
-  checksum: 6c012c6d3898c534a2b2034fa47cb23eb091931ec2dea75435890e537ffd83b0
+  checksum: 3bb17388968d9c1dfd0828a689a9697f8c6e5e862b735d7202e6327c6fc328d8
 - filename: packages/backend/src/modules/users/controllers/handleEditMyPasswordRequest.ts
   checksum: 7ec9a91f6f53aa434097177e8088ee778e3f816f7e68734cc742dd64b7dea720
 - filename: packages/backend/src/modules/users/e2e/password-renewal.e2e.spec.ts
