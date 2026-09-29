@@ -248,12 +248,14 @@ describe("Usagers Controller", () => {
           body: {
             ayantsDroits: [
               {
+                uuid: "b0f9c8d7-1e2a-4b3c-8d4e-5f6a7b8c9d0e",
                 lien: "ENFANT",
                 nom: "Moni ",
                 prenom: "Mour ",
                 dateNaissance: "1999-10-10T00:00:00.000Z",
               },
               {
+                uuid: "a5a4454f-e080-4da1-8599-d420d50502a4",
                 lien: "PARENT",
                 nom: "Zer",
                 prenom: "Moki",
