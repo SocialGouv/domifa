@@ -1,8 +1,9 @@
-<p class="fr-text--center fr-mb-0" *ngIf="loading">
+@if (loading) {
+<p class="fr-text--center fr-mb-0">
   Confirmation de votre nouvelle adresse email en cours...
 </p>
-
-<div class="fr-text--center" *ngIf="!loading && success">
+} @else if (success) {
+<div class="fr-text--center">
   <span
     class="fr-icon-checkbox-circle-fill fr-icon--xl fr-text-default--success"
     aria-hidden="true"
@@ -21,20 +22,19 @@
     Me connecter
   </a>
 </div>
+} @else {
+<div class="fr-alert fr-alert--error">
+  <h1 class="fr-alert__title">Ce lien n'est plus valable</h1>
+  <p>
+    Il a peut-être déjà été utilisé ou a expiré. Vous pouvez recommencer la
+    demande de modification depuis votre compte.
+  </p>
+</div>
 
-<ng-container *ngIf="!loading && !success">
-  <div class="fr-alert fr-alert--error">
-    <h1 class="fr-alert__title">Ce lien n'est plus valable</h1>
-    <p>
-      Il a peut-être déjà été utilisé ou a expiré. Vous pouvez recommencer la
-      demande de modification depuis votre compte.
-    </p>
-  </div>
-
-  <a
-    routerLink="/connexion"
-    class="fr-btn fr-btn--secondary fr-display-flex fr-flex-column w-100 fr-mt-3w"
-  >
-    Revenir à la connexion
-  </a>
-</ng-container>
+<a
+  routerLink="/connexion"
+  class="fr-btn fr-btn--secondary fr-display-flex fr-flex-column w-100 fr-mt-3w"
+>
+  Revenir à la connexion
+</a>
+}
