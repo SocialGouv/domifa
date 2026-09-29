@@ -1,5 +1,5 @@
 export const PASSWORD_CHANGE_WARNING_MONTHS = 24;
-export const PASSWORD_CHANGE_EXPIRED_MONTHS = 36;
+export const PASSWORD_CHANGE_EXPIRED_MONTHS = 60;
 
 // Number of past password hashes kept per account to reject reuse.
 export const PASSWORD_HISTORY_SIZE = 5;

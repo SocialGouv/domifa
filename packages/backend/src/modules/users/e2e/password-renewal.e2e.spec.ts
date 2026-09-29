@@ -116,7 +116,7 @@ describe("Password renewal — end to end", () => {
     const NEW_PASSWORD = "E2ERenewalPass1!";
 
     try {
-      // 1. The account is more than 36 months overdue.
+      // 1. The account is more than 60 months overdue.
       await userStructureRepository.update(
         { id: structureFixture.id },
         { passwordLastUpdate: new Date("2000-01-01") }
