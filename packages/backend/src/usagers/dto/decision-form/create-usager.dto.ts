@@ -4,7 +4,7 @@ import {
   Telephone,
   UsagerAyantDroit,
 } from "@domifa/common";
-import { plainToInstance, Transform, Type } from "class-transformer";
+import { Type } from "class-transformer";
 import {
   ArrayMaxSize,
   IsArray,
@@ -17,11 +17,9 @@ import {
   IsObject,
   IsOptional,
   IsString,
-  isUUID,
   MaxLength,
   ValidateNested,
 } from "class-validator";
-import { v4 as uuidv4 } from "uuid";
 import {
   StripTagsTransform,
   TrimOrNullTransform,
@@ -104,30 +102,14 @@ export class CreateUsagerDto {
   @IsBoolean()
   public contactByPhone!: boolean;
 
+  // Each ayant droit already carries its own uuid (generated on the frontend as
+  // soon as it's added, see UsagerAyantDroitDto) — nothing to compute here, this
+  // is plain validation like every other field.
   @IsOptional()
   @IsArray()
   @ArrayMaxSize(20)
   @ValidateNested({ each: true })
   @Type(() => UsagerAyantDroitDto)
-  // Give every ayant droit a well-formed uuid: keep the one the frontend rounds
-  // back for an existing row, mint one for a new / empty / malformed row.
-  @Transform(({ value }) => {
-    if (!Array.isArray(value)) {
-      return value;
-    }
-    const seen = new Set<string>();
-    return plainToInstance(
-      UsagerAyantDroitDto,
-      value.map((ayantDroit) => {
-        const uuid =
-          isUUID(ayantDroit?.uuid) && !seen.has(ayantDroit.uuid)
-            ? ayantDroit.uuid
-            : uuidv4();
-        seen.add(uuid);
-        return { ...ayantDroit, uuid };
-      })
-    );
-  })
   public ayantsDroits!: UsagerAyantDroit[];
 
   @IsOptional()
