@@ -51,9 +51,11 @@ export class CreateDatabase1603812391580 implements MigrationInterface {
   private async isDatabaseInitialized(
     queryRunner: QueryRunner
   ): Promise<boolean> {
-    // Vérifier l'existence d'une table métier caractéristique de votre app
-    // Remplacez "usagers" par une table importante de votre domaine
-    const hasBusinessTables = await queryRunner.hasTable("usagers");
+    // Table métier caractéristique de l'app : "usager" (singulier), pas
+    // "usagers" — cette vérification retournait toujours false sinon,
+    // ce qui fait retenter le chargement complet du dump (et planter sur
+    // des "relation already exists") après tout échec partiel précédent.
+    const hasBusinessTables = await queryRunner.hasTable("usager");
     return hasBusinessTables;
   }
 
