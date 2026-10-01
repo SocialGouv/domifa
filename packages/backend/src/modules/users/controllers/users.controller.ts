@@ -24,13 +24,13 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { Request as ExpressRequest, Response } from "express";
-import { buildSecurityLogRequestContext } from "../../../util/express";
 import {
   UserAdminAuthenticated,
   UserProfile,
   UserStructureAuthenticated,
 } from "../../../_common/model";
 import {
+  AllowExpiredPassword,
   AllowUserStructureRoles,
   CurrentUser,
   CurrentChosenUserStructure,
@@ -50,12 +50,10 @@ import {
   EmailDto,
   NewReferrerIdDto,
 } from "../dto";
-import {
-  userStructureCreator,
-  userStructureSecurityPasswordUpdater,
-} from "../services";
+import { userStructureCreator } from "../services";
 import { UserStructureDecisionService } from "../services/user-structure-decision/user-structure-decision.service";
 import { UserStructureEmailUpdaterService } from "../services/userStructureEmailUpdater.service";
+import { handleEditMyPasswordRequest } from "./handleEditMyPasswordRequest";
 import { OtpGuard } from "../../otp/guards/otp.guard";
 import { RequireOtp } from "../../otp/decorators/require-otp.decorator";
 // Direct path (not via the `portail-admin` barrel): the barrel re-exports
@@ -119,6 +117,7 @@ export class UsersController {
     return users;
   }
 
+  @AllowExpiredPassword()
   @Get("accept-terms")
   public async acceptTerms(@CurrentUser() user: UserStructureAuthenticated) {
     await userStructureRepository.update(
@@ -133,19 +132,6 @@ export class UsersController {
       );
     }
     return true;
-  }
-
-  @Get("last-password-update")
-  public async getLastPasswordUpdate(
-    @CurrentUser() user: UserStructureAuthenticated,
-    @Res() res: Response
-  ) {
-    const newUser = await userStructureRepository.findOne({
-      where: { id: user.id, status: Not("DELETE") },
-      select: ["passwordLastUpdate"],
-    });
-
-    return res.status(HttpStatus.OK).json(newUser?.passwordLastUpdate ?? null);
   }
 
   @AllowUserStructureRoles("admin")
@@ -384,6 +370,7 @@ export class UsersController {
   }
 
   // Edition d'un mot de passe quand on est déjà connecté
+  @AllowExpiredPassword()
   @Post("edit-my-password")
   public async editPassword(
     @Req() req: ExpressRequest,
@@ -391,21 +378,13 @@ export class UsersController {
     @Res() res: Response,
     @Body() editPasswordDto: EditMyPasswordDto
   ) {
-    try {
-      await userStructureSecurityPasswordUpdater.updatePassword({
-        userId: user.id,
-        oldPassword: editPasswordDto.oldPassword,
-        newPassword: editPasswordDto.password,
-        userProfile,
-        requestContext: buildSecurityLogRequestContext(req),
-      });
-      return res.status(HttpStatus.OK).json({ message: "OK" });
-    } catch (err) {
-      appLogger.error(err);
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "EDIT_PASSWORD_FAIL" });
-    }
+    return handleEditMyPasswordRequest({
+      req,
+      res,
+      userId: user.id,
+      userProfile,
+      editPasswordDto,
+    });
   }
 
   // Demande de changement d'email quand on est déjà connecté : n'applique

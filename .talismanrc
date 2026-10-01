@@ -31,6 +31,12 @@ fileignoreconfig:
   checksum: 27b30903e350c810884209af85ddc0555ad1a728f304c34d03661ec7c164d321
 - filename: packages/backend/src/\_migrations/\_init-db/domifa_test_schema.sql
   checksum: 8a8f9a18c94a77d7400f256c230eceb0a040e87c51b2a20398ed2b61348ec6b6
+- filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
+  checksum: 3bb17388968d9c1dfd0828a689a9697f8c6e5e862b735d7202e6327c6fc328d8
+- filename: packages/backend/src/modules/users/controllers/handleEditMyPasswordRequest.ts
+  checksum: 7ec9a91f6f53aa434097177e8088ee778e3f816f7e68734cc742dd64b7dea720
+- filename: packages/backend/src/modules/users/e2e/password-renewal.e2e.spec.ts
+  checksum: 9a1566822a40246f43295891a77982cf47bb9a3b6ee84e704571f42582d5b274
 - filename: packages/frontend/src/app/modules/general/components/decouvrir-domifa/decouvrir-domifa.component.html
   checksum: a55373935e6910c40194a0df61d6dc33355db938c6d382d4e458e449a074b160
 - filename: packages/frontend/src/app/modules/general/components/static-pages/politique/politique.component.html
@@ -53,6 +59,8 @@ fileignoreconfig:
   checksum: c54f1bf45a44280960869561243668e7a92713fb5265f008a95fc3fe66014bf1
 - filename: packages/portail-admins/src/app/modules/general/components/static-pages/politique/politique.component.ts
   checksum: d1cc83582130541b0aff2b8b3984e907b889c057b21f8f251c9b55583e864703
+- filename: packages/portail-stats/src/app/mocks/PORTAIL_STATS_USER.mock.ts
+  checksum: ed144f5454687dd3e28a46e196895e6dd58e08084861fa86dc4201615547b099
 - filename: packages/portail-stats/src/app/modules/auth/components/password-form/password-form.component.spec.ts
   checksum: 6d4c681bd49dae699aaaf2f33fb019793eaafe451b61349e9f88075bb9809dbb
 - filename: packages/portail-stats/src/app/modules/general/components/static-pages/politique/politique.component.ts

@@ -65,7 +65,12 @@ export class ServerErrorInterceptor implements HttpInterceptor {
               "Problème de connexion au serveur. Veuillez réessayer plus tard."
             );
           }
-          if (error.status === 401) {
+          // A 401 only means "your session expired" if there was a session
+          // to begin with. Public/unauthenticated calls (login,
+          // CHANGE_PASSWORD_REQUIRED, reset-password, ...) also return 401
+          // and must not trigger a logout + "session expired" toast on top
+          // of the error the calling component already handles.
+          if (error.status === 401 && authService?.currentUserValue) {
             authService.logoutAndRedirect();
             toastr.error(
               "Votre session a expiré, merci de vous connecter à nouveau"

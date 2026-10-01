@@ -1,4 +1,5 @@
 import {
+  getPasswordChangeStatus,
   UserFonction,
   UserStructureRole,
   UserSupervisorRole,
@@ -26,7 +27,6 @@ import {
 
 import { addLogContext, appLogger } from "../../util";
 import { authChecker } from "../services";
-import { userStatusManager } from "../../modules/users/services";
 import { userTypeFromProfile } from "../../modules/app-logs/app-logs.helpers";
 import {
   getClientIp,
@@ -156,10 +156,11 @@ export class AppUserGuard implements CanActivate {
         throw new UnauthorizedException("TOKEN_EXPIRED");
       }
 
-      const status = await userStatusManager.getUserStatusFromDb({
-        userProfile: user._userProfile,
-        userId: user._userId,
-      });
+      // JwtStrategy.validate() already fetched this row fresh (once per
+      // request, before this guard runs) and put it on request.user — no
+      // need to query it again here.
+      const status =
+        user._userProfile === "usager" ? user.user.status : user.status;
       // Whitelist approach: only ACTIVE accounts pass. PENDING (not yet
       // activated), TEMPORARILY_BLOCKED (security backoff) and BLOCKED
       // (definitive) are all rejected.
@@ -219,6 +220,32 @@ export class AppUserGuard implements CanActivate {
 
       if (user._userProfile === "usager") {
         return true;
+      }
+
+      // Server-side enforcement of the annual password-renewal policy.
+      // @AllowExpiredPassword opts an endpoint out (edit-my-password, me).
+      const methodAllowExpiredPassword = this.reflector.get<boolean>(
+        "allowExpiredPassword",
+        context.getHandler()
+      );
+      const classAllowExpiredPassword = this.reflector.get<boolean>(
+        "allowExpiredPassword",
+        context.getClass()
+      );
+      const allowExpiredPassword =
+        methodAllowExpiredPassword ?? classAllowExpiredPassword ?? false;
+
+      if (
+        !allowExpiredPassword &&
+        getPasswordChangeStatus(user.passwordLastUpdate, user.createdAt) ===
+          "EXPIRED"
+      ) {
+        // 401, not 403: the JWT itself is still valid, but the frontend
+        // must treat this like an expired session (re-login), which then
+        // redirects to the renewal page — same reasoning as
+        // ACCOUNT_NOT_ACTIVE above, minus the blacklist (the token must
+        // keep working for edit-my-password).
+        throw new UnauthorizedException("PASSWORD_RENEWAL_REQUIRED");
       }
 
       if (

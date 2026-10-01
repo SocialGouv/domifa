@@ -72,7 +72,27 @@ export class ServerErrorInterceptor implements HttpInterceptor {
         "Problème de connexion au serveur. Veuillez réessayer plus tard."
       );
     } else if (error.status === 401) {
-      authService.logout(undefined, true);
+      // A 401 only means "your session expired" if there was a session to
+      // begin with. Public/unauthenticated calls (login, CHANGE_PASSWORD_REQUIRED,
+      // reset-password, ...) also return 401 and must not trigger a logout +
+      // "session expired" toast on top of the error the calling component
+      // already handles.
+      //
+      // PASSWORD_RENEWAL_REQUIRED (AppUserGuard, server-side mirror of the
+      // annual renewal check) is its own case within that: the JWT is still
+      // valid, only restricted — logging out here would be wrong. Some
+      // root-provided services (e.g. ManageUsersService) fetch data eagerly
+      // in their constructor regardless of the current route, so this can
+      // fire from a call the user never directly triggered; AuthGuard
+      // already redirects to the renewal page on every guarded navigation,
+      // so the safe thing here is to just not touch the session.
+      if (
+        authService.currentUserValue &&
+        (error.error as { message?: string })?.message !==
+          "PASSWORD_RENEWAL_REQUIRED"
+      ) {
+        authService.logout(undefined, true);
+      }
     } else if (error.status === 403) {
       toastr.error("Vous n'avez pas les droits pour effectuer cette action");
     } else if (error.status >= 500 && error.status <= 504) {

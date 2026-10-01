@@ -91,10 +91,6 @@ export class ManageUsersService {
     });
   }
 
-  public getLastPasswordUpdate(): Observable<Date | null> {
-    return this.http.get<Date | null>(`${this.endPoint}/last-password-update`);
-  }
-
   public agenda(): Observable<UsagerLight[]> {
     return this.http.get<UsagerLight[]>(`${environment.apiUrl}agenda`);
   }
