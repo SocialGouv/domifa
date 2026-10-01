@@ -42,6 +42,7 @@ export const USAGER_VALIDE_MOCK: Usager = {
   rdv: { dateRdv: null, userId: 0, userName: "" },
   ayantsDroits: [
     {
+      uuid: "b0f9c8d7-1e2a-4b3c-8d4e-5f6a7b8c9d0e",
       nom: "Karamoko",
       prenom: "Mauricette",
       dateNaissance: new Date("1978-12-20T00:00:00.000Z"),

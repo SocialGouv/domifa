@@ -47,6 +47,7 @@ export const USAGER_REFUS_MOCK: Usager = {
   rdv: { dateRdv: null, userId: 0, userName: "" },
   ayantsDroits: [
     {
+      uuid: "e3c8f7a6-4b5d-4e6f-9a7b-8c9d0e1f2a3b",
       nom: "Karamoko",
       prenom: "Mauricette",
       dateNaissance: new Date("1978-12-20T00:00:00.000Z"),

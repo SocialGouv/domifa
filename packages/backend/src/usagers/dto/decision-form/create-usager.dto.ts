@@ -102,6 +102,9 @@ export class CreateUsagerDto {
   @IsBoolean()
   public contactByPhone!: boolean;
 
+  // Each ayant droit already carries its own uuid (generated on the frontend as
+  // soon as it's added, see UsagerAyantDroitDto) — nothing to compute here, this
+  // is plain validation like every other field.
   @IsOptional()
   @IsArray()
   @ArrayMaxSize(20)
