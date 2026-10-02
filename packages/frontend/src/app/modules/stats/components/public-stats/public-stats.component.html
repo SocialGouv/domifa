@@ -20,20 +20,20 @@
     <div class="fr-grid-row fr-grid-row--middle fr-gap-1w fr-grid-row--gutters">
       @if (!regionId) {
       <div class="fr-col-12 fr-col-md-7 fr-py-3w fr-py-md-5">
-        <h1 class="fr-text-title--blue-france fr-mb-1w">
+        <h1 class="fr-text-title--grey fr-mb-1w">
           Statistiques d'utilisation de DomiFa
         </h1>
-        <p class="fr-text--lg fr-text-title--blue-france">
+        <p class="fr-text--lg fr-text-title--grey">
           Découvrez nos chiffres clés sur l'utilisation de DomiFa en France.
         </p>
       </div>
       } @else {
       <div class="fr-col-12 fr-col-md-7 fr-py-3w fr-py-md-5">
-        <h1 class="fr-text-title--blue-france fr-mb-1w">
+        <h1 class="fr-text-title--grey fr-mb-1w">
           Statistiques régionales :
           {{ regions[REGIONS_SEO_ID[regionId]] }}
         </h1>
-        <p class="fr-text--lg fr-text-title--blue-france">
+        <p class="fr-text--lg fr-text-title--grey">
           Découvrez nos chiffres clés sur l'utilisation de DomiFa sur la région
           <span class="fr-text--bold">
             {{ regions[REGIONS_SEO_ID[regionId]] }}
@@ -83,7 +83,7 @@
               <dl
                 class="fr-display-flex ps-0 fr-flex-column fr-align-items-center fr-py-3w"
               >
-                <dd class="fr-h1 fr-mb-0 ps-0 fr-text-title--blue-france">
+                <dd class="fr-h1 fr-mb-0 ps-0 fr-text-title--grey">
                   {{ stats?.structuresCount | number : "1.0-3" : "fr" }}
                 </dd>
                 <dd>Structures</dd>
@@ -99,7 +99,7 @@
                     class="fr-display-flex fr-justify-content-start fr-align-items-center fr-gap-2w"
                   >
                     <span
-                      class="fr-text--lead fr-mr-2w fr-mb-0 fr-text-title--blue-france fr-text--bold"
+                      class="fr-text--lead fr-mr-2w fr-mb-0 fr-text-title--grey fr-text--bold"
                       >{{ structure.value | number : "1.0-3" : "fr" }}</span
                     >
                     <span class="sub-stats-label">
@@ -127,7 +127,7 @@
                 />
               </div>
               <div class="fr-text--center">
-                <div class="fr-h3 fr-mb-0 fr-text-title--blue-france">
+                <div class="fr-h3 fr-mb-0 fr-text-title--grey">
                   {{ stats?.usersCount | number : "1.0-0" }}
                 </div>
                 <span>agents</span>
@@ -147,7 +147,7 @@
               </div>
 
               <div class="fr-text--center">
-                <div class="fr-h3 fr-mb-0 fr-text-title--blue-france">
+                <div class="fr-h3 fr-mb-0 fr-text-title--grey">
                   <span
                     [countUp]="stats?.courrierInCount"
                     [countUpOptions]="countOptions"
@@ -169,7 +169,7 @@
                 />
               </div>
               <div class="fr-display-flex fr-flex-column fr-text--center">
-                <div class="fr-h3 fr-mb-0 fr-text-title--blue-france">
+                <div class="fr-h3 fr-mb-0 fr-text-title--grey">
                   <span
                     [countUp]="stats?.courrierOutCount"
                     [countUpOptions]="countOptions"
@@ -192,7 +192,7 @@
                 />
               </div>
               <div>
-                <span class="fr-h3 fr-mb-0 fr-text-title--blue-france">
+                <span class="fr-h3 fr-mb-0 fr-text-title--grey">
                   {{ distributionRate }}%</span
                 >
               </div>
@@ -222,7 +222,7 @@
               <div
                 class="fr-display-flex fr-flex-column fr-align-self-center fr-text--center"
               >
-                <span class="fr-h2 fr-mb-0 pb-0 fr-text-title--blue-france">
+                <span class="fr-h2 fr-mb-0 pb-0 fr-text-title--grey">
                   {{ stats?.actifs | number : "1.0-0" }}</span
                 >
                 <span>Personnes domiciliées</span>
@@ -304,9 +304,7 @@
               <li
                 class="fr-display-flex fr-justify-content-start fr-gap-2w fr-align-items-center"
               >
-                <span
-                  class="region-count fr-text-title--blue-france fr-text--bold"
-                >
+                <span class="region-count fr-text-title--grey fr-text--bold">
                   {{ structure.count }}
                 </span>
                 <span>
@@ -330,9 +328,7 @@
               <li
                 class="fr-display-flex fr-justify-content-start fr-gap-2w fr-align-items-center"
               >
-                <span
-                  class="region-count fr-text-title--blue-france fr-text--bold"
-                >
+                <span class="region-count fr-text-title--grey fr-text--bold">
                   {{ statsRegionsValues[departementCom.value.regionCode] }}
                 </span>
                 <span>
@@ -366,10 +362,10 @@
       <div
         class="fr-col-12 fr-col-md-7 fr-col-sm-10 fr-py-3w fr-py-md-5 fr-display-flex fr-flex-column fr-gap-1w fr-align-items-center"
       >
-        <h2 class="fr-text-title--blue-france fr-text--center fr-mb-1w">
+        <h2 class="fr-text-title--grey fr-text--center fr-mb-1w">
           Mesure d’impact de DomiFa
         </h2>
-        <p class="fr-text--lg fr-text-title--blue-france fr-text--center">
+        <p class="fr-text--lg fr-text-title--grey fr-text--center">
           Découvrez les témoignages de nos utilisateurs sur les bénéfices de
           DomiFa au quotidien.
         </p>
