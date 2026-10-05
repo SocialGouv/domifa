@@ -1,3 +1,10 @@
+# [2.276.0](https://github.com/SocialGouv/domifa/compare/v2.275.0...v2.276.0) (2026-10-05)
+
+
+### Features
+
+* **front:** change color button for access ([f363ad5](https://github.com/SocialGouv/domifa/commit/f363ad5166a3cf3316cdc1eb4bf62021c973209f))
+
 # [2.275.0](https://github.com/SocialGouv/domifa/compare/v2.274.0...v2.275.0) (2026-10-05)
 
 
