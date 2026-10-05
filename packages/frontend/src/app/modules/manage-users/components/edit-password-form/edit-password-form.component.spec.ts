@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { provideHttpClient } from "@angular/common/http";
 
 import { EditPasswordFormComponent } from "./edit-password-form.component";
+import { NGRX_PROVIDERS_TESTING } from "../../../../shared/store/tests";
 
 describe("EditPasswordFormComponent", () => {
   let component: EditPasswordFormComponent;
@@ -10,7 +11,7 @@ describe("EditPasswordFormComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [EditPasswordFormComponent],
-      providers: [provideHttpClient()],
+      providers: [provideHttpClient(), ...NGRX_PROVIDERS_TESTING],
     }).compileComponents();
 
     fixture = TestBed.createComponent(EditPasswordFormComponent);

@@ -1,0 +1,15 @@
+<div class="support-mode-banner" *ngIf="me?.role === 'support'" role="alert">
+  <span>
+    Vous êtes connecté en tant que compte support, rattaché à
+    <strong>{{ me?.structure?.nom }}</strong
+    >. Durée du rattachement restante :
+    <strong>{{ remainingLabel }}</strong>
+  </span>
+  <button
+    type="button"
+    class="fr-btn fr-btn--sm fr-btn--secondary"
+    (click)="quit()"
+  >
+    Quitter le mode support
+  </button>
+</div>

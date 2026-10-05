@@ -34,6 +34,7 @@ import {
 } from "../../database";
 import {
   ALL_USER_STRUCTURE_ROLES,
+  SUPPORT_READ_ROLES,
   Usager,
   UsagerOptionsHistoryAction,
   UsagerOptionsHistoryTypeEnum,
@@ -50,6 +51,7 @@ export class UsagerOptionsController {
   ) {}
 
   @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles(...SUPPORT_READ_ROLES)
   @Get("historique/:usagerRef/:type")
   public async getProcurationHistory(
     @CurrentUsager() currentUsager: Usager,

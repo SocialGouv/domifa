@@ -89,6 +89,11 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
 
   public me!: UserStructure | null;
   public canEditUsagers = false;
+  // Computed once (not a live subscription) and passed down to each row's
+  // interaction buttons via a plain @Input — see
+  // ColumnInteractionsComponent.readOnly for why per-row support-mode
+  // checks need to stay this cheap.
+  public isSupportModeReadOnly = false;
   private readonly subscription = new Subscription();
   public showCheckboxes = false;
   public currentFilters!: UsagersFilterCriteria;
@@ -114,7 +119,10 @@ export class ManageUsagersTableComponent implements OnInit, OnDestroy {
   ) {
     this.me = this.authService.currentUserValue;
     this.canEditUsagers =
-      this.me?.role !== "facteur" && this.me?.role !== "agent";
+      this.me?.role !== "facteur" &&
+      this.me?.role !== "agent" &&
+      this.me?.role !== "support";
+    this.isSupportModeReadOnly = this.me?.role === "support";
     this.usagers = [];
     this.selectedRefs.clear();
   }

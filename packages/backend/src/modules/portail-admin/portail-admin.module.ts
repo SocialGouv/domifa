@@ -20,6 +20,7 @@ import { UserSupervisorDecisionService } from "./services/user-supervisor-decisi
 import { UserStructureDecisionService } from "../users/services/user-structure-decision/user-structure-decision.service";
 import { UserStructureEmailUpdaterService } from "../users/services/userStructureEmailUpdater.service";
 import { OtpModule } from "../otp/otp.module";
+import { SupportSessionModule } from "../support-session/support-session.module";
 
 @Module({
   controllers: [
@@ -30,7 +31,12 @@ import { OtpModule } from "../otp/otp.module";
     AdminUsersController,
   ],
 
-  imports: [AuthModule, MailsModule, forwardRef(() => OtpModule)],
+  imports: [
+    AuthModule,
+    MailsModule,
+    forwardRef(() => OtpModule),
+    SupportSessionModule,
+  ],
   providers: [
     AdminSecurityService,
     AppLogsService,

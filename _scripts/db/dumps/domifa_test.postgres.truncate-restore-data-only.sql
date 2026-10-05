@@ -21,6 +21,7 @@
  TRUNCATE TABLE public.structure_doc RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.structure_information RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.structure_stats_reporting RESTART IDENTITY CASCADE;
+ TRUNCATE TABLE public.support_session RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.typeorm_metadata RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.usager RESTART IDENTITY CASCADE;
  TRUNCATE TABLE public.usager_docs RESTART IDENTITY CASCADE;
@@ -557,6 +558,14 @@ COPY public.structure_information (uuid, "createdAt", "updatedAt", version, titl
 --
 
 COPY public.structure_stats_reporting (uuid, "createdAt", "updatedAt", version, "waitingList", workers, volunteers, "humanCosts", "totalCosts", year, "structureId", "completedBy", "confirmationDate", "waitingTime") FROM stdin;
+\.
+
+
+--
+-- Data for Name: support_session; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.support_session (uuid, "createdAt", "updatedAt", version, "supervisorId", "supervisorEmail", "structureId", "targetUserStructureId", "startDate", "expiresAt", status, "originalRole", "revokedAt", "revokedBy", "revokedReason") FROM stdin;
 \.
 
 

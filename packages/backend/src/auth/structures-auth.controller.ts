@@ -32,9 +32,10 @@ import { ExpiredTokenTable, expiredTokenRepositiory } from "../database";
 import { domifaConfig } from "../config";
 import { userSecurityPasswordChecker } from "../modules/users/services";
 import { AllowUserStructureRoles } from "./decorators";
-import { ALL_USER_STRUCTURE_ROLES, UserStructure } from "@domifa/common";
+import { SUPPORT_READ_ROLES, UserStructure } from "@domifa/common";
 import { appLogger } from "../util";
 import { logSecurityEventForUser } from "../modules/app-logs/app-log-security-writer";
+import { SupportSessionService } from "../modules/support-session/support-session.service";
 
 const userProfile: UserProfile = "structure";
 
@@ -65,7 +66,8 @@ function readStructureTrustCookie(req: ExpressRequest): string | undefined {
 export class StructuresAuthController {
   constructor(
     private readonly structuresAuthService: StructuresAuthService,
-    private readonly loginOtpService: LoginOtpService
+    private readonly loginOtpService: LoginOtpService,
+    private readonly supportSessionService: SupportSessionService
   ) {}
 
   @Post("login")
@@ -180,7 +182,7 @@ export class StructuresAuthController {
 
   @UseGuards(AuthGuard("jwt"), AppUserGuard)
   @AllowUserProfiles("structure")
-  @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
+  @AllowUserStructureRoles(...SUPPORT_READ_ROLES)
   @AllowExpiredPassword()
   @Get("logout")
   public async logout(
@@ -194,6 +196,10 @@ export class StructuresAuthController {
       userProfile: user._userProfile,
     });
     await expiredTokenRepositiory.save(tokenToBlacklist);
+
+    if (user.role === "support") {
+      await this.supportSessionService.revokeForStructureLogout(user.id);
+    }
 
     await logSecurityEventForUser(
       "LOGOUT",
@@ -218,7 +224,7 @@ export class StructuresAuthController {
 
   @UseGuards(AuthGuard("jwt"), AppUserGuard)
   @AllowUserProfiles("structure")
-  @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
+  @AllowUserStructureRoles(...SUPPORT_READ_ROLES)
   // Called by the frontend's isAuth() on every guarded route navigation,
   // including navigating to the renewal page itself — must stay reachable
   // once the password is EXPIRED, or the AuthGuard's redirect there would
@@ -250,6 +256,7 @@ export class StructuresAuthController {
       createdAt: user.createdAt,
       structure: user.structure,
       structureId: user.structureId,
+      supportAttachmentExpiresAt: user.supportAttachmentExpiresAt,
       domifaVersion: domifaConfig().version.toString(),
     });
   }

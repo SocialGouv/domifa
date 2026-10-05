@@ -523,6 +523,14 @@ COPY public.structure_stats_reporting (uuid, "createdAt", "updatedAt", version, 
 
 
 --
+-- Data for Name: support_session; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.support_session (uuid, "createdAt", "updatedAt", version, "supervisorId", "supervisorEmail", "structureId", "targetUserStructureId", "startDate", "expiresAt", status, "originalRole", "revokedAt", "revokedBy", "revokedReason") FROM stdin;
+\.
+
+
+--
 -- Data for Name: typeorm_metadata; Type: TABLE DATA; Schema: public; Owner: -
 --
 

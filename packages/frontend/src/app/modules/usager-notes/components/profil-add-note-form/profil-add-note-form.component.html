@@ -3,6 +3,7 @@
     type="button"
     class="fr-btn fr-icon-add-line fr-btn--icon-left fr-btn--secondary"
     (click)="openAddNoteInModal()"
+    appSupportModeDisable
   >
     Ajouter une note
   </button>
@@ -70,6 +71,7 @@
           [loading]="loading"
           label="Enregistrer la note"
           (action)="submit()"
+          appSupportModeDisable
         ></app-button>
       </div>
     </ng-template>

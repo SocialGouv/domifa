@@ -26,6 +26,7 @@
           [formGroup]="usagerForm"
           (ngSubmit)="submitInfos()"
           autocomplete="off"
+          appSupportModeDisable
         >
           <fieldset class="fr-fieldset">
             <legend class="fr-fieldset__legend--regular fr-fieldset__legend">
@@ -713,6 +714,7 @@
               type="submit"
               [loading]="loading"
               label="Suivant"
+              appSupportModeDisable
             ></app-button>
           </div>
         </form>

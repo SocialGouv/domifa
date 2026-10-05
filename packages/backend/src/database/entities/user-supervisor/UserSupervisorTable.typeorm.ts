@@ -61,7 +61,6 @@ export class UserSupervisorTable
 
   @Column({ type: "text", nullable: true })
   preferredEmailSender: string | null;
-
   public constructor(entity?: Partial<UserSupervisorTable>) {
     super(entity);
     Object.assign(this, entity);

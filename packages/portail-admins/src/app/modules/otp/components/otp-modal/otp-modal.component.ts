@@ -5,6 +5,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  NgZone,
   OnDestroy,
   OnInit,
   Renderer2,
@@ -66,7 +67,8 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private readonly promptService: OtpPromptService,
     private readonly cdr: ChangeDetectorRef,
-    private readonly renderer: Renderer2
+    private readonly renderer: Renderer2,
+    private readonly ngZone: NgZone
   ) {}
 
   public ngOnInit(): void {
@@ -204,17 +206,22 @@ export class OtpModalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.resendLocked = true;
     this.resendSecondsLeft = OTP_RESEND_COOLDOWN_SECONDS;
     this.resendLabel = buildOtpResendWaitLabel(this.resendSecondsLeft);
-    this.resendTimer = setInterval(() => {
-      this.resendSecondsLeft -= 1;
-      if (this.resendSecondsLeft <= 0) {
-        this.clearResendTimer();
-        this.resendLocked = false;
-        this.resendLabel = OTP_RESEND_LABEL;
-      } else {
-        this.resendLabel = buildOtpResendWaitLabel(this.resendSecondsLeft);
-      }
-      this.cdr.markForCheck();
-    }, 1000);
+    // Runs outside Angular so this 1s tick doesn't trigger a global
+    // ApplicationRef.tick() on every zone-patched async task while the modal
+    // is open — detectChanges() below refreshes only this OnPush component.
+    this.ngZone.runOutsideAngular(() => {
+      this.resendTimer = setInterval(() => {
+        this.resendSecondsLeft -= 1;
+        if (this.resendSecondsLeft <= 0) {
+          this.clearResendTimer();
+          this.resendLocked = false;
+          this.resendLabel = OTP_RESEND_LABEL;
+        } else {
+          this.resendLabel = buildOtpResendWaitLabel(this.resendSecondsLeft);
+        }
+        this.cdr.detectChanges();
+      }, 1000);
+    });
   }
 
   private clearResendTimer(): void {

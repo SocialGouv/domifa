@@ -32,6 +32,7 @@
             [(ngModel)]="structure.portailUsager.enabledByStructure"
             name="enabledByStructure"
             aria-describedby="enabledByStructure-messages"
+            appSupportModeDisable
           />
           <label class="fr-toggle__label" for="enabledByStructure">
             Activer l'accès au portail usager
@@ -53,6 +54,7 @@
             "
             name="usagerLoginUpdateLastInteraction"
             aria-describedby="usagerLoginUpdateLastInteraction-messages"
+            appSupportModeDisable
           />
           <label
             class="fr-toggle__label"
@@ -81,6 +83,7 @@
             [loading]="loading"
             label="Enregistrer les modifications"
             (action)="submitStructurePortailForm()"
+            appSupportModeDisable
           ></app-button>
         </div>
       </form>
