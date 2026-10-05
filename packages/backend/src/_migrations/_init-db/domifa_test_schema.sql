@@ -327,6 +327,7 @@ CREATE TABLE public.support_session (
     "startDate" timestamp with time zone NOT NULL,
     "expiresAt" timestamp with time zone NOT NULL,
     status text DEFAULT 'ACTIVE'::text NOT NULL,
+    "originalRole" text,
     "revokedAt" timestamp with time zone,
     "revokedBy" text,
     "revokedReason" text
@@ -505,8 +506,7 @@ CREATE TABLE public.user_structure (
     "emailStatus" text,
     decision jsonb,
     "emailDeliveryIssue" boolean DEFAULT false NOT NULL,
-    "preferredEmailSender" text,
-    "isSupportMode" boolean DEFAULT false NOT NULL
+    "preferredEmailSender" text
 );
 CREATE SEQUENCE public.user_structure_id_seq
     START WITH 1
@@ -547,8 +547,7 @@ CREATE TABLE public.user_supervisor (
     status character varying DEFAULT 'PENDING'::character varying NOT NULL,
     decision jsonb,
     "emailDeliveryIssue" boolean DEFAULT false NOT NULL,
-    "preferredEmailSender" text,
-    support jsonb
+    "preferredEmailSender" text
 );
 CREATE SEQUENCE public.user_supervisor_id_seq
     AS integer
@@ -786,6 +785,7 @@ CREATE INDEX "IDX_ef9fade8e5a6dac06ef5031986" ON public.interactions USING btree
 CREATE INDEX "IDX_f072e2874bd87ecb6da2fbd66e" ON public.usager USING btree (nom_prenom_surnom_ref);
 CREATE INDEX "IDX_f9c3ee379ce68d4acfe4199a33" ON public.interactions USING btree ("usagerUUID");
 CREATE INDEX "IDX_fa4dea9a1ff8deb8fcf47c451e" ON public.structure USING btree (departement);
+CREATE UNIQUE INDEX "IDX_support_session_one_active" ON public.support_session USING btree ("targetUserStructureId") WHERE (status = 'ACTIVE'::text);
 CREATE INDEX "IDX_support_session_structureId_status" ON public.support_session USING btree ("structureId", status);
 CREATE INDEX idx_interactions_date ON public.interactions USING btree ("structureId", "usagerUUID", "dateInteraction");
 CREATE INDEX idx_interactions_type ON public.interactions USING btree ("structureId", "usagerUUID", type);
