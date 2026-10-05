@@ -1,3 +1,27 @@
+# [2.274.0](https://github.com/SocialGouv/domifa/compare/v2.273.0...v2.274.0) (2026-10-05)
+
+
+### Bug Fixes
+
+* **backend:** code review ([b31815d](https://github.com/SocialGouv/domifa/commit/b31815d77133e28e7228bcae0e4ce40bf5208b63))
+
+
+### Features
+
+* **back:** adding guard for renew password ([b77819d](https://github.com/SocialGouv/domifa/commit/b77819daaa59fd66b229b7336742347ab233246e))
+* **back:** code review ([2f0ece1](https://github.com/SocialGouv/domifa/commit/2f0ece1e1989a9dd2d51673598c4a7816c50e27e))
+* **back:** code review ([0445015](https://github.com/SocialGouv/domifa/commit/04450155507354346fa584d13b76aa007b148c92))
+* **back:** code review ([5bb085a](https://github.com/SocialGouv/domifa/commit/5bb085a5ead6e0b04bee27438f2b8983dd1b4fd6))
+* **back:** code review ([305232a](https://github.com/SocialGouv/domifa/commit/305232af26a05b304a846d8713d5ee067bcc29cd))
+* **back:** code review ([130c2f0](https://github.com/SocialGouv/domifa/commit/130c2f0cf5c9f9dd39755def81b23038ddaa9120))
+* **back:** code review ([50e7325](https://github.com/SocialGouv/domifa/commit/50e73259bec2d0c7126cd5d644d4a12a46807edd))
+* **back:** code review ([a5bd2b8](https://github.com/SocialGouv/domifa/commit/a5bd2b88f80a06c94e6a6612f9b417682219cb82))
+* **back:** end to end tests ([9c71d0e](https://github.com/SocialGouv/domifa/commit/9c71d0eb6a0fed13510355f47d52cac4523f6eb2))
+* **backend:** code review ([480ae7e](https://github.com/SocialGouv/domifa/commit/480ae7e5aee0a62409aabd5a8c237703e6338895))
+* **common:** password expiration to 60 months ([3b131ad](https://github.com/SocialGouv/domifa/commit/3b131ad38c322f08e4026b89ca492424dba12c6a))
+* **frontend:** force password renewal after long time of inactivity ([bd165fd](https://github.com/SocialGouv/domifa/commit/bd165fd14460571c7cf4cb9682ad0ae2b8d6040f))
+* **frontend:** force password renewal after long time of inactivity ([5339cd6](https://github.com/SocialGouv/domifa/commit/5339cd636a98b19dd6b53fe41ca37eb58f29709b))
+
 # [2.273.0](https://github.com/SocialGouv/domifa/compare/v2.272.0...v2.273.0) (2026-09-30)
 
 
