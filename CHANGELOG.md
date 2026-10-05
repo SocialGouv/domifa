@@ -1,3 +1,15 @@
+# [2.275.0](https://github.com/SocialGouv/domifa/compare/v2.274.0...v2.275.0) (2026-10-05)
+
+
+### Bug Fixes
+
+* **front:** code review ([a667073](https://github.com/SocialGouv/domifa/commit/a6670731ebc8ebdf3dc73312845c732789dcc856))
+
+
+### Features
+
+* **front:** change color title and buttons ([2073352](https://github.com/SocialGouv/domifa/commit/2073352ddf9a0134ddccd194daad9b2fa3af847a))
+
 # [2.274.0](https://github.com/SocialGouv/domifa/compare/v2.273.0...v2.274.0) (2026-10-05)
 
 
