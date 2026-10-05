@@ -1,6 +1,6 @@
 @if (stats) {
 <div class="fr-container fr-py-3w">
-  <h2 class="fr-text-title--blue-france fr-mb-0">Aujourd'hui, DomiFa c'est : </h2>
+  <h2 class="fr-text-title--grey fr-mb-0">Aujourd'hui, DomiFa c'est :</h2>
 
   <ul
     class="fr-grid-row fr-grid-row--gutters fr-raw-list fr-mt-2w fr-text--center"
@@ -10,7 +10,7 @@
       <p
         [countUp]="stats.structuresCount"
         [countUpOptions]="countOptions"
-        class="fr-h1 fr-mb-0 fr-text-title--blue-france"
+        class="fr-h1 fr-mb-0 fr-text-title--grey"
         aria-label="Structures inscrites"
       ></p>
       <p class="counter-title">Structures inscrites</p>
@@ -19,7 +19,7 @@
       <p
         [countUp]="stats.actifs"
         [countUpOptions]="countOptions"
-        class="fr-h1 fr-mb-0 fr-text-title--blue-france"
+        class="fr-h1 fr-mb-0 fr-text-title--grey"
         aria-label="Domiciliés actifs"
       ></p>
       <p class="counter-title">Domiciliés actifs</p>
@@ -28,7 +28,7 @@
       <p
         [countUp]="stats.usagersCount"
         [countUpOptions]="countOptions"
-        class="fr-h1 fr-mb-0 fr-text-title--blue-france"
+        class="fr-h1 fr-mb-0 fr-text-title--grey"
         aria-label="Dossiers enregistrés"
       ></p>
       <p class="counter-title">Dossiers enregistrés</p>
@@ -37,7 +37,7 @@
       <p
         [countUp]="stats.courrierInCount"
         [countUpOptions]="countOptions"
-        class="fr-h1 fr-mb-0 fr-text-title--blue-france"
+        class="fr-h1 fr-mb-0 fr-text-title--grey"
         aria-label="Courriers enregistrés"
       ></p>
       <p class="counter-title">Courriers enregistrés</p>
@@ -48,10 +48,14 @@
     class="fr-btns-group fr-btns-group--inline fr-btns-group--center fr-mt-2w"
   >
     <li>
-      <a routerLink="/stats" class="fr-btn">Voir nos statistiques</a>
+      <a routerLink="/stats" class="fr-btn fr-btn--secondary"
+        >Voir nos statistiques</a
+      >
     </li>
     <li>
-      <a routerLink="/stats/impact" class="fr-btn">Découvrir notre impact</a>
+      <a routerLink="/stats/impact" class="fr-btn fr-btn--secondary"
+        >Découvrir notre impact</a
+      >
     </li>
   </ul>
 </div>

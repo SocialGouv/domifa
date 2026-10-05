@@ -10,13 +10,13 @@
     <div
       class="fr-grid-row fr-grid-row--middle fr-justify-content-between fr-mb-2w fr-grid-row--top"
     >
-      <div class=" ">
+      <div>
         <span
-          class="fr-icon-message-2-line fr-text-label--blue-france"
+          class="fr-icon-message-2-line fr-text-label--grey"
           aria-hidden="true"
         ></span>
 
-        <span class="fr-text--bold fr-text-title--blue-france">
+        <span class="fr-text--bold fr-text-title--grey">
           {{ note.createdAt | date : "dd MMMM yyyy 'à' HH:mm" }} -
           {{ note.createdBy.userName }}
         </span>
@@ -31,7 +31,7 @@
         <p class="fr-mb-3w text-pre-line">{{ note.message }}</p>
       </div>
 
-      <div class=" ">
+      <div>
         @if (me?.role !== 'facteur' && me?.role !== 'agent') {
         <app-usager-notes-actions
           [usager]="usager"

@@ -41,7 +41,7 @@
     font-weight: bold;
     font-size: 1.7rem;
     margin-bottom: 0;
-    color: var(--text-active-blue-france) !important;
+    color: var(--text-title-grey) !important;
 
     [class^="ri-"],
     [class^="fr-icon-"],
@@ -85,7 +85,7 @@ h3 {
   span [class*=" ri-"],
   span[class^="fr-icon-"],
   span[class*=" fr-icon-"] {
-    color: var(--text-active-blue-france) !important;
+    color: var(--text-title-grey) !important;
     margin-right: 0.5rem !important;
     vertical-align: bottom !important;
     display: inline-block !important;
