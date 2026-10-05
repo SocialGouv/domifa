@@ -16,9 +16,9 @@ fileignoreconfig:
 - filename: .kontinuous/env/prod/templates/backend.sealed-secret.yaml
   checksum: 9386738b9f3f377080f5f584222df91d740e3d2e72539e91d68b39944d6f36e6
 - filename: \_scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
-  checksum: 6dc832cab399623595b5f8ee24f3a97be6b8fd6531e6468988de5e6456dad40e
+  checksum: 7a73d6f2d9c5b16f26d2e40ca9e9408111391c1bb7a739ab73daad60254507e4
 - filename: \_scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
-  checksum: 79e37543f30cebb6bfd2498551128473c2317d68ef3ffde7d47e869c193734b6
+  checksum: 217675871ed067a9770950c538a49e202bb7bf709e7c7c0ed5c13a29db066c74
 - filename: package.json
   checksum: b1f4068d2168777918ef4fa6b222d46315fe5396a762a72302dfbd1751545add
 - filename: packages/backend/src/\_migrations/1781813895170-auto-migration.ts
@@ -30,10 +30,9 @@ fileignoreconfig:
 - filename: packages/backend/src/\_migrations/1789650942380-email-delivery-issue-report.ts
   checksum: 27b30903e350c810884209af85ddc0555ad1a728f304c34d03661ec7c164d321
 - filename: packages/backend/src/\_migrations/\_init-db/domifa_test_schema.sql
+  checksum: 8259882d1ec9007972bd5e1ea20f781b8309b5454df96188ac8d3b6ecc7049bc
 - filename: packages/backend/src/_migrations/1787045027655-add-support-mode.ts
   checksum: 3f123d0b30964f99dc349f6971b6033109ca83df62f90da36a98dcc06517ba20
-- filename: packages/backend/src/_migrations/_init-db/domifa_test_schema.sql
-  checksum: 8a8f9a18c94a77d7400f256c230eceb0a040e87c51b2a20398ed2b61348ec6b6
 - filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
   checksum: 3bb17388968d9c1dfd0828a689a9697f8c6e5e862b735d7202e6327c6fc328d8
 - filename: packages/backend/src/modules/users/controllers/handleEditMyPasswordRequest.ts
@@ -46,6 +45,8 @@ fileignoreconfig:
   checksum: 5a51711775b228a5086ca5f40eac5f971a09d9a6837b115f0cb81db16938b8e2
 - filename: packages/frontend/src/app/modules/general/components/static-pages/temoignages/temoignages.component.html
   checksum: bbeb3f87deaa254a9655d12be36ce3d680ba9629c69a572eb928bf65ce807aca
+- filename: packages/frontend/src/app/modules/manage-users/components/edit-password-form/edit-password-form.component.spec.ts
+  checksum: b86da3cedc68b28fc6ed5f367a9a5cf7cfb23eee286424be789dc48b5c234dd5
 - filename: packages/frontend/src/assets/images/discover/partenaire-fabrique.svg
   checksum: 57fe56d87f88e2640091654f554b10d1b10b971b65967a4ae28b6133259fe3b1
 - filename: packages/portail-admins/src/app/modules/admin-structures/components/admin-structures-list/admin-structures-list.component.spec.ts
