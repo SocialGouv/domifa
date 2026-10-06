@@ -1,3 +1,11 @@
+# [2.277.0](https://github.com/SocialGouv/domifa/compare/v2.276.0...v2.277.0) (2026-10-06)
+
+
+### Features
+
+* **front:** update header and login page ([b2f62dc](https://github.com/SocialGouv/domifa/commit/b2f62dc2b61109e8a16a3f6cfafe317aa6f70ed6))
+* **front, back:** code review ([729e149](https://github.com/SocialGouv/domifa/commit/729e149593363f62921b3b3442e6cb6a21f21ded))
+
 # [2.276.0](https://github.com/SocialGouv/domifa/compare/v2.275.0...v2.276.0) (2026-10-05)
 
 
