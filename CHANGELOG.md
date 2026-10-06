@@ -1,3 +1,18 @@
+# [2.278.0](https://github.com/SocialGouv/domifa/compare/v2.277.0...v2.278.0) (2026-10-06)
+
+
+### Features
+
+* **back:** ayant-droit.md ([06eff1f](https://github.com/SocialGouv/domifa/commit/06eff1f6474b2e68c6999c98fdb654d604051171))
+* **back:** benefiicaries migration ([9d4ef2a](https://github.com/SocialGouv/domifa/commit/9d4ef2a4bb452120b3cb6c13b70654bdf791617b))
+* **back:** code review ([8735085](https://github.com/SocialGouv/domifa/commit/8735085122ef155b5b8352ec92d4706b2303a6ec))
+* **back:** code review ([f701940](https://github.com/SocialGouv/domifa/commit/f70194045546debf25beb73d15d83af0b394df7e))
+* **back:** code review ([d7fd4e2](https://github.com/SocialGouv/domifa/commit/d7fd4e229667b2411a95a468ae69501e252b74c0))
+* **back:** code review ([07d1230](https://github.com/SocialGouv/domifa/commit/07d1230a335628e71dabf3dfbfa49faec8603749))
+* ayants-droits.md ([d96c47e](https://github.com/SocialGouv/domifa/commit/d96c47e7e0197ad42b519b3f4d40f630223fdd4f))
+* delete .md ayants-droits ([ebe1c64](https://github.com/SocialGouv/domifa/commit/ebe1c642e21fc76417c0cb3d6bd1e1cfed0596fe))
+* manage family beneficiaries ([78072d4](https://github.com/SocialGouv/domifa/commit/78072d49a9360240404c0f01156ff57989bbf7c0))
+
 # [2.277.0](https://github.com/SocialGouv/domifa/compare/v2.276.0...v2.277.0) (2026-10-06)
 
 
