@@ -92,16 +92,15 @@
                       id="rdvNow"
                       [value]="true"
                     />
-                    <label class="fr-label fr-text--lead" for="rdvNow"
-                      >L'entretien a lieu maintenant</label
-                    >
+                    <label class="fr-label fr-text--lead" for="rdvNow">
+                      L'entretien a lieu maintenant
+                      <span class="fr-hint-text">
+                        Pas besoin de fixer de date d'entretien ultérieure :
+                        l'entretien est réalisé maintenant
+                      </span>
+                    </label>
                   </div>
                 </div>
-
-                <p class="rdv-description">
-                  Pas besoin de fixer de date d'entretien ultérieure :
-                  l'entretien est réalisé maintenant
-                </p>
               </div>
 
               <div
@@ -118,16 +117,15 @@
                       id="rdvLater"
                       [value]="false"
                     />
-                    <label class="fr-label fr-text--lead" for="rdvLater"
-                      >Fixer une date de rendez-vous</label
-                    >
+                    <label class="fr-label fr-text--lead" for="rdvLater">
+                      Fixer une date de rendez-vous
+                      <span class="fr-hint-text">
+                        L'entretien sera réalisé plus tard, par vous-même ou un
+                        autre collaborateur.
+                      </span>
+                    </label>
                   </div>
                 </div>
-
-                <p class="rdv-description">
-                  L'entretien sera réalisé plus tard, par vous-même ou un autre
-                  collaborateur.
-                </p>
                 @if (r.isNow.value === false) {
                 <div class="fr-grid-row fr-grid-row--gutters fr-my-2w">
                   <div class="fr-col-12 fr-col-md-4">

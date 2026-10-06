@@ -1,7 +1,9 @@
 <h3 class="fr-h4">Historique des transferts</h3>
 @if (transfertHistory.length === 0) {
 <div class="fr-callout">
-  <p>Aucun historique de transferts de courriers actuellement</p>
+  <p class="fr-callout__text">
+    Aucun historique de transferts de courriers actuellement
+  </p>
 </div>
 }
 <div class="fr-table fr-table--no-caption" *ngIf="transfertHistory.length > 0">

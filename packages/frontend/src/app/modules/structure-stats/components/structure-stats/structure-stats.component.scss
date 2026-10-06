@@ -1,0 +1,9 @@
+// Group headers ("Nombre de domiciliés actifs par sexe"...) label the rows below
+.stats-group-header th {
+  background-color: var(--background-contrast-grey);
+}
+
+th.soustable {
+  padding-left: 2rem;
+  font-weight: 400;
+}
