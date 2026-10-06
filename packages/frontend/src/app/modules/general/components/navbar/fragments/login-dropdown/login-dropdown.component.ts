@@ -38,7 +38,7 @@ export class LoginDropdownComponent implements OnInit {
 
   private updateLinks(): void {
     if (this._me) {
-      this.userName = `${this._me.nom} ${this._me.prenom}`;
+      this.userName = `${this._me.prenom} ${this._me.nom}`;
       this.buildUserLinks();
     } else {
       this.userName = "";
