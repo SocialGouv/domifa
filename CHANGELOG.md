@@ -1,3 +1,10 @@
+# [2.279.0](https://github.com/SocialGouv/domifa/compare/v2.278.0...v2.279.0) (2026-10-07)
+
+
+### Features
+
+* **front:** add domain super admin ([d7c1bf4](https://github.com/SocialGouv/domifa/commit/d7c1bf418b3c880178a247a697523e5356dcadd6))
+
 # [2.278.0](https://github.com/SocialGouv/domifa/compare/v2.277.0...v2.278.0) (2026-10-06)
 
 
