@@ -40,6 +40,11 @@ import { ManageUsersService } from "../../services/manage-users.service";
 import { ButtonComponent } from "../../../shared/components/button/button.component";
 import { SortArrayPipe } from "../../../shared/pipes";
 
+const SUPER_ADMIN_EMAIL_DOMAINS = [
+  "fabrique.social.gouv.fr",
+  "externes.sg.social.gouv.fr",
+];
+
 @Component({
   animations: [fadeInOut],
   selector: "app-register-user-supervisor",
@@ -164,6 +169,8 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
     });
   }
 
+  public readonly SUPER_ADMIN_EMAIL_DOMAINS = SUPER_ADMIN_EMAIL_DOMAINS;
+
   public SuperAdminEmailValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (!control.parent) {
@@ -180,7 +187,10 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
       const role = roleControl.value;
 
       if (role === "super-admin-domifa" && email) {
-        if (!email.endsWith("@fabrique.social.gouv.fr")) {
+        const isAllowedDomain = SUPER_ADMIN_EMAIL_DOMAINS.some((domain) =>
+          email.toLowerCase().endsWith(`@${domain}`)
+        );
+        if (!isAllowedDomain) {
           return { invalidSuperAdminEmail: true };
         }
       }

@@ -1,5 +1,6 @@
 <div>
-  <form #form *ngIf="userForm" [formGroup]="userForm" (ngSubmit)="submitUser()">
+  @if (userForm) {
+  <form #form [formGroup]="userForm" (ngSubmit)="submitUser()">
     <div class="fr-grid-row">
       <div
         [class.fr-input-group--error]="
@@ -27,19 +28,14 @@
           "
           required
         />
-
-        <div
-          *ngIf="submitted && f.nom.errors"
-          class="fr-messages-group"
-          id="invalid-name"
-          aria-live="polite"
-        >
+        @if (submitted && f.nom.errors) {
+        <div class="fr-messages-group" id="invalid-name" aria-live="polite">
           <p class="fr-message fr-message--error" id="input-2-message-error">
             Veuillez vérifier le nom
           </p>
         </div>
+        }
       </div>
-
       <div
         [class.fr-input-group--error]="
           (f.prenom.dirty || submitted) && f.prenom.errors ? true : false
@@ -68,18 +64,14 @@
           "
           required
         />
-        <div
-          *ngIf="submitted && f.prenom.errors"
-          class="fr-messages-group"
-          id="invalid-prenom"
-          aria-live="polite"
-        >
+        @if (submitted && f.prenom.errors) {
+        <div class="fr-messages-group" id="invalid-prenom" aria-live="polite">
           <p class="fr-message fr-message--error" id="input-2-message-error">
             Veuillez vérifier le prénom
           </p>
         </div>
+        }
       </div>
-
       <div
         [class.fr-input-group--error]="
           (f.email.dirty || submitted) && f.email.errors ? true : false
@@ -108,26 +100,21 @@
           "
           required
         />
-        <div
-          *ngIf="(f.email.dirty || submitted) && f.email.errors"
-          class="fr-messages-group"
-          id="email-errors"
-          aria-live="polite"
-        >
-          <p
-            *ngIf="f.email.errors?.invalidSuperAdminEmail"
-            class="fr-message fr-message--error"
-          >
-            Les administrateurs doivent avoir un email "fabrique.social.gouv.fr"
+        @if ((f.email.dirty || submitted) && f.email.errors) {
+        <div class="fr-messages-group" id="email-errors" aria-live="polite">
+          @if (f.email.errors?.invalidSuperAdminEmail) {
+          <p class="fr-message fr-message--error">
+            Les administrateurs doivent avoir un email
+            {{ SUPER_ADMIN_EMAIL_DOMAINS.join(" ou ") }}
           </p>
-          <p
-            *ngIf="!f.email.errors?.invalidSuperAdminEmail"
-            class="fr-message fr-message--error"
-          >
+          } @else {
+          <p class="fr-message fr-message--error">
             Veuillez vérifier l'adresse email, format attendu :
             nom&#64;domaine.fr
           </p>
+          }
         </div>
+        }
       </div>
       <div
         [class.fr-input-group--error]="submitted && f.role.errors"
@@ -150,27 +137,21 @@
           required
         >
           <option [ngValue]="null"></option>
-          <option
-            *ngFor="let item of USER_SUPERVISOR_ROLES_LABELS | keyvalue"
-            [value]="item.key"
-          >
+          @for (item of USER_SUPERVISOR_ROLES_LABELS | keyvalue; track item.key)
+          {
+          <option [value]="item.key">
             {{ item.value }}
           </option>
+          }
         </select>
-        <div
-          *ngIf="submitted && f.role.errors"
-          class="fr-messages-group"
-          id="invalid-role"
-          aria-live="polite"
-        >
+        @if (submitted && f.role.errors) {
+        <div class="fr-messages-group" id="invalid-role" aria-live="polite">
           <p class="fr-message fr-message--error">Le rôle est obligatoire</p>
         </div>
+        }
       </div>
-
-      <div
-        class="fr-col-md-12 fr-mb-3w fr-input-group required"
-        *ngIf="showTerritories"
-      >
+      @if (showTerritories) {
+      <div class="fr-col-md-12 fr-mb-3w fr-input-group required">
         <label for="territories" class="fr-label fr-mb-0w">
           {{
             selectedRole === "department"
@@ -178,7 +159,6 @@
               : "Région d'action"
           }}
         </label>
-
         <select
           id="territories"
           formControlName="territories"
@@ -194,24 +174,19 @@
           required
         >
           <option [value]="null"></option>
-          <option
-            *ngFor="
-              let item of territoriesList
-                | keyvalue
-                | sortArray : 'value' : 'asc'
-            "
-            [value]="item.key"
-          >
+          @for (item of territoriesList | keyvalue | sortArray: 'value' : 'asc';
+          track item.key) {
+          <option [value]="item.key">
             {{
               selectedRole === "department"
                 ? item.key + " - " + item.value
                 : item.value
             }}
           </option>
+          }
         </select>
-
+        @if (!isEditMode && submitted && f.territories.errors) {
         <div
-          *ngIf="!isEditMode && submitted && f.territories.errors"
           class="fr-messages-group"
           id="invalid-territories"
           aria-live="polite"
@@ -220,9 +195,12 @@
             Veuillez sélectionner au moins un territoire.
           </p>
         </div>
+        }
       </div>
+      }
     </div>
   </form>
+  }
 </div>
 
 <div
