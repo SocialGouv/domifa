@@ -331,6 +331,11 @@ a.fr-link:has(img):hover {
   width: 100%;
 }
 
+.fr-icon--xl::before,
+.fr-icon--xl::after {
+  --icon-size: 3rem;
+}
+
 .stat-cards-list {
   list-style: none;
   padding-left: 0;
