@@ -2,13 +2,25 @@
 <dsfr-usermenu
   labelMenu="Mon espace"
   iconMenu="fr-icon-account-circle-fill"
+  [ariaLabelMenu]="'Mon espace ' + userName + ' ' + userEmail"
+  userName=""
+  userDetails=""
   [links]="dsfrLinks"
   (linkSelect)="onLinkSelect($event)"
-  [userName]="userName"
-  [userDetails]="userEmail"
   [showLogout]="true"
   (logoutSelect)="logoutSelect()"
 >
+  <ng-template #headerUserTemplate>
+    @if (me.structure?.nom) {
+    <p class="fr-text--bold fr-mb-0">{{ me.structure.nom }}</p>
+    <hr class="fr-hr fr-mx-n2w fr-mt-1-5v fr-pb-1-5v" />
+    }
+    <p class="fr-mb-0">
+      <span class="fr-text--bold">{{ userName }}</span>
+      <br />
+      <span class="fr-text--sm fr-text-mention--grey">{{ userEmail }}</span>
+    </p>
+  </ng-template>
 </dsfr-usermenu>
 } @else {
 <dsfr-usermenu
