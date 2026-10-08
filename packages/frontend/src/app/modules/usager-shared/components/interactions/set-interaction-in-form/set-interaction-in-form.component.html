@@ -10,8 +10,8 @@
   "
   (conceal)="cancelReception.emit()"
 >
-  <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
-    <div class="interaction-zone fr-p-1w fr-mx-md-2w fr-mx-auto fr-my-2w">
+  <div class="fr-grid-row fr-gap-3">
+    <div class="interaction-zone fr-py-1w fr-my-2w">
       <div class="interaction-icon-box">
         @if (interactionFormData.courrierIn.nbCourrier > 0) {
         <div
@@ -51,7 +51,7 @@
       <span class="interaction-label">Courriers</span>
     </div>
 
-    <div class="interaction-zone fr-p-1w fr-mx-md-2w fr-mx-auto fr-my-2w">
+    <div class="interaction-zone fr-py-1w fr-my-2w">
       <div class="interaction-icon-box">
         @if (interactionFormData.colisIn.nbCourrier > 0) {
         <div
@@ -91,7 +91,7 @@
       <span class="interaction-label">Colis</span>
     </div>
 
-    <div class="interaction-zone fr-p-1w fr-mx-md-2w fr-mx-auto fr-my-2w">
+    <div class="interaction-zone fr-py-1w fr-my-2w">
       <div class="interaction-icon-box">
         @if (interactionFormData.recommandeIn.nbCourrier > 0) {
         <div

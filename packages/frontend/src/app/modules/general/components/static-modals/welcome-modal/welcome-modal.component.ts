@@ -96,10 +96,6 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  public hideNews(): void {
-    this.newsModal.close();
-  }
-
   public onNewsModalConceal(): void {
     this.newsModalOpen = false;
     this.welcomeService.markNewsAsSeen();

@@ -164,6 +164,12 @@ label {
 
 .fr-modal__title {
   margin-bottom: 1rem;
+
+  // DSFR: blue France is reserved for clickable elements
+  [class^="fr-icon-"],
+  [class*=" fr-icon-"] {
+    color: var(--text-title-grey);
+  }
 }
 
 a.fr-link:has(img),

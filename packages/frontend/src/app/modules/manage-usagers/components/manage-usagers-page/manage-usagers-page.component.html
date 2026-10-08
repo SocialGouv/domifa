@@ -370,22 +370,17 @@
         </button>
       </div>
       } @if (usagers.length === 0 && !searching) {
-      <div
-        class="fr-my-4w fr-alert fr-alert--warning fr-flex-wrap fr-text--center fr-justify-content-between fr-align-items-center fr-justify-content-center fr-align-items-center"
-      >
-        <p class="fr-mr-1w">
-          <span class="fr-alert__title">Aucun résultat :</span>
-          aucun dossier ne correspond à votre recherche
-        </p>
-
-        <button
-          type="button"
-          (click)="resetFilters()"
-          class="fr-btn fr-btn--secondary fr-my-1w fr-my-md-0"
-        >
-          Réinitialiser la recherche
-        </button>
+      <div class="fr-mt-4w fr-alert fr-alert--warning">
+        <h2 class="fr-alert__title">Aucun résultat</h2>
+        <p>Aucun dossier ne correspond à votre recherche.</p>
       </div>
+      <button
+        type="button"
+        (click)="resetFilters()"
+        class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-refresh-line fr-mt-2w fr-mb-4w"
+      >
+        Réinitialiser la recherche
+      </button>
       }
 
       <dsfr-ext-spinner

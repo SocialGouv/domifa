@@ -197,8 +197,14 @@
           </div>
 
           <div
-            class="fr-btns-group fr-btns-group--center fr-btns-group--inline fr-mt-3w"
+            class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-mt-3w"
           >
+            <app-button
+              type="submit"
+              [loading]="loading"
+              label="Enregistrer les changements"
+            >
+            </app-button>
             <button
               (click)="editUser = false"
               type="button"
@@ -206,12 +212,6 @@
             >
               Annuler les modifications
             </button>
-            <app-button
-              type="submit"
-              [loading]="loading"
-              label="Enregistrer les changements"
-            >
-            </app-button>
           </div>
         </form>
         }
@@ -294,8 +294,14 @@
           </div>
 
           <div
-            class="fr-btns-group fr-btns-group--center fr-btns-group--inline fr-mt-3w"
+            class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-mt-3w"
           >
+            <app-button
+              type="submit"
+              [loading]="loading"
+              label="Enregistrer les changements"
+            >
+            </app-button>
             <button
               type="button"
               (click)="editEmail = false"
@@ -303,12 +309,6 @@
             >
               Annuler les modifications
             </button>
-            <app-button
-              type="submit"
-              [loading]="loading"
-              label="Enregistrer les changements"
-            >
-            </app-button>
           </div>
         </form>
         }

@@ -3,7 +3,7 @@
   height: 30px;
   padding: 2px;
   display: block;
-  color: var(--text-active-blue-france);
+  color: var(--text-title-grey);
   text-align: center;
 }
 
@@ -19,7 +19,7 @@
   font-style: normal;
   font-weight: bold;
   font-size: 0.95rem;
-  color: var(--text-active-blue-france);
+  color: var(--text-title-grey);
   line-height: 150%;
 }
 
@@ -35,7 +35,7 @@ i,
 span[class^="fr-icon-"],
 span[class*="ri-"],
 span[class*="fr-icon-"] {
-  color: var(--text-active-blue-france) !important;
+  color: var(--text-title-grey) !important;
   margin-right: 0.5rem !important;
   vertical-align: bottom !important;
   display: inline-block !important;
@@ -51,7 +51,7 @@ span[class*="fr-icon-"] {
 [class*="fr-fi-"]::after,
 [class*="ri-"]::before {
   --icon-size: 1.4rem;
-  color: var(--text-active-blue-france) !important;
+  color: var(--text-title-grey) !important;
   margin-right: 0.5rem !important;
   vertical-align: bottom !important;
   display: inline-block !important;

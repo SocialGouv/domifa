@@ -75,7 +75,7 @@
                 </div>
               </th>
               } @if (filters.statut === UsagersFilterCriteriaStatut.TOUS) {
-              <th scope="col" role="columnheader">STATUT</th>
+              <th scope="col" role="columnheader">Statut</th>
               }
               <th scope="col" role="columnheader">
                 <div class="fr-cell--sort">
@@ -184,9 +184,21 @@
                   </button>
                 </div>
               </th>
-              <th scope="col" class="fr-text--left no-print">Interaction</th>
-              <th scope="col" class="fr-text--left no-print">Courrier</th>
-              <th scope="col" class="no-print">
+              <th
+                scope="col"
+                role="columnheader"
+                class="fr-text--left no-print"
+              >
+                Interaction
+              </th>
+              <th
+                scope="col"
+                role="columnheader"
+                class="fr-text--left no-print"
+              >
+                Courrier
+              </th>
+              <th scope="col" role="columnheader" class="no-print">
                 <span class="fr-sr-only">Actions</span>
               </th>
             </tr>
