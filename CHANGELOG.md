@@ -1,3 +1,10 @@
+## [2.279.1](https://github.com/SocialGouv/domifa/compare/v2.279.0...v2.279.1) (2026-10-08)
+
+
+### Bug Fixes
+
+* **back:** replace command by migration file ([500d66a](https://github.com/SocialGouv/domifa/commit/500d66a3611908c2881a124f07672ee6a311d533))
+
 # [2.279.0](https://github.com/SocialGouv/domifa/compare/v2.278.0...v2.279.0) (2026-10-07)
 
 
