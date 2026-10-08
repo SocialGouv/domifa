@@ -82,9 +82,10 @@ export class FamillesAnalysisService {
       );
     }
 
+    // logged before the upload: if S3 fails, the results are still in the logs
     const csv = toCsv(rows);
-    await this.uploadCsv(csv);
     this.logSummary(rows, csv, Date.now() - startedAt);
+    await this.uploadCsv(csv);
 
     return rows;
   }
@@ -155,7 +156,7 @@ export class FamillesAnalysisService {
     const sum = (key: keyof StructureFamillesRow) =>
       rows.reduce((acc, r) => acc + r[key], 0);
 
-    appLogger.warn(`${TAG} done in ${Math.round(durationMs / 1000)}s`, {
+    appLogger.warn(`${TAG} computed in ${Math.round(durationMs / 1000)}s`, {
       structures: rows.length,
       dossiers: sum("dossiers"),
       ayants_droit: sum("ayants_droit"),

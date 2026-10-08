@@ -1,10 +1,19 @@
+import { QueryRunner } from "typeorm";
+
+import { appLogger, FileManagerService } from "../../../util";
 import {
   computeStructureFamillesRow,
+  FamillesAnalysisService,
   toCsv,
   toDossierLight,
   UsagerRow,
 } from "./famillesAnalysis.service";
 import { FAMILLES_ANALYSIS_COLUMNS } from "../constants/FAMILLES_ANALYSIS.const";
+
+jest.mock("../../../util", () => ({
+  ...jest.requireActual("../../../util"),
+  appLogger: { warn: jest.fn(), error: jest.fn() },
+}));
 
 // Spec example: Karim declares Sonia (conjoint), Lina, Adam.
 // Sonia declares Karim (conjoint), Lina, Adam, Yanis.
@@ -308,6 +317,31 @@ describe("computeStructureFamillesRow — personnes_reelles_estimees dedup", () 
     expect(row.personnes_comptees_aujourdhui).toBe(7);
     expect(row.personnes_reelles_estimees).toBe(3);
     expect(row.gap_personnes).toBe(4);
+  });
+});
+
+describe("FamillesAnalysisService.run", () => {
+  // one structure, no usager anywhere: enough to reach the end of the run
+  const queryRunner = {
+    query: jest.fn(async (sql: string) =>
+      sql.includes('FROM "structure"') ? [{ id: 1 }] : []
+    ),
+  } as unknown as QueryRunner;
+
+  it("logs the full CSV before uploading, so a failed upload loses nothing", async () => {
+    const uploadFile = jest.fn().mockRejectedValue(new Error("S3 down"));
+    const service = new FamillesAnalysisService({
+      uploadFile,
+    } as unknown as FileManagerService);
+
+    await expect(service.run(queryRunner)).rejects.toThrow("S3 down");
+
+    const logged = (appLogger.warn as unknown as jest.Mock).mock.calls.map(
+      ([message]) => String(message)
+    );
+    expect(logged.some((m) => m.includes("full CSV:\nstructureId,"))).toBe(
+      true
+    );
   });
 });
 
