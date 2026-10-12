@@ -10,7 +10,7 @@
       <div
         class="fr-display-flex fr-my-3w d-print-none fr-justify-content-between fr-align-items-center"
       >
-        <h2 class="fr-my-0 fr-h3" id="tablist-1">
+        <h2 class="fr-my-0 fr-h3">
           <span class="fr-icon-time-line" aria-hidden="true"></span>Historique
           du dossier
         </h2>
@@ -24,23 +24,27 @@
         </button>
       </div>
 
-      <div
-        role="tablist"
-        aria-labelledby="tablist-1"
-        class="fr-my-2w d-print-none"
+      <nav
+        class="history-tabs fr-mb-4w d-print-none"
+        aria-label="Sections de l'historique"
       >
-        <a
-          *ngFor="let section of sections"
-          [id]="'tab-' + section.id"
-          [routerLink]="['/profil/historique/' + usager.ref + '/' + section.id]"
-          ariaCurrentWhenActive="page"
-          class="fr-btn fr-mr-1w fr-my-1w"
-          [ngClass]="currentSection === section.id ? '' : 'fr-btn--secondary'"
-          (click)="currentSection = section.id"
-        >
-          <span class="focus">{{ section.name }}</span>
-        </a>
-      </div>
+        <ul class="history-tabs__list" role="list">
+          <li *ngFor="let section of sections">
+            <a
+              [id]="'tab-' + section.id"
+              class="history-tabs__tab"
+              [routerLink]="[
+                '/profil/historique/' + usager.ref + '/' + section.id
+              ]"
+              [attr.aria-current]="
+                currentSection === section.id ? 'page' : null
+              "
+            >
+              {{ section.name }}
+            </a>
+          </li>
+        </ul>
+      </nav>
 
       <div class="fr-grid-row">
         <div
