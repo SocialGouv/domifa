@@ -62,10 +62,10 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   @ViewChild("btnForgotPassword")
   public btnForgotPassword?: ElementRef<HTMLButtonElement>;
 
-  @ViewChild("inputNewPassword")
+  @ViewChild("newPassword")
   public inputNewPassword?: ElementRef<HTMLInputElement>;
   @ViewChildren(
-    "password, newPassword , newPasswordConfirm, acceptTerms, login",
+    "password, newPassword , newPasswordConfirm, acceptTerms, login"
   )
   inputs!: QueryList<ElementRef>;
 
@@ -75,8 +75,9 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
     private readonly seoService: SeoService,
     private readonly authService: UsagerAuthService,
     private readonly usagerAuthService: UsagerAuthService,
+    private readonly elementRef: ElementRef<HTMLElement>,
     private cdr: ChangeDetectorRef,
-    public matomo: MatomoTracker,
+    public matomo: MatomoTracker
   ) {
     this.hidePassword = true;
     this.hidePasswordNew = true;
@@ -94,7 +95,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.seoService.updateTitleAndTags(
       "Connexion à Mon DomiFa",
-      "Accédez à votre espace personnel pour consulter votre dossier et vos courriers en attente",
+      "Accédez à votre espace personnel pour consulter votre dossier et vos courriers en attente"
     );
 
     this.subscription.add(
@@ -106,8 +107,8 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
           } else {
             this.initForm();
           }
-        },
-      ),
+        }
+      )
     );
   }
 
@@ -134,7 +135,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
               /[@\[\]^_!"#$%&'()*+,\-./:;{}<>=|~?]/,
               {
                 hasSpecialCharacter: true,
-              },
+              }
             ),
             Validators.minLength(12),
             Validators.maxLength(150),
@@ -147,7 +148,10 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
             PasswordValidator.passwordMatchValidator("newPassword"),
           ]),
         ],
-        acceptTerms: [{ value: false, disabled: true }, [Validators.required]],
+        acceptTerms: [
+          { value: false, disabled: true },
+          [Validators.requiredTrue],
+        ],
       },
       {
         validators: [
@@ -162,19 +166,16 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
             errName: "new-password-confim-does-not-match",
           }),
         ],
-      },
+      }
     );
   }
 
   private reasetFormFocus(): void {
-    const firstInvalidControlName = Object.keys(this.loginForm.controls).find(
-      (key) => this.loginForm.controls[key].invalid,
-    );
-    const invalidInput = this.inputs.find(
-      (input: ElementRef) =>
-        input.nativeElement.getAttribute("formcontrolname") ===
-        firstInvalidControlName,
-    );
+    // inputs are ordered as in the DOM, so the first visible invalid field gets the focus
+    const invalidInput = this.inputs.find((input: ElementRef) => {
+      const controlName = input.nativeElement.getAttribute("formcontrolname");
+      return !!controlName && !!this.loginForm.controls[controlName]?.invalid;
+    });
 
     if (invalidInput) {
       invalidInput.nativeElement.focus();
@@ -204,14 +205,45 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
     return this.loginForm.controls;
   }
 
+  // Errors are only exposed once the user interacted with the field or submitted the form
+  public isInvalid(controlName: string): boolean {
+    const control = this.loginForm.controls[controlName];
+    return control.invalid && (control.dirty || control.touched);
+  }
+
+  public get isNewPasswordConfirmInvalid(): boolean {
+    const control = this.loginForm.controls.newPasswordConfirm;
+    return (
+      (control.dirty || control.touched) &&
+      (control.invalid ||
+        this.loginForm.hasError("new-password-confim-does-not-match"))
+    );
+  }
+
+  // Credentials rejected by the API: login and password fields are flagged as invalid
+  public get hasCredentialsError(): boolean {
+    return this.displayLoginError && !this.blockedTemp;
+  }
+
+  private focusSubmitButton(): void {
+    // waiting for the submit button to be enabled again after loading
+    setTimeout(() => {
+      this.elementRef.nativeElement
+        .querySelector<HTMLButtonElement>("#loginBtn")
+        ?.focus();
+    });
+  }
+
   public doLogin(): void {
     if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
       this.displayPasswordIndication = false;
-      this.displayLoginError = true;
+      this.displayLoginError = false;
       this.reasetFormFocus();
       return;
     }
     this.blockedTemp = false;
+    this.displayLoginError = false;
     const loginForm = this.loginForm.value as PortailUsagerAuthLoginForm;
     this.loading = true;
 
@@ -226,7 +258,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
             "login-portail-usagers",
             "login_success",
             "null",
-            1,
+            1
           );
           if (!apiAuthResponse.acceptTerms) {
             this.router.navigate(["/account/accept-terms"]);
@@ -248,7 +280,7 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
               "login-portail-usagers",
               "login_success_first_time",
               "null",
-              1,
+              1
             );
           } else if (err?.error?.message === "BLOCKED_TEMP") {
             this.displayPasswordIndication = false;
@@ -258,20 +290,22 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
               "login-portail-usagers",
               "login_blocked_temp",
               "null",
-              1,
+              1
             );
+            this.focusSubmitButton();
           } else {
             this.displayPasswordIndication = false;
             this.displayLoginError = true;
+            this.focusSubmitButton();
             this.matomo.trackEvent(
               "login-portail-usagers",
               "login_error",
               "null",
-              1,
+              1
             );
           }
         },
-      }),
+      })
     );
   }
 }

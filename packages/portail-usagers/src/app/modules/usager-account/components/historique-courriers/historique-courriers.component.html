@@ -1,16 +1,16 @@
 <div class="fr-container fr-display-flex fr-flex-column fr-mt-6w fr-gap-3">
-  <dsfr-button
-    [routerLink]="['/account']"
-    label="retour"
-    type="button"
-    variant="secondary"
-    buttonSize="MD"
-    icon="fr-icon-arrow-left-s-line"
-  ></dsfr-button>
+  <div>
+    <a
+      [routerLink]="['/account']"
+      class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-arrow-left-s-line"
+    >
+      Retour
+    </a>
+  </div>
 
-  <h2 class="fr-text-title--blue-france fr-mb-n3v">
+  <h1 class="fr-h2 fr-text-title--blue-france fr-mb-n3v">
     Historique des interactions
-  </h2>
+  </h1>
   <p class="fr-text--sm fr-mb-1v">
     Vous trouverez ci-dessous, l'ensemble des courriers, colis et avis de
     passage reçus.
@@ -36,9 +36,14 @@
             class="fr-align-self-start fr-mt-1-5v"
           ></span>
           <div class="fr-display-flex fr-flex-column fr-gap-1">
-            <span class="fr-text-title--blue-france">
+            <!-- focusable heading: receives the focus after a page change -->
+            <h2
+              #interactionTitle
+              tabindex="-1"
+              class="fr-text--md fr-text--regular fr-mb-0 fr-text-title--blue-france"
+            >
               {{ interaction.dateInteraction | date : "dd MMMM yyyy à HH:mm" }}
-            </span>
+            </h2>
             <span>{{ interaction.label }}</span>
             <div
               *ngIf="interaction.content"

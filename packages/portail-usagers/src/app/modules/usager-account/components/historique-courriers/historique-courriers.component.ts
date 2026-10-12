@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { Order, PageResults, Interaction, PageOptions } from "@domifa/common";
@@ -7,7 +14,7 @@ import { Subscription } from "rxjs";
 import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.service";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { SeoService } from "../../../shared/services/seo.service";
-import { DsfrButtonModule, DsfrPaginationModule } from "@edugouvfr/ngx-dsfr";
+import { DsfrPaginationModule } from "@edugouvfr/ngx-dsfr";
 import { ReplaceLineBreaks } from "../../../shared/pipes/nl2br.pipe";
 
 @Component({
@@ -16,7 +23,6 @@ import { ReplaceLineBreaks } from "../../../shared/pipes/nl2br.pipe";
   imports: [
     CommonModule,
     RouterModule,
-    DsfrButtonModule,
     DsfrPaginationModule,
     ReplaceLineBreaks,
   ],
@@ -25,6 +31,10 @@ export class HistoriqueCourriersComponent implements OnDestroy, OnInit {
   private subscription = new Subscription();
   public interactions: Interaction[] = [];
   public loading = false;
+  private focusFirstInteraction = false;
+
+  @ViewChildren("interactionTitle")
+  private readonly interactionTitles!: QueryList<ElementRef<HTMLElement>>;
 
   public params: PageOptions = {
     order: Order.DESC,
@@ -48,19 +58,20 @@ export class HistoriqueCourriersComponent implements OnDestroy, OnInit {
     private readonly usagerAuthService: UsagerAuthService,
     private readonly interactionService: InteractionService,
     private readonly toastr: CustomToastService,
-    private readonly seoService: SeoService,
+    private readonly seoService: SeoService
   ) {}
 
   ngOnInit() {
     this.seoService.updateTitleAndTags(
       "Historique des courriers - Mon DomiFa",
-      "Consultez l'historique complet de vos interactions et courriers reçus",
+      "Consultez l'historique complet de vos interactions et courriers reçus"
     );
     this.loadInteractions();
   }
 
   public getInteractionsByPage(page: number): void {
     this.params.page = page;
+    this.focusFirstInteraction = true;
     this.loadInteractions();
   }
 
@@ -69,6 +80,7 @@ export class HistoriqueCourriersComponent implements OnDestroy, OnInit {
       return;
     }
     this.params.page -= 1;
+    this.focusFirstInteraction = true;
     this.loadInteractions();
   }
 
@@ -81,14 +93,22 @@ export class HistoriqueCourriersComponent implements OnDestroy, OnInit {
             this.searchResults = results;
             this.interactions = results.data;
             this.loading = false;
+            if (this.focusFirstInteraction) {
+              this.focusFirstInteraction = false;
+              // waiting for the new interactions to be rendered
+              setTimeout(() =>
+                this.interactionTitles.first?.nativeElement.focus()
+              );
+            }
           },
           error: () => {
             this.loading = false;
+            this.focusFirstInteraction = false;
             this.toastr.error(
-              "Le chargement de votre historique a échoué. Veuillez réessayer plus tard",
+              "Le chargement de votre historique a échoué. Veuillez réessayer plus tard"
             );
           },
-        }),
+        })
       );
     }
   }
