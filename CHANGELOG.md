@@ -1,3 +1,12 @@
+# [2.280.0](https://github.com/SocialGouv/domifa/compare/v2.279.1...v2.280.0) (2026-10-12)
+
+
+### Features
+
+* **admin, pilotage:** update login page ([de2e9db](https://github.com/SocialGouv/domifa/commit/de2e9dbf8c267e807f9d9f4bbaf4f658cec5e1c4))
+* **front:** update renew password page ([7cfda51](https://github.com/SocialGouv/domifa/commit/7cfda51ff8b48a0538a7140e5b21908b6a872bd4))
+* change header login mon domifa ([f366333](https://github.com/SocialGouv/domifa/commit/f366333ab7b35ba1855d01d6f81557372565c019))
+
 ## [2.279.1](https://github.com/SocialGouv/domifa/compare/v2.279.0...v2.279.1) (2026-10-08)
 
 
