@@ -1,3 +1,10 @@
+# [2.281.0](https://github.com/SocialGouv/domifa/compare/v2.280.0...v2.281.0) (2026-10-12)
+
+
+### Features
+
+* audit access p2 and p3 ([f2f1bc2](https://github.com/SocialGouv/domifa/commit/f2f1bc2a4d7912daee29852ca5a287356aebc770))
+
 # [2.280.0](https://github.com/SocialGouv/domifa/compare/v2.279.1...v2.280.0) (2026-10-12)
 
 
