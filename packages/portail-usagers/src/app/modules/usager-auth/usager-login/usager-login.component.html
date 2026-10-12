@@ -1,26 +1,27 @@
-<div class="login-page" *ngIf="!usagerProfile">
-  <section class="fr-display-flex fr-flex-row gap-0">
-    <div class="fr-background-alt--grey fr-flex-grow-1 d-sm-flex">
-      <!-- clearfix -->
-    </div>
-    <div class="fr-container fr-display-flex fr-flex-row flex-shrink-0 fr-p-0">
+@if (!usagerProfile) {
+<div>
+  <section class="fr-container fr-py-6w">
+    <div class="fr-grid-row fr-grid-row--center">
       <div
-        class="fr-col-12 fr-col-md-6 fr-col-sm-6 fr-display-flex fr-flex-column align-items-left fr-pl-2w fr-pr-2w fr-background-alt--grey"
+        class="fr-col-12 fr-col-md-8 fr-col-lg-6 fr-background-alt--grey fr-px-3w fr-py-5w fr-px-md-5w fr-py-md-6w"
       >
+        <h1 class="fr-h3 fr-mb-2w">Connexion à Mon DomiFa</h1>
+        <p class="fr-text--sm fr-mb-2w">
+          Ce portail est réservé aux personnes domiciliées. Vous êtes domicilié
+          dans une structure qui utilise DomiFa ? Consultez votre dossier en
+          ligne.
+        </p>
+        <p class="fr-text--xs fr-text-default--error fr-mb-3w">
+          * champs obligatoires
+        </p>
         <form
           [attr.aria-describedby]="
             displayLoginError ? 'authentification-error' : null
           "
-          class="column fr-display-flex fr-flex-column fr-gap-2 fr-pt-3w fr-pt-md-6w fr-pb-3w fr-pb-md-6w"
+          class="fr-display-flex fr-flex-column fr-gap-3"
           [formGroup]="loginForm"
           (ngSubmit)="doLogin()"
         >
-          <h1 class="fr-align-self-start">Connexion à Mon Domifa</h1>
-          <p class="fr-text--sm fr-mb-2w">
-            Ce portail est réservé aux personnes domiciliées. Vous êtes
-            domicilié dans une structure qui utilise DomiFa ? Consultez votre
-            dossier en ligne.
-          </p>
           <div
             [class.fr-input-group--error]="f.login.dirty && f.login.errors"
             class="fr-input-group required fr-mb-0"
@@ -49,11 +50,8 @@
               "
               [readonly]="this.mode === 'login-change-password'"
             />
-            <div
-              *ngIf="f.login.dirty && f.login.errors"
-              id="invalid-login"
-              class="fr-messages-group"
-            >
+            @if (f.login.dirty && f.login.errors) {
+            <div id="invalid-login" class="fr-messages-group">
               <p
                 class="fr-message fr-message--error"
                 id="input-2-message-error"
@@ -62,418 +60,402 @@
                 document que vous à remit la structure.
               </p>
             </div>
+            }
             <p></p>
           </div>
-          <ng-container *ngIf="mode === 'login-change-password'">
-            <p id="new-password-message">
-              C'est votre première connexion, veuillez choisir un nouveau mot de
-              passe:
-            </p>
-            <div
-              [class.fr-input-group--error]="
-                f.newPassword.dirty && f.newPassword.errors ? true : false
-              "
-              class="fr-input-group required"
-            >
-              <div class="fr-password" id="password-4">
-                <label class="fr-password__label fr-label" for="newPassword">
-                  Nouveau mot de passe
+          @if (mode === 'login-change-password') {
+          <p id="new-password-message">
+            C'est votre première connexion, veuillez choisir un nouveau mot de
+            passe:
+          </p>
+          <div
+            [class.fr-input-group--error]="
+              f.newPassword.dirty && f.newPassword.errors ? true : false
+            "
+            class="fr-input-group required"
+          >
+            <div class="fr-password" id="password-4">
+              <label class="fr-password__label fr-label" for="newPassword">
+                Nouveau mot de passe
+              </label>
+              <div class="fr-input-wrap">
+                <input
+                  #newPassword
+                  id="newPassword"
+                  formControlName="newPassword"
+                  [type]="!hidePasswordNew ? 'text' : 'password'"
+                  class="fr-input"
+                  autocomplete="new-password"
+                  [ngClass]="{
+                    'is-invalid': f.newPassword.dirty && f.newPassword.errors
+                  }"
+                  [attr.aria-invalid]="
+                    f.newPassword.dirty && f.newPassword.errors ? true : false
+                  "
+                  [attr.aria-describedby]="'newPassword-input--messages'"
+                />
+              </div>
+              <ul
+                class="fr-messages-group fr-ml-0 fr-pl-0"
+                id="newPassword-input--messages"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                <li
+                  class="fr-message"
+                  [ngClass]="{
+                    'fr-message--info': !f.newPassword.dirty,
+                    'fr-message--error':
+                      f.newPassword.errors?.required ||
+                      f.newPassword.errors?.hasNumber,
+                    'fr-message--valid':
+                      !f.newPassword.errors?.required &&
+                      !f.newPassword.errors?.hasNumber
+                  }"
+                >
+                  <span class="fr-sr-only"
+                    >Règle
+                    {{
+                      !f.newPassword.errors?.required &&
+                      !f.newPassword.errors?.hasNumber
+                        ? "validée "
+                        : "non validée "
+                    }}</span
+                  >
+                  Au moins 1 chiffre
+                </li>
+                <li
+                  class="fr-message"
+                  [ngClass]="{
+                    'fr-message--info': !f.newPassword.dirty,
+                    'fr-message--error':
+                      f.newPassword.errors?.required ||
+                      f.newPassword.errors?.hasCapitalCase,
+                    'fr-message--valid':
+                      !f.newPassword.errors?.required &&
+                      !f.newPassword.errors?.hasCapitalCase
+                  }"
+                >
+                  <span class="fr-sr-only"
+                    >Règle
+                    {{
+                      !f.newPassword.errors?.required &&
+                      !f.newPassword.errors?.hasCapitalCase
+                        ? "validée "
+                        : "non validée "
+                    }}</span
+                  >
+                  Au moins une lettre en majuscule
+                </li>
+                <li
+                  class="fr-message"
+                  [ngClass]="{
+                    'fr-message--info': !f.newPassword.dirty,
+                    'fr-message--error':
+                      f.newPassword.errors?.required ||
+                      f.newPassword.errors?.hasLowerCase,
+                    'fr-message--valid':
+                      !f.newPassword.errors?.required &&
+                      !f.newPassword.errors?.hasLowerCase
+                  }"
+                >
+                  <span class="fr-sr-only"
+                    >Règle
+                    {{
+                      !f.newPassword.errors?.required &&
+                      !f.newPassword.errors?.hasLowerCase
+                        ? "validée "
+                        : "non validée "
+                    }}</span
+                  >
+                  Au moins une lettre en minuscule
+                </li>
+                <li
+                  class="fr-message"
+                  [ngClass]="{
+                    'fr-message--info': !f.newPassword.dirty,
+                    'fr-message--error':
+                      f.newPassword.errors?.required ||
+                      f.newPassword.errors?.hasSpecialCharacter,
+                    'fr-message--valid':
+                      !f.newPassword.errors?.required &&
+                      !f.newPassword.errors?.hasSpecialCharacter
+                  }"
+                >
+                  <span class="fr-sr-only"
+                    >Règle
+                    {{
+                      !f.newPassword.errors?.required &&
+                      !f.newPassword.errors?.hasSpecialCharacter
+                        ? "validée "
+                        : "non validée "
+                    }}</span
+                  >
+                  Au moins un caractère spécial:
+                  &#64;[]^_!"#$%&amp;&apos;()*+,\-./:;&lbrace;&rbrace;&lt;&gt;=|~?
+                </li>
+                <li
+                  class="fr-message"
+                  [ngClass]="{
+                    'fr-message--info': !f.newPassword.dirty,
+                    'fr-message--error':
+                      f.newPassword.errors?.required ||
+                      f.newPassword.errors?.minlength ||
+                      f.newPassword.errors?.maxlength,
+                    'fr-message--valid':
+                      !f.newPassword.errors?.required &&
+                      !f.newPassword.errors?.minlength &&
+                      !f.newPassword.errors?.maxlength
+                  }"
+                >
+                  <span class="fr-sr-only"
+                    >Règle
+                    {{
+                      !f.newPassword.errors?.required &&
+                      !f.newPassword.errors?.minlength &&
+                      !f.newPassword.errors?.maxlength
+                        ? "validée "
+                        : "non validée "
+                    }}</span
+                  >
+                  Doit contenir entre 12 et 150 caractères
+                </li>
+              </ul>
+              <div
+                class="fr-password__checkbox fr-checkbox-group fr-checkbox-group--sm"
+              >
+                <input
+                  id="show-newPassword"
+                  type="checkbox"
+                  class="input-group-text"
+                  [attr.aria-checked]="!hidePasswordNew"
+                  (change)="hidePasswordNew = !hidePasswordNew"
+                />
+                <label
+                  class="fr--password__checkbox fr-label"
+                  for="show-newPassword"
+                >
+                  Afficher
                 </label>
-                <div class="fr-input-wrap">
-                  <input
-                    #newPassword
-                    id="newPassword"
-                    formControlName="newPassword"
-                    [type]="!hidePasswordNew ? 'text' : 'password'"
-                    class="fr-input"
-                    autocomplete="new-password"
-                    [ngClass]="{
-                      'is-invalid': f.newPassword.dirty && f.newPassword.errors
-                    }"
-                    [attr.aria-invalid]="
-                      f.newPassword.dirty && f.newPassword.errors ? true : false
-                    "
-                    [attr.aria-describedby]="'newPassword-input--messages'"
-                  />
-                </div>
-                <ul
-                  class="fr-messages-group fr-ml-0 fr-pl-0"
-                  id="newPassword-input--messages"
-                  aria-live="polite"
-                  aria-atomic="true"
-                >
-                  <li
-                    class="fr-message"
-                    [ngClass]="{
-                      'fr-message--info': !f.newPassword.dirty,
-                      'fr-message--error':
-                        f.newPassword.errors?.required ||
-                        f.newPassword.errors?.hasNumber,
-                      'fr-message--valid':
-                        !f.newPassword.errors?.required &&
-                        !f.newPassword.errors?.hasNumber
-                    }"
-                  >
-                    <span class="fr-sr-only"
-                      >Règle
-                      {{
-                        !f.newPassword.errors?.required &&
-                        !f.newPassword.errors?.hasNumber
-                          ? "validée "
-                          : "non validée "
-                      }}</span
-                    >
-                    Au moins 1 chiffre
-                  </li>
-                  <li
-                    class="fr-message"
-                    [ngClass]="{
-                      'fr-message--info': !f.newPassword.dirty,
-                      'fr-message--error':
-                        f.newPassword.errors?.required ||
-                        f.newPassword.errors?.hasCapitalCase,
-                      'fr-message--valid':
-                        !f.newPassword.errors?.required &&
-                        !f.newPassword.errors?.hasCapitalCase
-                    }"
-                  >
-                    <span class="fr-sr-only"
-                      >Règle
-                      {{
-                        !f.newPassword.errors?.required &&
-                        !f.newPassword.errors?.hasCapitalCase
-                          ? "validée "
-                          : "non validée "
-                      }}</span
-                    >
-                    Au moins une lettre en majuscule
-                  </li>
-                  <li
-                    class="fr-message"
-                    [ngClass]="{
-                      'fr-message--info': !f.newPassword.dirty,
-                      'fr-message--error':
-                        f.newPassword.errors?.required ||
-                        f.newPassword.errors?.hasLowerCase,
-                      'fr-message--valid':
-                        !f.newPassword.errors?.required &&
-                        !f.newPassword.errors?.hasLowerCase
-                    }"
-                  >
-                    <span class="fr-sr-only"
-                      >Règle
-                      {{
-                        !f.newPassword.errors?.required &&
-                        !f.newPassword.errors?.hasLowerCase
-                          ? "validée "
-                          : "non validée "
-                      }}</span
-                    >
-                    Au moins une lettre en minuscule
-                  </li>
-                  <li
-                    class="fr-message"
-                    [ngClass]="{
-                      'fr-message--info': !f.newPassword.dirty,
-                      'fr-message--error':
-                        f.newPassword.errors?.required ||
-                        f.newPassword.errors?.hasSpecialCharacter,
-                      'fr-message--valid':
-                        !f.newPassword.errors?.required &&
-                        !f.newPassword.errors?.hasSpecialCharacter
-                    }"
-                  >
-                    <span class="fr-sr-only"
-                      >Règle
-                      {{
-                        !f.newPassword.errors?.required &&
-                        !f.newPassword.errors?.hasSpecialCharacter
-                          ? "validée "
-                          : "non validée "
-                      }}</span
-                    >
-                    Au moins un caractère spécial:
-                    &#64;[]^_!"#$%&amp;&apos;()*+,\-./:;&lbrace;&rbrace;&lt;&gt;=|~?
-                  </li>
-                  <li
-                    class="fr-message"
-                    [ngClass]="{
-                      'fr-message--info': !f.newPassword.dirty,
-                      'fr-message--error':
-                        f.newPassword.errors?.required ||
-                        f.newPassword.errors?.minlength ||
-                        f.newPassword.errors?.maxlength,
-                      'fr-message--valid':
-                        !f.newPassword.errors?.required &&
-                        !f.newPassword.errors?.minlength &&
-                        !f.newPassword.errors?.maxlength
-                    }"
-                  >
-                    <span class="fr-sr-only"
-                      >Règle
-                      {{
-                        !f.newPassword.errors?.required &&
-                        !f.newPassword.errors?.minlength &&
-                        !f.newPassword.errors?.maxlength
-                          ? "validée "
-                          : "non validée "
-                      }}</span
-                    >
-                    Doit contenir entre 12 et 150 caractères
-                  </li>
-                </ul>
-                <div
-                  class="fr-password__checkbox fr-checkbox-group fr-checkbox-group--sm"
-                >
-                  <input
-                    id="show-newPassword"
-                    type="checkbox"
-                    class="input-group-text"
-                    [attr.aria-checked]="!hidePasswordNew"
-                    (change)="hidePasswordNew = !hidePasswordNew"
-                  />
-                  <label
-                    class="fr--password__checkbox fr-label"
-                    for="show-newPassword"
-                  >
-                    Afficher
-                  </label>
-                </div>
               </div>
             </div>
-
-            <!-- password confirmation -->
-            <div
-              [class.fr-input-group--error]="
-                f.newPasswordConfirm.errors ||
-                this.loginForm.hasError('new-password-confim-does-not-match')
-                  ? true
-                  : false
-              "
-              class="fr-input-group required"
-            >
-              <div class="fr-password" id="newPasswordConfirmContainer">
-                <label
-                  class="fr-password__label fr-label"
-                  for="new-password-confirm"
-                >
-                  Confirmation du mot de passe
-                </label>
-                <div class="fr-input-wrap">
-                  <input
-                    #newPasswordConfirm
-                    id="new-password-confirm"
-                    formControlName="newPasswordConfirm"
-                    [type]="!hidePasswordConfirm ? 'text' : 'password'"
-                    class="fr-input"
-                    autocomplete="new-password"
-                    [attr.aria-invalid]="
-                      f.newPasswordConfirm.errors ||
-                      this.loginForm.hasError(
-                        'new-password-confim-does-not-match'
-                      )
-                        ? true
-                        : false
-                    "
-                    [attr.aria-describedby]="
+          </div>
+          <!-- password confirmation -->
+          <div
+            [class.fr-input-group--error]="
+              f.newPasswordConfirm.errors ||
+              this.loginForm.hasError('new-password-confim-does-not-match')
+                ? true
+                : false
+            "
+            class="fr-input-group required"
+          >
+            <div class="fr-password" id="newPasswordConfirmContainer">
+              <label
+                class="fr-password__label fr-label"
+                for="new-password-confirm"
+              >
+                Confirmation du mot de passe
+              </label>
+              <div class="fr-input-wrap">
+                <input
+                  #newPasswordConfirm
+                  id="new-password-confirm"
+                  formControlName="newPasswordConfirm"
+                  [type]="!hidePasswordConfirm ? 'text' : 'password'"
+                  class="fr-input"
+                  autocomplete="new-password"
+                  [attr.aria-invalid]="
+                    f.newPasswordConfirm.errors ||
+                    this.loginForm.hasError(
+                      'new-password-confim-does-not-match'
+                    )
+                      ? true
+                      : false
+                  "
+                  [attr.aria-describedby]="
+                    f.newPasswordConfirm.dirty &&
+                    (f.newPasswordConfirm.errors ||
+                      loginForm.hasError('new-password-confim-does-not-match'))
+                      ? 'newPasswordConfirm-input--messages'
+                      : null
+                  "
+                  [ngClass]="{
+                    'is-invalid':
                       f.newPasswordConfirm.dirty &&
                       (f.newPasswordConfirm.errors ||
                         loginForm.hasError(
                           'new-password-confim-does-not-match'
                         ))
-                        ? 'newPasswordConfirm-input--messages'
-                        : null
-                    "
-                    [ngClass]="{
-                      'is-invalid':
-                        f.newPasswordConfirm.dirty &&
-                        (f.newPasswordConfirm.errors ||
-                          loginForm.hasError(
-                            'new-password-confim-does-not-match'
-                          ))
-                    }"
-                  />
-                </div>
-                <div
-                  *ngIf="
-                    f.newPasswordConfirm.errors ||
-                    loginForm.hasError('new-password-confim-does-not-match')
-                  "
-                  class="fr-messages-group"
-                  id="newPasswordConfirm-input--messages"
-                >
-                  <p
-                    class="fr-message fr-message--error"
-                    *ngIf="
-                      loginForm.hasError(
-                        'new-password-confim-does-not-match'
-                      ) && !f.newPasswordConfirm.errors?.required
-                    "
-                  >
-                    La confirmation doit correspondre au nouveau mot de passe
-                  </p>
-                  <p
-                    class="fr-message fr-message--error"
-                    *ngIf="f.newPasswordConfirm.errors?.required"
-                  >
-                    Veuillez confirmer le mot de passe
-                  </p>
-                </div>
-                <div
-                  class="fr-password__checkbox fr-checkbox-group fr-checkbox-group--sm"
-                >
-                  <input
-                    id="show-newPasswordConfirm"
-                    type="checkbox"
-                    class="input-group-text"
-                    [attr.aria-checked]="!hidePasswordConfirm"
-                    (change)="hidePasswordConfirm = !hidePasswordConfirm"
-                  />
-                  <label
-                    class="fr--password__checkbox fr-label"
-                    for="show-newPasswordConfirm"
-                  >
-                    Afficher
-                  </label>
-                </div>
-              </div>
-            </div>
-            <!-- password confirmation end-->
-
-            <!-- Accept terms start -->
-            <div
-              [class.fr-checkbox-group--error]="f.acceptTerms.errors"
-              class="fr-checkbox-group required fr-mb-6w"
-            >
-              <input
-                #acceptTerms
-                type="checkbox"
-                formControlName="acceptTerms"
-                name="acceptTerms"
-                [attr.aria-invalid]="f.acceptTerms.errors ? 'true' : 'false'"
-                [attr.aria-describedby]="
-                  f.acceptTerms.errors ? 'acceptTerms-error-message' : null
-                "
-                id="acceptTerms"
-                required
-              />
-              <label class="fr-label" for="acceptTerms"
-                >Je confirme avoir lu et accepter les
-                <a
-                  class="fr-ml-1v dsfr-link"
-                  routerLink="/cgu"
-                  target="_blank"
-                  title="conditions générales d'utilisation - Nouvelle fenêtre"
-                  >conditions générales d'utilisation</a
-                ></label
-              >
-              <div *ngIf="f.acceptTerms.errors" class="fr-messages-group">
-                <p
-                  id="acceptTerms-error-message"
-                  [ngClass]="{
-                    'fr-message--error': f.acceptTerms.errors
                   }"
-                  class="fr-message"
-                >
-                  Vous devez accepter les CGU afin de poursuivre l'inscription
-                </p>
+                />
               </div>
-            </div>
-          </ng-container>
-          <ng-container *ngIf="mode !== 'login-change-password'">
-            <div
-              [class.fr-input-group--error]="
-                f.password.dirty && f.password.errors ? true : false
-              "
-              class="fr-input-group required"
-            >
-              <div class="fr-password" id="password-4">
-                <label class="fr-password__label fr-label" for="password">
-                  Mot de passe
-                </label>
-                <div class="fr-input-wrap">
-                  <input
-                    #password
-                    [attr.aria-invalid]="
-                      f.password.dirty && f.password.errors ? true : false
-                    "
-                    [attr.aria-describedby]="
-                      f.password.errors?.required
-                        ? 'password-input--message-error'
-                        : null
-                    "
-                    id="password"
-                    formControlName="password"
-                    [type]="!hidePassword ? 'text' : 'password'"
-                    class="fr-input"
-                    autocomplete="current-password"
-                  />
-                </div>
-                <div
-                  *ngIf="f.password.touched && f.password.errors"
-                  class="fr-messages-group"
-                  id="password-input--messages"
-                >
-                  <p
-                    *ngIf="f.password.errors.required"
-                    class="fr-message fr-message--error"
-                    id="password-input--message-error"
-                  >
-                    Le mot de passe est obligatoire
-                  </p>
-                </div>
-                <div
-                  class="fr-password__checkbox fr-checkbox-group fr-checkbox-group--sm"
-                >
-                  <input
-                    id="show-password"
-                    type="checkbox"
-                    class="input-group-text"
-                    [attr.aria-label]="
-                      (hidePassword ? 'Afficher' : 'Masquer') +
-                      ' le mot de passe'
-                    "
-                    [checked]="!hidePassword"
-                    role="switch"
-                    (change)="hidePassword = !hidePassword"
-                  />
-                  <label
-                    class="fr--password__checkbox fr-label"
-                    for="show-password"
-                  >
-                    Afficher
-                  </label>
-                </div>
-              </div>
-            </div>
-            <p>
-              <button
-                #btnForgotPassword
-                type="button"
-                class="fr-link"
-                [attr.aria-expanded]="displayPasswordIndication"
-                aria-controls="pwd-infos"
-                (click)="
-                  displayPasswordIndication = !displayPasswordIndication;
-                  displayLoginError = false
-                "
+              @if ( f.newPasswordConfirm.errors ||
+              loginForm.hasError('new-password-confim-does-not-match') ) {
+              <div
+                class="fr-messages-group"
+                id="newPasswordConfirm-input--messages"
               >
-                Mot de passe oublié
-              </button>
-            </p>
-          </ng-container>
+                @if ( loginForm.hasError( 'new-password-confim-does-not-match' )
+                && !f.newPasswordConfirm.errors?.required ) {
+                <p class="fr-message fr-message--error">
+                  La confirmation doit correspondre au nouveau mot de passe
+                </p>
+                } @if (f.newPasswordConfirm.errors?.required) {
+                <p class="fr-message fr-message--error">
+                  Veuillez confirmer le mot de passe
+                </p>
+                }
+              </div>
+              }
+              <div
+                class="fr-password__checkbox fr-checkbox-group fr-checkbox-group--sm"
+              >
+                <input
+                  id="show-newPasswordConfirm"
+                  type="checkbox"
+                  class="input-group-text"
+                  [attr.aria-checked]="!hidePasswordConfirm"
+                  (change)="hidePasswordConfirm = !hidePasswordConfirm"
+                />
+                <label
+                  class="fr--password__checkbox fr-label"
+                  for="show-newPasswordConfirm"
+                >
+                  Afficher
+                </label>
+              </div>
+            </div>
+          </div>
+          <!-- password confirmation end-->
+          <!-- Accept terms start -->
           <div
-            role="alert"
-            class="fr-alert fr-alert--info fr-mb-2w"
-            *ngIf="displayPasswordIndication"
+            [class.fr-checkbox-group--error]="f.acceptTerms.errors"
+            class="fr-checkbox-group required fr-mb-6w"
           >
+            <input
+              #acceptTerms
+              type="checkbox"
+              formControlName="acceptTerms"
+              name="acceptTerms"
+              [attr.aria-invalid]="f.acceptTerms.errors ? 'true' : 'false'"
+              [attr.aria-describedby]="
+                f.acceptTerms.errors ? 'acceptTerms-error-message' : null
+              "
+              id="acceptTerms"
+              required
+            />
+            <label class="fr-label" for="acceptTerms"
+              >Je confirme avoir lu et accepter les
+              <a
+                class="fr-ml-1v dsfr-link"
+                routerLink="/cgu"
+                target="_blank"
+                title="conditions générales d'utilisation - Nouvelle fenêtre"
+                >conditions générales d'utilisation</a
+              ></label
+            >
+            @if (f.acceptTerms.errors) {
+            <div class="fr-messages-group">
+              <p
+                id="acceptTerms-error-message"
+                [ngClass]="{
+                  'fr-message--error': f.acceptTerms.errors
+                }"
+                class="fr-message"
+              >
+                Vous devez accepter les CGU afin de poursuivre l'inscription
+              </p>
+            </div>
+            }
+          </div>
+          } @else {
+          <div
+            [class.fr-input-group--error]="
+              f.password.dirty && f.password.errors ? true : false
+            "
+            class="fr-input-group required"
+          >
+            <div class="fr-password" id="password-4">
+              <label class="fr-password__label fr-label" for="password">
+                Mot de passe
+              </label>
+              <div class="fr-input-wrap">
+                <input
+                  #password
+                  [attr.aria-invalid]="
+                    f.password.dirty && f.password.errors ? true : false
+                  "
+                  [attr.aria-describedby]="
+                    f.password.errors?.required
+                      ? 'password-input--message-error'
+                      : null
+                  "
+                  id="password"
+                  formControlName="password"
+                  [type]="!hidePassword ? 'text' : 'password'"
+                  class="fr-input"
+                  autocomplete="current-password"
+                />
+              </div>
+              @if (f.password.touched && f.password.errors) {
+              <div class="fr-messages-group" id="password-input--messages">
+                @if (f.password.errors.required) {
+                <p
+                  class="fr-message fr-message--error"
+                  id="password-input--message-error"
+                >
+                  Le mot de passe est obligatoire
+                </p>
+                }
+              </div>
+              }
+              <div
+                class="fr-password__checkbox fr-checkbox-group fr-checkbox-group--sm"
+              >
+                <input
+                  id="show-password"
+                  type="checkbox"
+                  class="input-group-text"
+                  [attr.aria-label]="
+                    (hidePassword ? 'Afficher' : 'Masquer') + ' le mot de passe'
+                  "
+                  [checked]="!hidePassword"
+                  role="switch"
+                  (change)="hidePassword = !hidePassword"
+                />
+                <label
+                  class="fr--password__checkbox fr-label"
+                  for="show-password"
+                >
+                  Afficher
+                </label>
+              </div>
+            </div>
+          </div>
+          <p>
+            <button
+              #btnForgotPassword
+              type="button"
+              class="fr-link"
+              [attr.aria-expanded]="displayPasswordIndication"
+              aria-controls="pwd-infos"
+              (click)="
+                displayPasswordIndication = !displayPasswordIndication;
+                displayLoginError = false
+              "
+            >
+              Mot de passe oublié
+            </button>
+          </p>
+          } @if (displayPasswordIndication) {
+          <div role="alert" class="fr-alert fr-alert--info fr-mb-2w">
             <span class="fr-alert__title">Mot de passe oublié</span>
             <p class="fr-my-1w" id="pwd-infos">
               Vous avez peut-être bloqué votre compte en faisant plus de 3
               tentatives de connexion avec un mauvais mot de passe.
               <br />
               <b>Veuillez réessayer dans une heure.</b>
-
               <br />
               <br />
               Vous souhaitez changer de mot de passe ?
@@ -495,6 +477,7 @@
               Masquer le message
             </button>
           </div>
+          } @if (displayLoginError) {
           <div
             id="authentification-error"
             aria-live="polite"
@@ -502,30 +485,25 @@
             [class.fr-alert--error]="!blockedTemp"
             [class.fr-alert--warning]="blockedTemp"
             role="alert"
-            *ngIf="displayLoginError"
           >
-            <ng-container *ngIf="blockedTemp; else loginErrorContent">
-              <span class="fr-alert__title">
-                Compte temporairement bloqué.
-              </span>
-              <p class="fr-my-1w">
-                Trop de tentatives ou de demandes de code. Réessayez dans 1
-                heure, ou réinitialisez votre mot de passe pour débloquer
-                l'accès immédiatement.
-              </p>
-            </ng-container>
-            <ng-template #loginErrorContent>
-              <span class="fr-alert__title">
-                Le couple identifiant et mot de passe saisi est invalide.
-              </span>
-              <p class="fr-my-1w" id="pwd-infos">
-                Veuillez vérifier les chiffres, majuscules et caractères
-                spéciaux.
-                <br />
-              </p>
-            </ng-template>
+            @if (blockedTemp) {
+            <span class="fr-alert__title"> Compte temporairement bloqué. </span>
+            <p class="fr-my-1w">
+              Trop de tentatives ou de demandes de code. Réessayez dans 1 heure,
+              ou réinitialisez votre mot de passe pour débloquer l'accès
+              immédiatement.
+            </p>
+            } @else {
+            <span class="fr-alert__title">
+              Le couple identifiant et mot de passe saisi est invalide.
+            </span>
+            <p class="fr-my-1w" id="pwd-infos">
+              Veuillez vérifier les chiffres, majuscules et caractères spéciaux.
+              <br />
+            </p>
+            }
           </div>
-
+          }
           <dsfr-button
             label="Se connecter"
             type="submit"
@@ -537,39 +515,11 @@
           ></dsfr-button>
         </form>
       </div>
-      <div
-        class="fr-col-12 fr-col-md-6 fr-col-sm-6 fr-display-flex d-sm-flex fr-p-3w"
-      >
-        <div class="content-container">
-          <div
-            class="fr-grid-row fr-display-flex fr-gap-1 fr-align-self-start align-content-center"
-          >
-            <div class="fr-col-12 fr-col-md-6 fr-col-sm-6">
-              <img class="img-fluid" src="assets/images/logo-dsfr.svg" alt="" />
-            </div>
-            <h2>Mon DomiFa facilite votre domiciliation</h2>
-            <p class="content-container_text">
-              Retrouvez toutes vos informations de domiciliation et vérifiez que
-              vous avez du courrier.
-            </p>
-            <div
-              class="fr-col-12 fr-col-md-12 fr-col-sm-12 fr-justify-content-center fr-display-flex"
-            >
-              <img
-                aria-hidden="true"
-                class="img-fluid"
-                src="assets/images/login/main-container.svg"
-                alt=""
-              />
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-    <div class="fr-display-flex fr-flex-grow-1 d-sm-flex"></div>
   </section>
   <hr aria-hidden="true" />
   <section class="fr-container">
     <app-faq></app-faq>
   </section>
 </div>
+}

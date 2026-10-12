@@ -1,7 +1,8 @@
 <app-idle-manager></app-idle-manager>
 <dsfr-skiplinks [links]="skipLinks"></dsfr-skiplinks>
 <header id="page-header" role="banner">
-  <div *ngIf="!matomoInfo" class="fr-notice fr-notice--info">
+  @if (!matomoInfo) {
+  <div class="fr-notice fr-notice--info">
     <div class="fr-container">
       <div class="fr-notice__body">
         <p>
@@ -32,6 +33,7 @@
       </div>
     </div>
   </div>
+  }
   <div class="fr-header">
     <div class="fr-header__body">
       <div class="fr-container">
@@ -42,22 +44,8 @@
                 <p class="fr-logo">République <br />Française</p>
                 <span class="fr-sr-only"> Liberté, Égalité, Fraternité </span>
               </div>
-              <div class="fr-header__operator">
-                <a
-                  ariaCurrentWhenActive="page"
-                  routerLink="/"
-                  title="Retour à l'accueil"
-                >
-                  <img
-                    class="fr-responsive-img"
-                    style="max-width: 9.0625rem"
-                    src="assets/images/logo-dsfr.svg"
-                    alt="''"
-                  />
-                </a>
-              </div>
-
-              <div *ngIf="usagerProfile" class="fr-header__navbar">
+              @if (usagerProfile) {
+              <div class="fr-header__navbar">
                 <button
                   data-fr-opened="false"
                   aria-controls="menu-modal-23"
@@ -69,13 +57,23 @@
                   Menu
                 </button>
               </div>
+              }
+            </div>
+            <div class="fr-header__service">
+              <a
+                routerLink="/"
+                title="Accueil - Mon DomiFa - République Française"
+              >
+                <p class="fr-header__service-title">Mon DomiFa</p>
+              </a>
+              <p class="fr-header__service-tagline">
+                La plateforme de suivi de la domiciliation et des courriers pour
+                les personnes sans domicile stable
+              </p>
             </div>
           </div>
-          <div
-            id="menu-modal-23"
-            *ngIf="usagerProfile"
-            class="fr-header__tools"
-          >
+          @if (usagerProfile) {
+          <div id="menu-modal-23" class="fr-header__tools">
             <div class="fr-header__tools-links">
               <ul class="fr-btns-group">
                 <li>
@@ -91,6 +89,7 @@
               </ul>
             </div>
           </div>
+          }
         </div>
       </div>
     </div>
