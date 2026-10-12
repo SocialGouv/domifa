@@ -23,7 +23,7 @@
           (ngSubmit)="doLogin()"
         >
           <div
-            [class.fr-input-group--error]="f.login.dirty && f.login.errors"
+            [class.fr-input-group--error]="isInvalid('login')"
             class="fr-input-group required fr-mb-0"
           >
             <label class="fr-label" for="login"> Votre identifiant </label>
@@ -43,14 +43,18 @@
               id="login"
               class="fr-input"
               [attr.aria-invalid]="
-                f.login.dirty && f.login.errors ? true : false
+                isInvalid('login') || hasCredentialsError ? 'true' : 'false'
               "
               [attr.aria-describedby]="
-                f.login.dirty && f.login.errors ? 'invalid-login' : null
+                isInvalid('login')
+                  ? 'invalid-login'
+                  : hasCredentialsError
+                  ? 'authentification-error'
+                  : null
               "
               [readonly]="this.mode === 'login-change-password'"
             />
-            @if (f.login.dirty && f.login.errors) {
+            @if (isInvalid('login')) {
             <div id="invalid-login" class="fr-messages-group">
               <p
                 class="fr-message fr-message--error"
@@ -69,9 +73,7 @@
             passe:
           </p>
           <div
-            [class.fr-input-group--error]="
-              f.newPassword.dirty && f.newPassword.errors ? true : false
-            "
+            [class.fr-input-group--error]="isInvalid('newPassword')"
             class="fr-input-group required"
           >
             <div class="fr-password" id="password-4">
@@ -87,10 +89,10 @@
                   class="fr-input"
                   autocomplete="new-password"
                   [ngClass]="{
-                    'is-invalid': f.newPassword.dirty && f.newPassword.errors
+                    'is-invalid': isInvalid('newPassword')
                   }"
                   [attr.aria-invalid]="
-                    f.newPassword.dirty && f.newPassword.errors ? true : false
+                    isInvalid('newPassword') ? 'true' : 'false'
                   "
                   [attr.aria-describedby]="'newPassword-input--messages'"
                 />
@@ -242,12 +244,7 @@
           </div>
           <!-- password confirmation -->
           <div
-            [class.fr-input-group--error]="
-              f.newPasswordConfirm.errors ||
-              this.loginForm.hasError('new-password-confim-does-not-match')
-                ? true
-                : false
-            "
+            [class.fr-input-group--error]="isNewPasswordConfirmInvalid"
             class="fr-input-group required"
           >
             <div class="fr-password" id="newPasswordConfirmContainer">
@@ -266,32 +263,19 @@
                   class="fr-input"
                   autocomplete="new-password"
                   [attr.aria-invalid]="
-                    f.newPasswordConfirm.errors ||
-                    this.loginForm.hasError(
-                      'new-password-confim-does-not-match'
-                    )
-                      ? true
-                      : false
+                    isNewPasswordConfirmInvalid ? 'true' : 'false'
                   "
                   [attr.aria-describedby]="
-                    f.newPasswordConfirm.dirty &&
-                    (f.newPasswordConfirm.errors ||
-                      loginForm.hasError('new-password-confim-does-not-match'))
+                    isNewPasswordConfirmInvalid
                       ? 'newPasswordConfirm-input--messages'
                       : null
                   "
                   [ngClass]="{
-                    'is-invalid':
-                      f.newPasswordConfirm.dirty &&
-                      (f.newPasswordConfirm.errors ||
-                        loginForm.hasError(
-                          'new-password-confim-does-not-match'
-                        ))
+                    'is-invalid': isNewPasswordConfirmInvalid
                   }"
                 />
               </div>
-              @if ( f.newPasswordConfirm.errors ||
-              loginForm.hasError('new-password-confim-does-not-match') ) {
+              @if (isNewPasswordConfirmInvalid) {
               <div
                 class="fr-messages-group"
                 id="newPasswordConfirm-input--messages"
@@ -330,7 +314,7 @@
           <!-- password confirmation end-->
           <!-- Accept terms start -->
           <div
-            [class.fr-checkbox-group--error]="f.acceptTerms.errors"
+            [class.fr-checkbox-group--error]="isInvalid('acceptTerms')"
             class="fr-checkbox-group required fr-mb-6w"
           >
             <input
@@ -338,9 +322,9 @@
               type="checkbox"
               formControlName="acceptTerms"
               name="acceptTerms"
-              [attr.aria-invalid]="f.acceptTerms.errors ? 'true' : 'false'"
+              [attr.aria-invalid]="isInvalid('acceptTerms') ? 'true' : 'false'"
               [attr.aria-describedby]="
-                f.acceptTerms.errors ? 'acceptTerms-error-message' : null
+                isInvalid('acceptTerms') ? 'acceptTerms-error-message' : null
               "
               id="acceptTerms"
               required
@@ -355,14 +339,11 @@
                 >conditions générales d'utilisation</a
               ></label
             >
-            @if (f.acceptTerms.errors) {
+            @if (isInvalid('acceptTerms')) {
             <div class="fr-messages-group">
               <p
                 id="acceptTerms-error-message"
-                [ngClass]="{
-                  'fr-message--error': f.acceptTerms.errors
-                }"
-                class="fr-message"
+                class="fr-message fr-message--error"
               >
                 Vous devez accepter les CGU afin de poursuivre l'inscription
               </p>
@@ -371,9 +352,7 @@
           </div>
           } @else {
           <div
-            [class.fr-input-group--error]="
-              f.password.dirty && f.password.errors ? true : false
-            "
+            [class.fr-input-group--error]="isInvalid('password')"
             class="fr-input-group required"
           >
             <div class="fr-password" id="password-4">
@@ -384,11 +363,15 @@
                 <input
                   #password
                   [attr.aria-invalid]="
-                    f.password.dirty && f.password.errors ? true : false
+                    isInvalid('password') || hasCredentialsError
+                      ? 'true'
+                      : 'false'
                   "
                   [attr.aria-describedby]="
-                    f.password.errors?.required
+                    isInvalid('password')
                       ? 'password-input--message-error'
+                      : hasCredentialsError
+                      ? 'authentification-error'
                       : null
                   "
                   id="password"
@@ -398,9 +381,9 @@
                   autocomplete="current-password"
                 />
               </div>
-              @if (f.password.touched && f.password.errors) {
+              @if (isInvalid('password')) {
               <div class="fr-messages-group" id="password-input--messages">
-                @if (f.password.errors.required) {
+                @if (f.password.errors?.required) {
                 <p
                   class="fr-message fr-message--error"
                   id="password-input--message-error"
@@ -480,7 +463,6 @@
           } @if (displayLoginError) {
           <div
             id="authentification-error"
-            aria-live="polite"
             class="fr-alert fr-mb-2w"
             [class.fr-alert--error]="!blockedTemp"
             [class.fr-alert--warning]="blockedTemp"
