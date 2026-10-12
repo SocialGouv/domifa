@@ -21,7 +21,7 @@
         <div>
           @if (usager.decision.statut !== 'REFUS') {
           <app-button
-            label="Telecharger l'attestation de demande"
+            label="Télécharger l'attestation de demande"
             icon="download"
             color="secondary"
             customClass="fr-btn--sm fr-mx-1w"
@@ -31,11 +31,12 @@
           <app-button
             [label]="
               usager.decision.statut === 'REFUS'
-                ? 'Telecharger l\'attestation de Refus'
-                : 'Telecharger le Cerfa'
+                ? 'Télécharger l\'attestation de refus'
+                : 'Télécharger le Cerfa'
             "
             customClass="fr-btn--sm fr-mr-1w"
             icon="download"
+            color="secondary"
             (action)="
               getCerfa(
                 usager.decision.statut === 'REFUS'

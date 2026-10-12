@@ -76,7 +76,12 @@ export class StuctureStatsComponent implements AfterViewInit, OnDestroy {
     private readonly matomo: MatomoTracker,
     private readonly cd: ChangeDetectorRef
   ) {
-    for (let year = this.firstReportsYear; year < this.currentYear; year++) {
+    // Most recent year first, consistent with the "Nouveautés" page
+    for (
+      let year = this.currentYear - 1;
+      year >= this.firstReportsYear;
+      year--
+    ) {
       this.years.push(year);
     }
 

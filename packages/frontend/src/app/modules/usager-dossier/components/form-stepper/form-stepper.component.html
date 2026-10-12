@@ -18,9 +18,16 @@
   } @else {
   <nav id="steps" aria-label="Étapes du formulaire de demande de domiciliation">
     <div class="fr-pb-4w">
-      <span class="fr-text--sm fr-text--grey">
-        Étape {{ currentStep + 1 }} sur 5: {{ ETAPES_FORM_DOM[currentStep] }}
-      </span>
+      <p class="fr-text--sm fr-mb-0">
+        Étape {{ currentStep + 1 }} sur {{ ETAPES_FORM_DOM.length }} :
+        {{ ETAPES_FORM_DOM[currentStep] }}
+      </p>
+      @if (currentStep < ETAPES_FORM_DOM.length - 1) {
+      <p class="fr-text--xs fr-text-mention--grey fr-mb-0">
+        <span class="fr-text--bold">Étape suivante :</span>
+        {{ ETAPES_FORM_DOM[currentStep + 1] }}
+      </p>
+      }
     </div>
 
     <div class="fr-grid-row fr-grid-row--center fr-grid-row--middle">
@@ -52,7 +59,7 @@
                 {{ ETAPES_FORM_DOM[i] }}
               </span>
             </div>
-            @if (currentStep >= i) {
+            @if (currentStep > i) {
             <div class="fr-col-3 fr-text--right">
               <span
                 class="fr-icon-success-fill fr-text-default--success"

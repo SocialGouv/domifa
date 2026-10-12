@@ -8,7 +8,7 @@
     [attr.aria-busy]="isInteractionLoading.visite"
     [attr.aria-label]="'Ajout d\'un passage pour ' + usager.fullName"
     [title]="'Ajout d\'un passage pour ' + usager.fullName"
-    class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
+    class="interaction-btn fr-btn fr-btn--secondary"
     (click)="setSingleInteraction(usager, 'visite')"
   >
     <span class="ri-walk-line" aria-hidden="true"></span>
@@ -20,7 +20,7 @@
     [attr.aria-busy]="isInteractionLoading.appel"
     [attr.aria-label]="'Ajout d\'un appel téléphonique pour ' + usager.fullName"
     [title]="'Ajout d\'un appel téléphonique pour ' + usager.fullName"
-    class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
+    class="interaction-btn fr-btn fr-btn--secondary"
     (click)="setSingleInteraction(usager, 'appel')"
   >
     <span class="fr-icon-phone-line" aria-hidden="true"></span>
@@ -36,7 +36,7 @@
     [attr.aria-busy]="isInteractionLoading.courrierIn"
     [attr.aria-label]="'Ajout d\'un courrier pour ' + usager.fullName"
     [title]="'Ajout d\'un courrier pour ' + usager.fullName"
-    class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
+    class="interaction-btn fr-btn fr-btn--secondary"
     (click)="setSingleInteraction(usager, 'courrierIn')"
   >
     <span class="fr-icon-mail-line" aria-hidden="true"></span>
@@ -51,7 +51,7 @@
       'Réception de courriers, colis ou recommandés pour ' + usager.fullName
     "
     [id]="'reception-' + usager.ref"
-    class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
+    class="interaction-btn fr-btn fr-btn--secondary"
     (click)="openInteractionInModal()"
   >
     <span class="ri-mail-add-line" aria-hidden="true"></span>
@@ -59,7 +59,7 @@
 
   @if (usager.lastInteraction.enAttente) {
   <button
-    class="interaction-btn fr-btn fr-btn--tertiary-no-outline"
+    class="interaction-btn fr-btn fr-btn--secondary"
     type="button"
     [id]="'distribution-' + usager.ref"
     [attr.aria-label]="

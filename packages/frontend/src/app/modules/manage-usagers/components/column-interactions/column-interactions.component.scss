@@ -24,12 +24,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(65, 100, 245, 0.4);
   box-sizing: border-box;
   margin: 0 0.2rem;
   padding: 0rem 0.3rem;
   position: relative;
-  background-color: var(--background-default-grey);
 
   span {
     font-size: 1.4rem;
@@ -49,15 +47,6 @@
   }
 }
 
-.interaction-btn:hover {
-  color: var(--text-inverted-grey);
-  background-color: var(--text-active-blue-france);
-  box-shadow: 0 0 0 0.25rem rgba(179, 179, 179, 0.5);
-}
-
 .interaction-btn:disabled {
-  border: 1px solid rgba(122, 122, 122, 1);
-  position: relative;
-  box-sizing: border-box;
   cursor: progress;
 }

@@ -183,7 +183,7 @@
                 </caption>
                 <tbody>
                   <tr>
-                    <th scope="fr-grid-row" class="fr-text--bold">
+                    <th scope="row" class="fr-text--bold">
                       Total des domiciliés actifs + leurs ayants droit
                     </th>
                     <td class="stats-table-value">
@@ -191,67 +191,65 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
-                      Nombre de domiciliés
-                    </th>
+                    <th scope="row" class="soustable">Nombre de domiciliés</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.total.usagers }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
-                      Nombre d'ayants droit
-                    </th>
+                    <th scope="row" class="soustable">Nombre d'ayants droit</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.total.ayantsDroits }}
                     </td>
                   </tr>
-                  <tr>
-                    <th class="fr-text--bold" colspan="2" scope="col">
+                </tbody>
+                <tbody>
+                  <tr class="stats-group-header">
+                    <th class="fr-text--bold" colspan="2" scope="rowgroup">
                       Nombre de domiciliés actifs par sexe
                     </th>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Femme</th>
+                    <th scope="row" class="soustable">Femme</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.sexe.f }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Homme</th>
+                    <th scope="row" class="soustable">Homme</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.sexe.h }}
                     </td>
                   </tr>
-                  <tr>
-                    <th class="fr-text--bold" colspan="2" scope="col">
+                </tbody>
+                <tbody>
+                  <tr class="stats-group-header">
+                    <th class="fr-text--bold" colspan="2" scope="rowgroup">
                       Nombre de domiciliés actifs par type de demande
                     </th>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
-                      Première demande
-                    </th>
+                    <th scope="row" class="soustable">Première demande</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.typeDom.premiere }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
-                      Renouvellement
-                    </th>
+                    <th scope="row" class="soustable">Renouvellement</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.typeDom.renouvellement }}
                     </td>
                   </tr>
-                  <tr>
-                    <th class="fr-text--bold" colspan="2" scope="col">
+                </tbody>
+                <tbody>
+                  <tr class="stats-group-header">
+                    <th class="fr-text--bold" colspan="2" scope="rowgroup">
                       Nombre de domiciliés actifs + leurs ayants droit par
                       tranche d'âge
                     </th>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Mineurs</th>
+                    <th scope="row" class="soustable">Mineurs</th>
                     <td class="stats-table-value">
                       {{
                         stats.data.validUsagers.age.usagers.mineurs +
@@ -260,7 +258,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Majeurs</th>
+                    <th scope="row" class="soustable">Majeurs</th>
                     <td class="stats-table-value">
                       {{
                         stats.data.validUsagers.age.usagers.majeurs +
@@ -268,106 +266,107 @@
                       }}
                     </td>
                   </tr>
-
-                  <tr>
-                    <th class="fr-text--bold" colspan="2" scope="col">
+                </tbody>
+                <tbody>
+                  <tr class="stats-group-header">
+                    <th class="fr-text--bold" colspan="2" scope="rowgroup">
                       Nombre de domiciliés actifs par tranche d'âge
                     </th>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Mineurs</th>
+                    <th scope="row" class="soustable">Mineurs</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.age.usagers.mineurs }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Majeurs</th>
+                    <th scope="row" class="soustable">Majeurs</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.age.usagers.majeurs }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">18-25 ans</th>
+                    <th scope="row" class="soustable">18-25 ans</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.age.usagers.t_18_25 }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">26-29 ans</th>
+                    <th scope="row" class="soustable">26-29 ans</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.age.usagers.t_26_29 }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">30-34 ans</th>
+                    <th scope="row" class="soustable">30-34 ans</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.age.usagers.t_30_34 }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">35-39 ans</th>
+                    <th scope="row" class="soustable">35-39 ans</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.age.usagers.t_35_39 }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">40-44 ans</th>
+                    <th scope="row" class="soustable">40-44 ans</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.age.usagers.t_40_44 }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">45-49 ans</th>
+                    <th scope="row" class="soustable">45-49 ans</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.age.usagers.t_45_49 }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">50-54 ans</th>
+                    <th scope="row" class="soustable">50-54 ans</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.age.usagers.t_50_54 }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">55-59 ans</th>
+                    <th scope="row" class="soustable">55-59 ans</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.age.usagers.t_55_59 }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">60-64 ans</th>
+                    <th scope="row" class="soustable">60-64 ans</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.age.usagers.t_60_64 }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">65-69 ans</th>
+                    <th scope="row" class="soustable">65-69 ans</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.age.usagers.t_65_69 }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">70-74 ans</th>
+                    <th scope="row" class="soustable">70-74 ans</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.age.usagers.t_70_74 }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
-                      75 ans ou plus
-                    </th>
+                    <th scope="row" class="soustable">75 ans ou plus</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.age.usagers.t_75_plus }}
                     </td>
                   </tr>
                   <!-- SituationPro  -->
-                  <tr>
-                    <th class="fr-text--bold" colspan="2" scope="col">
+                </tbody>
+                <tbody>
+                  <tr class="stats-group-header">
+                    <th class="fr-text--bold" colspan="2" scope="rowgroup">
                       Situation professionnelle
                     </th>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_SITUATION_PRO.AAH }}
                     </th>
                     <td class="stats-table-value">
@@ -375,7 +374,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_SITUATION_PRO.ETUDIANT }}
                     </th>
                     <td class="stats-table-value">
@@ -383,7 +382,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_SITUATION_PRO.FRANCE_TRAVAIL }}
                     </th>
                     <td class="stats-table-value">
@@ -391,7 +390,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_SITUATION_PRO.INDEPENDANT }}
                     </th>
                     <td class="stats-table-value">
@@ -399,7 +398,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_SITUATION_PRO.RETRAITE }}
                     </th>
                     <td class="stats-table-value">
@@ -407,7 +406,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_SITUATION_PRO.RSA }}
                     </th>
                     <td class="stats-table-value">
@@ -415,7 +414,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_SITUATION_PRO.SALARIE }}
                     </th>
                     <td class="stats-table-value">
@@ -423,7 +422,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_SITUATION_PRO.AUTRE }}
                     </th>
                     <td class="stats-table-value">
@@ -431,83 +430,83 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Non renseigné</th>
+                    <th scope="row" class="soustable">Non renseigné</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.situationPro.non_renseigne }}
                     </td>
                   </tr>
                   <!-- Lien commune -->
-                  <tr>
-                    <th class="fr-text--bold" colspan="2" scope="col">
+                </tbody>
+                <tbody>
+                  <tr class="stats-group-header">
+                    <th class="fr-text--bold" colspan="2" scope="rowgroup">
                       Lien avec la commune
                     </th>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Résidentiel</th>
+                    <th scope="row" class="soustable">Résidentiel</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.liencommune.residentiel }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Parental</th>
+                    <th scope="row" class="soustable">Parental</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.liencommune.parental }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Familial</th>
+                    <th scope="row" class="soustable">Familial</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.liencommune.familial }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Professionnel</th>
+                    <th scope="row" class="soustable">Professionnel</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.liencommune.professionnel }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Social</th>
+                    <th scope="row" class="soustable">Social</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.liencommune.social }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Autre</th>
+                    <th scope="row" class="soustable">Autre</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.liencommune.autre }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Non renseigné</th>
+                    <th scope="row" class="soustable">Non renseigné</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.liencommune.non_renseigne }}
                     </td>
                   </tr>
                   <!-- Nombre de domiciliés actifs par type de ménage -->
-                  <tr>
-                    <th class="fr-text--bold" colspan="2" scope="col">
+                </tbody>
+                <tbody>
+                  <tr class="stats-group-header">
+                    <th class="fr-text--bold" colspan="2" scope="rowgroup">
                       Nombre de domiciliés actifs par type de ménage
                     </th>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
-                      Couple avec enfant(s)
-                    </th>
+                    <th scope="row" class="soustable">Couple avec enfant(s)</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.menage.couple_avec_enfant }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
-                      Couple sans enfant(s)
-                    </th>
+                    <th scope="row" class="soustable">Couple sans enfant(s)</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.menage.couple_sans_enfant }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       Femme isolée avec enfant(s)
                     </th>
                     <td class="stats-table-value">
@@ -517,7 +516,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       Femme isolée sans enfant
                     </th>
                     <td class="stats-table-value">
@@ -527,7 +526,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       Homme isolé avec enfant(s)
                     </th>
                     <td class="stats-table-value">
@@ -537,7 +536,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       Homme isolé sans enfant
                     </th>
                     <td class="stats-table-value">
@@ -547,19 +546,21 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Non renseigné</th>
+                    <th scope="row" class="soustable">Non renseigné</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.menage.non_renseigne }}
                     </td>
                   </tr>
                   <!-- Cause de l'instabilité de logement -->
-                  <tr>
-                    <th class="fr-text--bold" colspan="2" scope="col">
+                </tbody>
+                <tbody>
+                  <tr class="stats-group-header">
+                    <th class="fr-text--bold" colspan="2" scope="rowgroup">
                       Cause de l'instabilité de logement
                     </th>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_CAUSE_INSTABILITE.ERRANCE }}
                     </th>
                     <td class="stats-table-value">
@@ -567,7 +568,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_CAUSE_INSTABILITE.EXPULSION }}
                     </th>
                     <td class="stats-table-value">
@@ -575,7 +576,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_CAUSE_INSTABILITE.HEBERGE_SANS_ADRESSE }}
                     </th>
                     <td class="stats-table-value">
@@ -583,7 +584,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_CAUSE_INSTABILITE.ITINERANT }}
                     </th>
                     <td class="stats-table-value">
@@ -591,7 +592,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_CAUSE_INSTABILITE.RUPTURE }}
                     </th>
                     <td class="stats-table-value">
@@ -599,7 +600,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_CAUSE_INSTABILITE.SORTIE_STRUCTURE }}
                     </th>
                     <td class="stats-table-value">
@@ -607,7 +608,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_CAUSE_INSTABILITE.SORTIE_HOSPITALISATION }}
                     </th>
                     <td class="stats-table-value">
@@ -615,7 +616,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_CAUSE_INSTABILITE.SORTIE_INCARCERATION }}
                     </th>
                     <td class="stats-table-value">
@@ -623,7 +624,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_CAUSE_INSTABILITE.VIOLENCE }}
                     </th>
                     <td class="stats-table-value">
@@ -631,25 +632,27 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Autre cause</th>
+                    <th scope="row" class="soustable">Autre cause</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.cause.autre }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Non renseigné</th>
+                    <th scope="row" class="soustable">Non renseigné</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.cause.non_renseigne }}
                     </td>
                   </tr>
                   <!-- Situation résidentielle -->
-                  <tr>
-                    <th class="fr-text--bold" colspan="2" scope="col">
+                </tbody>
+                <tbody>
+                  <tr class="stats-group-header">
+                    <th class="fr-text--bold" colspan="2" scope="rowgroup">
                       Situation résidentielle
                     </th>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_RESIDENCE.DOMICILE_MOBILE }}
                     </th>
                     <td class="stats-table-value">
@@ -657,7 +660,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_RESIDENCE.HEBERGEMENT_SOCIAL }}
                     </th>
                     <td class="stats-table-value">
@@ -665,7 +668,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_RESIDENCE.HEBERGEMENT_TIERS }}
                     </th>
                     <td class="stats-table-value">
@@ -673,7 +676,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_RESIDENCE.HOTEL }}
                     </th>
                     <td class="stats-table-value">
@@ -681,7 +684,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_RESIDENCE.SANS_ABRI }}
                     </th>
                     <td class="stats-table-value">
@@ -689,7 +692,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       {{ ENTRETIEN_RESIDENCE.LOGEMENT_SANS_ADRESSE }}
                     </th>
                     <td class="stats-table-value">
@@ -699,27 +702,27 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
-                      Autre situation
-                    </th>
+                    <th scope="row" class="soustable">Autre situation</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.residence.autre }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Non renseigné</th>
+                    <th scope="row" class="soustable">Non renseigné</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.residence.non_renseigne }}
                     </td>
                   </tr>
                   <!-- Motif principal de demande de domiciliation-->
-                  <tr>
-                    <th class="fr-text--bold" colspan="2" scope="col">
+                </tbody>
+                <tbody>
+                  <tr class="stats-group-header">
+                    <th class="fr-text--bold" colspan="2" scope="rowgroup">
                       Motif principal de demande de domiciliation
                     </th>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       Exercice des droits civils ou civiques
                     </th>
                     <td class="stats-table-value">
@@ -727,7 +730,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       Accès aux prestations sociales
                     </th>
                     <td class="stats-table-value">
@@ -735,7 +738,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       Exercice d'une activité professionnelle
                     </th>
                     <td class="stats-table-value">
@@ -743,7 +746,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       Lutte contre toute forme de violence (mise à l'abri)
                     </th>
                     <td class="stats-table-value">
@@ -751,37 +754,39 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Autre</th>
+                    <th scope="row" class="soustable">Autre</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.raison.autre }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Non renseigné</th>
+                    <th scope="row" class="soustable">Non renseigné</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.raison.non_renseigne }}
                     </td>
                   </tr>
                   <!-- Accompagnement -->
-                  <tr>
-                    <th class="fr-text--bold" colspan="2" scope="col">
+                </tbody>
+                <tbody>
+                  <tr class="stats-group-header">
+                    <th class="fr-text--bold" colspan="2" scope="rowgroup">
                       Domiciliés bénéficiant d'un accompagnement social
                     </th>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Oui</th>
+                    <th scope="row" class="soustable">Oui</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.accompagnement.oui }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Non</th>
+                    <th scope="row" class="soustable">Non</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.accompagnement.non }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Non renseigné</th>
+                    <th scope="row" class="soustable">Non renseigné</th>
                     <td class="stats-table-value">
                       {{ stats.data.validUsagers.accompagnement.non_renseigne }}
                     </td>
@@ -811,7 +816,7 @@
                 </caption>
                 <tbody>
                   <tr>
-                    <th class="fr-text--bold" scope="fr-grid-row">
+                    <th class="fr-text--bold" scope="row">
                       Nombre total de domiciliations (au sens d'attestations
                       d'élection de domicilie délivrées car une domiciliation
                       peut concerner plusieurs personnes)
@@ -821,7 +826,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th class="soustable" scope="fr-grid-row">
+                    <th class="soustable" scope="row">
                       Dont premières demandes
                     </th>
                     <td class="stats-table-value">
@@ -829,15 +834,13 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
-                      Dont renouvellements
-                    </th>
+                    <th scope="row" class="soustable">Dont renouvellements</th>
                     <td class="stats-table-value">
                       {{ stats.data.decisions.valid.usagers.renouvellement }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       Ayants droit concernés
                     </th>
                     <td class="stats-table-value">
@@ -845,20 +848,22 @@
                     </td>
                   </tr>
                   <tr>
-                    <th class="fr-text--bold" scope="fr-grid-row">
+                    <th class="fr-text--bold" scope="row">
                       Nombre total de radiations
                     </th>
                     <td class="stats-table-value">
                       {{ stats.data.decisions.radie.total }}
                     </td>
                   </tr>
-                  <tr>
-                    <th colspan="2" scope="col">
+                </tbody>
+                <tbody>
+                  <tr class="stats-group-header">
+                    <th class="fr-text--bold" colspan="2" scope="rowgroup">
                       Répartition des radiations par motif
                     </th>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       À la demande de la personne
                     </th>
                     <td class="stats-table-value">
@@ -866,7 +871,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       Plus de lien avec la commune
                     </th>
                     <td class="stats-table-value">
@@ -876,7 +881,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th class="soustable" scope="fr-grid-row">
+                    <th class="soustable" scope="row">
                       La domiciliation est arrivée à échéance (1 an) et son
                       renouvellement n'a pas été sollicité
                     </th>
@@ -887,7 +892,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th class="soustable" scope="fr-grid-row">
+                    <th class="soustable" scope="row">
                       Non-manifestation de la personne pendant plus de 3 mois
                       consécutifs
                     </th>
@@ -899,7 +904,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       Non-respect du règlement
                     </th>
                     <td class="stats-table-value">
@@ -909,7 +914,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th class="soustable" scope="fr-grid-row">
+                    <th class="soustable" scope="row">
                       Entrée dans un logement/hébergement stable
                     </th>
                     <td class="stats-table-value">
@@ -917,7 +922,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       Autre motif de radiation
                     </th>
                     <td class="stats-table-value">
@@ -926,7 +931,7 @@
                   </tr>
 
                   <tr>
-                    <th scope="fr-grid-row" class="fr-text--bold">
+                    <th scope="row" class="fr-text--bold">
                       Nombre total de refus d'élection de domicile (y compris
                       refus de renouvellements)
                     </th>
@@ -934,13 +939,15 @@
                       {{ stats.data.decisions.refus.total }}
                     </td>
                   </tr>
-                  <tr>
-                    <th colspan="2" scope="col">
+                </tbody>
+                <tbody>
+                  <tr class="stats-group-header">
+                    <th class="fr-text--bold" colspan="2" scope="rowgroup">
                       Répartition par motif de refus
                     </th>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       En dehors des critères du public domicilié
                     </th>
                     <td class="stats-table-value">
@@ -948,7 +955,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       Absence de lien avec la commune
                     </th>
                     <td class="stats-table-value">
@@ -956,7 +963,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       Nombre maximal de domiciliations atteint
                     </th>
                     <td class="stats-table-value">
@@ -964,20 +971,20 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
-                      Autre motif de refus
-                    </th>
+                    <th scope="row" class="soustable">Autre motif de refus</th>
                     <td class="stats-table-value">
                       {{ stats.data.decisions.refus.motif.autre }}
                     </td>
                   </tr>
-                  <tr>
-                    <th colspan="2" scope="col">
+                </tbody>
+                <tbody>
+                  <tr class="stats-group-header">
+                    <th class="fr-text--bold" colspan="2" scope="rowgroup">
                       Répartition des orientations
                     </th>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       Orientation vers CCAS, CIAS, commune
                     </th>
                     <td class="stats-table-value">
@@ -985,7 +992,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       Orientation vers Organisme agrée
                     </th>
                     <td class="stats-table-value">
@@ -993,15 +1000,13 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
-                      Orientation vers CIAS
-                    </th>
+                    <th scope="row" class="soustable">Orientation vers CIAS</th>
                     <td class="stats-table-value">
                       {{ stats.data.decisions.refus.reorientation.cias }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">Autre</th>
+                    <th scope="row" class="soustable">Autre</th>
                     <td class="stats-table-value">
                       {{ stats.data.decisions.refus.reorientation.other }}
                     </td>
@@ -1034,68 +1039,68 @@
                 </caption>
                 <tbody>
                   <tr>
-                    <th scope="fr-grid-row">Appels téléphoniques</th>
+                    <th scope="row">Appels téléphoniques</th>
                     <td class="stats-table-value">
                       {{ stats.data.interactions.appel }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row">Courriers enregistrés</th>
+                    <th scope="row">Courriers enregistrés</th>
                     <td class="stats-table-value">
                       {{ stats.data.interactions.courrierIn }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row">Courriers remis</th>
+                    <th scope="row">Courriers remis</th>
                     <td class="stats-table-value">
                       {{ stats.data.interactions.courrierOut }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row">Courriers réexpédiés</th>
+                    <th scope="row">Courriers réexpédiés</th>
                     <td class="stats-table-value">
                       {{ stats.data.interactions.courrierOutForwarded }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row">Colis enregistrés</th>
+                    <th scope="row">Colis enregistrés</th>
                     <td class="stats-table-value">
                       {{ stats.data.interactions.colisIn }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row">Colis remis</th>
+                    <th scope="row">Colis remis</th>
                     <td class="stats-table-value">
                       {{ stats.data.interactions.colisOut }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row">Colis réexpédiés</th>
+                    <th scope="row">Colis réexpédiés</th>
                     <td class="stats-table-value">
                       {{ stats.data.interactions.colisOutForwarded }}
                     </td>
                   </tr>
 
                   <tr>
-                    <th scope="fr-grid-row">Avis de passage enregistrés</th>
+                    <th scope="row">Avis de passage enregistrés</th>
                     <td class="stats-table-value">
                       {{ stats.data.interactions.recommandeIn }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row">Avis de passage remis</th>
+                    <th scope="row">Avis de passage remis</th>
                     <td class="stats-table-value">
                       {{ stats.data.interactions.recommandeOut }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row">Avis de passage réexpédiés</th>
+                    <th scope="row">Avis de passage réexpédiés</th>
                     <td class="stats-table-value">
                       {{ stats.data.interactions.recommandeOutForwarded }}
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row">Passages enregistrés</th>
+                    <th scope="row">Passages enregistrés</th>
                     <td class="stats-table-value">
                       {{
                         stats.data.interactions.visiteOut +
@@ -1104,7 +1109,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       Passages avec remise de courrier
                     </th>
                     <td class="stats-table-value">
@@ -1112,7 +1117,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row" class="soustable">
+                    <th scope="row" class="soustable">
                       Passages sans remise de courrier
                     </th>
                     <td class="stats-table-value">
@@ -1120,7 +1125,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <th scope="fr-grid-row">Connexions au portail usager</th>
+                    <th scope="row">Connexions au portail usager</th>
                     <td class="stats-table-value">
                       {{ stats.data.interactions.loginPortail }}
                     </td>

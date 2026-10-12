@@ -16,16 +16,9 @@
   border-radius: 0.25rem;
 
   .rdv-select {
-    align-items: center;
-    gap: 1rem;
     display: flex;
-    justify-content: center;
-    align-content: center;
-    text-align: center;
-
-    label {
-      margin-bottom: 0.75rem;
-    }
+    align-items: center;
+    text-align: left;
   }
 }
 
@@ -35,10 +28,4 @@
 
 .rdv-choice--selected {
   background-color: var(--background-alt-blue-cumulus);
-}
-
-.rdv-description {
-  text-align: center;
-  font-weight: bold;
-  margin-bottom: 0;
 }

@@ -1,9 +1,9 @@
 @if (me?.role !== 'facteur' && me?.role !== 'agent') { @if ( me?.role !==
 'simple' && (context === 'PROFIL' || context === 'INSTRUCTION_FORM') ) {
-<div class="fr-container fr-py-5v" style="text-align: center">
+<div class="fr-container fr-py-5v">
   <button
     type="button"
-    class="fr-icon-delete-line fr-btn--icon-left fr-btn fr-btn--secondary"
+    class="fr-icon-delete-line fr-btn--icon-left fr-btn fr-btn--tertiary"
     (click)="onDeleteClick()"
   >
     {{
@@ -14,7 +14,7 @@
 } @if (context === 'HISTORY' && usager.historique.length > 1 && isAdmin) {
 <button
   type="button"
-  class="fr-btn fr-btn--primary fr-btn--sm fr-icon-delete-line fr-btn--icon-left"
+  class="fr-btn fr-btn--secondary fr-btn--sm fr-icon-delete-line fr-btn--icon-left"
   aria-label="Supprimer la dernière décision"
   (click)="deleteDecisionModal.open()"
 >
