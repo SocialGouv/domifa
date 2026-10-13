@@ -19,11 +19,6 @@ import {
 } from "../../../database";
 import { passwordGenerator } from "../../../util";
 
-jest.mock("@sentry/nestjs", () => ({
-  ...jest.requireActual("@sentry/nestjs"),
-  captureMessage: jest.fn(),
-}));
-
 // End-to-end walk-through of the whole password-renewal-after-inactivity
 // feature, exercised over real HTTP calls (supertest) rather than unit-level
 // service/guard assertions — each step is what a real client would actually
