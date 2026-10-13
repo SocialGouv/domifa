@@ -39,6 +39,7 @@ import { DsfrModalComponent, DsfrModalModule } from "@edugouvfr/ngx-dsfr";
 import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 import { TableHeadSortComponent } from "../../../shared/components/table-head-sort/table-head-sort.component";
 import { DisplayLastLoginComponent } from "../../../shared/components/display-last-login/display-last-login.component";
+import { DisplayPasswordAgeComponent } from "../../../shared/components/display-password-age/display-password-age.component";
 import { RegisterUserSupervisorComponent } from "../register-user-supervisor/register-user-supervisor.component";
 import { UserActionsComponent } from "../../../shared/components/user-actions/user-actions.component";
 import {
@@ -60,6 +61,7 @@ import { matchesSearchTerm } from "../../../shared/utils/matches-search-term";
     DsfrSpinnerComponent,
     TableHeadSortComponent,
     DisplayLastLoginComponent,
+    DisplayPasswordAgeComponent,
     RegisterUserSupervisorComponent,
     UserActionsComponent,
     FilterTabsComponent,

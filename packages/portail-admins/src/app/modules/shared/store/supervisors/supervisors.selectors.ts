@@ -13,6 +13,9 @@ export const selectAllSupervisors = createSelector(
       ...supervisor,
       lastLogin: supervisor?.lastLogin ? new Date(supervisor.lastLogin) : null,
       createdAt: supervisor?.createdAt ? new Date(supervisor.createdAt) : null,
+      passwordLastUpdate: supervisor?.passwordLastUpdate
+        ? new Date(supervisor.passwordLastUpdate)
+        : null,
     }))
 );
 
