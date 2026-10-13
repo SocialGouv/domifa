@@ -25,6 +25,7 @@ import { PASSWORD_VALIDATOR } from "../../../admin-auth/types/PASSWORD_VALIDATOR
 import { UserSupervisorPasswordFormComponent } from "../../../admin-auth/components/user-structure-password-form/user-supervisor-password-form.component";
 import { ButtonComponent } from "../../../shared/components/button/button.component";
 import { CustomToastService } from "../../../shared/services";
+import { reportPasswordChangeError } from "../../../shared/utils/report-password-change-error";
 
 // Password-change form + action buttons, shared by MyAccountComponent
 // (voluntary change from "Mon compte") and RenewPasswordComponent (forced
@@ -113,6 +114,7 @@ export class EditPasswordFormComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           this.loading = false;
+          reportPasswordChangeError(err, "portail-admins");
           const message =
             PASSWORD_CHANGE_ERROR_MESSAGES[err?.error?.message] ??
             "Une erreur est survenue, veuillez vérifier le formulaire";

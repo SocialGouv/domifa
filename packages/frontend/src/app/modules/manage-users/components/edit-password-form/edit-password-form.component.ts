@@ -23,6 +23,7 @@ import { CustomToastService } from "../../../shared/services";
 import { SharedModule } from "../../../shared/shared.module";
 import { PASSWORD_VALIDATOR } from "../../../users/PASSWORD_VALIDATOR.const";
 import { PasswordValidator } from "../../../users/services";
+import { reportPasswordChangeError } from "../../../shared/utils/report-password-change-error";
 import { ManageUsersService } from "../../services/manage-users.service";
 
 // Password-change form + action buttons, shared by EditUserComponent
@@ -110,6 +111,7 @@ export class EditPasswordFormComponent implements OnInit, OnDestroy {
           },
           error: (err) => {
             this.loading = false;
+            reportPasswordChangeError(err, "frontend");
             const message =
               PASSWORD_CHANGE_ERROR_MESSAGES[err?.error?.message] ??
               "Une erreur est survenue, veuillez vérifier le formulaire";
