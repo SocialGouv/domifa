@@ -200,6 +200,15 @@
                 </th>
                 <th scope="col">
                   <app-table-head-sort
+                    sortKey="passwordLastUpdate"
+                    [(sortValue)]="sortValue"
+                    [(currentKey)]="currentKey"
+                    columnName="Mot de passe mis à jour"
+                  >
+                  </app-table-head-sort>
+                </th>
+                <th scope="col">
+                  <app-table-head-sort
                     sortKey="role"
                     [(sortValue)]="sortValue"
                     [(currentKey)]="currentKey"
@@ -251,6 +260,12 @@
                   <app-display-last-login
                     [lastLogin]="user.lastLogin"
                   ></app-display-last-login>
+                </td>
+                <td>
+                  <app-display-password-age
+                    [passwordLastUpdate]="user.passwordLastUpdate"
+                    [createdAt]="user.createdAt"
+                  ></app-display-password-age>
                 </td>
                 <td>
                   {{ USER_SUPERVISOR_ROLES_LABELS[user.role] }}

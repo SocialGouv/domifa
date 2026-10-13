@@ -62,6 +62,17 @@
           ></app-display-last-login>
         </dd>
       </div>
+      <div class="fr-grid-row fr-py-1w">
+        <dt class="fr-col-12 fr-col-md-4 fr-text--bold">
+          Mot de passe mis à jour
+        </dt>
+        <dd class="fr-col-12 fr-col-md-8 fr-m-0">
+          <app-display-password-age
+            [passwordLastUpdate]="supervisor.passwordLastUpdate"
+            [createdAt]="supervisor.createdAt"
+          ></app-display-password-age>
+        </dd>
+      </div>
     </dl>
   </div>
 </ng-container>

@@ -628,6 +628,7 @@ export class AdminUsersController {
         email: true,
         lastLogin: true,
         createdAt: true,
+        passwordLastUpdate: true,
         territories: true,
         uuid: true,
         status: true,

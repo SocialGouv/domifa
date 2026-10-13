@@ -12,6 +12,7 @@ import {
 } from "@domifa/common";
 
 import { DisplayLastLoginComponent } from "../../../shared/components/display-last-login/display-last-login.component";
+import { DisplayPasswordAgeComponent } from "../../../shared/components/display-password-age/display-password-age.component";
 import {
   selectSupervisorByUuid,
   SupervisorsActions,
@@ -20,7 +21,11 @@ import {
 @Component({
   selector: "app-supervisor-info",
   templateUrl: "./supervisor-info.component.html",
-  imports: [CommonModule, DisplayLastLoginComponent],
+  imports: [
+    CommonModule,
+    DisplayLastLoginComponent,
+    DisplayPasswordAgeComponent,
+  ],
 })
 export class SupervisorInfoComponent implements OnInit, OnDestroy {
   public supervisor?: UserSupervisor;
