@@ -1,4 +1,5 @@
 import { HttpStatus } from "@nestjs/common";
+import * as Sentry from "@sentry/nestjs";
 import supertest from "supertest";
 
 import {
@@ -17,6 +18,11 @@ import {
   UserSupervisorTable,
 } from "../../../database";
 import { passwordGenerator } from "../../../util";
+
+jest.mock("@sentry/nestjs", () => ({
+  ...jest.requireActual("@sentry/nestjs"),
+  captureMessage: jest.fn(),
+}));
 
 // End-to-end walk-through of the whole password-renewal-after-inactivity
 // feature, exercised over real HTTP calls (supertest) rather than unit-level
@@ -345,5 +351,72 @@ describe("Password renewal — end to end", () => {
     const response = await AppTestHttpClient.get("/users", { context });
 
     expect(response.status).toBe(HttpStatus.OK);
+  });
+
+  describe("Sentry reporting of edit-my-password failures", () => {
+    const editPassword = (oldPassword: string, token: string) =>
+      supertest(context.app.getHttpServer())
+        .post("/users/edit-my-password")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          oldPassword,
+          password: "E2ESentryPass1!",
+          passwordConfirmation: "E2ESentryPass1!",
+        });
+
+    beforeEach(async () => {
+      jest.clearAllMocks();
+      await userStructureRepository.update(
+        { id: structureFixture.id },
+        { passwordLastUpdate: new Date() }
+      );
+      await AppTestHelper.authenticateStructure(structureFixture, { context });
+    });
+
+    afterEach(() => {
+      jest.restoreAllMocks();
+    });
+
+    it("reports a server error with the failing step, without any secret", async () => {
+      jest
+        .spyOn(userStructureSecurityRepository, "findOneByOrFail")
+        .mockRejectedValueOnce(new Error("boom"));
+
+      const response = await editPassword(
+        structureFixture.password,
+        context.authToken
+      );
+
+      expect(response.status).toBe(HttpStatus.BAD_REQUEST);
+      expect(response.body.message).toBe("EDIT_PASSWORD_FAIL");
+      expect(Sentry.captureMessage).toHaveBeenCalledTimes(1);
+
+      const [message, hint] = (Sentry.captureMessage as jest.Mock).mock
+        .calls[0];
+      expect(message).toBe(
+        '[PASSWORD] edit-my-password failed at step "load-security-row"'
+      );
+      expect(hint.tags).toMatchObject({
+        flow: "edit-my-password",
+        step: "load-security-row",
+        userProfile: "structure",
+      });
+      expect(hint.extra).toMatchObject({
+        userId: structureFixture.id,
+        errorMessage: "boom",
+      });
+
+      const serialized = JSON.stringify([message, hint]);
+      expect(serialized).not.toContain(structureFixture.password);
+      expect(serialized).not.toContain("E2ESentryPass1!");
+      expect(serialized).not.toContain(structureFixture.email);
+    });
+
+    it("does not report a wrong old password (expected refusal)", async () => {
+      const response = await editPassword("WrongOldPass1!", context.authToken);
+
+      expect(response.status).toBe(HttpStatus.BAD_REQUEST);
+      expect(Sentry.captureMessage).not.toHaveBeenCalled();
+    });
   });
 });

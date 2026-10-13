@@ -8,6 +8,7 @@ import {
   SecurityLogRequestContext,
 } from "../../app-logs/app-log-security-writer";
 import { userPasswordWriter } from "./userPasswordWriter.service";
+import { capturePasswordFlowFailure } from "./passwordFlowSentry.helper";
 
 export const userSecurityResetPasswordUpdater = {
   checkResetPasswordToken,
@@ -68,23 +69,39 @@ async function confirmResetPassword({
 }): Promise<{ userId: number }> {
   await checkResetPasswordToken({ userId, token, userProfile, requestContext });
 
-  const repository = getUserRepository(userProfile);
-  const securityRepository = getUserSecurityRepository(userProfile);
+  // The token is valid from here on: any failure below is a server error
+  // (the controllers turn it into TOKEN_INVALID, which hides it), so report it.
+  let step = "invalidate-token";
+  try {
+    const repository = getUserRepository(userProfile);
+    const securityRepository = getUserSecurityRepository(userProfile);
 
-  // Single-use token: invalidate it before issuing the new password so a
-  // concurrent retry can't replay it.
-  await securityRepository.update({ userId }, { temporaryTokens: null });
+    // Single-use token: invalidate it before issuing the new password so a
+    // concurrent retry can't replay it.
+    await securityRepository.update({ userId }, { temporaryTokens: null });
 
-  const user = await repository.findOneByOrFail({ id: userId });
+    step = "load-user";
+    const user = await repository.findOneByOrFail({ id: userId });
 
-  await userPasswordWriter.applyNewPassword({
-    user: user as never,
-    userProfile,
-    newPassword,
-    successAction: "RESET_PASSWORD_SUCCESS",
-    sessionReason: "PASSWORD_RESET",
-    requestContext,
-  });
+    step = "apply-new-password";
+    await userPasswordWriter.applyNewPassword({
+      user: user as never,
+      userProfile,
+      newPassword,
+      successAction: "RESET_PASSWORD_SUCCESS",
+      sessionReason: "PASSWORD_RESET",
+      requestContext,
+    });
+  } catch (error) {
+    capturePasswordFlowFailure({
+      flow: "reset-password",
+      step,
+      userProfile,
+      userId,
+      error,
+    });
+    throw error;
+  }
 
   return { userId };
 }

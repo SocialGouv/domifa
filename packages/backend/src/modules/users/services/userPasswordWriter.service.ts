@@ -56,6 +56,7 @@ async function applyNewPassword({
   // flow so support can see how old the replaced password was).
   logContext?: Record<string, unknown>;
 }): Promise<void> {
+  let step = "hash-password";
   try {
     // `getUserRepository` only covers structure / supervisor; for usager we go
     // straight to `userUsagerRepository`, otherwise the hash would be written
@@ -69,11 +70,13 @@ async function applyNewPassword({
     const hash = await passwordGenerator.generatePasswordHash({
       password: newPassword,
     });
+    step = "write-password";
     await repository.update(
       { id: user.id },
       { password: hash, passwordLastUpdate: new Date() }
     );
 
+    step = "update-status";
     // BLOCKED accounts stay BLOCKED; the helpers below are no-op when the
     // status condition doesn't match.
     await userStatusManager.activateFromPending({
@@ -85,11 +88,13 @@ async function applyNewPassword({
       userId: user.id,
     });
 
+    step = "log-success";
     await logSecurityEventForUser(successAction, userProfile, user, {
       requestContext,
       context: logContext,
     });
 
+    step = "terminate-session";
     await terminateUserSession({
       userProfile,
       userId: user.id,
@@ -101,10 +106,16 @@ async function applyNewPassword({
 
     // The user just proved identity (old password / valid reset token), so any
     // OTP lockout accumulated earlier should be lifted.
+    step = "reset-otp-lockout";
     if (user.uuid) {
       await otpRepository.resetBlockedOtpsForUser(user.uuid, OTP_MAX_ATTEMPTS);
     }
   } catch (err) {
+    // Lets the caller report which sub-step failed (see
+    // capturePasswordFlowFailure) without re-wrapping the error.
+    if (err && typeof err === "object") {
+      (err as { passwordFlowStep?: string }).passwordFlowStep = step;
+    }
     if (failAction) {
       await logSecurityEventForUser(failAction, userProfile, user, {
         requestContext,
