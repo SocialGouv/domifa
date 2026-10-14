@@ -43,12 +43,19 @@ import {
 import { userSecurityResetPasswordInitiator } from "../../../users/services";
 import { isDeletedEmail } from "./deleted-email.guard";
 import { demoEmailSubject } from "../../utils/demo-email-subject";
+import {
+  BREVO_REPLY_TO,
+  BREVO_SENDERS,
+  BrevoSenderDomain,
+  DEFAULT_BREVO_SENDER_DOMAIN,
+  isBrevoSenderDomain,
+} from "./brevo-senders.const";
 
 // Brevo is only ever called from prod: the account (contacts, lists,
 // blocklists, transactional history) is shared, so every other environment
-// gets an info log and a mocked response instead. Outside prod the only
-// email that still goes out is the OTP, through Tipimail SMTP (see
-// OtpEmailService).
+// gets an info log and a mocked response instead. Exception: transactional
+// sends (sendEmailWithTemplate) go out when DOMIFA_EMAIL_ADDRESS_REDIRECT_ALL_TO
+// is set, every recipient being replaced by that address.
 function isBrevoCallSkipped(config: DomifaConfig): boolean {
   return !config.email.emailsEnabled || config.envId !== "prod";
 }
@@ -148,7 +155,15 @@ export class BrevoSenderService {
   }) {
     const config = domifaConfig();
 
-    if (isBrevoCallSkipped(config)) {
+    // Audit branch: outside prod, transactional emails still go out but are
+    // all redirected to DOMIFA_EMAIL_ADDRESS_REDIRECT_ALL_TO.
+    const redirectAllTo =
+      config.envId === "prod" ? null : config.email.emailAddressRedirectAllTo;
+
+    if (
+      !config.email.emailsEnabled ||
+      (config.envId !== "prod" && !redirectAllTo)
+    ) {
       appLogger.info(
         `[EMAILS DISABLED] Email non envoyé - Template ID: ${templateId}, To: ${JSON.stringify(
           to
@@ -177,17 +192,9 @@ export class BrevoSenderService {
       }
 
       sendSmtpEmail.templateId = templateId;
-
-      const redirectAllTo = config.email.emailAddressRedirectAllTo;
-      sendSmtpEmail.to =
-        config.envId !== "prod" && redirectAllTo
-          ? [
-              {
-                email: redirectAllTo,
-                name: "DomiFa Préprod",
-              },
-            ]
-          : cleanRecipients;
+      sendSmtpEmail.to = redirectAllTo
+        ? [{ email: redirectAllTo, name: "DomiFa Audit" }]
+        : cleanRecipients;
 
       sendSmtpEmail.params = params;
       sendSmtpEmail.replyTo = replyTo;
