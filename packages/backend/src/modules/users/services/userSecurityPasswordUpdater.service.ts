@@ -95,7 +95,7 @@ async function runUpdatePassword(
     await logSecurityEventForUser("CHANGE_PASSWORD_ERROR", userProfile, user, {
       requestContext,
     });
-    throw new Error("Error");
+    throw new Error("OLD_PASSWORD_INVALID");
   }
 
   if (newPassword === oldPassword) {

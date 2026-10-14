@@ -10,6 +10,11 @@ describe("checkPasswordStrength", () => {
       "!x$rQAzhmaW(2Fzuk",
       "!Allez les bleus2022",
       "cpXJydcMV7WjuVc7E2nDIpgHvt)LXhexqh#HvSVN8W6u&x8*LnmXVU&m@5uzfrD",
+      "Azerty0123456\\",
+      "Azerty0123456`",
+      "Azerty 0123456",
+      "Azerty0123456€",
+      "Azerty0123456é",
     ];
     testPasswords.forEach((valueOk: string) => {
       expect(checkPasswordStrength(valueOk)).toEqual(true);

@@ -5,7 +5,7 @@ export class EditMyPasswordDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(12)
-  @MaxLength(100)
+  @MaxLength(150)
   public readonly oldPassword!: string;
 
   @IsNotEmpty()

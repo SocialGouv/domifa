@@ -22,6 +22,29 @@ describe("UserSupervisorPasswordFormComponent", () => {
     expect(component).toBeTruthy();
   });
 
+  it("each 'Afficher' checkbox reveals its own field", () => {
+    component.newPasswordForm();
+    fixture.detectChanges();
+    const el: HTMLElement = fixture.nativeElement;
+    const password = el.querySelector<HTMLInputElement>("#password");
+    const confirmation = el.querySelector<HTMLInputElement>(
+      "#passwordConfirmationInput"
+    );
+
+    el.querySelector<HTMLInputElement>("#show-password")?.click();
+    fixture.detectChanges();
+    expect(password?.type).toBe("text");
+    expect(confirmation?.type).toBe("password");
+
+    el.querySelector<HTMLInputElement>("#passwordConfirm-show")?.click();
+    fixture.detectChanges();
+    expect(confirmation?.type).toBe("text");
+
+    el.querySelector<HTMLInputElement>("#show-password")?.click();
+    fixture.detectChanges();
+    expect(password?.type).toBe("password");
+  });
+
   it("Password Form", () => {
     component.newPasswordForm();
     component.parentFormGroup.controls.oldPassword.setValue("");

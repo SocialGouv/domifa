@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { FormsModule } from "@angular/forms";
 
 import { UserStructurePasswordFormComponent } from "./user-structure-password-form.component";
 
@@ -9,6 +10,7 @@ describe("UserStructurePasswordFormComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [UserStructurePasswordFormComponent],
+      imports: [FormsModule],
     }).compileComponents();
   });
 
@@ -43,6 +45,29 @@ describe("UserStructurePasswordFormComponent", () => {
 
     expect(component.hidePassword).toBe(false);
     expect(component.hidePasswordConfirmation).toBe(false);
+  });
+
+  it("each 'Afficher' checkbox reveals its own field", () => {
+    component.newPasswordForm();
+    fixture.detectChanges();
+    const el: HTMLElement = fixture.nativeElement;
+    const password = el.querySelector<HTMLInputElement>("#password");
+    const confirmation = el.querySelector<HTMLInputElement>(
+      "#passwordConfirmationInput"
+    );
+
+    el.querySelector<HTMLInputElement>("#show-password")?.click();
+    fixture.detectChanges();
+    expect(password?.type).toBe("text");
+    expect(confirmation?.type).toBe("password");
+
+    el.querySelector<HTMLInputElement>("#passwordConfirm-show")?.click();
+    fixture.detectChanges();
+    expect(confirmation?.type).toBe("text");
+
+    el.querySelector<HTMLInputElement>("#show-password")?.click();
+    fixture.detectChanges();
+    expect(password?.type).toBe("password");
   });
 
   it("Passwords OK", () => {

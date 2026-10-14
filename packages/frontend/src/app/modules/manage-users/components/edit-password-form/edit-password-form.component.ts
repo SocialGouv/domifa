@@ -58,10 +58,8 @@ export class EditPasswordFormComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.passwordForm = this.formBuilder.group(
       {
-        oldPassword: new UntypedFormControl(
-          null,
-          Validators.compose(PASSWORD_VALIDATOR)
-        ),
+        // Current password may predate the policy: only require it.
+        oldPassword: new UntypedFormControl(null, Validators.required),
         passwordConfirmation: new UntypedFormControl(
           null,
           Validators.compose(PASSWORD_VALIDATOR)

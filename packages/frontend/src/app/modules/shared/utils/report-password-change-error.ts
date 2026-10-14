@@ -7,14 +7,10 @@ type ApiError = {
 };
 
 // Business refusals already explained to the user: not a failure to report.
-const EXPECTED_API_MESSAGES = [
-  ...Object.keys(PASSWORD_CHANGE_ERROR_MESSAGES),
-  "BLOCKED_TEMP",
-];
+const EXPECTED_API_MESSAGES = Object.keys(PASSWORD_CHANGE_ERROR_MESSAGES);
 
-// EDIT_PASSWORD_FAIL is the catch-all the API answers for any failure, wrong
-// old password included: it can't be told apart from a server error here, so
-// it is reported as a warning (the API reports the failing step itself).
+// EDIT_PASSWORD_FAIL is the catch-all the API answers for unexpected failures:
+// reported as a warning (the API reports the failing step itself).
 const CATCH_ALL_API_MESSAGE = "EDIT_PASSWORD_FAIL";
 
 // Reports an unexpected failure of the edit-my-password call to Sentry, with
