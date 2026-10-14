@@ -49,7 +49,9 @@ export function checkPasswordStrength(
     );
   }
 
+  // Special character: anything but an unaccented letter or a digit
+  // (punctuation, space, accented letters, €, …).
   return new RegExp(
-    /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)(?=.*?[@\[\]^_!"#$%&'()*+,\-./:;{}<>=|~?])[^]{12,}$/
+    /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)(?=.*?[^A-Za-z0-9])[^]{12,}$/
   ).test(value);
 }

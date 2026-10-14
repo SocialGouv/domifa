@@ -12,8 +12,8 @@ export const PASSWORD_VALIDATOR = [
   PasswordValidator.patternValidator(/[a-z]/, {
     hasLowerCase: true,
   }),
-  // eslint-disable-next-line no-useless-escape
-  PasswordValidator.patternValidator(/[@\[\]^_!"#$%&'()*+,\-./:;{}<>=|~?]/, {
+  // Anything but an unaccented letter or a digit (punctuation, space, accents, €…)
+  PasswordValidator.patternValidator(/[^A-Za-z0-9]/, {
     hasSpecialCharacter: true,
   }),
   Validators.minLength(12),

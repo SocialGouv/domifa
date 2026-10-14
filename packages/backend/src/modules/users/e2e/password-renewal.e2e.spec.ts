@@ -416,6 +416,7 @@ describe("Password renewal — end to end", () => {
       const response = await editPassword("WrongOldPass1!", context.authToken);
 
       expect(response.status).toBe(HttpStatus.BAD_REQUEST);
+      expect(response.body.message).toBe("OLD_PASSWORD_INVALID");
       expect(Sentry.captureMessage).not.toHaveBeenCalled();
     });
   });
