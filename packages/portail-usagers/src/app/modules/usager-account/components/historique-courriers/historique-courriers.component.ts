@@ -3,8 +3,7 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
-  QueryList,
-  ViewChildren,
+  ViewChild,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
@@ -33,8 +32,8 @@ export class HistoriqueCourriersComponent implements OnDestroy, OnInit {
   public loading = false;
   private focusFirstInteraction = false;
 
-  @ViewChildren("interactionTitle")
-  private readonly interactionTitles!: QueryList<ElementRef<HTMLElement>>;
+  @ViewChild("interactionsList")
+  private readonly interactionsList?: ElementRef<HTMLUListElement>;
 
   public params: PageOptions = {
     order: Order.DESC,
@@ -96,9 +95,7 @@ export class HistoriqueCourriersComponent implements OnDestroy, OnInit {
             if (this.focusFirstInteraction) {
               this.focusFirstInteraction = false;
               // waiting for the new interactions to be rendered
-              setTimeout(() =>
-                this.interactionTitles.first?.nativeElement.focus()
-              );
+              setTimeout(() => this.interactionsList?.nativeElement.focus());
             }
           },
           error: () => {
