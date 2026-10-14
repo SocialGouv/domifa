@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
-import { v4 as uuidv4 } from "uuid";
+import { v7 as uuidv7 } from "uuid";
 import { UsagerAyantDroit } from "@domifa/common";
 import { domifaConfig } from "../config";
 import { appLogger } from "../util";
@@ -32,7 +32,8 @@ export class AddUuidToAyantsDroits1789048027887 implements MigrationInterface {
           WHERE jsonb_typeof("ayantsDroits") = 'array'
             AND EXISTS (
               SELECT 1 FROM jsonb_array_elements("ayantsDroits") AS elem
-              WHERE elem->>'uuid' IS NULL
+              WHERE jsonb_typeof(elem) = 'object'
+                AND elem->>'uuid' IS NULL
             )`
       );
 
@@ -46,7 +47,9 @@ export class AddUuidToAyantsDroits1789048027887 implements MigrationInterface {
     for (const row of rows) {
       try {
         const ayantsDroits = row.ayantsDroits.map((ayantDroit) =>
-          ayantDroit?.uuid ? ayantDroit : { ...ayantDroit, uuid: uuidv4() }
+          ayantDroit && !ayantDroit.uuid
+            ? { ...ayantDroit, uuid: uuidv7() }
+            : ayantDroit
         );
 
         await queryRunner.query(

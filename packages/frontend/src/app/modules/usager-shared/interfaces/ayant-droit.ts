@@ -1,5 +1,5 @@
 import { AyantDroiLienParent, UsagerAyantDroit } from "@domifa/common";
-import { v4 as uuidv4 } from "uuid";
+import { v7 as uuidv7 } from "uuid";
 
 export class AyantDroit implements UsagerAyantDroit {
   public uuid: string;
@@ -11,7 +11,7 @@ export class AyantDroit implements UsagerAyantDroit {
   constructor(ayantDroit?: UsagerAyantDroit) {
     // generated as soon as the ayant droit exists (new row or loaded from the
     // dossier) so the backend never has to mint one itself
-    this.uuid = ayantDroit?.uuid || uuidv4();
+    this.uuid = ayantDroit?.uuid || uuidv7();
     this.nom = ayantDroit?.nom || "";
     this.prenom = ayantDroit?.prenom || "";
     this.dateNaissance = ayantDroit?.dateNaissance

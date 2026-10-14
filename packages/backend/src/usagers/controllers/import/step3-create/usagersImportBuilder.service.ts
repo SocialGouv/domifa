@@ -1,5 +1,5 @@
 import { setHours } from "date-fns";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4, v7 as uuidv7 } from "uuid";
 
 import { UsagersImportUsager } from "../step2-validate-row/schema";
 import {
@@ -163,7 +163,7 @@ function buildUsager({
 function buildAyantsDroits(usagerRow): UsagerAyantDroit[] {
   return usagerRow.ayantsDroits.map((ad) => {
     const ayantDroit: UsagerAyantDroit = {
-      uuid: uuidv4(),
+      uuid: uuidv7(),
       dateNaissance: ad.dateNaissance,
       lien: ad.lienParente,
       nom: ad.nom,
