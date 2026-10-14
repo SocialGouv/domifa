@@ -16,6 +16,7 @@ import { AdminSuperivorUsersService } from "./services/admin-superivor-users/adm
 import { MailsModule } from "../mails/mails.module";
 import { StructureDecisionEmailService } from "./services/structure-decision-email/structure-decision-email.service";
 import { StructureDecisionService } from "./services/structure-decision/structure-decision.service";
+import { InactiveStructuresCleanerService } from "./services/inactive-structures-cleaner/inactive-structures-cleaner.service";
 import { UserSupervisorDecisionService } from "./services/user-supervisor-decision/user-supervisor-decision.service";
 import { UserStructureDecisionService } from "../users/services/user-structure-decision/user-structure-decision.service";
 import { UserStructureEmailUpdaterService } from "../users/services/userStructureEmailUpdater.service";
@@ -43,6 +44,7 @@ import { SupportSessionModule } from "../support-session/support-session.module"
     AppLogSecurityService,
     AdminStructuresService,
     FileManagerService,
+    InactiveStructuresCleanerService,
     AdminSuperivorUsersService,
     StructureDecisionEmailService,
     StructureDecisionService,

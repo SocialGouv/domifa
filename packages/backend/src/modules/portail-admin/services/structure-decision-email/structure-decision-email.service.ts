@@ -50,6 +50,25 @@ export class StructureDecisionEmailService {
     });
   }
 
+  async sendInactiveStructureDeletedEmail({
+    to,
+    params,
+  }: {
+    to: { email: string; name: string };
+    params: {
+      prenom: string;
+      structure_nom: string;
+      date_suppression: string;
+      date_derniere_connexion: string;
+    };
+  }): Promise<void> {
+    await this.brevoSenderService.sendEmailWithTemplate({
+      templateId: domifaConfig().brevo.templates.structureInactiveDelete,
+      to: [to],
+      params,
+    });
+  }
+
   private getTemplateId(statut: StructureDecisionStatut): number {
     switch (statut) {
       case "VALIDE":
