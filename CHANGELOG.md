@@ -1,3 +1,21 @@
+# [2.284.0](https://github.com/SocialGouv/domifa/compare/v2.283.0...v2.284.0) (2026-10-14)
+
+
+### Bug Fixes
+
+* **backend, frontend:** regenerate test dumps with support_session, add store provider in spec ([1998592](https://github.com/SocialGouv/domifa/commit/19985925ff68f1ec075861eb9bd4efe48097fe85))
+* ci failing ([7702ba0](https://github.com/SocialGouv/domifa/commit/7702ba0af23f37efe3ae29c676d12868bc9e2608))
+
+
+### Features
+
+* **back, front:** adding end to end test ([38ef936](https://github.com/SocialGouv/domifa/commit/38ef93611e79f33c25f5d0c9a681befbed4069bb))
+* **back, front, admin:** disable form on support mode ([722d538](https://github.com/SocialGouv/domifa/commit/722d538270b91b78fea75713d3b8d59d4deadb99))
+* **back, front, admin:** new process support mode ([f9f42ff](https://github.com/SocialGouv/domifa/commit/f9f42ffb84acbf2aeb11a67f176cc3e9a8c6b1fe))
+* **back; front:** fix code review ([6ccb592](https://github.com/SocialGouv/domifa/commit/6ccb59202c4b987a936412b84dcc3b3d676a818b))
+* **frontend:** cgu condition oninit ([de9ff4a](https://github.com/SocialGouv/domifa/commit/de9ff4a61c57373cf07ecd7381f438fa71779c0f))
+* **frontend:** escape cgu for support mode user ([39735bf](https://github.com/SocialGouv/domifa/commit/39735bf89d6ff337504addf4f087d6200014fd33))
+
 # [2.283.0](https://github.com/SocialGouv/domifa/compare/v2.282.0...v2.283.0) (2026-10-14)
 
 
