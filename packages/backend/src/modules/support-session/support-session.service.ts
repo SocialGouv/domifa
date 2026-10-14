@@ -211,6 +211,24 @@ export class SupportSessionService {
     await this.closeSession(session, "STRUCTURE_LOGOUT", "STRUCTURE_LOGOUT");
   }
 
+  // Called on structure login: an attachment past its expiresAt but not yet
+  // swept by the 10-minute cron leaves the account's role stuck on "support"
+  // while findAuthUser already refuses it — locking the admin out of their
+  // own account until the cron runs. Closing it here restores the role
+  // before the login issues its token. Returns true if one was closed.
+  public async expireIfDueForAccount(
+    targetUserStructureId: number
+  ): Promise<boolean> {
+    const session = await supportSessionRepository.findOne({
+      where: { targetUserStructureId, status: "ACTIVE" },
+    });
+    if (!session || session.expiresAt.getTime() > Date.now()) {
+      return false;
+    }
+    await this.closeSession(session, "EXPIRED", "LOGIN");
+    return true;
+  }
+
   public async listForStructure(
     structureId: number
   ): Promise<SupportSession[]> {

@@ -15,7 +15,7 @@ import { TemoignagesComponent } from "./modules/general/components/static-pages/
 import { RgaaComponent } from "./modules/general/components/static-pages/rgaa/rgaa.component";
 import { AuthGuard } from "./guards";
 import { LandingPagePortailComponent } from "./modules/general/components/static-pages/landing-page-portail/landing-page-portail.component";
-import { ALL_USER_STRUCTURE_ROLES } from "@domifa/common";
+import { SUPPORT_READ_ROLES } from "@domifa/common";
 import { DecouvrirDomifaComponent } from "./modules/general/components/decouvrir-domifa/decouvrir-domifa.component";
 import { AcceptCguComponent } from "./modules/general/components/accept-cgu/accept-cgu.component";
 import { RenewPasswordComponent } from "./modules/manage-users/components/renew-password/renew-password.component";
@@ -84,7 +84,7 @@ export const routes: Routes = [
       ),
     path: "manage",
     data: {
-      roles: ALL_USER_STRUCTURE_ROLES,
+      roles: SUPPORT_READ_ROLES,
     },
   },
   {
@@ -95,7 +95,7 @@ export const routes: Routes = [
       ),
     path: "manage-users",
     data: {
-      roles: ALL_USER_STRUCTURE_ROLES,
+      roles: SUPPORT_READ_ROLES,
     },
   },
   {
@@ -106,7 +106,7 @@ export const routes: Routes = [
       ),
     path: "import",
     data: {
-      roles: ["admin", "responsable"],
+      roles: ["admin", "responsable", "support"],
     },
   },
   {
@@ -117,7 +117,7 @@ export const routes: Routes = [
       ).then((m) => m.AdminPortailUsagersModule),
     path: "portail-usagers",
     data: {
-      roles: ["admin"],
+      roles: ["admin", "support"],
     },
   },
   {
@@ -133,7 +133,7 @@ export const routes: Routes = [
       ),
     path: "usager",
     data: {
-      roles: ["admin", "responsable", "simple"],
+      roles: ["admin", "responsable", "simple", "support"],
     },
   },
   {
@@ -144,7 +144,7 @@ export const routes: Routes = [
       ),
     path: "profil",
     data: {
-      roles: ALL_USER_STRUCTURE_ROLES,
+      roles: SUPPORT_READ_ROLES,
     },
   },
   {
@@ -154,7 +154,7 @@ export const routes: Routes = [
       ),
     path: "structures",
     data: {
-      roles: ALL_USER_STRUCTURE_ROLES,
+      roles: SUPPORT_READ_ROLES,
     },
   },
   { component: NotFoundComponent, path: "404" },

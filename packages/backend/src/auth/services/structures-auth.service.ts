@@ -167,6 +167,13 @@ export class StructuresAuthService {
       return false;
     }
 
+    // A support attachment is not activity of the attached structure (nor of
+    // the admin's own account in it): don't bump lastLogin or log a
+    // REACTIVATION_* for a dormant structure the support is just inspecting.
+    if (authUser.role === "support") {
+      return authUser;
+    }
+
     const today = new Date();
 
     await this.handleReactivationCheck(

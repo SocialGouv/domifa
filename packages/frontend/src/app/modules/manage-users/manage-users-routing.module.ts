@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { EditUserComponent } from "./components/edit-user/edit-user.component";
 import { UserProfilComponent } from "./components/user-profil/user-profil.component";
-import { ALL_USER_STRUCTURE_ROLES } from "@domifa/common";
+import { SUPPORT_READ_ROLES } from "@domifa/common";
 import { AuthGuard } from "../../guards";
 
 const routes: Routes = [
@@ -11,7 +11,7 @@ const routes: Routes = [
     component: EditUserComponent,
     path: "my-account",
     data: {
-      roles: ALL_USER_STRUCTURE_ROLES,
+      roles: SUPPORT_READ_ROLES,
     },
   },
   {
@@ -19,7 +19,7 @@ const routes: Routes = [
     component: UserProfilComponent,
     path: "accounts",
     data: {
-      roles: ["admin", "responsable"],
+      roles: ["admin", "responsable", "support"],
     },
   },
 ];

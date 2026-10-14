@@ -368,4 +368,46 @@ describe("Support mode — an admin's own structure account attached to a struct
     expect(replay.body.structureId).toEqual(account.structureId);
     expect(replay.body.structureId).not.toEqual(targetStructureId);
   });
+
+  it("closes an attachment past expiresAt on login, before the cron runs, so the admin is not locked out", async () => {
+    const activation = await AppTestHttpClient.post(
+      `/admin/structures/structure/${targetStructureUuid}/support-session`,
+      { context }
+    );
+    expect(activation.status).toEqual(201);
+
+    // Simulates the window between expiresAt and the next cron tick.
+    await supportSessionRepository.update(
+      { targetUserStructureId: activatingAdminAccountId, status: "ACTIVE" },
+      { expiresAt: new Date(Date.now() - 60 * 1000) }
+    );
+
+    const loginContext: AppTestContext = {
+      module: context.module,
+      app: context.app,
+    };
+    await AppTestHelper.authenticateStructure(
+      {
+        uuid: activatingAdminAccountUuid,
+        id: activatingAdminAccountId,
+        structureId: 1,
+        email: ACTIVATING_ADMIN_EMAIL,
+        password: ACTIVATING_STRUCTURE_PASSWORD,
+        role: "admin",
+      },
+      { context: loginContext }
+    );
+
+    const me = await AppTestHttpClient.get("/structures/auth/me", {
+      context: loginContext,
+    });
+    expect(me.status).toEqual(200);
+    expect(me.body.role).toEqual("admin");
+
+    const expired = await supportSessionRepository.findOneByOrFail({
+      targetUserStructureId: activatingAdminAccountId,
+      revokedReason: "EXPIRED",
+    });
+    expect(expired.status).toEqual("EXPIRED");
+  });
 });
