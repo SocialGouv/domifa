@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto"
 import { main } from "./common/lib"
 import {
   firstName,
@@ -29,6 +30,7 @@ function anonymizeAyantsDroits(raw: string) {
   return JSON.stringify(
     ayantsDroits.map((ayantDroit: any) => ({
       ...ayantDroit,
+      uuid: randomUUID(),
       prenom: firstName(),
       nom: lastName(),
       dateNaissance: truncateJsonDateToMonth(ayantDroit.dateNaissance),

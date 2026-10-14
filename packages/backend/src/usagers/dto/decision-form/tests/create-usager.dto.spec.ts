@@ -243,4 +243,18 @@ describe("CreateUsagerDto — corrupted payloads", () => {
       );
     }
   );
+
+  const VALID_AD = `{ "uuid": "b0f9c8d7-1e2a-4b3c-8d4e-5f6a7b8c9d0e", "lien": "ENFANT", "nom": "A", "prenom": "B", "dateNaissance": "2022-05-02" }`;
+
+  it.each([
+    ["a nested array", `[[${VALID_AD}]]`, "isObject"],
+    ["a null item", `[null]`, "isObject"],
+    ["a string item", `["abc"]`, "isObject"],
+    ["a duplicated uuid", `[${VALID_AD}, ${VALID_AD}]`, "arrayUnique"],
+  ])("rejects ayants droits containing %s", async (_case, json, constraint) => {
+    const dto = build(JSON.parse(`{ "ayantsDroits": ${json} }`));
+    const errors = await validate(dto, { whitelist: true });
+    expect(errors.map((e) => e.property)).toEqual(["ayantsDroits"]);
+    expect(Object.keys(errors[0].constraints ?? {})).toContain(constraint);
+  });
 });

@@ -7,6 +7,7 @@ import {
 import { Type } from "class-transformer";
 import {
   ArrayMaxSize,
+  ArrayUnique,
   IsArray,
   IsBoolean,
   IsDateString,
@@ -108,6 +109,8 @@ export class CreateUsagerDto {
   @IsOptional()
   @IsArray()
   @ArrayMaxSize(20)
+  @IsObject({ each: true })
+  @ArrayUnique((ayantDroit: UsagerAyantDroitDto) => ayantDroit.uuid)
   @ValidateNested({ each: true })
   @Type(() => UsagerAyantDroitDto)
   public ayantsDroits!: UsagerAyantDroit[];
