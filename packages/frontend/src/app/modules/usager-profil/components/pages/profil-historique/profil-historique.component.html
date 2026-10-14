@@ -36,9 +36,8 @@
               [routerLink]="[
                 '/profil/historique/' + usager.ref + '/' + section.id
               ]"
-              [attr.aria-current]="
-                currentSection === section.id ? 'page' : null
-              "
+              routerLinkActive
+              ariaCurrentWhenActive="page"
             >
               {{ section.name }}
             </a>
