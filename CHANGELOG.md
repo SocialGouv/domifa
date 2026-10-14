@@ -1,3 +1,19 @@
+# [2.282.0](https://github.com/SocialGouv/domifa/compare/v2.281.0...v2.282.0) (2026-10-14)
+
+
+### Bug Fixes
+
+* code review ([5681035](https://github.com/SocialGouv/domifa/commit/56810355de620c6b643702724373e693980e8725))
+* **backend, frontend:** change password resquest failing ([7f2a59b](https://github.com/SocialGouv/domifa/commit/7f2a59b06e2feade705c0b7238b634b4e4716a53))
+
+
+### Features
+
+* **back:** add password update on admin tables ([0e74cad](https://github.com/SocialGouv/domifa/commit/0e74cad311c8132bb1db54dd8d556846d6262e0d))
+* **back:** fix password flow sentry ([1c830a3](https://github.com/SocialGouv/domifa/commit/1c830a377f2e299023744325864a3d681b94e877))
+* **back:** fix tests password flow ([93dd959](https://github.com/SocialGouv/domifa/commit/93dd959999e566d08bda3edf4d38a28bf9d79677))
+* **front:** add captureMessages ([ada28c1](https://github.com/SocialGouv/domifa/commit/ada28c1a9cefe940e5a3b0320f3111e438dfc036))
+
 # [2.281.0](https://github.com/SocialGouv/domifa/compare/v2.280.0...v2.281.0) (2026-10-12)
 
 
