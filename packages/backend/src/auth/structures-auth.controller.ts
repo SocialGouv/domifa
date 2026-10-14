@@ -28,7 +28,11 @@ import { AppUserGuard } from "./guards/AppUserGuard.guard";
 import { LoginOtpService } from "./services/login-otp.service";
 import { StructuresAuthService } from "./services/structures-auth.service";
 import { readOtpCode } from "../modules/otp/guards/otp.guard";
-import { ExpiredTokenTable, expiredTokenRepositiory } from "../database";
+import {
+  ExpiredTokenTable,
+  expiredTokenRepositiory,
+  userStructureRepository,
+} from "../database";
 import { domifaConfig } from "../config";
 import { userSecurityPasswordChecker } from "../modules/users/services";
 import { AllowUserStructureRoles } from "./decorators";
@@ -98,6 +102,17 @@ export class StructuresAuthController {
           ? "BLOCKED_TEMP"
           : "LOGIN_FAILED";
       return res.status(HttpStatus.UNAUTHORIZED).json({ message });
+    }
+
+    if (
+      user.role === "support" &&
+      (await this.supportSessionService.expireIfDueForAccount(user.id))
+    ) {
+      const { role } = await userStructureRepository.findOneOrFail({
+        where: { id: user.id },
+        select: { role: true },
+      });
+      user = { ...user, role };
     }
 
     try {

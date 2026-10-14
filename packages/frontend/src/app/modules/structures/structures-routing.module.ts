@@ -18,7 +18,7 @@ const routes: Routes = [
     path: "documents",
     component: StructuresCustomDocsComponent,
     data: {
-      roles: ["admin", "responsable"],
+      roles: ["admin", "responsable", "support"],
     },
   },
   {
@@ -31,7 +31,7 @@ const routes: Routes = [
     path: "sms",
     component: StructuresSmsFormComponent,
     data: {
-      roles: ["admin"],
+      roles: ["admin", "support"],
     },
   },
   {
@@ -39,7 +39,7 @@ const routes: Routes = [
     path: "edit",
     component: StructuresEditComponent,
     data: {
-      roles: ["admin", "responsable"],
+      roles: ["admin", "responsable", "support"],
     },
   },
   {

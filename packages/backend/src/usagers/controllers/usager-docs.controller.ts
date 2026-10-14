@@ -249,7 +249,7 @@ export class UsagerDocsController {
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles("admin", "agent", "responsable", "simple", "support")
+  @AllowUserStructureRoles("admin", "agent", "responsable", "simple")
   @Get("cerfa/:usagerRef/:typeCerfa")
   public async getCerfa(
     @Res() res: Response,

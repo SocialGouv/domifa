@@ -17,6 +17,7 @@
   <ul class="fr-menu__list dropdown-list" role="menu">
     <li role="menuitem">
       <button
+        appSupportModeDisable
         type="button"
         class="fr-nav__link"
         (click)="getCerfa(usager.ref, CerfaDocType.demande); closeMenu()"
@@ -30,6 +31,7 @@
     'RADIE') {
     <li role="menuitem">
       <button
+        appSupportModeDisable
         type="button"
         class="fr-nav__link"
         (click)="getCerfa(usager.ref, CerfaDocType.attestation); closeMenu()"
@@ -41,6 +43,7 @@
     } @if (usager.decision.statut === 'REFUS') {
     <li role="menuitem">
       <button
+        appSupportModeDisable
         class="fr-nav__link"
         type="button"
         (click)="getCerfa(usager.ref, CerfaDocType.demande); closeMenu()"

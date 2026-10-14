@@ -7,7 +7,7 @@ import { ProfilGeneralSectionComponent } from "./components/pages/profil-general
 import { ProfilDocumentsSectionComponent } from "./components/pages/profil-documents-section/profil-documents-section.component";
 import { AuthGuard } from "../../guards";
 import { ProfilSmsPortailComponent } from "./components/pages/profil-sms-portail/profil-sms-portail.component";
-import { ALL_USER_STRUCTURE_ROLES } from "@domifa/common";
+import { SUPPORT_READ_ROLES } from "@domifa/common";
 
 const routes: Routes = [
   {
@@ -15,7 +15,7 @@ const routes: Routes = [
     component: ProfilDossierComponent,
     canActivate: [AuthGuard],
     data: {
-      roles: ALL_USER_STRUCTURE_ROLES,
+      roles: SUPPORT_READ_ROLES,
     },
   },
   {
@@ -23,7 +23,7 @@ const routes: Routes = [
     component: ProfilHistoriqueComponent,
     canActivate: [AuthGuard],
     data: {
-      roles: ALL_USER_STRUCTURE_ROLES,
+      roles: SUPPORT_READ_ROLES,
     },
   },
   {
@@ -31,7 +31,7 @@ const routes: Routes = [
     component: ProfilCourriersComponent,
     canActivate: [AuthGuard],
     data: {
-      roles: ALL_USER_STRUCTURE_ROLES,
+      roles: SUPPORT_READ_ROLES,
     },
   },
   {
@@ -39,7 +39,7 @@ const routes: Routes = [
     component: ProfilSmsPortailComponent,
     canActivate: [AuthGuard],
     data: {
-      roles: ALL_USER_STRUCTURE_ROLES,
+      roles: SUPPORT_READ_ROLES,
     },
   },
   {
@@ -47,7 +47,7 @@ const routes: Routes = [
     component: ProfilGeneralSectionComponent,
     canActivate: [AuthGuard],
     data: {
-      roles: ALL_USER_STRUCTURE_ROLES,
+      roles: SUPPORT_READ_ROLES,
     },
   },
   {
@@ -55,7 +55,7 @@ const routes: Routes = [
     component: ProfilDocumentsSectionComponent,
     canActivate: [AuthGuard],
     data: {
-      roles: ["admin", "responsable", "simple", "agent"],
+      roles: ["admin", "responsable", "simple", "agent", "support"],
     },
   },
 ];
