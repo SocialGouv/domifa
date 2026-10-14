@@ -1,3 +1,19 @@
+# [2.283.0](https://github.com/SocialGouv/domifa/compare/v2.282.0...v2.283.0) (2026-10-14)
+
+
+### Bug Fixes
+
+* **back:** add uuid more secure ([e97e048](https://github.com/SocialGouv/domifa/commit/e97e04893bb589a39727b38651d7a64d4c07e89f))
+* **backend:** harden ayants droits validation and randomize uuid in anonymizer ([e49e901](https://github.com/SocialGouv/domifa/commit/e49e901ceb5ef3ae8ff398e4acd0cc81855e9ca1))
+
+
+### Features
+
+* **back:** add uuid for beneficiaries ([f349b99](https://github.com/SocialGouv/domifa/commit/f349b990c0d9a6c869f56b490896c2d9be2fe416))
+* **back:** adding uuid for beneficiaries ([15f9470](https://github.com/SocialGouv/domifa/commit/15f9470d6c91a4f6cb96c13880f473d48ee3ce92))
+* **back:** fix code review ([9929c90](https://github.com/SocialGouv/domifa/commit/9929c90385f1b2c03d5922618f70e3eca2e2628b))
+* **front, back:** code review ([148130b](https://github.com/SocialGouv/domifa/commit/148130b3167b43fbae97f22b469abed1f3f82906))
+
 # [2.282.0](https://github.com/SocialGouv/domifa/compare/v2.281.0...v2.282.0) (2026-10-14)
 
 
