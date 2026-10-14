@@ -23,7 +23,7 @@
           (ngSubmit)="doLogin()"
         >
           <div
-            [class.fr-input-group--error]="isInvalid('login')"
+            [class.fr-input-group--error]="invalidFields['login']"
             class="fr-input-group required fr-mb-0"
           >
             <label class="fr-label" for="login"> Votre identifiant </label>
@@ -43,10 +43,10 @@
               id="login"
               class="fr-input"
               [attr.aria-invalid]="
-                isInvalid('login') || hasCredentialsError ? 'true' : 'false'
+                invalidFields['login'] || hasCredentialsError ? 'true' : 'false'
               "
               [attr.aria-describedby]="
-                isInvalid('login')
+                invalidFields['login']
                   ? 'invalid-login'
                   : hasCredentialsError
                   ? 'authentification-error'
@@ -54,7 +54,7 @@
               "
               [readonly]="this.mode === 'login-change-password'"
             />
-            @if (isInvalid('login')) {
+            @if (invalidFields['login']) {
             <div id="invalid-login" class="fr-messages-group">
               <p
                 class="fr-message fr-message--error"
@@ -73,7 +73,7 @@
             passe:
           </p>
           <div
-            [class.fr-input-group--error]="isInvalid('newPassword')"
+            [class.fr-input-group--error]="invalidFields['newPassword']"
             class="fr-input-group required"
           >
             <div class="fr-password" id="password-4">
@@ -89,10 +89,10 @@
                   class="fr-input"
                   autocomplete="new-password"
                   [ngClass]="{
-                    'is-invalid': isInvalid('newPassword')
+                    'is-invalid': invalidFields['newPassword']
                   }"
                   [attr.aria-invalid]="
-                    isInvalid('newPassword') ? 'true' : 'false'
+                    invalidFields['newPassword'] ? 'true' : 'false'
                   "
                   [attr.aria-describedby]="'newPassword-input--messages'"
                 />
@@ -314,7 +314,7 @@
           <!-- password confirmation end-->
           <!-- Accept terms start -->
           <div
-            [class.fr-checkbox-group--error]="isInvalid('acceptTerms')"
+            [class.fr-checkbox-group--error]="invalidFields['acceptTerms']"
             class="fr-checkbox-group required fr-mb-6w"
           >
             <input
@@ -322,9 +322,13 @@
               type="checkbox"
               formControlName="acceptTerms"
               name="acceptTerms"
-              [attr.aria-invalid]="isInvalid('acceptTerms') ? 'true' : 'false'"
+              [attr.aria-invalid]="
+                invalidFields['acceptTerms'] ? 'true' : 'false'
+              "
               [attr.aria-describedby]="
-                isInvalid('acceptTerms') ? 'acceptTerms-error-message' : null
+                invalidFields['acceptTerms']
+                  ? 'acceptTerms-error-message'
+                  : null
               "
               id="acceptTerms"
               required
@@ -339,7 +343,7 @@
                 >conditions générales d'utilisation</a
               ></label
             >
-            @if (isInvalid('acceptTerms')) {
+            @if (invalidFields['acceptTerms']) {
             <div class="fr-messages-group">
               <p
                 id="acceptTerms-error-message"
@@ -352,7 +356,7 @@
           </div>
           } @else {
           <div
-            [class.fr-input-group--error]="isInvalid('password')"
+            [class.fr-input-group--error]="invalidFields['password']"
             class="fr-input-group required"
           >
             <div class="fr-password" id="password-4">
@@ -363,12 +367,12 @@
                 <input
                   #password
                   [attr.aria-invalid]="
-                    isInvalid('password') || hasCredentialsError
+                    invalidFields['password'] || hasCredentialsError
                       ? 'true'
                       : 'false'
                   "
                   [attr.aria-describedby]="
-                    isInvalid('password')
+                    invalidFields['password']
                       ? 'password-input--message-error'
                       : hasCredentialsError
                       ? 'authentification-error'
@@ -381,7 +385,7 @@
                   autocomplete="current-password"
                 />
               </div>
-              @if (isInvalid('password')) {
+              @if (invalidFields['password']) {
               <div class="fr-messages-group" id="password-input--messages">
                 @if (f.password.errors?.required) {
                 <p

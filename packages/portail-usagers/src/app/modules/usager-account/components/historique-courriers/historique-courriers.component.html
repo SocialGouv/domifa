@@ -18,43 +18,49 @@
   <div
     class="fr-display-flex fr-flex-column fr-gap-4 border-top border-1 border-grey fr-pt-2w"
   >
-    <div
-      *ngIf="!loading && (!interactions || interactions.length === 0)"
-      class="fr-alert fr-alert--info"
-    >
+    @if (!loading && (!interactions || interactions.length === 0)) {
+    <div class="fr-alert fr-alert--info">
       <p>Aucune interaction enregistrée</p>
     </div>
-
-    <div
-      *ngFor="let interaction of interactions; let i = index"
-      class="fr-text-title--blue-france"
+    } @else {
+    <!-- focusable list: receives the focus after a page change -->
+    <ul
+      #interactionsList
+      tabindex="-1"
+      class="fr-raw-list fr-display-flex fr-flex-column fr-gap-4"
+      [attr.aria-label]="
+        'Interactions, page ' +
+        searchResults.meta.page +
+        ' sur ' +
+        searchResults.meta.pageCount
+      "
     >
-      <ng-container>
+      @for (interaction of interactions; track interaction.uuid) {
+      <li class="fr-text-title--blue-france">
         <div class="fr-display-flex fr-gap-2">
           <span
             [ngClass]="interaction.iconClass"
             class="fr-align-self-start fr-mt-1-5v"
+            aria-hidden="true"
           ></span>
           <div class="fr-display-flex fr-flex-column fr-gap-1">
-            <!-- focusable heading: receives the focus after a page change -->
-            <h2
-              #interactionTitle
-              tabindex="-1"
+            <p
               class="fr-text--md fr-text--regular fr-mb-0 fr-text-title--blue-france"
             >
               {{ interaction.dateInteraction | date : "dd MMMM yyyy à HH:mm" }}
-            </h2>
+            </p>
             <span>{{ interaction.label }}</span>
-            <div
-              *ngIf="interaction.content"
-              class="fr-text--sm fr-mb-0 fr-text-title--grey"
-            >
+            @if (interaction.content) {
+            <div class="fr-text--sm fr-mb-0 fr-text-title--grey">
               <span [innerHTML]="interaction.content | nl2br"></span>
             </div>
+            }
           </div>
         </div>
-      </ng-container>
-    </div>
+      </li>
+      }
+    </ul>
+    }
     <dsfr-pagination
       class="fr-display-flex fr-justify-content-center"
       [pageCount]="searchResults.meta.pageCount"

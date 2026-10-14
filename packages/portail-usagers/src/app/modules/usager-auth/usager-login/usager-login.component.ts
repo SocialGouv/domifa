@@ -21,7 +21,7 @@ import { Router, RouterModule } from "@angular/router";
 import type { PortailUsagerAuthLoginForm } from "../../../../_common";
 import { UsagerAuthService } from "../services/usager-auth.service";
 import { PasswordValidator } from "./password-validator.service";
-import { Subscription } from "rxjs";
+import { merge, Subscription } from "rxjs";
 import { MatomoTracker } from "ngx-matomo-client";
 import {
   PortailUsagerProfile,
@@ -54,6 +54,8 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   public displayPasswordIndication: boolean;
   public displayLoginError: boolean;
   public blockedTemp = false;
+  public invalidFields: Record<string, boolean> = {};
+  public isNewPasswordConfirmInvalid = false;
 
   public loading: boolean;
   public usagerProfile: PortailUsagerProfile | null;
@@ -168,6 +170,18 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
         ],
       }
     );
+
+    this.invalidFields = {};
+    this.isNewPasswordConfirmInvalid = false;
+    // touched changes of a control are not always propagated to the form events
+    this.subscription.add(
+      merge(
+        this.loginForm.events,
+        ...Object.values(this.loginForm.controls).map(
+          (control) => control.events
+        )
+      ).subscribe(() => this.updateInvalidFields())
+    );
   }
 
   private reasetFormFocus(): void {
@@ -205,19 +219,21 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
     return this.loginForm.controls;
   }
 
-  // Errors are only exposed once the user interacted with the field or submitted the form
-  public isInvalid(controlName: string): boolean {
-    const control = this.loginForm.controls[controlName];
-    return control.invalid && (control.dirty || control.touched);
-  }
-
-  public get isNewPasswordConfirmInvalid(): boolean {
-    const control = this.loginForm.controls.newPasswordConfirm;
-    return (
-      (control.dirty || control.touched) &&
-      (control.invalid ||
-        this.loginForm.hasError("new-password-confim-does-not-match"))
+  // Errors are only exposed once the user interacted with the field or submitted the form.
+  // Computed on form events instead of in the template, to avoid re-running at each change detection
+  private updateInvalidFields(): void {
+    this.invalidFields = Object.fromEntries(
+      Object.entries(this.loginForm.controls).map(([name, control]) => [
+        name,
+        control.invalid && (control.dirty || control.touched),
+      ])
     );
+
+    const confirmControl = this.loginForm.controls.newPasswordConfirm;
+    this.isNewPasswordConfirmInvalid =
+      (confirmControl.dirty || confirmControl.touched) &&
+      (confirmControl.invalid ||
+        this.loginForm.hasError("new-password-confim-does-not-match"));
   }
 
   // Credentials rejected by the API: login and password fields are flagged as invalid
