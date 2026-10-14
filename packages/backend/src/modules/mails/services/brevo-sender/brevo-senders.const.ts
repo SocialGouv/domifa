@@ -15,7 +15,7 @@ export const DEFAULT_BREVO_SENDER_DOMAIN: BrevoSenderDomain =
   "fabrique.social.gouv.fr";
 
 export const BREVO_REPLY_TO = {
-  email: "contact.domifa@fabrique.social.gouv.fr",
+  email: "contact-domifa@sg.social.gouv.fr",
   name: "DomiFa",
 };
 
