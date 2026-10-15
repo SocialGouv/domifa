@@ -32,7 +32,7 @@ fileignoreconfig:
 - filename: packages/backend/src/\_migrations/\_init-db/domifa_test_schema.sql
   checksum: 8259882d1ec9007972bd5e1ea20f781b8309b5454df96188ac8d3b6ecc7049bc
 - filename: packages/backend/src/_migrations/1787045027655-add-support-mode.ts
-  checksum: 3f123d0b30964f99dc349f6971b6033109ca83df62f90da36a98dcc06517ba20
+  checksum: c45d7f04b180a0bea0e188b1ac14fca4460e154259438373d5d8448cc21f1ea1
 - filename: packages/backend/src/_migrations/_init-db/1603812391580-pr-env-create-database.ts
   checksum: 3bb17388968d9c1dfd0828a689a9697f8c6e5e862b735d7202e6327c6fc328d8
 - filename: packages/backend/src/modules/users/controllers/handleEditMyPasswordRequest.ts
