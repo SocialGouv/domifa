@@ -3,7 +3,7 @@
   "version": "2.186.0",
   "main": "index.js",
   "engines": {
-    "node": ">=22",
+    "node": ">=24",
     "pnpm": ">=10"
   },
   "packageManager": "pnpm@10.24.0",

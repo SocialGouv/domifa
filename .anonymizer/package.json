@@ -1,7 +1,7 @@
 {
   "name": "@domifa/anonymizer",
   "engines": {
-    "node": ">=22",
+    "node": ">=24",
     "pnpm": ">=10"
   },
   "packageManager": "pnpm@10.24.0",
@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^3.0.0",
-    "@types/node": "^20.19.11",
+    "@types/node": "24.19.1",
     "eslint": "^8.57.1",
     "@eslint/js": "^8.57.1",
     "prettier": "^3.6.2",
