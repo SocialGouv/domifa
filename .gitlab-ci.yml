@@ -1,0 +1,139 @@
+# ============================================================================
+# domifa — CI sur GitLab PIC (mirror, GitHub reste source de vérité).
+# Pattern 3 repos app/charts/gitops (2026-09-24) : ce repo ne publie PLUS le chart
+# (déplacé vers le repo dédié `domifa-charts`). Il ne fait que builder les images et
+# DÉCLENCHER le déploiement via un tag d'image.
+#   check   : lint (pnpm/lerna)
+#   build   : 4 images via BuildKit DinD (ci-common), matrix monorepo :
+#             backend, frontend, portail-admins, portail-usagers
+#   deploy  : trigger_app (gitops-cd-component) -> DÉCLENCHE domifa-gitops en posant
+#             IMAGE_TAG=sha-<sha> -> job apply_app (bump .domifa.image.tag dans
+#             values.deploy.yaml) + render. Pas de token gitops stocké ici (CI_JOB_TOKEN
+#             + allowlist inbound côté gitops). Pas de review par branche (S11).
+# Voir docs/30-migrations/domifa.md + docs/20-cd-pattern/ (repo devops-agent-as-markdowns).
+# ============================================================================
+
+include:
+  - project: socialgouv/commun/studio-tech-commun/sdpsn-devops-ci-utils
+    ref: main
+    file: ci-common/image-build.yml
+  - component: $CI_SERVER_FQDN/socialgouv/commun/studio-tech-commun/components/gitops-cd-component/trigger_app@0.3.1
+    inputs:
+      job_name: deploy-dev
+      stage: deploy
+      gitops_project: socialgouv/produits-dnum/citoyens/domifa/domifa-gitops
+      gitops_branch: main
+      deploy_action: dev
+      image_tag: "sha-$CI_COMMIT_SHA"
+      image_target_object: ".domifa.image.tag"
+      rules:
+        - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  - component: $CI_SERVER_FQDN/socialgouv/commun/studio-tech-commun/components/gitops-cd-component/trigger_app@0.3.1
+    inputs:
+      job_name: deploy-preprod
+      stage: deploy
+      gitops_project: socialgouv/produits-dnum/citoyens/domifa/domifa-gitops
+      gitops_branch: main
+      deploy_action: preprod
+      image_tag: "sha-$CI_COMMIT_SHA"
+      image_target_object: ".domifa.image.tag"
+      rules:
+        - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+          when: manual
+          allow_failure: true
+  - component: $CI_SERVER_FQDN/socialgouv/commun/studio-tech-commun/components/gitops-cd-component/trigger_app@0.3.1
+    inputs:
+      job_name: deploy-prod
+      stage: deploy
+      gitops_project: socialgouv/produits-dnum/citoyens/domifa/domifa-gitops
+      gitops_branch: main
+      deploy_action: prod
+      image_tag: "sha-$CI_COMMIT_SHA"
+      image_target_object: ".domifa.image.tag"
+      rules:
+        - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+          when: manual
+          allow_failure: true
+
+stages:
+  - check
+  - build
+  - deploy
+
+workflow:
+  auto_cancel:
+    on_new_commit: interruptible
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_COMMIT_BRANCH
+
+# ---------------------------------------------------------------------------
+# CHECK (pnpm/lerna) — lint uniquement pour l'instant. `test` nécessite une
+# PostgreSQL locale (cf. la documentation du repo applicatif) : hors scope S02, déjà
+# couvert par la CI GitHub existante (GitHub reste source de vérité).
+# ---------------------------------------------------------------------------
+lint:
+  stage: check
+  image: node:22-alpine
+  interruptible: true
+  before_script:
+    # git requis par le script `prepare` racine (lefthook install, hooks git).
+    - apk add --no-cache git
+    - corepack enable
+    - pnpm config set store-dir .pnpm-store
+    - pnpm install --frozen-lockfile
+  cache:
+    key:
+      files:
+        - pnpm-lock.yaml
+    paths:
+      - .pnpm-store
+  script:
+    # --concurrency=1 : `pnpm lint` (lerna run lint, parallèle par défaut) fait échouer
+    # frontend/portail-usagers sans message d'erreur sur le runner "tiny" (signature OOM :
+    # 5 lints Angular/NestJS en parallèle saturent la RAM du runner).
+    - pnpm exec lerna run lint --concurrency=1
+  rules:
+    - if: $CI_COMMIT_BRANCH
+
+# ---------------------------------------------------------------------------
+# BUILD : 4 images via le backend DinD (ci-common) -> registre PIC.
+# matrix : backend (packages/backend/Dockerfile) partagé par 3 déploiements
+# (backend/backend-export/backend-cron, cf. domifa-charts) + 3 frontends
+# Angular (1 Dockerfile.runtime chacun). Contexte = racine monorepo (COPY packages/common
+# depuis la racine dans chaque Dockerfile).
+# ---------------------------------------------------------------------------
+build:
+  extends: .build-dind
+  interruptible: true
+  parallel:
+    matrix:
+      - COMPONENT: backend
+        BUILD_IMAGE: "$CI_REGISTRY_IMAGE/backend"
+        BUILD_DOCKERFILE: "packages/backend/Dockerfile"
+      - COMPONENT: frontend
+        BUILD_IMAGE: "$CI_REGISTRY_IMAGE/frontend"
+        BUILD_DOCKERFILE: "packages/frontend/Dockerfile.runtime"
+      - COMPONENT: portail-admins
+        BUILD_IMAGE: "$CI_REGISTRY_IMAGE/portail-admins"
+        BUILD_DOCKERFILE: "packages/portail-admins/Dockerfile.runtime"
+      - COMPONENT: portail-usagers
+        BUILD_IMAGE: "$CI_REGISTRY_IMAGE/portail-usagers"
+        BUILD_DOCKERFILE: "packages/portail-usagers/Dockerfile.runtime"
+  variables:
+    BUILD_CONTEXT: "."
+    BUILD_TAGS: "sha-$CI_COMMIT_SHA,$CI_COMMIT_REF_SLUG"
+    # Build-once / deploy-many : plus aucun build-arg d'URL. Les 3 SPA Angular gardent les
+    # placeholders ${DOMIFA_*} dans le bundle (envsubst RETIRÉ du build, cf. Dockerfile.runtime) ; les URLs
+    # sont injectées au RUNTIME par packages/nginx-runtime-env.sh depuis l'env du pod (ConfigMap
+    # frontend-runtime-config du chart, valeurs par env dans le gitops values.deploy.yaml).
+  rules:
+    - if: $CI_COMMIT_BRANCH
+
+# ---------------------------------------------------------------------------
+# DEPLOY : job `deploy-dev` généré par le composant trigger_app (cf. include ci-dessus).
+# needs: ["build"] pour ne déclencher qu'après la publication des images.
+# ---------------------------------------------------------------------------
+deploy-dev:
+  needs: ["build"]
