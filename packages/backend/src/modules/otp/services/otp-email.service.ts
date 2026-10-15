@@ -10,6 +10,7 @@ import { Transporter } from "nodemailer";
 import { domifaConfig } from "../../../config";
 import { BrevoSenderService } from "../../mails/services/brevo-sender/brevo-sender.service";
 import { isDeletedEmail } from "../../mails/services/brevo-sender/deleted-email.guard";
+import { demoEmailSubject } from "../../mails/utils/demo-email-subject";
 import { OtpPurpose } from "@domifa/common";
 import { OTP_TIPIMAIL_FROM } from "../otp.constants";
 import { OTP_ACTION_MOTIF_LABELS } from "../otp.labels";
@@ -221,9 +222,11 @@ export class OtpEmailService implements OnModuleInit {
     const html = isLogin
       ? generateOtpEmailHtml({ code })
       : generateOtpActionEmailHtml({ code });
-    const subject = isLogin
-      ? "Votre code de connexion DomiFa"
-      : "Votre code de confirmation DomiFa";
+    const subject = demoEmailSubject(
+      isLogin
+        ? "Votre code de connexion DomiFa"
+        : "Votre code de confirmation DomiFa"
+    );
 
     try {
       const result = await this.getTransporter().sendMail({
