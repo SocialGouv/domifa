@@ -121,6 +121,9 @@ build:
       - COMPONENT: portail-usagers
         BUILD_IMAGE: "$CI_REGISTRY_IMAGE/portail-usagers"
         BUILD_DOCKERFILE: "packages/portail-usagers/Dockerfile.runtime"
+      - COMPONENT: portail-stats
+        BUILD_IMAGE: "$CI_REGISTRY_IMAGE/portail-stats"
+        BUILD_DOCKERFILE: "packages/portail-stats/Dockerfile.runtime"
   variables:
     BUILD_CONTEXT: "."
     BUILD_TAGS: "sha-$CI_COMMIT_SHA,$CI_COMMIT_REF_SLUG"
