@@ -4,10 +4,14 @@ import {
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
+import { LessThanOrEqual } from "typeorm";
 import {
   ActivateSupportSessionResponse,
+  getPasswordChangeStatus,
+  isSupportSessionExpired,
   SupportSession,
   SupportSessionRevokedReason,
+  UserStructure,
   UserStructureRole,
 } from "@domifa/common";
 import {
@@ -27,7 +31,7 @@ import {
 } from "../app-logs/app-log-security-writer";
 
 export const SUPPORT_MODE_ALLOWED_EMAIL_DOMAIN = "@fabrique.social.gouv.fr";
-const SUPPORT_ATTACHMENT_DURATION_SECONDS = 60 * 60; // 1h
+const SUPPORT_ATTACHMENT_DURATION_MS = 60 * 60 * 1000; // 1h
 
 const CLOSED_REASON_BY_SUPPORT_REASON: Record<
   SupportSessionRevokedReason,
@@ -39,16 +43,14 @@ const CLOSED_REASON_BY_SUPPORT_REASON: Record<
   STRUCTURE_LOGOUT: "MANUAL_LOGOUT",
 };
 
-// Attaches/detaches an admin's *own* structure account to a structure for a
-// limited time — no dedicated shared account. Activating temporarily
-// overwrites the activating supervisor's own user_structure row (matched by
-// email) to role "support", saving its real role to restore on close; the
-// account keeps authenticating through the normal email/password/OTP login
-// flow (StructuresAuthController) with its own real credentials throughout.
-// This service manages *which structure the account currently resolves to*
-// (via the active row here) and *which role it currently carries* — see
-// StructuresAuthService.findAuthUser for the read side, which only needs
-// the structure resolution: role is read straight off the row as usual.
+// Support mode attaches a super-admin's *own* structure account (matched by
+// email) to another structure for a limited time:
+// - on activation, the account's role is switched to "support" and its real
+//   role saved in `originalRole`;
+// - while ACTIVE, StructuresAuthService.findAuthUser resolves the account to
+//   the attached structure;
+// - on close (revoke, expiry, logout), the real role is restored.
+// The account keeps logging in through the normal email/password/OTP flow.
 @Injectable()
 export class SupportSessionService {
   constructor(
@@ -63,13 +65,7 @@ export class SupportSessionService {
       userAgent: string;
     }
   ): Promise<ActivateSupportSessionResponse> {
-    if (
-      !supervisor.email
-        ?.toLowerCase()
-        .endsWith(SUPPORT_MODE_ALLOWED_EMAIL_DOMAIN)
-    ) {
-      throw new ForbiddenException("SUPPORT_MODE_NOT_ALLOWED");
-    }
+    this.assertSupervisorAllowed(supervisor);
 
     const structure = await structureRepository.findOne({
       where: { uuid: structureUuid },
@@ -79,79 +75,29 @@ export class SupportSessionService {
       throw new NotFoundException("STRUCTURE_NOT_FOUND");
     }
 
-    const targetAccount = await this.resolveOwnAccount(supervisor);
+    const account = await this.findOwnAccount(supervisor);
 
     const startDate = new Date();
     const expiresAt = new Date(
-      startDate.getTime() + SUPPORT_ATTACHMENT_DURATION_SECONDS * 1000
+      startDate.getTime() + SUPPORT_ATTACHMENT_DURATION_MS
     );
 
-    const { created, replacedPrior } = await myDataSource.transaction(
-      async (manager) => {
-        // Serializes concurrent "attach" clicks on this account — the
-        // partial unique index alone can't prevent two requests from both
-        // seeing "no active row" before either commits.
-        await acquireAdvisoryXactLock(
-          manager,
-          `support-attach:${targetAccount.id}`
-        );
+    this.assertPasswordValidDuringAttachment(account, expiresAt);
 
-        const sessionRepo = manager.getRepository(SupportSessionTable);
-        const existingActive = await sessionRepo.findOne({
-          where: { targetUserStructureId: targetAccount.id, status: "ACTIVE" },
-        });
-        if (existingActive) {
-          await sessionRepo.update(
-            { uuid: existingActive.uuid },
-            {
-              status: "REVOKED",
-              revokedAt: new Date(),
-              revokedBy: supervisor.email,
-              revokedReason: "REPLACED",
-            }
-          );
-        }
+    const { session, replacedSession } = await this.attach({
+      supervisor,
+      structureId: structure.id,
+      account,
+      startDate,
+      expiresAt,
+    });
 
-        // If an ACTIVE attachment already targeted this account (switching
-        // structure without closing first), its live `role` column already
-        // reads "support" — re-reading it here would save "support" as the
-        // "original" role and permanently lose the real one. Carry the
-        // previous row's originalRole forward instead; only take a fresh
-        // snapshot (and only then flip the live role) when there was
-        // nothing active to carry it from.
-        let originalRole: UserStructureRole;
-        if (existingActive) {
-          originalRole = existingActive.originalRole ?? targetAccount.role;
-        } else {
-          originalRole = targetAccount.role;
-          await manager
-            .getRepository(UserStructureTable)
-            .update({ id: targetAccount.id }, { role: "support" });
-        }
-
-        const createdRow = await sessionRepo.save(
-          new SupportSessionTable({
-            supervisorId: supervisor.id,
-            supervisorEmail: supervisor.email,
-            structureId: structure.id,
-            targetUserStructureId: targetAccount.id,
-            startDate,
-            expiresAt,
-            status: "ACTIVE",
-            originalRole,
-          })
-        );
-
-        return { created: createdRow, replacedPrior: !!existingActive };
-      }
-    );
-
-    if (replacedPrior) {
+    if (replacedSession) {
       // Force a re-login against the newly attached structure rather than
-      // silently keep using a token issued while attached elsewhere.
+      // keep using a token issued while attached elsewhere.
       await this.sessionFingerprintService.closeActiveSession(
         "structure",
-        targetAccount.id,
+        account.id,
         "REPLACED"
       );
     }
@@ -164,8 +110,8 @@ export class SupportSessionService {
       role: supervisor.role,
       requestContext,
       context: {
-        supportSessionUuid: created.uuid,
-        targetUserStructureId: targetAccount.id,
+        supportSessionUuid: session.uuid,
+        targetUserStructureId: account.id,
       },
     });
 
@@ -196,19 +142,55 @@ export class SupportSessionService {
     });
   }
 
-  // Called from the structure logout endpoint (StructuresAuthController,
-  // injected there like any other provider): if the support account itself
-  // is logging out, end its current attachment too.
+  // The support account logging out of the structure app ends its attachment.
   public async revokeForStructureLogout(
     targetUserStructureId: number
   ): Promise<void> {
-    const session = await supportSessionRepository.findOne({
-      where: { targetUserStructureId, status: "ACTIVE" },
-    });
+    const session = await this.findActiveForAccount(targetUserStructureId);
     if (!session) {
       return;
     }
     await this.closeSession(session, "STRUCTURE_LOGOUT", "STRUCTURE_LOGOUT");
+  }
+
+  private async findActiveForAccount(
+    targetUserStructureId: number
+  ): Promise<SupportSessionTable | null> {
+    return supportSessionRepository.findOne({
+      where: { targetUserStructureId, status: "ACTIVE" },
+    });
+  }
+
+  // Called on structure login: an attachment past its expiresAt but not yet
+  // swept by the cron leaves the account stuck on role "support" while
+  // findAuthUser already refuses it. Closing it here gives the admin their
+  // own account back right away. Returns the user with its current role.
+  public async closeExpiredSupportSession(
+    user: UserStructure
+  ): Promise<UserStructure> {
+    const session = await this.findActiveForAccount(user.id);
+    if (!session || !isSupportSessionExpired(session)) {
+      return user;
+    }
+
+    await this.expire(session, "LOGIN");
+
+    const { role } = await userStructureRepository.findOneOrFail({
+      where: { id: user.id },
+      select: { role: true },
+    });
+    return { ...user, role };
+  }
+
+  // Cron entry point: closes every ACTIVE attachment past its expiresAt.
+  public async expireDueSessions(): Promise<number> {
+    const dueSessions = await supportSessionRepository.find({
+      where: { status: "ACTIVE", expiresAt: LessThanOrEqual(new Date()) },
+    });
+    for (const session of dueSessions) {
+      await this.expire(session, "CRON");
+    }
+    return dueSessions.length;
   }
 
   public async listForStructure(
@@ -221,34 +203,107 @@ export class SupportSessionService {
     });
   }
 
-  // Cron entry point — closes every attachment past its expiresAt.
-  public async expireDueSessions(): Promise<number> {
-    const due = await supportSessionRepository.find({
-      where: { status: "ACTIVE" },
-    });
-    const expired = due.filter((s) => s.expiresAt.getTime() <= Date.now());
-    for (const session of expired) {
-      await this.closeSession(session, "EXPIRED", "CRON");
-    }
-    return expired.length;
+  private async expire(
+    session: SupportSessionTable,
+    trigger: "LOGIN" | "CRON"
+  ): Promise<void> {
+    await this.closeSession(session, "EXPIRED", trigger);
   }
 
-  // Single choke point for ending an attachment, whatever the trigger
-  // (manual revoke, cron expiry, replaced by a new activation, or the
-  // support account logging out). `status` flipping off ACTIVE is what
-  // actually cuts access: StructuresAuthService.findAuthUser refuses to
-  // authenticate the support account once no ACTIVE row targets it — this
-  // is independent of the session fingerprint below (disabled in test env),
-  // so revocation is provable even there. Closing the fingerprint session
-  // is a courtesy on top: it also forces an immediate re-login rather than
-  // letting an already-issued token keep working until its next request
-  // happens to notice the attachment is gone.
-  //
-  // Also restores the account's real role, saved in `originalRole` at
-  // activation. This is the only place that restore happens — the
-  // "REPLACED" eviction inside `activate()` deliberately does NOT go
-  // through here (and must not restore the role): the admin is still in
-  // support mode at that point, just re-targeting a different structure.
+  private assertSupervisorAllowed(supervisor: UserAdminAuthenticated): void {
+    const email = supervisor.email?.toLowerCase() ?? "";
+    if (!email.endsWith(SUPPORT_MODE_ALLOWED_EMAIL_DOMAIN)) {
+      throw new ForbiddenException("SUPPORT_MODE_NOT_ALLOWED");
+    }
+  }
+
+  // The "support" role can't renew a password, so it must be valid on the
+  // admin's own account before attaching it — checked against `expiresAt` so
+  // it can't expire midway through the attachment either.
+  private assertPasswordValidDuringAttachment(
+    account: UserStructure,
+    expiresAt: Date
+  ): void {
+    const passwordStatus = getPasswordChangeStatus(
+      account.passwordLastUpdate,
+      account.createdAt,
+      expiresAt
+    );
+    if (passwordStatus === "EXPIRED") {
+      throw new BadRequestException("SUPPORT_TARGET_PASSWORD_EXPIRED");
+    }
+  }
+
+  // Creates the ACTIVE attachment
+  private async attach({
+    supervisor,
+    structureId,
+    account,
+    startDate,
+    expiresAt,
+  }: {
+    supervisor: UserAdminAuthenticated;
+    structureId: number;
+    account: UserStructureTable;
+    startDate: Date;
+    expiresAt: Date;
+  }): Promise<{
+    session: SupportSessionTable;
+    replacedSession: SupportSessionTable | null;
+  }> {
+    return myDataSource.transaction(async (manager) => {
+      // Serializes concurrent activations on this account: the partial
+      // unique index alone can't stop two requests from both seeing "no
+      // active row" before either commits.
+      await acquireAdvisoryXactLock(manager, `support-attach:${account.id}`);
+
+      const sessionRepo = manager.getRepository(SupportSessionTable);
+      const replacedSession = await sessionRepo.findOne({
+        where: { targetUserStructureId: account.id, status: "ACTIVE" },
+      });
+
+      let originalRole: UserStructureRole;
+      if (replacedSession) {
+        // The account is already "support": carry the real role forward
+        // instead of snapshotting "support" as the original one.
+        originalRole = replacedSession.originalRole ?? account.role;
+        await sessionRepo.update(
+          { uuid: replacedSession.uuid },
+          {
+            status: "REVOKED",
+            revokedAt: new Date(),
+            revokedBy: supervisor.email,
+            revokedReason: "REPLACED",
+          }
+        );
+      } else {
+        originalRole = account.role;
+        await manager
+          .getRepository(UserStructureTable)
+          .update({ id: account.id }, { role: "support" });
+      }
+
+      const session = await sessionRepo.save(
+        new SupportSessionTable({
+          supervisorId: supervisor.id,
+          supervisorEmail: supervisor.email,
+          structureId,
+          targetUserStructureId: account.id,
+          startDate,
+          expiresAt,
+          status: "ACTIVE",
+          originalRole,
+        })
+      );
+
+      return { session, replacedSession };
+    });
+  }
+
+  // Single exit point of an attachment (revoke, expiry, logout): ends the
+  // structure session, restores the account's real role, and closes the row.
+  // A REPLACED attachment does not go through here: the account stays in
+  // support mode, attached to another structure.
   private async closeSession(
     session: SupportSessionTable,
     reason: SupportSessionRevokedReason,
@@ -256,9 +311,6 @@ export class SupportSessionService {
     logContext: Record<string, unknown> & SecurityLogRequestContext = {}
   ): Promise<void> {
     if (session.status !== "ACTIVE") {
-      // Idempotency guard: every caller already filters to ACTIVE rows, but
-      // this keeps the role-restore side effect below safe even if that
-      // invariant is ever violated (e.g. a duplicate cron tick).
       return;
     }
 
@@ -285,13 +337,12 @@ export class SupportSessionService {
       }
     );
 
-    const action =
-      reason === "EXPIRED"
-        ? "SUPPORT_SESSION_EXPIRED"
-        : "SUPPORT_SESSION_REVOKED";
     const { ip, userAgent, ...context } = logContext;
     await logSecurityEvent({
-      action,
+      action:
+        reason === "EXPIRED"
+          ? "SUPPORT_SESSION_EXPIRED"
+          : "SUPPORT_SESSION_REVOKED",
       userType: "user_supervisor",
       userId: session.supervisorId,
       structureId: session.structureId,
@@ -305,12 +356,11 @@ export class SupportSessionService {
     });
   }
 
-  // Resolves the activating supervisor's own structure account — the one
-  // whose role will be temporarily toggled to "support". Matched by email,
-  // not role: unlike the old single shared account, this account's stored
-  // role is whatever the admin's real day-to-day role is (only ever
-  // "support" transiently, while an attachment is active).
-  private async resolveOwnAccount(supervisor: UserAdminAuthenticated) {
+  // Matched by email: the admin's structure account carries their real
+  // day-to-day role, and is only "support" while attached.
+  private async findOwnAccount(
+    supervisor: UserAdminAuthenticated
+  ): Promise<UserStructureTable> {
     const account = await userStructureRepository.findOne({
       where: { email: supervisor.email, status: "ACTIVE" },
     });

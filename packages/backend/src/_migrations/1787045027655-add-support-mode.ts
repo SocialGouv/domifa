@@ -9,22 +9,24 @@ export class AddSupportMode1787045027655 implements MigrationInterface {
   name = "AddSupportMode1787045027655";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
+    // IF NOT EXISTS: dev/test databases already get this table from
+    // _init-db/domifa_test_schema.sql, so this must be a no-op there.
     // "originalRole" holds the target account's real role at the moment it
     // was overwritten to "support" — restored onto user_structure.role when
     // the attachment closes (see SupportSessionService.closeSession). Never
     // deployed yet (branch unmerged), so this column lives directly on the
     // CREATE TABLE rather than a follow-up migration.
     await queryRunner.query(
-      `CREATE TABLE "support_session" ("uuid" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "version" integer NOT NULL, "supervisorId" integer NOT NULL, "supervisorEmail" text NOT NULL, "structureId" integer NOT NULL, "targetUserStructureId" integer NOT NULL, "startDate" TIMESTAMP WITH TIME ZONE NOT NULL, "expiresAt" TIMESTAMP WITH TIME ZONE NOT NULL, "status" text NOT NULL DEFAULT 'ACTIVE', "originalRole" text, "revokedAt" TIMESTAMP WITH TIME ZONE, "revokedBy" text, "revokedReason" text, CONSTRAINT "PK_9775e45f6521d085ab40f7b7eb2" PRIMARY KEY ("uuid"))`
+      `CREATE TABLE IF NOT EXISTS "support_session" ("uuid" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "version" integer NOT NULL, "supervisorId" integer NOT NULL, "supervisorEmail" text NOT NULL, "structureId" integer NOT NULL, "targetUserStructureId" integer NOT NULL, "startDate" TIMESTAMP WITH TIME ZONE NOT NULL, "expiresAt" TIMESTAMP WITH TIME ZONE NOT NULL, "status" text NOT NULL DEFAULT 'ACTIVE', "originalRole" text, "revokedAt" TIMESTAMP WITH TIME ZONE, "revokedBy" text, "revokedReason" text, CONSTRAINT "PK_9775e45f6521d085ab40f7b7eb2" PRIMARY KEY ("uuid"))`
     );
     await queryRunner.query(
-      `CREATE INDEX "IDX_45b30ad04f808d5939efad9d08" ON "support_session" ("supervisorId") `
+      `CREATE INDEX IF NOT EXISTS "IDX_45b30ad04f808d5939efad9d08" ON "support_session" ("supervisorId") `
     );
     await queryRunner.query(
-      `CREATE INDEX "IDX_5e3b5c549d564047e7d15922ca" ON "support_session" ("structureId") `
+      `CREATE INDEX IF NOT EXISTS "IDX_5e3b5c549d564047e7d15922ca" ON "support_session" ("structureId") `
     );
     await queryRunner.query(
-      `CREATE INDEX "IDX_support_session_structureId_status" ON "support_session" ("structureId", "status") `
+      `CREATE INDEX IF NOT EXISTS "IDX_support_session_structureId_status" ON "support_session" ("structureId", "status") `
     );
     // "targetUserStructureId" points at whichever structure account is
     // currently toggled to "support" — an admin's own account, or (in
@@ -33,7 +35,7 @@ export class AddSupportMode1787045027655 implements MigrationInterface {
     // regardless of app-level races. Different admins' accounts each get
     // their own independent slot under this same index, for free.
     await queryRunner.query(
-      `CREATE UNIQUE INDEX "IDX_support_session_one_active" ON "support_session" ("targetUserStructureId") WHERE "status" = 'ACTIVE'`
+      `CREATE UNIQUE INDEX IF NOT EXISTS "IDX_support_session_one_active" ON "support_session" ("targetUserStructureId") WHERE "status" = 'ACTIVE'`
     );
   }
 

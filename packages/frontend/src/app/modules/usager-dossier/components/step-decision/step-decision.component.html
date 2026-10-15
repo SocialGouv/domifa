@@ -248,6 +248,7 @@
         <div class="fr-col-12">
           <div class="fr-btns-group fr-btns-group--inline">
             <app-button
+              appSupportModeDisable
               (action)="getCerfa(CerfaDocType.demande)"
               ariaLabel="Télécharger l'attestation de demande"
               label="Télécharger l'attestation de demande"
@@ -259,6 +260,7 @@
             @if (me?.role !== 'facteur' && me?.role !== 'simple' && me?.role !==
             'agent') {
             <app-button
+              appSupportModeDisable
               (action)="getCerfa(CerfaDocType.attestation_future)"
               ariaLabel="Télécharger le Cerfa provisoire"
               label="Télécharger le Cerfa provisoire"
@@ -267,6 +269,7 @@
               customClass="fr-mx-1w fr-btn--sm"
             ></app-button>
             <app-button
+              appSupportModeDisable
               (action)="getCerfa(CerfaDocType.attestation)"
               ariaLabel="Télécharger le Cerfa actuel"
               label="Télécharger le Cerfa actuel"

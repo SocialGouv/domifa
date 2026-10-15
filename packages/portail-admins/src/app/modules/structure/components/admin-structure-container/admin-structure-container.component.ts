@@ -9,6 +9,7 @@ import {
   DsfrModalModule,
 } from "@edugouvfr/ngx-dsfr";
 import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
+import { HttpErrorResponse } from "@angular/common/http";
 import { Subscription, take } from "rxjs";
 
 import { StructureAdmin } from "@domifa/common";
@@ -23,6 +24,14 @@ import { AdminAuthService } from "../../../admin-auth/services/admin-auth.servic
 import { CustomToastService } from "../../../shared/services";
 
 const SUPPORT_MODE_ALLOWED_EMAIL_DOMAIN = "@fabrique.social.gouv.fr";
+
+const SUPPORT_ACTIVATION_ERRORS: Record<string, string> = {
+  SUPPORT_TARGET_ACCOUNT_NOT_FOUND:
+    "Aucun compte structure actif n'est associé à votre adresse email.",
+  SUPPORT_TARGET_PASSWORD_EXPIRED:
+    "Le mot de passe de votre compte structure a expiré (ou expirera pendant le rattachement). " +
+    "Connectez-vous sur l'application structure pour le renouveler, puis réessayez.",
+};
 
 @Component({
   selector: "app-admin-structure-container",
@@ -124,9 +133,12 @@ export class AdminStructureContainerComponent implements OnInit, OnDestroy {
               `Il peut maintenant se connecter normalement sur l'application structure.`
           );
         },
-        error: () => {
+        error: (error: HttpErrorResponse) => {
           this.activatingSupportSession = false;
-          this.toastr.error("Impossible de rattacher le compte support");
+          this.toastr.error(
+            SUPPORT_ACTIVATION_ERRORS[error.error?.message] ??
+              "Impossible de rattacher le compte support"
+          );
         },
       });
   }

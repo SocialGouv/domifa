@@ -100,6 +100,10 @@ export class StructuresAuthController {
       return res.status(HttpStatus.UNAUTHORIZED).json({ message });
     }
 
+    if (user.role === "support") {
+      user = await this.supportSessionService.closeExpiredSupportSession(user);
+    }
+
     try {
       // Test bypass: every security suite authenticates structure users via
       // AppTestHelper.authenticateStructure. Forcing each one through the
