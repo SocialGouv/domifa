@@ -19,7 +19,7 @@ l'image Docker et la clé kontinuous s'appellent tous `portail-stats`.
 
 ## Stack technique
 
-- **Node** >= 22, **pnpm** 10.x, **Lerna** 8.x (independent versioning)
+- **Node** >= 24, **pnpm** 10.x, **Lerna** 8.x (independent versioning)
 - **Backend** : NestJS 11, TypeORM 0.3, PostgreSQL 16 (PostGIS), Passport JWT, Pino
 - **Frontends** : Angular 20 (toutes les apps), RxJS, NgRx (frontend, portail-admins), DSFR (toutes les apps)
 - **Tests** : Jest (backend + frontends), Supertest (backend HTTP)

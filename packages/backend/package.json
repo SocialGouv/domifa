@@ -3,7 +3,7 @@
   "private": true,
   "version": "2.186.0",
   "engines": {
-    "node": ">=22",
+    "node": ">=24",
     "pnpm": ">=10"
   },
   "packageManager": "pnpm@10.24.0",
@@ -128,7 +128,7 @@
     "@types/lodash.pick": "^4.4.9",
     "@types/lodash.set": "^4.3.9",
     "@types/multer": "^2.0.0",
-    "@types/node": "^20.19.25",
+    "@types/node": "24.19.1",
     "@types/node-pdftk": "^2.1.9",
     "@types/nodemailer": "^8.0.1",
     "@types/passport-jwt": "^3.0.13",

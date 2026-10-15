@@ -3,7 +3,7 @@ packages:
 
 hoist: true
 
-nodeVersion: 22.23.1
+nodeVersion: 24.21.0
 
 sharedWorkspaceLockfile: true
 
