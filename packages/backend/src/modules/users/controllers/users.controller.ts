@@ -119,6 +119,7 @@ export class UsersController {
     return users;
   }
 
+  @AllowUserStructureRoles(...SUPPORT_READ_ROLES)
   @AllowExpiredPassword()
   @Get("accept-terms")
   public async acceptTerms(@CurrentUser() user: UserStructureAuthenticated) {
