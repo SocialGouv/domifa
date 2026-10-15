@@ -22,7 +22,11 @@ import {
   UserStructurePublic,
 } from "../../_common/model";
 
-import { UserStructure, StructureCommon } from "@domifa/common";
+import {
+  isSupportSessionExpired,
+  UserStructure,
+  StructureCommon,
+} from "@domifa/common";
 import { LogAction } from "../../modules/app-logs/types";
 import { buildStructureActorFields } from "../../modules/app-logs/app-logs.helpers";
 import { SessionFingerprintService } from "./session-fingerprint.service";
@@ -300,12 +304,7 @@ export class StructuresAuthService {
       const attachment = await supportSessionRepository.findOne({
         where: { targetUserStructureId: user.id, status: "ACTIVE" },
       });
-      // `status === "ACTIVE"` alone isn't enough: it only reflects what the
-      // 10-minute expiry cron has processed so far. Comparing expiresAt here
-      // makes the cutoff immediate and independent of that cron (which can be
-      // disabled per-env via isCronEnabled()), instead of granting up to ~10
-      // extra minutes of access past the advertised attachment window.
-      if (!attachment || attachment.expiresAt.getTime() <= Date.now()) {
+      if (!attachment || isSupportSessionExpired(attachment)) {
         return false;
       }
       structureId = attachment.structureId;
