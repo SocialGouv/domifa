@@ -4,8 +4,8 @@
 # (déplacé vers le repo dédié `domifa-charts`). Il ne fait que builder les images et
 # DÉCLENCHER le déploiement via un tag d'image.
 #   check   : lint (pnpm/lerna)
-#   build   : 4 images via BuildKit DinD (ci-common), matrix monorepo :
-#             backend, frontend, portail-admins, portail-usagers
+#   build   : 5 images via BuildKit DinD (ci-common), matrix monorepo :
+#             backend, frontend, portail-admins, portail-usagers, portail-stats
 #   deploy  : trigger_app (gitops-cd-component) -> DÉCLENCHE domifa-gitops en posant
 #             IMAGE_TAG=sha-<sha> -> job apply_app (bump .domifa.image.tag dans
 #             values.deploy.yaml) + render. Pas de token gitops stocké ici (CI_JOB_TOKEN
@@ -75,7 +75,7 @@ workflow:
 # ---------------------------------------------------------------------------
 lint:
   stage: check
-  image: node:22-alpine
+  image: node:24-alpine
   interruptible: true
   before_script:
     # git requis par le script `prepare` racine (lefthook install, hooks git).
@@ -98,9 +98,9 @@ lint:
     - if: $CI_COMMIT_BRANCH
 
 # ---------------------------------------------------------------------------
-# BUILD : 4 images via le backend DinD (ci-common) -> registre PIC.
+# BUILD : 5 images via le backend DinD (ci-common) -> registre PIC.
 # matrix : backend (packages/backend/Dockerfile) partagé par 3 déploiements
-# (backend/backend-export/backend-cron, cf. domifa-charts) + 3 frontends
+# (backend/backend-export/backend-cron, cf. domifa-charts) + 4 frontends
 # Angular (1 Dockerfile.runtime chacun). Contexte = racine monorepo (COPY packages/common
 # depuis la racine dans chaque Dockerfile).
 # ---------------------------------------------------------------------------
