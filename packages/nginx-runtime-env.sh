@@ -1,8 +1,10 @@
 #!/bin/sh
-# Replaces the ${DOMIFA_*} placeholders left in the Angular bundle with the
-# pod environment, then hands over to the nginx4spa entrypoint.
+# Renders the read-only Angular bundle (TEMPLATE) into the served directory
+# (ROOT), replacing the ${DOMIFA_*} placeholders with the pod environment,
+# then hands over to the nginx4spa entrypoint.
 set -eu
 
+TEMPLATE="${NGINX_HTML_TEMPLATE:-/usr/share/nginx/template}"
 ROOT="${NGINX_HTML_ROOT:-/usr/share/nginx/html}"
 
 for required in DOMIFA_BACKEND_URL DOMIFA_ENV_ID; do
@@ -26,10 +28,10 @@ export DOMIFA_SENTRY_DSN_PORTAIL_STATS="${DOMIFA_SENTRY_DSN_PORTAIL_STATS:-}"
 # Explicit list: other ${...} sequences in third-party code stay untouched.
 VARS='${DOMIFA_BACKEND_URL} ${DOMIFA_FRONTEND_URL} ${DOMIFA_PORTAIL_ADMINS_URL} ${DOMIFA_PORTAIL_USAGERS_URL} ${DOMIFA_PORTAIL_STATS_URL} ${DOMIFA_ENV_ID} ${DOMIFA_FRONTEND_META_ROBOTS} ${DOMIFA_SENTRY_DSN_FRONTEND} ${DOMIFA_SENTRY_DSN_PORTAIL_ADMIN} ${DOMIFA_SENTRY_DSN_PORTAIL} ${DOMIFA_SENTRY_DSN_PORTAIL_STATS}'
 
-find "$ROOT" -type f \( -name '*.js' -o -name 'index.html' \) | while IFS= read -r f; do
-  envsubst "$VARS" < "$f" > "$f.tmp"
-  cat "$f.tmp" > "$f"
-  rm -f "$f.tmp"
+cp -R "$TEMPLATE"/. "$ROOT"/
+
+(cd "$TEMPLATE" && find . -type f \( -name '*.js' -o -name 'index.html' \)) | while IFS= read -r f; do
+  envsubst "$VARS" < "$TEMPLATE/$f" > "$ROOT/$f"
 done
 
 exec /entrypoint.sh "$@"
