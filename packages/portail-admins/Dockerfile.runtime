@@ -1,7 +1,5 @@
 FROM node:24-bookworm-slim AS deps
 
-RUN apt-get update -y && apt-get install -y gettext-base && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /app
 
 # Lockfile-only layer for dependency fetch, independent of package.json changes
