@@ -40,7 +40,9 @@ FROM ghcr.io/socialgouv/docker/nginx4spa:8.2.4
 
 COPY ./packages/nginx.conf /etc/nginx/nginx.conf
 COPY ./packages/portail-admins/security-headers.conf /etc/nginx/security-headers.conf
-COPY --from=builder --chown=101:101 /app/packages/portail-admins/dist/domifa-portail-admins/browser /usr/share/nginx/html
+COPY --from=builder /app/packages/portail-admins/dist/domifa-portail-admins/browser /usr/share/nginx/template
 # Substitution runtime des placeholders ${DOMIFA_*} puis chaînage de l'entrypoint nginx4spa.
 COPY --chmod=0755 ./packages/nginx-runtime-env.sh /nginx-runtime-env.sh
+USER 101
+
 ENTRYPOINT ["/nginx-runtime-env.sh"]
