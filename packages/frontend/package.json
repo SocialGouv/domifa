@@ -31,7 +31,7 @@
     "@angular/localize": "20.3.30",
     "@angular/platform-browser": "20.3.30",
     "@angular/platform-browser-dynamic": "20.3.30",
-    "@angular/router": "20.3.30",
+    "@angular/router": "20.3.32",
     "@babel/runtime": "^7.29.7",
     "@domifa/common": "workspace:^",
     "@edugouvfr/ngx-dsfr": "1.19.2",
