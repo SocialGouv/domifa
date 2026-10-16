@@ -1,7 +1,6 @@
 import { PG_CONNECT_OPTIONS } from "./PG_CONNECT_OPTIONS.const";
 import { DataSource, Migration } from "typeorm";
 import { domifaConfig, DomifaConfigPostgres } from "../../../config";
-import { isCronEnabled } from "../../../config/services/isCronEnabled.service";
 import { appLogger } from "../../../util";
 
 export const appTypeormManager = {
@@ -13,7 +12,7 @@ export const appTypeormManager = {
 export const myDataSource: DataSource = new DataSource(PG_CONNECT_OPTIONS);
 
 async function migrateUp(connection: DataSource): Promise<Migration[]> {
-  if (!isCronEnabled()) {
+  if (!domifaConfig().cron.enable) {
     return [];
   }
   appLogger.warn("\nStart migrations ....");
