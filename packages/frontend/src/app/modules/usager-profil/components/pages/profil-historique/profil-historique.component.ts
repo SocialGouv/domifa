@@ -91,15 +91,21 @@ export class ProfilHistoriqueComponent
   }
 
   ngAfterViewInit() {
-    const section = this.route.snapshot.params?.section;
+    // Keep the active tab in sync with the URL (back/forward navigation)
+    this.subscription.add(
+      this.route.paramMap.subscribe((params) => {
+        const section = params.get("section") as HistorySections;
 
-    if (!section || !this.sectionsIds.includes(section)) {
-      this.toastService.error("Le dossier recherché n'existe pas");
-      this.router.navigate(["404"]);
-      return;
-    }
+        if (!section || !this.sectionsIds.includes(section)) {
+          this.toastService.error("Le dossier recherché n'existe pas");
+          this.router.navigate(["404"]);
+          return;
+        }
 
-    this.currentSection = section;
+        this.currentSection = section;
+      })
+    );
+
     if (this.me.structure.sms.enabledByStructure) {
       this.sections.push({
         id: "sms",
