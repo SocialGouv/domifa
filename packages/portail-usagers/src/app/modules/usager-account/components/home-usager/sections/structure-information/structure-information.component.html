@@ -21,15 +21,16 @@
           STRUCTURE_INFORMATION_TYPES[information.type].iconClass
         ]"
       >
-        <span>
+        <div>
           <h3 class="fr-h4 d-block">
             {{ information.title }}
           </h3>
-          <p
+          <!-- description is rich text which may contain its own <p> tags -->
+          <div
             *ngIf="information.description"
             [innerHTML]="information.description | nl2br"
-          ></p>
-        </span>
+          ></div>
+        </div>
       </div>
       }
     </div>
