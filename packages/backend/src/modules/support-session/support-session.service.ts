@@ -8,7 +8,6 @@ import { LessThanOrEqual } from "typeorm";
 import {
   ActivateSupportSessionResponse,
   getPasswordChangeStatus,
-  isSupportSessionExpired,
   SupportSession,
   SupportSessionRevokedReason,
   UserStructure,
@@ -168,8 +167,14 @@ export class SupportSessionService {
   public async closeExpiredSupportSession(
     user: UserStructure
   ): Promise<UserStructure> {
-    const session = await this.findActiveForAccount(user.id);
-    if (!session || !isSupportSessionExpired(session)) {
+    const session = await supportSessionRepository.findOne({
+      where: {
+        targetUserStructureId: user.id,
+        status: "ACTIVE",
+        expiresAt: LessThanOrEqual(new Date()),
+      },
+    });
+    if (!session) {
       return user;
     }
 

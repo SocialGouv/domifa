@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { differenceInCalendarDays } from "date-fns";
 import * as jwt from "jsonwebtoken";
-import { Not } from "typeorm";
+import { MoreThan, Not } from "typeorm";
 import { domifaConfig } from "../../config";
 import {
   userStructureRepository,
@@ -22,11 +22,7 @@ import {
   UserStructurePublic,
 } from "../../_common/model";
 
-import {
-  isSupportSessionExpired,
-  UserStructure,
-  StructureCommon,
-} from "@domifa/common";
+import { UserStructure, StructureCommon } from "@domifa/common";
 import { LogAction } from "../../modules/app-logs/types";
 import { buildStructureActorFields } from "../../modules/app-logs/app-logs.helpers";
 import { SessionFingerprintService } from "./session-fingerprint.service";
@@ -301,10 +297,16 @@ export class StructuresAuthService {
     let structureId = user.structureId;
     let supportAttachmentExpiresAt: Date | undefined;
     if (user.role === "support") {
+      // `status === "ACTIVE"` only reflects what the expiry cron has processed
+      // so far: filtering on expiresAt makes the cutoff immediate.
       const attachment = await supportSessionRepository.findOne({
-        where: { targetUserStructureId: user.id, status: "ACTIVE" },
+        where: {
+          targetUserStructureId: user.id,
+          status: "ACTIVE",
+          expiresAt: MoreThan(new Date()),
+        },
       });
-      if (!attachment || isSupportSessionExpired(attachment)) {
+      if (!attachment) {
         return false;
       }
       structureId = attachment.structureId;
