@@ -7,6 +7,8 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
+import { readFileSync } from "fs";
+import { resolve } from "path";
 import request from "supertest";
 
 import { AntivirusFileInterceptor } from "./antivirus-file.interceptor";
@@ -19,11 +21,19 @@ jest.mock("./antivirus.service", () => ({
 
 const handler = jest.fn();
 
+const XLSX_CONTENT = readFileSync(
+  resolve(__dirname, "../../_static/usagers-import-test/import_ok_1.xlsx")
+);
+
 @Controller("upload")
 class UploadTestController {
   @Post()
   @UseInterceptors(
-    AntivirusFileInterceptor("file", { limits: { fileSize: 1024 } })
+    AntivirusFileInterceptor(
+      "file",
+      ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"],
+      { limits: { fileSize: 100 * 1024 } }
+    )
   )
   public upload(@UploadedFile() file: Express.Multer.File) {
     handler(file);
@@ -59,10 +69,10 @@ describe("AntivirusFileInterceptor", () => {
 
     const response = await request(app.getHttpServer())
       .post("/upload")
-      .attach("file", Buffer.from("clean content"), "file.txt");
+      .attach("file", XLSX_CONTENT, "import.xlsx");
 
     expect(response.status).toBe(HttpStatus.CREATED);
-    expect(response.body).toEqual({ size: 13 });
+    expect(response.body).toEqual({ size: XLSX_CONTENT.length });
     expect(handler).toHaveBeenCalledTimes(1);
   });
 
@@ -71,7 +81,7 @@ describe("AntivirusFileInterceptor", () => {
 
     const response = await request(app.getHttpServer())
       .post("/upload")
-      .attach("file", Buffer.from("infected content"), "file.txt");
+      .attach("file", XLSX_CONTENT, "import.xlsx");
 
     expect(response.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
     expect(response.body.message).toBe("FILE_INFECTED");
@@ -83,17 +93,28 @@ describe("AntivirusFileInterceptor", () => {
 
     const response = await request(app.getHttpServer())
       .post("/upload")
-      .attach("file", Buffer.from("content"), "file.txt");
+      .attach("file", XLSX_CONTENT, "import.xlsx");
 
     expect(response.status).toBe(HttpStatus.SERVICE_UNAVAILABLE);
     expect(response.body.message).toBe("ANTIVIRUS_UNAVAILABLE");
     expect(handler).not.toHaveBeenCalled();
   });
 
+  it("returns 400 INCORRECT_FORMAT for a disallowed content type, without scanning it", async () => {
+    const response = await request(app.getHttpServer())
+      .post("/upload")
+      .attach("file", Buffer.from("nom;prenom"), "import.xlsx");
+
+    expect(response.status).toBe(HttpStatus.BAD_REQUEST);
+    expect(response.body.message).toBe("INCORRECT_FORMAT");
+    expect(scanBuffer).not.toHaveBeenCalled();
+    expect(handler).not.toHaveBeenCalled();
+  });
+
   it("returns 413 for a file over the size limit, without scanning it", async () => {
     const response = await request(app.getHttpServer())
       .post("/upload")
-      .attach("file", Buffer.alloc(2048), "file.txt");
+      .attach("file", Buffer.alloc(200 * 1024), "import.xlsx");
 
     expect(response.status).toBe(HttpStatus.PAYLOAD_TOO_LARGE);
     expect(scanBuffer).not.toHaveBeenCalled();
