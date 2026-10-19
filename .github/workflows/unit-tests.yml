@@ -71,8 +71,11 @@ jobs:
       - name: Build common dependencies
         run: pnpm --filter @domifa/common build
 
-      - name: Create Postgres service
+      - name: Create Postgres and ClamAV services
         run: docker compose -f ./docker-compose.tests.yml up --build --detach
+
+      - name: Wait for ClamAV
+        run: timeout 300 sh -c 'until [ "$(docker inspect -f "{{.State.Health.Status}}" domifa-clamav-tests)" = healthy ]; do sleep 5; done'
 
       - name: Run backend tests
         run: DISABLE_TYPEORM_CLOSE=1 ENV_FILE=tests-local pnpm --filter @domifa/backend exec jest --coverage --forceExit --runInBand

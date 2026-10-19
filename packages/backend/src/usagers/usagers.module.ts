@@ -28,6 +28,7 @@ import { MailsModule } from "../modules/mails/mails.module";
 import { SearchUsagersController } from "./controllers/search-usagers.controller";
 import { UsagersLogsService } from "./services/usagers-logs.service";
 import { AppointmentInvitationService } from "./services";
+import { AntivirusModule } from "../modules/antivirus";
 
 @Module({
   controllers: [
@@ -58,6 +59,7 @@ import { AppointmentInvitationService } from "./services";
     forwardRef(() => AppLogsModule),
     forwardRef(() => OtpModule),
     SecurityMonitoringModule,
+    AntivirusModule,
   ],
   providers: [
     UsagersService,

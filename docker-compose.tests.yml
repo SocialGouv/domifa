@@ -22,3 +22,19 @@ services:
       interval: 5s
       start_period: 2s
       test: ["CMD-SHELL", "pg_isready -U domifa_user"]
+
+  # Bundled signatures only: no download, EICAR is always included
+  clamav:
+    image: clamav/clamav-debian:1.4.3
+    container_name: domifa-clamav-tests
+    ports:
+      - "127.0.0.1:3310:3310"
+    environment:
+      TZ: Europe/Paris
+      CLAMAV_NO_FRESHCLAMD: "true"
+    healthcheck:
+      test: ["CMD", "clamdscan", "--ping", "1"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+      start_period: 10s

@@ -12,7 +12,6 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { FileInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
 import { CurrentUser } from "../../../auth/decorators/current-user.decorator";
 import { AppUserGuard } from "../../../auth/guards";
@@ -38,11 +37,13 @@ import { addYears, endOfDay, startOfYear } from "date-fns";
 import { remove } from "fs-extra";
 
 import { FILES_SIZE_LIMIT } from "../../../util/file-manager";
+import { AntivirusFileInterceptor } from "../../../modules/antivirus";
 import {
   ImportPreviewTable,
   COUNTRY_CODES_TIMEZONE,
   UsagersImportMode,
   ImportDocumentType,
+  ImportUsagersResponse,
 } from "@domifa/common";
 import { ImportCreatorService } from "./step3-create";
 import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
@@ -52,7 +53,7 @@ import {
   SuccessfulUsagerImportLogContext,
 } from "../../../modules/app-logs/types/app-log-context.types";
 
-const UsagersImportFileInterceptor = FileInterceptor("file", {
+const UsagersImportFileInterceptor = AntivirusFileInterceptor("file", {
   limits: FILES_SIZE_LIMIT,
   fileFilter: (
     req: ExpressRequest,
@@ -225,7 +226,7 @@ export class ImportController {
         return res.status(HttpStatus.OK).json({
           importMode,
           previewTable,
-        });
+        } satisfies ImportUsagersResponse);
       }
 
       await this.importCreatorService.createFromImport({
@@ -260,7 +261,7 @@ export class ImportController {
       return res.status(HttpStatus.OK).json({
         importMode,
         previewTable,
-      });
+      } satisfies ImportUsagersResponse);
     } finally {
       // Toujours supprimer le fichier uploadé, y compris sur les chemins
       // d'erreur : avec le worker, une requête hostile revient vite en 4xx au

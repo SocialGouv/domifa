@@ -161,6 +161,10 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       bucketName: configParser.parseString(x, "S3_BUCKET_NAME"),
       bucketRootDir: configParser.parseString(x, "S3_BUCKET_ROOT_DIR"),
     },
+    antivirus: {
+      host: configParser.parseString(x, "CLAMAV_HOST"),
+      port: configParser.parseInteger(x, "CLAMAV_PORT", { defaultValue: 3310 }),
+    },
     dev: {
       sentry: {
         enabled:
