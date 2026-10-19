@@ -84,12 +84,7 @@ export class AuthGuard {
         this.toastService.error(
           "Vos droits ne vous permettent pas d'accéder à cette page"
         );
-        // Falling back to /manage when /manage itself is the denied route
-        // re-runs this guard forever — each pass hits /structures/auth/me,
-        // the throttler answers 429 and auto-blocks the account.
-        this.router.navigate([
-          state.url.startsWith("/manage") ? "/" : "/manage",
-        ]);
+        this.router.navigate(["/manage"]);
         return false;
       }),
       catchError(() => {

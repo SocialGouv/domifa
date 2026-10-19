@@ -10,15 +10,26 @@ import {
 } from "@edugouvfr/ngx-dsfr";
 import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 import { HttpErrorResponse } from "@angular/common/http";
-import { Subscription, take } from "rxjs";
+import { combineLatest, Subscription, take } from "rxjs";
 
-import { StructureAdmin } from "@domifa/common";
+import {
+  getPasswordChangeStatus,
+  StructureAdmin,
+  SUPPORT_ATTACHMENT_DURATION_MS,
+  UsersForAdminList,
+} from "@domifa/common";
 
 import {
   selectAreStructuresLoaded,
   selectStructureByUuid,
   StructuresActions,
 } from "../../../shared/store/structures";
+import {
+  selectAllAdminUsers,
+  selectAreAdminUsersLoaded,
+  selectIsAdminUsersLoading,
+  UsersActions,
+} from "../../../shared/store/users";
 import { StructureService } from "../../services/structure.service";
 import { AdminAuthService } from "../../../admin-auth/services/admin-auth.service";
 import { CustomToastService } from "../../../shared/services";
@@ -50,6 +61,8 @@ export class AdminStructureContainerComponent implements OnInit, OnDestroy {
   public structure?: StructureAdmin;
   public loading = true;
   public activatingSupportSession = false;
+  public checkingSupportEligibility = false;
+  public supportActivationError: string | null = null;
   private readonly subscription = new Subscription();
 
   @ViewChild("supportSessionModal")
@@ -103,6 +116,21 @@ export class AdminStructureContainerComponent implements OnInit, OnDestroy {
         },
       })
     );
+
+    if (this.canUseSupportMode) {
+      this.subscription.add(
+        combineLatest([
+          this.store.select(selectAllAdminUsers),
+          this.store.select(selectIsAdminUsersLoading),
+          this.store.select(selectAreAdminUsersLoaded),
+        ]).subscribe(([users, loading, loaded]) => {
+          this.checkingSupportEligibility = loading;
+          // Not loaded (or failed): leave the decision to the server-side check.
+          this.supportActivationError =
+            loading || !loaded ? null : this.getSupportActivationError(users);
+        })
+      );
+    }
   }
 
   ngOnDestroy(): void {
@@ -110,11 +138,18 @@ export class AdminStructureContainerComponent implements OnInit, OnDestroy {
   }
 
   public openSupportSessionModal(): void {
+    // Always refetch: the admin may have just renewed their password.
+    this.store.dispatch(UsersActions.load());
     this.supportSessionModal.open();
   }
 
   public activateSupportSession(): void {
-    if (!this.structure || this.activatingSupportSession) {
+    if (
+      !this.structure ||
+      this.activatingSupportSession ||
+      this.checkingSupportEligibility ||
+      this.supportActivationError
+    ) {
       return;
     }
     this.activatingSupportSession = true;
@@ -141,5 +176,26 @@ export class AdminStructureContainerComponent implements OnInit, OnDestroy {
           );
         },
       });
+  }
+
+  private getSupportActivationError(users: UsersForAdminList[]): string | null {
+    const email = this.adminAuthService.currentUserValue?.email?.toLowerCase();
+    const account = users.find(
+      (user) => user.status === "ACTIVE" && user.email.toLowerCase() === email
+    );
+    if (!account) {
+      return SUPPORT_ACTIVATION_ERRORS["SUPPORT_TARGET_ACCOUNT_NOT_FOUND"];
+    }
+
+    const attachmentEnd = new Date(Date.now() + SUPPORT_ATTACHMENT_DURATION_MS);
+    const passwordStatus = getPasswordChangeStatus(
+      account.passwordLastUpdate,
+      account.createdAt,
+      attachmentEnd
+    );
+    if (passwordStatus === "EXPIRED") {
+      return SUPPORT_ACTIVATION_ERRORS["SUPPORT_TARGET_PASSWORD_EXPIRED"];
+    }
+    return null;
   }
 }

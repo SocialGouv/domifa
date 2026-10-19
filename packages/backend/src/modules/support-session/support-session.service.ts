@@ -8,6 +8,7 @@ import { LessThanOrEqual } from "typeorm";
 import {
   ActivateSupportSessionResponse,
   getPasswordChangeStatus,
+  SUPPORT_ATTACHMENT_DURATION_MS,
   SupportSession,
   SupportSessionRevokedReason,
   UserStructure,
@@ -30,7 +31,6 @@ import {
 } from "../app-logs/app-log-security-writer";
 
 export const SUPPORT_MODE_ALLOWED_EMAIL_DOMAIN = "@fabrique.social.gouv.fr";
-const SUPPORT_ATTACHMENT_DURATION_MS = 60 * 60 * 1000; // 1h
 
 const CLOSED_REASON_BY_SUPPORT_REASON: Record<
   SupportSessionRevokedReason,
