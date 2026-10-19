@@ -39,6 +39,10 @@ export type DomifaConfig = {
     bucketName: string; // S3_BUCKET_NAME
     bucketRegion: string; //  S3_BUCKET_REGION
   };
+  antivirus: {
+    host: string; // CLAMAV_HOST
+    port: number; // CLAMAV_PORT
+  };
   dev: {
     sentry: {
       enabled: boolean; // DOMIFA_SENTRY_ENABLED (default: enabled if SENTRY_DSN is defined)

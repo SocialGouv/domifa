@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from "@angular/common/http";
+import { HttpErrorResponse, HttpEventType } from "@angular/common/http";
 import {
   Component,
   ElementRef,
@@ -18,6 +18,7 @@ import { Router } from "@angular/router";
 
 import { Subscription } from "rxjs";
 import { LoadingService } from "../../../shared/services";
+import { UPLOAD_LOADING_LABELS } from "../../../shared/services/loading.constants";
 import { CustomToastService } from "../../../shared/services/custom-toast.service";
 import { ImportUsagersService } from "../../import-usagers.service";
 
@@ -29,6 +30,8 @@ import {
   UserStructure,
   UsagersImportMode,
   ImportDocumentType,
+  ANTIVIRUS_ERROR_LABELS,
+  AntivirusErrorCode,
 } from "@domifa/common";
 import { Store } from "@ngrx/store";
 import { usagerActions, UsagerState } from "../../../../shared";
@@ -137,7 +140,7 @@ export class ImportComponent implements OnInit, OnDestroy {
   }
 
   public submitFile(submittedImportMode: UsagersImportMode) {
-    this.loadingService.startLoading();
+    this.loadingService.startLoading(UPLOAD_LOADING_LABELS.UPLOADING);
 
     const formData = new FormData();
     formData.append("file", this.uploadForm.controls.fileInput.value);
@@ -147,7 +150,13 @@ export class ImportComponent implements OnInit, OnDestroy {
         .import(submittedImportMode, formData)
         .subscribe({
           error: (error: HttpErrorResponse) => {
-            this.toastService.error("Le fichier n'a pas pu être importé ");
+            const antivirusError =
+              ANTIVIRUS_ERROR_LABELS[
+                error.error?.message as AntivirusErrorCode
+              ];
+            this.toastService.error(
+              antivirusError ?? "Le fichier n'a pas pu être importé "
+            );
             this.loadingService.stopLoading();
 
             if (error.error?.previewTable) {
@@ -158,7 +167,20 @@ export class ImportComponent implements OnInit, OnDestroy {
               this.backToEtapeSelectFile();
             }
           },
-          next: ({ importMode, previewTable }) => {
+          next: (event) => {
+            if (
+              event.type === HttpEventType.UploadProgress &&
+              event.total &&
+              event.loaded >= event.total
+            ) {
+              this.loadingService.setLabel(UPLOAD_LOADING_LABELS.SCANNING);
+              return;
+            }
+            if (event.type !== HttpEventType.Response || !event.body) {
+              return;
+            }
+
+            const { importMode, previewTable } = event.body;
             this.loadingService.stopLoading();
             if (importMode === "preview") {
               this.showTable = true;

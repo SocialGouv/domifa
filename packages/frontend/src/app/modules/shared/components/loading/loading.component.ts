@@ -4,6 +4,7 @@ import { debounceTime } from "rxjs/operators";
 import { fadeInOut } from "../../../../shared";
 
 import { LoadingService } from "../../services/loading.service";
+import { DEFAULT_LOADING_LABEL } from "../../services/loading.constants";
 import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 
 @Component({
@@ -15,6 +16,7 @@ import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 })
 export class LoadingComponent implements OnInit, OnDestroy {
   public loading = false;
+  public label = DEFAULT_LOADING_LABEL;
   public loadingSubscription: Subscription;
 
   constructor(private readonly loadingService: LoadingService) {
@@ -27,6 +29,11 @@ export class LoadingComponent implements OnInit, OnDestroy {
       .subscribe((value) => {
         this.loading = value;
       });
+    this.loadingSubscription.add(
+      this.loadingService.loadingLabel.subscribe((label) => {
+        this.label = label;
+      })
+    );
   }
 
   public ngOnDestroy(): void {

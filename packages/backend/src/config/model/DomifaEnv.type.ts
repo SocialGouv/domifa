@@ -20,6 +20,10 @@ export type DomifaEnv = {
   S3_BUCKET_REGION: string;
   S3_BUCKET_ROOT_DIR: string;
 
+  // Antivirus
+  CLAMAV_HOST: string;
+  CLAMAV_PORT: string;
+
   DOMIFA_ENV_ID: string;
   DOMIFA_VERSION: string;
   DOMIFA_EMAILS_ENABLE: string;

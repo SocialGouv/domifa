@@ -1,7 +1,8 @@
 import { HttpStatus } from "@nestjs/common";
 
-import { pathExists } from "fs-extra";
-import { resolve } from "path";
+import { outputFile, pathExists, remove } from "fs-extra";
+import { tmpdir } from "os";
+import { join, resolve } from "path";
 
 import { StructuresModule } from "../../../modules/structures/structure.module";
 import { UsersModule } from "../../../modules/users/users.module";
@@ -19,6 +20,7 @@ import { UsagersModule } from "../../usagers.module";
 import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
 import { appLogsRepository } from "../../../database";
 import { MailsModule } from "../../../modules/mails/mails.module";
+import { AntivirusModule } from "../../../modules/antivirus";
 
 const importFilesDir = resolve(
   __dirname,
@@ -34,7 +36,13 @@ describe("Import Controller", () => {
     context = await AppTestHelper.bootstrapTestApp(
       {
         controllers: [ImportController],
-        imports: [UsersModule, StructuresModule, UsagersModule, MailsModule],
+        imports: [
+          UsersModule,
+          StructuresModule,
+          UsagersModule,
+          MailsModule,
+          AntivirusModule,
+        ],
         providers: [UsagersService, UsagerHistoryStateService, AppLogsService],
       },
       { initApp: true }
@@ -57,6 +65,31 @@ describe("Import Controller", () => {
 
   it("should be defined", () => {
     expect(controller).toBeDefined();
+  });
+
+  it(`❌ Import d'un fichier infecté, bloqué par l'antivirus`, async () => {
+    // Built at runtime so the repository never contains the EICAR signature
+    const eicar = [
+      "X5O!P%@AP[4\\PZX54(P^)7CC)7}$",
+      "EICAR-STANDARD-ANTIVIRUS-",
+      "TEST-FILE!$H+H*",
+    ].join("");
+    const infectedFilePath = join(tmpdir(), `domifa-eicar-${Date.now()}.xlsx`);
+    await outputFile(infectedFilePath, eicar);
+
+    try {
+      const response = await AppTestHttpClient.post("/import/preview", {
+        headers: { "Content-Type": "multipart/form-data" },
+        attachments: { file: infectedFilePath },
+        context,
+      });
+
+      expect(response.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
+      expect(JSON.parse(response.text).message).toBe("FILE_INFECTED");
+      expect(await appLogsRepository.count()).toBe(0);
+    } finally {
+      await remove(infectedFilePath);
+    }
   });
 
   it(`❌ Import d'un fichier Incorrect`, async () => {
