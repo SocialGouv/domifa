@@ -9,6 +9,13 @@ const ESM_PACKAGES = [
   "domelementtype",
   "dom-serializer",
   "entities",
+  // file-type and its ESM dependencies
+  "file-type",
+  "strtok3",
+  "token-types",
+  "uint8array-extras",
+  "@tokenizer/inflate",
+  "@borewit/text-codec",
 ];
 
 const config: Config = {

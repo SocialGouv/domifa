@@ -1,9 +1,12 @@
 import {
+  BadRequestException,
   ServiceUnavailableException,
   UnprocessableEntityException,
 } from "@nestjs/common";
+import { readFileSync } from "fs";
 import { StorageEngine } from "multer";
 import { PassThrough } from "node:stream";
+import { resolve } from "path";
 
 import { ExpressRequest } from "../../util/express";
 import { AntivirusService } from "./antivirus.service";
@@ -14,16 +17,22 @@ jest.mock("./antivirus.service", () => ({
   AntivirusService: class MockAntivirusService {},
 }));
 
-const CONTENT = Buffer.from("nom;prenom\nDupont;Jean\n");
+const XLSX_MIME_TYPE =
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+const XLSX_CONTENT = readFileSync(
+  resolve(__dirname, "../../_static/usagers-import-test/import_ok_1.xlsx")
+);
 
-function buildFile(truncated = false): Express.Multer.File {
+function buildFile(
+  content: Buffer = XLSX_CONTENT,
+  truncated = false
+): Express.Multer.File {
   const stream = Object.assign(new PassThrough(), { truncated });
-  setImmediate(() => stream.end(CONTENT));
+  setImmediate(() => stream.end(content));
   return {
     fieldname: "file",
     originalname: "import.xlsx",
-    mimetype:
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    mimetype: XLSX_MIME_TYPE,
     stream,
   } as unknown as Express.Multer.File;
 }
@@ -60,7 +69,8 @@ describe("AntivirusStorageEngine", () => {
 
     engine = new AntivirusStorageEngine(
       { scanBuffer } as unknown as AntivirusService,
-      innerStorage
+      innerStorage,
+      [XLSX_MIME_TYPE]
     );
   });
 
@@ -70,8 +80,22 @@ describe("AntivirusStorageEngine", () => {
     const { error, info } = await handleFile(engine, buildFile());
 
     expect(error).toBeNull();
-    expect(scanBuffer).toHaveBeenCalledWith(CONTENT);
-    expect(info?.buffer).toEqual(CONTENT);
+    expect(scanBuffer).toHaveBeenCalledWith(XLSX_CONTENT);
+    expect(info?.buffer).toEqual(XLSX_CONTENT);
+  });
+
+  it("rejects a file whose content is not an allowed type, before scanning it", async () => {
+    const { error } = await handleFile(
+      engine,
+      buildFile(Buffer.from("nom;prenom\nDupont;Jean\n"))
+    );
+
+    expect(error).toBeInstanceOf(BadRequestException);
+    expect((error as BadRequestException).getResponse()).toEqual({
+      message: "INCORRECT_FORMAT",
+    });
+    expect(scanBuffer).not.toHaveBeenCalled();
+    expect(innerHandleFile).not.toHaveBeenCalled();
   });
 
   it("rejects an infected file before it reaches the storage", async () => {
@@ -102,7 +126,7 @@ describe("AntivirusStorageEngine", () => {
   });
 
   it("does not scan a file truncated by the size limit", async () => {
-    const { error } = await handleFile(engine, buildFile(true));
+    const { error } = await handleFile(engine, buildFile(XLSX_CONTENT, true));
 
     expect(error).toBeInstanceOf(Error);
     expect(scanBuffer).not.toHaveBeenCalled();
