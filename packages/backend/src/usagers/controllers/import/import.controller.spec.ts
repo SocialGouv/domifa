@@ -1,6 +1,7 @@
 import { HttpStatus } from "@nestjs/common";
 
-import { outputFile, pathExists, remove } from "fs-extra";
+import { outputFile, pathExists, readFile, remove } from "fs-extra";
+import PizZip from "pizzip";
 import { tmpdir } from "os";
 import { join, resolve } from "path";
 
@@ -67,29 +68,63 @@ describe("Import Controller", () => {
     expect(controller).toBeDefined();
   });
 
-  it(`❌ Import d'un fichier infecté, bloqué par l'antivirus`, async () => {
+  describe("contrôle du type puis antivirus", () => {
     // Built at runtime so the repository never contains the EICAR signature
     const eicar = [
       "X5O!P%@AP[4\\PZX54(P^)7CC)7}$",
       "EICAR-STANDARD-ANTIVIRUS-",
       "TEST-FILE!$H+H*",
     ].join("");
-    const infectedFilePath = join(tmpdir(), `domifa-eicar-${Date.now()}.xlsx`);
-    await outputFile(infectedFilePath, eicar);
 
-    try {
-      const response = await AppTestHttpClient.post("/import/preview", {
-        headers: { "Content-Type": "multipart/form-data" },
-        attachments: { file: infectedFilePath },
-        context,
-      });
+    const postTmpFile = async (
+      content: Buffer | string,
+      extension = "xlsx"
+    ) => {
+      const filePath = join(
+        tmpdir(),
+        `domifa-import-${Date.now()}.${extension}`
+      );
+      await outputFile(filePath, content);
+      try {
+        return await AppTestHttpClient.post("/import/preview", {
+          headers: { "Content-Type": "multipart/form-data" },
+          attachments: { file: filePath },
+          context,
+        });
+      } finally {
+        await remove(filePath);
+      }
+    };
+
+    it(`❌ Extension et type déclaré non autorisés : refusé avant lecture du contenu`, async () => {
+      const response = await postTmpFile("nom;prenom", "txt");
+
+      expect(response.status).toBe(HttpStatus.BAD_REQUEST);
+      expect(JSON.parse(response.text).message).toBe("INCORRECT_FORMAT");
+    });
+
+    it(`❌ Fichier renommé en .xlsx : refusé par le contrôle du type, avant l'antivirus`, async () => {
+      const response = await postTmpFile(eicar);
+
+      expect(response.status).toBe(HttpStatus.BAD_REQUEST);
+      expect(JSON.parse(response.text).message).toBe("INCORRECT_FORMAT");
+      expect(await appLogsRepository.count()).toBe(0);
+    });
+
+    it(`❌ Vrai fichier Excel infecté : bloqué par l'antivirus`, async () => {
+      const xlsx = new PizZip(
+        await readFile(resolve(importFilesDir, "import_ok_1.xlsx"))
+      );
+      xlsx.file("xl/embeddings/oleObject1.bin", eicar);
+
+      const response = await postTmpFile(
+        xlsx.generate({ type: "nodebuffer", compression: "DEFLATE" })
+      );
 
       expect(response.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
       expect(JSON.parse(response.text).message).toBe("FILE_INFECTED");
       expect(await appLogsRepository.count()).toBe(0);
-    } finally {
-      await remove(infectedFilePath);
-    }
+    });
   });
 
   it(`❌ Import d'un fichier Incorrect`, async () => {

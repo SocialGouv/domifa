@@ -14,9 +14,11 @@ import { AntivirusService } from "./antivirus.service";
 import { AntivirusStorageEngine } from "./antivirus-storage.engine";
 
 // Drop-in replacement for FileInterceptor: the file reaches `storage`
-// (memory by default) only after a clean antivirus scan.
+// (memory by default) only once its detected type is allowed and the
+// antivirus scan is clean.
 export function AntivirusFileInterceptor(
   fieldName: string,
+  allowedMimeTypes: readonly string[],
   localOptions: MulterModuleOptions = {}
 ): Type<NestInterceptor> {
   class MixinInterceptor implements NestInterceptor {
@@ -27,7 +29,8 @@ export function AntivirusFileInterceptor(
         ...localOptions,
         storage: new AntivirusStorageEngine(
           antivirusService,
-          localOptions.storage ?? memoryStorage()
+          localOptions.storage ?? memoryStorage(),
+          allowedMimeTypes
         ),
       });
       this.fileInterceptor = new Interceptor();

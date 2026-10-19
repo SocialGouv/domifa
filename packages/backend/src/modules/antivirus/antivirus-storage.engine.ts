@@ -1,8 +1,10 @@
 import {
+  BadRequestException,
   ServiceUnavailableException,
   UnprocessableEntityException,
 } from "@nestjs/common";
 import { AntivirusErrorCode } from "@domifa/common";
+import { fileTypeFromBuffer } from "file-type/core";
 import { StorageEngine } from "multer";
 import { Readable } from "node:stream";
 
@@ -17,12 +19,14 @@ type StorageCallback = (
   info?: Partial<Express.Multer.File>
 ) => void;
 
-// Buffers the upload in memory and only hands it to the wrapped storage once
-// clamd reports it clean: nothing is written to disk or S3 before the verdict.
+// Buffers the upload in memory, checks its real type (magic bytes) then scans
+// it, and only hands it to the wrapped storage once both pass: nothing is
+// written to disk or S3 before that.
 export class AntivirusStorageEngine implements StorageEngine {
   constructor(
     private readonly antivirusService: AntivirusService,
-    private readonly storage: StorageEngine
+    private readonly storage: StorageEngine,
+    private readonly allowedMimeTypes: readonly string[]
   ) {}
 
   public _handleFile(
@@ -35,7 +39,7 @@ export class AntivirusStorageEngine implements StorageEngine {
     file.stream.on("data", (chunk: Buffer) => chunks.push(chunk));
     file.stream.once("error", (error) => callback(error));
     file.stream.once("end", () => {
-      void this.scanAndStore(req, file, Buffer.concat(chunks), callback);
+      void this.processUpload(req, file, Buffer.concat(chunks), callback);
     });
   }
 
@@ -47,7 +51,7 @@ export class AntivirusStorageEngine implements StorageEngine {
     this.storage._removeFile(req, file, callback);
   }
 
-  private async scanAndStore(
+  private async processUpload(
     req: ExpressRequest,
     file: Express.Multer.File,
     buffer: Buffer,
@@ -65,6 +69,14 @@ export class AntivirusStorageEngine implements StorageEngine {
       mimetype: file.mimetype,
       size: buffer.length,
     };
+
+    const fileType = await fileTypeFromBuffer(buffer);
+    if (!fileType || !this.allowedMimeTypes.includes(fileType.mime)) {
+      appLogger.warn("[UPLOAD] File content does not match allowed types", {
+        context: { ...context, detectedMimeType: fileType?.mime },
+      });
+      return callback(new BadRequestException({ message: "INCORRECT_FORMAT" }));
+    }
 
     let result: AntivirusScanResult;
     try {
