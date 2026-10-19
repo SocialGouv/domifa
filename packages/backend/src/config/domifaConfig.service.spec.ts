@@ -43,6 +43,8 @@ describe("loadConfig", () => {
     expect(config.dev.sentry.enabled).toEqual(false);
 
     expect(config.email.emailsEnabled).toEqual(false);
+
+    expect(config.antivirus).toEqual({ host: "localhost", port: 3310 });
   });
 
   it("loadConfig DEV (default)", () => {
@@ -84,6 +86,8 @@ describe("loadConfig", () => {
     expect(config.email.emailsEnabled).toEqual(false);
 
     expect(config.sms.enabled).toEqual(false);
+
+    expect(config.antivirus).toEqual({ host: "localhost", port: 3310 });
   });
 
   it("loadConfig PROD (default)", () => {
