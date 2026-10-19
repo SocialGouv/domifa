@@ -12,9 +12,9 @@ fileignoreconfig:
 - filename: .kontinuous/env/dev/templates/backend.sealed-secret.yaml
   checksum: 9f30eb02d9cd7dc6cad74594ac23f040e8595531f5b9a4c9cf370231f8714df2
 - filename: .kontinuous/env/preprod/templates/backend.sealed-secret.yaml
-  checksum: 80935aa31e4cdc001d755b0ab13c0d4f72b0cf7a72bac2820cf841acec403d32
+  checksum: ba9164f467c2fc079a71e524eecbc0f4e2bc5a9665a393c188d72768a92fd1ee
 - filename: .kontinuous/env/prod/templates/backend.sealed-secret.yaml
-  checksum: 9386738b9f3f377080f5f584222df91d740e3d2e72539e91d68b39944d6f36e6
+  checksum: cecaf8a302c8baa088c006e45e964ef6a7e4aafaeca78d3fdb66aa5ae2615c73
 - filename: \_scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
   checksum: 7a73d6f2d9c5b16f26d2e40ca9e9408111391c1bb7a739ab73daad60254507e4
 - filename: \_scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
