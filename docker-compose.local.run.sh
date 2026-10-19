@@ -80,10 +80,10 @@ if [ "$WITH_DEV_CONTAINERS" == "true" ]; then
   (set -x && APP_DIR=$(pwd) docker-compose --project-name domifa --env-file ./.env -f ./docker-compose.local.yml up --build --detach --force-recreate)
 else
   echo "###########################################"
-  echo "# [INFO] START domifa containers: postgres (only)"
+  echo "# [INFO] START domifa containers: postgres + minio + clamav"
   echo "###########################################"
-  # start postgres only (with initial dumps)
-  (set -x && APP_DIR=$(pwd) docker-compose --project-name domifa --env-file ./.env -f ./docker-compose.local.yml up --build --detach --force-recreate postgres minio)
+  # start postgres (with initial dumps), minio and clamav
+  (set -x && APP_DIR=$(pwd) docker-compose --project-name domifa --env-file ./.env -f ./docker-compose.local.yml up --build --detach --force-recreate postgres minio clamav)
 fi
 
 (set -x && docker ps -a)
