@@ -89,6 +89,15 @@ export class AppComponent implements OnInit {
             routerLink: "/stats",
           },
         ];
+
+        // DREETS manage the DDETS accounts of their region
+        if (user.role === "region") {
+          this.menuHeaderItems.push({
+            linkId: "utilisateurs",
+            label: "Utilisateurs département",
+            routerLink: "/utilisateurs",
+          });
+        }
       }
     );
 

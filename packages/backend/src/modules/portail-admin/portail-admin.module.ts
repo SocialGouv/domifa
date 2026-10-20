@@ -11,8 +11,10 @@ import { AdminStructuresService } from "./services";
 import { FileManagerService } from "../../util/file-manager/file-manager.service";
 import { NationalStatsController } from "./controllers/national-stats/national-stats.controller";
 import { AdminUsersController } from "./controllers/admin-users/admin-users.controller";
+import { RegionUsersController } from "./controllers/region-users/region-users.controller";
 import { AdminSecurityService } from "./services/admin-security/admin-security.service";
 import { AdminSuperivorUsersService } from "./services/admin-superivor-users/admin-superivor-users.service";
+import { RegionDepartmentUsersService } from "./services/region-department-users/region-department-users.service";
 import { MailsModule } from "../mails/mails.module";
 import { StructureDecisionEmailService } from "./services/structure-decision-email/structure-decision-email.service";
 import { StructureDecisionService } from "./services/structure-decision/structure-decision.service";
@@ -29,6 +31,7 @@ import { SupportSessionModule } from "../support-session/support-session.module"
     PortailAdminLoginController,
     NationalStatsController,
     AdminUsersController,
+    RegionUsersController,
   ],
 
   imports: [
@@ -44,6 +47,7 @@ import { SupportSessionModule } from "../support-session/support-session.module"
     AdminStructuresService,
     FileManagerService,
     AdminSuperivorUsersService,
+    RegionDepartmentUsersService,
     StructureDecisionEmailService,
     StructureDecisionService,
     UserStructureDecisionService,
