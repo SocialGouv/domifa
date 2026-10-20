@@ -189,10 +189,12 @@
         </div>
       </div>
       <div class="fr-grid-row fr-grid-row--gutters">
-        <app-user-structure-password-form
-          [parentFormGroup]="userForm"
-          [submitted]="submitted"
-        ></app-user-structure-password-form>
+        <div class="fr-col-12">
+          <app-user-structure-password-form
+            [parentFormGroup]="userForm"
+            [submitted]="submitted"
+          ></app-user-structure-password-form>
+        </div>
       </div>
       <br />
       <ul
