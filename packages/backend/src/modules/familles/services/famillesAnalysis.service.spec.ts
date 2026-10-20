@@ -11,6 +11,7 @@ import {
 } from "./famillesAnalysis.service";
 import { FAMILLES_ANALYSIS_COLUMNS } from "../constants/FAMILLES_ANALYSIS.const";
 import { StructureFamillesRow } from "../types/famillesAnalysis.types";
+import { normalizeCompareKey } from "./famillesMatching";
 
 jest.mock("../../../util", () => ({
   ...jest.requireActual("../../../util"),
@@ -141,7 +142,7 @@ describe("computeStructureFamillesRow — conjoint outcomes", () => {
   it("flags a conjoint that only has a dossier in another structure", () => {
     const row = analyse(
       [alice(ad("Martin", "Bob", "CONJOINT", "1982-07-07"))],
-      ["1982-07-07|martin|bob"]
+      [`1982-07-07|${normalizeCompareKey("Martin", "Bob")}`]
     );
 
     expect(row.conjoints_autre_structure).toBe(1);
@@ -199,7 +200,10 @@ describe("computeStructureFamillesRow — cohorts", () => {
     person("joseph", "Durand", "Joseph", "2001-03-03"),
     person("jean", "Durand", "Jean", "1945-01-01"),
   ];
-  const elsewhere = ["1974-05-05|autre|personne", "2002-04-04|durand|zoe"];
+  const elsewhere = [
+    `1974-05-05|${normalizeCompareKey("Autre", "Personne")}`,
+    `2002-04-04|${normalizeCompareKey("Durand", "Zoe")}`,
+  ];
 
   it("splits every cohort into sub-groups that add up to its base", () => {
     const row = analyse(dossiers, elsewhere);
