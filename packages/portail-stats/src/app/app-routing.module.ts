@@ -23,6 +23,16 @@ const routes: Routes = [
       import("./modules/stats/stats.module").then((m) => m.StatsModule),
   },
   {
+    path: "utilisateurs",
+    title: "Utilisateurs département - Pilotage DomiFa",
+    canActivate: [AuthGuard],
+    data: { roles: ["region"] },
+    loadChildren: () =>
+      import("./modules/region-users/region-users.module").then(
+        (m) => m.RegionUsersModule
+      ),
+  },
+  {
     path: "",
     canActivate: [RoleRedirectGuard],
     pathMatch: "full",
