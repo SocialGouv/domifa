@@ -1,3 +1,18 @@
+# [2.285.0](https://github.com/SocialGouv/domifa/compare/v2.284.0...v2.285.0) (2026-10-21)
+
+
+### Bug Fixes
+
+* align signup form ([593c6ef](https://github.com/SocialGouv/domifa/commit/593c6efb3bc3a6f8bef8d487a3a354750de8d366))
+* **back:** code review ([a060d2a](https://github.com/SocialGouv/domifa/commit/a060d2a2608188f23cde48574fac9588f9fe2cd9))
+* **backend, frontend:** support mode fixes ([c591e6e](https://github.com/SocialGouv/domifa/commit/c591e6e05e5ac614ebc05db462723837a218bacb))
+
+
+### Features
+
+* **back:** code review ([bb63adf](https://github.com/SocialGouv/domifa/commit/bb63adfce6c1f0890caee265df836e5028388dc3))
+* **back, front:** fix code review ([746ead9](https://github.com/SocialGouv/domifa/commit/746ead90fef4ca9de227dde6b2af1de0528f0039))
+
 # [2.284.0](https://github.com/SocialGouv/domifa/compare/v2.283.0...v2.284.0) (2026-10-14)
 
 
