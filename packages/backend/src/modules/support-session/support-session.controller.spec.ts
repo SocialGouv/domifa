@@ -124,6 +124,7 @@ describe("Support mode — an admin's own structure account attached to a struct
         status: "ACTIVE",
         password: structurePasswordHash,
         structureId: homeStructure.id,
+        passwordLastUpdate: new Date(),
       })
     );
     activatingAdminAccountId = savedAccount.id;
@@ -214,6 +215,30 @@ describe("Support mode — an admin's own structure account attached to a struct
     );
 
     expect(response.status).toEqual(400);
+  });
+
+  it("rejects attachment while the admin's structure password is expired", async () => {
+    await userStructureRepository.update(
+      { id: activatingAdminAccountId },
+      { passwordLastUpdate: new Date("2020-01-01T00:00:00Z") }
+    );
+
+    const response = await AppTestHttpClient.post(
+      `/admin/structures/structure/${targetStructureUuid}/support-session`,
+      { context }
+    );
+
+    await userStructureRepository.update(
+      { id: activatingAdminAccountId },
+      { passwordLastUpdate: new Date() }
+    );
+
+    expect(response.status).toEqual(400);
+    expect(response.body.message).toEqual("SUPPORT_TARGET_PASSWORD_EXPIRED");
+    const account = await userStructureRepository.findOneByOrFail({
+      id: activatingAdminAccountId,
+    });
+    expect(account.role).toEqual("admin");
   });
 
   it("attaches the admin's own structure account to a structure", async () => {
@@ -314,6 +339,23 @@ describe("Support mode — an admin's own structure account attached to a struct
     expect(response.status).toEqual(200);
   });
 
+  it("lets the support account accept the CGU for its own account", async () => {
+    await userStructureRepository.update(
+      { id: activatingAdminAccountId },
+      { acceptTerms: null }
+    );
+
+    const response = await AppTestHttpClient.get("/users/accept-terms", {
+      context: supportContext,
+    });
+
+    expect(response.status).toEqual(200);
+    const account = await userStructureRepository.findOneByOrFail({
+      id: activatingAdminAccountId,
+    });
+    expect(account.acceptTerms).not.toBeNull();
+  });
+
   it("blocks a write action (ajout de courrier)", async () => {
     const response = await AppTestHttpClient.post("/interactions/1", {
       context: supportContext,
@@ -367,5 +409,47 @@ describe("Support mode — an admin's own structure account attached to a struct
     expect(replay.body.role).toEqual("admin");
     expect(replay.body.structureId).toEqual(account.structureId);
     expect(replay.body.structureId).not.toEqual(targetStructureId);
+  });
+
+  it("closes an attachment past expiresAt on login, before the cron runs, so the admin is not locked out", async () => {
+    const activation = await AppTestHttpClient.post(
+      `/admin/structures/structure/${targetStructureUuid}/support-session`,
+      { context }
+    );
+    expect(activation.status).toEqual(201);
+
+    // Simulates the window between expiresAt and the next cron tick.
+    await supportSessionRepository.update(
+      { targetUserStructureId: activatingAdminAccountId, status: "ACTIVE" },
+      { expiresAt: new Date(Date.now() - 60 * 1000) }
+    );
+
+    const loginContext: AppTestContext = {
+      module: context.module,
+      app: context.app,
+    };
+    await AppTestHelper.authenticateStructure(
+      {
+        uuid: activatingAdminAccountUuid,
+        id: activatingAdminAccountId,
+        structureId: 1,
+        email: ACTIVATING_ADMIN_EMAIL,
+        password: ACTIVATING_STRUCTURE_PASSWORD,
+        role: "admin",
+      },
+      { context: loginContext }
+    );
+
+    const me = await AppTestHttpClient.get("/structures/auth/me", {
+      context: loginContext,
+    });
+    expect(me.status).toEqual(200);
+    expect(me.body.role).toEqual("admin");
+
+    const expired = await supportSessionRepository.findOneByOrFail({
+      targetUserStructureId: activatingAdminAccountId,
+      revokedReason: "EXPIRED",
+    });
+    expect(expired.status).toEqual("EXPIRED");
   });
 });

@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { differenceInCalendarDays } from "date-fns";
 import * as jwt from "jsonwebtoken";
-import { Not } from "typeorm";
+import { MoreThan, Not } from "typeorm";
 import { domifaConfig } from "../../config";
 import {
   userStructureRepository,
@@ -167,6 +167,13 @@ export class StructuresAuthService {
       return false;
     }
 
+    // A support attachment is not activity of the attached structure (nor of
+    // the admin's own account in it): don't bump lastLogin or log a
+    // REACTIVATION_* for a dormant structure the support is just inspecting.
+    if (authUser.role === "support") {
+      return authUser;
+    }
+
     const today = new Date();
 
     await this.handleReactivationCheck(
@@ -290,15 +297,16 @@ export class StructuresAuthService {
     let structureId = user.structureId;
     let supportAttachmentExpiresAt: Date | undefined;
     if (user.role === "support") {
+      // `status === "ACTIVE"` only reflects what the expiry cron has processed
+      // so far: filtering on expiresAt makes the cutoff immediate.
       const attachment = await supportSessionRepository.findOne({
-        where: { targetUserStructureId: user.id, status: "ACTIVE" },
+        where: {
+          targetUserStructureId: user.id,
+          status: "ACTIVE",
+          expiresAt: MoreThan(new Date()),
+        },
       });
-      // `status === "ACTIVE"` alone isn't enough: it only reflects what the
-      // 10-minute expiry cron has processed so far. Comparing expiresAt here
-      // makes the cutoff immediate and independent of that cron (which can be
-      // disabled per-env via isCronEnabled()), instead of granting up to ~10
-      // extra minutes of access past the advertised attachment window.
-      if (!attachment || attachment.expiresAt.getTime() <= Date.now()) {
+      if (!attachment) {
         return false;
       }
       structureId = attachment.structureId;

@@ -227,7 +227,15 @@ export class AuthService {
   }
 
   private setUser(user: UserStructure) {
-    const backend = user.role === "support" ? sessionStorage : localStorage;
+    const isSupport = user.role === "support";
+    const backend = isSupport ? sessionStorage : localStorage;
+    // The constructor reads sessionStorage first: a leftover entry from the
+    // other backend (attachment just started/ended under an open tab) would
+    // otherwise shadow this one on the next reload.
+    this.safeStorage.removeItem(
+      "currentUser",
+      isSupport ? localStorage : sessionStorage
+    );
     this.safeStorage.setItem("currentUser", JSON.stringify(user), backend);
     this.currentUserSubject.next(user);
 

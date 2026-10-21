@@ -21,6 +21,7 @@
         <div>
           @if (usager.decision.statut !== 'REFUS') {
           <app-button
+            appSupportModeDisable
             label="Télécharger l'attestation de demande"
             icon="download"
             color="secondary"
@@ -29,6 +30,7 @@
           ></app-button>
           } @if (usager.decision.statut !== 'RADIE') {
           <app-button
+            appSupportModeDisable
             [label]="
               usager.decision.statut === 'REFUS'
                 ? 'Télécharger l\'attestation de refus'

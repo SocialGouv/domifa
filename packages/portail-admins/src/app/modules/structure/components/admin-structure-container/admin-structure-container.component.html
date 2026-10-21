@@ -178,6 +178,11 @@
         normalement (email, mot de passe, code de vérification) sur
         l'application structure pour y accéder.
       </p>
+      @if (supportActivationError) {
+      <div class="fr-alert fr-alert--error fr-alert--sm fr-mt-2w">
+        <p>{{ supportActivationError }}</p>
+      </div>
+      }
       <ng-template #modalFooterTemplate>
         <dsfr-buttons-group
           inline="LG"
@@ -187,7 +192,11 @@
         >
           <dsfr-button
             (click)="activateSupportSession()"
-            [disabled]="activatingSupportSession"
+            [disabled]="
+              activatingSupportSession ||
+              checkingSupportEligibility ||
+              !!supportActivationError
+            "
             label="Rattacher"
           ></dsfr-button>
           <dsfr-button

@@ -65,6 +65,7 @@
               <td>{{ decision.userName }}</td>
               <td class="fr-text--right d-print-none">
                 <app-button
+                  appSupportModeDisable
                   *ngIf="decision.statut === 'VALIDE'"
                   label="Télécharger le Cerfa"
                   icon="download"
@@ -73,6 +74,7 @@
                   (action)="getCerfa(decision.uuid)"
                 ></app-button>
                 <app-button
+                  appSupportModeDisable
                   *ngIf="decision.statut === 'REFUS'"
                   [label]="'Télécharger l\'attestation de Refus'"
                   icon="download"
