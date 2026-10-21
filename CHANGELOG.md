@@ -1,3 +1,17 @@
+# [2.286.0](https://github.com/SocialGouv/domifa/compare/v2.285.0...v2.286.0) (2026-10-21)
+
+
+### Bug Fixes
+
+* **back:** beneficiaries migration file ([f1b86cb](https://github.com/SocialGouv/domifa/commit/f1b86cbc8956992f8affb6a17de9d0236fc89c9f))
+* code review ([5cc2692](https://github.com/SocialGouv/domifa/commit/5cc269256c5056cef85f13864c23993b4f5084a2))
+
+
+### Features
+
+* **back:** adding normalization for name and surname ([0935ec7](https://github.com/SocialGouv/domifa/commit/0935ec7d87cdf7e8dbf2b881a1917a4ff799de89))
+* **front:** update nav tab in history page ([4e587d1](https://github.com/SocialGouv/domifa/commit/4e587d154619623e5f025b7e536a3f86c59a3b85))
+
 # [2.285.0](https://github.com/SocialGouv/domifa/compare/v2.284.0...v2.285.0) (2026-10-21)
 
 
