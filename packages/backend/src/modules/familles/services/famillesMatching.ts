@@ -19,10 +19,28 @@ import {
 const PARIS_TZ = "Europe/Paris";
 const DATE_ONLY = /^\d{4}-\d{2}-\d{2}$/;
 
-// Lowercase, no accents, no spaces, no hyphens. Reuses the shared normalizeString
-// (NFKD, accent strip, œ/æ folding) then drops the remaining whitespace.
+// Spelling variants of one name that a typo-based score would otherwise count as
+// differences: ph/f, th/t, kh/k, ck/k, dj/j, a silent h, y/i and doubled
+// letters ("Mohammed" / "Mohamed", "Philippe" / "Filipe", "Khadija" / "Khadidja",
+// "Lyna" / "Lina"). Applied to both sides of every comparison, so it can only
+// bring two spellings closer. "sh" and "ch" keep their h.
+export const foldSpelling = (value: string): string =>
+  value
+    .replace(/ph/g, "f")
+    .replace(/th/g, "t")
+    .replace(/kh/g, "k")
+    .replace(/ck/g, "k")
+    .replace(/dj/g, "j")
+    .replace(/^h/, "")
+    .replace(/([^cs])h/g, "$1")
+    .replace(/y/g, "i")
+    .replace(/(.)\1+/g, "$1");
+
+// Lowercase, no accents, no spaces, no hyphens (the shared normalizeString:
+// NFKD, accent strip, œ/æ folding; then the remaining whitespace is dropped),
+// then the spelling variants are folded.
 const cleanPart = (value: string | null | undefined): string =>
-  normalizeString(value ?? "").replace(/\s/g, "");
+  foldSpelling(normalizeString(value ?? "").replace(/\s/g, ""));
 
 // Normalized "nom|prenom" key used for every name comparison.
 export const normalizeCompareKey = (

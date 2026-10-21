@@ -3,19 +3,22 @@ import { AyantDroiLienParent, UsagerAyantDroit } from "@domifa/common";
 
 import { appLogger, FileManagerService } from "../../../util";
 import {
+  CONJOINT_COUNTERS,
+  ENFANT_MAJEUR_COUNTERS,
   FAMILLES_ANALYSIS_COLUMNS,
   FAMILLES_ANALYSIS_CSV_PATH,
-  FAMILLES_SCORE_DOUTEUX,
-  FAMILLES_SCORE_IDENTIQUE,
-  FAMILLES_SCORE_SAME_PERSON,
+  FAMILLES_COHORTS,
 } from "../constants/FAMILLES_ANALYSIS.const";
 import {
   AyantDroitLight,
+  CohortOutcome,
   DossierLight,
+  RowCounter,
   StructureFamillesRow,
 } from "../types/famillesAnalysis.types";
 import {
   bestMatch,
+  bucketFromScore,
   isAdultOn,
   matchCommonChildren,
   normalizeCompareKey,
@@ -35,6 +38,22 @@ export type UsagerRow = {
   prenom: string;
   dateNaissance: Date;
   ayantsDroits: RawAyantDroit[] | null;
+};
+
+// Counter of the "ayants droit" cohort each link falls into.
+const LIEN_COUNTERS: Record<AyantDroiLienParent, RowCounter> = {
+  CONJOINT: "ayants_droit_conjoints",
+  ENFANT: "ayants_droit_enfants",
+  PARENT: "ayants_droit_parents",
+  AUTRE: "ayants_droit_autres",
+};
+
+type ChildAge = "unknown" | "minor" | "adult";
+
+const CHILD_AGE_COUNTERS: Record<ChildAge, RowCounter> = {
+  unknown: "enfants_sans_date_naissance",
+  minor: "enfants_mineurs",
+  adult: "enfants_majeurs",
 };
 
 // Read-only analysis of how the dossiers and dependants of a same household
@@ -74,12 +93,7 @@ export class FamillesAnalysisService {
         globalExactKeys
       );
       rows.push(row);
-
-      appLogger.warn(
-        `${TAG} structure ${structureId} (${i + 1}/${structureIds.length}) — ` +
-          `${row.dossiers} dossiers, ${row.ayants_droit} dependants, ` +
-          `${row.couples} couples, gap ${row.gap_personnes} (${row.gap_pourcentage}%)`
-      );
+      this.logStructure(row, i, structureIds.length);
     }
 
     // logged before the upload: if S3 fails, the results are still in the logs
@@ -92,7 +106,7 @@ export class FamillesAnalysisService {
 
   // One pass over every dossier of every structure, minimal fields, paginated by
   // uuid so a national-scale table is never buffered in one go. Holds only
-  // "birthDay|nom|prenom" strings for exact matches, used to tell a conjoint
+  // "birthDay|nom|prenom" strings for exact matches, used to tell a person
   // that has a dossier in another structure from one that has none at all.
   private async buildGlobalExactIndex(
     queryRunner: QueryRunner
@@ -140,6 +154,27 @@ export class FamillesAnalysisService {
     return keys;
   }
 
+  private logStructure(
+    row: StructureFamillesRow,
+    index: number,
+    total: number
+  ): void {
+    appLogger.warn(
+      `${TAG} structure ${row.structureId} (${index + 1}/${total}) — ` +
+        `${row.dossiers} dossiers, ${row.ayants_droit} dependants, ` +
+        `${row.couples} couples, gap ${row.gap_personnes} (${row.gap_pourcentage}%)`
+    );
+    const broken = cohortTotalsErrors(row);
+    if (broken.length > 0) {
+      appLogger.error(
+        `${TAG} structure ${
+          row.structureId
+        }: cohorts do not add up: ${broken.join("; ")}`,
+        { sentry: true }
+      );
+    }
+  }
+
   private async uploadCsv(csv: string): Promise<void> {
     await this.fileManagerService.uploadFile(
       FAMILLES_ANALYSIS_CSV_PATH,
@@ -160,15 +195,19 @@ export class FamillesAnalysisService {
       structures: rows.length,
       dossiers: sum("dossiers"),
       ayants_droit: sum("ayants_droit"),
+      ayants_droit_conjoints: sum("ayants_droit_conjoints"),
+      ayants_droit_enfants: sum("ayants_droit_enfants"),
+      ayants_droit_parents: sum("ayants_droit_parents"),
+      ayants_droit_autres: sum("ayants_droit_autres"),
       conjoints_identiques: sum("conjoints_identiques"),
       conjoints_tres_proches: sum("conjoints_tres_proches"),
       conjoints_douteux: sum("conjoints_douteux"),
-      conjoints_non_trouves: sum("conjoints_non_trouves"),
       conjoints_autre_structure: sum("conjoints_autre_structure"),
+      conjoints_non_trouves: sum("conjoints_non_trouves"),
       conjoints_sans_date_naissance: sum("conjoints_sans_date_naissance"),
+      enfants_majeurs: sum("enfants_majeurs"),
       couples: sum("couples"),
-      couples_croises: sum("couples_croises"),
-      enfants_comptes_deux_fois: sum("enfants_comptes_deux_fois"),
+      enfants_presents_deux_fois: sum("enfants_presents_deux_fois"),
       personnes_comptees_aujourdhui: sum("personnes_comptees_aujourdhui"),
       gap_personnes: sum("gap_personnes"),
     });
@@ -228,177 +267,213 @@ class PersonIdentities {
   }
 }
 
+// What the per-structure steps share.
+interface StructureContext {
+  dossiersByBirthDay: Map<string, DossierLight[]>;
+  globalExactKeys: Set<string>;
+  identities: PersonIdentities;
+  now: number;
+}
+
+// Couples found while going through the conjoints.
+interface Couples {
+  // pairKey ("uuidA|uuidB", uuids sorted) -> the two dossiers of the couple
+  pairs: Map<string, [DossierLight, DossierLight]>;
+  // "declarerUuid->spouseUuid" for every spouse found
+  declaredLinks: Set<string>;
+}
+
 // Node id of the `adIndex`-th ayant droit of a dossier, for PersonIdentities.
 function adNodeId(dossier: DossierLight, adIndex: number): string {
   return `${dossier.uuid}#${adIndex}`;
 }
 
-// Registers a dossier and its ayants droit as identity nodes and updates the
-// volume counters (ayants_droit, ayants_droit_sans_date_naissance,
-// dossiers_avec_conjoint) for that one dossier.
-function registerDossierNodes(
+const isChild = (ad: AyantDroitLight): boolean => ad.lien === "ENFANT";
+
+function childAge(ad: AyantDroitLight, now: number): ChildAge {
+  if (!ad.birthDay) {
+    return "unknown";
+  }
+  return isAdultOn(ad.birthDay, now) ? "adult" : "minor";
+}
+
+// Counts one ayant droit in its cohorts: by link, and for a child by age.
+function countAyantDroit(
+  row: StructureFamillesRow,
+  ad: AyantDroitLight,
+  now: number
+): void {
+  row.ayants_droit++;
+  row[LIEN_COUNTERS[ad.lien] ?? "ayants_droit_autres"]++;
+  if (isChild(ad)) {
+    row[CHILD_AGE_COUNTERS[childAge(ad, now)]]++;
+  }
+}
+
+// Registers a dossier and its ayants droit as identity nodes and counts them.
+function registerDossier(
   row: StructureFamillesRow,
   dossier: DossierLight,
-  personNodes: string[]
+  personNodes: string[],
+  now: number
 ): void {
   personNodes.push(dossier.uuid);
-  row.ayants_droit += dossier.ayantsDroits.length;
-  let hasSpouse = false;
   for (const [adIndex, ad] of dossier.ayantsDroits.entries()) {
     personNodes.push(adNodeId(dossier, adIndex));
-    if (!ad.birthDay) {
-      row.ayants_droit_sans_date_naissance++;
-    }
-    if (ad.lien === "CONJOINT") {
-      hasSpouse = true;
-    }
+    countAyantDroit(row, ad, now);
   }
-  if (hasSpouse) {
+  if (dossier.ayantsDroits.some((ad) => ad.lien === "CONJOINT")) {
     row.dossiers_avec_conjoint++;
   }
 }
 
-// One declared conjoint: buckets it (identical / very close / doubtful /
-// elsewhere / not found) and, if found in this structure, merges the identity
-// and records the couple.
-function matchConjointEntry(
-  row: StructureFamillesRow,
-  dossier: DossierLight,
-  adIndex: number,
+interface Lookup {
+  outcome: CohortOutcome;
+  dossier: DossierLight | null;
+}
+
+// Looks a declared person up among the dossiers of the structure (never the
+// one that declares them): same birth day, then the closest name. Nothing close
+// enough here but an identical person elsewhere -> "elsewhere".
+function lookUpAmongDossiers(
+  ctx: StructureContext,
+  declaring: DossierLight,
   ad: AyantDroitLight,
-  dossiersByBirthDay: Map<string, DossierLight[]>,
-  globalExactKeys: Set<string>,
-  identities: PersonIdentities,
-  couplePairs: Map<string, [DossierLight, DossierLight]>,
-  declaredSpouseLinks: Set<string>
-): void {
-  if (!ad.birthDay) {
-    // unmeasurable, not "searched and not found": kept out of
-    // conjoints_non_trouves so it doesn't bias the couple count down
-    row.conjoints_sans_date_naissance++;
-    return;
-  }
+  birthDay: string
+): Lookup {
   const match = bestMatch(
     ad.key,
-    ad.birthDay,
-    dossiersByBirthDay,
-    dossier.uuid
+    birthDay,
+    ctx.dossiersByBirthDay,
+    declaring.uuid
   );
-
-  if (match.score >= FAMILLES_SCORE_IDENTIQUE) {
-    row.conjoints_identiques++;
-  } else if (match.score >= FAMILLES_SCORE_SAME_PERSON) {
-    row.conjoints_tres_proches++;
-  } else if (match.score >= FAMILLES_SCORE_DOUTEUX) {
-    row.conjoints_douteux++;
-    return;
-  } else if (globalExactKeys.has(`${ad.birthDay}|${ad.key}`)) {
-    row.conjoints_autre_structure++;
-    return;
-  } else {
-    row.conjoints_non_trouves++;
-    return;
+  const bucket = bucketFromScore(match.score);
+  if (bucket !== "not_found") {
+    return { outcome: bucket, dossier: match.candidate };
   }
+  const elsewhere = ctx.globalExactKeys.has(`${birthDay}|${ad.key}`);
+  return { outcome: elsewhere ? "elsewhere" : "not_found", dossier: null };
+}
 
-  // spouse found in this structure -> the couple, and the same person
-  const spouse = match.candidate;
-  if (!spouse) {
-    return;
-  }
-  identities.union(adNodeId(dossier, adIndex), spouse.uuid);
-  declaredSpouseLinks.add(`${dossier.uuid}->${spouse.uuid}`);
+// The dossier a person was found in, when the match is good enough to be the
+// same person (identical or very close).
+function sameDossier(lookup: Lookup): DossierLight | null {
+  const found =
+    lookup.outcome === "identical" || lookup.outcome === "very_close";
+  return found ? lookup.dossier : null;
+}
+
+function recordCouple(
+  ctx: StructureContext,
+  couples: Couples,
+  dossier: DossierLight,
+  adIndex: number,
+  spouse: DossierLight
+): void {
+  ctx.identities.union(adNodeId(dossier, adIndex), spouse.uuid);
+  couples.declaredLinks.add(`${dossier.uuid}->${spouse.uuid}`);
   const pairKey = [dossier.uuid, spouse.uuid]
     .sort((a, b) => a.localeCompare(b))
     .join("|");
-  if (!couplePairs.has(pairKey)) {
-    couplePairs.set(pairKey, [dossier, spouse]);
+  if (!couples.pairs.has(pairKey)) {
+    couples.pairs.set(pairKey, [dossier, spouse]);
   }
 }
 
-// Every declared conjoint of every dossier: fills the conjoints_* buckets and
-// returns the couples found (pairKey -> the two dossiers) plus who declared
-// whom, for matchCoupleChildren below.
-function matchConjoints(
+// One declared conjoint: counted in its bucket and, when found in this
+// structure, merged with that dossier and recorded as a couple.
+function processConjoint(
   row: StructureFamillesRow,
-  dossiers: DossierLight[],
-  dossiersByBirthDay: Map<string, DossierLight[]>,
-  globalExactKeys: Set<string>,
-  identities: PersonIdentities
-): {
-  couplePairs: Map<string, [DossierLight, DossierLight]>;
-  declaredSpouseLinks: Set<string>;
-} {
-  // pairKey ("uuidA|uuidB", uuids sorted) -> the two dossiers of the couple
-  const couplePairs = new Map<string, [DossierLight, DossierLight]>();
-  // "declarerUuid->spouseUuid" for every spouse found (score >= SAME_PERSON)
-  const declaredSpouseLinks = new Set<string>();
+  ctx: StructureContext,
+  couples: Couples,
+  dossier: DossierLight,
+  adIndex: number,
+  ad: AyantDroitLight
+): void {
+  if (!ad.birthDay) {
+    row.conjoints_sans_date_naissance++;
+    return;
+  }
+  const lookup = lookUpAmongDossiers(ctx, dossier, ad, ad.birthDay);
+  row[CONJOINT_COUNTERS[lookup.outcome]]++;
+  const spouse = sameDossier(lookup);
+  if (spouse) {
+    recordCouple(ctx, couples, dossier, adIndex, spouse);
+  }
+}
 
-  for (const dossier of dossiers) {
-    for (const [adIndex, ad] of dossier.ayantsDroits.entries()) {
-      if (ad.lien !== "CONJOINT") {
-        continue;
-      }
-      matchConjointEntry(
-        row,
-        dossier,
-        adIndex,
-        ad,
-        dossiersByBirthDay,
-        globalExactKeys,
-        identities,
-        couplePairs,
-        declaredSpouseLinks
-      );
+// One declared adult child: counted in its bucket and, when it is the same
+// person as a dossier of the structure, merged with it.
+function processAdultChild(
+  row: StructureFamillesRow,
+  ctx: StructureContext,
+  dossier: DossierLight,
+  adIndex: number,
+  ad: AyantDroitLight
+): void {
+  if (!ad.birthDay || childAge(ad, ctx.now) !== "adult") {
+    return;
+  }
+  const lookup = lookUpAmongDossiers(ctx, dossier, ad, ad.birthDay);
+  row[ENFANT_MAJEUR_COUNTERS[lookup.outcome]]++;
+  const found = sameDossier(lookup);
+  if (found) {
+    ctx.identities.union(adNodeId(dossier, adIndex), found.uuid);
+  }
+}
+
+// A declared parent that has an identical dossier in the structure.
+function processParent(
+  row: StructureFamillesRow,
+  ctx: StructureContext,
+  dossier: DossierLight,
+  adIndex: number,
+  ad: AyantDroitLight
+): void {
+  if (!ad.birthDay) {
+    return;
+  }
+  const lookup = lookUpAmongDossiers(ctx, dossier, ad, ad.birthDay);
+  if (lookup.outcome === "identical" && lookup.dossier) {
+    row.parents_avec_dossier++;
+    ctx.identities.union(adNodeId(dossier, adIndex), lookup.dossier.uuid);
+  }
+}
+
+function processAyantsDroits(
+  row: StructureFamillesRow,
+  ctx: StructureContext,
+  couples: Couples,
+  dossier: DossierLight
+): void {
+  for (const [adIndex, ad] of dossier.ayantsDroits.entries()) {
+    switch (ad.lien) {
+      case "CONJOINT":
+        processConjoint(row, ctx, couples, dossier, adIndex, ad);
+        break;
+      case "ENFANT":
+        processAdultChild(row, ctx, dossier, adIndex, ad);
+        break;
+      case "PARENT":
+        processParent(row, ctx, dossier, adIndex, ad);
+        break;
+      default:
+        break;
     }
   }
-
-  row.couples = couplePairs.size;
-  return { couplePairs, declaredSpouseLinks };
 }
 
-// Children, cross-declaration and parents of one couple.
-function matchCoupleChildren(
+// How the children of a couple compare, given how many each dossier declares
+// and how many are common.
+function countCoupleChildren(
   row: StructureFamillesRow,
-  pairKey: string,
-  a: DossierLight,
-  b: DossierLight,
-  declaredSpouseLinks: Set<string>,
-  identities: PersonIdentities
+  declaredA: number,
+  declaredB: number,
+  common: number
 ): void {
-  const [uuidA, uuidB] = pairKey.split("|");
-  if (
-    declaredSpouseLinks.has(`${uuidA}->${uuidB}`) &&
-    declaredSpouseLinks.has(`${uuidB}->${uuidA}`)
-  ) {
-    row.couples_croises++;
-  }
-
-  const childrenA = [...a.ayantsDroits.entries()].filter(
-    ([, ad]) => ad.lien === "ENFANT"
-  );
-  const childrenB = [...b.ayantsDroits.entries()].filter(
-    ([, ad]) => ad.lien === "ENFANT"
-  );
-  const matches = matchCommonChildren(
-    childrenA.map(([, ad]) => ad),
-    childrenB.map(([, ad]) => ad)
-  );
-  for (const { indexA, indexB } of matches) {
-    // the same child declared by both parents: one real person, not two
-    identities.union(
-      adNodeId(a, childrenA[indexA][0]),
-      adNodeId(b, childrenB[indexB][0])
-    );
-  }
-  const common = matches.length;
-
-  if (childrenA.length === 0 && childrenB.length === 0) {
+  if (declaredA === 0 && declaredB === 0) {
     row.couples_sans_enfant++;
-  } else if (
-    common > 0 &&
-    common === childrenA.length &&
-    common === childrenB.length
-  ) {
+  } else if (common > 0 && common === declaredA && common === declaredB) {
     row.couples_memes_enfants++;
   } else if (common > 0) {
     row.couples_enfants_en_partie_communs++;
@@ -408,6 +483,28 @@ function matchCoupleChildren(
     row.couples_enfants_differents++;
   }
   row.enfants_comptes_deux_fois += common;
+}
+
+// Cross-declaration, children and parents of one couple.
+function processCouple(
+  row: StructureFamillesRow,
+  couples: Couples,
+  pairKey: string,
+  a: DossierLight,
+  b: DossierLight
+): void {
+  const [uuidA, uuidB] = pairKey.split("|");
+  if (
+    couples.declaredLinks.has(`${uuidA}->${uuidB}`) &&
+    couples.declaredLinks.has(`${uuidB}->${uuidA}`)
+  ) {
+    row.couples_croises++;
+  }
+
+  const childrenA = a.ayantsDroits.filter(isChild);
+  const childrenB = b.ayantsDroits.filter(isChild);
+  const common = matchCommonChildren(childrenA, childrenB).length;
+  countCoupleChildren(row, childrenA.length, childrenB.length, common);
 
   if (
     a.ayantsDroits.some((ad) => ad.lien === "PARENT") ||
@@ -417,62 +514,96 @@ function matchCoupleChildren(
   }
 }
 
-// An adult child (or a parent) that turns out to have their own dossier here
-// is the same person as that dossier — merge the identity.
-function matchOwnDossier(
-  dossier: DossierLight,
-  adIndex: number,
-  ad: AyantDroitLight,
-  dossiersByBirthDay: Map<string, DossierLight[]>,
-  identities: PersonIdentities,
-  onFound: () => void
-): void {
-  const match = bestMatch(
-    ad.key,
-    ad.birthDay,
-    dossiersByBirthDay,
-    dossier.uuid
-  );
-  if (match.score >= FAMILLES_SCORE_IDENTIQUE && match.candidate) {
-    onFound();
-    identities.union(adNodeId(dossier, adIndex), match.candidate.uuid);
-  }
-}
-
-// Adult children and parents declared on one dossier that also have their own
-// dossier in the structure.
-function matchAdultDependants(
-  row: StructureFamillesRow,
-  dossier: DossierLight,
-  dossiersByBirthDay: Map<string, DossierLight[]>,
-  identities: PersonIdentities,
-  now: number
-): void {
-  for (const [adIndex, ad] of dossier.ayantsDroits.entries()) {
-    if (ad.lien === "ENFANT" && isAdultOn(ad.birthDay, now)) {
-      matchOwnDossier(
-        dossier,
-        adIndex,
-        ad,
-        dossiersByBirthDay,
-        identities,
-        () => row.enfants_majeurs_avec_dossier++
-      );
-    } else if (ad.lien === "PARENT") {
-      matchOwnDossier(
-        dossier,
-        adIndex,
-        ad,
-        dossiersByBirthDay,
-        identities,
-        () => row.parents_avec_dossier++
-      );
+// Every pair of items of a list, each pair once.
+function* pairsOf<T>(items: T[]): Generator<[T, T]> {
+  for (let i = 0; i < items.length; i++) {
+    for (let j = i + 1; j < items.length; j++) {
+      yield [items[i], items[j]];
     }
   }
 }
 
+// Dossiers that declare at least one child born on each day. Two dossiers can
+// only share a child if they share one of these days.
+function dossiersByChildBirthDay(
+  dossiers: DossierLight[]
+): Map<string, DossierLight[]> {
+  const byDay = new Map<string, DossierLight[]>();
+  for (const dossier of dossiers) {
+    const days = new Set(
+      dossier.ayantsDroits.filter(isChild).map((ad) => ad.birthDay)
+    );
+    for (const day of days) {
+      if (day) {
+        const list = byDay.get(day) ?? [];
+        list.push(dossier);
+        byDay.set(day, list);
+      }
+    }
+  }
+  return byDay;
+}
+
+// Children that two dossiers both declare, as pairs of ayant droit node ids.
+// Same rule as the common children of a couple (matchCommonChildren).
+function childLinksBetween(
+  a: DossierLight,
+  b: DossierLight
+): [string, string][] {
+  const entriesA = [...a.ayantsDroits.entries()].filter(([, ad]) =>
+    isChild(ad)
+  );
+  const entriesB = [...b.ayantsDroits.entries()].filter(([, ad]) =>
+    isChild(ad)
+  );
+  const matches = matchCommonChildren(
+    entriesA.map(([, ad]) => ad),
+    entriesB.map(([, ad]) => ad)
+  );
+  return matches.map(({ indexA, indexB }) => [
+    adNodeId(a, entriesA[indexA][0]),
+    adNodeId(b, entriesB[indexB][0]),
+  ]);
+}
+
+// Children declared on more than one dossier of the structure, whether or not
+// the dossiers form a couple. Only dossiers sharing a child's birth day are
+// ever compared, so a big structure never costs a full dossier x dossier pass.
+function sharedChildLinks(dossiers: DossierLight[]): [string, string][] {
+  const links: [string, string][] = [];
+  const compared = new Set<string>();
+  for (const group of dossiersByChildBirthDay(dossiers).values()) {
+    for (const [a, b] of pairsOf(group)) {
+      const pair = `${a.uuid}|${b.uuid}`;
+      if (!compared.has(pair)) {
+        compared.add(pair);
+        links.push(...childLinksBetween(a, b));
+      }
+    }
+  }
+  return links;
+}
+
+// Counts the distinct children declared on several dossiers and merges their
+// occurrences into one identity each.
+function mergeSharedChildren(
+  row: StructureFamillesRow,
+  ctx: StructureContext,
+  dossiers: DossierLight[]
+): void {
+  const links = sharedChildLinks(dossiers);
+  const sharedChildren = new PersonIdentities();
+  for (const [x, y] of links) {
+    ctx.identities.union(x, y);
+    sharedChildren.union(x, y);
+  }
+  // every linked occurrence has at least one partner: each group is a child
+  // declared on two dossiers or more
+  row.enfants_presents_deux_fois = sharedChildren.countGroups(links.flat());
+}
+
 // personnes_reelles_estimees is the number of distinct identities left after
-// every match above (spouse, common child, adult child/parent with their own
+// every match above (spouse, shared child, adult child/parent with their own
 // dossier) has been merged, transitively — so a person matched through more
 // than one route is never subtracted more than once.
 function computePopulationGap(
@@ -500,38 +631,47 @@ export function computeStructureFamillesRow(
   globalExactKeys: Set<string>,
   now: number = Date.now()
 ): StructureFamillesRow {
-  const dossiersByBirthDay = groupByBirthDay(dossiers);
   const row = new StructureFamillesRow(structureId);
   row.dossiers = dossiers.length;
 
   // One node per dossier and per ayant droit occurrence; matched ones are
   // merged transitively by the steps below.
-  const identities = new PersonIdentities();
-  const personNodes: string[] = [];
-
-  for (const dossier of dossiers) {
-    registerDossierNodes(row, dossier, personNodes);
-  }
-
-  const { couplePairs, declaredSpouseLinks } = matchConjoints(
-    row,
-    dossiers,
-    dossiersByBirthDay,
+  const ctx: StructureContext = {
+    dossiersByBirthDay: groupByBirthDay(dossiers),
     globalExactKeys,
-    identities
-  );
-
-  for (const [pairKey, [a, b]] of couplePairs) {
-    matchCoupleChildren(row, pairKey, a, b, declaredSpouseLinks, identities);
-  }
+    identities: new PersonIdentities(),
+    now,
+  };
+  const personNodes: string[] = [];
+  const couples: Couples = { pairs: new Map(), declaredLinks: new Set() };
 
   for (const dossier of dossiers) {
-    matchAdultDependants(row, dossier, dossiersByBirthDay, identities, now);
+    registerDossier(row, dossier, personNodes, now);
+  }
+  for (const dossier of dossiers) {
+    processAyantsDroits(row, ctx, couples, dossier);
   }
 
-  computePopulationGap(row, identities, personNodes);
+  row.couples = couples.pairs.size;
+  for (const [pairKey, [a, b]] of couples.pairs) {
+    processCouple(row, couples, pairKey, a, b);
+  }
+
+  mergeSharedChildren(row, ctx, dossiers);
+  computePopulationGap(row, ctx.identities, personNodes);
 
   return row;
+}
+
+// The cohorts whose sub-groups do not add up exactly to their base (none, when
+// every declared person was counted once and only once).
+export function cohortTotalsErrors(row: StructureFamillesRow): string[] {
+  return FAMILLES_COHORTS.flatMap(({ base, parts }) => {
+    const sum = parts.reduce((acc, part) => acc + row[part], 0);
+    return sum === row[base]
+      ? []
+      : [`${base}=${row[base]} but ${parts.join("+")}=${sum}`];
+  });
 }
 
 export function toCsv(rows: StructureFamillesRow[]): string {

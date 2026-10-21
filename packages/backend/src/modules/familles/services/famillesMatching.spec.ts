@@ -2,6 +2,7 @@ import {
   bestMatch,
   bucketFromScore,
   countCommonChildren,
+  foldSpelling,
   isAdultOn,
   matchCommonChildren,
   normalizeCompareKey,
@@ -15,13 +16,57 @@ describe("normalizeCompareKey", () => {
   it("lowercases, strips accents, spaces and hyphens", () => {
     expect(normalizeCompareKey("Bénali", "Sonia")).toBe("benali|sonia");
     expect(normalizeCompareKey("Le Guen", "Jean-Pierre")).toBe(
-      "leguen|jeanpierre"
+      "leguen|jeanpiere"
     );
     expect(normalizeCompareKey("  DÜPONT  ", "Élodie")).toBe("dupont|elodie");
   });
 
   it("tolerates missing parts", () => {
     expect(normalizeCompareKey(null, undefined)).toBe("|");
+  });
+
+  it("gives the same key to spelling variants of one name", () => {
+    const variants: [string, string][] = [
+      ["Mohammed", "Mohamed"],
+      ["Philippe", "Filipe"],
+      ["Matthieu", "Mathieu"],
+      ["Khadidja", "Khadija"],
+      ["Djamel", "Jamel"],
+      ["Lyna", "Lina"],
+      ["Ghislaine", "Gislaine"],
+      ["Jean-Pierre", "Jean Pierre"],
+    ];
+    for (const [a, b] of variants) {
+      expect(normalizeCompareKey("Benali", a)).toBe(
+        normalizeCompareKey("Benali", b)
+      );
+    }
+  });
+
+  it("keeps names that only look alike apart", () => {
+    // different vowels, and sh / ch keep their h
+    expect(normalizeCompareKey("Kadi", "Hamid")).not.toBe(
+      normalizeCompareKey("Kadi", "Hamed")
+    );
+    expect(normalizeCompareKey("Roux", "Chloe")).not.toBe(
+      normalizeCompareKey("Roux", "Cloe")
+    );
+  });
+});
+
+describe("foldSpelling", () => {
+  it("folds ph, th, kh, ck, dj, silent h, y and doubled letters", () => {
+    expect(foldSpelling("christophe")).toBe("christofe");
+    expect(foldSpelling("nathalie")).toBe("natalie");
+    expect(foldSpelling("khadidja")).toBe("kadija");
+    expect(foldSpelling("yannick")).toBe("ianik");
+    expect(foldSpelling("hamid")).toBe("amid");
+    expect(foldSpelling("mohammed")).toBe("moamed");
+  });
+
+  it("leaves a name without variants untouched", () => {
+    expect(foldSpelling("benali")).toBe("benali");
+    expect(foldSpelling("sonia")).toBe("sonia");
   });
 });
 
