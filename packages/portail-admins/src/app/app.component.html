@@ -39,7 +39,23 @@
   [headerToolsLinks]="adminProfile ? headerToolsLinks : []"
   (linkSelect)="logout($event)"
   [menu]="adminProfile ? menuHeaderItems : []"
-></dsfr-header>
+>
+  <ng-template #toolsLinksTemplate>
+    @if (!adminProfile) {
+    <li>
+      <dsfr-usermenu
+        labelMenu="Se connecter"
+        userName=""
+        userDetails=""
+        iconMenu="fr-icon-account-circle-line"
+        [links]="loginLinks"
+        [showLogout]="false"
+      >
+      </dsfr-usermenu>
+    </li>
+    }
+  </ng-template>
+</dsfr-header>
 
 @if (passwordChangeStatus === 'WARNING' && (currentUrl === '/stats' ||
 currentUrl === '/structure')) {

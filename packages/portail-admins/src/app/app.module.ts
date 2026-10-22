@@ -33,6 +33,7 @@ import {
   DsfrFooterModule,
   DsfrHeaderModule,
   DsfrSkiplinksModule,
+  DsfrUserMenuComponent,
 } from "@edugouvfr/ngx-dsfr";
 import { provideStore } from "@ngrx/store";
 import { provideEffects } from "@ngrx/effects";
@@ -76,6 +77,7 @@ registerLocaleData(localeFr, "fr");
     OtpModalComponent,
     DsfrFooterModule,
     DsfrHeaderModule,
+    DsfrUserMenuComponent,
     DsfrSkiplinksModule,
   ],
   providers: [
