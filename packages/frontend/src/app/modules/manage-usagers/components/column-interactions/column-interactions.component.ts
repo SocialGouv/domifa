@@ -10,6 +10,7 @@ import {
 } from "@angular/core";
 import { Subscription } from "rxjs";
 import { DsfrTooltipDirective } from "@edugouvfr/ngx-dsfr";
+import { SupportModeDisableDirective } from "../../../shared/directives/support-mode-disable.directive";
 
 import { CustomToastService } from "../../../shared/services";
 import { UsagerFormModel } from "../../../usager-shared/interfaces";
@@ -22,7 +23,7 @@ import { InteractionInForApi } from "../../../usager-shared/interfaces/interacti
   templateUrl: "./column-interactions.component.html",
   styleUrls: ["./column-interactions.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DsfrTooltipDirective],
+  imports: [DsfrTooltipDirective, SupportModeDisableDirective],
 })
 export class ColumnInteractionsComponent implements OnChanges, OnDestroy {
   @Output()

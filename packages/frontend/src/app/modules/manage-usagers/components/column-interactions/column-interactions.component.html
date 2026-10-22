@@ -12,6 +12,7 @@
     "
     class="interaction-btn fr-btn fr-btn--secondary"
     (click)="setSingleInteraction(usager, 'visite')"
+    appSupportModeDisable
   >
     <span class="ri-walk-line" aria-hidden="true"></span>
   </button>
@@ -28,6 +29,7 @@
     "
     class="interaction-btn fr-btn fr-btn--secondary"
     (click)="setSingleInteraction(usager, 'appel')"
+    appSupportModeDisable
   >
     <span class="fr-icon-phone-line" aria-hidden="true"></span>
   </button>
@@ -48,6 +50,7 @@
     "
     class="interaction-btn fr-btn fr-btn--secondary"
     (click)="setSingleInteraction(usager, 'courrierIn')"
+    appSupportModeDisable
   >
     <span class="fr-icon-mail-line" aria-hidden="true"></span>
   </button>
@@ -66,6 +69,7 @@
     [disabled]="readOnly"
     class="interaction-btn fr-btn fr-btn--secondary"
     (click)="openInteractionInModal()"
+    appSupportModeDisable
   >
     <span class="ri-mail-add-line" aria-hidden="true"></span>
   </button>
@@ -84,6 +88,7 @@
     [disabled]="readOnly"
     [tooltip]="readOnly ? readOnlyTooltip : distributionTooltip"
     (click)="openInteractionOutModal()"
+    appSupportModeDisable
   >
     <span class="fr-icon-mail-open-line" aria-hidden="true"></span>
     <strong class="notification">

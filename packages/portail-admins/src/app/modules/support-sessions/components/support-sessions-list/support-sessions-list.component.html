@@ -1,0 +1,142 @@
+<div class="fr-container fr-my-4w">
+  <h1 class="fr-h2">Sessions support</h1>
+  <p class="fr-text--sm fr-text--mention-grey">
+    Ensemble des rattachements du mode support, toutes structures confondues, du
+    plus récent au plus ancien (500 derniers au maximum).
+  </p>
+
+  <form
+    class="fr-grid-row fr-grid-row--gutters fr-grid-row--bottom fr-mb-3w"
+    (ngSubmit)="applyFilters()"
+  >
+    <div class="fr-col-12 fr-col-md-3">
+      <div class="fr-input-group">
+        <label class="fr-label" for="support-sessions-date-from">
+          Début de session, à partir du
+        </label>
+        <input
+          class="fr-input"
+          type="date"
+          id="support-sessions-date-from"
+          name="startDateFrom"
+          [(ngModel)]="startDateFrom"
+        />
+      </div>
+    </div>
+    <div class="fr-col-12 fr-col-md-3">
+      <div class="fr-input-group">
+        <label class="fr-label" for="support-sessions-date-to">
+          Début de session, jusqu'au
+        </label>
+        <input
+          class="fr-input"
+          type="date"
+          id="support-sessions-date-to"
+          name="startDateTo"
+          [(ngModel)]="startDateTo"
+        />
+      </div>
+    </div>
+    <div class="fr-col-12 fr-col-md-auto">
+      <button type="submit" class="fr-btn" [disabled]="loading">Filtrer</button>
+      <button
+        type="button"
+        class="fr-btn fr-btn--secondary fr-ml-1w"
+        (click)="resetFilters()"
+        [disabled]="loading"
+      >
+        Réinitialiser
+      </button>
+    </div>
+  </form>
+
+  @if (loading) {
+  <div
+    role="alert"
+    aria-busy="true"
+    aria-label="Chargement des sessions support..."
+    class="text-center fr-py-3w"
+  >
+    <dsfr-ext-spinner
+      typeLoader="quarter"
+      label="Chargement des sessions support..."
+    ></dsfr-ext-spinner>
+  </div>
+  } @else if (loaded) { @if (sessions.length === 0) {
+  <div class="fr-alert fr-alert--info">
+    <p>Aucune session support sur cette période.</p>
+  </div>
+  } @else {
+  <div class="fr-table fr-table--no-outer-border">
+    <div class="fr-table__wrapper">
+      <div class="fr-table__container">
+        <div class="fr-table__content">
+          <table>
+            <caption class="fr-sr-only">
+              Sessions support ({{
+                sessions.length
+              }}
+              entrées)
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Nom du compte utilisé</th>
+                <th scope="col">Structure</th>
+                <th scope="col">Statut</th>
+                <th scope="col">Début de la session</th>
+                <th scope="col">Fin de la session</th>
+                <th scope="col">Motif de connexion</th>
+                <th scope="col">Moyen de déconnexion</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (session of sessions; track session.uuid) {
+              <tr>
+                <td>
+                  <span class="fr-text--bold">
+                    {{ session.accountPrenom }} {{ session.accountNom }}
+                  </span>
+                  <br />
+                  <span class="fr-text--xs fr-text--mention-grey">
+                    {{ session.supervisorEmail }}
+                  </span>
+                </td>
+                <td>{{ session.structureNom ?? "—" }}</td>
+                <td>
+                  <span
+                    class="fr-badge fr-badge--sm"
+                    [class.fr-badge--success]="session.status === 'ACTIVE'"
+                    [class.fr-badge--warning]="session.status === 'EXPIRED'"
+                    [class.fr-badge--error]="session.status === 'REVOKED'"
+                  >
+                    {{ statusLabels[session.status] }}
+                  </span>
+                </td>
+                <td>{{ session.startDate | date : "dd/MM/yyyy HH:mm" }}</td>
+                <td>
+                  @if (session.revokedAt) {
+                  {{ session.revokedAt | date : "dd/MM/yyyy HH:mm" }}
+                  } @else {
+                  <span class="fr-text--mention-grey">
+                    {{ session.expiresAt | date : "dd/MM/yyyy HH:mm" }}
+                  </span>
+                  }
+                </td>
+                <td>{{ session.reason ?? "—" }}</td>
+                <td>
+                  {{
+                    session.revokedReason
+                      ? revokedReasonLabels[session.revokedReason]
+                      : "—"
+                  }}
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  } }
+</div>

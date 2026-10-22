@@ -311,6 +311,7 @@ export class UsagerDocsController {
 
   @Get(":usagerRef/:docUuid")
   @UseGuards(UsagerAccessGuard, UsagerDocAccessGuard)
+  @AllowUserStructureRoles("simple", "responsable", "admin", "support")
   public async getDocument(
     @Param("docUuid", new ParseUUIDPipe()) docUuid: string,
     @Param("usagerRef", new ParseIntPipe()) usagerRef: number,

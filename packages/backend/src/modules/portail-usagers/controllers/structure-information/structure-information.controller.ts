@@ -54,6 +54,7 @@ export class StructureInformationController {
   }
 
   @Get()
+  @AllowUserStructureRoles("admin", "support")
   public async getStructureInformation(
     @CurrentUser() user: UserStructureAuthenticated
   ) {

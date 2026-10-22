@@ -4,12 +4,19 @@ import {
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
-import { LessThanOrEqual } from "typeorm";
+import {
+  Between,
+  FindOperator,
+  In,
+  LessThanOrEqual,
+  MoreThanOrEqual,
+} from "typeorm";
 import {
   ActivateSupportSessionResponse,
   getPasswordChangeStatus,
   SUPPORT_ATTACHMENT_DURATION_MS,
   SupportSession,
+  SupportSessionHistoryItem,
   SupportSessionRevokedReason,
   UserStructure,
   UserStructureRole,
@@ -31,6 +38,7 @@ import {
 } from "../app-logs/app-log-security-writer";
 
 export const SUPPORT_MODE_ALLOWED_EMAIL_DOMAIN = "@fabrique.social.gouv.fr";
+const SUPPORT_SESSION_HISTORY_LIMIT = 500;
 
 const CLOSED_REASON_BY_SUPPORT_REASON: Record<
   SupportSessionRevokedReason,
@@ -59,6 +67,7 @@ export class SupportSessionService {
   public async activate(
     supervisor: UserAdminAuthenticated,
     structureUuid: string,
+    reason: string,
     requestContext: SecurityLogRequestContext & {
       ip: string;
       userAgent: string;
@@ -89,6 +98,7 @@ export class SupportSessionService {
       account,
       startDate,
       expiresAt,
+      reason,
     });
 
     if (replacedSession) {
@@ -111,6 +121,7 @@ export class SupportSessionService {
       context: {
         supportSessionUuid: session.uuid,
         targetUserStructureId: account.id,
+        reason,
       },
     });
 
@@ -208,6 +219,65 @@ export class SupportSessionService {
     });
   }
 
+  // Global history for the super-admin, newest first.
+  public async listAll(filters: {
+    startDateFrom?: Date;
+    startDateTo?: Date;
+  }): Promise<SupportSessionHistoryItem[]> {
+    const sessions = await supportSessionRepository.find({
+      where: { startDate: this.buildStartDateFilter(filters) },
+      order: { startDate: "DESC" },
+      take: SUPPORT_SESSION_HISTORY_LIMIT,
+    });
+    if (sessions.length === 0) {
+      return [];
+    }
+
+    const [structures, accounts] = await Promise.all([
+      structureRepository.find({
+        where: { id: In(sessions.map((session) => session.structureId)) },
+        select: { id: true, nom: true },
+      }),
+      userStructureRepository.find({
+        where: {
+          id: In(sessions.map((session) => session.targetUserStructureId)),
+        },
+        select: { id: true, nom: true, prenom: true },
+      }),
+    ]);
+    const structureById = new Map(structures.map((s) => [s.id, s]));
+    const accountById = new Map(accounts.map((a) => [a.id, a]));
+
+    return sessions.map((session) => {
+      const account = accountById.get(session.targetUserStructureId);
+      return {
+        ...session,
+        structureNom: structureById.get(session.structureId)?.nom ?? null,
+        accountNom: account?.nom ?? null,
+        accountPrenom: account?.prenom ?? null,
+      };
+    });
+  }
+
+  private buildStartDateFilter({
+    startDateFrom,
+    startDateTo,
+  }: {
+    startDateFrom?: Date;
+    startDateTo?: Date;
+  }): FindOperator<Date> | undefined {
+    if (startDateFrom && startDateTo) {
+      return Between(startDateFrom, startDateTo);
+    }
+    if (startDateFrom) {
+      return MoreThanOrEqual(startDateFrom);
+    }
+    if (startDateTo) {
+      return LessThanOrEqual(startDateTo);
+    }
+    return undefined;
+  }
+
   private async expire(
     session: SupportSessionTable,
     trigger: "LOGIN" | "CRON"
@@ -246,12 +316,14 @@ export class SupportSessionService {
     account,
     startDate,
     expiresAt,
+    reason,
   }: {
     supervisor: UserAdminAuthenticated;
     structureId: number;
     account: UserStructureTable;
     startDate: Date;
     expiresAt: Date;
+    reason: string;
   }): Promise<{
     session: SupportSessionTable;
     replacedSession: SupportSessionTable | null;
@@ -298,6 +370,7 @@ export class SupportSessionService {
           expiresAt,
           status: "ACTIVE",
           originalRole,
+          reason,
         })
       );
 

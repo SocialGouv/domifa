@@ -27,6 +27,7 @@
         <div class="fr-col-auto">
           <app-button
             (action)="exportAccountsToExcel()"
+            appSupportModeDisable
             ariaLabel="Télécharger la liste des comptes"
             label="Télécharger la liste des comptes"
             icon="download"
@@ -42,6 +43,7 @@
             customClass="fr-mr-1w"
             icon="plus"
             (action)="openActivateAllAccountsModal()"
+            appSupportModeDisable
           >
           </app-button>
         </div>
@@ -208,6 +210,7 @@
         type="button"
         class="fr-btn"
         (click)="activateAllAccounts()"
+        appSupportModeDisable
         [disabled]="activatingAccounts"
         [attr.aria-busy]="activatingAccounts"
       >
