@@ -42,6 +42,10 @@ export class EntretienDto implements Partial<UsagerEntretien> {
   public revenusDetail!: string;
 
   @IsOptional()
+  @IsBoolean()
+  public rsa!: boolean;
+
+  @IsOptional()
   @IsIn(Object.keys(ENTRETIEN_TYPE_MENAGE))
   public typeMenage!: UsagerEntretienTypeMenage;
 

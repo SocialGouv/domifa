@@ -66,6 +66,19 @@
 
   <div class="fr-col-12 fr-col-md-4">
     <p class="reponses">
+      <span class="question">Bénéficiaire du RSA</span>
+      @if (usager.entretien.rsa !== null) {
+      <span class="valeur">
+        {{ usager.entretien.rsa ? "Oui" : "Non" }}
+      </span>
+      } @else {
+      <span class="valeur">Non renseigné</span>
+      }
+    </p>
+  </div>
+
+  <div class="fr-col-12 fr-col-md-4">
+    <p class="reponses">
       <span class="question">Lien commune</span>
       @if (usager.entretien.liencommune === 'AUTRE') {
       <span class="valeur">

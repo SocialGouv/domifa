@@ -277,6 +277,7 @@ export const buildEntretienForDocs = (
   ENTRETIEN_DOMICILIATION_EXISTANTE: string;
   ENTRETIEN_REVENUS: string;
   ENTRETIEN_REVENUS_DETAIL: string;
+  ENTRETIEN_RSA: string;
   ENTRETIEN_LIEN_COMMUNE: string;
   ENTRETIEN_COMPOSITION_MENAGE: string;
   ENTRETIEN_COMMENTAIRE: string;
@@ -314,6 +315,7 @@ export const buildEntretienForDocs = (
     ENTRETIEN_DOMICILIATION_EXISTANTE: formatBoolean(entretien.domiciliation),
     ENTRETIEN_REVENUS: formatBoolean(entretien.revenus),
     ENTRETIEN_REVENUS_DETAIL: ucFirst(entretien.revenusDetail),
+    ENTRETIEN_RSA: formatBoolean(entretien.rsa),
     ENTRETIEN_LIEN_COMMUNE: formatOtherField(
       entretien.liencommune,
       entretien.liencommuneDetail,

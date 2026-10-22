@@ -419,7 +419,8 @@ CREATE TABLE public.usager_entretien (
     accompagnement boolean,
     "accompagnementDetail" text,
     "situationPro" text,
-    "situationProDetail" text
+    "situationProDetail" text,
+    rsa boolean
 );
 CREATE TABLE public.usager_history_states (
     uuid uuid DEFAULT public.uuid_generate_v4() NOT NULL,

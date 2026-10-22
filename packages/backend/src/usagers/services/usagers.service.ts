@@ -327,6 +327,7 @@ export class UsagersService {
         'typeMenage', e."typeMenage",
         'revenus', e.revenus,
         'revenusDetail', e."revenusDetail",
+        'rsa', e.rsa,
         'orientation', e.orientation,
         'orientationDetail', e."orientationDetail",
         'liencommune', e.liencommune,

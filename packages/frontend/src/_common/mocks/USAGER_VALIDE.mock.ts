@@ -62,6 +62,7 @@ export const USAGER_VALIDE_MOCK: UsagerLight = {
     typeMenage: "COUPLE_AVEC_ENFANT",
     domiciliation: false,
     revenus: false,
+    rsa: null,
     orientation: true,
     orientationDetail: "Test orientation",
     situationProDetail: null,

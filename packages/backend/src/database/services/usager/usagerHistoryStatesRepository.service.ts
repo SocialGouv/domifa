@@ -128,7 +128,7 @@ async function getStructureStatsQuestionsAtDateValidUsagers({
       ,count(distinct uh."usagerUUID") filter (where"entretien" ->> 'situationPro' = 'SALARIE') as v_u_situation_pro_salarie
       ,count(distinct uh."usagerUUID") filter (where"entretien" ->> 'situationPro' = 'INDEPENDANT') as v_u_situation_pro_independant
       ,count(distinct uh."usagerUUID") filter (where"entretien" ->> 'situationPro' = 'FRANCE_TRAVAIL') as v_u_situation_pro_france_travail
-      ,count(distinct uh."usagerUUID") filter (where"entretien" ->> 'situationPro' = 'RSA') as v_u_situation_pro_rsa
+      ,count(distinct uh."usagerUUID") filter (where ("entretien" ->> 'rsa') :: boolean is true or "entretien" ->> 'situationPro' = 'RSA') as v_u_situation_pro_rsa
       ,count(distinct uh."usagerUUID") filter (where"entretien" ->> 'situationPro' = 'AAH') as v_u_situation_pro_aah
       ,count(distinct uh."usagerUUID") filter (where"entretien" ->> 'situationPro' = 'RETRAITE') as v_u_situation_pro_retraite
       ,count(distinct uh."usagerUUID") filter (where"entretien" ->> 'situationPro' = 'AUTRE') as v_u_situation_pro_autre

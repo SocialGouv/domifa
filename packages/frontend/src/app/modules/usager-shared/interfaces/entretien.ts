@@ -18,6 +18,7 @@ export class Entretien implements UsagerEntretien {
   public typeMenage: UsagerEntretienTypeMenage | null;
   public revenus: boolean | null;
   public revenusDetail: string | null;
+  public rsa: boolean | null;
   public orientation: boolean | null;
   public orientationDetail: string | null;
   public liencommune: UsagerEntretienLienCommune | null;
@@ -62,6 +63,7 @@ export class Entretien implements UsagerEntretien {
     this.revenus =
       typeof entretien?.revenus !== "undefined" ? entretien?.revenus : null;
     this.revenusDetail = entretien?.revenusDetail || null;
+    this.rsa = typeof entretien?.rsa !== "undefined" ? entretien?.rsa : null;
     this.typeMenage = entretien?.typeMenage || null;
     this.situationPro = entretien?.situationPro || null;
     this.situationProDetail = entretien?.situationProDetail || null;

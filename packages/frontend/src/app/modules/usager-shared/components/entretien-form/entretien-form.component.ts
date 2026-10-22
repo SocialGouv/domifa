@@ -114,6 +114,7 @@ export class EntretienFormComponent implements OnInit, OnDestroy {
         this.usager.entretien.revenusDetail,
         [NoWhiteSpaceValidator, Validators.maxLength(1000)],
       ],
+      rsa: [this.usager.entretien.rsa, []],
       typeMenage: [this.usager.entretien.typeMenage, []],
       situationPro: [this.usager.entretien.situationPro, []],
       situationProDetail: [

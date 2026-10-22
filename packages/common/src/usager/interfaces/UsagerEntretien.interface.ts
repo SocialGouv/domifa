@@ -20,6 +20,8 @@ export interface UsagerEntretien {
   revenus: boolean | null;
   revenusDetail: string | null;
 
+  rsa: boolean | null;
+
   orientation: boolean | null;
   orientationDetail: string | null;
 

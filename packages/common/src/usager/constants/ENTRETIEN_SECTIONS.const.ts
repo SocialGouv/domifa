@@ -51,7 +51,6 @@ export const ENTRETIEN_SITUATION_PRO: {
   SALARIE: "Salarié",
   INDEPENDANT: "Indépendant",
   FRANCE_TRAVAIL: "Inscrit à France Travail (ex Pôle-emploi)",
-  RSA: "RSA",
   AAH: "Allocation aux adultes handicapés (AAH)",
   RETRAITE: "Retraité",
   AUTRE: "Autre",

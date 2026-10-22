@@ -68,6 +68,7 @@ export const USAGER_VALIDE_MOCK: Usager = {
     cause: "VIOLENCE",
     raison: "EXERCICE_DROITS",
     revenus: true,
+    rsa: null,
     residence: "HEBERGEMENT_TIERS",
     typeMenage: "FEMME_ISOLE_AVEC_ENFANT",
     domiciliation: true,

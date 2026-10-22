@@ -28,6 +28,7 @@ export const getEntretienForStats = (
   | "domiciliation"
   | "typeMenage"
   | "revenus"
+  | "rsa"
   | "orientation"
   | "liencommune"
   | "residence"
@@ -40,6 +41,7 @@ export const getEntretienForStats = (
     domiciliation: getStringOrNull(entretien?.domiciliation),
     typeMenage: getStringOrNull(entretien?.typeMenage),
     revenus: getStringOrNull(entretien?.revenus),
+    rsa: getStringOrNull(entretien?.rsa),
     orientation: getStringOrNull(entretien?.orientation),
     liencommune: getStringOrNull(entretien?.liencommune),
     residence: getStringOrNull(entretien?.residence),

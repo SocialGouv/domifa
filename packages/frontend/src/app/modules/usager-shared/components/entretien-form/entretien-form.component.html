@@ -185,6 +185,30 @@
 
   <hr />
 
+  <!-- RSA -->
+  <fieldset class="fr-fieldset">
+    <legend class="fr-fieldset__legend">Êtes-vous bénéficiaire du RSA ?</legend>
+    <div class="fr-fieldset__element fr-fieldset__element--inline">
+      <div class="fr-radio-group">
+        <input type="radio" id="rsa_oui" formControlName="rsa" [value]="true" />
+        <label class="fr-label" for="rsa_oui">Oui</label>
+      </div>
+    </div>
+    <div class="fr-fieldset__element fr-fieldset__element--inline">
+      <div class="fr-radio-group">
+        <input
+          type="radio"
+          id="rsa_non"
+          formControlName="rsa"
+          [value]="false"
+        />
+        <label class="fr-label" for="rsa_non">Non</label>
+      </div>
+    </div>
+  </fieldset>
+
+  <hr />
+
   <fieldset class="fr-fieldset">
     <legend class="fr-fieldset__legend">
       Quel est votre lien avec la commune ? (Uniquement pour les communes, CCAS,

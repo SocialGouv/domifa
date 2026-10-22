@@ -186,7 +186,9 @@ function buildEntretien(usagerRow): Partial<UsagerEntretien> {
       ? usagerRow.accompagnementDetail ?? null
       : null;
 
-  entretien.situationPro = usagerRow.situationPro ?? null;
+  entretien.rsa = usagerRow.situationPro === "RSA" ? true : null;
+  entretien.situationPro =
+    usagerRow.situationPro === "RSA" ? null : usagerRow.situationPro ?? null;
   entretien.situationProDetail =
     usagerRow.situationPro === "AUTRE"
       ? usagerRow.situationProDetail ?? null

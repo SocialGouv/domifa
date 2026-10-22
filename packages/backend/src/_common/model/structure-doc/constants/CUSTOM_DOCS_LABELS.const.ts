@@ -87,6 +87,7 @@ export const CUSTOM_DOCS_LABELS: {
   ENTRETIEN_DOMICILIATION_EXISTANTE: "Domiciliation existante : Oui / Non",
   ENTRETIEN_REVENUS: "Revenus : Oui / Non",
   ENTRETIEN_REVENUS_DETAIL: "Détail des revenus",
+  ENTRETIEN_RSA: "Bénéficiaire du RSA : Oui / Non",
   ENTRETIEN_LIEN_COMMUNE: "Lien avec la commune",
   ENTRETIEN_COMPOSITION_MENAGE: "Composition du ménage",
   ENTRETIEN_SITUATION_RESIDENTIELLE: "Situation résidentielle",

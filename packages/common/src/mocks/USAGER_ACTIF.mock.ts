@@ -56,6 +56,7 @@ export const USAGER_VALIDE_MOCK: Usager = {
     typeMenage: "COUPLE_AVEC_ENFANT",
     domiciliation: false,
     revenus: false,
+    rsa: null,
     orientation: true,
     orientationDetail: "Test orientation",
     raison: "PRESTATIONS_SOCIALES",

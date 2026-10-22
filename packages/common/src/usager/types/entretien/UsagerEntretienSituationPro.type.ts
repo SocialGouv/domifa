@@ -3,7 +3,6 @@ export type UsagerEntretienSituationPro =
   | "SALARIE"
   | "INDEPENDANT"
   | "FRANCE_TRAVAIL"
-  | "RSA"
   | "AAH"
   | "RETRAITE"
   | "AUTRE";

@@ -67,6 +67,9 @@ export class UsagerEntretienTable
   public revenusDetail: string;
 
   @Column({ type: "boolean", nullable: true })
+  public rsa: boolean;
+
+  @Column({ type: "boolean", nullable: true })
   public orientation: boolean;
 
   @Column({ type: "text", nullable: true })

@@ -70,9 +70,12 @@ export const UsagersImportUsagerSchema = yup
     orientation: booleanOuiNon().notRequired(),
     orientationDetail: yup.string().max(1000),
     domiciliationExistante: booleanOuiNon().notRequired(),
-    situationPro: oneOfString(
-      Object.keys(ENTRETIEN_SITUATION_PRO)
-    ).notRequired(),
+    // "RSA" is no longer a situation pro but stays accepted for older files:
+    // it is mapped to the dedicated rsa field.
+    situationPro: oneOfString([
+      ...Object.keys(ENTRETIEN_SITUATION_PRO),
+      "RSA",
+    ]).notRequired(),
     situationProDetail: yup.string().notRequired().max(1000),
     revenus: booleanOuiNon().notRequired(),
     revenusDetail: yup.string().max(1000),

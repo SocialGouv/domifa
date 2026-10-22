@@ -108,6 +108,7 @@ export const POST_USAGER: {
       commentaires: null,
       typeMenage: null,
       revenus: null,
+      rsa: null,
       revenusDetail: null,
       orientation: null,
       orientationDetail: null,

@@ -66,6 +66,7 @@ export const USAGER_REFUS_MOCK: Usager = {
     typeMenage: "COUPLE_AVEC_ENFANT",
     domiciliation: false,
     revenus: false,
+    rsa: null,
     orientation: true,
     orientationDetail: "Test orientation",
     raison: "PRESTATIONS_SOCIALES",
