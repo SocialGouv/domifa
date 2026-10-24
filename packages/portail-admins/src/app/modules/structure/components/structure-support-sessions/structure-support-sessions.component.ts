@@ -4,17 +4,14 @@ import { ActivatedRoute } from "@angular/router";
 import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 import { Subscription } from "rxjs";
 
-import { SupportSession, SupportSessionRevokedReason } from "@domifa/common";
+import {
+  SUPPORT_SESSION_REVOKED_REASON_LABELS,
+  SupportSession,
+  SupportSessionRevokedReason,
+} from "@domifa/common";
 
 import { StructureService } from "../../services/structure.service";
 import { CustomToastService } from "../../../shared/services";
-
-const REVOKED_REASON_LABELS: Record<SupportSessionRevokedReason, string> = {
-  MANUAL_REVOKE: "Révoquée manuellement",
-  EXPIRED: "Expirée",
-  REPLACED: "Remplacée par une nouvelle session",
-  STRUCTURE_LOGOUT: "Déconnexion de la structure",
-};
 
 @Component({
   selector: "app-structure-support-sessions",
@@ -69,7 +66,7 @@ export class StructureSupportSessionsComponent implements OnInit, OnDestroy {
     if (!reason) {
       return "—";
     }
-    return REVOKED_REASON_LABELS[reason] ?? reason;
+    return SUPPORT_SESSION_REVOKED_REASON_LABELS[reason] ?? reason;
   }
 
   private load(): void {

@@ -62,6 +62,7 @@
               <td class="align-middle fr-text--right">
                 <app-button
                   (action)="getStructureCustomDoc(document)"
+                  appSupportModeDisable
                   [ariaLabel]="'Télécharger le document ' + document.label"
                   label="Télécharger"
                   icon="download"

@@ -273,6 +273,7 @@ export class ImportController {
   }
 
   @Get("log-document-download/:documentType")
+  @AllowUserStructureRoles("responsable", "admin", "support")
   public async logDocumentDownload(
     @CurrentUser()
     user: UserStructureAuthenticated,

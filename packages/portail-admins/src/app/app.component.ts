@@ -114,6 +114,11 @@ export class AppComponent implements OnInit {
               routerLink: "/sessions",
             },
             {
+              linkId: "support-sessions",
+              label: "Sessions support",
+              routerLink: "/support-sessions",
+            },
+            {
               linkId: "brevo-blocklist",
               label: "Emails bloqués",
               routerLink: "/brevo-blocklist",

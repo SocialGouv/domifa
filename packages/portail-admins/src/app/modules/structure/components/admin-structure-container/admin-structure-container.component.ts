@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { Store } from "@ngrx/store";
 import {
@@ -16,6 +17,8 @@ import {
   getPasswordChangeStatus,
   StructureAdmin,
   SUPPORT_ATTACHMENT_DURATION_MS,
+  SUPPORT_SESSION_REASON_MAX_LENGTH,
+  SUPPORT_SESSION_REASON_MIN_LENGTH,
   UsersForAdminList,
 } from "@domifa/common";
 
@@ -50,6 +53,7 @@ const SUPPORT_ACTIVATION_ERRORS: Record<string, string> = {
   styleUrl: "./admin-structure-container.component.css",
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule,
     DsfrSpinnerComponent,
     DsfrModalModule,
@@ -63,6 +67,11 @@ export class AdminStructureContainerComponent implements OnInit, OnDestroy {
   public activatingSupportSession = false;
   public checkingSupportEligibility = false;
   public supportActivationError: string | null = null;
+  public supportReason = "";
+  public readonly SUPPORT_SESSION_REASON_MIN_LENGTH =
+    SUPPORT_SESSION_REASON_MIN_LENGTH;
+  public readonly SUPPORT_SESSION_REASON_MAX_LENGTH =
+    SUPPORT_SESSION_REASON_MAX_LENGTH;
   private readonly subscription = new Subscription();
 
   @ViewChild("supportSessionModal")
@@ -76,6 +85,14 @@ export class AdminStructureContainerComponent implements OnInit, OnDestroy {
     private readonly adminAuthService: AdminAuthService,
     private readonly toastr: CustomToastService
   ) {}
+
+  public get isSupportReasonValid(): boolean {
+    const length = this.supportReason.trim().length;
+    return (
+      length >= SUPPORT_SESSION_REASON_MIN_LENGTH &&
+      length <= SUPPORT_SESSION_REASON_MAX_LENGTH
+    );
+  }
 
   public get canUseSupportMode(): boolean {
     return (
@@ -140,6 +157,7 @@ export class AdminStructureContainerComponent implements OnInit, OnDestroy {
   public openSupportSessionModal(): void {
     // Always refetch: the admin may have just renewed their password.
     this.store.dispatch(UsersActions.load());
+    this.supportReason = "";
     this.supportSessionModal.open();
   }
 
@@ -148,13 +166,14 @@ export class AdminStructureContainerComponent implements OnInit, OnDestroy {
       !this.structure ||
       this.activatingSupportSession ||
       this.checkingSupportEligibility ||
-      this.supportActivationError
+      this.supportActivationError ||
+      !this.isSupportReasonValid
     ) {
       return;
     }
     this.activatingSupportSession = true;
     this.structureService
-      .activateSupportSession(this.structure.uuid)
+      .activateSupportSession(this.structure.uuid, this.supportReason.trim())
       .subscribe({
         next: (response) => {
           this.activatingSupportSession = false;

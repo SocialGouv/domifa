@@ -60,11 +60,12 @@ export class StructureService {
   }
 
   public activateSupportSession(
-    structureUuid: string
+    structureUuid: string,
+    reason: string
   ): Observable<ActivateSupportSessionResponse> {
     return this.http.post<ActivateSupportSessionResponse>(
       `${BASE_URL}/structure/${structureUuid}/support-session`,
-      {}
+      { reason }
     );
   }
 
