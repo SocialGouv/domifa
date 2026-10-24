@@ -2,10 +2,11 @@ volumes:
   postgres-data:
   metabase-data:
   minio_data:
+  clamav-data:
 
 services:
   minio:
-    image: minio/minio
+    image: pgsty/minio:RELEASE.2026-08-04T00-00-00Z
     volumes:
       - minio_data:/data
     ports:
@@ -16,6 +17,24 @@ services:
       MINIO_ROOT_PASSWORD: minioadmin
       MINIO_REGION: xxx
     command: server /data --console-address ":9001"
+
+  # Same engine version as the shared clamavd on the OVH clusters (infra-apps).
+  # Debian variant: the Alpine image has no arm64 build.
+  clamav:
+    image: clamav/clamav-debian:1.4.3
+    container_name: domifa-clamav
+    volumes:
+      - clamav-data:/var/lib/clamav
+    ports:
+      - "127.0.0.1:3310:3310"
+    environment:
+      TZ: Europe/Paris
+    healthcheck:
+      test: ["CMD", "clamdscan", "--ping", "1"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 300s
 
   postgres:
     image: postgis/postgis:16-3.5-alpine

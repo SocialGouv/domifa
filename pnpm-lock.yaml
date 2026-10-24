@@ -132,6 +132,9 @@ importers:
       cache-manager:
         specifier: ^6.4.3
         version: 6.4.3
+      clamscan:
+        specifier: 2.4.0
+        version: 2.4.0
       class-transformer:
         specifier: 0.5.1
         version: 0.5.1
@@ -168,6 +171,9 @@ importers:
       fastest-levenshtein:
         specifier: ^1.0.16
         version: 1.0.16
+      file-type:
+        specifier: 21.3.4
+        version: 21.3.4
       fs-extra:
         specifier: ^11.3.2
         version: 11.4.0
@@ -289,6 +295,9 @@ importers:
       '@types/bcryptjs':
         specifier: ^2.4.6
         version: 2.4.6
+      '@types/clamscan':
+        specifier: 2.4.1
+        version: 2.4.1
       '@types/compression':
         specifier: ^1.8.1
         version: 1.8.1
@@ -4457,6 +4466,9 @@ packages:
   '@types/body-parser@1.19.6':
     resolution: {integrity: sha512-HLFeCYgz89uk22N5Qg3dvGvsv46B8GLvKKo1zKG4NybA8U2DiEO3w9lqGg29t/tfLRJpJ6iQxnVw4OnB7MoM9g==}
 
+  '@types/clamscan@2.4.1':
+    resolution: {integrity: sha512-KhBHhXsMGDoEkk87VRtHtDsjoqXD3epu+a09c1sjW7xqpvoihScxhZNdNIPegVCLDvPOp4khiIpy02XabseztQ==}
+
   '@types/compression@1.8.1':
     resolution: {integrity: sha512-kCFuWS0ebDbmxs0AXYn6e2r2nrGAb5KwQhknjSPSPgJcGd8+HVSILlUyFhGqML2gk39HcG7D1ydW9/qpYkN00Q==}
 
@@ -5766,6 +5778,10 @@ packages:
 
   cjs-module-lexer@2.2.0:
     resolution: {integrity: sha512-4bHTS2YuzUvtoLjdy+98ykbNB5jS0+07EvFNXerqZQJ89F7DI6ET7OQo/HJuW6K0aVsKA9hj9/RVb2kQVOrPDQ==}
+
+  clamscan@2.4.0:
+    resolution: {integrity: sha512-XBOxUiGOcQGuKmCn5qaM5rIK153fGCwsvJMbjVtcnNJ+j/YHrSj2gKNjyP65yr/E8JsKTTDtKYFG++p7Lzigyw==}
+    engines: {node: '>=16.0.0'}
 
   class-transformer@0.5.1:
     resolution: {integrity: sha512-SQa1Ws6hUbfC98vKGxZH3KFY0Y1lm5Zm0SY8XX9zbK7FJCyVEac3ATW0RIpwzW+oOfmHE5PMPufDG9hCfoEOMw==}
@@ -14759,6 +14775,10 @@ snapshots:
       '@types/connect': 3.4.38
       '@types/node': 24.19.1
 
+  '@types/clamscan@2.4.1':
+    dependencies:
+      '@types/node': 24.19.1
+
   '@types/compression@1.8.1':
     dependencies:
       '@types/express': 5.0.6
@@ -16443,6 +16463,8 @@ snapshots:
   cjs-module-lexer@1.4.3: {}
 
   cjs-module-lexer@2.2.0: {}
+
+  clamscan@2.4.0: {}
 
   class-transformer@0.5.1: {}
 

@@ -1,7 +1,9 @@
 import { HttpStatus } from "@nestjs/common";
 
-import { pathExists } from "fs-extra";
-import { resolve } from "path";
+import { outputFile, pathExists, readFile, remove } from "fs-extra";
+import PizZip from "pizzip";
+import { tmpdir } from "os";
+import { join, resolve } from "path";
 
 import { StructuresModule } from "../../../modules/structures/structure.module";
 import { UsersModule } from "../../../modules/users/users.module";
@@ -19,6 +21,7 @@ import { UsagersModule } from "../../usagers.module";
 import { AppLogsService } from "../../../modules/app-logs/app-logs.service";
 import { appLogsRepository } from "../../../database";
 import { MailsModule } from "../../../modules/mails/mails.module";
+import { AntivirusModule } from "../../../modules/antivirus";
 
 const importFilesDir = resolve(
   __dirname,
@@ -34,7 +37,13 @@ describe("Import Controller", () => {
     context = await AppTestHelper.bootstrapTestApp(
       {
         controllers: [ImportController],
-        imports: [UsersModule, StructuresModule, UsagersModule, MailsModule],
+        imports: [
+          UsersModule,
+          StructuresModule,
+          UsagersModule,
+          MailsModule,
+          AntivirusModule,
+        ],
         providers: [UsagersService, UsagerHistoryStateService, AppLogsService],
       },
       { initApp: true }
@@ -57,6 +66,65 @@ describe("Import Controller", () => {
 
   it("should be defined", () => {
     expect(controller).toBeDefined();
+  });
+
+  describe("contrôle du type puis antivirus", () => {
+    // Built at runtime so the repository never contains the EICAR signature
+    const eicar = [
+      "X5O!P%@AP[4\\PZX54(P^)7CC)7}$",
+      "EICAR-STANDARD-ANTIVIRUS-",
+      "TEST-FILE!$H+H*",
+    ].join("");
+
+    const postTmpFile = async (
+      content: Buffer | string,
+      extension = "xlsx"
+    ) => {
+      const filePath = join(
+        tmpdir(),
+        `domifa-import-${Date.now()}.${extension}`
+      );
+      await outputFile(filePath, content);
+      try {
+        return await AppTestHttpClient.post("/import/preview", {
+          headers: { "Content-Type": "multipart/form-data" },
+          attachments: { file: filePath },
+          context,
+        });
+      } finally {
+        await remove(filePath);
+      }
+    };
+
+    it(`❌ Extension et type déclaré non autorisés : refusé avant lecture du contenu`, async () => {
+      const response = await postTmpFile("nom;prenom", "txt");
+
+      expect(response.status).toBe(HttpStatus.BAD_REQUEST);
+      expect(JSON.parse(response.text).message).toBe("INCORRECT_FORMAT");
+    });
+
+    it(`❌ Fichier renommé en .xlsx : refusé par le contrôle du type, avant l'antivirus`, async () => {
+      const response = await postTmpFile(eicar);
+
+      expect(response.status).toBe(HttpStatus.BAD_REQUEST);
+      expect(JSON.parse(response.text).message).toBe("INCORRECT_FORMAT");
+      expect(await appLogsRepository.count()).toBe(0);
+    });
+
+    it(`❌ Vrai fichier Excel infecté : bloqué par l'antivirus`, async () => {
+      const xlsx = new PizZip(
+        await readFile(resolve(importFilesDir, "import_ok_1.xlsx"))
+      );
+      xlsx.file("xl/embeddings/oleObject1.bin", eicar);
+
+      const response = await postTmpFile(
+        xlsx.generate({ type: "nodebuffer", compression: "DEFLATE" })
+      );
+
+      expect(response.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
+      expect(JSON.parse(response.text).message).toBe("FILE_INFECTED");
+      expect(await appLogsRepository.count()).toBe(0);
+    });
   });
 
   it(`❌ Import d'un fichier Incorrect`, async () => {
