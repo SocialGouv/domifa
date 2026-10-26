@@ -1,11 +1,20 @@
 <div class="fr-alert fr-alert--info fr-alert--sm fr-mb-3w">
   <p>
-    L'invitation n'est possible qu'avec une adresse e-mail professionnelle
-    officielle (par exemple :
+    L'invitation n'est possible qu'avec l'adresse e-mail professionnelle de
+    l'agent, sur le domaine officiel de son département (par exemple :
     prenom.nom&#64;departement<strong>.gouv.fr</strong>). Les autres adresses
     sont refusées.
   </p>
 </div>
+
+@if (!hasSelfServiceDepartment) {
+<div class="fr-alert fr-alert--warning fr-alert--sm fr-mb-3w">
+  <p>
+    Les comptes des départements de votre région sont créés par l'équipe DomiFa.
+    Contactez-la pour inviter un agent.
+  </p>
+</div>
+}
 
 <p class="fr-hint-text fr-mb-2w">
   Les champs marqués d'un astérisque (<span class="fr-text-default--error"
@@ -64,15 +73,17 @@
 
   <div
     class="fr-input-group"
-    [class.fr-input-group--error]="
-      ((f.email.dirty || submitted) && f.email.errors) || emailExist
-    "
+    [class.fr-input-group--error]="emailInvalid || emailExist"
   >
     <label class="fr-label" for="ddets-email">
       Email<span class="fr-text-default--error">*</span>
-      <span class="fr-hint-text"
-        >Format attendu : prenom.nom&#64;departement.gouv.fr</span
-      >
+      <span class="fr-hint-text">
+        Format attendu : prenom.nom&#64;{{
+          expectedDomains.length
+            ? expectedDomains.join(" ou prenom.nom@")
+            : "departement.gouv.fr"
+        }}
+      </span>
     </label>
     <input
       class="fr-input"
@@ -80,11 +91,7 @@
       type="email"
       formControlName="email"
       autocomplete="off"
-      [attr.aria-invalid]="
-        ((f.email.dirty || submitted) && f.email.errors) || emailExist
-          ? true
-          : null
-      "
+      [attr.aria-invalid]="emailInvalid || emailExist ? true : null"
       aria-describedby="ddets-email-messages"
     />
     <div class="fr-messages-group" id="ddets-email-messages" aria-live="polite">
@@ -92,12 +99,13 @@
       <p class="fr-message fr-message--error">
         Un compte existe déjà avec cette adresse email
       </p>
-      } @else if ((f.email.dirty || submitted) && f.email.errors) {
+      } @else if (emailInvalid) {
       <p class="fr-message fr-message--error">
         @if (f.email.errors?.['invalidDdetsEmail']) { Seules les adresses
         nominatives en .gouv.fr sont acceptées
-        (prenom.nom&#64;departement.gouv.fr) } @else { Veuillez vérifier
-        l'adresse email }
+        (prenom.nom&#64;departement.gouv.fr) } @else if (f.email.errors) {
+        Veuillez vérifier l'adresse email } @else { L'adresse doit se terminer
+        par &#64;{{ expectedDomains.join(" ou @") }} pour ce département }
       </p>
       } @else {
       <p class="fr-message fr-message--info">Vérifiez l'adresse mail</p>
@@ -123,7 +131,10 @@
     >
       <option value="" disabled>Sélectionnez un département</option>
       @for (department of departments; track department.code) {
-      <option [value]="department.code">{{ department.label }}</option>
+      <option [value]="department.code" [disabled]="!department.selfService">
+        {{ department.label }}
+        @if (!department.selfService) { (comptes créés par l'équipe DomiFa) }
+      </option>
       }
     </select>
     @if (submitted && f.department.errors) {

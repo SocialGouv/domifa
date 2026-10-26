@@ -4,12 +4,15 @@ import {
   FormBuilder,
   FormGroup,
   ValidationErrors,
+  ValidatorFn,
   Validators,
 } from "@angular/forms";
 import {
   DEPARTEMENTS_LISTE,
+  getDdetsEmailDomains,
   getRegionDepartmentCodes,
   isDdetsEmail,
+  isDdetsEmailForDepartment,
 } from "@domifa/common";
 import { Subscription } from "rxjs";
 import { PortailStatsAuthService } from "../../../auth/services/portail-stats-auth.service";
@@ -23,12 +26,41 @@ import {
   RegisterDepartmentUserForm,
 } from "../../services/region-users.service";
 
+type DepartmentOption = {
+  code: string;
+  label: string;
+  domains: readonly string[];
+  selfService: boolean;
+};
+
 const DdetsEmailValidator = (
   control: AbstractControl
 ): ValidationErrors | null =>
   !control.value || isDdetsEmail(control.value)
     ? null
     : { invalidDdetsEmail: true };
+
+// The email domain must be the one of the selected department
+const EmailMatchesDepartmentValidator: ValidatorFn = (
+  group: AbstractControl
+): ValidationErrors | null => {
+  const email = group.get("email")?.value;
+  const department = group.get("department")?.value;
+  if (!email || !department || !isDdetsEmail(email)) {
+    return null;
+  }
+  return isDdetsEmailForDepartment(email, department)
+    ? null
+    : { emailDomainMismatch: true };
+};
+
+const API_ERRORS: Record<string, string> = {
+  EMAIL_DOMAIN_MISMATCH:
+    "L'adresse email ne correspond pas au domaine du département choisi",
+  DEPARTMENT_NOT_SELF_SERVICE:
+    "Les comptes de ce département sont créés par l'équipe DomiFa",
+  DEPARTMENT_OUTSIDE_REGION: "Ce département n'appartient pas à votre région",
+};
 
 @Component({
   selector: "app-register-department-user",
@@ -40,7 +72,8 @@ export class RegisterDepartmentUserComponent implements OnDestroy {
   @Output() public readonly cancelAction = new EventEmitter<void>();
 
   public readonly userForm: FormGroup;
-  public readonly departments: { code: string; label: string }[];
+  public readonly departments: DepartmentOption[];
+  public readonly hasSelfServiceDepartment: boolean;
   public submitted = false;
   public loading = false;
   public emailExist = false;
@@ -49,6 +82,17 @@ export class RegisterDepartmentUserComponent implements OnDestroy {
 
   public get f(): { [key: string]: AbstractControl } {
     return this.userForm.controls;
+  }
+
+  public get expectedDomains(): readonly string[] {
+    return getDdetsEmailDomains(this.f.department.value ?? "");
+  }
+
+  public get emailInvalid(): boolean {
+    return (
+      (this.f.email.dirty || this.submitted) &&
+      (!!this.f.email.errors || !!this.userForm.errors?.emailDomainMismatch)
+    );
   }
 
   constructor(
@@ -61,29 +105,38 @@ export class RegisterDepartmentUserComponent implements OnDestroy {
       this.authService.currentUserValue?.territories ?? []
     )
       .sort()
-      .map((code) => ({
-        code,
-        label: `${code} - ${DEPARTEMENTS_LISTE[code]}`,
-      }));
+      .map((code) => {
+        const domains = getDdetsEmailDomains(code);
+        return {
+          code,
+          label: `${code} - ${DEPARTEMENTS_LISTE[code]}`,
+          domains,
+          selfService: domains.length > 0,
+        };
+      });
+    this.hasSelfServiceDepartment = this.departments.some((d) => d.selfService);
 
-    this.userForm = this.formBuilder.group({
-      nom: [
-        "",
-        [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
-      ],
-      prenom: [
-        "",
-        [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
-      ],
-      email: ["", [Validators.required, EmailValidator, DdetsEmailValidator]],
-      department: [
-        this.departments.length === 1 ? this.departments[0].code : "",
-        Validators.required,
-      ],
-    });
+    this.userForm = this.formBuilder.group(
+      {
+        nom: [
+          "",
+          [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
+        ],
+        prenom: [
+          "",
+          [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
+        ],
+        email: ["", [Validators.required, EmailValidator, DdetsEmailValidator]],
+        department: [this.defaultDepartment(), Validators.required],
+      },
+      { validators: EmailMatchesDepartmentValidator }
+    );
 
     this.subscription.add(
-      this.f.email.valueChanges.subscribe(() => (this.emailExist = false))
+      this.f.email.valueChanges.subscribe((email: string) => {
+        this.emailExist = false;
+        this.preselectDepartmentFromEmail(email);
+      })
     );
   }
 
@@ -110,12 +163,14 @@ export class RegisterDepartmentUserComponent implements OnDestroy {
           },
           error: (error) => {
             this.loading = false;
-            if (error?.error?.message === "EMAIL_ALREADY_EXISTS") {
+            const message = error?.error?.message;
+            if (message === "EMAIL_ALREADY_EXISTS") {
               this.emailExist = true;
               return;
             }
             this.toastService.error(
-              "Impossible de créer cet utilisateur, veuillez vérifier le formulaire"
+              API_ERRORS[message] ??
+                "Impossible de créer cet utilisateur, veuillez vérifier le formulaire"
             );
           },
         })
@@ -131,6 +186,25 @@ export class RegisterDepartmentUserComponent implements OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  // Picks the department when the typed domain belongs to only one of them
+  private preselectDepartmentFromEmail(email: string): void {
+    if (this.f.department.value || !isDdetsEmail(email)) {
+      return;
+    }
+    const domain = email.trim().toLowerCase().split("@")[1];
+    const matches = this.departments.filter(
+      (d) => d.selfService && d.domains.includes(domain)
+    );
+    if (matches.length === 1) {
+      this.f.department.setValue(matches[0].code);
+    }
+  }
+
+  private defaultDepartment(): string {
+    const selfService = this.departments.filter((d) => d.selfService);
+    return selfService.length === 1 ? selfService[0].code : "";
+  }
+
   private resetForm(): void {
     this.submitted = false;
     this.loading = false;
@@ -139,7 +213,7 @@ export class RegisterDepartmentUserComponent implements OnDestroy {
       nom: "",
       prenom: "",
       email: "",
-      department: this.departments.length === 1 ? this.departments[0].code : "",
+      department: this.defaultDepartment(),
     });
   }
 }

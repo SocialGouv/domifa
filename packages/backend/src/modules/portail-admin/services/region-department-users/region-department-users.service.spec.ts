@@ -18,6 +18,12 @@ const DREETS_BRETAGNE: UserAdminAuthenticated = {
   territories: ["53"],
 };
 
+const DREETS_ILE_DE_FRANCE: UserAdminAuthenticated = {
+  ...USER_SUPERVISOR_AUTH,
+  role: "region",
+  territories: ["11"],
+};
+
 const DDETS_EMAIL = "jean.dupont@ille-et-vilaine.gouv.fr";
 const OTHER_REGION_EMAIL = "marie.martin@nord.gouv.fr";
 
@@ -73,6 +79,28 @@ describe("RegionDepartmentUsersService", () => {
         department: "59",
       })
     ).rejects.toBeInstanceOf(ForbiddenException);
+  });
+
+  it("refuses an email domain that does not match the department", async () => {
+    await expect(
+      service.create(DREETS_BRETAGNE, {
+        prenom: "Jean",
+        nom: "Dupont",
+        email: "jean.dupont@finistere.gouv.fr",
+        department: "35",
+      })
+    ).rejects.toThrow("EMAIL_DOMAIN_MISMATCH");
+  });
+
+  it("refuses a department outside the domain allowlist", async () => {
+    await expect(
+      service.create(DREETS_ILE_DE_FRANCE, {
+        prenom: "Jean",
+        nom: "Dupont",
+        email: "jean.dupont@seine-saint-denis.gouv.fr",
+        department: "93",
+      })
+    ).rejects.toThrow("DEPARTMENT_NOT_SELF_SERVICE");
   });
 
   it("creates, lists then soft-deletes a DDETS of the region", async () => {
