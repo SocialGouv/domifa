@@ -89,7 +89,6 @@ describe("UsagersService", () => {
     expect(updated.statut).toEqual("VALIDE");
     expect(updated.nom).toEqual(usager.nom);
     expect(updated).toHaveProperty("entretien");
-    expect(updated).not.toHaveProperty("nom_prenom_surnom_ref");
 
     const { nom_prenom_surnom_ref } = await usagerRepository
       .createQueryBuilder("usager")

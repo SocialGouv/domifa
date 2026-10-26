@@ -8,6 +8,7 @@ import {
 } from "../../../util/test";
 import { UsagersModule } from "../../usagers.module";
 import { CriteriaSearchField } from "@domifa/common";
+import { usagerRepository } from "../../../database";
 
 describe("SearchUsagersController", () => {
   let controller: SearchUsagersController;
@@ -141,12 +142,18 @@ describe("SearchUsagersController", () => {
     expect(Number.isNaN(Date.parse(response.body.syncedAt))).toBe(false);
   });
 
-  it("should return every usager updated since the cursor", async () => {
+  it("should return every usager updated since lastSync", async () => {
+    const lastSync = new Date().toISOString();
+    await usagerRepository.update(
+      { ref: 4, structureId: 1 },
+      { updatedAt: new Date() }
+    );
+
     const response = await AppTestHttpClient.get(
-      "/search-usagers/update-manage?since=2000-01-01T00:00:00.000Z",
+      `/search-usagers/update-manage?since=${lastSync}`,
       { context }
     ).expect(200);
-    expect(response.body.length).toBeGreaterThan(0);
+    expect(response.body.map((usager) => usager.ref)).toContain(4);
     for (const usager of response.body) {
       expect(usager.updatedAt).toBeDefined();
       for (const decision of usager.historique ?? []) {

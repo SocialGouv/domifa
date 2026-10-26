@@ -220,10 +220,9 @@ export class UsagersService {
       historyBeginDate: usager.decision.dateDebut,
     });
 
-    const { raw } = await usagerRepository
-      .createQueryBuilder()
-      .update()
-      .set({
+    await usagerRepository.update(
+      { uuid: usager.uuid },
+      {
         // nom, prenom and surnom: the subscriber needs them to recompute the search index (customRef)
         nom: usager.nom,
         prenom: usager.prenom,
@@ -237,17 +236,10 @@ export class UsagersService {
         typeDom: usager.typeDom,
         datePremiereDom: usager.datePremiereDom,
         dateAncienneteDom: usager.dateAncienneteDom,
-      })
-      .where("uuid = :uuid", { uuid: usager.uuid })
-      // Same columns as the profile (select: false ones excluded)
-      .returning(
-        usagerRepository.metadata.columns
-          .filter((column) => column.isSelect)
-          .map((column) => column.propertyPath)
-      )
-      .execute();
+      }
+    );
 
-    return { ...raw[0], entretien: usager.entretien };
+    return await usagerRepository.getUsager(usager.uuid);
   }
 
   public async setRdv(
