@@ -25,6 +25,7 @@
             <button
               type="button"
               (click)="export(UsagersFilterCriteriaStatut.VALIDE)"
+              appSupportModeDisable
               [disabled]="exportLoading"
               [attr.aria-busy]="exportLoading"
               class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-download-line"
@@ -37,6 +38,7 @@
             <button
               type="button"
               (click)="export(UsagersFilterCriteriaStatut.TOUS)"
+              appSupportModeDisable
               [disabled]="exportLoading"
               [attr.aria-busy]="exportLoading"
               class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-download-line"
