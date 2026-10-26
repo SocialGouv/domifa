@@ -1,5 +1,48 @@
 [
   {
+    "date": "2026-10-26",
+    "description": "Sécurité des mots de passe, dates de domiciliation et nouvelle adresse de contact",
+    "content": [
+      {
+        "type": "new",
+        "categorie": "🔐 Renouvellement des mots de passe",
+        "message": [
+          "Pour renforcer la sécurité de votre compte, il vous sera régulièrement demandé de renouveler votre mot de passe.",
+          "Un mot de passe utilisé récemment ne peut plus être réutilisé."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "📅 Deux dates de domiciliation sur la fiche",
+        "message": [
+          "La fiche du domicilié affiche désormais la <strong>date de début de la domiciliation en cours</strong> et la <strong>date de la première domiciliation connue</strong>."
+        ]
+      },
+      {
+        "type": "new",
+        "categorie": "✉️ Nouvelle adresse de contact",
+        "message": [
+          "L’équipe DomiFa est désormais joignable à l’adresse <strong>contact-domifa@sg.social.gouv.fr</strong>."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "🎨 Nouvelle page de connexion et accessibilité",
+        "message": [
+          "La page de connexion et l’en-tête ont été modernisés.",
+          "Les couleurs, les boutons et les onglets de l’historique ont été revus pour être plus lisibles et accessibles."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "🔑 Changement de mot de passe",
+        "message": [
+          "Le changement de mot de passe depuis votre compte fonctionne de nouveau correctement, avec des messages d’erreur plus clairs."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2026-09-14",
     "description": "Nouvelles pastilles et changement de la date de 1re domiciliation",
     "content": [
