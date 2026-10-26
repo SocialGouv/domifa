@@ -23,7 +23,7 @@
         qu’une demande vous sera adressée.
       </p>
 
-      <form>
+      <form appSupportModeDisable>
         <div class="fr-my-2w fr-toggle">
           <input
             type="checkbox"
@@ -32,7 +32,6 @@
             [(ngModel)]="structure.portailUsager.enabledByStructure"
             name="enabledByStructure"
             aria-describedby="enabledByStructure-messages"
-            appSupportModeDisable
           />
           <label class="fr-toggle__label" for="enabledByStructure">
             Activer l'accès au portail usager
@@ -54,7 +53,6 @@
             "
             name="usagerLoginUpdateLastInteraction"
             aria-describedby="usagerLoginUpdateLastInteraction-messages"
-            appSupportModeDisable
           />
           <label
             class="fr-toggle__label"

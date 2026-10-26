@@ -23,6 +23,7 @@
 
         <button
           (click)="export()"
+          appSupportModeDisable
           [disabled]="loading"
           [attr.aria-busy]="loading"
           class="fr-btn fr-btn--secondary fr-my-1w fr-ml-2w"

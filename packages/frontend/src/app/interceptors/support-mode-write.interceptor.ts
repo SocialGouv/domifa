@@ -25,6 +25,7 @@ const ALLOWED_READ_ONLY_POST_PATTERNS = [
   /\/sms\/usager\//,
   /\/portail-usagers-manager\/all-accounts/,
   /\/search-usagers\/search-radies/,
+  /\/stats\/$/,
 ];
 
 // Client-side safety net for the read-only "support" account: short-circuits
