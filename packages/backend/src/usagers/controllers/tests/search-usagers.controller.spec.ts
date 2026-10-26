@@ -166,10 +166,27 @@ describe("SearchUsagersController", () => {
     }
   });
 
-  it("should reject an invalid cursor", async () => {
-    await AppTestHttpClient.get("/search-usagers/update-manage?since=hier", {
-      context,
-    }).expect(400);
+  it.each([
+    "hier",
+    "2026-10-27",
+    "2026-10-27T10:00",
+    "2026-10-27T10:00:00",
+    "20261027T100000Z",
+    "2026-02-30T10:00:00Z",
+  ])("should reject lastSync %s", async (since) => {
+    await AppTestHttpClient.get(
+      `/search-usagers/update-manage?since=${encodeURIComponent(since)}`,
+      { context }
+    ).expect(400);
+  });
+
+  it("should accept lastSync with a time zone offset", async () => {
+    await AppTestHttpClient.get(
+      `/search-usagers/update-manage?since=${encodeURIComponent(
+        "2026-10-27T10:00:00+02:00"
+      )}`,
+      { context }
+    ).expect(200);
   });
 
   it("should reject invalid echeance value", async () => {
