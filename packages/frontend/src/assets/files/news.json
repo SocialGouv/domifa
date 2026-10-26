@@ -13,13 +13,6 @@
       },
       {
         "type": "new",
-        "categorie": "📅 Deux dates de domiciliation sur la fiche",
-        "message": [
-          "La fiche du domicilié affiche désormais la <strong>date de début de la domiciliation en cours</strong> et la <strong>date de la première domiciliation connue</strong>."
-        ]
-      },
-      {
-        "type": "new",
         "categorie": "✉️ Nouvelle adresse de contact",
         "message": [
           "L’équipe DomiFa est désormais joignable à l’adresse <strong>contact-domifa@sg.social.gouv.fr</strong>."
