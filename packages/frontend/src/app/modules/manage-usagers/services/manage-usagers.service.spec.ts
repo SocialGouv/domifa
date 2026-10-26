@@ -39,7 +39,7 @@ describe("ManageUsagersService", () => {
   });
 
   it("refreshes from the server time of the full load, then from the latest change", () => {
-    expect(service.hasSyncCursor()).toBe(false);
+    expect(service.hasLastSync()).toBe(false);
 
     service.fetchSearchPageUsagerData({ chargerTousRadies: false }).subscribe();
     http.expectOne(`${service.endPoint}?chargerTousRadies=false`).flush({
@@ -47,7 +47,7 @@ describe("ManageUsagersService", () => {
       usagersRadiesTotalCount: 0,
       syncedAt: "2026-10-26T10:00:00.000Z",
     });
-    expect(service.hasSyncCursor()).toBe(true);
+    expect(service.hasLastSync()).toBe(true);
 
     service.updateManage().subscribe();
     const first = http.expectOne(

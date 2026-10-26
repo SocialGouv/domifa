@@ -28,6 +28,7 @@ import {
   switchMap,
   takeUntil,
   tap,
+  throttleTime,
   withLatestFrom,
 } from "rxjs/operators";
 import {
@@ -67,6 +68,7 @@ import {
 } from "../../services/usager-filter";
 
 const FIVE_MINUTES = 5 * 60 * 1000;
+const THIRTY_SECONDS = 30 * 1000;
 const STORAGE_KEY = "SEARCH";
 @Component({
   animations: [fadeInOut],
@@ -251,8 +253,8 @@ export class ManageUsagersPageComponent
     this.subscription.add(searchEvents$.subscribe());
 
     this.subscription.add(
-      // First tick right away: catches up what changed while away from the page
-      timer(0, FIVE_MINUTES)
+      // Right away on page entry and when the tab comes back: catches up since lastSync
+      merge(timer(0, FIVE_MINUTES), fromEvent(document, "visibilitychange"))
         .pipe(
           // Skip the tick when the tab is in background: a hidden tab does not
           // need fresh data and would just consume the IP's rate-limit quota
@@ -260,8 +262,9 @@ export class ManageUsagersPageComponent
           filter(
             () =>
               document.visibilityState === "visible" &&
-              this.usagerService.hasSyncCursor()
+              this.usagerService.hasLastSync()
           ),
+          throttleTime(THIRTY_SECONDS),
           tap(() => {
             this.searching = true;
           }),

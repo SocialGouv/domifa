@@ -20,7 +20,7 @@ export class ManageUsagersService {
   public endPoint = environment.apiUrl + "search-usagers/";
 
   // Server time of the last known state, so that a refresh never skips a change
-  private syncCursor: string | null = null;
+  private lastSync: string | null = null;
 
   constructor(
     private readonly http: HttpClient,
@@ -45,7 +45,7 @@ export class ManageUsagersService {
             usagersRadiesTotalCount: number;
             syncedAt: string;
           }) => {
-            this.syncCursor = data.syncedAt;
+            this.lastSync = data.syncedAt;
             return {
               usagers: data.usagers.map((usager) =>
                 setUsagerInformation(usager)
@@ -85,19 +85,19 @@ export class ManageUsagersService {
       );
   }
 
-  public hasSyncCursor(): boolean {
-    return this.syncCursor !== null;
+  public hasLastSync(): boolean {
+    return this.lastSync !== null;
   }
 
   public updateManage(): Observable<UsagerLight[]> {
     return this.http
       .get<UsagerLight[]>(`${this.endPoint}update-manage`, {
-        params: { since: this.syncCursor },
+        params: { since: this.lastSync },
       })
       .pipe(
         tap((usagers: UsagerLight[]) => {
           if (usagers?.length) {
-            this.syncCursor = this.latestUpdatedAt(usagers, this.syncCursor);
+            this.lastSync = this.latestUpdatedAt(usagers, this.lastSync);
             this.store.dispatch(
               usagerActions.updateManyUsagersForManage({ usagers })
             );
