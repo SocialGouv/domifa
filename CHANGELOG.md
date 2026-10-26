@@ -1,3 +1,10 @@
+## [2.288.4](https://github.com/SocialGouv/domifa/compare/v2.288.3...v2.288.4) (2026-10-26)
+
+
+### Bug Fixes
+
+* **frontend:** update news popup ([09b9872](https://github.com/SocialGouv/domifa/commit/09b98721f819bd542a59dafa8da8c6c2302d4039))
+
 ## [2.288.3](https://github.com/SocialGouv/domifa/compare/v2.288.2...v2.288.3) (2026-10-26)
 
 
