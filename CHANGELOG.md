@@ -1,3 +1,10 @@
+## [2.288.3](https://github.com/SocialGouv/domifa/compare/v2.288.2...v2.288.3) (2026-10-26)
+
+
+### Bug Fixes
+
+* **frontend:** make SMS and portail settings forms read-only in support mode ([5e46677](https://github.com/SocialGouv/domifa/commit/5e46677935a32a04bffee0fe29729028de09cc16))
+
 ## [2.288.2](https://github.com/SocialGouv/domifa/compare/v2.288.1...v2.288.2) (2026-10-26)
 
 
