@@ -19,6 +19,9 @@ import { UsagersCountByStatus } from "@domifa/common";
 export class ManageUsagersService {
   public endPoint = environment.apiUrl + "search-usagers/";
 
+  // Server time of the last known state, so that a refresh never skips a change
+  private syncCursor: string | null = null;
+
   constructor(
     private readonly http: HttpClient,
     private readonly store: Store<UsagerState>
@@ -30,15 +33,19 @@ export class ManageUsagersService {
     chargerTousRadies: boolean;
   }): Observable<void> {
     return this.http
-      .get<{ usagers: UsagerLight[]; usagersRadiesTotalCount: number }>(
-        `${this.endPoint}?chargerTousRadies=${chargerTousRadies}`
-      )
+      .get<{
+        usagers: UsagerLight[];
+        usagersRadiesTotalCount: number;
+        syncedAt: string;
+      }>(`${this.endPoint}?chargerTousRadies=${chargerTousRadies}`)
       .pipe(
         map(
           (data: {
             usagers: UsagerLight[];
             usagersRadiesTotalCount: number;
+            syncedAt: string;
           }) => {
+            this.syncCursor = data.syncedAt;
             return {
               usagers: data.usagers.map((usager) =>
                 setUsagerInformation(usager)
@@ -78,16 +85,36 @@ export class ManageUsagersService {
       );
   }
 
+  public hasSyncCursor(): boolean {
+    return this.syncCursor !== null;
+  }
+
   public updateManage(): Observable<UsagerLight[]> {
-    return this.http.get<UsagerLight[]>(`${this.endPoint}update-manage`).pipe(
-      tap((usagers: UsagerLight[]) => {
-        if (usagers?.length) {
-          this.store.dispatch(
-            usagerActions.updateManyUsagersForManage({ usagers })
-          );
-        }
+    return this.http
+      .get<UsagerLight[]>(`${this.endPoint}update-manage`, {
+        params: { since: this.syncCursor },
       })
-    );
+      .pipe(
+        tap((usagers: UsagerLight[]) => {
+          if (usagers?.length) {
+            this.syncCursor = this.latestUpdatedAt(usagers, this.syncCursor);
+            this.store.dispatch(
+              usagerActions.updateManyUsagersForManage({ usagers })
+            );
+          }
+        })
+      );
+  }
+
+  private latestUpdatedAt(usagers: UsagerLight[], current: string): string {
+    let latest = current;
+    for (const usager of usagers) {
+      const updatedAt = new Date(usager.updatedAt).toISOString();
+      if (updatedAt > latest) {
+        latest = updatedAt;
+      }
+    }
+    return latest;
   }
 
   public countUsagersByStatuts(): Observable<UsagersCountByStatus> {

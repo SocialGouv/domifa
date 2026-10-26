@@ -251,16 +251,23 @@ export class ManageUsagersPageComponent
     this.subscription.add(searchEvents$.subscribe());
 
     this.subscription.add(
-      timer(FIVE_MINUTES, FIVE_MINUTES)
+      // First tick right away: catches up what changed while away from the page
+      timer(0, FIVE_MINUTES)
         .pipe(
           // Skip the tick when the tab is in background: a hidden tab does not
           // need fresh data and would just consume the IP's rate-limit quota
           // for nothing (cabinets share an outgoing IP via NAT).
-          filter(() => document.visibilityState === "visible"),
+          filter(
+            () =>
+              document.visibilityState === "visible" &&
+              this.usagerService.hasSyncCursor()
+          ),
           tap(() => {
             this.searching = true;
           }),
-          switchMap(() => this.usagerService.updateManage())
+          switchMap(() =>
+            this.usagerService.updateManage().pipe(catchError(() => of([])))
+          )
         )
         .subscribe(() => {
           this.searching = false;
@@ -406,7 +413,7 @@ export class ManageUsagersPageComponent
             this.toastr.error(
               "La recherche n'a pas abouti, merci de réessayer dans quelques instants"
             );
-            return filters.searchString;
+            return of(filters.searchString);
           })
         );
     }
