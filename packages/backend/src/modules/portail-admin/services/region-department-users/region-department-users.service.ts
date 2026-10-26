@@ -7,6 +7,8 @@ import {
 import { Not } from "typeorm";
 import {
   getRegionDepartmentCodes,
+  isDdetsEmailForDepartment,
+  isDdetsSelfServiceDepartment,
   RegionDepartmentUser,
   UserDeleteMotif,
 } from "@domifa/common";
@@ -71,6 +73,15 @@ export class RegionDepartmentUsersService {
   ): Promise<void> {
     if (!this.getManagedDepartments(user).includes(dto.department)) {
       throw new ForbiddenException("DEPARTMENT_OUTSIDE_REGION");
+    }
+
+    // Departments without a verified DDETS domain stay managed by DomiFa
+    if (!isDdetsSelfServiceDepartment(dto.department)) {
+      throw new ForbiddenException("DEPARTMENT_NOT_SELF_SERVICE");
+    }
+
+    if (!isDdetsEmailForDepartment(dto.email, dto.department)) {
+      throw new BadRequestException("EMAIL_DOMAIN_MISMATCH");
     }
 
     const userExist = await userSupervisorRepository.findOneBy({
