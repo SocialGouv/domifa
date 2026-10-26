@@ -1,3 +1,10 @@
+## [2.288.1](https://github.com/SocialGouv/domifa/compare/v2.288.0...v2.288.1) (2026-10-26)
+
+
+### Bug Fixes
+
+* **back, front:** fix support mode and adding support sessions tabs ([fc9135f](https://github.com/SocialGouv/domifa/commit/fc9135fcd1a94c788fa0a6ddbb6245ccd4bcf1e8))
+
 # [2.288.0](https://github.com/SocialGouv/domifa/compare/v2.287.1...v2.288.0) (2026-10-26)
 
 
