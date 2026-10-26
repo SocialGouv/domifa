@@ -1,3 +1,10 @@
+## [2.288.2](https://github.com/SocialGouv/domifa/compare/v2.288.1...v2.288.2) (2026-10-26)
+
+
+### Bug Fixes
+
+* **frontend:** disable usager export buttons in support mode ([ca5848a](https://github.com/SocialGouv/domifa/commit/ca5848a886ba917cea0bd2b3a65c0473fabd6d90))
+
 ## [2.288.1](https://github.com/SocialGouv/domifa/compare/v2.288.0...v2.288.1) (2026-10-26)
 
 
