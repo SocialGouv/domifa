@@ -51,7 +51,8 @@
                   <th scope="col">Statut</th>
                   <th scope="col">Début</th>
                   <th scope="col">Expiration</th>
-                  <th scope="col">Motif</th>
+                  <th scope="col">Motif de connexion</th>
+                  <th scope="col">Moyen de déconnexion</th>
                   <th scope="col"></th>
                 </tr>
               </thead>
@@ -95,6 +96,7 @@
                       </span>
                     </ng-template>
                   </td>
+                  <td>{{ session.reason ?? "—" }}</td>
                   <td>{{ reasonLabel(session.revokedReason) }}</td>
                   <td>
                     <button

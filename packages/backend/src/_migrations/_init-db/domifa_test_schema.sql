@@ -330,7 +330,8 @@ CREATE TABLE public.support_session (
     "originalRole" text,
     "revokedAt" timestamp with time zone,
     "revokedBy" text,
-    "revokedReason" text
+    "revokedReason" text,
+    reason text
 );
 CREATE TABLE public.typeorm_metadata (
     type character varying(255),

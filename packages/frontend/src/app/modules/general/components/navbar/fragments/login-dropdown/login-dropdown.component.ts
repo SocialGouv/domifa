@@ -87,7 +87,7 @@ export class LoginDropdownComponent implements OnInit {
       },
     ];
 
-    if (this.isAdminOrResponsable) {
+    if (this.canSeeStructureSettings) {
       this.dsfrLinks.push(
         {
           label: "Gérer les utilisateurs",
@@ -148,8 +148,11 @@ export class LoginDropdownComponent implements OnInit {
     return this._me?.email ?? "";
   }
 
-  get isAdminOrResponsable(): boolean {
-    return this._me ? ["admin", "responsable"].includes(this._me.role) : false;
+  // Support accounts get the same structure-settings links, read-only.
+  get canSeeStructureSettings(): boolean {
+    return this._me
+      ? ["admin", "responsable", "support"].includes(this._me.role)
+      : false;
   }
 
   get isSmsEnabled(): boolean {

@@ -60,7 +60,7 @@
         </ul>
       </section>
 
-      @if (me?.role === 'admin' && structure) {
+      @if ((me?.role === 'admin' || me?.role === 'support') && structure) {
       <section>
         <app-structure-edit-form
           [structure]="structure"

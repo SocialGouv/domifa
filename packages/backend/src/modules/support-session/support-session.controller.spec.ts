@@ -23,7 +23,8 @@ import {
   AppTestHelper,
   AppTestHttpClient,
 } from "../../util/test";
-import { SupportSession } from "@domifa/common";
+import { SupportSession, SupportSessionHistoryItem } from "@domifa/common";
+import { addDays, format } from "date-fns";
 
 // Both accounts below are created directly in the test DB rather than
 // pulled from the shared TESTS_USERS_ADMIN/TESTS_USERS_STRUCTURE dump
@@ -37,6 +38,7 @@ const ACTIVATING_ADMIN_EMAIL =
   "support-mode-test-activator@fabrique.social.gouv.fr";
 const ACTIVATING_SUPERVISOR_PASSWORD = "Azerty012345!";
 const ACTIVATING_STRUCTURE_PASSWORD = "Bravo987654!";
+const SUPPORT_REASON = "Investigating a courrier display issue";
 const OUTSIDER_ADMIN_EMAIL = "support-mode-outsider-admin@yopmail.com";
 const OUTSIDER_ADMIN_PASSWORD = "Azerty012345!";
 
@@ -54,6 +56,7 @@ describe("Support mode — an admin's own structure account attached to a struct
   // gets attached to throughout this suite.
   let targetStructureId: number;
   let targetStructureUuid: string;
+  let targetStructureNom: string;
 
   let attachmentUuid: string;
 
@@ -82,6 +85,7 @@ describe("Support mode — an admin's own structure account attached to a struct
     });
     targetStructureId = targetStructure.id;
     targetStructureUuid = targetStructure.uuid;
+    targetStructureNom = targetStructure.nom;
 
     // The activating admin: a supervisor account for the portail-admins
     // login, and their own real structure account (role "admin" — their
@@ -201,7 +205,7 @@ describe("Support mode — an admin's own structure account attached to a struct
   it("rejects attachment from a supervisor outside @fabrique.social.gouv.fr", async () => {
     const response = await AppTestHttpClient.post(
       `/admin/structures/structure/${targetStructureUuid}/support-session`,
-      { context: outsiderContext }
+      { context: outsiderContext, body: { reason: SUPPORT_REASON } }
     );
 
     expect(response.status).toEqual(403);
@@ -211,7 +215,7 @@ describe("Support mode — an admin's own structure account attached to a struct
   it("rejects attachment on a structure that does not exist", async () => {
     const response = await AppTestHttpClient.post(
       "/admin/structures/structure/00000000-0000-4000-8000-000000000000/support-session",
-      { context }
+      { context, body: { reason: SUPPORT_REASON } }
     );
 
     expect(response.status).toEqual(400);
@@ -225,7 +229,7 @@ describe("Support mode — an admin's own structure account attached to a struct
 
     const response = await AppTestHttpClient.post(
       `/admin/structures/structure/${targetStructureUuid}/support-session`,
-      { context }
+      { context, body: { reason: SUPPORT_REASON } }
     );
 
     await userStructureRepository.update(
@@ -241,10 +245,23 @@ describe("Support mode — an admin's own structure account attached to a struct
     expect(account.role).toEqual("admin");
   });
 
+  it("rejects attachment without a reason", async () => {
+    const response = await AppTestHttpClient.post(
+      `/admin/structures/structure/${targetStructureUuid}/support-session`,
+      { context, body: { reason: "   " } }
+    );
+
+    expect(response.status).toEqual(400);
+    const account = await userStructureRepository.findOneByOrFail({
+      id: activatingAdminAccountId,
+    });
+    expect(account.role).toEqual("admin");
+  });
+
   it("attaches the admin's own structure account to a structure", async () => {
     const response = await AppTestHttpClient.post(
       `/admin/structures/structure/${targetStructureUuid}/support-session`,
-      { context }
+      { context, body: { reason: SUPPORT_REASON } }
     );
 
     expect(response.status).toEqual(201);
@@ -265,6 +282,7 @@ describe("Support mode — an admin's own structure account attached to a struct
     // The account's role before activation was "admin" — proves the real
     // role got snapshotted, not overwritten with "support" itself.
     expect(active!.originalRole).toEqual("admin");
+    expect(active!.reason).toEqual(SUPPORT_REASON);
     attachmentUuid = active!.uuid!;
 
     const account = await userStructureRepository.findOneByOrFail({
@@ -278,7 +296,7 @@ describe("Support mode — an admin's own structure account attached to a struct
 
     const response = await AppTestHttpClient.post(
       `/admin/structures/structure/${targetStructureUuid}/support-session`,
-      { context }
+      { context, body: { reason: SUPPORT_REASON } }
     );
     expect(response.status).toEqual(201);
 
@@ -411,10 +429,45 @@ describe("Support mode — an admin's own structure account attached to a struct
     expect(replay.body.structureId).not.toEqual(targetStructureId);
   });
 
+  it("lists support sessions across structures, filterable by start date", async () => {
+    const response = await AppTestHttpClient.get("/admin/support-sessions", {
+      context,
+    });
+    expect(response.status).toEqual(200);
+    const row = (response.body as SupportSessionHistoryItem[]).find(
+      (session) => session.uuid === attachmentUuid
+    );
+    expect(row).toBeDefined();
+    expect(row!.structureNom).toEqual(targetStructureNom);
+    expect(row!.accountPrenom).toEqual("SupportModeTest");
+    expect(row!.reason).toEqual(SUPPORT_REASON);
+    expect(row!.revokedReason).toEqual("MANUAL_REVOKE");
+
+    const hasAttachment = (body: SupportSessionHistoryItem[]) =>
+      body.some((session) => session.uuid === attachmentUuid);
+
+    // Two days ahead: safely after today whatever the Paris/UTC offset.
+    const later = format(addDays(new Date(), 2), "yyyy-MM-dd");
+    const filtered = await AppTestHttpClient.get(
+      `/admin/support-sessions?startDateFrom=${later}`,
+      { context }
+    );
+    expect(filtered.status).toEqual(200);
+    expect(hasAttachment(filtered.body)).toBe(false);
+
+    // Invalid bounds (bad format, before 2025) are ignored, not rejected.
+    const ignored = await AppTestHttpClient.get(
+      "/admin/support-sessions?startDateFrom=2020-01-01&startDateTo=not-a-date",
+      { context }
+    );
+    expect(ignored.status).toEqual(200);
+    expect(hasAttachment(ignored.body)).toBe(true);
+  });
+
   it("closes an attachment past expiresAt on login, before the cron runs, so the admin is not locked out", async () => {
     const activation = await AppTestHttpClient.post(
       `/admin/structures/structure/${targetStructureUuid}/support-session`,
-      { context }
+      { context, body: { reason: SUPPORT_REASON } }
     );
     expect(activation.status).toEqual(201);
 

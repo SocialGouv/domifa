@@ -12,6 +12,7 @@ export interface SupportSession {
   expiresAt: Date;
   status: SupportSessionStatus;
   originalRole: UserStructureRole | null;
+  reason: string | null;
   revokedAt: Date | null;
   revokedBy: string | null;
   revokedReason: SupportSessionRevokedReason | null;

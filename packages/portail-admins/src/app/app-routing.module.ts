@@ -107,6 +107,16 @@ const routes: Routes = [
       ),
   },
   {
+    path: "support-sessions",
+    title: "Sessions support - Admin DomiFa",
+    canActivate: [AuthGuard],
+    data: { roles: ["super-admin-domifa"] },
+    loadChildren: () =>
+      import("./modules/support-sessions/support-sessions.module").then(
+        (m) => m.SupportSessionsModule
+      ),
+  },
+  {
     path: "brevo-blocklist",
     title: "Emails bloqués Brevo - Admin DomiFa",
     canActivate: [AuthGuard],

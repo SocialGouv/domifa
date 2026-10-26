@@ -43,6 +43,11 @@ export class SupportSessionTable
   @Column({ type: "text", nullable: true })
   originalRole: UserStructureRole | null;
 
+  // Why the super-admin opened this attachment, entered in the activation
+  // modal. Nullable only for rows created before it was required.
+  @Column({ type: "text", nullable: true })
+  reason: string | null;
+
   @Column({ type: "timestamptz", nullable: true })
   revokedAt: Date | null;
 

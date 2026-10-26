@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -26,6 +27,7 @@ import { AppUserGuard, StructureAccessGuard } from "../../auth/guards";
 import { UserAdminAuthenticated } from "../../_common/model";
 import { buildSecurityLogRequestContext } from "../../util/express";
 import { SupportSessionService } from "./support-session.service";
+import { ActivateSupportSessionDto } from "./support-session.dto";
 
 // Kept as a dedicated controller (rather than folded into
 // AdminStructuresController) so the mode-support feature — activation,
@@ -43,13 +45,19 @@ export class SupportSessionController {
   public async activateSupportSession(
     @Req() req: ExpressRequest,
     @CurrentSupervisor() user: UserAdminAuthenticated,
-    @CurrentStructure() structure: Structure
+    @CurrentStructure() structure: Structure,
+    @Body() activateDto: ActivateSupportSessionDto
   ): Promise<ActivateSupportSessionResponse> {
     const requestContext = buildSecurityLogRequestContext(req);
-    return this.supportSessionService.activate(user, structure.uuid, {
-      ip: requestContext.ip ?? "",
-      userAgent: requestContext.userAgent ?? "",
-    });
+    return this.supportSessionService.activate(
+      user,
+      structure.uuid,
+      activateDto.reason,
+      {
+        ip: requestContext.ip ?? "",
+        userAgent: requestContext.userAgent ?? "",
+      }
+    );
   }
 
   @Get("support-sessions")

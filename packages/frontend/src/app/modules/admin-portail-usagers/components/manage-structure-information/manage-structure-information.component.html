@@ -16,6 +16,7 @@
           <button
             (click)="informationForm.openModal(null)"
             type="button"
+            appSupportModeDisable
             class="fr-btn fr-icon-add-line fr-btn--icon-left"
           >
             Ajouter une information
@@ -83,12 +84,14 @@
                           type="button"
                           aria-label="Modifier l'information"
                           (click)="informationForm.openModal(information)"
+                          appSupportModeDisable
                           class="fr-btn fr-btn--secondary fr-icon-edit-line"
                         ></button>
                         <button
                           type="button"
                           aria-label="Supprimer l'information"
                           (click)="openDeleteConfirmation(information)"
+                          appSupportModeDisable
                           class="fr-btn fr-btn--secondary fr-icon-delete-line"
                         ></button>
                       </div>
@@ -137,6 +140,7 @@
           type="button"
           class="fr-btn fr-btn--danger"
           (click)="deleteStructureInformation()"
+          appSupportModeDisable
           [disabled]="loading"
           [attr.aria-busy]="loading"
         >

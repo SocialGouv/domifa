@@ -3,11 +3,13 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { CustomToastService } from "../../../../shared/services";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
+import { SupportModeDisableDirective } from "../../../../shared/directives/support-mode-disable.directive";
 
 @Component({
   selector: "app-set-npai",
   standalone: true,
   templateUrl: "./set-npai.component.html",
+  imports: [SupportModeDisableDirective],
 })
 export class SetNpaiComponent {
   public usager = input.required<UsagerFormModel>();

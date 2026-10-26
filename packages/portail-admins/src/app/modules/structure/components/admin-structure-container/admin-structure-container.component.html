@@ -178,6 +178,25 @@
         normalement (email, mot de passe, code de vérification) sur
         l'application structure pour y accéder.
       </p>
+      <div class="fr-input-group fr-mt-2w">
+        <label class="fr-label" for="support-session-reason">
+          Motif de connexion
+          <span class="fr-hint-text">
+            Obligatoire, entre {{ SUPPORT_SESSION_REASON_MIN_LENGTH }} et
+            {{ SUPPORT_SESSION_REASON_MAX_LENGTH }} caractères. Il apparaîtra
+            dans l'historique des sessions support de la structure.
+          </span>
+        </label>
+        <textarea
+          class="fr-input"
+          id="support-session-reason"
+          name="supportReason"
+          rows="3"
+          required
+          [maxlength]="SUPPORT_SESSION_REASON_MAX_LENGTH"
+          [(ngModel)]="supportReason"
+        ></textarea>
+      </div>
       @if (supportActivationError) {
       <div class="fr-alert fr-alert--error fr-alert--sm fr-mt-2w">
         <p>{{ supportActivationError }}</p>
@@ -195,7 +214,8 @@
             [disabled]="
               activatingSupportSession ||
               checkingSupportEligibility ||
-              !!supportActivationError
+              !!supportActivationError ||
+              !isSupportReasonValid
             "
             label="Rattacher"
           ></dsfr-button>
