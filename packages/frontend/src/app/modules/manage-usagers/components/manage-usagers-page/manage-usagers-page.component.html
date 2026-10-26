@@ -326,6 +326,7 @@
             type="button"
             class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-printer-line"
             (click)="goToPrint()"
+            appSupportModeDisable
             [disabled]="needToPrint"
           >
             @if (needToPrint) {
