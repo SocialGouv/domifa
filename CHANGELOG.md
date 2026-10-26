@@ -1,3 +1,11 @@
+# [2.287.0](https://github.com/SocialGouv/domifa/compare/v2.286.0...v2.287.0) (2026-10-26)
+
+
+### Features
+
+* **backend, frontend:** contact email update ([ecd171d](https://github.com/SocialGouv/domifa/commit/ecd171d0c9d8205fc0791f04e8088d6116f53639))
+* **front:** update contact email secrets ([2542af6](https://github.com/SocialGouv/domifa/commit/2542af615391a44ce88d3f8dc63319a942d5f67a))
+
 # [2.286.0](https://github.com/SocialGouv/domifa/compare/v2.285.0...v2.286.0) (2026-10-21)
 
 
