@@ -16,6 +16,7 @@ import {
   DsfrModalComponent,
   DsfrModalModule,
   DsfrSkiplinksModule,
+  DsfrUserMenuComponent,
 } from "@edugouvfr/ngx-dsfr";
 import { DsfrToastComponent } from "@edugouvfr/ngx-dsfr-ext";
 import { IdleManagerComponent } from "./modules/general/components/idle-manager/idle-manager.component";
@@ -33,6 +34,7 @@ import { NewsContentComponent } from "./modules/shared/components/news-content/n
     DsfrButtonModule,
     DsfrButtonsGroupModule,
     DsfrToastComponent,
+    DsfrUserMenuComponent,
     IdleManagerComponent,
     NewsContentComponent,
   ],
@@ -46,6 +48,25 @@ export class AppComponent implements OnInit {
   public pendingNews = false;
   public skipLinks: DsfrLink[] = [];
   public news: NewsItem[] = [];
+  public readonly loginLinks: DsfrLink[] = [
+    {
+      label: "CCAS, organismes agréés",
+      link: "https://domifa.fabrique.social.gouv.fr/connexion",
+      target: "_blank",
+      icon: "fr-icon-home-4-line",
+    },
+    {
+      label: "Domiciliés",
+      routerLink: "/auth/login",
+      icon: "fr-icon-mail-line",
+    },
+    {
+      label: "DGCS, DREETS, DDETS",
+      link: "https://pilotage-domifa.fabrique.social.gouv.fr/",
+      target: "_blank",
+      icon: "fr-icon-building-line",
+    },
+  ];
 
   @ViewChild(DsfrModalComponent) newsModal!: DsfrModalComponent;
 
@@ -56,7 +77,7 @@ export class AppComponent implements OnInit {
     private readonly titleService: Title,
     private readonly router: Router,
     private readonly usagerAuthService: UsagerAuthService,
-    private readonly matomo: MatomoTracker,
+    private readonly matomo: MatomoTracker
   ) {
     this.apiVersion = null;
     this.usagerProfile = null;
@@ -104,7 +125,7 @@ export class AppComponent implements OnInit {
     if (!lastNews) {
       localStorage.setItem(
         "NEWS_MON_DOMIFA",
-        new Date(DOMIFA_NEWS[0].date).toISOString(),
+        new Date(DOMIFA_NEWS[0].date).toISOString()
       );
       this.pendingNews = false;
       return;
@@ -123,7 +144,7 @@ export class AppComponent implements OnInit {
     this.newsModal.close();
     localStorage.setItem(
       "NEWS_MON_DOMIFA",
-      new Date(DOMIFA_NEWS[0].date).toISOString(),
+      new Date(DOMIFA_NEWS[0].date).toISOString()
     );
     this.pendingNews = false;
     this.newsModalOpen = false;
@@ -131,7 +152,7 @@ export class AppComponent implements OnInit {
 
   public ngOnInit(): void {
     this.titleService.setTitle(
-      "Mon DomiFa, l'outil qui facilite la gestion des structures domiciliatirices",
+      "Mon DomiFa, l'outil qui facilite la gestion des structures domiciliatirices"
     );
 
     this.usagerAuthService.currentUsagerSubject.subscribe(
@@ -141,7 +162,7 @@ export class AppComponent implements OnInit {
         if (usager) {
           this.checkNews();
         }
-      },
+      }
     );
 
     this.router.events

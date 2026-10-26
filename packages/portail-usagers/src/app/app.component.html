@@ -44,7 +44,6 @@
                 <p class="fr-logo">République <br />Française</p>
                 <span class="fr-sr-only"> Liberté, Égalité, Fraternité </span>
               </div>
-              @if (usagerProfile) {
               <div class="fr-header__navbar">
                 <button
                   data-fr-opened="false"
@@ -57,7 +56,6 @@
                   Menu
                 </button>
               </div>
-              }
             </div>
             <div class="fr-header__service">
               <a
@@ -85,6 +83,24 @@
                   >
                     Se déconnecter
                   </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+          } @else {
+          <div class="fr-header__tools">
+            <div class="fr-header__tools-links">
+              <ul class="fr-btns-group">
+                <li>
+                  <dsfr-usermenu
+                    labelMenu="Se connecter"
+                    userName=""
+                    userDetails=""
+                    iconMenu="fr-icon-account-circle-line"
+                    [links]="loginLinks"
+                    [showLogout]="false"
+                  >
+                  </dsfr-usermenu>
                 </li>
               </ul>
             </div>

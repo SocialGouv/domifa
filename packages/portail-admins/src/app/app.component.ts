@@ -17,6 +17,7 @@ import {
   PortailAdminUser,
 } from "@domifa/common";
 import { DsfrHeaderMenuItem, DsfrLink } from "@edugouvfr/ngx-dsfr";
+import { environment } from "../environments/environment";
 
 @Component({
   selector: "app-root",
@@ -39,6 +40,26 @@ export class AppComponent implements OnInit {
   public skipLinks: DsfrLink[] = [];
   public headerToolsLinks: DsfrLink[] = [];
   public menuHeaderItems: DsfrHeaderMenuItem[] = [];
+
+  public readonly loginLinks: DsfrLink[] = [
+    {
+      label: "CCAS, organismes agréés",
+      link: `${environment.frontendUrl}connexion`,
+      icon: "fr-icon-home-4-line",
+    },
+    {
+      label: "Domiciliés",
+      link: "https://mon-domifa.fabrique.social.gouv.fr/",
+      target: "_blank",
+      icon: "fr-icon-mail-line",
+    },
+    {
+      label: "DGCS, DREETS, DDETS",
+      link: environment.portailStatsUrl,
+      target: "_blank",
+      icon: "fr-icon-building-line",
+    },
+  ];
   @ViewChild("notice") public noticeRef!: ElementRef;
   constructor(
     private readonly router: Router,

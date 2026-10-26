@@ -20,6 +20,7 @@ import {
   DsfrFooterModule,
   DsfrHeaderModule,
   DsfrSkiplinksModule,
+  DsfrUserMenuComponent,
 } from "@edugouvfr/ngx-dsfr";
 
 import { AppRoutingModule } from "./app-routing.module";
@@ -67,6 +68,7 @@ registerLocaleData(localeFr, "fr");
     DsfrFooterModule,
     DsfrHeaderModule,
     DsfrSkiplinksModule,
+    DsfrUserMenuComponent,
   ],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),

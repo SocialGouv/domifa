@@ -39,7 +39,23 @@
   [headerToolsLinks]="user ? headerToolsLinks : []"
   (linkSelect)="logout($event)"
   [menu]="user ? menuHeaderItems : []"
-></dsfr-header>
+>
+  <ng-template #toolsLinksTemplate>
+    @if (!user) {
+    <li>
+      <dsfr-usermenu
+        labelMenu="Se connecter"
+        userName=""
+        userDetails=""
+        iconMenu="fr-icon-account-circle-line"
+        [links]="loginLinks"
+        [showLogout]="false"
+      >
+      </dsfr-usermenu>
+    </li>
+    }
+  </ng-template>
+</dsfr-header>
 <main role="main" id="page" class="fr-pb-6w">
   <app-custom-toastr></app-custom-toastr>
   <router-outlet></router-outlet>
