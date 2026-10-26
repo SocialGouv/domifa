@@ -1,3 +1,10 @@
+## [2.287.1](https://github.com/SocialGouv/domifa/compare/v2.287.0...v2.287.1) (2026-10-26)
+
+
+### Bug Fixes
+
+* **ci:** pin node to 24.22.1 for october 2026 security releases ([f3a1b86](https://github.com/SocialGouv/domifa/commit/f3a1b867b4e35aed9a43610dde889af12e92b72b))
+
 # [2.287.0](https://github.com/SocialGouv/domifa/compare/v2.286.0...v2.287.0) (2026-10-26)
 
 
