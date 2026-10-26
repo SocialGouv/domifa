@@ -24,6 +24,7 @@ import {
   AppTestHttpClient,
 } from "../../util/test";
 import { SupportSession, SupportSessionHistoryItem } from "@domifa/common";
+import { addDays, format } from "date-fns";
 
 // Both accounts below are created directly in the test DB rather than
 // pulled from the shared TESTS_USERS_ADMIN/TESTS_USERS_STRUCTURE dump
@@ -442,17 +443,25 @@ describe("Support mode — an admin's own structure account attached to a struct
     expect(row!.reason).toEqual(SUPPORT_REASON);
     expect(row!.revokedReason).toEqual("MANUAL_REVOKE");
 
-    const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+    const hasAttachment = (body: SupportSessionHistoryItem[]) =>
+      body.some((session) => session.uuid === attachmentUuid);
+
+    // Two days ahead: safely after today whatever the Paris/UTC offset.
+    const later = format(addDays(new Date(), 2), "yyyy-MM-dd");
     const filtered = await AppTestHttpClient.get(
-      `/admin/support-sessions?startDateFrom=${encodeURIComponent(tomorrow)}`,
+      `/admin/support-sessions?startDateFrom=${later}`,
       { context }
     );
     expect(filtered.status).toEqual(200);
-    expect(
-      (filtered.body as SupportSessionHistoryItem[]).some(
-        (session) => session.uuid === attachmentUuid
-      )
-    ).toBe(false);
+    expect(hasAttachment(filtered.body)).toBe(false);
+
+    // Invalid bounds (bad format, before 2025) are ignored, not rejected.
+    const ignored = await AppTestHttpClient.get(
+      "/admin/support-sessions?startDateFrom=2020-01-01&startDateTo=not-a-date",
+      { context }
+    );
+    expect(ignored.status).toEqual(200);
+    expect(hasAttachment(ignored.body)).toBe(true);
   });
 
   it("closes an attachment past expiresAt on login, before the cron runs, so the admin is not locked out", async () => {

@@ -23,13 +23,6 @@ export class SupportSessionHistoryController {
   public async listSupportSessions(
     @Query() filters: SupportSessionHistoryFiltersDto
   ): Promise<SupportSessionHistoryItem[]> {
-    return this.supportSessionService.listAll({
-      startDateFrom: filters.startDateFrom
-        ? new Date(filters.startDateFrom)
-        : undefined,
-      startDateTo: filters.startDateTo
-        ? new Date(filters.startDateTo)
-        : undefined,
-    });
+    return this.supportSessionService.listAll(filters);
   }
 }

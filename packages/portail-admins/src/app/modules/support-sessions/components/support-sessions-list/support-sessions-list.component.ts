@@ -59,13 +59,8 @@ export class SupportSessionsListComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.service
         .list({
-          // Local day bounds, so the filter matches the admin's calendar day.
-          startDateFrom: this.startDateFrom
-            ? new Date(`${this.startDateFrom}T00:00:00`)
-            : undefined,
-          startDateTo: this.startDateTo
-            ? new Date(`${this.startDateTo}T23:59:59.999`)
-            : undefined,
+          startDateFrom: this.startDateFrom || undefined,
+          startDateTo: this.startDateTo || undefined,
         })
         .subscribe({
           next: (sessions) => {

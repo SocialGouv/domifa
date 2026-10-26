@@ -12,16 +12,17 @@ export class SupportSessionsService {
 
   constructor(private readonly http: HttpClient) {}
 
+  // Dates as "yyyy-mm-dd", straight from the date inputs.
   public list(filters: {
-    startDateFrom?: Date;
-    startDateTo?: Date;
+    startDateFrom?: string;
+    startDateTo?: string;
   }): Observable<SupportSessionHistoryItem[]> {
     let params = new HttpParams();
     if (filters.startDateFrom) {
-      params = params.set("startDateFrom", filters.startDateFrom.toISOString());
+      params = params.set("startDateFrom", filters.startDateFrom);
     }
     if (filters.startDateTo) {
-      params = params.set("startDateTo", filters.startDateTo.toISOString());
+      params = params.set("startDateTo", filters.startDateTo);
     }
     return this.http.get<SupportSessionHistoryItem[]>(this.endPoint, {
       params,
