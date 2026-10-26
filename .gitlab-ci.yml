@@ -75,7 +75,7 @@ workflow:
 # ---------------------------------------------------------------------------
 lint:
   stage: check
-  image: node:24-alpine
+  image: node:24.22.1-alpine
   interruptible: true
   before_script:
     # git requis par le script `prepare` racine (lefthook install, hooks git).
