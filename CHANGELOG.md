@@ -1,3 +1,11 @@
+# [2.288.0](https://github.com/SocialGouv/domifa/compare/v2.287.1...v2.288.0) (2026-10-26)
+
+
+### Features
+
+* **admin:** add login portal dropdown on admin login page ([a0f5c3c](https://github.com/SocialGouv/domifa/commit/a0f5c3c0124733b9f0926ca531452d9435efe00b))
+* **portail-stats,portail-usagers:** add login portal dropdown on login pages ([c9d550a](https://github.com/SocialGouv/domifa/commit/c9d550a135941cd7c54cc3ea855faa627847e96c))
+
 ## [2.287.1](https://github.com/SocialGouv/domifa/compare/v2.287.0...v2.287.1) (2026-10-26)
 
 
