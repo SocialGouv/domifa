@@ -119,6 +119,52 @@ describe("SearchUsagersController", () => {
     }).expect(400);
   });
 
+  it("should find a radie whatever the order of the words", async () => {
+    const response = await AppTestHttpClient.post(
+      "/search-usagers/search-radies",
+      {
+        context,
+        body: {
+          searchString: "lisa loumiel",
+          searchStringField: CriteriaSearchField.DEFAULT,
+        },
+      }
+    ).expect(201);
+    expect(response.body.map((usager) => usager.nom)).toEqual(["Loumiel"]);
+  });
+
+  it("should return the server time with the full load", async () => {
+    const response = await AppTestHttpClient.get(
+      "/search-usagers?chargerTousRadies=false",
+      { context }
+    ).expect(200);
+    expect(Number.isNaN(Date.parse(response.body.syncedAt))).toBe(false);
+  });
+
+  it("should return every usager updated since the cursor", async () => {
+    const response = await AppTestHttpClient.get(
+      "/search-usagers/update-manage?since=2000-01-01T00:00:00.000Z",
+      { context }
+    ).expect(200);
+    expect(response.body.length).toBeGreaterThan(0);
+    for (const usager of response.body) {
+      expect(usager.updatedAt).toBeDefined();
+      for (const decision of usager.historique ?? []) {
+        expect(
+          Object.keys(decision).every((key) =>
+            ["statut", "dateDecision", "dateDebut", "dateFin"].includes(key)
+          )
+        ).toBe(true);
+      }
+    }
+  });
+
+  it("should reject an invalid cursor", async () => {
+    await AppTestHttpClient.get("/search-usagers/update-manage?since=hier", {
+      context,
+    }).expect(400);
+  });
+
   it("should reject invalid echeance value", async () => {
     await AppTestHttpClient.post("/search-usagers/search-radies", {
       context,

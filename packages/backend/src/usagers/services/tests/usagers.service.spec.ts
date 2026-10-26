@@ -13,6 +13,7 @@ import { UserStructure } from "@domifa/common";
 import { UsagersLogsService } from "../usagers-logs.service";
 import { AppLogsModule } from "../../../modules/app-logs/app-logs.module";
 import CREATE_USAGER_DTO from "./CREATE_USAGER_DTO.const";
+import { DecisionDto } from "../../dto";
 
 describe("UsagersService", () => {
   let service: UsagersService;
@@ -64,5 +65,39 @@ describe("UsagersService", () => {
     });
 
     expect(deletedUsager).toBeNull();
+  });
+
+  it("1. setDecision refreshes the search index and returns the profile", async () => {
+    const user = (await userStructureRepository.findOneBy({
+      id: 1,
+    })) as UserStructure;
+    user.structure = await structureRepository.findOneBy({ id: 5 });
+
+    const created = await service.create(CREATE_USAGER_DTO, user);
+    const usager = await usagerRepository.getUsager(created.uuid);
+
+    const updated = await service.setDecision(usager, {
+      statut: "VALIDE",
+      dateDebut: new Date("2026-01-01"),
+      dateFin: new Date("2026-12-31"),
+      customRef: "AB-123",
+      userId: user.id,
+      userName: `${user.prenom} ${user.nom}`,
+    } as DecisionDto);
+
+    expect(updated.customRef).toEqual("AB-123");
+    expect(updated.statut).toEqual("VALIDE");
+    expect(updated.nom).toEqual(usager.nom);
+    expect(updated).toHaveProperty("entretien");
+    expect(updated).not.toHaveProperty("nom_prenom_surnom_ref");
+
+    const { nom_prenom_surnom_ref } = await usagerRepository
+      .createQueryBuilder("usager")
+      .select("usager.nom_prenom_surnom_ref", "nom_prenom_surnom_ref")
+      .where("usager.uuid = :uuid", { uuid: usager.uuid })
+      .getRawOne();
+    expect(nom_prenom_surnom_ref).toContain("ab 123");
+
+    await usagerRepository.delete({ uuid: usager.uuid });
   });
 });
