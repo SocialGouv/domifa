@@ -1,3 +1,5 @@
+import { parseStrictInt } from "../../_common/decorators/parse-pipes/ParseStrictInt.pipe";
+
 export function cleanFormDataValue(
   value: any,
   type: "string" | "number"
@@ -18,12 +20,10 @@ export function cleanFormDataValue(
   }
 
   if (type === "number") {
-    if (value === null || value === undefined || value === "") {
-      return Number.NaN;
+    if (typeof value === "number") {
+      return value;
     }
-    const num = Number(value);
-
-    return Number.isNaN(num) ? Number.NaN : num;
+    return parseStrictInt(value) ?? Number.NaN;
   }
 
   return Number.NaN;
