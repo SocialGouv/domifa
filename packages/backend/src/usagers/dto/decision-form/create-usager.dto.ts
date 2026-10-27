@@ -14,11 +14,12 @@ import {
   IsEmail,
   IsIn,
   IsNotEmpty,
-  IsNumber,
+  IsInt,
   IsObject,
   IsOptional,
   IsString,
   MaxLength,
+  Min,
   ValidateNested,
 } from "class-validator";
 import {
@@ -26,6 +27,7 @@ import {
   TrimOrNullTransform,
   LowerCaseTransform,
   IsValidPhone,
+  StrictIntTransform,
 } from "../../../_common/decorators";
 import { UsagerAyantDroitDto } from "../UsagerAyantDroitDto";
 import { TelephoneDto } from "../../../_common/dto/telephone.dto";
@@ -89,7 +91,9 @@ export class CreateUsagerDto {
   public email!: string;
 
   @IsOptional()
-  @IsNumber()
+  @StrictIntTransform()
+  @IsInt()
+  @Min(1)
   public referrerId!: number;
 
   @IsObject()

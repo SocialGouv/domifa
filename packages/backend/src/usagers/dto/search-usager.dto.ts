@@ -1,9 +1,10 @@
 import {
   IsIn,
-  IsNumber,
+  IsInt,
   IsOptional,
   IsString,
   MaxLength,
+  Min,
   ValidateIf,
 } from "class-validator";
 import {
@@ -16,6 +17,7 @@ import {
 } from "@domifa/common";
 import { Transform } from "class-transformer";
 import { ValidateSearchField } from "../decorators";
+import { StrictIntTransform } from "../../_common/decorators";
 
 export class SearchUsagerDto {
   @Transform(({ value, obj }) => {
@@ -58,7 +60,9 @@ export class SearchUsagerDto {
   @IsOptional()
   public readonly entretien: UsagersFilterCriteriaEntretien;
 
-  @IsNumber()
+  @StrictIntTransform()
+  @IsInt()
+  @Min(1)
   @IsOptional()
   @ValidateIf((_object, value) => value !== null)
   public readonly referrerId: number | null;

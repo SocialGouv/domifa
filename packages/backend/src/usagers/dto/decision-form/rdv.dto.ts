@@ -2,14 +2,18 @@ import {
   IsBoolean,
   IsDate,
   IsNotEmpty,
-  IsNumber,
+  IsInt,
+  Min,
   ValidateIf,
 } from "class-validator";
 import { Transform, TransformFnParams } from "class-transformer";
+import { StrictIntTransform } from "../../../_common/decorators";
 
 export class RdvDto {
   @IsNotEmpty()
-  @IsNumber()
+  @StrictIntTransform()
+  @IsInt()
+  @Min(1)
   public userId!: number;
 
   @IsNotEmpty()
