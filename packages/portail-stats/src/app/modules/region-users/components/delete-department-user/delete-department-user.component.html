@@ -6,7 +6,7 @@
   </p>
 </div>
 
-<form (ngSubmit)="deleteUser()">
+<form [formGroup]="deleteForm" (ngSubmit)="deleteUser()">
   <div
     class="fr-select-group"
     [class.fr-select-group--error]="motif.touched && motif.invalid"
