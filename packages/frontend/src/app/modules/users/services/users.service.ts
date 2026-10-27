@@ -32,7 +32,7 @@ export class UsersService {
     passwordConfirmation: string;
     password: string;
     token: string;
-    userId: number;
+    userId: string;
   }) {
     return this.http.post(`${this.endPoint}/reset-password`, data);
   }
