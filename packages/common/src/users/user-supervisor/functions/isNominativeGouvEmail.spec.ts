@@ -1,13 +1,13 @@
-import { isDdetsEmail } from "./isDdetsEmail";
+import { isNominativeGouvEmail } from "./isNominativeGouvEmail";
 import { getRegionDepartmentCodes } from "./getRegionDepartmentCodes";
 
-describe("isDdetsEmail", () => {
+describe("isNominativeGouvEmail", () => {
   it.each([
     "prenom.nom@seine-saint-denis.gouv.fr",
     "Jean-Pierre.Martin@nord.gouv.fr",
     "marie.dupont-durand@bouches-du-rhone.gouv.fr",
   ])("accepts %s", (email) => {
-    expect(isDdetsEmail(email)).toBe(true);
+    expect(isNominativeGouvEmail(email)).toBe(true);
   });
 
   it.each([
@@ -19,7 +19,7 @@ describe("isDdetsEmail", () => {
     null,
     undefined,
   ])("rejects %s", (email) => {
-    expect(isDdetsEmail(email)).toBe(false);
+    expect(isNominativeGouvEmail(email)).toBe(false);
   });
 });
 

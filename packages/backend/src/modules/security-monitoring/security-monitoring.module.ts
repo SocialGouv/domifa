@@ -10,6 +10,6 @@ import { SecurityMonitoringService } from "./services/security-monitoring.servic
     SecurityAlertEmailService,
     BehavioralQuotaEnforcerService,
   ],
-  exports: [BehavioralQuotaEnforcerService],
+  exports: [BehavioralQuotaEnforcerService, SecurityAlertEmailService],
 })
 export class SecurityMonitoringModule {}

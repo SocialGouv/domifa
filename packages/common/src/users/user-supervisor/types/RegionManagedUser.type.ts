@@ -1,7 +1,7 @@
 import { UserSupervisor } from "../interfaces";
 
-// DDETS account as listed to the DREETS managing its region
-export type RegionDepartmentUser = Pick<
+// DDETS or DREETS account as listed to the DREETS managing its region
+export type RegionManagedUser = Pick<
   UserSupervisor,
   | "uuid"
   | "nom"
@@ -12,4 +12,5 @@ export type RegionDepartmentUser = Pick<
   | "passwordLastUpdate"
   | "createdAt"
   | "territories"
+  | "role"
 >;

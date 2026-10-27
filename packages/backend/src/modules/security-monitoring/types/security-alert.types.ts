@@ -88,3 +88,13 @@ export interface SuspiciousActivitySummary {
   // backend-cron pod (one alert per (structure, kind) per Paris day).
   quotaExceedances: QuotaExceededEntry[];
 }
+
+type NoticeUser = { prenom: string; nom: string; email: string };
+
+// A DREETS invited another regional account from the pilotage portal
+export interface RegionUserCreatedNotice {
+  createdAt: Date;
+  region: string;
+  creator: NoticeUser;
+  createdUser: NoticeUser;
+}

@@ -7,9 +7,10 @@ import { USER_SUPERVISOR_AUTH } from "../../../../_common/mocks/USER_SUPERVISOR_
 import { AppTestHelper } from "../../../../util/test";
 import { AppLogsService } from "../../../app-logs/app-logs.service";
 import { BrevoSenderService } from "../../../mails/services/brevo-sender/brevo-sender.service";
+import { SecurityAlertEmailService } from "../../../security-monitoring/services/security-alert-email.service";
 import { AdminSuperivorUsersService } from "../admin-superivor-users/admin-superivor-users.service";
 import { UserSupervisorDecisionService } from "../user-supervisor-decision/user-supervisor-decision.service";
-import { RegionDepartmentUsersService } from "./region-department-users.service";
+import { RegionUsersService } from "./region-users.service";
 
 // Bretagne (53) = 22, 29, 35, 56
 const DREETS_BRETAGNE: UserAdminAuthenticated = {
@@ -24,29 +25,45 @@ const DREETS_ILE_DE_FRANCE: UserAdminAuthenticated = {
   territories: ["11"],
 };
 
+const DREETS_GUYANE: UserAdminAuthenticated = {
+  ...USER_SUPERVISOR_AUTH,
+  role: "region",
+  territories: ["03"],
+};
+
 const DDETS_EMAIL = "jean.dupont@ille-et-vilaine.gouv.fr";
 const OTHER_REGION_EMAIL = "marie.martin@nord.gouv.fr";
+const DREETS_EMAIL = "paul.durand@dreets.gouv.fr";
+const OTHER_DREETS_EMAIL = "lea.bernard@dreets.gouv.fr";
 
-describe("RegionDepartmentUsersService", () => {
-  let service: RegionDepartmentUsersService;
+describe("RegionUsersService", () => {
+  let service: RegionUsersService;
+  let securityAlertEmailService: SecurityAlertEmailService;
 
   const cleanup = () =>
     userSupervisorRepository.delete({
-      email: In([DDETS_EMAIL, OTHER_REGION_EMAIL]),
+      email: In([
+        DDETS_EMAIL,
+        OTHER_REGION_EMAIL,
+        DREETS_EMAIL,
+        OTHER_DREETS_EMAIL,
+      ]),
     });
 
   beforeAll(async () => {
     await AppTestHelper.bootstrapTestConnection();
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        RegionDepartmentUsersService,
+        RegionUsersService,
         AppLogsService,
         BrevoSenderService,
         AdminSuperivorUsersService,
         UserSupervisorDecisionService,
+        SecurityAlertEmailService,
       ],
     }).compile();
-    service = module.get(RegionDepartmentUsersService);
+    service = module.get(RegionUsersService);
+    securityAlertEmailService = module.get(SecurityAlertEmailService);
     await cleanup();
   });
 
@@ -76,6 +93,7 @@ describe("RegionDepartmentUsersService", () => {
         prenom: "Marie",
         nom: "Martin",
         email: OTHER_REGION_EMAIL,
+        role: "department",
         department: "59",
       })
     ).rejects.toBeInstanceOf(ForbiddenException);
@@ -87,6 +105,7 @@ describe("RegionDepartmentUsersService", () => {
         prenom: "Jean",
         nom: "Dupont",
         email: "jean.dupont@finistere.gouv.fr",
+        role: "department",
         department: "35",
       })
     ).rejects.toThrow("EMAIL_DOMAIN_MISMATCH");
@@ -98,6 +117,7 @@ describe("RegionDepartmentUsersService", () => {
         prenom: "Jean",
         nom: "Dupont",
         email: "jean.dupont@seine-saint-denis.gouv.fr",
+        role: "department",
         department: "93",
       })
     ).rejects.toThrow("DEPARTMENT_NOT_SELF_SERVICE");
@@ -108,6 +128,7 @@ describe("RegionDepartmentUsersService", () => {
       prenom: "Jean",
       nom: "Dupont",
       email: DDETS_EMAIL,
+      role: "department",
       department: "35",
     });
 
@@ -125,6 +146,7 @@ describe("RegionDepartmentUsersService", () => {
         prenom: "Jean",
         nom: "Dupont",
         email: DDETS_EMAIL,
+        role: "department",
         department: "35",
       })
     ).rejects.toThrow("EMAIL_ALREADY_EXISTS");
@@ -156,5 +178,98 @@ describe("RegionDepartmentUsersService", () => {
     expect(
       (await service.findAll(DREETS_BRETAGNE)).map((u) => u.uuid)
     ).not.toContain(outsider.uuid);
+  });
+
+  describe("regional accounts", () => {
+    it("refuses a region outside the DREETS scope", async () => {
+      await expect(
+        service.create(DREETS_BRETAGNE, {
+          prenom: "Paul",
+          nom: "Durand",
+          email: DREETS_EMAIL,
+          role: "region",
+          region: "32",
+        })
+      ).rejects.toThrow("REGION_OUTSIDE_SCOPE");
+    });
+
+    it("refuses a region outside the domain allowlist", async () => {
+      await expect(
+        service.create(DREETS_GUYANE, {
+          prenom: "Paul",
+          nom: "Durand",
+          email: "paul.durand@dieccte.gouv.fr",
+          role: "region",
+          region: "03",
+        })
+      ).rejects.toThrow("REGION_NOT_SELF_SERVICE");
+    });
+
+    it("refuses a departmental or foreign regional domain", async () => {
+      for (const email of [
+        "paul.durand@ille-et-vilaine.gouv.fr",
+        "paul.durand@drieets.gouv.fr",
+      ]) {
+        await expect(
+          service.create(DREETS_BRETAGNE, {
+            prenom: "Paul",
+            nom: "Durand",
+            email,
+            role: "region",
+            region: "53",
+          })
+        ).rejects.toThrow("EMAIL_DOMAIN_MISMATCH");
+      }
+    });
+
+    it("creates a DREETS of the region, notifies DomiFa and cannot delete it", async () => {
+      const notice = jest.spyOn(
+        securityAlertEmailService,
+        "sendRegionUserCreatedNotice"
+      );
+
+      await service.create(DREETS_BRETAGNE, {
+        prenom: "Paul",
+        nom: "Durand",
+        email: DREETS_EMAIL,
+        role: "region",
+        region: "53",
+      });
+
+      const created = await userSupervisorRepository.findOneByOrFail({
+        email: DREETS_EMAIL,
+      });
+      expect(created.role).toEqual("region");
+      expect(created.territories).toEqual(["53"]);
+      expect(notice).toHaveBeenCalledWith(
+        expect.objectContaining({
+          region: "53",
+          createdUser: expect.objectContaining({ email: DREETS_EMAIL }),
+        })
+      );
+
+      const list = await service.findAll(DREETS_BRETAGNE);
+      expect(list.find((u) => u.uuid === created.uuid)?.role).toEqual("region");
+
+      await expect(
+        service.softDelete(DREETS_BRETAGNE, created.uuid, "DEPART_STRUCTURE")
+      ).rejects.toBeInstanceOf(NotFoundException);
+    });
+
+    it("does not list the DREETS of another region", async () => {
+      const outsider = await userSupervisorRepository.save({
+        prenom: "Léa",
+        nom: "Bernard",
+        email: OTHER_DREETS_EMAIL,
+        role: "region",
+        territories: ["32"],
+        status: "ACTIVE",
+        password: "x",
+      });
+
+      expect(
+        (await service.findAll(DREETS_BRETAGNE)).map((u) => u.uuid)
+      ).not.toContain(outsider.uuid);
+    });
   });
 });

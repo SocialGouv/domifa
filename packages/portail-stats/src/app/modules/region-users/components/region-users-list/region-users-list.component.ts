@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import {
   DEPARTEMENTS_LISTE,
-  isDdetsEmail,
-  RegionDepartmentUser,
+  isNominativeGouvEmail,
+  RegionManagedUser,
+  REGIONS_LISTE,
   USER_STATUS_LABELS,
 } from "@domifa/common";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
@@ -14,6 +15,7 @@ type SortKey =
   | "nom"
   | "email"
   | "emailType"
+  | "profile"
   | "createdAt"
   | "lastLogin"
   | "department"
@@ -21,10 +23,11 @@ type SortKey =
 
 type BadgeSeverity = "success" | "info" | "warning" | "error";
 
-type RegionUserRow = RegionDepartmentUser & {
+type RegionUserRow = RegionManagedUser & {
   fullName: string;
   emailType: string;
   emailTypeSeverity: BadgeSeverity;
+  profile: string;
   department: string;
   statusLabel: string;
   statusSeverity: BadgeSeverity;
@@ -37,6 +40,7 @@ const SORT_VALUES: Record<SortKey, (user: RegionUserRow) => string | number> = {
   nom: (user) => user.fullName.toLowerCase(),
   email: (user) => user.email,
   emailType: (user) => user.emailType,
+  profile: (user) => user.profile,
   createdAt: (user) => toTime(user.createdAt),
   lastLogin: (user) => toTime(user.lastLogin),
   department: (user) => user.department,
@@ -59,7 +63,7 @@ export class RegionUsersListComponent implements OnInit, OnDestroy {
   public users: RegionUserRow[] = [];
   public loading = true;
   public showInfo = true;
-  public userToDelete: RegionDepartmentUser | null = null;
+  public userToDelete: RegionManagedUser | null = null;
 
   public sortKey: SortKey = "nom";
   public sortAsc = true;
@@ -68,6 +72,7 @@ export class RegionUsersListComponent implements OnInit, OnDestroy {
     { key: "nom", label: "Nom prénom" },
     { key: "email", label: "Email" },
     { key: "emailType", label: "Type d'email" },
+    { key: "profile", label: "Profil" },
     { key: "createdAt", label: "Date d'ajout" },
     { key: "lastLogin", label: "Dernière connexion" },
     { key: "department", label: "Territoire d'action" },
@@ -124,7 +129,7 @@ export class RegionUsersListComponent implements OnInit, OnDestroy {
     this.getUsers();
   }
 
-  public openDeleteModal(user: RegionDepartmentUser): void {
+  public openDeleteModal(user: RegionManagedUser): void {
     this.userToDelete = user;
     this.deleteModal.open();
   }
@@ -152,9 +157,13 @@ export class RegionUsersListComponent implements OnInit, OnDestroy {
     });
   }
 
-  private toRow(user: RegionDepartmentUser): RegionUserRow {
-    const personalEmail = isDdetsEmail(user.email);
-    const department = user.territories?.[0];
+  private toRow(user: RegionManagedUser): RegionUserRow {
+    const personalEmail = isNominativeGouvEmail(user.email);
+    const territory = user.territories?.[0];
+    const territoryName =
+      user.role === "region"
+        ? REGIONS_LISTE[territory]
+        : DEPARTEMENTS_LISTE[territory];
 
     let statusLabel = USER_STATUS_LABELS[user.status];
     let statusSeverity: BadgeSeverity = "warning";
@@ -170,9 +179,8 @@ export class RegionUsersListComponent implements OnInit, OnDestroy {
       fullName: `${user.nom} ${user.prenom}`,
       emailType: personalEmail ? "Mail personnel" : "Mail générique",
       emailTypeSeverity: personalEmail ? "success" : "warning",
-      department: department
-        ? `${department} - ${DEPARTEMENTS_LISTE[department] ?? ""}`
-        : "",
+      profile: user.role === "region" ? "DREETS" : "DDETS",
+      department: territory ? `${territory} - ${territoryName ?? ""}` : "",
       statusLabel,
       statusSeverity,
     };
