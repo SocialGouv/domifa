@@ -10,14 +10,14 @@ import {
   MinLength,
 } from "class-validator";
 
-import { IsValidGeographicRole } from "../decorators";
+import { IsValidGeographicRole, IsValidSuperAdminEmail } from "../decorators";
 import { UserSupervisorRole } from "@domifa/common";
 import {
   LowerCaseTransform,
   StripTagsTransform,
   TERRITORY_CODES,
 } from "../../../_common/decorators";
-import { USER_SUPERVISOR_ASSIGNABLE_ROLES } from "../../../_common/model/users/user-supervisor";
+import { USER_SUPERVISOR_ROLES } from "../../../_common/model/users/user-supervisor";
 
 export class RegisterUserSupervisorDto {
   @MinLength(2)
@@ -37,10 +37,11 @@ export class RegisterUserSupervisorDto {
   @IsNotEmpty()
   @IsEmail()
   @LowerCaseTransform()
+  @IsValidSuperAdminEmail()
   public email!: string;
 
   @IsNotEmpty()
-  @IsIn(USER_SUPERVISOR_ASSIGNABLE_ROLES)
+  @IsIn(USER_SUPERVISOR_ROLES)
   public role!: UserSupervisorRole;
 
   @IsArray()
