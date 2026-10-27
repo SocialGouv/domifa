@@ -1,3 +1,10 @@
+## [2.289.1](https://github.com/SocialGouv/domifa/compare/v2.289.0...v2.289.1) (2026-10-27)
+
+
+### Bug Fixes
+
+* **deps:** bump vulnerable dependencies ([46d3b22](https://github.com/SocialGouv/domifa/commit/46d3b2255aee3498e5b279f0698a932a6c56c346))
+
 # [2.289.0](https://github.com/SocialGouv/domifa/compare/v2.288.6...v2.289.0) (2026-10-27)
 
 
