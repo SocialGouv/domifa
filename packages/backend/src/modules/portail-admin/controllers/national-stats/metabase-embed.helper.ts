@@ -56,7 +56,9 @@ const buildParams = (
   [METABASE_PARAM_KEYS.structureType]: dto.structureType
     ? [dto.structureType]
     : [],
-  [METABASE_PARAM_KEYS.structureId]: dto.structureId ? [dto.structureId] : [],
+  [METABASE_PARAM_KEYS.structureId]: dto.structureId
+    ? [String(dto.structureId)]
+    : [],
 });
 
 // Cache key combines (userId, role, hash-of-resolved-params).
