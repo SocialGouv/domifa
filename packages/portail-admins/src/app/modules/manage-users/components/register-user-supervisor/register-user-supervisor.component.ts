@@ -30,8 +30,10 @@ import { CustomToastService } from "../../../shared/services";
 
 import {
   DEPARTEMENTS_LISTE,
+  isSuperAdminEmailDomain,
   REGIONS_LISTE,
   RegionsLabels,
+  SUPER_ADMIN_EMAIL_DOMAINS,
   USER_SUPERVISOR_ROLES_LABELS,
   UserSupervisor,
   UserSupervisorRole,
@@ -39,11 +41,6 @@ import {
 import { ManageUsersService } from "../../services/manage-users.service";
 import { ButtonComponent } from "../../../shared/components/button/button.component";
 import { SortArrayPipe } from "../../../shared/pipes";
-
-const SUPER_ADMIN_EMAIL_DOMAINS = [
-  "fabrique.social.gouv.fr",
-  "externes.sg.social.gouv.fr",
-];
 
 @Component({
   animations: [fadeInOut],
@@ -187,10 +184,7 @@ export class RegisterUserSupervisorComponent implements OnInit, OnDestroy {
       const role = roleControl.value;
 
       if (role === "super-admin-domifa" && email) {
-        const isAllowedDomain = SUPER_ADMIN_EMAIL_DOMAINS.some((domain) =>
-          email.toLowerCase().endsWith(`@${domain}`)
-        );
-        if (!isAllowedDomain) {
+        if (!isSuperAdminEmailDomain(email)) {
           return { invalidSuperAdminEmail: true };
         }
       }

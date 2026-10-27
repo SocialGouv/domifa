@@ -2,8 +2,8 @@ import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 import { RegisterUserSupervisorDto } from "../register-user-supervisor.dto";
 
-// Le rôle `super-admin-domifa` est volontairement absent du DTO. Sa
-// création/promotion se fait hors UI (migration SQL).
+// `super-admin-domifa` can be created only with an email from
+// SUPER_ADMIN_EMAIL_DOMAINS.
 describe("RegisterUserSupervisorDto — super-admin-domifa role assignment", () => {
   const createBaseDto = (): RegisterUserSupervisorDto => {
     const dto = new RegisterUserSupervisorDto();
@@ -14,6 +14,8 @@ describe("RegisterUserSupervisorDto — super-admin-domifa role assignment", () 
     dto.territories = [];
     return dto;
   };
+  const emailErrors = async (dto: RegisterUserSupervisorDto) =>
+    (await validate(dto)).filter((e) => e.property === "email");
 
   it("accepts a valid `national` role", async () => {
     const dto = createBaseDto();
@@ -34,26 +36,45 @@ describe("RegisterUserSupervisorDto — super-admin-domifa role assignment", () 
     }
   });
 
-  it("rejects `super-admin-domifa` even with a valid social.gouv email", async () => {
-    const dto = createBaseDto();
-    dto.email = "john.smith@fabrique.social.gouv.fr";
-    dto.role = "super-admin-domifa";
-
-    const errors = await validate(dto);
-    const roleError = errors.find((e) => e.property === "role");
-
-    expect(roleError).toBeDefined();
-    expect(roleError?.constraints?.isIn).toBeDefined();
+  it("does not restrict the email domain for other roles", async () => {
+    expect(await emailErrors(createBaseDto())).toHaveLength(0);
   });
 
-  it("rejects `super-admin-domifa` with any email", async () => {
+  it.each([
+    "john.smith@fabrique.social.gouv.fr",
+    "john.smith@externes.sg.social.gouv.fr",
+    "john.smith@social.gouv.fr",
+  ])("accepts `super-admin-domifa` with %s", async (email) => {
     const dto = createBaseDto();
+    dto.email = email;
     dto.role = "super-admin-domifa";
 
-    const errors = await validate(dto);
-    const roleError = errors.find((e) => e.property === "role");
+    expect(await validate(dto)).toHaveLength(0);
+  });
 
-    expect(roleError).toBeDefined();
+  it("accepts an allowed domain regardless of case", async () => {
+    const dto = plainToInstance(RegisterUserSupervisorDto, {
+      ...createBaseDto(),
+      email: "John.Smith@Social.Gouv.FR",
+      role: "super-admin-domifa",
+    });
+
+    expect(await validate(dto)).toHaveLength(0);
+  });
+
+  it.each([
+    "john.smith@example.com",
+    "john.smith@sg.social.gouv.fr",
+    "john.smith@social.gouv.fr.evil.com",
+    "john.smith@fakesocial.gouv.fr",
+  ])("rejects `super-admin-domifa` with %s", async (email) => {
+    const dto = createBaseDto();
+    dto.email = email;
+    dto.role = "super-admin-domifa";
+
+    const errors = await emailErrors(dto);
+    expect(errors).toHaveLength(1);
+    expect(errors[0].constraints?.isValidSuperAdminEmail).toBeDefined();
   });
 });
 
