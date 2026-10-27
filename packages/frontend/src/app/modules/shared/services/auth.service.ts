@@ -23,6 +23,11 @@ import { Store } from "@ngrx/store";
 // dedicated "support" account — see persistTrustTokenFromAccess.
 const TRUST_TOKEN_STORAGE_KEY = "structureTrustToken";
 
+// Persisted search/filters of the usagers list. Structure-specific (search
+// string, referrer ids...), so it must not outlive the session nor follow a
+// support account from one attached structure to the next.
+export const USAGERS_SEARCH_STORAGE_KEY = "SEARCH";
+
 @Injectable({
   providedIn: "root",
 })
@@ -211,6 +216,7 @@ export class AuthService {
     this.safeStorage.removeItem("currentUser", sessionStorage);
     this.safeStorage.removeItem("MANAGE");
     this.safeStorage.removeItem("MANAGE", sessionStorage);
+    this.safeStorage.removeItem(USAGERS_SEARCH_STORAGE_KEY);
 
     getCurrentScope().setTag("structure", "none");
     getCurrentScope().setUser({});
@@ -228,6 +234,18 @@ export class AuthService {
 
   private setUser(user: UserStructure) {
     const isSupport = user.role === "support";
+    // A support account can be re-attached to another structure while the
+    // tab stays open (GET /me then returns the new structureId): drop the
+    // previous structure's search and cached usagers instead of replaying
+    // them on the new one.
+    const previousStructureId = this.currentUserValue?.structureId;
+    if (
+      previousStructureId !== undefined &&
+      previousStructureId !== user.structureId
+    ) {
+      this.safeStorage.removeItem(USAGERS_SEARCH_STORAGE_KEY);
+      this.store.dispatch(usagerActions.clearCache());
+    }
     const backend = isSupport ? sessionStorage : localStorage;
     // The constructor reads sessionStorage first: a leftover entry from the
     // other backend (attachment just started/ended under an open tab) would
