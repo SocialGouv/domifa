@@ -1,3 +1,15 @@
+## [2.288.6](https://github.com/SocialGouv/domifa/compare/v2.288.5...v2.288.6) (2026-10-27)
+
+
+### Bug Fixes
+
+* **backend:** accept only plain integers in route params and DTOs ([972b413](https://github.com/SocialGouv/domifa/commit/972b4132ccb98da2fe9bcca278a978fc6d1a6b4e))
+* **backend:** parse user and structure ids as plain integers in DTOs and form data ([889b9b8](https://github.com/SocialGouv/domifa/commit/889b9b8956e11ce7632929d76efd5239291cc87d))
+* **backend:** send structureId to Metabase as a string ([ae353b6](https://github.com/SocialGouv/domifa/commit/ae353b6adae67c9d1a73c2528cb5748c1a43e1af))
+* **frontend:** drop the unused parseInt of userId in the reset password form ([edee84a](https://github.com/SocialGouv/domifa/commit/edee84ae0b8109244114929a7045a0d9ee704748))
+* **portail-admins:** drop the unused parseInt of userId in the reset password form ([3673200](https://github.com/SocialGouv/domifa/commit/36732009c646ad665017288411d1e32b127a956c))
+* **portail-stats:** drop the unused parseInt of userId in the reset password form ([43d612b](https://github.com/SocialGouv/domifa/commit/43d612b5973c0ed7d5037d8bab6a22955fcd5993))
+
 ## [2.288.5](https://github.com/SocialGouv/domifa/compare/v2.288.4...v2.288.5) (2026-10-27)
 
 
