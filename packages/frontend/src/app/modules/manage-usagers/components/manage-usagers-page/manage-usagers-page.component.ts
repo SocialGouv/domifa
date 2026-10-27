@@ -6,6 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
+import { HttpErrorResponse, HttpStatusCode } from "@angular/common/http";
 import { Title } from "@angular/platform-browser";
 
 import {
@@ -28,6 +29,7 @@ import {
   switchMap,
   takeUntil,
   tap,
+  throttleTime,
   withLatestFrom,
 } from "rxjs/operators";
 import {
@@ -67,6 +69,7 @@ import {
 } from "../../services/usager-filter";
 
 const FIVE_MINUTES = 5 * 60 * 1000;
+const THIRTY_SECONDS = 30 * 1000;
 const STORAGE_KEY = "SEARCH";
 @Component({
   animations: [fadeInOut],
@@ -251,16 +254,26 @@ export class ManageUsagersPageComponent
     this.subscription.add(searchEvents$.subscribe());
 
     this.subscription.add(
-      timer(FIVE_MINUTES, FIVE_MINUTES)
+      // Right away on page entry and when the tab comes back: catches up since lastSync
+      merge(timer(0, FIVE_MINUTES), fromEvent(document, "visibilitychange"))
         .pipe(
           // Skip the tick when the tab is in background: a hidden tab does not
           // need fresh data and would just consume the IP's rate-limit quota
           // for nothing (cabinets share an outgoing IP via NAT).
-          filter(() => document.visibilityState === "visible"),
+          filter(
+            () =>
+              document.visibilityState === "visible" &&
+              this.usagerService.hasLastSync()
+          ),
+          throttleTime(THIRTY_SECONDS),
           tap(() => {
             this.searching = true;
           }),
-          switchMap(() => this.usagerService.updateManage())
+          switchMap(() =>
+            this.usagerService
+              .updateManage()
+              .pipe(catchError((error) => this.reloadIfLastSyncRejected(error)))
+          )
         )
         .subscribe(() => {
           this.searching = false;
@@ -378,6 +391,20 @@ export class ManageUsagersPageComponent
     );
   }
 
+  // lastSync older than one day: the server refuses it, start over from a full load
+  private reloadIfLastSyncRejected(
+    error: HttpErrorResponse
+  ): Observable<unknown> {
+    if (error.status !== HttpStatusCode.BadRequest) {
+      return of([]);
+    }
+    return this.usagerService
+      .fetchSearchPageUsagerData({
+        chargerTousRadies: this.chargerTousRadies$.value,
+      })
+      .pipe(catchError(() => of([])));
+  }
+
   private findRemoteUsagers(
     chargerTousRadies: boolean,
     filters: UsagersFilterCriteria
@@ -406,7 +433,7 @@ export class ManageUsagersPageComponent
             this.toastr.error(
               "La recherche n'a pas abouti, merci de réessayer dans quelques instants"
             );
-            return filters.searchString;
+            return of(filters.searchString);
           })
         );
     }

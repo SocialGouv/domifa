@@ -17,6 +17,8 @@ import { UsagersService, UsagerOptionsHistoryService } from "../../services";
 import { UsagerHistoryStateService } from "../../services/usagerHistoryState.service";
 import { FileManagerService } from "../../../util/file-manager/file-manager.service";
 import { Usager } from "@domifa/common";
+import { Not } from "typeorm";
+import { userStructureRepository } from "../../../database";
 import { UsagersLogsService } from "../../services/usagers-logs.service";
 import { AppLogsModule } from "../../../modules/app-logs/app-logs.module";
 import { SecurityMonitoringModule } from "../../../modules/security-monitoring/security-monitoring.module";
@@ -287,6 +289,56 @@ describe("Usagers Controller", () => {
       expect(updatedUsager.customRef).toEqual("2022_1_2");
       expect(updatedUsager.ayantsDroits.length).toEqual(2);
       expect(updatedUsager.ayantsDroits[0].nom).toEqual("Moni");
+    });
+
+    it("❌ Patch avec un référent d'une autre structure", async () => {
+      const foreignUser = await userStructureRepository.findOneBy({
+        structureId: Not(context.user.structureId),
+      });
+
+      const response = await AppTestHttpClient.patch(
+        ENDPOINT + "/" + usagerPatch.ref,
+        {
+          context,
+          body: { ...POST_USAGER.payload, referrerId: foreignUser.id },
+        }
+      );
+
+      expect(response.status).toBe(400);
+      expect(response.body?.message).toEqual("CANNOT_FIND_REFERRER");
+    });
+
+    it.each([-1, 6, 999])("❌ Étape %s hors du parcours", async (etape) => {
+      const response = await AppTestHttpClient.get(
+        `${ENDPOINT}/next-step/${usagerPatch.ref}/${etape}`,
+        { context }
+      );
+      expect(response.status).toBe(400);
+    });
+
+    it("✅ Étape du parcours", async () => {
+      const response = await AppTestHttpClient.get(
+        `${ENDPOINT}/next-step/${usagerPatch.ref}/3`,
+        { context }
+      );
+      expect(response.status).toBe(200);
+      expect(response.body.etapeDemande).toEqual(3);
+    });
+
+    it("✅ Stop courrier bascule l'état NPAI", async () => {
+      const first = await AppTestHttpClient.post(
+        `${ENDPOINT}/stop-courrier/${usagerPatch.ref}`,
+        { context, body: {} }
+      );
+      expect(first.status).toBe(201);
+      expect(first.body.options.npai.actif).toBe(true);
+
+      const second = await AppTestHttpClient.post(
+        `${ENDPOINT}/stop-courrier/${usagerPatch.ref}`,
+        { context, body: {} }
+      );
+      expect(second.body.options.npai.actif).toBe(false);
+      expect(second.body.options.npai.dateDebut).toBeNull();
     });
   });
 });

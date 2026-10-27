@@ -223,6 +223,11 @@ export class UsagersService {
     await usagerRepository.update(
       { uuid: usager.uuid },
       {
+        // nom, prenom, surnom and ref: the subscriber needs them to recompute the search index (customRef ?? ref)
+        ref: usager.ref,
+        nom: usager.nom,
+        prenom: usager.prenom,
+        surnom: usager.surnom,
         lastInteraction: usager.lastInteraction,
         customRef: usager.customRef,
         decision: usager.decision,
@@ -234,7 +239,8 @@ export class UsagersService {
         dateAncienneteDom: usager.dateAncienneteDom,
       }
     );
-    return usager;
+
+    return await usagerRepository.getUsager(usager.uuid);
   }
 
   public async setRdv(

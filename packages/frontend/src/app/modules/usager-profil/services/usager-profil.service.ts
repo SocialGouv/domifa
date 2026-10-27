@@ -51,7 +51,10 @@ export class UsagerProfilService {
 
   public stopCourrier(usagerRef: number): Observable<UsagerLight> {
     return this.http
-      .get<UsagerLight>(`${this.endPointUsagers}/stop-courrier/${usagerRef}`)
+      .post<UsagerLight>(
+        `${this.endPointUsagers}/stop-courrier/${usagerRef}`,
+        {}
+      )
       .pipe(
         tap((newUsager: UsagerLight) => {
           this.store.dispatch(

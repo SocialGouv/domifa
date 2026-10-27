@@ -1,6 +1,4 @@
 import {
-  Usager,
-  UsagerDecision,
   CriteriaSearchField,
   getUsagerDeadlines,
   ETAPE_ENTRETIEN,
@@ -32,7 +30,14 @@ import {
   joinSelectFields,
 } from "../../database";
 
-import { SearchUsagerDto } from "../dto";
+import { SearchUsagerDto, UpdateManageDto } from "../dto";
+import { applyUsagerNameSearch, filterUsagerHistorique } from "../utils";
+
+const RADIES_PREVIEW_LIMIT = 1600;
+const RADIES_SEARCH_WITHOUT_CRITERIA_LIMIT = 100;
+const UPDATE_MANAGE_DEFAULT_WINDOW_MINUTES = 5;
+// Rows committed after the previous poll can carry an older updatedAt (transaction start time)
+const UPDATE_MANAGE_OVERLAP_MINUTES = 1;
 
 @Controller("search-usagers")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -53,6 +58,8 @@ export class SearchUsagersController {
     if (typeof chargerTousRadies !== "boolean") {
       throw new BadRequestException("BAD_REQUEST");
     }
+    // Taken before reading, so that nothing written during the load is skipped by update-manage
+    const syncedAt = new Date();
     const usagersNonRadies = await usagerRepository.find({
       where: {
         statut: Not("RADIE"),
@@ -67,7 +74,10 @@ export class SearchUsagersController {
         structureId: user.structureId,
       },
       select: USAGER_LIGHT_ATTRIBUTES,
-      take: chargerTousRadies ? undefined : 1600,
+      // Without an order, the window changes between two calls
+      ...(chargerTousRadies
+        ? {}
+        : { order: { ref: "DESC" }, take: RADIES_PREVIEW_LIMIT }),
     });
 
     const usagersRadiesTotalCount = chargerTousRadies
@@ -79,41 +89,36 @@ export class SearchUsagersController {
           },
         });
 
-    const filterHistorique = (usager: Usager) => {
-      if (usager.historique && Array.isArray(usager.historique)) {
-        usager.historique = usager.historique.map((item: UsagerDecision) => ({
-          statut: item.statut,
-          dateDecision: item.dateDecision,
-          dateDebut: item.dateDebut,
-          dateFin: item.dateFin,
-        })) as UsagerDecision[];
-      }
-      return usager;
-    };
-
     const usagersMerges = [...usagersNonRadies, ...usagersRadiesFirsts].map(
-      filterHistorique
+      filterUsagerHistorique
     );
 
     return {
       usagersRadiesTotalCount,
       usagers: usagersMerges,
+      syncedAt,
     };
   }
 
   @Get("update-manage")
-  public async updateManage(@CurrentUser() user: UserStructureAuthenticated) {
-    return await usagerRepository
+  public async updateManage(
+    @Query() query: UpdateManageDto,
+    @CurrentUser() user: UserStructureAuthenticated
+  ) {
+    const since = query.since
+      ? subMinutes(new Date(query.since), UPDATE_MANAGE_OVERLAP_MINUTES)
+      : subMinutes(new Date(), UPDATE_MANAGE_DEFAULT_WINDOW_MINUTES);
+
+    const usagers = await usagerRepository
       .createQueryBuilder()
-      .select(joinSelectFields(USAGER_LIGHT_ATTRIBUTES))
-      .where(
-        `"structureId" = :structureId AND "updatedAt" >= :fiveMinutesAgo`,
-        {
-          structureId: user.structureId,
-          fiveMinutesAgo: subMinutes(new Date(), 5),
-        }
-      )
+      .select(joinSelectFields([...USAGER_LIGHT_ATTRIBUTES, "updatedAt"]))
+      .where(`"structureId" = :structureId AND "updatedAt" >= :since`, {
+        structureId: user.structureId,
+        since,
+      })
       .getRawMany();
+
+    return usagers.map(filterUsagerHistorique);
   }
 
   @Get("count")
@@ -137,9 +142,7 @@ export class SearchUsagersController {
 
     if (search.searchString?.length > 0) {
       if (search.searchStringField === CriteriaSearchField.DEFAULT) {
-        query.andWhere("nom_prenom_surnom_ref ILIKE :str", {
-          str: `%${search.searchString}%`,
-        });
+        applyUsagerNameSearch(query, search.searchString);
       } else if (search.searchStringField === CriteriaSearchField.BIRTH_DATE) {
         const formattedDate = format(
           parse(search.searchString, "ddMMyyyy", new Date()),
@@ -213,9 +216,12 @@ export class SearchUsagersController {
       typeof search?.referrerId === "undefined" &&
       !search?.lastInteractionDate
     ) {
-      query.take(100);
+      query
+        .orderBy(`usager."ref"`, "DESC")
+        .take(RADIES_SEARCH_WITHOUT_CRITERIA_LIMIT);
     }
 
-    return await query.getRawMany();
+    const usagers = await query.getRawMany();
+    return usagers.map(filterUsagerHistorique);
   }
 }

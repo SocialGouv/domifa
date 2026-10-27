@@ -8,6 +8,7 @@ import {
 } from "../../../util/test";
 import { UsagersModule } from "../../usagers.module";
 import { CriteriaSearchField } from "@domifa/common";
+import { usagerRepository } from "../../../database";
 
 describe("SearchUsagersController", () => {
   let controller: SearchUsagersController;
@@ -117,6 +118,88 @@ describe("SearchUsagersController", () => {
         searchStringField: CriteriaSearchField.BIRTH_DATE,
       },
     }).expect(400);
+  });
+
+  it("should find a radie whatever the order of the words", async () => {
+    const response = await AppTestHttpClient.post(
+      "/search-usagers/search-radies",
+      {
+        context,
+        body: {
+          searchString: "lisa loumiel",
+          searchStringField: CriteriaSearchField.DEFAULT,
+        },
+      }
+    ).expect(201);
+    expect(response.body.map((usager) => usager.nom)).toEqual(["Loumiel"]);
+  });
+
+  it("should return the server time with the full load", async () => {
+    const response = await AppTestHttpClient.get(
+      "/search-usagers?chargerTousRadies=false",
+      { context }
+    ).expect(200);
+    expect(Number.isNaN(Date.parse(response.body.syncedAt))).toBe(false);
+  });
+
+  it("should return every usager updated since lastSync", async () => {
+    const lastSync = new Date().toISOString();
+    await usagerRepository.update(
+      { ref: 4, structureId: 1 },
+      { updatedAt: new Date() }
+    );
+
+    const response = await AppTestHttpClient.get(
+      `/search-usagers/update-manage?since=${lastSync}`,
+      { context }
+    ).expect(200);
+    expect(response.body.map((usager) => usager.ref)).toContain(4);
+    for (const usager of response.body) {
+      expect(usager.updatedAt).toBeDefined();
+      for (const decision of usager.historique ?? []) {
+        expect(
+          Object.keys(decision).every((key) =>
+            ["statut", "dateDecision", "dateDebut", "dateFin"].includes(key)
+          )
+        ).toBe(true);
+      }
+    }
+  });
+
+  it.each([
+    "hier",
+    "2026-10-27",
+    "2026-10-27T10:00",
+    "2026-10-27T10:00:00",
+    "20261027T100000Z",
+    "2026-02-30T10:00:00Z",
+  ])("should reject lastSync %s", async (since) => {
+    await AppTestHttpClient.get(
+      `/search-usagers/update-manage?since=${encodeURIComponent(since)}`,
+      { context }
+    ).expect(400);
+  });
+
+  it.each([
+    ["more than one day old", -25 * 60 * 60 * 1000],
+    ["in the future", 2 * 60 * 60 * 1000],
+  ])("should reject a lastSync %s", async (_label, offsetMs) => {
+    const since = new Date(Date.now() + offsetMs).toISOString();
+    await AppTestHttpClient.get(
+      `/search-usagers/update-manage?since=${encodeURIComponent(since)}`,
+      { context }
+    ).expect(400);
+  });
+
+  it("should accept a recent lastSync with a time zone offset", async () => {
+    // 1 hour ago, written in UTC-03:00 (Cayenne)
+    const since = new Date(Date.now() - 4 * 60 * 60 * 1000)
+      .toISOString()
+      .replace("Z", "-03:00");
+    await AppTestHttpClient.get(
+      `/search-usagers/update-manage?since=${encodeURIComponent(since)}`,
+      { context }
+    ).expect(200);
   });
 
   it("should reject invalid echeance value", async () => {
