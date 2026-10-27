@@ -8,6 +8,7 @@ import {
   Min,
   ValidateIf,
 } from "class-validator";
+import { toStrictInt } from "../../_common/decorators";
 
 export class AssignReferrersDto {
   @Transform(({ value }) => {
@@ -20,7 +21,7 @@ export class AssignReferrersDto {
     ) {
       return null;
     }
-    return Number(value);
+    return toStrictInt(value);
   })
   @ValidateIf((_, value) => value !== null)
   @IsInt()

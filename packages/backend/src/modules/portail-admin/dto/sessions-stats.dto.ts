@@ -1,5 +1,5 @@
-import { Type } from "class-transformer";
 import { IsInt, IsOptional, Min } from "class-validator";
+import { StrictIntTransform } from "../../../_common/decorators";
 
 // Forme de la réponse partagée via @domifa/common (utilisée côté portails).
 // On la ré-exporte ici pour que les controllers du backend la consomment
@@ -8,7 +8,7 @@ export { SessionsStats } from "@domifa/common";
 
 export class SessionsStatsQueryDto {
   @IsOptional()
-  @Type(() => Number)
+  @StrictIntTransform()
   @IsInt()
   @Min(1)
   readonly structureId?: number;

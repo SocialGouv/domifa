@@ -1,17 +1,17 @@
 import { BREVO_EMAIL_EVENT_TYPES, BrevoEmailEventType } from "@domifa/common";
-import { Type } from "class-transformer";
 import { IsIn, IsInt, IsOptional, Max, Min } from "class-validator";
+import { StrictIntTransform } from "../../../_common/decorators";
 
 export class BrevoEmailEventsQueryDto {
   @IsOptional()
-  @Type(() => Number)
+  @StrictIntTransform()
   @IsInt()
   @Min(1)
   @Max(100)
   public readonly limit: number = 50;
 
   @IsOptional()
-  @Type(() => Number)
+  @StrictIntTransform()
   @IsInt()
   @Min(0)
   public readonly offset: number = 0;
@@ -21,7 +21,7 @@ export class BrevoEmailEventsQueryDto {
   public readonly event?: BrevoEmailEventType;
 
   @IsOptional()
-  @Type(() => Number)
+  @StrictIntTransform()
   @IsInt()
   @Min(1)
   @Max(90)

@@ -8,6 +8,7 @@ import {
   Min,
   ValidateIf,
 } from "class-validator";
+import { toStrictInt } from "../../../_common/decorators";
 
 export class UpdateRoleDto {
   @IsIn(ALL_USER_STRUCTURE_ROLES)
@@ -24,7 +25,7 @@ export class UpdateRoleDto {
     ) {
       return null;
     }
-    return Number(value);
+    return toStrictInt(value);
   })
   @ValidateIf((_, value) => value !== null)
   @IsInt()

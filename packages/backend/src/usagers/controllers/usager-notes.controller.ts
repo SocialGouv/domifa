@@ -6,7 +6,6 @@ import {
   Get,
   Param,
   ParseBoolPipe,
-  ParseIntPipe,
   ParseUUIDPipe,
   Post,
   Put,
@@ -47,6 +46,7 @@ import {
   AllowUserStructureRoles,
 } from "../../auth/decorators";
 import { PageOptionsDto } from "../dto";
+import { UsagerRefParam } from "../../_common/decorators";
 
 @Controller("usagers-notes")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -59,7 +59,7 @@ export class UsagerNotesController {
   public async getUsagerNotes(
     @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager,
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
+    @UsagerRefParam() _usagerRef: number,
     @Param("archived", new ParseBoolPipe()) archived: boolean,
     @Body() pageOptionsDto: PageOptionsDto
   ) {
@@ -119,7 +119,7 @@ export class UsagerNotesController {
     @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsagerNote() currentUsagerNote: UsagerNote,
     @CurrentUsager() currentUsager: Usager,
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
+    @UsagerRefParam() _usagerRef: number,
     @Param("noteUUID", new ParseUUIDPipe()) _noteUUID: string
   ): Promise<Usager> {
     if (currentUsagerNote.pinned) {
@@ -154,7 +154,7 @@ export class UsagerNotesController {
     @CurrentUser() _currentUser: UserStructureAuthenticated,
     @CurrentUsagerNote() currentUsagerNote: UsagerNote,
     @CurrentUsager() currentUsager: Usager,
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
+    @UsagerRefParam() _usagerRef: number,
     @Param("noteUUID", new ParseUUIDPipe()) _noteUUID: string
   ): Promise<Usager> {
     const newPinnedStatus = !currentUsagerNote.pinned;
@@ -187,7 +187,7 @@ export class UsagerNotesController {
   public async countNotes(
     @CurrentUser() _currentUser: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager,
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
+    @UsagerRefParam() _usagerRef: number
   ): Promise<number> {
     return await usagerNotesRepository.countBy({
       usagerUUID: currentUsager.uuid,
@@ -202,7 +202,7 @@ export class UsagerNotesController {
     @CurrentUser() currentUser: UserStructureAuthenticated,
     @CurrentUsagerNote() currentUsagerNote: UsagerNote,
     @CurrentUsager() currentUsager: Usager,
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
+    @UsagerRefParam() _usagerRef: number,
     @Param("noteUUID", new ParseUUIDPipe()) _noteUUID: string
   ): Promise<Usager> {
     if (!currentUsagerNote.archived) {

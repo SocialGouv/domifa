@@ -7,6 +7,7 @@ import {
 } from "@nestjs/common";
 
 import { appLogger } from "../../util";
+import { parseUsagerRef } from "../../_common/decorators/parse-pipes/ParseUsagerRef.pipe";
 import { isInt, isUUID } from "class-validator";
 import { usagerNotesRepository } from "../../database";
 
@@ -15,12 +16,12 @@ export class UsagerNoteAccessGuard implements CanActivate {
   public async canActivate(context: ExecutionContext) {
     const r = context.switchToHttp().getRequest();
 
-    const usagerRef = Number(r.params?.usagerRef);
+    const usagerRef = parseUsagerRef(r.params?.usagerRef);
     const structureId = Number(r.user?.structureId);
 
-    if (!isInt(usagerRef) || usagerRef < 0) {
-      appLogger.error("[UsagerNoteAccessGuard] invalid usagerRef", {
-        sentry: true,
+    if (usagerRef === null) {
+      // Malformed refs come from scans: log only, no Sentry
+      appLogger.warn("[UsagerNoteAccessGuard] invalid usagerRef", {
         context: {
           url: r.url,
           usagerRef: r.params?.usagerRef,

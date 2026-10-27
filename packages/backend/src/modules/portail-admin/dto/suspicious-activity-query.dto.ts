@@ -14,6 +14,7 @@ import {
 import { PageOptionsDto } from "../../../usagers/dto/pagination/page-options.dto";
 import { SUSPICIOUS_LOG_ACTIONS } from "../../security-monitoring/constants/SECURITY_LOG_ACTIONS.const";
 import { SuspiciousLogAction } from "../../security-monitoring/types/security-alert.types";
+import { StrictIntTransform } from "../../../_common/decorators";
 
 export const SUSPICIOUS_USER_PROFILES = [
   "user_structure",
@@ -69,7 +70,7 @@ export class SuspiciousActivityQueryDto extends PageOptionsDto {
   readonly identifier?: string;
 
   @IsOptional()
-  @Type(() => Number)
+  @StrictIntTransform()
   @IsInt()
   @Min(1)
   readonly userId?: number;

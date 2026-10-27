@@ -1,4 +1,3 @@
-import { Transform, TransformFnParams } from "class-transformer";
 import {
   IsInt,
   IsNotEmpty,
@@ -8,7 +7,11 @@ import {
   MinLength,
 } from "class-validator";
 
-import { IsValidPassword, MatchField } from "../../../_common/decorators";
+import {
+  IsValidPassword,
+  MatchField,
+  StrictIntTransform,
+} from "../../../_common/decorators";
 
 export class ResetPasswordDto {
   @IsNotEmpty()
@@ -31,9 +34,6 @@ export class ResetPasswordDto {
   @IsNotEmpty()
   @IsInt()
   @Min(1)
-  @Transform(({ value }: TransformFnParams) => {
-    const num = Number(value);
-    return Number.isNaN(num) ? value : num;
-  })
+  @StrictIntTransform()
   public readonly userId!: number;
 }

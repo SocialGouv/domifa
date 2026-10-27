@@ -2,13 +2,12 @@ import {
   IsBoolean,
   IsIn,
   IsNotEmpty,
-  IsNumber,
+  IsInt,
   IsOptional,
   IsString,
   MaxLength,
   Min,
 } from "class-validator";
-import { Transform } from "class-transformer";
 import {
   RegistrationSources,
   CurrentTool,
@@ -19,6 +18,7 @@ import {
   SOURCES_OPTIONS,
 } from "@domifa/common";
 import {
+  StrictIntTransform,
   StripTagsTransform,
   ValidateIfElseNull,
 } from "../../../_common/decorators";
@@ -37,9 +37,9 @@ export class StructureRegistrationDto {
   @StripTagsTransform()
   sourceDetail?: string;
 
-  @IsNumber()
+  @IsInt()
   @Min(0)
-  @Transform(({ value }) => Number(value))
+  @StrictIntTransform()
   activeUsersCount: number;
 
   @IsOptional()
