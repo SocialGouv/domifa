@@ -58,4 +58,68 @@ export const UsagersControllerSecurityTests: AppTestHttpClientSecurityTestDef[] 
         ),
       }),
     },
+    // Unknown usagerRef: allowed roles stop at UsagerAccessGuard (400), nothing is written
+    {
+      label: `${CONTROLLER}.patchMailAndPhone`,
+      query: async (context: AppTestContext) => ({
+        response: await AppTestHttpClient.patch(
+          "/usagers/contact-details/999999",
+          { context, body: {} }
+        ),
+        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+          context.user,
+          {
+            validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
+            roles: ["simple", "responsable", "admin"],
+          }
+        ),
+      }),
+    },
+    {
+      label: `${CONTROLLER}.nextStep`,
+      query: async (context: AppTestContext) => ({
+        response: await AppTestHttpClient.get("/usagers/next-step/999999/3", {
+          context,
+        }),
+        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+          context.user,
+          {
+            validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
+            roles: ["simple", "responsable", "admin"],
+          }
+        ),
+      }),
+    },
+    {
+      label: `${CONTROLLER}.stopCourrier`,
+      query: async (context: AppTestContext) => ({
+        response: await AppTestHttpClient.post(
+          "/usagers/stop-courrier/999999",
+          { context, body: {} }
+        ),
+        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+          context.user,
+          {
+            validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
+            roles: ["simple", "responsable", "admin", "facteur", "agent"],
+          }
+        ),
+      }),
+    },
+    {
+      label: `${CONTROLLER}.assignReferrersToAnotherUser`,
+      query: async (context: AppTestContext) => ({
+        response: await AppTestHttpClient.post("/usagers/assign-referrers", {
+          context,
+          body: { usagersRefs: [999999], newReferrerId: null },
+        }),
+        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+          context.user,
+          {
+            validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
+            roles: ["simple", "responsable", "admin"],
+          }
+        ),
+      }),
+    },
   ];

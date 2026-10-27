@@ -58,6 +58,8 @@ import { ExpressResponse } from "../../util/express";
 import {
   Usager,
   ETAPE_DOCUMENTS,
+  ETAPE_ETAT_CIVIL,
+  ETAPE_DOSSIER_COMPLET,
   ALL_USER_STRUCTURE_ROLES,
   SUPPORT_READ_ROLES,
 } from "@domifa/common";
@@ -88,19 +90,10 @@ export class UsagersController {
     @Res() res: ExpressResponse
   ) {
     try {
-      // Check referrer
-      if (usagerDto?.referrerId) {
-        const user = await userStructureRepository.findOneBy({
-          id: usagerDto.referrerId,
-          structureId: currentUser.structureId,
-          status: Not("DELETE"),
-        });
-
-        if (!user) {
-          return res
-            .status(HttpStatus.BAD_REQUEST)
-            .json({ message: "CANNOT_FIND_REFERRER" });
-        }
+      if (!(await this.isValidReferrer(usagerDto?.referrerId, currentUser))) {
+        return res
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ message: "CANNOT_FIND_REFERRER" });
       }
 
       const usager = await this.usagersService.create(usagerDto, currentUser);
@@ -119,8 +112,15 @@ export class UsagersController {
   public async patchUsager(
     @Body() usagerDto: CreateUsagerDto,
     @CurrentUser() _user: UserStructureAuthenticated,
-    @CurrentUsager() currentUsager: Usager
+    @CurrentUsager() currentUsager: Usager,
+    @Res() res: ExpressResponse
   ) {
+    if (!(await this.isValidReferrer(usagerDto?.referrerId, _user))) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "CANNOT_FIND_REFERRER" });
+    }
+
     if (
       !currentUsager.customRef &&
       (!usagerDto.customRef || usagerDto.customRef === null)
@@ -162,11 +162,10 @@ export class UsagersController {
       historyBeginDate,
     });
 
-    return { ...currentUsager, ...usagerDto };
+    return res.status(HttpStatus.OK).json({ ...currentUsager, ...usagerDto });
   }
 
   @UseGuards(UsagerAccessGuard)
-  @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
   @Patch("contact-details/:usagerRef")
   public async patchMailAndPhone(
     @Body() contactDetails: ContactDetailsDto,
@@ -253,8 +252,18 @@ export class UsagersController {
   public async nextStep(
     @Param("etapeDemande", new ParseIntPipe()) etapeDemande: number,
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
-    @CurrentUsager() currentUsager: Usager
-  ): Promise<Usager> {
+    @CurrentUsager() currentUsager: Usager,
+    @Res() res: ExpressResponse
+  ) {
+    if (
+      etapeDemande < ETAPE_ETAT_CIVIL ||
+      etapeDemande > ETAPE_DOSSIER_COMPLET
+    ) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: "BAD_REQUEST" });
+    }
+
     currentUsager.etapeDemande = etapeDemande;
     await usagerRepository.update(
       { uuid: currentUsager.uuid },
@@ -262,24 +271,22 @@ export class UsagersController {
         etapeDemande,
       }
     );
-    return currentUsager;
+    return res.status(HttpStatus.OK).json(currentUsager);
   }
 
   @UseGuards(UsagerAccessGuard)
   @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
-  @Get("stop-courrier/:usagerRef")
+  @Post("stop-courrier/:usagerRef")
   public async stopCourrier(
     @CurrentUsager() currentUsager: Usager,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
   ): Promise<Usager> {
-    if (currentUsager.options.npai.actif) {
-      currentUsager.options.npai.actif = false;
-      currentUsager.options.npai.dateDebut = null;
-    } else {
-      currentUsager.options.npai.actif = true;
-      currentUsager.options.npai.dateDebut = new Date();
-    }
+    const actif = !currentUsager.options?.npai?.actif;
+    currentUsager.options = {
+      ...currentUsager.options,
+      npai: { actif, dateDebut: actif ? new Date() : null },
+    };
 
     await usagerRepository.update(
       { uuid: currentUsager.uuid },
@@ -386,7 +393,6 @@ export class UsagersController {
   }
 
   @Post("assign-referrers")
-  @AllowUserStructureRoles(...ALL_USER_STRUCTURE_ROLES)
   public async assignReferrersToAnotherUser(
     @CurrentUser() userStructureAuth: UserStructureAuthenticated,
     @Body() body: AssignReferrersDto,
@@ -438,5 +444,19 @@ export class UsagersController {
     });
 
     return res.status(200).json(updatedUsagers);
+  }
+
+  private async isValidReferrer(
+    referrerId: number | null | undefined,
+    user: UserStructureAuthenticated
+  ): Promise<boolean> {
+    if (!referrerId) {
+      return true;
+    }
+    return await userStructureRepository.existsBy({
+      id: referrerId,
+      structureId: user.structureId,
+      status: Not("DELETE"),
+    });
   }
 }
