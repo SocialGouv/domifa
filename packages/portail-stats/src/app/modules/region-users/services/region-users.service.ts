@@ -2,17 +2,20 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import {
   ApiMessage,
-  RegionDepartmentUser,
+  RegionManagedRole,
+  RegionManagedUser,
   UserDeleteMotif,
 } from "@domifa/common";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 
-export type RegisterDepartmentUserForm = {
+export type RegisterRegionUserForm = {
   prenom: string;
   nom: string;
   email: string;
-  department: string;
+  role: RegionManagedRole;
+  department?: string;
+  region?: string;
 };
 
 @Injectable({
@@ -23,13 +26,11 @@ export class RegionUsersService {
 
   constructor(private readonly http: HttpClient) {}
 
-  public getUsers(): Observable<RegionDepartmentUser[]> {
-    return this.http.get<RegionDepartmentUser[]>(this.endPoint);
+  public getUsers(): Observable<RegionManagedUser[]> {
+    return this.http.get<RegionManagedUser[]>(this.endPoint);
   }
 
-  public registerUser(
-    data: RegisterDepartmentUserForm
-  ): Observable<ApiMessage> {
+  public registerUser(data: RegisterRegionUserForm): Observable<ApiMessage> {
     return this.http.post<ApiMessage>(this.endPoint, data);
   }
 

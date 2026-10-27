@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import {
-  RegionDepartmentUser,
+  RegionManagedUser,
   USER_DELETE_MOTIF_LABELS,
   UserDeleteMotif,
 } from "@domifa/common";
@@ -28,7 +28,7 @@ const DDETS_DELETE_MOTIFS: UserDeleteMotif[] = [
   standalone: false,
 })
 export class DeleteDepartmentUserComponent implements OnDestroy {
-  @Input({ required: true }) public user!: RegionDepartmentUser;
+  @Input({ required: true }) public user!: RegionManagedUser;
   @Output() public readonly deleted = new EventEmitter<void>();
   @Output() public readonly cancelAction = new EventEmitter<void>();
 

@@ -94,7 +94,7 @@ export class AppComponent implements OnInit {
         if (user.role === "region") {
           this.menuHeaderItems.push({
             linkId: "utilisateurs",
-            label: "Utilisateurs département",
+            label: "Utilisateurs",
             routerLink: "/utilisateurs",
           });
         }

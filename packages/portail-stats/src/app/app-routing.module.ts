@@ -24,7 +24,7 @@ const routes: Routes = [
   },
   {
     path: "utilisateurs",
-    title: "Utilisateurs département - Pilotage DomiFa",
+    title: "Utilisateurs - Pilotage DomiFa",
     canActivate: [AuthGuard],
     data: { roles: ["region"] },
     loadChildren: () =>

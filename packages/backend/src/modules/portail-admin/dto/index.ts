@@ -3,7 +3,7 @@ export * from "./brevo-email-events-query.dto";
 export * from "./elevate-user-role.dto";
 export * from "./MetabaseStats.dto";
 export * from "./patch-user-supervisor.dto";
-export * from "./register-department-user.dto";
+export * from "./register-region-user.dto";
 export * from "./register-user-structure-admin.dto";
 export * from "./register-user-supervisor.dto";
 export * from "./sessions-stats.dto";

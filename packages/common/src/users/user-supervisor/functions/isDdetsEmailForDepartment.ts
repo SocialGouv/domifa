@@ -1,5 +1,5 @@
 import { DDETS_EMAIL_DOMAINS } from "../constants/DDETS_EMAIL_DOMAINS.const";
-import { isDdetsEmail } from "./isDdetsEmail";
+import { isNominativeGouvEmail } from "./isNominativeGouvEmail";
 
 export const getDdetsEmailDomains = (department: string): readonly string[] =>
   DDETS_EMAIL_DOMAINS[department] ?? [];
@@ -12,7 +12,7 @@ export const isDdetsEmailForDepartment = (
   email: string | null | undefined,
   department: string
 ): boolean => {
-  if (!isDdetsEmail(email)) {
+  if (!isNominativeGouvEmail(email)) {
     return false;
   }
   const domain = (email as string).trim().toLowerCase().split("@")[1];

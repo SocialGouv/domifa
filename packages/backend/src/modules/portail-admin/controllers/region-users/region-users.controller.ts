@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiMessage, RegionDepartmentUser } from "@domifa/common";
+import { ApiMessage, RegionManagedUser } from "@domifa/common";
 import { UserAdminAuthenticated } from "../../../../_common/model";
 import {
   AllowUserProfiles,
@@ -18,32 +18,30 @@ import {
 import { CurrentSupervisor } from "../../../../auth/decorators/current-supervisor.decorator";
 import { AppUserGuard } from "../../../../auth/guards";
 import { DeleteUserDto } from "../../../users/dto";
-import { RegisterDepartmentUserDto } from "../../dto";
-import { RegionDepartmentUsersService } from "../../services/region-department-users/region-department-users.service";
+import { RegisterRegionUserDto } from "../../dto";
+import { RegionUsersService } from "../../services/region-users/region-users.service";
 
-// Pilotage portal: a DREETS manages the DDETS accounts of its region
+// Pilotage portal: a DREETS manages the DDETS and DREETS accounts of its region
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserProfiles("supervisor")
 @AllowUserSupervisorRoles("region")
 @Controller("admin/region-users")
 export class RegionUsersController {
-  constructor(
-    private readonly regionDepartmentUsersService: RegionDepartmentUsersService
-  ) {}
+  constructor(private readonly regionUsersService: RegionUsersService) {}
 
   @Get("")
   public async getDepartmentUsers(
     @CurrentSupervisor() user: UserAdminAuthenticated
-  ): Promise<RegionDepartmentUser[]> {
-    return this.regionDepartmentUsersService.findAll(user);
+  ): Promise<RegionManagedUser[]> {
+    return this.regionUsersService.findAll(user);
   }
 
   @Post("")
   public async registerDepartmentUser(
     @CurrentSupervisor() user: UserAdminAuthenticated,
-    @Body() registerDto: RegisterDepartmentUserDto
+    @Body() registerDto: RegisterRegionUserDto
   ): Promise<ApiMessage> {
-    await this.regionDepartmentUsersService.create(user, registerDto);
+    await this.regionUsersService.create(user, registerDto);
     return { message: "OK" };
   }
 
@@ -53,7 +51,7 @@ export class RegionUsersController {
     @Param("uuid", new ParseUUIDPipe()) uuid: string,
     @Body() body: DeleteUserDto
   ): Promise<ApiMessage> {
-    await this.regionDepartmentUsersService.softDelete(user, uuid, body.motif);
+    await this.regionUsersService.softDelete(user, uuid, body.motif);
     return { message: "OK" };
   }
 }
