@@ -6,6 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
+import { HttpErrorResponse, HttpStatusCode } from "@angular/common/http";
 import { Title } from "@angular/platform-browser";
 
 import {
@@ -269,7 +270,9 @@ export class ManageUsagersPageComponent
             this.searching = true;
           }),
           switchMap(() =>
-            this.usagerService.updateManage().pipe(catchError(() => of([])))
+            this.usagerService
+              .updateManage()
+              .pipe(catchError((error) => this.reloadIfLastSyncRejected(error)))
           )
         )
         .subscribe(() => {
@@ -386,6 +389,20 @@ export class ManageUsagersPageComponent
         return this.findRemoteUsagers(chargerTousRadies, this.filters);
       })
     );
+  }
+
+  // lastSync older than one day: the server refuses it, start over from a full load
+  private reloadIfLastSyncRejected(
+    error: HttpErrorResponse
+  ): Observable<unknown> {
+    if (error.status !== HttpStatusCode.BadRequest) {
+      return of([]);
+    }
+    return this.usagerService
+      .fetchSearchPageUsagerData({
+        chargerTousRadies: this.chargerTousRadies$.value,
+      })
+      .pipe(catchError(() => of([])));
   }
 
   private findRemoteUsagers(
