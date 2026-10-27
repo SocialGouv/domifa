@@ -55,7 +55,11 @@ import {
   UsagersCountByStatus,
 } from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
-import { AuthService, CustomToastService } from "../../../shared/services";
+import {
+  AuthService,
+  CustomToastService,
+  USAGERS_SEARCH_STORAGE_KEY,
+} from "../../../shared/services";
 import { hasAcceptedCurrentCgu } from "../../../../shared/constants";
 import { UsagerLight } from "../../../../../_common/model";
 import {
@@ -70,7 +74,6 @@ import {
 
 const FIVE_MINUTES = 5 * 60 * 1000;
 const THIRTY_SECONDS = 30 * 1000;
-const STORAGE_KEY = "SEARCH";
 @Component({
   animations: [fadeInOut],
   selector: "app-manage-usagers-page",
@@ -691,11 +694,14 @@ export class ManageUsagersPageComponent
   }
 
   private setFilters() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.filters));
+    localStorage.setItem(
+      USAGERS_SEARCH_STORAGE_KEY,
+      JSON.stringify(this.filters)
+    );
   }
 
   private getFilters(): null | Partial<UsagersFilterCriteria> {
-    const filters = localStorage.getItem(STORAGE_KEY);
+    const filters = localStorage.getItem(USAGERS_SEARCH_STORAGE_KEY);
     return filters === null ? {} : JSON.parse(filters);
   }
 
