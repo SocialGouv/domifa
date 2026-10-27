@@ -99,4 +99,28 @@ describe("UsagersService", () => {
 
     await usagerRepository.delete({ uuid: usager.uuid });
   });
+
+  it("2. setDecision keeps the ref in the search index when there is no customRef", async () => {
+    const user = (await userStructureRepository.findOneBy({
+      id: 1,
+    })) as UserStructure;
+    user.structure = await structureRepository.findOneBy({ id: 5 });
+
+    const created = await service.create(CREATE_USAGER_DTO, user);
+    await usagerRepository.update({ uuid: created.uuid }, { customRef: null });
+    const usager = await usagerRepository.getUsager(created.uuid);
+
+    await service.setDecision(usager, {
+      statut: "INSTRUCTION",
+    } as DecisionDto);
+
+    const { nom_prenom_surnom_ref } = await usagerRepository
+      .createQueryBuilder("usager")
+      .select("usager.nom_prenom_surnom_ref", "nom_prenom_surnom_ref")
+      .where("usager.uuid = :uuid", { uuid: usager.uuid })
+      .getRawOne();
+    expect(nom_prenom_surnom_ref.split(" ")).toContain(`${usager.ref}`);
+
+    await usagerRepository.delete({ uuid: usager.uuid });
+  });
 });

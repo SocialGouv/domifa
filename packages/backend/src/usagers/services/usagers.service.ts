@@ -223,7 +223,8 @@ export class UsagersService {
     await usagerRepository.update(
       { uuid: usager.uuid },
       {
-        // nom, prenom and surnom: the subscriber needs them to recompute the search index (customRef)
+        // nom, prenom, surnom and ref: the subscriber needs them to recompute the search index (customRef ?? ref)
+        ref: usager.ref,
         nom: usager.nom,
         prenom: usager.prenom,
         surnom: usager.surnom,
