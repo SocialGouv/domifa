@@ -162,7 +162,8 @@ export class UsagersController {
       historyBeginDate,
     });
 
-    return res.status(HttpStatus.OK).json({ ...currentUsager, ...usagerDto });
+    const usager = await usagerRepository.getUsager(currentUsager.uuid);
+    return res.status(HttpStatus.OK).json(usager);
   }
 
   @UseGuards(UsagerAccessGuard)
