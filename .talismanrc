@@ -76,6 +76,6 @@ fileignoreconfig:
 - filename: packages/portail-usagers/src/app/modules/general/components/\_static/politique/politique.component.ts
   checksum: dfdbbe1892cf17b22d28f529914eb5df3a07063d5e3071e59c36c907020260d3
 - filename: pnpm-lock.yaml
-  checksum: a8da17fb56692ce383fb721c2efdfe2e8e2a50027287da99c08b817c35fc7563
+  checksum: 6efdaf67aaa0bc2c1a74965b805dacb44eb0013e9d238515106f4d608465c5a0
 threshold: medium
 version: "1.0"
