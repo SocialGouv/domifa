@@ -1,3 +1,20 @@
+## [2.288.5](https://github.com/SocialGouv/domifa/compare/v2.288.4...v2.288.5) (2026-10-27)
+
+
+### Bug Fixes
+
+* **backend:** harden usagers endpoints ([d199230](https://github.com/SocialGouv/domifa/commit/d1992300d97115c5ea45e566d528840460ffc638))
+* **backend:** keep the ref in the search index when a decision has no customRef ([dac832a](https://github.com/SocialGouv/domifa/commit/dac832ab6308f7586f94e739d26ab273e747b0f1))
+* **backend:** only accept a full date-time with time zone as lastSync ([2825eec](https://github.com/SocialGouv/domifa/commit/2825eec30248878e2ea3f5c0fa23e05d2c07d5a5))
+* **backend:** reject a lastSync older than one day or in the future ([eccf0ad](https://github.com/SocialGouv/domifa/commit/eccf0ad92983a7b5e6ac01b51f6641747ead4f79))
+* **backend:** return the usager read from the database after a patch ([204b243](https://github.com/SocialGouv/domifa/commit/204b2430b0c20a3ae4316ebdc6c5ee2dc1bb2391))
+* **backend:** stop the usagers list from losing or hiding dossiers ([d25aec7](https://github.com/SocialGouv/domifa/commit/d25aec7785dbbb8411bb046b2690e40d4ff66bde))
+* **backend:** update then find in setDecision, test update-manage from lastSync ([e81f871](https://github.com/SocialGouv/domifa/commit/e81f871f34229f94b93b42fc47f62238afe745fe))
+* **frontend:** call stop-courrier in POST, hide contact edit to facteur and agent on the sms page ([17c3b08](https://github.com/SocialGouv/domifa/commit/17c3b088a660f13f982d44f4c2d7caf7bacec606))
+* **frontend:** keep the usagers list in sync with the server ([aeab6a7](https://github.com/SocialGouv/domifa/commit/aeab6a76859c54069cbec830536472d93758697d))
+* **frontend:** reload the usagers list when lastSync is rejected ([6a21da2](https://github.com/SocialGouv/domifa/commit/6a21da261eb137b03c758fa19346cae3ed87a7ba))
+* **frontend:** sync the usagers list from lastSync, refresh on tab return ([f21e772](https://github.com/SocialGouv/domifa/commit/f21e7729f01b99b2f5d42aa2476ea73393b0c4c2))
+
 ## [2.288.4](https://github.com/SocialGouv/domifa/compare/v2.288.3...v2.288.4) (2026-10-26)
 
 
