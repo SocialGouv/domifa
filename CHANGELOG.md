@@ -1,3 +1,10 @@
+# [2.289.0](https://github.com/SocialGouv/domifa/compare/v2.288.6...v2.289.0) (2026-10-27)
+
+
+### Features
+
+* **backend:** allow super-admin-domifa creation for allowed email domains ([6fd25b3](https://github.com/SocialGouv/domifa/commit/6fd25b3593354715e388632934ae10a9418964c1))
+
 ## [2.288.6](https://github.com/SocialGouv/domifa/compare/v2.288.5...v2.288.6) (2026-10-27)
 
 
