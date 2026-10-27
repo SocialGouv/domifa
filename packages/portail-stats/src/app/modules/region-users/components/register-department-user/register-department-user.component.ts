@@ -13,6 +13,7 @@ import {
   getRegionDepartmentCodes,
   isDdetsEmail,
   isDdetsEmailForDepartment,
+  isDdetsSelfServiceDepartment,
 } from "@domifa/common";
 import { Subscription } from "rxjs";
 import { PortailStatsAuthService } from "../../../auth/services/portail-stats-auth.service";
@@ -29,7 +30,6 @@ import {
 type DepartmentOption = {
   code: string;
   label: string;
-  domains: readonly string[];
   selfService: boolean;
 };
 
@@ -105,15 +105,11 @@ export class RegisterDepartmentUserComponent implements OnDestroy {
       this.authService.currentUserValue?.territories ?? []
     )
       .sort()
-      .map((code) => {
-        const domains = getDdetsEmailDomains(code);
-        return {
-          code,
-          label: `${code} - ${DEPARTEMENTS_LISTE[code]}`,
-          domains,
-          selfService: domains.length > 0,
-        };
-      });
+      .map((code) => ({
+        code,
+        label: `${code} - ${DEPARTEMENTS_LISTE[code]}`,
+        selfService: isDdetsSelfServiceDepartment(code),
+      }));
     this.hasSelfServiceDepartment = this.departments.some((d) => d.selfService);
 
     this.userForm = this.formBuilder.group(
@@ -133,10 +129,7 @@ export class RegisterDepartmentUserComponent implements OnDestroy {
     );
 
     this.subscription.add(
-      this.f.email.valueChanges.subscribe((email: string) => {
-        this.emailExist = false;
-        this.preselectDepartmentFromEmail(email);
-      })
+      this.f.email.valueChanges.subscribe(() => (this.emailExist = false))
     );
   }
 
@@ -184,20 +177,6 @@ export class RegisterDepartmentUserComponent implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
-  }
-
-  // Picks the department when the typed domain belongs to only one of them
-  private preselectDepartmentFromEmail(email: string): void {
-    if (this.f.department.value || !isDdetsEmail(email)) {
-      return;
-    }
-    const domain = email.trim().toLowerCase().split("@")[1];
-    const matches = this.departments.filter(
-      (d) => d.selfService && d.domains.includes(domain)
-    );
-    if (matches.length === 1) {
-      this.f.department.setValue(matches[0].code);
-    }
   }
 
   private defaultDepartment(): string {

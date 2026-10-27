@@ -5,7 +5,7 @@ import {
   OnDestroy,
   Output,
 } from "@angular/core";
-import { FormControl, Validators } from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import {
   RegionDepartmentUser,
   USER_DELETE_MOTIF_LABELS,
@@ -44,6 +44,8 @@ export class DeleteDepartmentUserComponent implements OnDestroy {
     nonNullable: true,
     validators: [Validators.required],
   });
+
+  public readonly deleteForm = new FormGroup({ motif: this.motif });
   public loading = false;
 
   private readonly subscription = new Subscription();

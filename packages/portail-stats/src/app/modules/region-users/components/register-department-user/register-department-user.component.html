@@ -72,6 +72,37 @@
   </div>
 
   <div
+    class="fr-select-group"
+    [class.fr-select-group--error]="submitted && f.department.errors"
+  >
+    <label class="fr-label" for="ddets-department">
+      Département d'action<span class="fr-text-default--error">*</span>
+    </label>
+    <select
+      class="fr-select"
+      id="ddets-department"
+      formControlName="department"
+      [attr.aria-invalid]="submitted && f.department.errors ? true : null"
+      [attr.aria-describedby]="
+        submitted && f.department.errors ? 'ddets-department-error' : null
+      "
+    >
+      <option value="" disabled>Sélectionnez un département</option>
+      @for (department of departments; track department.code) {
+      <option [value]="department.code" [disabled]="!department.selfService">
+        {{ department.label }}
+        @if (!department.selfService) { (comptes créés par l'équipe DomiFa) }
+      </option>
+      }
+    </select>
+    @if (submitted && f.department.errors) {
+    <p class="fr-error-text" id="ddets-department-error">
+      Veuillez sélectionner un département
+    </p>
+    }
+  </div>
+
+  <div
     class="fr-input-group"
     [class.fr-input-group--error]="emailInvalid || emailExist"
   >
@@ -111,37 +142,6 @@
       <p class="fr-message fr-message--info">Vérifiez l'adresse mail</p>
       }
     </div>
-  </div>
-
-  <div
-    class="fr-select-group"
-    [class.fr-select-group--error]="submitted && f.department.errors"
-  >
-    <label class="fr-label" for="ddets-department">
-      Département d'action<span class="fr-text-default--error">*</span>
-    </label>
-    <select
-      class="fr-select"
-      id="ddets-department"
-      formControlName="department"
-      [attr.aria-invalid]="submitted && f.department.errors ? true : null"
-      [attr.aria-describedby]="
-        submitted && f.department.errors ? 'ddets-department-error' : null
-      "
-    >
-      <option value="" disabled>Sélectionnez un département</option>
-      @for (department of departments; track department.code) {
-      <option [value]="department.code" [disabled]="!department.selfService">
-        {{ department.label }}
-        @if (!department.selfService) { (comptes créés par l'équipe DomiFa) }
-      </option>
-      }
-    </select>
-    @if (submitted && f.department.errors) {
-    <p class="fr-error-text" id="ddets-department-error">
-      Veuillez sélectionner un département
-    </p>
-    }
   </div>
 
   <ul
