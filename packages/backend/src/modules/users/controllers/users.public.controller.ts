@@ -4,14 +4,13 @@ import {
   Get,
   HttpStatus,
   Param,
-  ParseIntPipe,
   ParseUUIDPipe,
   Post,
   Req,
   Res,
 } from "@nestjs/common";
 import { Request as ExpressRequest } from "express";
-import { ParseTokenPipe } from "../../../_common/decorators";
+import { IntParam, ParseTokenPipe } from "../../../_common/decorators";
 import { appLogger, ExpressResponse } from "../../../util";
 import { buildSecurityLogRequestContext } from "../../../util/express";
 import { EmailDto, ResetPasswordDto } from "../dto";
@@ -40,7 +39,7 @@ export class UsersPublicController {
   @Get("check-password-token/:userId/:token")
   public async checkPasswordToken(
     @Req() req: ExpressRequest,
-    @Param("userId", new ParseIntPipe()) userId: number,
+    @IntParam({ name: "userId", min: 1 }) userId: number,
     @Param("token", new ParseTokenPipe()) token: string,
     @Res() res: ExpressResponse
   ) {

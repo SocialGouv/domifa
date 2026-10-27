@@ -63,7 +63,7 @@ export const UsagersControllerSecurityTests: AppTestHttpClientSecurityTestDef[] 
       label: `${CONTROLLER}.patchMailAndPhone`,
       query: async (context: AppTestContext) => ({
         response: await AppTestHttpClient.patch(
-          "/usagers/contact-details/999999",
+          "/usagers/contact-details/99999",
           { context, body: {} }
         ),
         expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
@@ -78,7 +78,7 @@ export const UsagersControllerSecurityTests: AppTestHttpClientSecurityTestDef[] 
     {
       label: `${CONTROLLER}.nextStep`,
       query: async (context: AppTestContext) => ({
-        response: await AppTestHttpClient.get("/usagers/next-step/999999/3", {
+        response: await AppTestHttpClient.get("/usagers/next-step/99999/3", {
           context,
         }),
         expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
@@ -93,10 +93,10 @@ export const UsagersControllerSecurityTests: AppTestHttpClientSecurityTestDef[] 
     {
       label: `${CONTROLLER}.stopCourrier`,
       query: async (context: AppTestContext) => ({
-        response: await AppTestHttpClient.post(
-          "/usagers/stop-courrier/999999",
-          { context, body: {} }
-        ),
+        response: await AppTestHttpClient.post("/usagers/stop-courrier/99999", {
+          context,
+          body: {},
+        }),
         expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
           context.user,
           {
@@ -111,7 +111,7 @@ export const UsagersControllerSecurityTests: AppTestHttpClientSecurityTestDef[] 
       query: async (context: AppTestContext) => ({
         response: await AppTestHttpClient.post("/usagers/assign-referrers", {
           context,
-          body: { usagersRefs: [999999], newReferrerId: null },
+          body: { usagersRefs: [99999], newReferrerId: null },
         }),
         expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
           context.user,

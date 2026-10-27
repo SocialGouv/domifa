@@ -12,8 +12,6 @@ import {
   Controller,
   Get,
   HttpStatus,
-  Param,
-  ParseIntPipe,
   Patch,
   Post,
   Req,
@@ -54,6 +52,7 @@ import { userUsagerCreator } from "../../services";
 import { PageOptionsDto } from "../../../../usagers/dto";
 import { format } from "date-fns";
 import * as XLSX from "xlsx";
+import { UsagerRefParam } from "../../../../_common/decorators";
 
 @Controller("portail-usagers-manager")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -389,7 +388,7 @@ export class PortailUsagersManagerController {
   @AllowUserStructureRoles(...SUPPORT_READ_ROLES)
   @Get("profile/:usagerRef")
   public async findOne(
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
+    @UsagerRefParam() _usagerRef: number,
     @CurrentUsager() currentUsager: Usager
   ): Promise<UserUsager | null> {
     return await userUsagerRepository.findOne({

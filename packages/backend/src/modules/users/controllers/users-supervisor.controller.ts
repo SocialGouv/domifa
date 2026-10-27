@@ -4,7 +4,6 @@ import {
   Get,
   HttpStatus,
   Param,
-  ParseIntPipe,
   Post,
   Req,
   Res,
@@ -12,7 +11,7 @@ import {
 } from "@nestjs/common";
 import { Request as ExpressRequest } from "express";
 import { AuthGuard } from "@nestjs/passport";
-import { ParseTokenPipe } from "../../../_common/decorators";
+import { IntParam, ParseTokenPipe } from "../../../_common/decorators";
 import { appLogger, ExpressResponse } from "../../../util";
 import { buildSecurityLogRequestContext } from "../../../util/express";
 import { EmailDto, EditMyPasswordDto, ResetPasswordDto } from "../dto";
@@ -47,7 +46,7 @@ export class UsersSupervisorController {
   @Get("check-password-token/:userId/:token")
   public async checkPasswordToken(
     @Req() req: ExpressRequest,
-    @Param("userId", new ParseIntPipe()) userId: number,
+    @IntParam({ name: "userId", min: 1 }) userId: number,
     @Param("token", new ParseTokenPipe()) token: string,
     @Res() res: ExpressResponse
   ) {

@@ -7,7 +7,6 @@ import {
   Param,
   ParseArrayPipe,
   ParseEnumPipe,
-  ParseIntPipe,
   Post,
   Res,
   UseGuards,
@@ -40,6 +39,7 @@ import {
   UsagerOptionsHistoryTypeEnum,
 } from "@domifa/common";
 import { AppUserGuard } from "../../auth/guards";
+import { IntParam, UsagerRefParam } from "../../_common/decorators";
 
 @Controller("usagers-options")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -55,7 +55,7 @@ export class UsagerOptionsController {
   @Get("historique/:usagerRef/:type")
   public async getProcurationHistory(
     @CurrentUsager() currentUsager: Usager,
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
+    @UsagerRefParam() _usagerRef: number,
     @Param("type", new ParseEnumPipe(UsagerOptionsHistoryTypeEnum))
     type: UsagerOptionsHistoryTypeEnum
   ) {
@@ -72,7 +72,7 @@ export class UsagerOptionsController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: Usager,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
+    @UsagerRefParam() _usagerRef: number
   ): Promise<Usager> {
     await this.usagerOptionsHistoryService.createOptionHistory(
       usager,
@@ -150,7 +150,7 @@ export class UsagerOptionsController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: Usager,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
+    @UsagerRefParam() _usagerRef: number
   ): Promise<Usager> {
     // Initialisation si vide
     if (typeof usager.options.procurations === "undefined") {
@@ -210,8 +210,8 @@ export class UsagerOptionsController {
   @UseGuards(UsagerAccessGuard)
   @Delete("procuration/:usagerRef/:index")
   public async deleteProcuration(
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
-    @Param("index", new ParseIntPipe()) index: number,
+    @UsagerRefParam() _usagerRef: number,
+    @IntParam({ name: "index" }) index: number,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: Usager,
     @Res() res: ExpressResponse

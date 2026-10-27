@@ -6,7 +6,6 @@ import {
   HttpStatus,
   Param,
   ParseEnumPipe,
-  ParseIntPipe,
   ParseUUIDPipe,
   Patch,
   Post,
@@ -59,6 +58,7 @@ import { appLogger } from "../../util";
 import { input } from "node-pdftk";
 import { generateCerfaData } from "../utils";
 import { readFile } from "fs-extra";
+import { UsagerRefParam } from "../../_common/decorators";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @Controller("docs")
@@ -89,7 +89,7 @@ export class UsagerDocsController {
     })
   )
   public async uploadDoc(
-    @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
+    @UsagerRefParam() usagerRef: number,
     @UploadedFile() file: Express.Multer.File,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager,
@@ -160,7 +160,7 @@ export class UsagerDocsController {
   @Patch(":usagerRef/:docUuid")
   @UseGuards(UsagerAccessGuard, UsagerDocAccessGuard)
   public async patchDocument(
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
+    @UsagerRefParam() _usagerRef: number,
     @Param("docUuid", new ParseUUIDPipe()) docUuid: string,
     @Body() updatedDoc: PatchUsagerDocDto,
     @CurrentUser() user: UserStructureAuthenticated,
@@ -218,7 +218,7 @@ export class UsagerDocsController {
   @Delete(":usagerRef/:docUuid")
   @UseGuards(UsagerAccessGuard, UsagerDocAccessGuard)
   public async deleteDocument(
-    @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
+    @UsagerRefParam() usagerRef: number,
     @Param("docUuid", new ParseUUIDPipe()) _docUuid: string,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager,
@@ -255,7 +255,7 @@ export class UsagerDocsController {
     @Res() res: Response,
     @Param("typeCerfa", new ParseEnumPipe(CerfaDocType))
     typeCerfa: CerfaDocType,
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
+    @UsagerRefParam() _usagerRef: number,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager,
     @Query("decisionUuid", new ParseUUIDPipe({ optional: true }))
@@ -300,7 +300,7 @@ export class UsagerDocsController {
   @UseGuards(UsagerAccessGuard)
   @AllowUserStructureRoles("simple", "responsable", "admin", "support")
   public async getUsagerDocuments(
-    @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
+    @UsagerRefParam() usagerRef: number,
     @CurrentUsager() currentUsager: Usager
   ): Promise<UsagerDoc[]> {
     return await usagerDocsRepository.getUsagerDocs(
@@ -314,7 +314,7 @@ export class UsagerDocsController {
   @AllowUserStructureRoles("simple", "responsable", "admin", "support")
   public async getDocument(
     @Param("docUuid", new ParseUUIDPipe()) docUuid: string,
-    @Param("usagerRef", new ParseIntPipe()) usagerRef: number,
+    @UsagerRefParam() usagerRef: number,
     @Res() res: Response,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager

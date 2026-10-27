@@ -1,5 +1,6 @@
 import { Transform } from "class-transformer";
 import { IsInt, IsOptional, Min, ValidateIf } from "class-validator";
+import { toStrictInt } from "../../../_common/decorators";
 
 export class NewReferrerIdDto {
   @Transform(({ value }) => {
@@ -12,7 +13,7 @@ export class NewReferrerIdDto {
     ) {
       return null;
     }
-    return Number(value);
+    return toStrictInt(value);
   })
   @ValidateIf((_, value) => value !== null)
   @IsInt()

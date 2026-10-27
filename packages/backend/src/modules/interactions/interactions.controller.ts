@@ -4,7 +4,6 @@ import {
   Delete,
   Param,
   ParseArrayPipe,
-  ParseIntPipe,
   ParseUUIDPipe,
   Post,
   UseGuards,
@@ -40,6 +39,7 @@ import {
   SUPPORT_READ_ROLES,
 } from "@domifa/common";
 import { MessageSmsService } from "../sms/services/message-sms.service";
+import { UsagerRefParam } from "../../_common/decorators";
 
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserProfiles("structure")
@@ -83,7 +83,7 @@ export class InteractionsController {
   @UseGuards(UsagerAccessGuard)
   @AllowUserStructureRoles(...SUPPORT_READ_ROLES)
   public async getInteractions(
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
+    @UsagerRefParam() _usagerRef: number,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager,
     @Body() pageOptionsDto: PageOptionsDto
@@ -99,7 +99,7 @@ export class InteractionsController {
   @UseGuards(UsagerAccessGuard)
   @AllowUserStructureRoles(...SUPPORT_READ_ROLES)
   public async getLoginPortailHistory(
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
+    @UsagerRefParam() _usagerRef: number,
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() currentUsager: Usager,
     @Body() pageOptionsDto: PageOptionsDto
@@ -127,7 +127,7 @@ export class InteractionsController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: Usager,
     @Param("interactionUuid", new ParseUUIDPipe()) _interactionUuid: string,
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
+    @UsagerRefParam() _usagerRef: number,
     @CurrentInteraction() interaction: CommonInteraction
   ) {
     return await this.interactionDeletor.deleteInteraction({

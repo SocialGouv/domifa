@@ -4,8 +4,6 @@ import {
   Delete,
   Get,
   HttpStatus,
-  Param,
-  ParseIntPipe,
   Patch,
   Post,
   Res,
@@ -58,8 +56,6 @@ import { ExpressResponse } from "../../util/express";
 import {
   Usager,
   ETAPE_DOCUMENTS,
-  ETAPE_ETAT_CIVIL,
-  ETAPE_DOSSIER_COMPLET,
   ALL_USER_STRUCTURE_ROLES,
   SUPPORT_READ_ROLES,
 } from "@domifa/common";
@@ -69,6 +65,7 @@ import { FileManagerService } from "../../util/file-manager/file-manager.service
 import { AssignReferrersDto } from "../dto/assign-referrers.dto";
 import { In, Not } from "typeorm";
 import { UsagersLogsService } from "../services/usagers-logs.service";
+import { UsagerRefParam, EtapeDemandeParam } from "../../_common/decorators";
 @Controller("usagers")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserStructureRoles("simple", "responsable", "admin")
@@ -251,20 +248,11 @@ export class UsagersController {
   @UseGuards(UsagerAccessGuard)
   @Get("next-step/:usagerRef/:etapeDemande")
   public async nextStep(
-    @Param("etapeDemande", new ParseIntPipe()) etapeDemande: number,
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
+    @EtapeDemandeParam() etapeDemande: number,
+    @UsagerRefParam() _usagerRef: number,
     @CurrentUsager() currentUsager: Usager,
     @Res() res: ExpressResponse
   ) {
-    if (
-      etapeDemande < ETAPE_ETAT_CIVIL ||
-      etapeDemande > ETAPE_DOSSIER_COMPLET
-    ) {
-      return res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: "BAD_REQUEST" });
-    }
-
     currentUsager.etapeDemande = etapeDemande;
     await usagerRepository.update(
       { uuid: currentUsager.uuid },
@@ -281,7 +269,7 @@ export class UsagersController {
   public async stopCourrier(
     @CurrentUsager() currentUsager: Usager,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
+    @UsagerRefParam() _usagerRef: number
   ): Promise<Usager> {
     const actif = !currentUsager.options?.npai?.actif;
     currentUsager.options = {
@@ -387,7 +375,7 @@ export class UsagersController {
   @AllowUserStructureRoles(...SUPPORT_READ_ROLES)
   @Get(":usagerRef")
   public findOne(
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number,
+    @UsagerRefParam() _usagerRef: number,
     @CurrentUsager() currentUsager: Usager
   ): Usager {
     return currentUsager;

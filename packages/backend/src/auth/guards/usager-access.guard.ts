@@ -8,6 +8,7 @@ import {
 import { isInt } from "class-validator";
 
 import { appLogger } from "../../util";
+import { parseUsagerRef } from "../../_common/decorators/parse-pipes/ParseUsagerRef.pipe";
 import { usagerRepository } from "../../database";
 
 @Injectable()
@@ -15,13 +16,14 @@ export class UsagerAccessGuard implements CanActivate {
   public async canActivate(context: ExecutionContext) {
     const r = context.switchToHttp().getRequest();
 
-    const usagerRef = Number(r.params?.usagerRef);
+    const usagerRef = parseUsagerRef(r.params?.usagerRef);
     const structureId = Number(r.user?.structureId);
 
-    if (!isInt(usagerRef) || usagerRef < 0) {
-      appLogger.error("[UsagerAccessGuard] invalid usagerRef", {
-        sentry: true,
+    if (usagerRef === null) {
+      // Malformed refs come from scans: log only, no Sentry
+      appLogger.warn("[UsagerAccessGuard] invalid usagerRef", {
         context: {
+          url: r.url,
           usagerRef: r.params?.usagerRef,
           user: r.user?.id,
         },

@@ -5,8 +5,6 @@ import {
   ForbiddenException,
   Get,
   HttpStatus,
-  Param,
-  ParseIntPipe,
   Post,
   Res,
   UseGuards,
@@ -40,6 +38,7 @@ import { getLastInteractionOut } from "../../modules/interactions/services";
 import { canAddDecision } from "../guards";
 import { appLogger } from "../../util";
 import { captureMessage } from "@sentry/nestjs";
+import { UsagerRefParam } from "../../_common/decorators";
 
 @Controller("usagers-decision")
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
@@ -59,7 +58,7 @@ export class UsagersDecisionController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: Usager,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
+    @UsagerRefParam() _usagerRef: number
   ) {
     if (!canAddDecision(user.role, decision.statut)) {
       throw new ForbiddenException("INSUFFICIENT_PERMISSIONS_FOR_DECISION");
@@ -91,7 +90,7 @@ export class UsagersDecisionController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: Usager,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
+    @UsagerRefParam() _usagerRef: number
   ) {
     return await usagerRepository.findLastFiveCustomRef({
       structureId: user.structureId,
@@ -106,7 +105,7 @@ export class UsagersDecisionController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: Usager,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
+    @UsagerRefParam() _usagerRef: number
   ): Promise<Usager> {
     return await this.usagersService.renouvellement(usager, user);
   }
@@ -119,7 +118,7 @@ export class UsagersDecisionController {
     @CurrentUsager() usager: Usager,
     @CurrentUser() user: UserStructureAuthenticated,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
+    @UsagerRefParam() _usagerRef: number
   ): Promise<Usager[]> {
     return await usagerRepository.find({
       where: {
@@ -139,7 +138,7 @@ export class UsagersDecisionController {
     @CurrentUser() user: UserStructureAuthenticated,
     @CurrentUsager() usager: Usager,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    @Param("usagerRef", new ParseIntPipe()) _usagerRef: number
+    @UsagerRefParam() _usagerRef: number
   ) {
     if (usager?.historique?.length <= 1) {
       return res

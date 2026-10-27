@@ -4,12 +4,11 @@ import {
   STRUCTURE_TYPE_MAP,
   StructureType,
 } from "@domifa/common";
-import { Transform } from "class-transformer";
+import { StrictIntTransform } from "../../../_common/decorators";
 import {
   IsIn,
   IsNotEmpty,
-  IsNumber,
-  IsNumberString,
+  IsInt,
   IsOptional,
   IsString,
   Max,
@@ -18,8 +17,8 @@ import {
 
 export class MetabaseStatsDto {
   @IsNotEmpty()
-  @IsNumber()
-  @Transform(({ value }) => Number(value), { toClassOnly: true })
+  @IsInt()
+  @StrictIntTransform()
   @Min(2020)
   @Max(2048)
   year: number;
@@ -35,7 +34,9 @@ export class MetabaseStatsDto {
   department?: string;
 
   @IsOptional()
-  @IsNumberString()
+  @IsInt()
+  @Min(1)
+  @StrictIntTransform()
   structureId?: number;
 
   @IsOptional()

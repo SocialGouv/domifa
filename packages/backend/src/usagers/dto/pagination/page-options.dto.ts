@@ -1,19 +1,19 @@
 import { Order } from "@domifa/common";
-import { Type } from "class-transformer";
 import { IsEnum, IsInt, IsNotEmpty, Max, Min } from "class-validator";
+import { StrictIntTransform } from "../../../_common/decorators";
 
 export class PageOptionsDto {
   @IsEnum(Order)
   @IsNotEmpty()
   readonly order: Order = Order.ASC;
 
-  @Type(() => Number)
+  @StrictIntTransform()
   @IsInt()
   @Min(1)
   @IsNotEmpty()
   readonly page: number = 1;
 
-  @Type(() => Number)
+  @StrictIntTransform()
   @IsInt()
   @Min(1)
   @Max(500)
