@@ -165,18 +165,11 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   public submitResetForm(): void {
     this.submitted = true;
 
-    const passwordFormValue = {
-      ...this.resetForm.value,
-      userId: parseInt(this.resetForm.controls?.userId?.value, 10),
-    };
-
-    if (passwordFormValue) {
-      this.subscription.add(
-        this.userService.resetPassword(this.resetForm.value).subscribe(() => {
-          this.success = true;
-        })
-      );
-    }
+    this.subscription.add(
+      this.userService.resetPassword(this.resetForm.value).subscribe(() => {
+        this.success = true;
+      })
+    );
   }
 
   public ngOnDestroy(): void {
