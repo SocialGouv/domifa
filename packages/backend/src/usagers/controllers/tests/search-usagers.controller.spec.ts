@@ -180,11 +180,24 @@ describe("SearchUsagersController", () => {
     ).expect(400);
   });
 
-  it("should accept lastSync with a time zone offset", async () => {
+  it.each([
+    ["more than one day old", -25 * 60 * 60 * 1000],
+    ["in the future", 2 * 60 * 60 * 1000],
+  ])("should reject a lastSync %s", async (_label, offsetMs) => {
+    const since = new Date(Date.now() + offsetMs).toISOString();
     await AppTestHttpClient.get(
-      `/search-usagers/update-manage?since=${encodeURIComponent(
-        "2026-10-27T10:00:00+02:00"
-      )}`,
+      `/search-usagers/update-manage?since=${encodeURIComponent(since)}`,
+      { context }
+    ).expect(400);
+  });
+
+  it("should accept a recent lastSync with a time zone offset", async () => {
+    // 1 hour ago, written in UTC-03:00 (Cayenne)
+    const since = new Date(Date.now() - 4 * 60 * 60 * 1000)
+      .toISOString()
+      .replace("Z", "-03:00");
+    await AppTestHttpClient.get(
+      `/search-usagers/update-manage?since=${encodeURIComponent(since)}`,
       { context }
     ).expect(200);
   });
