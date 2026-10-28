@@ -1,6 +1,6 @@
 import { HttpStatus } from "@nestjs/common";
 
-import { outputFile, pathExists, readFile, remove } from "fs-extra";
+import { mkdtemp, outputFile, pathExists, readFile, remove } from "fs-extra";
 import PizZip from "pizzip";
 import { tmpdir } from "os";
 import { join, resolve } from "path";
@@ -80,10 +80,8 @@ describe("Import Controller", () => {
       content: Buffer | string,
       extension = "xlsx"
     ) => {
-      const filePath = join(
-        tmpdir(),
-        `domifa-import-${Date.now()}.${extension}`
-      );
+      const dir = await mkdtemp(join(tmpdir(), "domifa-import-"));
+      const filePath = join(dir, `import.${extension}`);
       await outputFile(filePath, content);
       try {
         return await AppTestHttpClient.post("/import/preview", {
@@ -92,7 +90,7 @@ describe("Import Controller", () => {
           context,
         });
       } finally {
-        await remove(filePath);
+        await remove(dir);
       }
     };
 
