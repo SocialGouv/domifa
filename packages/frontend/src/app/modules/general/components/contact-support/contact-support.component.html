@@ -42,7 +42,7 @@
   } @if (error) {
   <div class="fr-alert fr-alert--error fr-mb-3w">
     <h3 class="fr-alert__title">Erreur</h3>
-    <p>Votre message n'a pas pu être envoyé. Veuillez réessayer.</p>
+    <p>{{ error }}</p>
   </div>
   }
 
@@ -397,7 +397,7 @@
         </li>
         <li>
           <button
-            (click)="contactForm.reset(); success = false; error = false"
+            (click)="contactForm.reset(); success = false; error = null"
             type="button"
             class="fr-btn fr-btn--secondary"
             [disabled]="loading"
