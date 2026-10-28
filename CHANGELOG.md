@@ -1,3 +1,19 @@
+# [2.290.0](https://github.com/SocialGouv/domifa/compare/v2.289.1...v2.290.0) (2026-10-28)
+
+
+### Bug Fixes
+
+* **backend:** enforce multer file size limit and cap text fields ([6a320e6](https://github.com/SocialGouv/domifa/commit/6a320e6fc513b6ea316cbb70437ae3a574cdfa74))
+* **backend:** never let an unreadable upload crash the antivirus storage ([a2950bc](https://github.com/SocialGouv/domifa/commit/a2950bca6ed81035d3c7eb08a9d656a7a3ff6e1d))
+
+
+### Features
+
+* **backend:** check real file type before the antivirus scan on import ([c65b417](https://github.com/SocialGouv/domifa/commit/c65b417df0af8dc904adfe65ac468e73c39f6dcd))
+* **backend:** scan contact support attachments with clamav ([9d9be24](https://github.com/SocialGouv/domifa/commit/9d9be244c7b0b531633f14059c8b1e734eed41dd))
+* **backend:** scan usagers import files with clamav before processing ([89c47c6](https://github.com/SocialGouv/domifa/commit/89c47c69f6879f505a699f1f6a840c462c02160d))
+* **frontend:** show antivirus errors on the contact form ([4924603](https://github.com/SocialGouv/domifa/commit/49246038860502f01f73fa050ff357d4ca83d8b8))
+
 ## [2.289.1](https://github.com/SocialGouv/domifa/compare/v2.289.0...v2.289.1) (2026-10-27)
 
 
