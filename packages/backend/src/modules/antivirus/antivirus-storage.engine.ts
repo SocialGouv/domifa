@@ -57,8 +57,21 @@ export class AntivirusStorageEngine implements StorageEngine {
     buffer: Buffer,
     callback: StorageCallback
   ): Promise<void> {
+    try {
+      await this.checkAndStore(req, file, buffer, callback);
+    } catch (error) {
+      callback(error);
+    }
+  }
+
+  private async checkAndStore(
+    req: ExpressRequest,
+    file: Express.Multer.File,
+    buffer: Buffer,
+    callback: StorageCallback
+  ): Promise<void> {
     // Multer already rejects the request with LIMIT_FILE_SIZE
-    if ((file.stream as Readable & { truncated?: boolean }).truncated) {
+    if ((file.stream as { truncated?: boolean }).truncated) {
       return callback(new Error("File truncated"));
     }
 
@@ -70,7 +83,17 @@ export class AntivirusStorageEngine implements StorageEngine {
       size: buffer.length,
     };
 
-    const fileType = await fileTypeFromBuffer(buffer);
+    let fileType: Awaited<ReturnType<typeof fileTypeFromBuffer>>;
+    try {
+      fileType = await fileTypeFromBuffer(buffer);
+    } catch (error) {
+      appLogger.warn("[UPLOAD] File content could not be parsed", {
+        error,
+        context,
+      });
+      return callback(new BadRequestException({ message: "INCORRECT_FORMAT" }));
+    }
+
     if (!fileType || !this.allowedMimeTypes.includes(fileType.mime)) {
       appLogger.warn("[UPLOAD] File content does not match allowed types", {
         context: { ...context, detectedMimeType: fileType?.mime },

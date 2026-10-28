@@ -8,10 +8,20 @@ import { StorageEngine } from "multer";
 import { PassThrough } from "node:stream";
 import { resolve } from "path";
 
+import { fileTypeFromBuffer } from "file-type/core";
+
 import { ExpressRequest } from "../../util/express";
 import { AntivirusService } from "./antivirus.service";
 import { AntivirusStorageEngine } from "./antivirus-storage.engine";
 import { AntivirusUnavailableError } from "./AntivirusUnavailableError";
+
+jest.mock("file-type/core", () => {
+  const actual = jest.requireActual("file-type/core");
+  return {
+    ...actual,
+    fileTypeFromBuffer: jest.fn(actual.fileTypeFromBuffer),
+  };
+});
 
 jest.mock("./antivirus.service", () => ({
   AntivirusService: class MockAntivirusService {},
@@ -96,6 +106,32 @@ describe("AntivirusStorageEngine", () => {
     });
     expect(scanBuffer).not.toHaveBeenCalled();
     expect(innerHandleFile).not.toHaveBeenCalled();
+  });
+
+  it("rejects a file whose content cannot be parsed, without crashing", async () => {
+    (fileTypeFromBuffer as jest.Mock).mockRejectedValueOnce(
+      new Error("Corrupt zip")
+    );
+
+    const { error } = await handleFile(engine, buildFile());
+
+    expect(error).toBeInstanceOf(BadRequestException);
+    expect((error as BadRequestException).getResponse()).toEqual({
+      message: "INCORRECT_FORMAT",
+    });
+    expect(scanBuffer).not.toHaveBeenCalled();
+    expect(innerHandleFile).not.toHaveBeenCalled();
+  });
+
+  it("forwards an unexpected storage error to multer", async () => {
+    scanBuffer.mockResolvedValue({ isInfected: false });
+    innerHandleFile.mockImplementationOnce(() => {
+      throw new Error("Storage failure");
+    });
+
+    const { error } = await handleFile(engine, buildFile());
+
+    expect((error as Error).message).toBe("Storage failure");
   });
 
   it("rejects an infected file before it reaches the storage", async () => {
