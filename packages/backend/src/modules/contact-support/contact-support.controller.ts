@@ -1,5 +1,6 @@
 import { ContactSupportDto } from "./contact-support.dto";
 import {
+  BadRequestException,
   Body,
   Controller,
   HttpStatus,
@@ -9,7 +10,6 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 import { Throttle } from "@nestjs/throttler";
-import { FileInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
 
 import {
@@ -17,13 +17,45 @@ import {
   randomName,
 } from "../../util/file-manager/FileManager";
 
-import { ExpressResponse } from "../../util/express";
+import { ExpressRequest, ExpressResponse } from "../../util/express";
 import { FILES_SIZE_LIMIT } from "../../util/file-manager";
 import { ContactSupportTable, contactSupportRepository } from "../../database";
 import { getPhoneString } from "../../util";
 import { BrevoSenderService } from "../mails/services/brevo-sender/brevo-sender.service";
 import { domifaConfig } from "../../config";
 import { CONTACT_SUPPORT_SUBJECT_LABELS } from "@domifa/common";
+import { AntivirusFileInterceptor } from "../antivirus";
+import { CONTACT_SUPPORT_FILE_MIME_TYPES } from "./CONTACT_SUPPORT_FILE_MIME_TYPES.const";
+
+const ContactSupportFileInterceptor = AntivirusFileInterceptor(
+  "file",
+  CONTACT_SUPPORT_FILE_MIME_TYPES,
+  {
+    limits: FILES_SIZE_LIMIT,
+    fileFilter: (
+      req: ExpressRequest,
+      file: Express.Multer.File,
+      callback: (error: Error | null, acceptFile: boolean) => void
+    ) => {
+      if (!validateUpload("STRUCTURE_DOC", req, file)) {
+        return callback(
+          new BadRequestException({ message: "INCORRECT_FORMAT" }),
+          false
+        );
+      }
+      callback(null, true);
+    },
+    storage: diskStorage({
+      filename: (
+        _req,
+        file: Express.Multer.File,
+        callback: (error: Error | null, destination: string) => void
+      ) => {
+        return callback(null, randomName(file));
+      },
+    }),
+  }
+);
 
 @Controller("contact")
 export class ContactSupportController {
@@ -34,34 +66,7 @@ export class ContactSupportController {
     medium: { limit: 3, ttl: 60_000, blockDuration: 1_800_000 }, // 3 req/min, block 30min
   })
   @Post("")
-  @UseInterceptors(
-    FileInterceptor("file", {
-      limits: FILES_SIZE_LIMIT,
-      fileFilter: (
-        req,
-        file: Express.Multer.File,
-        callback: (error: Error | null, acceptFile: boolean) => void
-      ) => {
-        if (!file) {
-          callback(null, true);
-        }
-        if (!validateUpload("STRUCTURE_DOC", req, file)) {
-          callback(new Error("INCORRECT_FORMAT"), false);
-        }
-
-        callback(null, true);
-      },
-      storage: diskStorage({
-        filename: (
-          _req,
-          file: Express.Multer.File,
-          callback: (error: Error | null, destination: string) => void
-        ) => {
-          callback(null, randomName(file));
-        },
-      }),
-    })
-  )
+  @UseInterceptors(ContactSupportFileInterceptor)
   public async contactSupport(
     @Body() contactSupportDto: ContactSupportDto,
     @UploadedFile() file: Express.Multer.File,
