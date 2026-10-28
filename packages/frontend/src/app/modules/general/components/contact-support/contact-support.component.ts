@@ -1,9 +1,12 @@
 import {
+  ANTIVIRUS_ERROR_LABELS,
+  AntivirusErrorCode,
   CONTACT_SUPPORT_SUBJECT_LABELS,
   ContactSupportSubject,
   UserStructure,
 } from "@domifa/common";
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { HttpErrorResponse } from "@angular/common/http";
 import {
   AbstractControl,
   FormsModule,
@@ -44,7 +47,7 @@ import { PhoneInputComponent } from "../../../usager-shared/components/input-pho
 export class ContactSupportComponent implements OnInit, OnDestroy {
   public submitted: boolean;
   public success: boolean;
-  public error: boolean;
+  public error: string | null;
   public loading: boolean;
 
   private readonly subscription = new Subscription();
@@ -74,7 +77,7 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
     this.me = null;
     this.submitted = false;
     this.success = false;
-    this.error = false;
+    this.error = null;
     this.loading = false;
   }
 
@@ -211,8 +214,11 @@ export class ContactSupportComponent implements OnInit, OnDestroy {
           this.submitted = false;
           this.contactForm.reset();
         },
-        error: () => {
-          this.error = true;
+        error: (error: HttpErrorResponse) => {
+          this.error =
+            ANTIVIRUS_ERROR_LABELS[
+              error.error?.message as AntivirusErrorCode
+            ] ?? "Votre message n'a pas pu être envoyé. Veuillez réessayer.";
           this.loading = false;
         },
       })
