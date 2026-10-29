@@ -19,16 +19,11 @@ const DREETS_BRETAGNE: UserAdminAuthenticated = {
   territories: ["53"],
 };
 
-const DREETS_ILE_DE_FRANCE: UserAdminAuthenticated = {
+// No DREETS-equivalent service: accounts stay created by the DomiFa team
+const DREETS_SAINT_BARTHELEMY: UserAdminAuthenticated = {
   ...USER_SUPERVISOR_AUTH,
   role: "region",
-  territories: ["11"],
-};
-
-const DREETS_GUYANE: UserAdminAuthenticated = {
-  ...USER_SUPERVISOR_AUTH,
-  role: "region",
-  territories: ["03"],
+  territories: ["SB"],
 };
 
 const DDETS_EMAIL = "jean.dupont@ille-et-vilaine.gouv.fr";
@@ -116,12 +111,12 @@ describe("RegionUsersService", () => {
 
   it("refuses a department outside the domain allowlist", async () => {
     await expect(
-      service.create(DREETS_ILE_DE_FRANCE, {
+      service.create(DREETS_SAINT_BARTHELEMY, {
         prenom: "Jean",
         nom: "Dupont",
-        email: "jean.dupont@seine-saint-denis.gouv.fr",
+        email: "jean.dupont@stbarth.gouv.fr",
         role: "department",
-        department: "93",
+        department: "977",
       })
     ).rejects.toThrow("DEPARTMENT_NOT_SELF_SERVICE");
   });
@@ -198,12 +193,12 @@ describe("RegionUsersService", () => {
 
     it("refuses a region outside the domain allowlist", async () => {
       await expect(
-        service.create(DREETS_GUYANE, {
+        service.create(DREETS_SAINT_BARTHELEMY, {
           prenom: "Paul",
           nom: "Durand",
-          email: "paul.durand@dieccte.gouv.fr",
+          email: "paul.durand@stbarth.gouv.fr",
           role: "region",
-          region: "03",
+          region: "SB",
         })
       ).rejects.toThrow("REGION_NOT_SELF_SERVICE");
     });

@@ -28,11 +28,26 @@ describe("isDdetsEmailForDepartment", () => {
     ).toBe(true);
   });
 
+  it("accepts the DRIHL domain in Paris and the inner suburbs only", () => {
+    expect(
+      isDdetsEmailForDepartment(
+        "jean.dupont@developpement-durable.gouv.fr",
+        "93"
+      )
+    ).toBe(true);
+    expect(
+      isDdetsEmailForDepartment(
+        "jean.dupont@developpement-durable.gouv.fr",
+        "77"
+      )
+    ).toBe(false);
+  });
+
   it("rejects departments outside the allowlist", () => {
     expect(
-      isDdetsEmailForDepartment("jean.dupont@seine-saint-denis.gouv.fr", "93")
+      isDdetsEmailForDepartment("jean.dupont@stbarth.gouv.fr", "977")
     ).toBe(false);
-    expect(isDdetsSelfServiceDepartment("93")).toBe(false);
+    expect(isDdetsSelfServiceDepartment("977")).toBe(false);
     expect(isDdetsSelfServiceDepartment("35")).toBe(true);
   });
 });
