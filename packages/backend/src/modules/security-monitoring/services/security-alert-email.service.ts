@@ -7,8 +7,12 @@ import * as nodemailer from "nodemailer";
 import { Transporter } from "nodemailer";
 
 import { domifaConfig, DomifaConfig } from "../../../config";
+import { generateRegionUserCreatedEmailHtml } from "../templates/region-user-created-email.template";
 import { generateSecurityAlertEmailHtml } from "../templates/security-alert-email.template";
-import { SuspiciousActivitySummary } from "../types/security-alert.types";
+import {
+  RegionUserCreatedNotice,
+  SuspiciousActivitySummary,
+} from "../types/security-alert.types";
 
 type GuardResult = { sent: false; reason: string } | { sent: true };
 
@@ -82,6 +86,39 @@ export class SecurityAlertEmailService {
       );
       throw error;
     }
+  }
+
+  // Sent to the DomiFa team (DOMIFA_ADMIN_EMAIL) so a DREETS cannot quietly
+  // multiply regional accounts
+  public async sendRegionUserCreatedNotice(
+    notice: RegionUserCreatedNotice
+  ): Promise<GuardResult> {
+    const config = domifaConfig();
+
+    const preflight = this.runPreflight(config);
+    if (preflight) return preflight;
+
+    const admin = config.email.emailAddressAdmin;
+    if (!admin) {
+      this.logger.warn(
+        "[REGION USER NOTICE] DOMIFA_ADMIN_EMAIL vide - notification non envoyee"
+      );
+      return { sent: false, reason: "no_recipient_configured" };
+    }
+
+    const recipients = resolveEffectiveRecipients(config, [admin]);
+    const result = await this.getTransporter().sendMail({
+      from: config.smtp.from,
+      to: recipients,
+      subject: `[DomiFa - ${config.envId.toUpperCase()}] Nouveau compte DREETS cree par une DREETS`,
+      html: generateRegionUserCreatedEmailHtml(notice, config.envId),
+    });
+    this.logger.log(
+      `[REGION USER NOTICE] Mail envoye a ${recipients.join(
+        ", "
+      )}, messageId: ${result.messageId}`
+    );
+    return { sent: true };
   }
 
   private runPreflight(config: DomifaConfig): GuardResult | null {

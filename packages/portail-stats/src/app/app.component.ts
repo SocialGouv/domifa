@@ -85,10 +85,19 @@ export class AppComponent implements OnInit {
         this.menuHeaderItems = [
           {
             linkId: "stats",
-            label: "Statistiques de la domiciliation",
+            label: "Piloter la domiciliation",
             routerLink: "/stats",
           },
         ];
+
+        // DREETS manage the DDETS accounts of their region
+        if (user.role === "region") {
+          this.menuHeaderItems.push({
+            linkId: "utilisateurs",
+            label: "Gérer les utilisateurs",
+            routerLink: "/utilisateurs",
+          });
+        }
       }
     );
 

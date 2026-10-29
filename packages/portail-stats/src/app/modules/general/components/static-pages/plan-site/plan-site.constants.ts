@@ -3,7 +3,14 @@ import { SiteMapSection } from "./plan-site.types";
 export const SITEMAP_LINKS_LOGGED: SiteMapSection[] = [
   {
     section: "Pilotage",
-    links: [{ label: "Statistiques de la domiciliation", path: "/stats" }],
+    links: [
+      { label: "Piloter la domiciliation", path: "/stats" },
+      {
+        label: "Gérer les utilisateurs",
+        path: "/utilisateurs",
+        roles: ["region"],
+      },
+    ],
   },
 ];
 

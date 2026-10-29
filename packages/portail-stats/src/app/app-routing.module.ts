@@ -17,10 +17,20 @@ const routes: Routes = [
   },
   {
     path: "stats",
-    title: "Statistiques de la domiciliation - Pilotage DomiFa",
+    title: "Piloter la domiciliation - Pilotage DomiFa",
     canActivate: [AuthGuard],
     loadChildren: () =>
       import("./modules/stats/stats.module").then((m) => m.StatsModule),
+  },
+  {
+    path: "utilisateurs",
+    title: "Gérer les utilisateurs - Pilotage DomiFa",
+    canActivate: [AuthGuard],
+    data: { roles: ["region"] },
+    loadChildren: () =>
+      import("./modules/region-users/region-users.module").then(
+        (m) => m.RegionUsersModule
+      ),
   },
   {
     path: "",

@@ -25,10 +25,10 @@ const COLORS = {
 
 const FONT_STACK = "Marianne, Arial, Helvetica, sans-serif";
 
-const formatParisDateTime = (date: Date): string =>
+export const formatParisDateTime = (date: Date): string =>
   format(utcToZonedTime(date, PARIS_TZ), "dd/MM/yyyy HH:mm:ss", { locale: fr });
 
-const escapeHtml = (value: string): string =>
+export const escapeHtml = (value: string): string =>
   value
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")

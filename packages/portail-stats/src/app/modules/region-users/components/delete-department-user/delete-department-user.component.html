@@ -1,0 +1,59 @@
+<div class="fr-alert fr-alert--warning fr-alert--sm fr-mb-3w">
+  <p>
+    Vous êtes sur le point de supprimer le compte de
+    <strong>{{ user.prenom }} {{ user.nom }}</strong> ({{ user.email }}).<br />
+    Cette personne ne pourra plus se connecter au tableau de pilotage.
+  </p>
+</div>
+
+<form [formGroup]="deleteForm" (ngSubmit)="deleteUser()">
+  <div
+    class="fr-select-group"
+    [class.fr-select-group--error]="motif.touched && motif.invalid"
+  >
+    <label class="fr-label" for="ddets-delete-motif">
+      Motif de la suppression<span class="fr-text-default--error">*</span>
+    </label>
+    <select
+      class="fr-select"
+      id="ddets-delete-motif"
+      [formControl]="motif"
+      [attr.aria-invalid]="motif.touched && motif.invalid ? true : null"
+      [attr.aria-describedby]="
+        motif.touched && motif.invalid ? 'ddets-delete-motif-error' : null
+      "
+    >
+      <option value="" disabled>Sélectionnez un motif</option>
+      @for (option of motifOptions; track option.key) {
+      <option [value]="option.key">{{ option.label }}</option>
+      }
+    </select>
+    @if (motif.touched && motif.invalid) {
+    <p class="fr-error-text" id="ddets-delete-motif-error">
+      Veuillez sélectionner un motif
+    </p>
+    }
+  </div>
+
+  <ul
+    class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-mt-3w"
+  >
+    <li>
+      <app-button
+        type="submit"
+        label="Confirmer la suppression"
+        loadingText="Veuillez patienter..."
+        [loading]="loading"
+      ></app-button>
+    </li>
+    <li>
+      <button
+        type="button"
+        class="fr-btn fr-btn--secondary"
+        (click)="cancelAction.emit()"
+      >
+        Annuler
+      </button>
+    </li>
+  </ul>
+</form>
