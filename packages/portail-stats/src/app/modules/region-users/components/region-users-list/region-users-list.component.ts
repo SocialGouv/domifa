@@ -58,7 +58,6 @@ export class RegionUsersListComponent implements OnInit, OnDestroy {
 
   public users: RegionUserRow[] = [];
   public loading = true;
-  public showInfo = true;
   public userToDelete: RegionManagedUser | null = null;
 
   public sortKey: SortKey = "nom";

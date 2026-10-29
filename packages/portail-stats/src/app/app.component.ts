@@ -85,7 +85,7 @@ export class AppComponent implements OnInit {
         this.menuHeaderItems = [
           {
             linkId: "stats",
-            label: "Statistiques de la domiciliation",
+            label: "Piloter la domiciliation",
             routerLink: "/stats",
           },
         ];
@@ -94,7 +94,7 @@ export class AppComponent implements OnInit {
         if (user.role === "region") {
           this.menuHeaderItems.push({
             linkId: "utilisateurs",
-            label: "Utilisateurs",
+            label: "Gérer les utilisateurs",
             routerLink: "/utilisateurs",
           });
         }
