@@ -20,7 +20,7 @@ describe("DREETS_EMAIL_DOMAINS", () => {
   });
 
   it("excludes regions without a known regional service", () => {
-    for (const code of ["03", "NC", "PO", "SB", "SM", "SP", "WF"]) {
+    for (const code of ["NC", "PO", "SB", "SM", "SP", "WF"]) {
       expect(DREETS_EMAIL_DOMAINS[code]).toBeUndefined();
     }
   });

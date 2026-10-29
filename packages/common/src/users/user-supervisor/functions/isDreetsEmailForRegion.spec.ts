@@ -35,11 +35,17 @@ describe("isDreetsEmailForRegion", () => {
     expect(isDreetsEmailForRegion("jdupont@dreets.gouv.fr", "53")).toBe(true);
   });
 
+  it("accepts the Guyane prefecture domain for region 03", () => {
+    expect(isDreetsEmailForRegion("jean.dupont@guyane.gouv.fr", "03")).toBe(
+      true
+    );
+  });
+
   it("rejects regions outside the allowlist", () => {
-    expect(isDreetsEmailForRegion("jean.dupont@dieccte.gouv.fr", "03")).toBe(
+    expect(isDreetsEmailForRegion("jean.dupont@dcstep.gouv.fr", "SP")).toBe(
       false
     );
-    expect(isDreetsSelfServiceRegion("03")).toBe(false);
+    expect(isDreetsSelfServiceRegion("SP")).toBe(false);
     expect(isDreetsSelfServiceRegion("53")).toBe(true);
   });
 });

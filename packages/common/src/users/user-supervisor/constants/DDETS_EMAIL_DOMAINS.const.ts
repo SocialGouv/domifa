@@ -5,11 +5,23 @@
 // (deets.gouv.fr) cannot widen access: the region check already pins the
 // department.
 //
+// In 75, 92, 93 and 94 domiciliation is handled by the DRIHL, whose agents use
+// the ministry-wide developpement-durable.gouv.fr domain. It is shared between
+// these departments, all in Ile-de-France: the domain does not pin the
+// department, the inviting DRIEETS chooses it.
+//
 // Deliberately left out, so their accounts stay created by the DomiFa team:
-// - 75, 92, 93, 94: domiciliation handled by the DRIHL, whose agents use the
-//   ministry-wide developpement-durable.gouv.fr domain
 // - 977, 978, 986, 987, 988: no competent service found in the directory
 export const DDETS_SHARED_EMAIL_DOMAINS: readonly string[] = ["deets.gouv.fr"];
+
+// Shared between departments of a single region only
+export const DDETS_REGION_SHARED_EMAIL_DOMAINS: readonly string[] = [
+  "developpement-durable.gouv.fr",
+];
+
+const DRIHL_EMAIL_DOMAINS: readonly string[] = [
+  "developpement-durable.gouv.fr",
+];
 
 export const DDETS_EMAIL_DOMAINS: Readonly<Record<string, readonly string[]>> =
   {
@@ -88,6 +100,7 @@ export const DDETS_EMAIL_DOMAINS: Readonly<Record<string, readonly string[]>> =
     "72": ["sarthe.gouv.fr"],
     "73": ["savoie.gouv.fr"],
     "74": ["haute-savoie.gouv.fr"],
+    "75": DRIHL_EMAIL_DOMAINS,
     "76": ["seine-maritime.gouv.fr"],
     "77": ["seine-et-marne.gouv.fr"],
     "78": ["yvelines.gouv.fr"],
@@ -104,10 +117,13 @@ export const DDETS_EMAIL_DOMAINS: Readonly<Record<string, readonly string[]>> =
     "89": ["yonne.gouv.fr"],
     "90": ["territoire-de-belfort.gouv.fr"],
     "91": ["essonne.gouv.fr"],
+    "92": DRIHL_EMAIL_DOMAINS,
+    "93": DRIHL_EMAIL_DOMAINS,
+    "94": DRIHL_EMAIL_DOMAINS,
     "95": ["val-doise.gouv.fr"],
     "971": ["deets.gouv.fr"],
     "972": ["deets.gouv.fr"],
-    "973": ["dieccte.gouv.fr"], // former DIECCTE name, to be confirmed for the DGCOPOP
+    "973": ["guyane.gouv.fr"], // DGCOPOP, part of the prefecture
     "974": ["deets.gouv.fr"],
     "975": ["dcstep.gouv.fr"],
     "976": ["deets.gouv.fr"],

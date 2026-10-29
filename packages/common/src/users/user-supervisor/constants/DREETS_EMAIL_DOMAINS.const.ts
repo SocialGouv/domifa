@@ -6,7 +6,6 @@
 // itself is always pinned server-side to one of the creator's territories.
 //
 // Deliberately left out, so their accounts stay created by the DomiFa team:
-// - 03 (Guyane): regional service merged into the DGCOPOP, domain to confirm
 // - NC, PO, SB, SM, SP, WF, TF: no DREETS-equivalent service
 const DREETS_METROPOLE_DOMAINS: readonly string[] = ["dreets.gouv.fr"];
 const DEETS_OUTRE_MER_DOMAINS: readonly string[] = ["deets.gouv.fr"];
@@ -15,6 +14,9 @@ export const DREETS_EMAIL_DOMAINS: Readonly<Record<string, readonly string[]>> =
   {
     "01": DEETS_OUTRE_MER_DOMAINS,
     "02": DEETS_OUTRE_MER_DOMAINS,
+    // DGCOPOP, part of the prefecture: same domain as the 973 DDETS, harmless
+    // since Guyane has a single department
+    "03": ["guyane.gouv.fr"],
     "04": DEETS_OUTRE_MER_DOMAINS,
     "06": DEETS_OUTRE_MER_DOMAINS,
     "11": ["drieets.gouv.fr"],
