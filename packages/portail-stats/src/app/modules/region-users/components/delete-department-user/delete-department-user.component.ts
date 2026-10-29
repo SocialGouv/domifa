@@ -15,8 +15,8 @@ import { Subscription } from "rxjs";
 import { CustomToastService } from "../../../shared/services";
 import { RegionUsersService } from "../../services/region-users.service";
 
-// Motifs that make sense for a DREETS removing a DDETS agent
-const DDETS_DELETE_MOTIFS: UserDeleteMotif[] = [
+// Motifs that make sense for a DREETS removing a DDETS or DREETS agent
+const REGION_USER_DELETE_MOTIFS: UserDeleteMotif[] = [
   "DEPART_STRUCTURE",
   "INACTIF_PLUS_D_UN_AN",
   "EMAIL_GENERIQUE",
@@ -32,13 +32,16 @@ export class DeleteDepartmentUserComponent implements OnDestroy {
   @Output() public readonly deleted = new EventEmitter<void>();
   @Output() public readonly cancelAction = new EventEmitter<void>();
 
-  public readonly motifOptions = DDETS_DELETE_MOTIFS.map((key) => ({
-    key,
-    label:
-      key === "DEPART_STRUCTURE"
-        ? "Ne travaille plus à la DDETS"
-        : USER_DELETE_MOTIF_LABELS[key],
-  }));
+  public get motifOptions(): { key: UserDeleteMotif; label: string }[] {
+    const service = this.user?.role === "region" ? "DREETS" : "DDETS";
+    return REGION_USER_DELETE_MOTIFS.map((key) => ({
+      key,
+      label:
+        key === "DEPART_STRUCTURE"
+          ? `Ne travaille plus à la ${service}`
+          : USER_DELETE_MOTIF_LABELS[key],
+    }));
+  }
 
   public readonly motif = new FormControl<UserDeleteMotif | "">("", {
     nonNullable: true,
