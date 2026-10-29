@@ -113,9 +113,7 @@ export class RegisterRegionUserComponent implements OnDestroy {
   }
 
   public get emailExample(): string {
-    return this.isRegion
-      ? "prenom.nom@dreets.gouv.fr"
-      : "prenom.nom@departement.gouv.fr";
+    return this.isRegion ? "nom@dreets.gouv.fr" : "nom@departement.gouv.fr";
   }
 
   public get emailInvalid(): boolean {

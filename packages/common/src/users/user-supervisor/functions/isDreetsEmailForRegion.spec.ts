@@ -25,11 +25,14 @@ describe("isDreetsEmailForRegion", () => {
     );
   });
 
-  it("rejects departmental and non nominative addresses", () => {
+  it("rejects departmental addresses", () => {
     expect(
       isDreetsEmailForRegion("jean.dupont@ille-et-vilaine.gouv.fr", "53")
     ).toBe(false);
-    expect(isDreetsEmailForRegion("dreets@dreets.gouv.fr", "53")).toBe(false);
+  });
+
+  it("accepts a local part without a dot", () => {
+    expect(isDreetsEmailForRegion("jdupont@dreets.gouv.fr", "53")).toBe(true);
   });
 
   it("rejects regions outside the allowlist", () => {

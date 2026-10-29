@@ -72,7 +72,10 @@ describe("RegionUsersService", () => {
     await userSupervisorRepository
       .createQueryBuilder()
       .delete()
-      .where("email LIKE :email", { email: `deleted-%-${DDETS_EMAIL}` })
+      .where("email LIKE :ddets OR email LIKE :dreets", {
+        ddets: `deleted-%-${DDETS_EMAIL}`,
+        dreets: `deleted-%-${DREETS_EMAIL}`,
+      })
       .execute();
     await AppTestHelper.tearDownTestConnection();
   });
@@ -222,7 +225,7 @@ describe("RegionUsersService", () => {
       }
     });
 
-    it("creates a DREETS of the region, notifies DomiFa and cannot delete it", async () => {
+    it("creates a DREETS of the region, notifies DomiFa then deletes it", async () => {
       const notice = jest.spyOn(
         securityAlertEmailService,
         "sendRegionUserCreatedNotice"
@@ -251,9 +254,23 @@ describe("RegionUsersService", () => {
       const list = await service.findAll(DREETS_BRETAGNE);
       expect(list.find((u) => u.uuid === created.uuid)?.role).toEqual("region");
 
+      // A DREETS cannot delete its own account
       await expect(
-        service.softDelete(DREETS_BRETAGNE, created.uuid, "DEPART_STRUCTURE")
-      ).rejects.toBeInstanceOf(NotFoundException);
+        service.softDelete(
+          { ...DREETS_BRETAGNE, _userId: created.id },
+          created.uuid,
+          "DEPART_STRUCTURE"
+        )
+      ).rejects.toThrow("CANNOT_DELETE_SELF");
+
+      await service.softDelete(
+        DREETS_BRETAGNE,
+        created.uuid,
+        "DEPART_STRUCTURE"
+      );
+      expect(
+        (await service.findAll(DREETS_BRETAGNE)).map((u) => u.uuid)
+      ).not.toContain(created.uuid);
     });
 
     it("does not list the DREETS of another region", async () => {
@@ -270,6 +287,9 @@ describe("RegionUsersService", () => {
       expect(
         (await service.findAll(DREETS_BRETAGNE)).map((u) => u.uuid)
       ).not.toContain(outsider.uuid);
+      await expect(
+        service.softDelete(DREETS_BRETAGNE, outsider.uuid, "DEPART_STRUCTURE")
+      ).rejects.toBeInstanceOf(NotFoundException);
     });
   });
 });

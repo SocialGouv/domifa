@@ -12,7 +12,7 @@ export const isDreetsEmailForRegion = (
   email: string | null | undefined,
   region: string
 ): boolean => {
-  // Same nominative prenom.nom@xxx.gouv.fr shape as the DDETS addresses
+  // Same xxx@yyy.gouv.fr shape as the DDETS addresses
   if (!isNominativeGouvEmail(email)) {
     return false;
   }

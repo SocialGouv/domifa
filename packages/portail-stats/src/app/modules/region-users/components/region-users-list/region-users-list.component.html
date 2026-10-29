@@ -18,14 +18,13 @@
       invités. Un agent DDETS accède uniquement au tableau de pilotage de son
       département, un agent DREETS à celui de toute la région.
       <br />
-      Seule l'équipe DomiFa peut supprimer un compte DREETS.
+      Vous pouvez supprimer les comptes DDETS et DREETS de votre région, sauf le
+      vôtre.
       <br />
       L'invitation n'est possible qu'avec une adresse e-mail professionnelle
-      officielle (par exemple : prenom.nom&#64;departement<strong
-        >.gouv.fr</strong
-      >
-      pour une DDETS, prenom.nom&#64;<strong>dreets.gouv.fr</strong> pour une
-      DREETS). Les autres adresses sont refusées.
+      officielle (par exemple : nom&#64;departement<strong>.gouv.fr</strong>
+      pour une DDETS, nom&#64;<strong>dreets.gouv.fr</strong> pour une DREETS).
+      Les autres adresses sont refusées.
     </p>
     <button
       type="button"
@@ -103,14 +102,6 @@
               <tr>
                 <td>{{ user.fullName }}</td>
                 <td>{{ user.email }}</td>
-                <td>
-                  <p
-                    class="fr-badge fr-badge--sm fr-badge--no-icon"
-                    [ngClass]="'fr-badge--' + user.emailTypeSeverity"
-                  >
-                    {{ user.emailType }}
-                  </p>
-                </td>
                 <td>{{ user.profile }}</td>
                 <td>{{ user.createdAt | date : "dd/MM/yyyy" }}</td>
                 <td>
@@ -130,8 +121,8 @@
                   </p>
                 </td>
                 <td class="actions-cell">
-                  @if (user.role === "region") {
-                  <span class="fr-hint-text">Gérée par l'équipe DomiFa</span>
+                  @if (isCurrentUser(user)) {
+                  <span class="fr-hint-text">Votre compte</span>
                   } @else {
                   <button
                     type="button"

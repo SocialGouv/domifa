@@ -27,10 +27,9 @@ import { RegisterRegionUserDto } from "../../dto";
 import { AdminSuperivorUsersService } from "../admin-superivor-users/admin-superivor-users.service";
 import { UserSupervisorDecisionService } from "../user-supervisor-decision/user-supervisor-decision.service";
 
-// Lets a DREETS (role "region") invite DDETS accounts (role "department") of
-// the departments of its region(s) and other DREETS accounts of its own
-// region(s). Only DDETS accounts can be deleted: regional accounts stay
-// deleted by the DomiFa team.
+// Lets a DREETS (role "region") invite and delete DDETS accounts (role
+// "department") of the departments of its region(s) and other DREETS accounts
+// of its own region(s). A DREETS cannot delete its own account.
 @Injectable()
 export class RegionUsersService {
   constructor(
@@ -145,18 +144,22 @@ export class RegionUsersService {
     uuid: string,
     motif: UserDeleteMotif
   ): Promise<void> {
-    // Regional accounts are never found here: only the DomiFa team deletes them
     const target = await userSupervisorRepository.findOneBy({
       uuid,
-      role: "department",
+      role: In([...REGION_MANAGED_ROLES]),
       status: Not("DELETE"),
     });
 
-    if (
-      !target ||
-      !this.isManaged(target.territories, this.getManagedDepartments(user))
-    ) {
+    const scope =
+      target?.role === "region"
+        ? this.getManagedRegions(user)
+        : this.getManagedDepartments(user);
+    if (!target || !this.isManaged(target.territories, scope)) {
       throw new NotFoundException("USER_NOT_FOUND");
+    }
+
+    if (target.id === user._userId) {
+      throw new ForbiddenException("CANNOT_DELETE_SELF");
     }
 
     await this.userSupervisorDecisionService.softDelete({
