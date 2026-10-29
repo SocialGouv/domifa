@@ -22,10 +22,10 @@ describe("isDdetsEmailForDepartment", () => {
     );
   });
 
-  it("rejects non nominative addresses", () => {
+  it("accepts a local part without a dot", () => {
     expect(
-      isDdetsEmailForDepartment("ddets@ille-et-vilaine.gouv.fr", "35")
-    ).toBe(false);
+      isDdetsEmailForDepartment("jdupont@ille-et-vilaine.gouv.fr", "35")
+    ).toBe(true);
   });
 
   it("rejects departments outside the allowlist", () => {

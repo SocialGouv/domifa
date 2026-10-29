@@ -1,20 +1,19 @@
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import {
   DEPARTEMENTS_LISTE,
-  isNominativeGouvEmail,
   RegionManagedUser,
   REGIONS_LISTE,
   USER_STATUS_LABELS,
 } from "@domifa/common";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
 import { Subscription } from "rxjs";
+import { PortailStatsAuthService } from "../../../auth/services/portail-stats-auth.service";
 import { CustomToastService } from "../../../shared/services";
 import { RegionUsersService } from "../../services/region-users.service";
 
 type SortKey =
   | "nom"
   | "email"
-  | "emailType"
   | "profile"
   | "createdAt"
   | "lastLogin"
@@ -25,8 +24,6 @@ type BadgeSeverity = "success" | "info" | "warning" | "error";
 
 type RegionUserRow = RegionManagedUser & {
   fullName: string;
-  emailType: string;
-  emailTypeSeverity: BadgeSeverity;
   profile: string;
   department: string;
   statusLabel: string;
@@ -39,7 +36,6 @@ const toTime = (date: Date | null): number =>
 const SORT_VALUES: Record<SortKey, (user: RegionUserRow) => string | number> = {
   nom: (user) => user.fullName.toLowerCase(),
   email: (user) => user.email,
-  emailType: (user) => user.emailType,
   profile: (user) => user.profile,
   createdAt: (user) => toTime(user.createdAt),
   lastLogin: (user) => toTime(user.lastLogin),
@@ -71,7 +67,6 @@ export class RegionUsersListComponent implements OnInit, OnDestroy {
   public readonly columns: { key: SortKey; label: string }[] = [
     { key: "nom", label: "Nom prénom" },
     { key: "email", label: "Email" },
-    { key: "emailType", label: "Type d'email" },
     { key: "profile", label: "Profil" },
     { key: "createdAt", label: "Date d'ajout" },
     { key: "lastLogin", label: "Dernière connexion" },
@@ -83,8 +78,14 @@ export class RegionUsersListComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly regionUsersService: RegionUsersService,
-    private readonly toastService: CustomToastService
+    private readonly toastService: CustomToastService,
+    private readonly authService: PortailStatsAuthService
   ) {}
+
+  // The API refuses it too: a DREETS cannot delete its own account
+  public isCurrentUser(user: RegionManagedUser): boolean {
+    return user.uuid === this.authService.currentUserValue?.uuid;
+  }
 
   public ngOnInit(): void {
     this.getUsers();
@@ -158,7 +159,6 @@ export class RegionUsersListComponent implements OnInit, OnDestroy {
   }
 
   private toRow(user: RegionManagedUser): RegionUserRow {
-    const personalEmail = isNominativeGouvEmail(user.email);
     const territory = user.territories?.[0];
     const territoryName =
       user.role === "region"
@@ -177,8 +177,6 @@ export class RegionUsersListComponent implements OnInit, OnDestroy {
     return {
       ...user,
       fullName: `${user.nom} ${user.prenom}`,
-      emailType: personalEmail ? "Mail personnel" : "Mail générique",
-      emailTypeSeverity: personalEmail ? "success" : "warning",
       profile: user.role === "region" ? "DREETS" : "DDETS",
       department: territory ? `${territory} - ${territoryName ?? ""}` : "",
       statusLabel,

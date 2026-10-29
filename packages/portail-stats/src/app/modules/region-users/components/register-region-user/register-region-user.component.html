@@ -11,8 +11,8 @@
 <div class="fr-alert fr-alert--warning fr-alert--sm fr-mb-3w">
   <p>
     Un agent DREETS aura accès aux données de toute la région et pourra lui
-    aussi inviter des agents. L'équipe DomiFa est prévenue de chaque création ;
-    seule elle peut supprimer un compte DREETS.
+    aussi inviter ou supprimer des agents, y compris des agents DREETS. L'équipe
+    DomiFa est prévenue de chaque création.
   </p>
 </div>
 } @if (!hasSelfServiceTerritory) {
@@ -188,9 +188,9 @@
     <label class="fr-label" for="region-user-email">
       Email<span class="fr-text-default--error">*</span>
       <span class="fr-hint-text">
-        Format attendu : prenom.nom&#64;{{
+        Format attendu : nom&#64;{{
           expectedDomains.length
-            ? expectedDomains.join(" ou prenom.nom@")
+            ? expectedDomains.join(" ou nom@")
             : isRegion
             ? "dreets.gouv.fr"
             : "departement.gouv.fr"
@@ -218,11 +218,9 @@
       } @else if (emailInvalid) {
       <p class="fr-message fr-message--error">
         @if (f.email.errors?.['invalidNominativeEmail']) { Seules les adresses
-        nominatives en .gouv.fr sont acceptées (prenom.nom&#64;service.gouv.fr)
-        } @else if (f.email.errors) { Veuillez vérifier l'adresse email } @else
-        { L'adresse doit se terminer par &#64;{{
-          expectedDomains.join(" ou @")
-        }}
+        en .gouv.fr sont acceptées (nom&#64;service.gouv.fr) } @else if
+        (f.email.errors) { Veuillez vérifier l'adresse email } @else { L'adresse
+        doit se terminer par &#64;{{ expectedDomains.join(" ou @") }}
         pour ce territoire }
       </p>
       } @else {
