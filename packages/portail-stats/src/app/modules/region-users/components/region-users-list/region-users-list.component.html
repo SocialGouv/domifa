@@ -1,42 +1,12 @@
 <div class="head-page fr-pt-4w fr-pb-2w">
   <div class="fr-container">
     <h1 class="fr-text-title--blue-france fr-mb-1w">
-      Gérez les accès des DDETS et DREETS de votre région
+      Gérer les accès des agents en région et département
     </h1>
-    <p class="fr-text--lead fr-text-title--blue-france fr-mb-0">
-      Invitez les agents de votre région et attribuez-leur un territoire.
-    </p>
   </div>
 </div>
 
 <div class="fr-container fr-pt-4w">
-  @if (showInfo) {
-  <div class="fr-alert fr-alert--info fr-mb-4w">
-    <h2 class="fr-alert__title">Qui peut être invité ?</h2>
-    <p>
-      Seuls les agents des DDETS et de la DREETS de votre région peuvent être
-      invités. Un agent DDETS accède uniquement au tableau de pilotage de son
-      département, un agent DREETS à celui de toute la région.
-      <br />
-      Vous pouvez supprimer les comptes DDETS et DREETS de votre région, sauf le
-      vôtre.
-      <br />
-      L'invitation n'est possible qu'avec une adresse e-mail professionnelle
-      officielle (par exemple : nom&#64;departement<strong>.gouv.fr</strong>
-      pour une DDETS, nom&#64;<strong>dreets.gouv.fr</strong> pour une DREETS).
-      Les autres adresses sont refusées.
-    </p>
-    <button
-      type="button"
-      class="fr-btn--close fr-btn"
-      title="Masquer le message"
-      (click)="showInfo = false"
-    >
-      Masquer le message
-    </button>
-  </div>
-  }
-
   <div class="fr-grid-row fr-grid-row--middle fr-grid-row--gutters fr-mb-2w">
     <div class="fr-col">
       <h2 class="fr-h4 fr-mb-0">

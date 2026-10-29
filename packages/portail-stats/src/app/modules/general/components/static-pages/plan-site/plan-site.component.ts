@@ -6,6 +6,7 @@ import { Subscription } from "rxjs";
 import { PortailAdminUser } from "@domifa/common";
 import { LIENS_PARTENAIRES } from "./LIENS_PARTENAIRES.const";
 import { SITEMAP_LINKS, SITEMAP_LINKS_LOGGED } from "./plan-site.constants";
+import { SiteMapSection } from "./plan-site.types";
 import { PortailStatsAuthService } from "../../../../auth/services/portail-stats-auth.service";
 
 @Component({
@@ -15,7 +16,7 @@ import { PortailStatsAuthService } from "../../../../auth/services/portail-stats
   imports: [CommonModule, RouterModule],
 })
 export class PlanSiteComponent implements OnInit, OnDestroy {
-  public readonly siteMapLinksLogged = SITEMAP_LINKS_LOGGED;
+  public siteMapLinksLogged: SiteMapSection[] = [];
   public readonly sitemapLinks = SITEMAP_LINKS;
   public readonly partnerLinks = LIENS_PARTENAIRES;
 
@@ -34,6 +35,14 @@ export class PlanSiteComponent implements OnInit, OnDestroy {
       this.authService.currentUserSubject.subscribe(
         (user: PortailAdminUser | null) => {
           this.user = user;
+          this.siteMapLinksLogged = user
+            ? SITEMAP_LINKS_LOGGED.map((section) => ({
+                ...section,
+                links: section.links.filter(
+                  (link) => !link.roles || link.roles.includes(user.role)
+                ),
+              }))
+            : [];
         }
       )
     );

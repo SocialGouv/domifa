@@ -84,8 +84,6 @@ export class RegisterRegionUserComponent implements OnDestroy {
   public readonly userForm: FormGroup;
   public readonly departments: TerritoryOption[];
   public readonly regions: TerritoryOption[];
-  public readonly hasSelfServiceDepartment: boolean;
-  public readonly hasSelfServiceRegion: boolean;
   public submitted = false;
   public loading = false;
   public emailExist = false;
@@ -100,20 +98,10 @@ export class RegisterRegionUserComponent implements OnDestroy {
     return this.f.role.value === "region";
   }
 
-  public get hasSelfServiceTerritory(): boolean {
-    return this.isRegion
-      ? this.hasSelfServiceRegion
-      : this.hasSelfServiceDepartment;
-  }
-
   public get expectedDomains(): readonly string[] {
     return this.isRegion
       ? getDreetsEmailDomains(this.f.region.value ?? "")
       : getDdetsEmailDomains(this.f.department.value ?? "");
-  }
-
-  public get emailExample(): string {
-    return this.isRegion ? "nom@dreets.gouv.fr" : "nom@departement.gouv.fr";
   }
 
   public get emailInvalid(): boolean {
@@ -143,8 +131,6 @@ export class RegisterRegionUserComponent implements OnDestroy {
       label: `${code} - ${REGIONS_LISTE[code]}`,
       selfService: isDreetsSelfServiceRegion(code),
     }));
-    this.hasSelfServiceDepartment = this.departments.some((d) => d.selfService);
-    this.hasSelfServiceRegion = this.regions.some((r) => r.selfService);
 
     this.userForm = this.formBuilder.group(
       {
