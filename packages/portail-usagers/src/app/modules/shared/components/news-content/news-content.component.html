@@ -7,23 +7,22 @@
     *ngFor="let news of news"
   >
     <div class="fr-card__header fr-pt-2w fr-pl-2w">
-      <div class="fr-grid-row fr-display-flex fr-pb-1w">
-        <div
-          class="fr-display-flex fr-flex-row fr-gap-2 align-items-baseline fr-text-title--blue-france"
+      <h2
+        class="fr-display-flex fr-flex-column fr-pb-1w fr-mb-0 fr-text-title--blue-france"
+      >
+        <span
+          class="fr-display-flex fr-flex-row fr-gap-2 align-items-baseline fr-h3 fr-mb-1v fr-text-title--blue-france"
         >
-          <span class="fr-sr-only">Date de publication</span>
           <span aria-hidden="true" class="fr-icon-calendar-event-fill"></span>
-          <h2 class="fr-h3 fr-text-title--blue-france fr-mb-1v">
-            {{ news.date | date : "d MMMM y" }}
-          </h2>
-        </div>
-        <h3
-          class="fr-h4 fr-text-title--blue-france fr-mb-1v"
+          <span>{{ news.date | date : "d MMMM y" }}</span>
+        </span>
+        <span
+          class="fr-h4 fr-mb-1v fr-text-title--blue-france"
           *ngIf="news.description"
         >
           {{ news.description }}
-        </h3>
-      </div>
+        </span>
+      </h2>
     </div>
     <div class="fr-card__body fr-pl-0">
       <div
@@ -46,12 +45,12 @@
           </h3>
         </div>
 
-        <ul class="fr-card__desc fr-pl-3w fr-text-title--blue-france">
-          <li
+        <div class="fr-card__desc fr-text-title--blue-france">
+          <p
             [innerHTML]="message | nl2br"
             *ngFor="let message of content.message"
-          ></li>
-        </ul>
+          ></p>
+        </div>
       </div>
     </div>
   </div>
