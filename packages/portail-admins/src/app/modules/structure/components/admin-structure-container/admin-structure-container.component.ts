@@ -15,6 +15,7 @@ import { combineLatest, Subscription, take } from "rxjs";
 
 import {
   getPasswordChangeStatus,
+  isSupportModeAllowedEmail,
   StructureAdmin,
   SUPPORT_ATTACHMENT_DURATION_MS,
   SUPPORT_SESSION_REASON_MAX_LENGTH,
@@ -36,8 +37,6 @@ import {
 import { StructureService } from "../../services/structure.service";
 import { AdminAuthService } from "../../../admin-auth/services/admin-auth.service";
 import { CustomToastService } from "../../../shared/services";
-
-const SUPPORT_MODE_ALLOWED_EMAIL_DOMAIN = "@fabrique.social.gouv.fr";
 
 const SUPPORT_ACTIVATION_ERRORS: Record<string, string> = {
   SUPPORT_TARGET_ACCOUNT_NOT_FOUND:
@@ -95,10 +94,8 @@ export class AdminStructureContainerComponent implements OnInit, OnDestroy {
   }
 
   public get canUseSupportMode(): boolean {
-    return (
+    return isSupportModeAllowedEmail(
       this.adminAuthService.currentUserValue?.email
-        ?.toLowerCase()
-        .endsWith(SUPPORT_MODE_ALLOWED_EMAIL_DOMAIN) ?? false
     );
   }
 

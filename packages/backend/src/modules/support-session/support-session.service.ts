@@ -14,6 +14,7 @@ import {
 import {
   ActivateSupportSessionResponse,
   getPasswordChangeStatus,
+  isSupportModeAllowedEmail,
   SUPPORT_ATTACHMENT_DURATION_MS,
   SupportSession,
   SupportSessionHistoryItem,
@@ -37,7 +38,6 @@ import {
   SecurityLogRequestContext,
 } from "../app-logs/app-log-security-writer";
 
-export const SUPPORT_MODE_ALLOWED_EMAIL_DOMAIN = "@fabrique.social.gouv.fr";
 const SUPPORT_SESSION_HISTORY_LIMIT = 500;
 
 const CLOSED_REASON_BY_SUPPORT_REASON: Record<
@@ -286,8 +286,7 @@ export class SupportSessionService {
   }
 
   private assertSupervisorAllowed(supervisor: UserAdminAuthenticated): void {
-    const email = supervisor.email?.toLowerCase() ?? "";
-    if (!email.endsWith(SUPPORT_MODE_ALLOWED_EMAIL_DOMAIN)) {
+    if (!isSupportModeAllowedEmail(supervisor.email)) {
       throw new ForbiddenException("SUPPORT_MODE_NOT_ALLOWED");
     }
   }
