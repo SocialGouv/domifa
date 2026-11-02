@@ -1,3 +1,10 @@
+## [2.290.1](https://github.com/SocialGouv/domifa/compare/v2.290.0...v2.290.1) (2026-11-02)
+
+
+### Bug Fixes
+
+* **backend:** add domain support mode ([c26ca6a](https://github.com/SocialGouv/domifa/commit/c26ca6a8a1ecd8a2d14cf7deff2f187773b9b8c6))
+
 # [2.290.0](https://github.com/SocialGouv/domifa/compare/v2.289.1...v2.290.0) (2026-10-28)
 
 
