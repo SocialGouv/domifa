@@ -10,8 +10,8 @@ import { MigrationInterface, QueryRunner } from "typeorm";
 // usager_lien_suggestion_rejetee: persists the "This isn't the same
 // person" dismissal from the linking form, so the automatic matching
 // suggestion doesn't reappear for that (dossier, ayant droit) pair.
-export class CreateUsagerLienTables1789400829202 implements MigrationInterface {
-  name = "CreateUsagerLienTables1789400829202";
+export class CreateUsagerLienTables1793630992317 implements MigrationInterface {
+  name = "CreateUsagerLienTables1793630992317";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
