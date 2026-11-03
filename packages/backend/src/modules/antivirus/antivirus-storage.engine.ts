@@ -129,6 +129,8 @@ export class AntivirusStorageEngine implements StorageEngine {
       );
     }
 
+    appLogger.info("[ANTIVIRUS] Clean file accepted", { context });
+
     this.storage._handleFile(
       req,
       { ...file, stream: Readable.from([buffer]) },
