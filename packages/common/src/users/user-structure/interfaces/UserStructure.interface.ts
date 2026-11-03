@@ -22,6 +22,8 @@ export type UserStructure = CommonUser & {
   mails: UserStructureMails;
   structure?: StructureCommon;
   acceptTerms: Date | null;
+  // Acknowledgement of the nominative / generic email account rules
+  accountRulesAcknowledgedAt?: Date | null;
 
   decision?: UserStructureDecision | null;
 
