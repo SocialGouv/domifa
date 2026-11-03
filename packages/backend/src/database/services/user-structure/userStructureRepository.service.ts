@@ -159,4 +159,50 @@ export const userStructureRepository = myDataSource
     WHERE us.status <> 'DELETE'`
       );
     },
+
+    // Users of validated structures with no login since `inactiveSince`.
+    // Reference date = last login, or account creation if never connected.
+    // Structures where nobody is active anymore are left out: the inactive
+    // structures cron deletes them with all their users. The EXISTS clause is
+    // the exact complement of its rule (any user, any status, plus the
+    // structure registration date).
+    async findInactiveUsers(inactiveSince: Date): Promise<InactiveUser[]> {
+      return this.query(
+        `
+        SELECT
+          us.id,
+          us."structureId",
+          us.email,
+          us.prenom,
+          us.nom,
+          us.role,
+          us."lastLogin",
+          COALESCE(us."lastLogin", us."createdAt") AS "referenceDate",
+          s.nom AS "structureNom"
+        FROM user_structure us
+        INNER JOIN structure s ON s.id = us."structureId"
+        WHERE us.status <> 'DELETE'
+          AND s.statut = 'VALIDE'
+          AND COALESCE(us."lastLogin", us."createdAt") <= $1
+          AND (
+            s."registrationDate" > $1
+            OR EXISTS (
+              SELECT 1 FROM user_structure other
+              WHERE other."structureId" = us."structureId"
+                AND GREATEST(other."lastLogin", other."createdAt") > $1
+            )
+          )
+        ORDER BY us."structureId" ASC, "referenceDate" ASC
+        `,
+        [inactiveSince]
+      );
+    },
   });
+
+export type InactiveUser = Pick<
+  UserStructureTable,
+  "id" | "structureId" | "email" | "prenom" | "nom" | "role" | "lastLogin"
+> & {
+  referenceDate: Date;
+  structureNom: string;
+};
