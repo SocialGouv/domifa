@@ -1,3 +1,10 @@
+## [2.290.2](https://github.com/SocialGouv/domifa/compare/v2.290.1...v2.290.2) (2026-11-03)
+
+
+### Bug Fixes
+
+* **backend:** raise usager ref max from 100000 to 1000000 ([df70d1d](https://github.com/SocialGouv/domifa/commit/df70d1db0a1c5fac69a17c0bb86947dd21c9b1a3))
+
 ## [2.290.1](https://github.com/SocialGouv/domifa/compare/v2.290.0...v2.290.1) (2026-11-02)
 
 
