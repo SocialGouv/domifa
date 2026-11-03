@@ -1,3 +1,12 @@
+## [2.290.3](https://github.com/SocialGouv/domifa/compare/v2.290.2...v2.290.3) (2026-11-03)
+
+
+### Bug Fixes
+
+* **backend:** log clean antivirus scans at info level ([e8291e4](https://github.com/SocialGouv/domifa/commit/e8291e455dcb4340ac55e2e80c905c7996321823))
+* **backend:** log the remaining antivirus outcomes ([487a6e6](https://github.com/SocialGouv/domifa/commit/487a6e6be64bc2e6291c4689b5bb6f6e435edc82))
+* **frontend:** move DSFR inline config to a bundled script for CSP ([f5b7aaa](https://github.com/SocialGouv/domifa/commit/f5b7aaa358933159e0a41d52942af2a6dc504c86))
+
 ## [2.290.2](https://github.com/SocialGouv/domifa/compare/v2.290.1...v2.290.2) (2026-11-03)
 
 
