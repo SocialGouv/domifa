@@ -60,6 +60,11 @@ export class AntivirusStorageEngine implements StorageEngine {
     try {
       await this.checkAndStore(req, file, buffer, callback);
     } catch (error) {
+      appLogger.error("[ANTIVIRUS] Upload processing failed", {
+        sentry: true,
+        error,
+        context: { userId: (req.user as UserStructureAuthenticated)?.id },
+      });
       callback(error);
     }
   }
@@ -70,11 +75,6 @@ export class AntivirusStorageEngine implements StorageEngine {
     buffer: Buffer,
     callback: StorageCallback
   ): Promise<void> {
-    // Multer already rejects the request with LIMIT_FILE_SIZE
-    if ((file.stream as { truncated?: boolean }).truncated) {
-      return callback(new Error("File truncated"));
-    }
-
     const user = req.user as UserStructureAuthenticated | undefined;
     const context = {
       userId: user?.id,
@@ -82,6 +82,14 @@ export class AntivirusStorageEngine implements StorageEngine {
       mimetype: file.mimetype,
       size: buffer.length,
     };
+
+    // Multer already rejects the request with LIMIT_FILE_SIZE
+    if ((file.stream as { truncated?: boolean }).truncated) {
+      appLogger.warn("[UPLOAD] File rejected: truncated (over size limit)", {
+        context,
+      });
+      return callback(new Error("File truncated"));
+    }
 
     let fileType: Awaited<ReturnType<typeof fileTypeFromBuffer>>;
     try {
