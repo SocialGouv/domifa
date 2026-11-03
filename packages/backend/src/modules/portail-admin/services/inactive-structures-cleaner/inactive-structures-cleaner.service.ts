@@ -10,6 +10,7 @@ import {
   appLogsRepository,
   InactiveStructure,
   structureRepository,
+  usagerRepository,
   userStructureRepository,
 } from "../../../../database";
 import { appLogger } from "../../../../util";
@@ -96,8 +97,9 @@ export class InactiveStructuresCleanerService {
   private async deleteInactiveStructure(
     structure: InactiveStructure
   ): Promise<void> {
-    // Recipients must be read before users are deleted
+    // Recipients and counts must be read before users and usagers are deleted
     const recipients = await this.getRecipients(structure);
+    const counts = await this.countDeletedPeople(structure.id);
     const deletedAt = new Date();
 
     // Same path as a manual deletion from the admin portal
@@ -123,6 +125,7 @@ export class InactiveStructuresCleanerService {
           referenceDate: structure.referenceDate,
           lastLogin: structure.lastLogin,
           registrationDate: structure.registrationDate,
+          ...counts,
         },
       })
     );
@@ -159,6 +162,29 @@ export class InactiveStructuresCleanerService {
         );
       }
     }
+  }
+
+  // Kept in the deletion log: usagers and users are hard-deleted afterwards
+  private async countDeletedPeople(structureId: number): Promise<{
+    nbUsagers: number;
+    nbAyantsDroits: number;
+    nbUsers: number;
+  }> {
+    const [usagers] = await usagerRepository.query(
+      `SELECT
+        COUNT(*)::int AS "nbUsagers",
+        COALESCE(SUM(jsonb_array_length(COALESCE("ayantsDroits", '[]'::jsonb))), 0)::int AS "nbAyantsDroits"
+      FROM usager
+      WHERE "structureId" = $1`,
+      [structureId]
+    );
+    const nbUsers = await userStructureRepository.countBy({ structureId });
+
+    return {
+      nbUsagers: usagers.nbUsagers,
+      nbAyantsDroits: usagers.nbAyantsDroits,
+      nbUsers,
+    };
   }
 
   // Structure admins + structure contact email, deduplicated

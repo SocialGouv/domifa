@@ -3,6 +3,7 @@ import {
   appLogsRepository,
   InactiveStructure,
   structureRepository,
+  usagerRepository,
   userStructureRepository,
 } from "../../../../database";
 import { StructureDecisionService } from "../structure-decision/structure-decision.service";
@@ -61,6 +62,10 @@ describe("InactiveStructuresCleanerService", () => {
       { email: "CONTACT@ccas-test.fr", prenom: "Dominique" },
     ] as any);
     jest
+      .spyOn(usagerRepository, "query")
+      .mockResolvedValue([{ nbUsagers: 12, nbAyantsDroits: 5 }]);
+    jest.spyOn(userStructureRepository, "countBy").mockResolvedValue(3);
+    jest
       .spyOn(appLogsRepository, "create")
       .mockImplementation((log: any) => log);
     saveLogSpy = jest
@@ -107,6 +112,29 @@ describe("InactiveStructuresCleanerService", () => {
     );
     expect(structureDecisionService.deleteStructureData).toHaveBeenCalledWith(
       expect.objectContaining({ id: 42, uuid: "structure-uuid" })
+    );
+  });
+
+  it("logs the number of people deleted, counted before deletion", async () => {
+    structureDecisionService.deleteStructureData.mockImplementation(
+      async () => {
+        expect(usagerRepository.query).toHaveBeenCalled();
+        expect(userStructureRepository.countBy).toHaveBeenCalledWith({
+          structureId: 42,
+        });
+      }
+    );
+
+    await service.deleteInactiveStructures({ dryRun: false });
+
+    expect(saveLogSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        context: expect.objectContaining({
+          nbUsagers: 12,
+          nbAyantsDroits: 5,
+          nbUsers: 3,
+        }),
+      })
     );
   });
 
