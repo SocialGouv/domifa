@@ -5,7 +5,7 @@ import {
 } from "@nestjs/common";
 import { parseStrictInt } from "./ParseStrictInt.pipe";
 
-export const USAGER_REF_MAX = 100_000;
+export const USAGER_REF_MAX = 1_000_000;
 
 export function parseUsagerRef(value: unknown): number | null {
   return parseStrictInt(value, { min: 1, max: USAGER_REF_MAX });

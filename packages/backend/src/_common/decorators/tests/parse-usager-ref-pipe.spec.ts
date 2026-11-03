@@ -5,6 +5,8 @@ describe("parseUsagerRef", () => {
     ["1", 1],
     ["42", 42],
     ["100000", 100000],
+    ["100001", 100001],
+    ["1000000", 1000000],
   ])("accepts %s", (value, expected) => {
     expect(parseUsagerRef(value)).toEqual(expected);
   });
@@ -13,7 +15,7 @@ describe("parseUsagerRef", () => {
     "0",
     "-1",
     "007",
-    "100001",
+    "1000001",
     "99999999999",
     "1e3",
     "0x10",
