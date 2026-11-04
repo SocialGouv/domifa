@@ -1,4 +1,6 @@
+import { In } from "typeorm";
 import { AppTestHelper } from "../../../util/test";
+import { userStructureRepository } from "../user-structure/userStructureRepository.service";
 import { structureRepository } from "./structureRepository.service";
 
 describe("StructureRepository", () => {
@@ -19,6 +21,33 @@ describe("StructureRepository", () => {
   });
 
   describe("findInactiveStructures", () => {
+    let savedLastLogins: { id: number; lastLogin: Date | null }[];
+
+    beforeAll(async () => {
+      savedLastLogins = await userStructureRepository.find({
+        where: { structureId: In([1, 3, 4]) },
+        select: { id: true, lastLogin: true },
+      });
+      await userStructureRepository.update(
+        { structureId: In([1, 3, 4]) },
+        { lastLogin: null }
+      );
+      await userStructureRepository.update(
+        { id: 1 },
+        { lastLogin: new Date("2025-09-18") }
+      );
+      await userStructureRepository.update(
+        { id: 10 },
+        { lastLogin: new Date("2021-12-06") }
+      );
+    });
+
+    afterAll(async () => {
+      for (const { id, lastLogin } of savedLastLogins) {
+        await userStructureRepository.update({ id }, { lastLogin });
+      }
+    });
+
     const findIds = async (inactiveSince: string) =>
       (
         await structureRepository.findInactiveStructures(
