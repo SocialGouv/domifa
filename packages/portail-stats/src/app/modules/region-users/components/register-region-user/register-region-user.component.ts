@@ -120,17 +120,19 @@ export class RegisterRegionUserComponent implements OnDestroy {
     const territories = this.authService.currentUserValue?.territories ?? [];
 
     this.departments = getRegionDepartmentCodes(territories)
-      .sort()
+      .sort((a, b) => a.localeCompare(b))
       .map((code) => ({
         code,
         label: `${code} - ${DEPARTEMENTS_LISTE[code]}`,
         selfService: isDdetsSelfServiceDepartment(code),
       }));
-    this.regions = [...territories].sort().map((code) => ({
-      code,
-      label: `${code} - ${REGIONS_LISTE[code]}`,
-      selfService: isDreetsSelfServiceRegion(code),
-    }));
+    this.regions = [...territories]
+      .sort((a, b) => a.localeCompare(b))
+      .map((code) => ({
+        code,
+        label: `${code} - ${REGIONS_LISTE[code]}`,
+        selfService: isDreetsSelfServiceRegion(code),
+      }));
 
     this.userForm = this.formBuilder.group(
       {
