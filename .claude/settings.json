@@ -1,0 +1,14 @@
+{
+  "extraKnownMarketplaces": {
+    "ultra11y": {
+      "source": { "source": "github", "repo": "SocialGouv/ultra11y" }
+    },
+    "dsfr-skill": {
+      "source": { "source": "github", "repo": "numerique-gouv/dsfr-skill" }
+    }
+  },
+  "enabledPlugins": {
+    "ultra11y@ultra11y": true,
+    "dsfr-skill@dsfr-skill": true
+  }
+}
