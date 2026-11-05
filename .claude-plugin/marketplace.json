@@ -1,0 +1,30 @@
+{
+  "name": "domifa",
+  "owner": { "name": "SocialGouv" },
+  "description": "Third-party Claude Code skills shared by the DomiFa team",
+  "plugins": [
+    {
+      "name": "security-audit",
+      "description": "Cloudflare multi-phase security audit with independently verified findings",
+      "source": { "source": "github", "repo": "cloudflare/security-audit-skill" }
+    },
+    {
+      "name": "securite-developpement",
+      "description": "DINUM secure development rules based on ANSSI guides (etalab-ia)",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/etalab-ia/skills.git",
+        "path": "skills/securite-developpement"
+      }
+    },
+    {
+      "name": "anssi-guides",
+      "description": "Catalogue of ANSSI security guides (etalab-ia)",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/etalab-ia/skills.git",
+        "path": "skills/anssi-guides"
+      }
+    }
+  ]
+}
