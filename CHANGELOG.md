@@ -1,3 +1,10 @@
+## [2.290.6](https://github.com/SocialGouv/domifa/compare/v2.290.5...v2.290.6) (2026-11-05)
+
+
+### Bug Fixes
+
+* **frontend:** clean search in support mode ([ffb7c74](https://github.com/SocialGouv/domifa/commit/ffb7c745ddf665d1f34575d454b580dc86c1021b))
+
 ## [2.290.5](https://github.com/SocialGouv/domifa/compare/v2.290.4...v2.290.5) (2026-11-05)
 
 
