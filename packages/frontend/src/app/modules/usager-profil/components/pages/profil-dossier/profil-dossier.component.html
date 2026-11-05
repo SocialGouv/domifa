@@ -70,7 +70,9 @@
               Informations de contact
             </h2>
             <ng-container
-              *ngIf="usager?.decisionDeadline?.isActive && displayDeleteButton"
+              *ngIf="
+                usager?.decisionDeadline?.isActive && canEditContactDetails
+              "
             >
               <app-button
                 *ngIf="!editContactDetails"

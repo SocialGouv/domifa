@@ -8,7 +8,7 @@ import { AuthService, CustomToastService } from "../../../../shared/services";
 import { UsagerFormModel } from "../../../../usager-shared/interfaces";
 import { UsagerProfilService } from "../../../services/usager-profil.service";
 import { Store } from "@ngrx/store";
-import { UserStructure } from "@domifa/common";
+import { CONTACT_DETAILS_EDIT_ROLES, UserStructure } from "@domifa/common";
 import { ProfilHeadSection } from "../../../ProfilHeadSection.Type";
 
 @Component({
@@ -22,6 +22,7 @@ export class BaseUsagerProfilPageComponent implements OnInit, OnDestroy {
   public subscription = new Subscription();
   public titlePrefix: string;
   public displayDeleteButton = false;
+  public canEditContactDetails = false;
   public section: ProfilHeadSection = "general";
 
   constructor(
@@ -61,6 +62,8 @@ export class BaseUsagerProfilPageComponent implements OnInit, OnDestroy {
 
     this.displayDeleteButton =
       this.me?.role !== "facteur" && this.me?.role !== "agent";
+    this.canEditContactDetails =
+      !!this.me?.role && CONTACT_DETAILS_EDIT_ROLES.includes(this.me.role);
   }
 
   public setTitle() {

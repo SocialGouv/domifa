@@ -57,6 +57,7 @@ import {
   Usager,
   ETAPE_DOCUMENTS,
   ALL_USER_STRUCTURE_ROLES,
+  CONTACT_DETAILS_EDIT_ROLES,
   SUPPORT_READ_ROLES,
 } from "@domifa/common";
 import { UsagerHistoryStateService } from "../services/usagerHistoryState.service";
@@ -164,6 +165,7 @@ export class UsagersController {
   }
 
   @UseGuards(UsagerAccessGuard)
+  @AllowUserStructureRoles(...CONTACT_DETAILS_EDIT_ROLES)
   @Patch("contact-details/:usagerRef")
   public async patchMailAndPhone(
     @Body() contactDetails: ContactDetailsDto,
