@@ -1,5 +1,26 @@
 [
   {
+    "date": "2026-11-05",
+    "description": "Liste des domiciliés plus fiable et coordonnées modifiables par les facteurs",
+    "content": [
+      {
+        "type": "bug",
+        "categorie": "📋 Liste des domiciliés toujours à jour",
+        "message": [
+          "La liste des domiciliés se met à jour automatiquement, et immédiatement lorsque vous revenez sur l’onglet DomiFa.",
+          "Les dossiers ne disparaissent plus de la liste et la recherche affiche de nouveau l’ensemble des résultats."
+        ]
+      },
+      {
+        "type": "bug",
+        "categorie": "📞 Modification du téléphone et de l’e-mail par les facteurs",
+        "message": [
+          "Les utilisateurs ayant le rôle <strong>facteur</strong> peuvent de nouveau modifier le numéro de téléphone et l’adresse e-mail d’un domicilié, depuis les onglets « Dossier » et « SMS et Mon DomiFa » de la fiche."
+        ]
+      }
+    ]
+  },
+  {
     "date": "2026-10-26",
     "description": "Sécurité des mots de passe, dates de domiciliation et nouvelle adresse de contact",
     "content": [
