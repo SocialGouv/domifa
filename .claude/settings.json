@@ -5,10 +5,17 @@
     },
     "dsfr-skill": {
       "source": { "source": "github", "repo": "numerique-gouv/dsfr-skill" }
+    },
+    "domifa": {
+      "source": { "source": "github", "repo": "SocialGouv/domifa" },
+      "autoUpdate": true
     }
   },
   "enabledPlugins": {
     "ultra11y@ultra11y": true,
-    "dsfr-skill@dsfr-skill": true
+    "dsfr-skill@dsfr-skill": true,
+    "security-audit@domifa": true,
+    "securite-developpement@domifa": true,
+    "anssi-guides@domifa": true
   }
 }
