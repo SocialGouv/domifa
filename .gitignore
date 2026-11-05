@@ -19,11 +19,10 @@ Thumbs.db
 
 *.psql.gz
 
-.claude
+**/.claude/*
+!/.claude/settings.json
 .nx/cache
 .nx/workspace-data
-
-.claude
 
 # Audit / analysis reports (security, perf, archi) — internal only
 docs/audits/
