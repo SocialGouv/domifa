@@ -26,7 +26,7 @@
               <i class="fr-icon-at-line" aria-hidden="true"></i>
               Informations de contact
             </h2>
-            @if (usager?.decisionDeadline?.isActive && displayDeleteButton) {
+            @if (usager?.decisionDeadline?.isActive && canEditContactDetails) {
             @if (!editContactDetails) {
             <app-button
               color="secondary"
