@@ -1,3 +1,10 @@
+## [2.290.4](https://github.com/SocialGouv/domifa/compare/v2.290.3...v2.290.4) (2026-11-05)
+
+
+### Bug Fixes
+
+* **backend, frontend:** let facteur edit usager phone and email again ([783b3c0](https://github.com/SocialGouv/domifa/commit/783b3c0fd605625f188cff7952044c3fc871c1bf))
+
 ## [2.290.3](https://github.com/SocialGouv/domifa/compare/v2.290.2...v2.290.3) (2026-11-03)
 
 
