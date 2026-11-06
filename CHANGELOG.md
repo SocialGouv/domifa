@@ -1,3 +1,16 @@
+# [2.291.0](https://github.com/SocialGouv/domifa/compare/v2.290.6...v2.291.0) (2026-11-06)
+
+
+### Bug Fixes
+
+* **backend:** restrict structure docs upload and delete to admin ([eb9a883](https://github.com/SocialGouv/domifa/commit/eb9a8831e82e0f111a3503f52cdf26b75d2bc4f7))
+* **backend, frontend:** let agent edit usager phone and email again ([ac2b34a](https://github.com/SocialGouv/domifa/commit/ac2b34a9c70671a1e8fe5d1ff639c1323370c129))
+
+
+### Features
+
+* **frontend, portail-usagers, portail-stats:** add maintenance notice for november 19 ([528f77b](https://github.com/SocialGouv/domifa/commit/528f77b5eef8638d81e21e57abf7ca8a23db7a73))
+
 ## [2.290.6](https://github.com/SocialGouv/domifa/compare/v2.290.5...v2.290.6) (2026-11-05)
 
 
