@@ -1,3 +1,10 @@
+## [2.291.2](https://github.com/SocialGouv/domifa/compare/v2.291.1...v2.291.2) (2026-11-06)
+
+
+### Bug Fixes
+
+* **portail-usagers:** adapt maintenance notice wording for usagers ([329a8e6](https://github.com/SocialGouv/domifa/commit/329a8e6ef24adb0ec05d13bac55c87918ce2317b))
+
 ## [2.291.1](https://github.com/SocialGouv/domifa/compare/v2.291.0...v2.291.1) (2026-11-06)
 
 
