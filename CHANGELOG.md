@@ -1,3 +1,10 @@
+## [2.291.1](https://github.com/SocialGouv/domifa/compare/v2.291.0...v2.291.1) (2026-11-06)
+
+
+### Bug Fixes
+
+* **frontend, portail-usagers, portail-stats:** rework the maintenance notice ([3163bf0](https://github.com/SocialGouv/domifa/commit/3163bf015753bad1acc391f9309b53015cf239a5))
+
 # [2.291.0](https://github.com/SocialGouv/domifa/compare/v2.290.6...v2.291.0) (2026-11-06)
 
 
