@@ -70,7 +70,7 @@ export const UsagersControllerSecurityTests: AppTestHttpClientSecurityTestDef[] 
           context.user,
           {
             validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
-            roles: ["simple", "responsable", "admin", "facteur"],
+            roles: ["simple", "responsable", "admin", "facteur", "agent"],
           }
         ),
       }),

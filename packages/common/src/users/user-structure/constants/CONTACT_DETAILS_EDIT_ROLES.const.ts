@@ -5,4 +5,5 @@ export const CONTACT_DETAILS_EDIT_ROLES: UserStructureRole[] = [
   "responsable",
   "admin",
   "facteur",
+  "agent",
 ];
