@@ -12,7 +12,7 @@ import { filter, Subscription } from "rxjs";
 import { AuthService } from "src/app/modules/shared/services/auth.service";
 import { fadeInOut } from "./shared";
 import { LIENS_PARTENAIRES } from "./modules/general/components/plan-site/LIENS_PARTENAIRES.const";
-import { UserStructure } from "@domifa/common";
+import { MAINTENANCE_NOTICE, UserStructure } from "@domifa/common";
 import { DsfrModalComponent, DsfrModalAction } from "@edugouvfr/ngx-dsfr";
 
 @Component({
@@ -23,6 +23,7 @@ import { DsfrModalComponent, DsfrModalAction } from "@edugouvfr/ngx-dsfr";
   standalone: false,
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
+  public showMaintenanceNotice = false;
   public apiVersion: string | null;
   public currentUrl = "";
   public me: UserStructure | null;
@@ -59,6 +60,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.initMaintenanceNotice();
     this.titleService.setTitle(
       "DomiFa, l'outil qui facilite la gestion des structures domiciliatrices"
     );
@@ -132,5 +134,31 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       localStorage.setItem("matomo-opted-in", JSON.stringify(true));
     }
+  }
+
+  private initMaintenanceNotice(): void {
+    if (new Date() >= MAINTENANCE_NOTICE.endsAt) {
+      return;
+    }
+    try {
+      this.showMaintenanceNotice =
+        localStorage.getItem(MAINTENANCE_NOTICE.storageKey) !==
+        new Date().toDateString();
+    } catch {
+      this.showMaintenanceNotice = true;
+    }
+  }
+
+  public dismissMaintenanceNotice(): void {
+    this.showMaintenanceNotice = false;
+    try {
+      localStorage.setItem(
+        MAINTENANCE_NOTICE.storageKey,
+        new Date().toDateString()
+      );
+    } catch {
+      // Storage unavailable: hidden until the next page load
+    }
+    document.getElementById("page")?.focus();
   }
 }

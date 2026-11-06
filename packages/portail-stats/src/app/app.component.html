@@ -56,32 +56,43 @@
     }
   </ng-template>
 </dsfr-header>
-<div class="fr-notice fr-notice--info">
-  <div class="fr-container">
-    <div class="fr-notice__body">
-      <p>
-        <span class="fr-notice__title"
-          >Information – Interruption temporaire de l'outil de pilotage de la
-          domiciliation le jeudi 19 novembre de 9h à 12h</span
-        >
-        <span class="fr-notice__desc"
-          >Nous vous informons que l'outil de pilotage de la domiciliation sera
-          temporairement indisponible le
-          <strong>jeudi 19 novembre de 9h à 12h</strong> en raison d'une
-          intervention technique.<br />
-          Durant cette période, vous ne pourrez pas accéder à votre espace ni
-          utiliser les fonctionnalités de la plateforme.<br />
-          Nous vous invitons à anticiper vos éventuelles actions afin d’assurer
-          le suivi de votre activité pendant cette interruption.<br />
-          Nous vous remercions pour votre compréhension et vous prions de nous
-          excuser pour la gêne occasionnée.<br />
-          L'équipe DomiFa</span
-        >
+<main role="main" id="page" tabindex="-1" class="fr-pb-6w">
+  @if (showMaintenanceNotice) {
+  <div class="fr-container fr-my-3w">
+    <div class="fr-alert fr-alert--info">
+      <p class="fr-alert__title">
+        Information – Interruption temporaire de l'outil de pilotage de la
+        domiciliation le jeudi 19 novembre de 9h à 12h
       </p>
+      <p>
+        Nous vous informons que l'outil de pilotage de la domiciliation sera
+        temporairement indisponible le
+        <strong>jeudi 19 novembre de 9h à 12h</strong> en raison d'une
+        intervention technique.
+      </p>
+      <p>
+        Durant cette période, vous ne pourrez pas accéder à votre espace ni
+        utiliser les fonctionnalités de la plateforme.
+      </p>
+      <p>
+        Nous vous invitons à anticiper vos éventuelles actions afin d’assurer le
+        suivi de votre activité pendant cette interruption.
+      </p>
+      <p>
+        Nous vous remercions pour votre compréhension et vous prions de nous
+        excuser pour la gêne occasionnée.
+      </p>
+      <button
+        type="button"
+        class="fr-btn--close fr-btn"
+        title="Masquer le message"
+        (click)="dismissMaintenanceNotice()"
+      >
+        Masquer le message
+      </button>
     </div>
   </div>
-</div>
-<main role="main" id="page" class="fr-pb-6w">
+  }
   <app-custom-toastr></app-custom-toastr>
   <router-outlet></router-outlet>
 </main>

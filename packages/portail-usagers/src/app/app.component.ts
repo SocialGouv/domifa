@@ -5,7 +5,11 @@ import { Title } from "@angular/platform-browser";
 import { NavigationEnd, Router, RouterModule } from "@angular/router";
 import { filter } from "rxjs";
 import { LIENS_PARTENAIRES } from "./modules/general/components/_static/plan-site/LIENS_PARTENAIRES.const";
-import { PortailUsagerProfile, NewsItem } from "@domifa/common";
+import {
+  MAINTENANCE_NOTICE,
+  PortailUsagerProfile,
+  NewsItem,
+} from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
 import DOMIFA_NEWS from "../assets/files/news.json";
 import {
@@ -40,6 +44,7 @@ import { NewsContentComponent } from "./modules/shared/components/news-content/n
   ],
 })
 export class AppComponent implements OnInit {
+  public showMaintenanceNotice = false;
   public title: string;
   public apiVersion: string | null;
   public usagerProfile: PortailUsagerProfile | null;
@@ -77,7 +82,7 @@ export class AppComponent implements OnInit {
     private readonly titleService: Title,
     private readonly router: Router,
     private readonly usagerAuthService: UsagerAuthService,
-    private readonly matomo: MatomoTracker
+    private readonly matomo: MatomoTracker,
   ) {
     this.apiVersion = null;
     this.usagerProfile = null;
@@ -125,7 +130,7 @@ export class AppComponent implements OnInit {
     if (!lastNews) {
       localStorage.setItem(
         "NEWS_MON_DOMIFA",
-        new Date(DOMIFA_NEWS[0].date).toISOString()
+        new Date(DOMIFA_NEWS[0].date).toISOString(),
       );
       this.pendingNews = false;
       return;
@@ -144,15 +149,16 @@ export class AppComponent implements OnInit {
     this.newsModal.close();
     localStorage.setItem(
       "NEWS_MON_DOMIFA",
-      new Date(DOMIFA_NEWS[0].date).toISOString()
+      new Date(DOMIFA_NEWS[0].date).toISOString(),
     );
     this.pendingNews = false;
     this.newsModalOpen = false;
   }
 
   public ngOnInit(): void {
+    this.initMaintenanceNotice();
     this.titleService.setTitle(
-      "Mon DomiFa, l'outil qui facilite la gestion des structures domiciliatirices"
+      "Mon DomiFa, l'outil qui facilite la gestion des structures domiciliatirices",
     );
 
     this.usagerAuthService.currentUsagerSubject.subscribe(
@@ -162,7 +168,7 @@ export class AppComponent implements OnInit {
         if (usager) {
           this.checkNews();
         }
-      }
+      },
     );
 
     this.router.events
@@ -202,5 +208,31 @@ export class AppComponent implements OnInit {
 
   public logout(): void {
     this.usagerAuthService.logoutAndRedirect();
+  }
+
+  private initMaintenanceNotice(): void {
+    if (new Date() >= MAINTENANCE_NOTICE.endsAt) {
+      return;
+    }
+    try {
+      this.showMaintenanceNotice =
+        localStorage.getItem(MAINTENANCE_NOTICE.storageKey) !==
+        new Date().toDateString();
+    } catch {
+      this.showMaintenanceNotice = true;
+    }
+  }
+
+  public dismissMaintenanceNotice(): void {
+    this.showMaintenanceNotice = false;
+    try {
+      localStorage.setItem(
+        MAINTENANCE_NOTICE.storageKey,
+        new Date().toDateString(),
+      );
+    } catch {
+      // Storage unavailable: hidden until the next page load
+    }
+    document.getElementById("page")?.focus();
   }
 }

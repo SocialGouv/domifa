@@ -9,7 +9,7 @@ import {
 import { Title } from "@angular/platform-browser";
 import { NavigationEnd, Router } from "@angular/router";
 import { filter } from "rxjs";
-import { PortailAdminUser } from "@domifa/common";
+import { MAINTENANCE_NOTICE, PortailAdminUser } from "@domifa/common";
 import { DsfrHeaderMenuItem, DsfrLink } from "@edugouvfr/ngx-dsfr";
 import { environment } from "../environments/environment";
 import { PortailStatsAuthService } from "./modules/auth/services/portail-stats-auth.service";
@@ -22,6 +22,7 @@ import { LIENS_PARTENAIRES } from "./modules/general/components/static-pages/pla
   standalone: false,
 })
 export class AppComponent implements OnInit {
+  public showMaintenanceNotice = false;
   public user: PortailAdminUser | null;
   public readonly partnerLinks = LIENS_PARTENAIRES;
   public currentUrl = "";
@@ -58,6 +59,7 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.initMaintenanceNotice();
     this.currentUrl = this.router.url;
     this.titleService.setTitle(
       "Outil de pilotage de la domiciliation en France"
@@ -146,5 +148,31 @@ export class AppComponent implements OnInit {
 
   public dismissNotice() {
     this.noticeRef.nativeElement.remove();
+  }
+
+  private initMaintenanceNotice(): void {
+    if (new Date() >= MAINTENANCE_NOTICE.endsAt) {
+      return;
+    }
+    try {
+      this.showMaintenanceNotice =
+        localStorage.getItem(MAINTENANCE_NOTICE.storageKey) !==
+        new Date().toDateString();
+    } catch {
+      this.showMaintenanceNotice = true;
+    }
+  }
+
+  public dismissMaintenanceNotice(): void {
+    this.showMaintenanceNotice = false;
+    try {
+      localStorage.setItem(
+        MAINTENANCE_NOTICE.storageKey,
+        new Date().toDateString()
+      );
+    } catch {
+      // Storage unavailable: hidden until the next page load
+    }
+    document.getElementById("page")?.focus();
   }
 }
