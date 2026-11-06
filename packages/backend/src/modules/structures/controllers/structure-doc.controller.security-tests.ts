@@ -1,3 +1,4 @@
+import { HttpStatus } from "@nestjs/common";
 import { AppTestContext, AppTestHttpClient } from "../../../util/test";
 import {
   AppTestHttpClientSecurityTestDef,
@@ -24,6 +25,23 @@ export const StructureDocControllerSecurityTests: AppTestHttpClientSecurityTestD
           context.user,
           {
             roles: ["simple", "responsable", "admin", "agent"],
+          }
+        ),
+      }),
+    },
+    // Unknown uuid: allowed roles get past the role check and find nothing (400)
+    {
+      label: `${CONTROLLER}.deleteDocument`,
+      query: async (context: AppTestContext) => ({
+        response: await AppTestHttpClient.delete(
+          "/structure-docs/3f1c0a52-6d2b-4e8a-9c1f-7b5e2d4a8c90",
+          { context }
+        ),
+        expectedStatus: expectedResponseStatusBuilder.allowStructureOnly(
+          context.user,
+          {
+            validExpectedResponseStatus: HttpStatus.BAD_REQUEST,
+            roles: ["admin"],
           }
         ),
       }),
