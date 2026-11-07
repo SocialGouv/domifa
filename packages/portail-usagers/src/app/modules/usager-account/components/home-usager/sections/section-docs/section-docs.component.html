@@ -3,46 +3,43 @@
 <div
   class="border-top fr-pt-2w border-1 border-grey fr-display-flex fr-flex-column fr-gap-2"
 >
-  <div *ngIf="!docs?.length">
+  @if (!docs.length) {
+  <div>
     <div class="fr-callout fr-callout--empty">
       Vous n'avez aucun document disponible
     </div>
   </div>
-  <ng-container *ngIf="docs?.length">
-    <div
-      *ngFor="let doc of docs"
-      class="fr-card fr-card--download fr-enlarge-link fr-card--sm"
-    >
-      <div class="fr-card__body">
-        <div class="fr-card__content">
-          <div class="fr-card__title">
-            <button
-              type="button"
-              [disabled]="doc.loading"
-              [attr.aria-disabled]="doc.loading"
-              [attr.aria-busy]="doc.loading ? 'true' : 'false'"
-              [attr.aria-label]="'Télécharger le document ' + doc.label"
-              (click)="downloadDoc(doc)"
-            >
-              <h3 class="fr-h5 fr-mb-0" *ngIf="!doc.loading">
-                {{ doc.label }}
-              </h3>
-              <h3 class="fr-display-flex fr-gap-1" *ngIf="doc.loading">
-                {{ doc.label }} - Téléchargement en cours
-                <dsfr-ext-spinner typeLoader="quarter"></dsfr-ext-spinner>
-              </h3>
-            </button>
-          </div>
-          <p class="fr-card__desc">
-            Date d'ajout : {{ doc.createdAt | date : "short" }}
+  } @else { @for (doc of docs; track doc.uuid) {
+  <div class="fr-card fr-card--download fr-enlarge-link fr-card--sm">
+    <div class="fr-card__body">
+      <div class="fr-card__content">
+        <h3 class="fr-card__title fr-h5 fr-mb-0">
+          <button
+            type="button"
+            [disabled]="doc.loading"
+            [attr.aria-disabled]="doc.loading"
+            [attr.aria-busy]="doc.loading ? 'true' : 'false'"
+            [attr.aria-label]="'Télécharger le document ' + doc.label"
+            (click)="downloadDoc(doc)"
+          >
+            {{ doc.label }}
+            @if (doc.loading) { - Téléchargement en cours }
+          </button>
+        </h3>
+        <!-- the spinner renders block elements, not allowed inside a heading or a button -->
+        @if (doc.loading) {
+        <dsfr-ext-spinner typeLoader="quarter"></dsfr-ext-spinner>
+        }
+        <p class="fr-card__desc">
+          Date d'ajout : {{ doc.createdAt | date : "short" }}
+        </p>
+        <div class="fr-card__end">
+          <p class="fr-card__detail">
+            {{ STRUCTURE_DOC_EXTENSIONS_LABELS[doc.filetype] }}
           </p>
-          <div class="fr-card__end">
-            <p class="fr-card__detail">
-              {{ STRUCTURE_DOC_EXTENSIONS_LABELS[doc.filetype] }}
-            </p>
-          </div>
         </div>
       </div>
     </div>
-  </ng-container>
+  </div>
+  } }
 </div>
