@@ -1,9 +1,10 @@
 import { Injectable } from "@nestjs/common";
+import { In } from "typeorm";
 import { PageMeta, PageOptions, PageResults } from "@domifa/common";
 
 import { appLogsRepository } from "../../database";
 import { AppLogTable } from "../../database/entities/app-log/AppLogTable.typeorm";
-import { AppLog, AppLogActorType } from "./types";
+import { AppLog, AppLogActorType, LogAction } from "./types";
 
 export interface FindUserLogsOptions {
   userType: AppLogActorType;
@@ -14,6 +15,13 @@ export interface FindUserLogsOptions {
 
 export interface FindStructureLogsOptions {
   structureId: number;
+  page: number;
+  take: number;
+}
+
+export interface FindUsagerLogsOptions {
+  usagerUuid: string;
+  actions: LogAction[];
   page: number;
   take: number;
 }
@@ -55,6 +63,27 @@ export class AppLogsService {
 
     const [data, itemCount] = await appLogsRepository.findAndCount({
       where: { structureId },
+      order: { createdAt: "DESC" },
+      skip: (page - 1) * take,
+      take,
+    });
+
+    return new PageResults<AppLogTable>({
+      data,
+      meta: new PageMeta({
+        itemCount,
+        pageOptions: new PageOptions({ page, take }),
+      }),
+    });
+  }
+
+  public async findUsagerLogs(
+    options: FindUsagerLogsOptions
+  ): Promise<PageResults<AppLogTable>> {
+    const { usagerUuid, actions, page, take } = options;
+
+    const [data, itemCount] = await appLogsRepository.findAndCount({
+      where: { usagerUuid, action: In(actions) },
       order: { createdAt: "DESC" },
       skip: (page - 1) * take,
       take,
