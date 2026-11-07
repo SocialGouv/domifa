@@ -137,6 +137,18 @@ export class UsersController {
     return true;
   }
 
+  @Post("acknowledge-account-rules")
+  @HttpCode(HttpStatus.OK)
+  public async acknowledgeAccountRules(
+    @CurrentUser() user: UserStructureAuthenticated
+  ): Promise<boolean> {
+    await userStructureRepository.update(
+      { id: user.id },
+      { accountRulesAcknowledgedAt: new Date() }
+    );
+    return true;
+  }
+
   @AllowUserStructureRoles("admin")
   @UseGuards(CanGetUserStructureGuard)
   @Patch("update-role/:userUuid")

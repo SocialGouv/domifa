@@ -1,4 +1,4 @@
-export const CGU_LAST_UPDATE_DATE = new Date("2026-07-29T00:00:00Z");
+export const CGU_LAST_UPDATE_DATE = new Date("2026-11-03T00:00:00Z");
 
 export const hasAcceptedCurrentCgu = (
   acceptTerms: Date | string | null | undefined

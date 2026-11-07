@@ -256,6 +256,7 @@ export class StructuresAuthController {
       fonction: user.fonction,
       fonctionDetail: user.fonctionDetail,
       acceptTerms: user.acceptTerms,
+      accountRulesAcknowledgedAt: user.accountRulesAcknowledgedAt,
       passwordLastUpdate: user.passwordLastUpdate,
       createdAt: user.createdAt,
       structure: user.structure,

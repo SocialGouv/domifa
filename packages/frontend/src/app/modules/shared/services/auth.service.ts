@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Router, RouterStateSnapshot } from "@angular/router";
 import { jwtDecode } from "jwt-decode";
 import { BehaviorSubject, Observable, firstValueFrom, of } from "rxjs";
-import { catchError, map, switchMap } from "rxjs/operators";
+import { catchError, map, switchMap, tap } from "rxjs/operators";
 import { environment } from "../../../../environments/environment";
 
 import { usagerActions, UsagerState } from "../../../shared";
@@ -61,6 +61,19 @@ export class AuthService {
     return this.http.get<UserStructure>(
       `${environment.apiUrl}users/accept-terms`
     );
+  }
+
+  public acknowledgeAccountRules(): Observable<boolean> {
+    return this.http
+      .post<boolean>(`${environment.apiUrl}users/acknowledge-account-rules`, {})
+      .pipe(
+        tap(() => {
+          const user = this.currentUserValue;
+          if (user) {
+            this.setUser({ ...user, accountRulesAcknowledgedAt: new Date() });
+          }
+        })
+      );
   }
 
   public login(email: string, password: string): Observable<UserStructure> {
