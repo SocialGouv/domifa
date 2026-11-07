@@ -197,6 +197,13 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
       enable: configParser.parseBoolean(x, "DOMIFA_CRON_ENABLED", {
         defaultValue: false,
       }),
+      inactiveUsersDryRun: configParser.parseBoolean(
+        x,
+        "DOMIFA_CRON_INACTIVE_USERS_DRY_RUN",
+        {
+          defaultValue: true,
+        }
+      ),
     },
     brevo: {
       apiKey: configParser.parseString(x, "DOMIFA_MAIL_BREVO_API_KEY", {
@@ -267,9 +274,16 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             required: emailsEnabled,
           }
         ),
-        userAccountDeleted: configParser.parseInteger(
+        userManualDelete: configParser.parseInteger(
           x,
-          "DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_DELETED",
+          "DOMIFA_BREVO_TEMPLATES_USER_MANUAL_DELETE",
+          {
+            required: emailsEnabled,
+          }
+        ),
+        userInactiveDelete: configParser.parseInteger(
+          x,
+          "DOMIFA_BREVO_TEMPLATES_USER_INACTIVE_DELETE",
           {
             required: emailsEnabled,
           }
