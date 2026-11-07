@@ -67,4 +67,45 @@ export const structureRepository = myDataSource
 
       return qb.getRawMany();
     },
+
+    // Validated structures where no user has logged in since `inactiveSince`.
+    // Reference date = most recent of: users' last login, users' account
+    // creation (never-connected users), structure registration.
+    async findInactiveStructures(
+      inactiveSince: Date
+    ): Promise<InactiveStructure[]> {
+      return this.query(
+        `
+        SELECT * FROM (
+          SELECT
+            s.id,
+            s.uuid,
+            s.nom,
+            s.email,
+            s."registrationDate",
+            MAX(us."lastLogin") AS "lastLogin",
+            GREATEST(
+              MAX(us."lastLogin"),
+              MAX(us."createdAt"),
+              s."registrationDate"
+            ) AS "referenceDate"
+          FROM structure s
+          LEFT JOIN user_structure us ON us."structureId" = s.id
+          WHERE s.statut = 'VALIDE'
+          GROUP BY s.id, s.uuid, s.nom, s.email, s."registrationDate"
+        ) inactive
+        WHERE inactive."referenceDate" <= $1
+        ORDER BY inactive."referenceDate" ASC
+        `,
+        [inactiveSince]
+      );
+    },
   });
+
+export type InactiveStructure = Pick<
+  Structure,
+  "id" | "uuid" | "nom" | "email" | "registrationDate"
+> & {
+  lastLogin: Date | null;
+  referenceDate: Date;
+};

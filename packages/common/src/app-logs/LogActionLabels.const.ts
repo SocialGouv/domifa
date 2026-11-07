@@ -69,6 +69,8 @@ export const LOG_ACTION_LABELS: Record<LogAction, string> = {
   ADMIN_STRUCTURE_DELETE: "Suppression d'une structure",
   ADMIN_STRUCTURE_REFUSAL: "Refus d'une structure",
   ADMIN_STRUCTURE_CREATION: "Création d'une structure",
+  STRUCTURE_INACTIVE_AUTO_DELETE:
+    "Suppression automatique d'une structure inactive",
   SUPPRIMER_PIECE_JOINTE: "Suppression d'une pièce jointe",
   RESET_PASSWORD_PORTAIL:
     "Réinitialisation du mot de passe (portail des usagers)",
