@@ -23,7 +23,13 @@ import { ContactSupportTable, contactSupportRepository } from "../../database";
 import { getPhoneString } from "../../util";
 import { BrevoSenderService } from "../mails/services/brevo-sender/brevo-sender.service";
 import { domifaConfig } from "../../config";
-import { CONTACT_SUPPORT_SUBJECT_LABELS } from "@domifa/common";
+import {
+  CONTACT_SUPPORT_SUBJECT_LABELS,
+  DEPARTEMENTS_MAP,
+  MON_DOMIFA_CONTACT_SUBJECTS_DEF,
+  REGIONS_LISTE,
+} from "@domifa/common";
+import { MonDomifaContactDto } from "./mon-domifa-contact.dto";
 import { AntivirusFileInterceptor } from "../antivirus";
 import { CONTACT_SUPPORT_FILE_MIME_TYPES } from "./CONTACT_SUPPORT_FILE_MIME_TYPES.const";
 
@@ -128,6 +134,73 @@ export class ContactSupportController {
           name: contactSupportDto.name,
         },
         attachmentPath: file?.path,
+      });
+
+      return res.status(HttpStatus.OK).json({ message: "OK" });
+    } catch (error) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "CONTACT_FORM_ERROR" });
+    }
+  }
+
+  // Contact form of the "Mon DomiFa" portal (domiciliés). Only the subjects
+  // requiring a free-text answer reach this endpoint: the others are answered
+  // on screen by the portal. Nothing is stored in database.
+  @Throttle({
+    short: { limit: 1, ttl: 1_000, blockDuration: 60_000 }, // 1 req/sec, block 1min
+    medium: { limit: 3, ttl: 60_000, blockDuration: 1_800_000 }, // 3 req/min, block 30min
+  })
+  @Post("mon-domifa")
+  public async contactMonDomifa(
+    @Body() dto: MonDomifaContactDto,
+    @Res() res: ExpressResponse
+  ) {
+    if (
+      dto.regionCode &&
+      dto.departement &&
+      DEPARTEMENTS_MAP[dto.departement]?.regionCode !== dto.regionCode
+    ) {
+      throw new BadRequestException({ message: "INCORRECT_DEPARTEMENT" });
+    }
+
+    const subjectLabel = MON_DOMIFA_CONTACT_SUBJECTS_DEF[dto.subject].label;
+    const name = `${dto.prenom} ${dto.nom}`;
+    const localisation = [
+      dto.departement
+        ? `${dto.departement} - ${
+            DEPARTEMENTS_MAP[dto.departement].departmentName
+          }`
+        : null,
+      dto.regionCode ? REGIONS_LISTE[dto.regionCode] : null,
+    ]
+      .filter(Boolean)
+      .join(", ");
+
+    const params = {
+      structure: "Non (domicilié - Mon DomiFa)",
+      phone: dto.phone || "Non renseigné",
+      content: dto.content || "Aucun message complémentaire",
+      email: dto.email,
+      name,
+      subject: `[MON DOMIFA] ${subjectLabel}`,
+      structureName: localisation
+        ? `${dto.structureName} (${localisation})`
+        : dto.structureName,
+    };
+
+    try {
+      await this.brevoSenderService.sendEmailWithTemplate({
+        templateId: domifaConfig().brevo.templates.contactSupport,
+        subject: `[MON DOMIFA] ${subjectLabel} - ${dto.structureName}`,
+        params,
+        to: [
+          {
+            email: domifaConfig().email.emailAddressAdmin,
+            name: "DomiFa",
+          },
+        ],
+        replyTo: { email: dto.email, name },
       });
 
       return res.status(HttpStatus.OK).json({ message: "OK" });

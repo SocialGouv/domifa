@@ -11,6 +11,7 @@ import { PolitiqueComponent } from "./modules/general/components/_static/politiq
 import { PlanSiteComponent } from "./modules/general/components/_static/plan-site/plan-site.component";
 import { NewsComponent } from "./modules/general/components/_static/news/news.component";
 import { RedirectComponent } from "./modules/general/components/redirect.component";
+import { ContactMonDomifaComponent } from "./modules/general/components/contact-mon-domifa/contact-mon-domifa.component";
 
 const routes: Routes = [
   { path: "", component: RedirectComponent },
@@ -18,7 +19,7 @@ const routes: Routes = [
     path: "auth",
     loadChildren: () =>
       import("./modules/usager-auth/usager-auth.module").then(
-        (m) => m.UsagerAuthModule,
+        (m) => m.UsagerAuthModule
       ),
   },
   {
@@ -26,7 +27,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () =>
       import("./modules/usager-account/usager-account.module").then(
-        (m) => m.UsagerAccountModule,
+        (m) => m.UsagerAccountModule
       ),
   },
   { path: "news", component: NewsComponent },
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: "mentions-legales", component: MentionsLegalesComponent },
   { path: "confidentialite", component: PolitiqueComponent },
   { path: "cgu", component: CguComponent },
+  { path: "contact", component: ContactMonDomifaComponent },
   {
     path: "faq",
     loadChildren: () =>

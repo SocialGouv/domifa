@@ -19,6 +19,7 @@ import { RgaaComponent } from "./components/_static/rgaa/rgaa.component";
 import { IdleManagerComponent } from "./components/idle-manager/idle-manager.component";
 import { PlanSiteComponent } from "./components/_static/plan-site/plan-site.component";
 import { NewsComponent } from "./components/_static/news/news.component";
+import { ContactMonDomifaComponent } from "./components/contact-mon-domifa/contact-mon-domifa.component";
 
 @NgModule({
   exports: [
@@ -39,6 +40,7 @@ import { NewsComponent } from "./components/_static/news/news.component";
     PolitiqueComponent,
     RgaaComponent,
     NewsComponent,
+    ContactMonDomifaComponent,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })
