@@ -450,7 +450,7 @@
           </p>
           } @if (displayPasswordIndication) {
           <div role="alert" class="fr-alert fr-alert--info fr-mb-2w">
-            <span class="fr-alert__title">Mot de passe oublié</span>
+            <h2 class="fr-alert__title">Mot de passe oublié</h2>
             <p class="fr-my-1w" id="pwd-infos">
               Vous avez peut-être bloqué votre compte en faisant plus de 3
               tentatives de connexion avec un mauvais mot de passe.
@@ -487,16 +487,16 @@
             role="alert"
           >
             @if (blockedTemp) {
-            <span class="fr-alert__title"> Compte temporairement bloqué. </span>
+            <h2 class="fr-alert__title">Compte temporairement bloqué.</h2>
             <p class="fr-my-1w">
               Trop de tentatives ou de demandes de code. Réessayez dans 1 heure,
               ou réinitialisez votre mot de passe pour débloquer l'accès
               immédiatement.
             </p>
             } @else {
-            <span class="fr-alert__title">
+            <h2 class="fr-alert__title">
               Le couple identifiant et mot de passe saisi est invalide.
-            </span>
+            </h2>
             <p class="fr-my-1w" id="pwd-infos">
               Veuillez vérifier les chiffres, majuscules et caractères spéciaux.
               <br />

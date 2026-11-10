@@ -11,18 +11,30 @@
         <div
           class="fr-display-flex fr-flex-row fr-gap-2 align-items-baseline fr-text-title--blue-france"
         >
-          <span class="fr-sr-only">Date de publication</span>
           <span aria-hidden="true" class="fr-icon-calendar-event-fill"></span>
+          <!-- In the modal, the modal title is the h2: shift levels down by one -->
+          @if (isModal) {
+          <h3 class="fr-h3 fr-text-title--blue-france fr-mb-1v">
+            <ng-container
+              [ngTemplateOutlet]="dateTitle"
+              [ngTemplateOutletContext]="{ $implicit: news.date }"
+            ></ng-container>
+          </h3>
+          } @else {
           <h2 class="fr-h3 fr-text-title--blue-france fr-mb-1v">
-            {{ news.date | date : "d MMMM y" }}
+            <ng-container
+              [ngTemplateOutlet]="dateTitle"
+              [ngTemplateOutletContext]="{ $implicit: news.date }"
+            ></ng-container>
           </h2>
+          }
         </div>
-        <h3
+        <p
           class="fr-h4 fr-text-title--blue-france fr-mb-1v"
           *ngIf="news.description"
         >
           {{ news.description }}
-        </h3>
+        </p>
       </div>
     </div>
     <div class="fr-card__body fr-pl-0">
@@ -32,18 +44,21 @@
       >
         <hr class="fr-pb-1w" />
         <div class="fr-display-flex">
+          @if (isModal) {
+          <h4 class="fr-h4 fr-card__title">
+            <ng-container
+              [ngTemplateOutlet]="contentTitle"
+              [ngTemplateOutletContext]="{ $implicit: content }"
+            ></ng-container>
+          </h4>
+          } @else {
           <h3 class="fr-h4 fr-card__title">
-            <span
-              [class.fr-badge--info]="content.type === 'new'"
-              [class.fr-badge--new]="content.type !== 'new'"
-              class="fr-badge fr-badge--no-icon"
-            >
-              {{ content.type === "new" ? "Nouveauté" : "Améliorations" }}
-            </span>
-            <span class="fr-text-title--blue-france">
-              {{ content.categorie }}
-            </span>
+            <ng-container
+              [ngTemplateOutlet]="contentTitle"
+              [ngTemplateOutletContext]="{ $implicit: content }"
+            ></ng-container>
           </h3>
+          }
         </div>
 
         <ul class="fr-card__desc fr-pl-3w fr-text-title--blue-france">
@@ -56,3 +71,21 @@
     </div>
   </div>
 </div>
+
+<ng-template #dateTitle let-date>
+  <span class="fr-sr-only">Date de publication : </span>
+  {{ date | date : "d MMMM y" }}
+</ng-template>
+
+<ng-template #contentTitle let-content>
+  <span
+    [class.fr-badge--info]="content.type === 'new'"
+    [class.fr-badge--new]="content.type !== 'new'"
+    class="fr-badge fr-badge--no-icon"
+  >
+    {{ content.type === "new" ? "Nouveauté" : "Améliorations" }}
+  </span>
+  <span class="fr-text-title--blue-france">
+    {{ content.categorie }}
+  </span>
+</ng-template>
