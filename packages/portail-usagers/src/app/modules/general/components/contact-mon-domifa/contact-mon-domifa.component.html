@@ -262,17 +262,24 @@
         <!-- Objet -->
         <div
           class="fr-select-group fr-mb-3w"
-          [class.fr-select-group--error]="submitted && !f.subject.value"
+          [class.fr-select-group--error]="showError('subject')"
         >
           <label class="fr-label" for="subject">L'objet de votre demande</label>
+          <span class="fr-hint-text" id="subject-help"
+            >Le choix de l'objet modifie la suite du formulaire : une
+            information et un champ pour préciser votre demande s'affichent sous
+            cette liste.</span
+          >
           <select
             class="fr-select"
             id="subject"
             formControlName="subject"
             required
-            [attr.aria-invalid]="submitted && !f.subject.value"
+            [attr.aria-invalid]="showError('subject')"
             [attr.aria-describedby]="
-              submitted && !f.subject.value ? 'subject-error' : null
+              showError('subject')
+                ? 'subject-help subject-error'
+                : 'subject-help'
             "
           >
             <option value="" disabled>
@@ -282,22 +289,18 @@
             <option [value]="subject.value">{{ subject.label }}</option>
             }
           </select>
-          @if (submitted && !f.subject.value) {
+          @if (showError('subject')) {
           <p id="subject-error" class="fr-error-text">
             Veuillez sélectionner l'objet de votre demande
           </p>
           }
         </div>
 
-        <!-- Réponse automatique -->
+        <!-- Information liée à l'objet -->
         <div aria-live="polite">
           @if (response) {
           <div class="fr-callout fr-icon-information-line fr-mb-4w">
-            @if (!canSend) {
-            <p class="fr-callout__text fr-mb-2w">
-              Merci pour votre demande. Le support a bien reçu votre message.
-            </p>
-            }
+            <p class="fr-callout__title">Bon à savoir</p>
             <p class="fr-callout__text">
               <span aria-hidden="true">👉 </span>{{ response }}
             </p>
@@ -305,29 +308,36 @@
           }
         </div>
 
+        @if (f.subject.value) {
         <!-- Champ libre -->
-        @if (needsMessage) {
         <div
           class="fr-input-group"
           [class.fr-input-group--error]="showError('content')"
         >
           <label class="fr-label" for="content">
-            Précisez votre demande
+            Précisez votre demande @if (needsMessage) {
             <span class="fr-text--bold" style="color: var(--text-default-error)"
               >*</span
             >
+            }
           </label>
-          <span class="fr-hint-text">10 caractères minimum</span>
+          <span class="fr-hint-text" id="content-help">{{
+            needsMessage
+              ? "10 caractères minimum"
+              : "Facultatif, 10 caractères minimum si renseigné"
+          }}</span>
           <textarea
             class="fr-input"
             id="content"
             formControlName="content"
             rows="6"
             maxlength="5000"
-            required
+            [required]="needsMessage"
             [attr.aria-invalid]="showError('content')"
             [attr.aria-describedby]="
-              showError('content') ? 'content-error' : null
+              showError('content')
+                ? 'content-help content-error'
+                : 'content-help'
             "
           ></textarea>
           @if (showError('content')) {
@@ -336,8 +346,7 @@
           </p>
           }
         </div>
-
-        } @if (canSend) { @if (error) {
+        } @if (error) {
         <div
           class="fr-alert fr-alert--error fr-alert--sm fr-mb-3w"
           role="alert"
@@ -370,7 +379,6 @@
             </button>
           </li>
         </ul>
-        }
       </form>
     </div>
   </div>

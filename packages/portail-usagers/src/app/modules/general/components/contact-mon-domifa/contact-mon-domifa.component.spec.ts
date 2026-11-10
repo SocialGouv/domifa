@@ -48,54 +48,50 @@ describe("ContactMonDomifaComponent", () => {
     expect(component).toBeTruthy();
   });
 
-  it("shows an auto-response without sending anything, tracked once", () => {
-    component.contactForm.controls.subject.setValue("MOT_DE_PASSE_IDENTIFIANT");
-    component.contactForm.controls.subject.setValue("COPIE_DOCUMENT");
-    component.contactForm.controls.subject.setValue("MOT_DE_PASSE_IDENTIFIANT");
-    fixture.detectChanges();
-
-    expect(component.response).toContain("réinitialisation");
-    expect(component.canSend).toBe(false);
-    expect(component.needsMessage).toBe(false);
-    expect(
-      fixture.nativeElement.querySelector("button[type=submit]")
-    ).toBeNull();
-    expect(matomo.trackEvent).toHaveBeenCalledTimes(2);
-    expect(matomo.trackEvent).toHaveBeenCalledWith(
-      "contact-mon-domifa",
-      "reponse_automatique",
-      "MOT_DE_PASSE_IDENTIFIANT"
-    );
-
-    component.sendContactMessage();
-    httpMock.expectNone(() => true);
-    expect(fixture.nativeElement.querySelector("textarea#content")).toBeNull();
-  });
-
-  it("sends a data deletion request without a message", () => {
+  it("shows the information and sends the request for linked subjects", () => {
     fillIdentity();
-    component.contactForm.controls.subject.setValue("SUPPRESSION_DONNEES");
+    component.contactForm.controls.subject.setValue("MOT_DE_PASSE_IDENTIFIANT");
     fixture.detectChanges();
 
-    expect(component.response).toContain("suppression de vos données");
-    expect(component.canSend).toBe(true);
-    expect(fixture.nativeElement.querySelector("textarea#content")).toBeNull();
+    expect(component.response).toContain("mot de passe");
+    expect(component.needsMessage).toBe(false);
+    expect(fixture.nativeElement.querySelector(".fr-callout")).not.toBeNull();
+    // Optional message
     expect(
-      fixture.nativeElement.querySelector("button[type=submit]")
+      fixture.nativeElement.querySelector("textarea#content")
     ).not.toBeNull();
-    // Not an auto-response: tracked only once sent
+    expect(component.contactForm.valid).toBe(true);
+    // Nothing is tracked before sending
     expect(matomo.trackEvent).not.toHaveBeenCalled();
 
     component.sendContactMessage();
     const req = httpMock.expectOne("http://localhost:3000/contact/mon-domifa");
-    expect(req.request.body.subject).toEqual("SUPPRESSION_DONNEES");
+    expect(req.request.body.subject).toEqual("MOT_DE_PASSE_IDENTIFIANT");
     req.flush({ message: "OK" });
     expect(component.success).toBe(true);
     expect(matomo.trackEvent).toHaveBeenCalledWith(
       "contact-mon-domifa",
       "envoi_formulaire",
-      "SUPPRESSION_DONNEES"
+      "MOT_DE_PASSE_IDENTIFIANT"
     );
+  });
+
+  it("rejects a too short optional message", () => {
+    fillIdentity();
+    component.contactForm.patchValue({
+      subject: "SUPPRESSION_DONNEES",
+      content: "court",
+    });
+    expect(component.contactForm.valid).toBe(false);
+    component.contactForm.controls.content.setValue("");
+    expect(component.contactForm.valid).toBe(true);
+  });
+
+  it("requires a subject before sending", () => {
+    fillIdentity();
+    component.sendContactMessage();
+    httpMock.expectNone("http://localhost:3000/contact/mon-domifa");
+    expect(component.showError("subject")).toBe(true);
   });
 
   it("requires a message for free-text subjects", () => {

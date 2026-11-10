@@ -144,9 +144,8 @@ export class ContactSupportController {
     }
   }
 
-  // Contact form of the "Mon DomiFa" portal (domiciliés). Only the subjects
-  // requiring a free-text answer reach this endpoint: the others are answered
-  // on screen by the portal. Nothing is stored in database.
+  // Contact form of the "Mon DomiFa" portal (domiciliés). Every subject is
+  // sent to the support team. Nothing is stored in database.
   @Throttle({
     short: { limit: 1, ttl: 1_000, blockDuration: 60_000 }, // 1 req/sec, block 1min
     medium: { limit: 3, ttl: 60_000, blockDuration: 1_800_000 }, // 3 req/min, block 30min

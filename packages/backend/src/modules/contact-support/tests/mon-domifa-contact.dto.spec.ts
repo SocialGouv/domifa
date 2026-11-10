@@ -54,24 +54,28 @@ describe("MonDomifaContactDto", () => {
     ).toEqual(["nom", "prenom", "structureName"]);
   });
 
-  it("only accepts subjects sent to the support team", async () => {
+  it("accepts every known subject", async () => {
     expect(
       await errorFields(build({ subject: "PROBLEME_ACCESSIBILITE" }))
     ).toEqual([]);
     expect(
-      await errorFields(build({ subject: "MOT_DE_PASSE_IDENTIFIANT" }))
-    ).toEqual(["subject"]);
-    expect(
-      await errorFields(build({ subject: "INFORMATION_COURRIER" }))
-    ).toEqual(["subject"]);
+      await errorFields(
+        build({ subject: "MOT_DE_PASSE_IDENTIFIANT", content: "" })
+      )
+    ).toEqual([]);
     expect(await errorFields(build({ subject: "FORMATION" }))).toEqual([
       "subject",
     ]);
   });
 
-  it("does not require a message for a data deletion request", async () => {
+  it("only requires a message for free-text subjects", async () => {
     expect(
       await errorFields(build({ subject: "SUPPRESSION_DONNEES", content: "" }))
+    ).toEqual([]);
+    expect(
+      await errorFields(
+        build({ subject: "INFORMATION_COURRIER", content: undefined })
+      )
     ).toEqual([]);
     expect(
       await errorFields(

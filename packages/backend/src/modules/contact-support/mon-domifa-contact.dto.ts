@@ -12,8 +12,8 @@ import {
 import { Transform, TransformFnParams } from "class-transformer";
 import {
   DEPARTEMENTS_MAP,
+  MON_DOMIFA_CONTACT_SUBJECTS,
   MON_DOMIFA_CONTACT_SUBJECTS_DEF,
-  MON_DOMIFA_CONTACT_SUBMITTABLE_SUBJECTS,
   MonDomifaContactSubject,
   REGIONS_LISTE,
 } from "@domifa/common";
@@ -77,10 +77,10 @@ export class MonDomifaContactDto {
 
   @IsNotEmpty()
   @IsString()
-  @IsIn(MON_DOMIFA_CONTACT_SUBMITTABLE_SUBJECTS)
+  @IsIn(MON_DOMIFA_CONTACT_SUBJECTS)
   public subject!: MonDomifaContactSubject;
 
-  // Required for free-text subjects, optional otherwise (data deletion)
+  // Required for free-text subjects, optional otherwise
   @ValidateIf(
     (dto: MonDomifaContactDto) =>
       !!MON_DOMIFA_CONTACT_SUBJECTS_DEF[dto.subject]?.requiresMessage ||

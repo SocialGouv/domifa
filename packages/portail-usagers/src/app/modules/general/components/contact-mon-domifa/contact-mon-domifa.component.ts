@@ -32,6 +32,15 @@ const notBlank: ValidatorFn = (control: AbstractControl) =>
     ? { required: true }
     : null;
 
+// Optional message: empty is fine, otherwise at least 10 characters
+// (same rule as the backend)
+const notBlankOrMin10: ValidatorFn = (control: AbstractControl) => {
+  const value = typeof control.value === "string" ? control.value.trim() : "";
+  return value.length > 0 && value.length < 10
+    ? { minlength: { requiredLength: 10, actualLength: value.length } }
+    : null;
+};
+
 @Component({
   selector: "app-contact-mon-domifa",
   imports: [ReactiveFormsModule, RouterModule],
@@ -62,8 +71,8 @@ export class ContactMonDomifaComponent implements OnInit, OnDestroy {
       "",
       [Validators.required, notBlank, Validators.minLength(2)],
     ],
-    subject: ["" as MonDomifaContactSubject | ""],
-    content: [""],
+    subject: ["" as MonDomifaContactSubject | "", [Validators.required]],
+    content: ["", [Validators.maxLength(5000)]],
   });
 
   public readonly domifaStructuresUrl =
@@ -74,8 +83,6 @@ export class ContactMonDomifaComponent implements OnInit, OnDestroy {
   public success = false;
   public error: string | null = null;
 
-  // Auto-responses are tracked once per subject and per page view
-  private readonly trackedAutoResponses = new Set<MonDomifaContactSubject>();
   private readonly subscription = new Subscription();
 
   constructor(
@@ -94,14 +101,9 @@ export class ContactMonDomifaComponent implements OnInit, OnDestroy {
     return subject ? MON_DOMIFA_CONTACT_SUBJECTS_DEF[subject] : null;
   }
 
-  // Answer displayed as soon as the subject is selected
+  // Information displayed as soon as the subject is selected
   public get response(): string | null {
     return this.selectedSubject?.response ?? null;
-  }
-
-  // Subjects answered on screen only cannot be sent to the support team
-  public get canSend(): boolean {
-    return !!this.selectedSubject?.sendToSupport;
   }
 
   public get needsMessage(): boolean {
@@ -122,16 +124,10 @@ export class ContactMonDomifaComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      this.f.subject.valueChanges.subscribe((subject) => {
+      this.f.subject.valueChanges.subscribe(() => {
         this.error = null;
         this.success = false;
         this.updateMessageValidators();
-        if (
-          subject &&
-          !MON_DOMIFA_CONTACT_SUBJECTS_DEF[subject].sendToSupport
-        ) {
-          this.trackAutoResponse(subject);
-        }
       })
     );
 
@@ -167,7 +163,7 @@ export class ContactMonDomifaComponent implements OnInit, OnDestroy {
     this.submitted = true;
     this.error = null;
 
-    if (!this.canSend || this.contactForm.invalid) {
+    if (this.contactForm.invalid) {
       return;
     }
 
@@ -213,16 +209,9 @@ export class ContactMonDomifaComponent implements OnInit, OnDestroy {
         Validators.maxLength(5000),
       ]);
     } else {
-      content.clearValidators();
+      // Optional message, still bounded
+      content.setValidators([notBlankOrMin10, Validators.maxLength(5000)]);
     }
     content.updateValueAndValidity();
-  }
-
-  private trackAutoResponse(subject: MonDomifaContactSubject): void {
-    if (this.trackedAutoResponses.has(subject)) {
-      return;
-    }
-    this.trackedAutoResponses.add(subject);
-    this.matomo.trackEvent(MATOMO_CATEGORY, "reponse_automatique", subject);
   }
 }
