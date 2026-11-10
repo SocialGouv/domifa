@@ -1,0 +1,152 @@
+<div class="head-page fr-pt-4w fr-pb-2w">
+  <div class="fr-container">
+    <h1 class="fr-text-title--blue-france fr-mb-1w">
+      Gérer les accès des agents en région et département
+    </h1>
+  </div>
+</div>
+
+<div class="fr-container fr-pt-4w">
+  <div class="fr-grid-row fr-grid-row--middle fr-grid-row--gutters fr-mb-2w">
+    <div class="fr-col">
+      <h2 class="fr-h4 fr-mb-0">
+        {{ users.length }} utilisateur{{
+          users.length > 1 ? "s" : ""
+        }}
+        enregistré{{ users.length > 1 ? "s" : "" }}
+      </h2>
+    </div>
+    <div class="fr-col-auto">
+      <button
+        type="button"
+        class="fr-btn fr-btn--icon-right fr-icon-user-add-line"
+        (click)="openRegisterModal()"
+      >
+        Ajouter un utilisateur
+      </button>
+    </div>
+  </div>
+
+  @if (loading) {
+  <p>Chargement des utilisateurs...</p>
+  } @else if (!users.length) {
+  <p>Aucun agent n'est encore enregistré pour votre région.</p>
+  } @else {
+  <div class="fr-table fr-table--no-caption">
+    <div class="fr-table__wrapper">
+      <div class="fr-table__container">
+        <div class="fr-table__content">
+          <table>
+            <caption>
+              Utilisateurs DDETS et DREETS de la région
+            </caption>
+            <thead>
+              <tr>
+                @for (column of columns; track column.key) {
+                <th scope="col" [attr.aria-sort]="getAriaSort(column.key)">
+                  <button
+                    type="button"
+                    class="sort-button"
+                    (click)="sortBy(column.key)"
+                  >
+                    {{ column.label }}
+                    <span
+                      aria-hidden="true"
+                      class="fr-icon--sm"
+                      [ngClass]="
+                        sortKey !== column.key
+                          ? 'fr-icon-arrow-up-down-line'
+                          : sortAsc
+                          ? 'fr-icon-arrow-up-line'
+                          : 'fr-icon-arrow-down-line'
+                      "
+                    ></span>
+                  </button>
+                </th>
+                }
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (user of users; track user.uuid) {
+              <tr>
+                <td>{{ user.fullName }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.profile }}</td>
+                <td>{{ user.createdAt | date : "dd/MM/yyyy" }}</td>
+                <td>
+                  {{
+                    user.lastLogin
+                      ? (user.lastLogin | date : "dd/MM/yyyy")
+                      : "Jamais"
+                  }}
+                </td>
+                <td>{{ user.department }}</td>
+                <td>
+                  <p
+                    class="fr-badge fr-badge--sm"
+                    [ngClass]="'fr-badge--' + user.statusSeverity"
+                  >
+                    {{ user.statusLabel }}
+                  </p>
+                </td>
+                <td class="actions-cell">
+                  @if (isCurrentUser(user)) {
+                  <span class="fr-hint-text">Votre compte</span>
+                  } @else {
+                  <button
+                    type="button"
+                    class="fr-btn fr-btn--sm fr-btn--secondary fr-btn--icon-left fr-icon-delete-line"
+                    [attr.aria-label]="
+                      'Supprimer le compte de ' + user.fullName
+                    "
+                    (click)="openDeleteModal(user)"
+                  >
+                    Supprimer
+                  </button>
+                  }
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</div>
+
+<dsfr-modal
+  #registerModal
+  class="fr-text--left"
+  dialogId="registerRegionUserModal"
+  titleModal="Créer un utilisateur"
+  icon="fr-icon-user-add-fill"
+  [modalSize]="'MD'"
+  [autoCloseOnAction]="false"
+>
+  <app-register-region-user
+    (registered)="onUserRegistered()"
+    (cancelAction)="registerModal.close()"
+  ></app-register-region-user>
+</dsfr-modal>
+
+<dsfr-modal
+  #deleteModal
+  class="fr-text--left"
+  dialogId="deleteDepartmentUserModal"
+  titleModal="Supprimer un utilisateur"
+  icon="fr-icon-delete-line"
+  [modalSize]="'MD'"
+  [autoCloseOnAction]="false"
+  (conceal)="userToDelete = null"
+>
+  @if (userToDelete) {
+  <app-delete-department-user
+    [user]="userToDelete"
+    (deleted)="onUserDeleted()"
+    (cancelAction)="deleteModal.close()"
+  ></app-delete-department-user>
+  }
+</dsfr-modal>
