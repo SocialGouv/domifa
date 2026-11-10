@@ -24,7 +24,7 @@
         >
           <div
             [class.fr-input-group--error]="f.login.dirty && f.login.errors"
-            class="fr-input-group required fr-mb-0"
+            class="fr-input-group required fr-mb-3w"
           >
             <label class="fr-label" for="login"> Votre identifiant </label>
             <span class="fr-hint-text">
@@ -61,7 +61,6 @@
               </p>
             </div>
             }
-            <p></p>
           </div>
           @if (mode === 'login-change-password') {
           <p id="new-password-message">
@@ -451,20 +450,22 @@
           } @if (displayPasswordIndication) {
           <div role="alert" class="fr-alert fr-alert--info fr-mb-2w">
             <span class="fr-alert__title">Mot de passe oublié</span>
-            <p class="fr-my-1w" id="pwd-infos">
-              Vous avez peut-être bloqué votre compte en faisant plus de 3
-              tentatives de connexion avec un mauvais mot de passe.
-              <br />
-              <b>Veuillez réessayer dans une heure.</b>
-              <br />
-              <br />
-              Vous souhaitez changer de mot de passe ?
-              <br />
-              <b
-                >Rendez-vous dans votre centre de domiciliation et demandez à un
-                agent un nouveau mot passe.</b
-              >
-            </p>
+            <div class="fr-my-1w" id="pwd-infos">
+              <p class="fr-mb-2w">
+                Vous avez peut-être bloqué votre compte en faisant plus de 3
+                tentatives de connexion avec un mauvais mot de passe.
+                <br />
+                <b>Veuillez réessayer dans une heure.</b>
+              </p>
+              <p class="fr-mb-0">
+                Vous souhaitez changer de mot de passe ?
+                <br />
+                <b
+                  >Rendez-vous dans votre centre de domiciliation et demandez à
+                  un agent un nouveau mot passe.</b
+                >
+              </p>
+            </div>
             <button
               title="Masquer le message"
               (click)="
@@ -499,7 +500,6 @@
             </span>
             <p class="fr-my-1w" id="pwd-infos">
               Veuillez vérifier les chiffres, majuscules et caractères spéciaux.
-              <br />
             </p>
             }
           </div>
