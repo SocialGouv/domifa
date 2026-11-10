@@ -40,6 +40,7 @@ export class PolitiqueComponent {
       sousTraitant: "OVH",
       paysDestinataire: "France",
       traitementRealise: "Hébergement",
+      garantiesLabel: "Garanties OVH (PDF)",
       garanties:
         "https://storage.gra.cloud.ovh.net/v1/AUTH_325716a587c64897acbef9a4a4726e38/contracts/9e74492-OVH_Data_Protection_Agreement-FR-6.0.pdf",
     },
@@ -47,12 +48,14 @@ export class PolitiqueComponent {
       sousTraitant: "Tally",
       paysDestinataire: "Belgique",
       traitementRealise: "Mesure de satisfaction",
+      garantiesLabel: "Garanties Tally",
       garanties: "https://tally.so/help/privacy-policy",
     },
     {
       sousTraitant: "Brevo",
       paysDestinataire: "France",
       traitementRealise: "Envoi de courriels",
+      garantiesLabel: "Garanties Brevo",
       garanties:
         "https://www.brevo.com/fr/legal/termsofuse/#accord-sur-le-traitement-des-donnees-a-caractere-personnel-dpa",
     },
@@ -60,6 +63,7 @@ export class PolitiqueComponent {
       sousTraitant: "Link Mobility",
       paysDestinataire: "France",
       traitementRealise: "Envoi de sms",
+      garantiesLabel: "Garanties Link Mobility (PDF)",
       garanties:
         "https://www.linkmobility.com/resources/legal/terms-and-conditions/DPA_LINK_as_Processor_V1-43_2021.pdf",
     },
@@ -67,18 +71,19 @@ export class PolitiqueComponent {
       sousTraitant: "Sarbacane",
       paysDestinataire: "Espagne",
       traitementRealise: "Envoi de notifications",
+      garantiesLabel: "Garanties Sarbacane (PDF)",
       garanties:
         "https://assets.sarbacane-cdn.com/legal/EN_DataProcessingAddendum.pdf",
     },
   ];
   public constructor(
     private readonly seoService: SeoService,
-    private readonly tracker: MatomoTracker,
+    private readonly tracker: MatomoTracker
   ) {
     this.optedOut$ = tracker.isUserOptedOut();
     this.seoService.updateTitleAndTags(
       "Politique de confidentialité de Mon DomiFa",
-      "Protection des données personnelles, cookies, et respect de votre vie privée sur Mon DomiFa",
+      "Protection des données personnelles, cookies, et respect de votre vie privée sur Mon DomiFa"
     );
   }
 
