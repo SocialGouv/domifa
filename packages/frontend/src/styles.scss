@@ -122,6 +122,7 @@ h3 {
 // Required field asterisk via :has()
 label:has(input[required])::after,
 .fr-input-group:has(input[required]) .fr-label::after,
+.fr-input-group:has(textarea[required]) .fr-label::after,
 .fr-checkbox-group:has(input[required]) label::after,
 .fr-select-group:has(select[required]) label::after {
   content: " *";
