@@ -9,7 +9,11 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiMessage, RegionManagedUser } from "@domifa/common";
+import {
+  ApiMessage,
+  REGION_USERS_MANAGER_ROLES,
+  RegionManagedUser,
+} from "@domifa/common";
 import { UserAdminAuthenticated } from "../../../../_common/model";
 import {
   AllowUserProfiles,
@@ -21,10 +25,11 @@ import { DeleteUserDto } from "../../../users/dto";
 import { RegisterRegionUserDto } from "../../dto";
 import { RegionUsersService } from "../../services/region-users/region-users.service";
 
-// Pilotage portal: a DREETS manages the DDETS and DREETS accounts of its region
+// Pilotage portal: a DREETS manages the DDETS and DREETS accounts of its
+// region, the DGCS those of every region
 @UseGuards(AuthGuard("jwt"), AppUserGuard)
 @AllowUserProfiles("supervisor")
-@AllowUserSupervisorRoles("region")
+@AllowUserSupervisorRoles(...REGION_USERS_MANAGER_ROLES)
 @Controller("admin/region-users")
 export class RegionUsersController {
   constructor(private readonly regionUsersService: RegionUsersService) {}

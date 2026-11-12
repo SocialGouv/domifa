@@ -11,6 +11,7 @@ import {
   DEPARTEMENTS_LISTE,
   getDdetsEmailDomains,
   getDreetsEmailDomains,
+  getManagedRegionCodes,
   getRegionDepartmentCodes,
   isNominativeGouvEmail,
   isDdetsEmailForDepartment,
@@ -117,7 +118,8 @@ export class RegisterRegionUserComponent implements OnDestroy {
     private readonly regionUsersService: RegionUsersService,
     private readonly toastService: CustomToastService
   ) {
-    const territories = this.authService.currentUserValue?.territories ?? [];
+    const user = this.authService.currentUserValue;
+    const territories = user ? getManagedRegionCodes(user) : [];
 
     this.departments = getRegionDepartmentCodes(territories)
       .sort((a, b) => a.localeCompare(b))

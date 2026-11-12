@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { REGION_USERS_MANAGER_ROLES } from "@domifa/common";
 import { AuthGuard } from "./guards/auth-guard";
 import { RoleRedirectGuard } from "./guards/redirect-guard";
 import { NotFoundComponent } from "./modules/general/components/not-found/not-found.component";
@@ -26,7 +27,7 @@ const routes: Routes = [
     path: "utilisateurs",
     title: "Gérer les utilisateurs - Pilotage DomiFa",
     canActivate: [AuthGuard],
-    data: { roles: ["region"] },
+    data: { roles: [...REGION_USERS_MANAGER_ROLES] },
     loadChildren: () =>
       import("./modules/region-users/region-users.module").then(
         (m) => m.RegionUsersModule

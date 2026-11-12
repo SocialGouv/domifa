@@ -28,7 +28,7 @@ describe("PlanSiteComponent", () => {
     expect(component).toBeTruthy();
   });
 
-  it("shows the users page to DREETS only", () => {
+  it("shows the users page to DREETS and DGCS only", () => {
     const authService = TestBed.inject(PortailStatsAuthService);
     const paths = () =>
       component.siteMapLinksLogged.flatMap((s) => s.links.map((l) => l.path));
@@ -36,6 +36,12 @@ describe("PlanSiteComponent", () => {
     authService.currentUserSubject.next({
       role: "region",
       territories: ["53"],
+    } as PortailAdminUser);
+    expect(paths()).toEqual(["/stats", "/utilisateurs"]);
+
+    authService.currentUserSubject.next({
+      role: "national",
+      territories: [],
     } as PortailAdminUser);
     expect(paths()).toEqual(["/stats", "/utilisateurs"]);
 

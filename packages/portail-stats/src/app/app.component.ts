@@ -9,7 +9,11 @@ import {
 import { Title } from "@angular/platform-browser";
 import { NavigationEnd, Router } from "@angular/router";
 import { filter } from "rxjs";
-import { MAINTENANCE_NOTICE, PortailAdminUser } from "@domifa/common";
+import {
+  isRegionUsersManager,
+  MAINTENANCE_NOTICE,
+  PortailAdminUser,
+} from "@domifa/common";
 import { DsfrHeaderMenuItem, DsfrLink } from "@edugouvfr/ngx-dsfr";
 import { environment } from "../environments/environment";
 import { PortailStatsAuthService } from "./modules/auth/services/portail-stats-auth.service";
@@ -92,8 +96,9 @@ export class AppComponent implements OnInit {
           },
         ];
 
-        // DREETS manage the DDETS accounts of their region
-        if (user.role === "region") {
+        // DREETS manage the accounts of their region, the DGCS those of every
+        // region
+        if (isRegionUsersManager(user.role)) {
           this.menuHeaderItems.push({
             linkId: "utilisateurs",
             label: "Gérer les utilisateurs",

@@ -1,3 +1,4 @@
+import { REGION_USERS_MANAGER_ROLES } from "@domifa/common";
 import { SiteMapSection } from "./plan-site.types";
 
 export const SITEMAP_LINKS_LOGGED: SiteMapSection[] = [
@@ -8,7 +9,7 @@ export const SITEMAP_LINKS_LOGGED: SiteMapSection[] = [
       {
         label: "Gérer les utilisateurs",
         path: "/utilisateurs",
-        roles: ["region"],
+        roles: [...REGION_USERS_MANAGER_ROLES],
       },
     ],
   },
