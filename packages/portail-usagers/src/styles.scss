@@ -18,6 +18,19 @@
 // 2. Header / Head page
 // ============================================================
 
+// RGAA 10.7: ngx-dsfr clips the focus outline in the mobile "Se connecter"
+// menu (overflow:hidden), so draw it inside the element. Mobile-first, back to
+// the DSFR default from the lg breakpoint (62em).
+.fr-header__menu-links .edu-tool-link-menu :is(a, button):focus-visible {
+  outline-offset: -2px;
+}
+
+@media (min-width: 62em) {
+  .fr-header__menu-links .edu-tool-link-menu :is(a, button):focus-visible {
+    outline-offset: 2px;
+  }
+}
+
 .head-page-illustration {
   max-height: 300px;
   width: auto;
