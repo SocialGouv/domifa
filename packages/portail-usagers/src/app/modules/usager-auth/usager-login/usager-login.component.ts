@@ -57,6 +57,25 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   public invalidFields: Record<string, boolean> = {};
   public isNewPasswordConfirmInvalid = false;
 
+  // Rules displayed under the new password field, in the same order as the validators
+  public readonly newPasswordRules: { label: string; errors: string[] }[] = [
+    { label: "Au moins 1 chiffre", errors: ["hasNumber"] },
+    { label: "Au moins une lettre en majuscule", errors: ["hasCapitalCase"] },
+    { label: "Au moins une lettre en minuscule", errors: ["hasLowerCase"] },
+    {
+      label:
+        "Au moins un caractère spécial parmi : @ [ ] ^ _ ! \" # $ % & ' ( ) * + , - . / : ; { } < > = | ~ ?",
+      errors: ["hasSpecialCharacter"],
+    },
+    {
+      label: "Doit contenir entre 12 et 150 caractères",
+      errors: ["minlength", "maxlength"],
+    },
+  ];
+  // "pending" until the user types, so no rule is announced as failed beforehand
+  public newPasswordRuleStatus: ("pending" | "valid" | "error")[] =
+    this.newPasswordRules.map(() => "pending");
+
   public loading: boolean;
   public usagerProfile: PortailUsagerProfile | null;
   public mode: "login-only" | "login-change-password" = "login-only";
@@ -228,6 +247,17 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
         control.invalid && (control.dirty || control.touched),
       ])
     );
+
+    const newPasswordControl = this.loginForm.controls.newPassword;
+    this.newPasswordRuleStatus = this.newPasswordRules.map((rule) => {
+      if (!newPasswordControl.dirty && !newPasswordControl.touched) {
+        return "pending";
+      }
+      const errors = newPasswordControl.errors ?? {};
+      return errors.required || rule.errors.some((error) => errors[error])
+        ? "error"
+        : "valid";
+    });
 
     const confirmControl = this.loginForm.controls.newPasswordConfirm;
     this.isNewPasswordConfirmInvalid =
