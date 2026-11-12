@@ -1,3 +1,10 @@
+## [2.293.1](https://github.com/SocialGouv/domifa/compare/v2.293.0...v2.293.1) (2026-11-12)
+
+
+### Bug Fixes
+
+* **frontend:** make contact form reset button explicit for RGAA 11.9 (MON-11.9) ([06bed2a](https://github.com/SocialGouv/domifa/commit/06bed2a7b72c6f512adde6d2200bf13a2dbd742b))
+
 # [2.293.0](https://github.com/SocialGouv/domifa/compare/v2.292.0...v2.293.0) (2026-11-12)
 
 
