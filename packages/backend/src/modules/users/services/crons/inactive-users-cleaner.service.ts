@@ -64,7 +64,7 @@ export class InactiveUsersCleanerService {
     );
 
     const deleted: InactiveUser[] = [];
-    for (const structureUsers of groupByStructure(users)) {
+    for (const structureUsers of this.groupByStructure(users)) {
       const structureId = structureUsers[0].structureId;
       const structureLeftWithoutAdmin = await this.isLeftWithoutAdmin(
         structureId,
@@ -181,14 +181,14 @@ export class InactiveUsersCleanerService {
     });
     return remainingAdmins === 0;
   }
-}
 
-function groupByStructure(users: InactiveUser[]): InactiveUser[][] {
-  const byStructure = new Map<number, InactiveUser[]>();
-  for (const user of users) {
-    const structureUsers = byStructure.get(user.structureId) ?? [];
-    structureUsers.push(user);
-    byStructure.set(user.structureId, structureUsers);
+  private groupByStructure(users: InactiveUser[]): InactiveUser[][] {
+    const byStructure = new Map<number, InactiveUser[]>();
+    for (const user of users) {
+      const structureUsers = byStructure.get(user.structureId) ?? [];
+      structureUsers.push(user);
+      byStructure.set(user.structureId, structureUsers);
+    }
+    return [...byStructure.values()];
   }
-  return [...byStructure.values()];
 }

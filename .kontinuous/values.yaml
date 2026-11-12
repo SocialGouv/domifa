@@ -88,8 +88,6 @@ backend:
     DOMIFA_PORTAIL_ADMINS_URL: "https://admin-{{ .Values.global.host }}/"
     DOMIFA_PORTAIL_STATS_URL: "https://pilotage-{{ .Values.global.host }}/"
     DOMIFA_CRON_ENABLED: "false"
-    DOMIFA_BREVO_TEMPLATES_USER_MANUAL_DELETE: "73"
-    DOMIFA_BREVO_TEMPLATES_USER_INACTIVE_DELETE: "75"
   securityContext:
     fsGroup: 1000
     runAsUser: 1000
@@ -187,8 +185,6 @@ backend-export:
     DOMIFA_PORTAIL_ADMINS_URL: "https://admin-{{ .Values.global.host }}/"
     DOMIFA_PORTAIL_STATS_URL: "https://pilotage-{{ .Values.global.host }}/"
     DOMIFA_CRON_ENABLED: "false"
-    DOMIFA_BREVO_TEMPLATES_USER_MANUAL_DELETE: "73"
-    DOMIFA_BREVO_TEMPLATES_USER_INACTIVE_DELETE: "75"
   securityContext:
     fsGroup: 1000
     runAsUser: 1000

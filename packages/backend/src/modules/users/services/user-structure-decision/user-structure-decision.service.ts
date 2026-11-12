@@ -73,12 +73,7 @@ export class UserStructureDecisionService {
       dateDecision: new Date(),
       statut: "DELETE",
       motif,
-      ...(actor.kind === "system"
-        ? SYSTEM_DECISION_USER
-        : {
-            userId: actor.user.id,
-            userName: `${actor.user.prenom} ${actor.user.nom}`,
-          }),
+      ...this.getDecisionUser(actor),
     };
 
     await userStructureRepository.update(
@@ -111,15 +106,8 @@ export class UserStructureDecisionService {
       );
     }
 
-    const actorFields: ActorFields =
-      actor.kind === "structure"
-        ? buildStructureActorFields(actor.user)
-        : actor.kind === "supervisor"
-        ? buildSupervisorActorFields(actor.user)
-        : { ...SYSTEM_ACTOR_FIELDS, structureId };
-
     await this.appLogsService.create<UserSoftDeleteLogContext>({
-      ...actorFields,
+      ...this.getActorFields(actor, structureId),
       action:
         actor.kind === "system"
           ? "USER_INACTIVE_AUTO_DELETE"
@@ -140,6 +128,31 @@ export class UserStructureDecisionService {
         motif,
       });
     }
+  }
+
+  private getDecisionUser(
+    actor: SoftDeleteActor
+  ): Pick<UserStructureDecision, "userId" | "userName"> {
+    if (actor.kind === "system") {
+      return SYSTEM_DECISION_USER;
+    }
+    return {
+      userId: actor.user.id,
+      userName: `${actor.user.prenom} ${actor.user.nom}`,
+    };
+  }
+
+  private getActorFields(
+    actor: SoftDeleteActor,
+    structureId: number
+  ): ActorFields {
+    if (actor.kind === "structure") {
+      return buildStructureActorFields(actor.user);
+    }
+    if (actor.kind === "supervisor") {
+      return buildSupervisorActorFields(actor.user);
+    }
+    return { ...SYSTEM_ACTOR_FIELDS, structureId };
   }
 
   // Address passed in is the one captured before the soft delete: the stored
