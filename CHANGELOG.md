@@ -1,3 +1,17 @@
+# [2.293.0](https://github.com/SocialGouv/domifa/compare/v2.292.0...v2.293.0) (2026-11-12)
+
+
+### Bug Fixes
+
+* **frontend:** accessibility review ([5b6c853](https://github.com/SocialGouv/domifa/commit/5b6c85301c092460347de3838ff6e741c72f0bff))
+* **frontend:** accessibility review fixes ([253577b](https://github.com/SocialGouv/domifa/commit/253577be3a4757980bdcdc764aedf4f27d99b5d3))
+* **portail-usagers:** explicit back link label on history page ([564e017](https://github.com/SocialGouv/domifa/commit/564e017a23ca938556977777b90bfda2133c0fcd))
+
+
+### Features
+
+* **front:** review accessibility ([951c113](https://github.com/SocialGouv/domifa/commit/951c113c1e0a478941381e02da035d7857d67bb9))
+
 # [2.292.0](https://github.com/SocialGouv/domifa/compare/v2.291.2...v2.292.0) (2026-11-10)
 
 
