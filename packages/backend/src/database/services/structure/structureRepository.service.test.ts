@@ -1,5 +1,6 @@
 import { In } from "typeorm";
 import { AppTestHelper } from "../../../util/test";
+import { usagerRepository } from "../usager/usagerRepository.service";
 import { userStructureRepository } from "../user-structure/userStructureRepository.service";
 import { structureRepository } from "./structureRepository.service";
 
@@ -22,8 +23,22 @@ describe("StructureRepository", () => {
 
   describe("findInactiveStructures", () => {
     let savedLastLogins: { id: number; lastLogin: Date | null }[];
+    let activeUsagerUuids: string[];
 
     beforeAll(async () => {
+      // Structures 1 and 3 have active usagers in the fixtures: radiate them
+      // so the date rules can be tested, then restore them
+      activeUsagerUuids = (
+        await usagerRepository.find({
+          where: { structureId: In([1, 3]), statut: "VALIDE" },
+          select: { uuid: true },
+        })
+      ).map(({ uuid }) => uuid);
+      await usagerRepository.update(
+        { uuid: In(activeUsagerUuids) },
+        { statut: "RADIE" }
+      );
+
       savedLastLogins = await userStructureRepository.find({
         where: { structureId: In([1, 3, 4]) },
         select: { id: true, lastLogin: true },
@@ -43,6 +58,10 @@ describe("StructureRepository", () => {
     });
 
     afterAll(async () => {
+      await usagerRepository.update(
+        { uuid: In(activeUsagerUuids) },
+        { statut: "VALIDE" }
+      );
       for (const { id, lastLogin } of savedLastLogins) {
         await userStructureRepository.update({ id }, { lastLogin });
       }
@@ -54,6 +73,21 @@ describe("StructureRepository", () => {
           new Date(inactiveSince)
         )
       ).map(({ id }) => id);
+
+    it("keeps a structure with at least one active usager", async () => {
+      // Structure 1 is inactive since 2025-09-18 but gets one active usager
+      expect(await findIds("2025-12-01")).toContain(1);
+      const { uuid } = await usagerRepository.findOne({
+        where: { uuid: In(activeUsagerUuids), structureId: 1 },
+        select: { uuid: true },
+      });
+      await usagerRepository.update({ uuid }, { statut: "VALIDE" });
+      try {
+        expect(await findIds("2025-12-01")).not.toContain(1);
+      } finally {
+        await usagerRepository.update({ uuid }, { statut: "RADIE" });
+      }
+    });
 
     it("keeps a structure where one user logged in after the cutoff", async () => {
       // Structure 1: last login 2025-09-18

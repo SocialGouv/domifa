@@ -71,6 +71,7 @@ export const structureRepository = myDataSource
     // Validated structures where no user has logged in since `inactiveSince`.
     // Reference date = most recent of: users' last login, users' account
     // creation (never-connected users), structure registration.
+    // Structures with at least one active (VALIDE) usager are never returned.
     async findInactiveStructures(
       inactiveSince: Date
     ): Promise<InactiveStructure[]> {
@@ -92,6 +93,10 @@ export const structureRepository = myDataSource
           FROM structure s
           LEFT JOIN user_structure us ON us."structureId" = s.id
           WHERE s.statut = 'VALIDE'
+            AND NOT EXISTS (
+              SELECT 1 FROM usager u
+              WHERE u."structureId" = s.id AND u.statut = 'VALIDE'
+            )
           GROUP BY s.id, s.uuid, s.nom, s.email, s."registrationDate"
         ) inactive
         WHERE inactive."referenceDate" <= $1
