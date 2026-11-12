@@ -18,6 +18,15 @@
 // 2. Header / Head page
 // ============================================================
 
+// RGAA 10.4: on desktop layout, DSFR (up to 1.15.4) lets the brand block
+// shrink next to a long service name, and its overflow:hidden then clips
+// "République Française" when only the text size is increased.
+@media (min-width: 62em) {
+  .fr-header__brand-top {
+    flex-shrink: 0;
+  }
+}
+
 .head-page-illustration {
   max-height: 300px;
   width: auto;
