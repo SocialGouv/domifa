@@ -50,7 +50,10 @@
             <span>{{ interaction.label }}</span>
             @if (interaction.content) {
             <div class="fr-text--sm fr-mb-0 fr-text-title--grey">
-              <span [innerHTML]="interaction.content | nl2br"></span>
+              <span
+                class="fr-text--break"
+                [innerHTML]="interaction.content | nl2br"
+              ></span>
             </div>
             }
           </div>

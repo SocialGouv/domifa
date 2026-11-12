@@ -79,7 +79,10 @@
                         <span class="fr-sr-only">
                           Commentaires sur les courriers
                         </span>
-                        <span [innerHTML]="comment | nl2br"></span>
+                        <span
+                          class="fr-text--break"
+                          [innerHTML]="comment | nl2br"
+                        ></span>
                       </div>
                     </ng-container>
                   </div>
@@ -125,7 +128,10 @@
                         <span class="fr-sr-only"
                           >Commentaires sur les colis
                         </span>
-                        <span [innerHTML]="comment | nl2br"></span>
+                        <span
+                          class="fr-text--break"
+                          [innerHTML]="comment | nl2br"
+                        ></span>
                       </div>
                     </ng-container>
                   </div>
@@ -170,7 +176,10 @@
                         <span class="fr-sr-only"
                           >Commentaires sur les avis de passage</span
                         >
-                        <span [innerHTML]="comment | nl2br"></span>
+                        <span
+                          class="fr-text--break"
+                          [innerHTML]="comment | nl2br"
+                        ></span>
                       </div>
                     </ng-container>
                   </div>
