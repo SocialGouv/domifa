@@ -30,7 +30,7 @@
   @if (loading) {
   <p>Chargement des utilisateurs...</p>
   } @else if (!users.length) {
-  <p>Aucun agent n'est encore enregistré pour votre région.</p>
+  <p>Aucun agent DDETS ou DREETS n'est encore enregistré.</p>
   } @else {
   <div class="fr-table fr-table--no-caption">
     <div class="fr-table__wrapper">
@@ -38,7 +38,7 @@
         <div class="fr-table__content">
           <table>
             <caption>
-              Utilisateurs DDETS et DREETS de la région
+              Utilisateurs DDETS et DREETS
             </caption>
             <thead>
               <tr>

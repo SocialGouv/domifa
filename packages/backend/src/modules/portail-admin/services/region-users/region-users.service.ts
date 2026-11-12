@@ -6,6 +6,7 @@ import {
 } from "@nestjs/common";
 import { In, Not } from "typeorm";
 import {
+  getManagedRegionCodes,
   getRegionDepartmentCodes,
   isDdetsEmailForDepartment,
   isDdetsSelfServiceDepartment,
@@ -29,7 +30,8 @@ import { UserSupervisorDecisionService } from "../user-supervisor-decision/user-
 
 // Lets a DREETS (role "region") invite and delete DDETS accounts (role
 // "department") of the departments of its region(s) and other DREETS accounts
-// of its own region(s). A DREETS cannot delete its own account.
+// of its own region(s). The DGCS (role "national") does the same for every
+// region. Nobody can delete their own account here.
 @Injectable()
 export class RegionUsersService {
   constructor(
@@ -41,17 +43,11 @@ export class RegionUsersService {
   ) {}
 
   public getManagedDepartments(user: UserAdminAuthenticated): string[] {
-    if (user.role !== "region" || !user.territories?.length) {
-      return [];
-    }
-    return getRegionDepartmentCodes(user.territories);
+    return getRegionDepartmentCodes(this.getManagedRegions(user));
   }
 
   public getManagedRegions(user: UserAdminAuthenticated): string[] {
-    if (user.role !== "region" || !user.territories?.length) {
-      return [];
-    }
-    return user.territories;
+    return getManagedRegionCodes(user);
   }
 
   public async findAll(

@@ -26,10 +26,18 @@ const DREETS_SAINT_BARTHELEMY: UserAdminAuthenticated = {
   territories: ["SB"],
 };
 
+// The DGCS (role "national") manages every region
+const DGCS: UserAdminAuthenticated = {
+  ...USER_SUPERVISOR_AUTH,
+  role: "national",
+  territories: [],
+};
+
 const DDETS_EMAIL = "jean.dupont@ille-et-vilaine.gouv.fr";
 const OTHER_REGION_EMAIL = "marie.martin@nord.gouv.fr";
 const DREETS_EMAIL = "paul.durand@dreets.gouv.fr";
 const OTHER_DREETS_EMAIL = "lea.bernard@dreets.gouv.fr";
+const DGCS_DREETS_EMAIL = "claire.petit@dreets.gouv.fr";
 
 describe("RegionUsersService", () => {
   let service: RegionUsersService;
@@ -42,6 +50,7 @@ describe("RegionUsersService", () => {
         OTHER_REGION_EMAIL,
         DREETS_EMAIL,
         OTHER_DREETS_EMAIL,
+        DGCS_DREETS_EMAIL,
       ]),
     });
 
@@ -67,9 +76,10 @@ describe("RegionUsersService", () => {
     await userSupervisorRepository
       .createQueryBuilder()
       .delete()
-      .where("email LIKE :ddets OR email LIKE :dreets", {
+      .where("email LIKE :ddets OR email LIKE :dreets OR email LIKE :dgcs", {
         ddets: `deleted-%-${DDETS_EMAIL}`,
         dreets: `deleted-%-${DREETS_EMAIL}`,
+        dgcs: `deleted-%-${DGCS_DREETS_EMAIL}`,
       })
       .execute();
     await AppTestHelper.tearDownTestConnection();
@@ -82,7 +92,13 @@ describe("RegionUsersService", () => {
       "35",
       "56",
     ]);
-    expect(service.getManagedDepartments(USER_SUPERVISOR_AUTH)).toEqual([]);
+    expect(
+      service.getManagedDepartments({
+        ...USER_SUPERVISOR_AUTH,
+        role: "department",
+        territories: ["35"],
+      })
+    ).toEqual([]);
   });
 
   it("refuses to create a DDETS outside the region", async () => {
@@ -285,6 +301,72 @@ describe("RegionUsersService", () => {
       await expect(
         service.softDelete(DREETS_BRETAGNE, outsider.uuid, "DEPART_STRUCTURE")
       ).rejects.toBeInstanceOf(NotFoundException);
+    });
+  });
+
+  describe("DGCS", () => {
+    it("manages the departments and regions of every region", () => {
+      expect(service.getManagedRegions(DGCS)).toEqual(
+        expect.arrayContaining(["53", "32", "11", "03"])
+      );
+      expect(service.getManagedDepartments(DGCS)).toEqual(
+        expect.arrayContaining(["35", "59", "75", "973"])
+      );
+    });
+
+    it("keeps the domain allowlist", async () => {
+      await expect(
+        service.create(DGCS, {
+          prenom: "Paul",
+          nom: "Durand",
+          email: "paul.durand@stbarth.gouv.fr",
+          role: "region",
+          region: "SB",
+        })
+      ).rejects.toThrow("REGION_NOT_SELF_SERVICE");
+      await expect(
+        service.create(DGCS, {
+          prenom: "Paul",
+          nom: "Durand",
+          email: "paul.durand@nord.gouv.fr",
+          role: "department",
+          department: "35",
+        })
+      ).rejects.toThrow("EMAIL_DOMAIN_MISMATCH");
+    });
+
+    it("creates, lists then deletes a DREETS of any region", async () => {
+      await service.create(DGCS, {
+        prenom: "Claire",
+        nom: "Petit",
+        email: DGCS_DREETS_EMAIL,
+        role: "region",
+        region: "32",
+      });
+      const created = await userSupervisorRepository.findOneByOrFail({
+        email: DGCS_DREETS_EMAIL,
+      });
+      expect(created.territories).toEqual(["32"]);
+
+      const listed = (await service.findAll(DGCS)).map((u) => u.uuid);
+      expect(listed).toContain(created.uuid);
+      // Bretagne DREETS do not see Hauts-de-France accounts
+      expect(
+        (await service.findAll(DREETS_BRETAGNE)).map((u) => u.uuid)
+      ).not.toContain(created.uuid);
+
+      await expect(
+        service.softDelete(
+          { ...DGCS, _userId: created.id },
+          created.uuid,
+          "DEPART_STRUCTURE"
+        )
+      ).rejects.toThrow("CANNOT_DELETE_SELF");
+
+      await service.softDelete(DGCS, created.uuid, "DEPART_STRUCTURE");
+      expect((await service.findAll(DGCS)).map((u) => u.uuid)).not.toContain(
+        created.uuid
+      );
     });
   });
 });
