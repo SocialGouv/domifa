@@ -25,6 +25,7 @@ export class PlanSiteComponent implements OnInit {
         { label: "Mentions légales de Mon DomiFa", path: "/mentions-legales" },
         { label: "Déclaration d’accessibilité", path: "/accessibilite" },
         { label: "Conditions d’utilisation de Mon DomiFa", path: "/cgu" },
+        { label: "Contacter le support Mon DomiFa", path: "/contact" },
       ],
     },
   ];
@@ -36,7 +37,7 @@ export class PlanSiteComponent implements OnInit {
   public ngOnInit(): void {
     this.seoService.updateTitleAndTags(
       "Plan du site de Mon DomiFa",
-      "Navigation complète du portail Mon DomiFa : accès aux pages principales et liens utiles",
+      "Navigation complète du portail Mon DomiFa : accès aux pages principales et liens utiles"
     );
   }
 }

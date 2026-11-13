@@ -1,9 +1,10 @@
 import { Component } from "@angular/core";
+import { RouterModule } from "@angular/router";
 import { SeoService } from "../../../../../../shared/services/seo.service";
 
 @Component({
   selector: "app-faq-security",
-  imports: [],
+  imports: [RouterModule],
   templateUrl: "./faq-security.component.html",
   styleUrl: "./faq-security.component.css",
 })
@@ -11,7 +12,7 @@ export class FaqSecurityComponent {
   constructor(private readonly seoService: SeoService) {
     this.seoService.updateTitleAndTags(
       "FAQ - Sécurité et confidentialité - Mon DomiFa",
-      "Questions fréquentes sur la sécurité de vos données et la protection de votre vie privée",
+      "Questions fréquentes sur la sécurité de vos données et la protection de votre vie privée"
     );
   }
 }

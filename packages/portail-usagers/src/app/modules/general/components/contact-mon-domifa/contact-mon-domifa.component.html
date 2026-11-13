@@ -1,0 +1,385 @@
+<div class="fr-container fr-py-6w">
+  <div class="fr-grid-row fr-grid-row--center">
+    <div class="fr-col-12 fr-col-md-10 fr-col-lg-8">
+      <h1>
+        <span aria-hidden="true">📨 </span>Besoin d'aide ? Contacter le support
+        Mon DomiFa
+      </h1>
+      <p class="fr-text--lead">
+        Pour toute question liée à votre domiciliation, complétez ce court
+        formulaire.
+      </p>
+      <div class="fr-notice fr-notice--warning fr-mb-3w">
+        <div class="fr-container">
+          <div class="fr-notice__body">
+            <p>
+              <span class="fr-notice__title">Attention :</span>
+              <span class="fr-notice__desc">
+                votre message sera transmis à l'équipe DomiFa, et non à votre
+                structure de domiciliation. Nous n'avons pas accès à votre
+                dossier nominatif. Merci de ne pas transmettre de demandes
+                concernant son contenu.
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <p>
+        <b> Vous êtes une structure ? </b>
+        Veuillez vous connecter sur la
+        <a
+          class="fr-link"
+          [href]="domifaStructuresUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Page dédiée aux structures - Nouvelle fenêtre"
+          >page dédiée aux structures</a
+        >.
+      </p>
+      <p class="fr-text--sm">
+        Les champs marqués d'un astérisque (<span
+          class="fr-text--bold"
+          style="color: var(--text-default-error)"
+          >*</span
+        >) sont obligatoires.
+      </p>
+
+      @if (success) {
+      <div class="fr-alert fr-alert--success fr-mb-4w" role="status">
+        <h2 class="fr-alert__title">Message envoyé</h2>
+        <p>
+          Merci pour votre demande. Le support a bien reçu votre message et
+          reviendra vers vous rapidement.
+        </p>
+      </div>
+      }
+
+      <form
+        [formGroup]="contactForm"
+        (ngSubmit)="sendContactMessage()"
+        novalidate
+      >
+        <fieldset class="fr-fieldset">
+          <legend class="fr-fieldset__legend">Vos informations</legend>
+
+          <!-- Nom -->
+          <div class="fr-fieldset__element fr-col-12 fr-col-md-6">
+            <div
+              class="fr-input-group"
+              [class.fr-input-group--error]="showError('nom')"
+            >
+              <label class="fr-label" for="nom">Nom</label>
+              <input
+                class="fr-input"
+                type="text"
+                id="nom"
+                formControlName="nom"
+                autocomplete="family-name"
+                maxlength="200"
+                required
+                [attr.aria-invalid]="showError('nom')"
+                [attr.aria-describedby]="showError('nom') ? 'nom-error' : null"
+              />
+              @if (showError('nom')) {
+              <p id="nom-error" class="fr-error-text">
+                Veuillez indiquer votre nom
+              </p>
+              }
+            </div>
+          </div>
+
+          <!-- Prénom -->
+          <div class="fr-fieldset__element fr-col-12 fr-col-md-6">
+            <div
+              class="fr-input-group"
+              [class.fr-input-group--error]="showError('prenom')"
+            >
+              <label class="fr-label" for="prenom">Prénom</label>
+              <input
+                class="fr-input"
+                type="text"
+                id="prenom"
+                formControlName="prenom"
+                autocomplete="given-name"
+                maxlength="200"
+                required
+                [attr.aria-invalid]="showError('prenom')"
+                [attr.aria-describedby]="
+                  showError('prenom') ? 'prenom-error' : null
+                "
+              />
+              @if (showError('prenom')) {
+              <p id="prenom-error" class="fr-error-text">
+                Veuillez indiquer votre prénom
+              </p>
+              }
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="fr-fieldset__element fr-col-12 fr-col-md-6">
+            <div
+              class="fr-input-group"
+              [class.fr-input-group--error]="showError('email')"
+            >
+              <label class="fr-label" for="email">Adresse email</label>
+              <span class="fr-hint-text" id="email-help"
+                >Le support vous répondra à cette adresse. Format attendu :
+                nom&#64;domaine.fr</span
+              >
+              <input
+                class="fr-input"
+                type="email"
+                id="email"
+                formControlName="email"
+                autocomplete="email"
+                required
+                [attr.aria-invalid]="showError('email')"
+                [attr.aria-describedby]="
+                  showError('email') ? 'email-error' : 'email-help'
+                "
+              />
+              @if (showError('email')) {
+              <p id="email-error" class="fr-error-text">
+                Veuillez indiquer une adresse email valide, format attendu :
+                nom&#64;domaine.fr
+              </p>
+              }
+            </div>
+          </div>
+
+          <!-- Téléphone -->
+          <div class="fr-fieldset__element fr-col-12 fr-col-md-6">
+            <div
+              class="fr-input-group"
+              [class.fr-input-group--error]="showError('phone')"
+            >
+              <label class="fr-label" for="phone">
+                Numéro de téléphone
+                <span class="fr-hint-text">Exemple : 06 12 34 56 78</span>
+              </label>
+              <input
+                class="fr-input"
+                type="tel"
+                id="phone"
+                formControlName="phone"
+                autocomplete="tel"
+                [attr.aria-invalid]="showError('phone')"
+                [attr.aria-describedby]="
+                  showError('phone') ? 'phone-error' : null
+                "
+              />
+              @if (showError('phone')) {
+              <p id="phone-error" class="fr-error-text">
+                Veuillez vérifier le numéro de téléphone
+              </p>
+              }
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="fr-fieldset">
+          <legend class="fr-fieldset__legend">
+            Votre structure de domiciliation
+          </legend>
+
+          <!-- Région -->
+          <div class="fr-fieldset__element fr-col-12 fr-col-md-6">
+            <div class="fr-select-group">
+              <label class="fr-label" for="regionCode">
+                Région de la structure de domiciliation
+              </label>
+              <select
+                class="fr-select"
+                id="regionCode"
+                formControlName="regionCode"
+              >
+                <option value="">Sélectionnez une région</option>
+                @for (region of REGIONS; track region.regionCode) {
+                <option [value]="region.regionCode">
+                  {{ region.regionName }}
+                </option>
+                }
+              </select>
+            </div>
+          </div>
+
+          <!-- Département -->
+          <div class="fr-fieldset__element fr-col-12 fr-col-md-6">
+            <div class="fr-select-group">
+              <label class="fr-label" for="departement">
+                Département de la structure de domiciliation
+              </label>
+              <select
+                class="fr-select"
+                id="departement"
+                formControlName="departement"
+              >
+                <option value="">Sélectionnez un département</option>
+                @for (dep of departements; track dep.departmentCode) {
+                <option [value]="dep.departmentCode">
+                  {{ dep.departmentCode }} - {{ dep.departmentName }}
+                </option>
+                }
+              </select>
+            </div>
+          </div>
+
+          <!-- Nom de la structure -->
+          <div class="fr-fieldset__element">
+            <div
+              class="fr-input-group"
+              [class.fr-input-group--error]="showError('structureName')"
+            >
+              <label class="fr-label" for="structureName">
+                Nom de la structure de domiciliation
+              </label>
+              <span class="fr-hint-text"
+                >Exemple : CCAS de Saint-Denis, association…</span
+              >
+              <input
+                class="fr-input"
+                type="text"
+                id="structureName"
+                formControlName="structureName"
+                autocomplete="organization"
+                required
+                [attr.aria-invalid]="showError('structureName')"
+                [attr.aria-describedby]="
+                  showError('structureName') ? 'structure-name-error' : null
+                "
+              />
+              @if (showError('structureName')) {
+              <p id="structure-name-error" class="fr-error-text">
+                Veuillez indiquer le nom de votre structure de domiciliation (2
+                caractères minimum)
+              </p>
+              }
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Objet -->
+        <div
+          class="fr-select-group fr-mb-3w"
+          [class.fr-select-group--error]="showError('subject')"
+        >
+          <label class="fr-label" for="subject">L'objet de votre demande</label>
+          <span class="fr-hint-text" id="subject-help"
+            >Le choix de l'objet modifie la suite du formulaire : une
+            information et un champ pour préciser votre demande s'affichent sous
+            cette liste.</span
+          >
+          <select
+            class="fr-select"
+            id="subject"
+            formControlName="subject"
+            required
+            [attr.aria-invalid]="showError('subject')"
+            [attr.aria-describedby]="
+              showError('subject')
+                ? 'subject-help subject-error'
+                : 'subject-help'
+            "
+          >
+            <option value="" disabled>
+              Sélectionnez l'objet de votre demande
+            </option>
+            @for (subject of SUBJECTS; track subject.value) {
+            <option [value]="subject.value">{{ subject.label }}</option>
+            }
+          </select>
+          @if (showError('subject')) {
+          <p id="subject-error" class="fr-error-text">
+            Veuillez sélectionner l'objet de votre demande
+          </p>
+          }
+        </div>
+
+        <!-- Information liée à l'objet -->
+        <div aria-live="polite">
+          @if (response) {
+          <div class="fr-callout fr-icon-information-line fr-mb-4w">
+            <p class="fr-callout__title">Bon à savoir</p>
+            <p class="fr-callout__text">
+              <span aria-hidden="true">👉 </span>{{ response }}
+            </p>
+          </div>
+          }
+        </div>
+
+        @if (f.subject.value) {
+        <!-- Champ libre -->
+        <div
+          class="fr-input-group"
+          [class.fr-input-group--error]="showError('content')"
+        >
+          <label class="fr-label" for="content">
+            Précisez votre demande @if (needsMessage) {
+            <span class="fr-text--bold" style="color: var(--text-default-error)"
+              >*</span
+            >
+            }
+          </label>
+          <span class="fr-hint-text" id="content-help">{{
+            needsMessage
+              ? "10 caractères minimum"
+              : "Facultatif, 10 caractères minimum si renseigné"
+          }}</span>
+          <textarea
+            class="fr-input"
+            id="content"
+            formControlName="content"
+            rows="6"
+            maxlength="5000"
+            [required]="needsMessage"
+            [attr.aria-invalid]="showError('content')"
+            [attr.aria-describedby]="
+              showError('content')
+                ? 'content-help content-error'
+                : 'content-help'
+            "
+          ></textarea>
+          @if (showError('content')) {
+          <p id="content-error" class="fr-error-text">
+            Veuillez préciser votre demande (10 caractères minimum)
+          </p>
+          }
+        </div>
+        } @if (error) {
+        <div
+          class="fr-alert fr-alert--error fr-alert--sm fr-mb-3w"
+          role="alert"
+        >
+          <p>{{ error }}</p>
+        </div>
+        } @if (submitted && contactForm.invalid) {
+        <div
+          class="fr-alert fr-alert--error fr-alert--sm fr-mb-3w"
+          role="alert"
+        >
+          <p>
+            Le formulaire comporte des erreurs, veuillez vérifier les champs
+            ci-dessus.
+          </p>
+        </div>
+        }
+
+        <ul
+          class="fr-btns-group fr-btns-group--inline fr-btns-group--right fr-mt-3w"
+        >
+          <li>
+            <button
+              type="submit"
+              class="fr-btn"
+              [disabled]="loading"
+              [attr.aria-busy]="loading"
+            >
+              {{ loading ? "Envoi en cours…" : "Envoyer ma demande" }}
+            </button>
+          </li>
+        </ul>
+      </form>
+    </div>
+  </div>
+</div>
