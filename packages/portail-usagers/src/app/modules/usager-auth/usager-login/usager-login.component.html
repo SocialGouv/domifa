@@ -230,7 +230,7 @@
                   id="show-newPassword"
                   type="checkbox"
                   class="input-group-text"
-                  [attr.aria-checked]="!hidePasswordNew"
+                  aria-label="Afficher le nouveau mot de passe"
                   (change)="hidePasswordNew = !hidePasswordNew"
                 />
                 <label
@@ -299,7 +299,7 @@
                   id="show-newPasswordConfirm"
                   type="checkbox"
                   class="input-group-text"
-                  [attr.aria-checked]="!hidePasswordConfirm"
+                  aria-label="Afficher la confirmation du mot de passe"
                   (change)="hidePasswordConfirm = !hidePasswordConfirm"
                 />
                 <label
@@ -404,11 +404,8 @@
                   id="show-password"
                   type="checkbox"
                   class="input-group-text"
-                  [attr.aria-label]="
-                    (hidePassword ? 'Afficher' : 'Masquer') + ' le mot de passe'
-                  "
+                  aria-label="Afficher le mot de passe"
                   [checked]="!hidePassword"
-                  role="switch"
                   (change)="hidePassword = !hidePassword"
                 />
                 <label
