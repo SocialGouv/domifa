@@ -131,31 +131,6 @@ dd {
   display: none !important;
 }
 
-// Required field asterisk via :has()
-label:has(input[required])::after,
-.fr-input-group:has(input[required]) .fr-label::after,
-.fr-checkbox-group:has(input[required]) label::after,
-.fr-select-group:has(select[required]) label::after {
-  content: " *";
-  color: var(--text-default-error);
-  font-weight: bold;
-}
-
-// Required field asterisk via .required class (fallback)
-.fr-input-group.required .fr-label::after,
-.fr-checkbox-group.required label::after,
-.fr-select-group.required label::after {
-  content: " *";
-  color: var(--text-default-error);
-}
-
-// DSFR ext components handle their own required indicator,
-// disable the CSS asterisk to avoid duplication/misplacement with hints
-dsfr-ext-datepicker label.fr-label::after,
-dsfr-ext-autocomplete label.fr-label::after {
-  content: none !important;
-}
-
 // Hint text spacing
 p.empty-hint,
 p.fr-hint-text {

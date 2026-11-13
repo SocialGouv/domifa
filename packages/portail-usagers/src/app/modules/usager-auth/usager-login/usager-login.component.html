@@ -11,9 +11,7 @@
           dans une structure qui utilise DomiFa ? Consultez votre dossier en
           ligne.
         </p>
-        <p class="fr-text--xs fr-text-default--error fr-mb-3w">
-          * champs obligatoires
-        </p>
+        <p class="fr-text--sm fr-mb-3w">Tous les champs sont obligatoires.</p>
         <form
           [attr.aria-describedby]="
             displayLoginError ? 'authentification-error' : null
@@ -24,7 +22,7 @@
         >
           <div
             [class.fr-input-group--error]="invalidFields['login']"
-            class="fr-input-group required fr-mb-0"
+            class="fr-input-group fr-mb-0"
           >
             <label class="fr-label" for="login"> Votre identifiant </label>
             <span class="fr-hint-text">
@@ -41,6 +39,7 @@
               maxlength="8"
               pattern="[A-Za-z]{8}"
               id="login"
+              required
               class="fr-input"
               [attr.aria-invalid]="
                 invalidFields['login'] || hasCredentialsError ? 'true' : 'false'
@@ -74,7 +73,7 @@
           </p>
           <div
             [class.fr-input-group--error]="invalidFields['newPassword']"
-            class="fr-input-group required"
+            class="fr-input-group"
           >
             <div class="fr-password" id="password-4">
               <label class="fr-password__label fr-label" for="newPassword">
@@ -84,6 +83,7 @@
                 <input
                   #newPassword
                   id="newPassword"
+                  required
                   formControlName="newPassword"
                   [type]="!hidePasswordNew ? 'text' : 'password'"
                   class="fr-input"
@@ -245,7 +245,7 @@
           <!-- password confirmation -->
           <div
             [class.fr-input-group--error]="isNewPasswordConfirmInvalid"
-            class="fr-input-group required"
+            class="fr-input-group"
           >
             <div class="fr-password" id="newPasswordConfirmContainer">
               <label
@@ -258,6 +258,7 @@
                 <input
                   #newPasswordConfirm
                   id="new-password-confirm"
+                  required
                   formControlName="newPasswordConfirm"
                   [type]="!hidePasswordConfirm ? 'text' : 'password'"
                   class="fr-input"
@@ -315,7 +316,7 @@
           <!-- Accept terms start -->
           <div
             [class.fr-checkbox-group--error]="invalidFields['acceptTerms']"
-            class="fr-checkbox-group required fr-mb-6w"
+            class="fr-checkbox-group fr-mb-6w"
           >
             <input
               #acceptTerms
@@ -357,7 +358,7 @@
           } @else {
           <div
             [class.fr-input-group--error]="invalidFields['password']"
-            class="fr-input-group required"
+            class="fr-input-group"
           >
             <div class="fr-password" id="password-4">
               <label class="fr-password__label fr-label" for="password">
@@ -379,6 +380,7 @@
                       : null
                   "
                   id="password"
+                  required
                   formControlName="password"
                   [type]="!hidePassword ? 'text' : 'password'"
                   class="fr-input"
