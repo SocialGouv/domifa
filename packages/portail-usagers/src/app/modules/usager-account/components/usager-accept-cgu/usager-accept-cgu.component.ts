@@ -26,6 +26,23 @@ export class UsagerAcceptCguComponent implements OnInit {
 
   public loading: boolean;
   public submitted: boolean;
+
+  public readonly checkboxes: {
+    name: "readTerms" | "acceptTerms";
+    label: string;
+    error: string;
+  }[] = [
+    {
+      name: "readTerms",
+      label: "Je confirme avoir lu les conditions générales d’utilisation",
+      error: "Cochez cette case pour confirmer avoir lu les CGU.",
+    },
+    {
+      name: "acceptTerms",
+      label: "J'accepte les conditions générales d’utilisation",
+      error: "Cochez cette case pour accepter les CGU et continuer.",
+    },
+  ];
   private subscription = new Subscription();
   public usagerProfile!: PortailUsagerProfile | null;
 
@@ -34,7 +51,7 @@ export class UsagerAcceptCguComponent implements OnInit {
     private readonly toastr: CustomToastService,
     private readonly usagerAuthService: UsagerAuthService,
     private readonly router: Router,
-    private readonly seoService: SeoService,
+    private readonly seoService: SeoService
   ) {
     this.loading = false;
     this.submitted = false;
@@ -45,7 +62,7 @@ export class UsagerAcceptCguComponent implements OnInit {
         if (apiResponse?.acceptTerms) {
           this.router.navigate(["/account"]);
         }
-      },
+      }
     );
     this.initCguForm();
   }
@@ -53,7 +70,7 @@ export class UsagerAcceptCguComponent implements OnInit {
   public ngOnInit(): void {
     this.seoService.updateTitleAndTags(
       "Acceptation des CGU - Mon DomiFa",
-      "Acceptez les conditions générales d'utilisation pour accéder à votre espace personnel",
+      "Acceptez les conditions générales d'utilisation pour accéder à votre espace personnel"
     );
   }
 
@@ -72,6 +89,13 @@ export class UsagerAcceptCguComponent implements OnInit {
 
     if (this.acceptTermsForm.invalid) {
       this.toastr.error("Veuillez accepter les CGU pour continuer");
+      // move the focus to the first checkbox in error, which announces its message
+      const firstInvalid = this.checkboxes.find(
+        (checkbox) => this.f[checkbox.name].invalid
+      );
+      if (firstInvalid) {
+        document.getElementById(firstInvalid.name)?.focus();
+      }
       return;
     }
 
@@ -92,7 +116,7 @@ export class UsagerAcceptCguComponent implements OnInit {
           this.loading = false;
           this.toastr.error("Veuillez cocher les 2 cases pour continuer");
         },
-      }),
+      })
     );
   }
 

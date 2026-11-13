@@ -27,7 +27,7 @@
             class="fr-input-group required fr-mb-0"
           >
             <label class="fr-label" for="login"> Votre identifiant </label>
-            <span class="fr-hint-text">
+            <span class="fr-hint-text" id="login-hint">
               Format : 8 lettres (exemple : ABCDEFGH). Ce n'est pas votre
               adresse e-mail.
             </span>
@@ -41,27 +41,28 @@
               maxlength="8"
               pattern="[A-Za-z]{8}"
               id="login"
+              required
               class="fr-input"
               [attr.aria-invalid]="
                 invalidFields['login'] || hasCredentialsError ? 'true' : 'false'
               "
               [attr.aria-describedby]="
-                invalidFields['login']
-                  ? 'invalid-login'
+                'login-hint' +
+                (invalidFields['login']
+                  ? ' invalid-login'
                   : hasCredentialsError
-                  ? 'authentification-error'
-                  : null
+                  ? ' authentification-error'
+                  : '')
               "
               [readonly]="this.mode === 'login-change-password'"
             />
             @if (invalidFields['login']) {
             <div id="invalid-login" class="fr-messages-group">
-              <p
-                class="fr-message fr-message--error"
-                id="input-2-message-error"
-              >
-                Veuillez vérifier l'identifiant. Celui-ci se trouve sur le
-                document que vous à remit la structure.
+              <p class="fr-message fr-message--error">
+                @if (f.login.errors?.required) { Saisissez votre identifiant. }
+                @else { L'identifiant doit contenir 8 lettres (exemple :
+                ABCDEFGH). Il se trouve sur le document que vous a remis votre
+                structure. }
               </p>
             </div>
             }
@@ -84,6 +85,7 @@
                 <input
                   #newPassword
                   id="newPassword"
+                  required
                   formControlName="newPassword"
                   [type]="!hidePasswordNew ? 'text' : 'password'"
                   class="fr-input"
@@ -103,125 +105,28 @@
                 aria-live="polite"
                 aria-atomic="true"
               >
+                @for (rule of newPasswordRules; track rule.label; let i =
+                $index) {
                 <li
                   class="fr-message"
-                  [ngClass]="{
-                    'fr-message--info': !f.newPassword.dirty,
-                    'fr-message--error':
-                      f.newPassword.errors?.required ||
-                      f.newPassword.errors?.hasNumber,
-                    'fr-message--valid':
-                      !f.newPassword.errors?.required &&
-                      !f.newPassword.errors?.hasNumber
-                  }"
+                  [class.fr-message--info]="
+                    newPasswordRuleStatus[i] === 'pending'
+                  "
+                  [class.fr-message--error]="
+                    newPasswordRuleStatus[i] === 'error'
+                  "
+                  [class.fr-message--valid]="
+                    newPasswordRuleStatus[i] === 'valid'
+                  "
                 >
-                  <span class="fr-sr-only"
-                    >Règle
-                    {{
-                      !f.newPassword.errors?.required &&
-                      !f.newPassword.errors?.hasNumber
-                        ? "validée "
-                        : "non validée "
-                    }}</span
-                  >
-                  Au moins 1 chiffre
+                  @if (newPasswordRuleStatus[i] === 'valid') {
+                  <span class="fr-sr-only">Règle validée : </span>
+                  } @else if (newPasswordRuleStatus[i] === 'error') {
+                  <span class="fr-sr-only">Règle non validée : </span>
+                  }
+                  {{ rule.label }}
                 </li>
-                <li
-                  class="fr-message"
-                  [ngClass]="{
-                    'fr-message--info': !f.newPassword.dirty,
-                    'fr-message--error':
-                      f.newPassword.errors?.required ||
-                      f.newPassword.errors?.hasCapitalCase,
-                    'fr-message--valid':
-                      !f.newPassword.errors?.required &&
-                      !f.newPassword.errors?.hasCapitalCase
-                  }"
-                >
-                  <span class="fr-sr-only"
-                    >Règle
-                    {{
-                      !f.newPassword.errors?.required &&
-                      !f.newPassword.errors?.hasCapitalCase
-                        ? "validée "
-                        : "non validée "
-                    }}</span
-                  >
-                  Au moins une lettre en majuscule
-                </li>
-                <li
-                  class="fr-message"
-                  [ngClass]="{
-                    'fr-message--info': !f.newPassword.dirty,
-                    'fr-message--error':
-                      f.newPassword.errors?.required ||
-                      f.newPassword.errors?.hasLowerCase,
-                    'fr-message--valid':
-                      !f.newPassword.errors?.required &&
-                      !f.newPassword.errors?.hasLowerCase
-                  }"
-                >
-                  <span class="fr-sr-only"
-                    >Règle
-                    {{
-                      !f.newPassword.errors?.required &&
-                      !f.newPassword.errors?.hasLowerCase
-                        ? "validée "
-                        : "non validée "
-                    }}</span
-                  >
-                  Au moins une lettre en minuscule
-                </li>
-                <li
-                  class="fr-message"
-                  [ngClass]="{
-                    'fr-message--info': !f.newPassword.dirty,
-                    'fr-message--error':
-                      f.newPassword.errors?.required ||
-                      f.newPassword.errors?.hasSpecialCharacter,
-                    'fr-message--valid':
-                      !f.newPassword.errors?.required &&
-                      !f.newPassword.errors?.hasSpecialCharacter
-                  }"
-                >
-                  <span class="fr-sr-only"
-                    >Règle
-                    {{
-                      !f.newPassword.errors?.required &&
-                      !f.newPassword.errors?.hasSpecialCharacter
-                        ? "validée "
-                        : "non validée "
-                    }}</span
-                  >
-                  Au moins un caractère spécial:
-                  &#64;[]^_!"#$%&amp;&apos;()*+,\-./:;&lbrace;&rbrace;&lt;&gt;=|~?
-                </li>
-                <li
-                  class="fr-message"
-                  [ngClass]="{
-                    'fr-message--info': !f.newPassword.dirty,
-                    'fr-message--error':
-                      f.newPassword.errors?.required ||
-                      f.newPassword.errors?.minlength ||
-                      f.newPassword.errors?.maxlength,
-                    'fr-message--valid':
-                      !f.newPassword.errors?.required &&
-                      !f.newPassword.errors?.minlength &&
-                      !f.newPassword.errors?.maxlength
-                  }"
-                >
-                  <span class="fr-sr-only"
-                    >Règle
-                    {{
-                      !f.newPassword.errors?.required &&
-                      !f.newPassword.errors?.minlength &&
-                      !f.newPassword.errors?.maxlength
-                        ? "validée "
-                        : "non validée "
-                    }}</span
-                  >
-                  Doit contenir entre 12 et 150 caractères
-                </li>
+                }
               </ul>
               <div
                 class="fr-password__checkbox fr-checkbox-group fr-checkbox-group--sm"
@@ -258,6 +163,7 @@
                 <input
                   #newPasswordConfirm
                   id="new-password-confirm"
+                  required
                   formControlName="newPasswordConfirm"
                   [type]="!hidePasswordConfirm ? 'text' : 'password'"
                   class="fr-input"
@@ -379,6 +285,7 @@
                       : null
                   "
                   id="password"
+                  required
                   formControlName="password"
                   [type]="!hidePassword ? 'text' : 'password'"
                   class="fr-input"
@@ -392,7 +299,7 @@
                   class="fr-message fr-message--error"
                   id="password-input--message-error"
                 >
-                  Le mot de passe est obligatoire
+                  Saisissez votre mot de passe.
                 </p>
                 }
               </div>

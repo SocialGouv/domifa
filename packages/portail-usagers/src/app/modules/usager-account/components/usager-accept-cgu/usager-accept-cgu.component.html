@@ -9,78 +9,66 @@
     <div id="cgu-modal">
       <app-cgu></app-cgu>
     </div>
-    <form [formGroup]="acceptTermsForm">
-      <div class="required">
+    <form [formGroup]="acceptTermsForm" (ngSubmit)="submitAcceptTerms()">
+      <p class="fr-text--sm fr-mb-2w">Tous les champs sont obligatoires.</p>
+      @for (checkbox of checkboxes; track checkbox.name) {
+      <div
+        class="fr-checkbox-group fr-mb-2w"
+        [class.fr-checkbox-group--error]="submitted && f[checkbox.name].errors"
+      >
         <input
           type="checkbox"
-          formControlName="readTerms"
-          name="readTerms"
-          class="form-check-input fr-mr-1w"
-          [ngClass]="{
-            'is-invalid': submitted && f.readTerms.errors
-          }"
-          [attr.aria-describedby]="
-            submitted && f.readTerms.errors ? 'invalid-cgu-read' : null
-          "
-          id="readTerms"
+          [formControlName]="checkbox.name"
+          [name]="checkbox.name"
+          [id]="checkbox.name"
           required
-        />
-        <label class="form-check-label" for="readTerms"
-          >Je confirme avoir lu les conditions générales d’utilisation
-        </label>
-        <p
-          *ngIf="submitted && f.readTerms?.errors"
-          class="invalid-feedback"
-          id="invalid-cgu-read"
-        >
-          La lecture des CGU est obligatoire
-        </p>
-      </div>
-      <div class="required">
-        <input
-          type="checkbox"
-          formControlName="acceptTerms"
-          name="acceptTerms"
-          class="form-check-input fr-mr-1w"
-          [ngClass]="{
-            'is-invalid': submitted && f.acceptTerms.errors
-          }"
-          [attr.aria-describedby]="
-            submitted && f.acceptTerms.errors ? 'invalid-cgu-choice' : null
+          [attr.aria-invalid]="
+            submitted && f[checkbox.name].errors ? 'true' : 'false'
           "
-          id="acceptTerms"
-          required
+          [attr.aria-describedby]="
+            submitted && f[checkbox.name].errors
+              ? checkbox.name + '-error'
+              : null
+          "
         />
-        <label class="form-check-label" for="acceptTerms"
-          >J'accepte les conditions générales d’utilisation
+        <label class="fr-label" [for]="checkbox.name">
+          {{ checkbox.label }}
         </label>
-        <p
-          *ngIf="submitted && f.acceptTerms?.errors"
-          class="invalid-feedback"
-          id="invalid-cgu-choice"
-        >
-          Vous devez accepter les CGU afin de poursuivre l'inscription
-        </p>
+        @if (submitted && f[checkbox.name].errors) {
+        <div class="fr-messages-group">
+          <p
+            class="fr-message fr-message--error"
+            [id]="checkbox.name + '-error'"
+          >
+            {{ checkbox.error }}
+          </p>
+        </div>
+        }
       </div>
-      <div class="fr-text--center">
-        <button
-          class="btn btn-lg btn-outline-primary"
-          type="button"
-          (click)="logout()"
-        >
-          Se déconnecter
-        </button>
-        <button
-          class="btn btn-lg btn-primary fr-ml-1w"
-          type="submit"
-          (click)="submitAcceptTerms()"
-          [disabled]="loading"
-          [attr.aria-busy]="loading"
-        >
-          <span *ngIf="!loading"> Enregistrer </span>
-          <span *ngIf="loading"> Enregistrement en cours...</span>
-        </button>
-      </div>
+      }
+      <ul
+        class="fr-btns-group fr-btns-group--inline-md fr-btns-group--center fr-mt-4w"
+      >
+        <li>
+          <button
+            class="fr-btn fr-btn--secondary"
+            type="button"
+            (click)="logout()"
+          >
+            Se déconnecter
+          </button>
+        </li>
+        <li>
+          <button
+            class="fr-btn"
+            type="submit"
+            [disabled]="loading"
+            [attr.aria-busy]="loading"
+          >
+            @if (!loading) { Enregistrer } @else { Enregistrement en cours... }
+          </button>
+        </li>
+      </ul>
     </form>
   </section>
 </div>
