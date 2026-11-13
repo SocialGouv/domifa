@@ -1,3 +1,10 @@
+# [2.294.0](https://github.com/SocialGouv/domifa/compare/v2.293.1...v2.294.0) (2026-11-13)
+
+
+### Features
+
+* **backend:** let the DGCS manage DREETS and DDETS accounts of every region ([6e9964c](https://github.com/SocialGouv/domifa/commit/6e9964c769262729f240bb1bc03c2a7e24027bb2))
+
 ## [2.293.1](https://github.com/SocialGouv/domifa/compare/v2.293.0...v2.293.1) (2026-11-12)
 
 
