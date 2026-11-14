@@ -56,6 +56,8 @@ export type DomifaConfig = {
   };
   cron: {
     enable: boolean; // DOMIFA_CRON_ENABLED
+    // When true, the inactive users cron only lists eligible users
+    inactiveUsersDryRun: boolean; // DOMIFA_CRON_INACTIVE_USERS_DRY_RUN
   };
   brevo: {
     apiKey: string; // DOMIFA_MAIL_BREVO_API_KEY
@@ -75,8 +77,10 @@ export type DomifaConfig = {
       structureRefusal: number; // DOMIFA_BREVO_TEMPLATES_STRUCTURE_REFUSAL
       // Structure delete template
       structureDelete: number; // DOMIFA_BREVO_TEMPLATES_STRUCTURE_DELETE
-      // User account deleted template
-      userAccountDeleted: number; // DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_DELETED
+      // User account deleted by a structure admin or a DomiFa admin
+      userManualDelete: number; // DOMIFA_BREVO_TEMPLATES_USER_MANUAL_DELETE
+      // User account automatically deleted after 13 months of inactivity
+      userInactiveDelete: number; // DOMIFA_BREVO_TEMPLATES_USER_INACTIVE_DELETE
       // User account created by admin template
       userStructureCreatedByAdmin: number; // DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_CREATED_BY_ADMIN
       // Structure pending activation template

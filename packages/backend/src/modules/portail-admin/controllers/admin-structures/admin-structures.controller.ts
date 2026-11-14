@@ -422,26 +422,12 @@ export class AdminStructuresController {
     await this.userStructureDecisionService.softDelete({
       targetUserId: target.id,
       targetUserEmail: target.email,
+      targetUserPrenom: target.prenom,
       targetUserRole: target.role,
       structureId: structure.id,
       motif: body.motif,
       actor: { kind: "supervisor", user },
     });
-
-    // Address captured before the soft delete: the stored one is now prefixed
-    // "deleted-", which `sendEmailWithTemplate` filters out.
-    try {
-      await this.structureDecisionEmailService.sendUserAccountDeletedEmail({
-        email: target.email,
-        prenom: target.prenom,
-        motif: body.motif,
-      });
-    } catch (error) {
-      appLogger.error(
-        `Échec de l'envoi de l'email de suppression de compte pour l'utilisateur ${target.id}`,
-        { error, sentry: true, context: { userId: target.id } }
-      );
-    }
 
     return res.status(HttpStatus.OK).json({ message: "OK" });
   }
