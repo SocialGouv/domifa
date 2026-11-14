@@ -129,16 +129,17 @@
       <div role="notice" class="fr-notice fr-notice--info fr-mb-3w">
         <div class="fr-container">
           <div class="fr-notice__body">
-            <p>
-              <span class="fr-notice__title">Information</span>
-              <span class="fr-notice__desc">
-                Pour des raisons de sécurité, les adresses emails génériques
-                (ex. : contact&#64;, domiciliation&#64; admin&#64;, etc.) ne
-                sont pas autorisées lors de l’inscription. Merci d’utiliser une
-                adresse email nominative (ex. :
-                prenom.nom&#64;votredomaine.com). Sans cela, votre demande
-                d’inscription pourrait ne pas être validée.</span
-              >
+            <p class="fr-notice__desc">
+              L’utilisation d’une adresse email nominative est fortement
+              recommandée pour accéder à DomiFa. Elle permet de mieux identifier
+              les personnes réalisant des actions sur la plateforme et de
+              limiter les risques d’usurpation d’identité.
+              <br /><br />
+              L’utilisation d’une adresse générique ou partagée réduit la
+              capacité à déterminer précisément quelle personne a réalisé une
+              action. Elle suppose que votre structure maîtrise strictement les
+              personnes ayant accès et mette à jour ces accès en cas de départ,
+              changement de mission ou remplacement.
             </p>
           </div>
         </div>
@@ -195,6 +196,12 @@
             [submitted]="submitted"
           ></app-user-structure-password-form>
         </div>
+      </div>
+      <div class="fr-mt-3w">
+        <app-generic-email-acknowledgement
+          [parentFormGroup]="userForm"
+          [submitted]="submitted"
+        ></app-generic-email-acknowledgement>
       </div>
       <br />
       <ul

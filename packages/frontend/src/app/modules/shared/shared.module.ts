@@ -8,7 +8,7 @@ import { AriaHideEmojiPipe, FullNamePipe, ReplaceLineBreaks } from "./pipes";
 import { CleanStrDirective } from "./directives";
 import { ButtonComponent } from "./components/button/button.component";
 import { InputReferrerComponent } from "./components/input-referrer/input-referrer.component";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FonctionSelectionComponent } from "./components/fonction-selection/fonction-selection.component";
 import { FonctionFormatPipe } from "./pipes/fonction-format.pipe";
 import {
@@ -21,11 +21,13 @@ import { AlerteConfidentialiteComponent } from "../general/components/navbar/fra
 import { UserStructurePasswordFormComponent } from "./components/user-structure-password-form/user-structure-password-form.component";
 import { LoadingComponent } from "./components/loading/loading.component";
 import { SupportModeDisableDirective } from "./directives/support-mode-disable.directive";
+import { GenericEmailAcknowledgementComponent } from "./components/generic-email-acknowledgement/generic-email-acknowledgement.component";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     FullNamePipe,
     FonctionFormatPipe,
     DsfrFooterModule,
@@ -47,6 +49,7 @@ import { SupportModeDisableDirective } from "./directives/support-mode-disable.d
     InputReferrerComponent,
     FonctionSelectionComponent,
     UserStructurePasswordFormComponent,
+    GenericEmailAcknowledgementComponent,
   ],
   exports: [
     AriaHideEmojiPipe,
@@ -62,6 +65,7 @@ import { SupportModeDisableDirective } from "./directives/support-mode-disable.d
     DsfrDropdownMenuComponent,
     AlerteConfidentialiteComponent,
     UserStructurePasswordFormComponent,
+    GenericEmailAcknowledgementComponent,
     DsfrTimelineComponent,
     DsfrDropdownMenuItemComponent,
     SupportModeDisableDirective,

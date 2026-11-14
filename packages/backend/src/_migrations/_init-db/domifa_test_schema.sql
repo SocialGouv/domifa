@@ -507,7 +507,8 @@ CREATE TABLE public.user_structure (
     "emailStatus" text,
     decision jsonb,
     "emailDeliveryIssue" boolean DEFAULT false NOT NULL,
-    "preferredEmailSender" text
+    "preferredEmailSender" text,
+    "accountRulesAcknowledgedAt" timestamp with time zone
 );
 CREATE SEQUENCE public.user_structure_id_seq
     START WITH 1

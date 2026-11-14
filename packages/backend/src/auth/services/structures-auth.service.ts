@@ -37,6 +37,7 @@ export const APP_USER_PUBLIC_ATTRIBUTES: (keyof UserStructurePublic)[] = [
   "structureId",
   "lastLogin",
   "acceptTerms",
+  "accountRulesAcknowledgedAt",
   "role",
   "fonction",
   "fonctionDetail",

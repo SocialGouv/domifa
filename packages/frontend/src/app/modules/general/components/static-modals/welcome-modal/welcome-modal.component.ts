@@ -7,6 +7,10 @@ import { WelcomeService } from "../../../services/welcome.service";
 import { UserStructure } from "@domifa/common";
 import DOMIFA_NEWS from "src/assets/files/news.json";
 import { AppTourModalComponent } from "../app-tour-modal/app-tour-modal.component";
+import {
+  AccountRulesModalComponent,
+  mustAcknowledgeAccountRules,
+} from "../account-rules-modal/account-rules-modal.component";
 import { CommonModule } from "@angular/common";
 import { SharedModule } from "../../../../shared/shared.module";
 
@@ -16,6 +20,7 @@ import { SharedModule } from "../../../../shared/shared.module";
     DsfrModalComponent,
     CommonModule,
     AppTourModalComponent,
+    AccountRulesModalComponent,
     SharedModule,
   ],
   templateUrl: "./welcome-modal.component.html",
@@ -26,6 +31,9 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
 
   @ViewChild(AppTourModalComponent)
   public appTourModal!: AppTourModalComponent;
+
+  @ViewChild(AccountRulesModalComponent)
+  public accountRulesModal!: AccountRulesModalComponent;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public news: any;
@@ -64,6 +72,12 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
       return;
     }
 
+    // Shown first: the welcome flow resumes once it is closed
+    if (mustAcknowledgeAccountRules(user)) {
+      this.accountRulesModal.open();
+      return;
+    }
+
     if (this.isFirstTimeUser()) {
       this.appTourModal.openTour();
     } else if (this.shouldShowNews()) {
@@ -86,6 +100,17 @@ export class WelcomeModalComponent implements OnInit, OnDestroy {
     this.news = DOMIFA_NEWS[0];
     this.newsModalOpen = true;
     requestAnimationFrame(() => this.newsModal.open());
+  }
+
+  public onAccountRulesModalClosed(): void {
+    const user = this.authService.currentUserValue;
+    if (!user) {
+      return;
+    }
+    // Closed without acknowledging: it will be asked again on next visit
+    requestAnimationFrame(() =>
+      this.checkWelcomeFlow({ ...user, accountRulesAcknowledgedAt: new Date() })
+    );
   }
 
   public onTourComplete(): void {
