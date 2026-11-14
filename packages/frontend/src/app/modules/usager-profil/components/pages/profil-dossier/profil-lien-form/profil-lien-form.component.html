@@ -1,0 +1,164 @@
+<div
+  class="fr-my-2w fr-display-flex fr-flex-wrap fr-justify-content-between fr-align-items-center"
+>
+  <h2 class="fr-h3 fr-my-0">
+    <i class="fr-icon-user-heart-line" aria-hidden="true"></i>
+    Conjoint(e)
+  </h2>
+  @if (canEdit && !editMode) {
+  <button type="button" class="fr-btn fr-btn--secondary" (click)="openEdit()">
+    <i class="fr-icon-edit-line" aria-hidden="true"></i>
+    Modifier
+  </button>
+  } @if (editMode) {
+  <div>
+    <button
+      type="button"
+      class="fr-btn fr-btn--secondary fr-mr-1w"
+      [disabled]="saving"
+      (click)="cancelEdit()"
+    >
+      Annuler
+    </button>
+    <button type="button" class="fr-btn" [disabled]="saving" (click)="save()">
+      Enregistrer les modifications
+    </button>
+  </div>
+  }
+</div>
+
+<p class="fr-text--sm">
+  Cette section permet aux structures de regrouper les dossiers appartenant à
+  une même famille et d'y rattacher les ayants droit correspondants.
+</p>
+
+@if (!editMode) {
+<div class="fr-callout">
+  @if (currentLien) {
+  <p class="fr-callout__text fr-mb-1w">
+    <a [routerLink]="['/profil/general/' + currentLien.linkedUsager.ref]">
+      {{ currentLien.linkedUsager | fullName }}
+    </a>
+    @if (isCandidatAvertissement(currentLien.linkedUsager.statut)) {
+    <span class="fr-badge fr-badge--warning fr-badge--sm fr-ml-1w">
+      Dossier
+      {{ currentLien.linkedUsager.statut === "RADIE" ? "radié" : "refusé" }}
+    </span>
+    }
+  </p>
+  <p class="fr-text--sm fr-mb-1w">
+    {{ currentLien.linkedUsager.dateNaissance | date : "dd MMMM yyyy" }},
+    Conjoint.e
+  </p>
+  <a
+    class="fr-btn fr-btn--tertiary fr-btn--sm"
+    [routerLink]="['/profil/general/' + currentLien.linkedUsager.ref]"
+  >
+    Consulter le dossier du domicilié
+  </a>
+  } @else {
+  <p class="fr-callout__text">Aucun(e) conjoint(e)</p>
+  }
+</div>
+} @if (editMode) {
+<p class="fr-text--bold fr-mb-1w">Conjoint(s)</p>
+
+@if (!selection && suggestion) {
+<div class="fr-callout fr-callout--sm fr-mb-2w">
+  <p class="fr-callout__text fr-mb-1w">
+    Ce conjoint semble avoir un dossier :
+    <strong>
+      {{ suggestion.candidate.prenom }} {{ suggestion.candidate.nom }} (#{{
+        suggestion.candidate.customRef || suggestion.candidate.ref
+      }})
+    </strong>
+    , né(e) le {{ suggestion.candidate.dateNaissance | date : "dd/MM/yyyy" }}
+    @if (isCandidatAvertissement(suggestion.candidate.statut)) {
+    <span class="fr-badge fr-badge--warning fr-badge--sm fr-ml-1w">
+      Dossier {{ suggestion.candidate.statut === "RADIE" ? "radié" : "refusé" }}
+    </span>
+    }
+  </p>
+  @if (suggestion.alreadyLinkedTo) {
+  <p class="fr-text--sm fr-mb-0">
+    Déjà relié à {{ suggestion.alreadyLinkedTo.prenom }}
+    {{ suggestion.alreadyLinkedTo.nom }} — déliez d'abord le dossier actuel.
+  </p>
+  } @else {
+  <div class="fr-btns-group fr-btns-group--inline">
+    <button
+      type="button"
+      class="fr-btn fr-btn--sm"
+      (click)="accepterSuggestion()"
+    >
+      Relier
+    </button>
+    <button
+      type="button"
+      class="fr-btn fr-btn--secondary fr-btn--sm"
+      (click)="rejeterSuggestion()"
+    >
+      Ce n'est pas la même personne
+    </button>
+  </div>
+  }
+</div>
+}
+
+<label class="fr-label" for="lien-search-input">
+  Sélectionner un dossier domicilié existant *
+</label>
+
+@if (selection) {
+<div class="fr-display-flex fr-align-items-center">
+  <span class="fr-mr-2w">
+    {{ selection.nom }} {{ selection.prenom }} @if (selection.customRef) { -
+    {{ selection.customRef }} } @if (isCandidatAvertissement(selection.statut))
+    {
+    <span class="fr-badge fr-badge--warning fr-badge--sm fr-ml-1w">
+      Dossier {{ selection.statut === "RADIE" ? "radié" : "refusé" }}
+    </span>
+    }
+  </span>
+  <button
+    type="button"
+    class="fr-btn fr-btn--tertiary fr-btn--sm"
+    (click)="clearSelection()"
+  >
+    <i class="fr-icon-close-line fr-mr-1w" aria-hidden="true"></i>
+    Dissocier
+  </button>
+</div>
+} @else {
+<div class="fr-search-bar" role="search">
+  <input
+    type="text"
+    id="lien-search-input"
+    class="fr-input"
+    [value]="searchQuery"
+    (input)="onSearchInput($any($event.target).value)"
+    placeholder="Nom, prénom ou identifiant"
+  />
+</div>
+
+@if (searchResults.length > 0) {
+<ul class="fr-mt-1w fr-raw-list">
+  @for (result of searchResults; track result.uuid) {
+  <li class="fr-mb-1w">
+    <button
+      type="button"
+      class="fr-btn fr-btn--tertiary fr-btn--sm"
+      [class.fr-text--disabled]="result.alreadyLinkedTo"
+      [disabled]="!!result.alreadyLinkedTo"
+      (click)="selectCandidate(result)"
+    >
+      {{ result.nom }} {{ result.prenom }} @if (result.customRef) { -
+      {{ result.customRef }} } @if (result.alreadyLinkedTo) { — déjà relié à
+      {{ result.alreadyLinkedTo.prenom }}
+      {{ result.alreadyLinkedTo.nom }}
+      }
+    </button>
+  </li>
+  }
+</ul>
+} } }
