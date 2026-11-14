@@ -18,6 +18,7 @@ import { RegionUsersService } from "./services/region-users/region-users.service
 import { MailsModule } from "../mails/mails.module";
 import { StructureDecisionEmailService } from "./services/structure-decision-email/structure-decision-email.service";
 import { StructureDecisionService } from "./services/structure-decision/structure-decision.service";
+import { InactiveStructuresCleanerService } from "./services/inactive-structures-cleaner/inactive-structures-cleaner.service";
 import { UserSupervisorDecisionService } from "./services/user-supervisor-decision/user-supervisor-decision.service";
 import { UserStructureDecisionService } from "../users/services/user-structure-decision/user-structure-decision.service";
 import { UserStructureEmailUpdaterService } from "../users/services/userStructureEmailUpdater.service";
@@ -48,6 +49,7 @@ import { SecurityMonitoringModule } from "../security-monitoring/security-monito
     AppLogSecurityService,
     AdminStructuresService,
     FileManagerService,
+    InactiveStructuresCleanerService,
     AdminSuperivorUsersService,
     RegionUsersService,
     StructureDecisionEmailService,

@@ -6,6 +6,7 @@ import {
   usagerHistoryStatesRepository,
   usagerRepository,
   messageSmsRepository,
+  structureDocRepository,
 } from "../../../../database";
 import {
   getStructureDecisionMotif,
@@ -143,19 +144,24 @@ export class StructureDecisionService {
       )
     );
 
-    // Delete all files
-    const key = `${join(
-      domifaConfig().upload.bucketRootDir,
-      "usager-documents",
-      cleanPath(structure.uuid)
-    )}/`;
-
-    await this.fileManagerService.deleteAllUnderStructure(key);
+    // Delete all files: usager documents and structure documents
+    const bucketRootDir = domifaConfig().upload.bucketRootDir;
+    await this.fileManagerService.deleteAllUnderStructure(
+      `${join(bucketRootDir, "usager-documents", cleanPath(structure.uuid))}/`
+    );
+    await this.fileManagerService.deleteAllUnderStructure(
+      `${join(
+        bucketRootDir,
+        "structure-documents-encrypted",
+        cleanPath(`${structureId}`)
+      )}/`
+    );
 
     // Delete in database all information
     await Promise.all([
       userStructureRepository.delete({ structureId }),
       usagerDocsRepository.delete({ structureId }),
+      structureDocRepository.delete({ structureId }),
       usagerRepository.delete({ structureId }),
       messageSmsRepository.delete({ structureId }),
       usagerHistoryStatesRepository.delete({ structureId }),
