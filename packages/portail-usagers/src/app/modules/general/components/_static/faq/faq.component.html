@@ -18,16 +18,16 @@
     <div class="fr-col-12 fr-col-md-4 fr-mt-3w">
       <dsfr-sidemenu
         [controlId]="'default'"
+        ariaLabel="Rubriques de la FAQ"
         [menu]="{
           items: [
             {
               label: 'Généralités',
-              routerLink: 'generalites',
-              
-            }, 
+              routerLink: 'generalites'
+            },
             {
               label: 'Accès et connexion',
-              routerLink: 'acces-connexion' 
+              routerLink: 'acces-connexion'
             },
             {
               label: 'Fonctionnalités disponibles',
@@ -40,7 +40,7 @@
             {
               label: 'Assistance technique Mon DomiFa',
               routerLink: 'assistance-technique'
-            },
+            }
           ]
         }"
       ></dsfr-sidemenu>
