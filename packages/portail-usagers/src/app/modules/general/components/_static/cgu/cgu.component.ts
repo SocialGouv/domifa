@@ -6,7 +6,6 @@ import { SeoService } from "../../../../shared/services/seo.service";
   templateUrl: "./cgu.component.html",
 })
 export class CguComponent {
-  // Rendered inside another page (accept-terms): the host page owns the h1
   @Input() public embedded = false;
 
   constructor(private readonly seoService: SeoService) {
