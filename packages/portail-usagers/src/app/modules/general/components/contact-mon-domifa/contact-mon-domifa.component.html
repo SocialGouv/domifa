@@ -195,10 +195,8 @@
                 formControlName="regionCode"
               >
                 <option value="">Sélectionnez une région</option>
-                @for (region of REGIONS; track region.regionCode) {
-                <option [value]="region.regionCode">
-                  {{ region.regionName }}
-                </option>
+                @for (region of REGIONS_LISTE | keyvalue; track region.key) {
+                <option [value]="region.key">{{ region.value }}</option>
                 }
               </select>
             </div>
@@ -216,11 +214,13 @@
                 formControlName="departement"
               >
                 <option value="">Sélectionnez un département</option>
-                @for (dep of departements; track dep.departmentCode) {
-                <option [value]="dep.departmentCode">
-                  {{ dep.departmentCode }} - {{ dep.departmentName }}
+                @for (dep of DEPARTEMENTS_MAP | keyvalue; track dep.key) { @if
+                (!f.regionCode.value || dep.value.regionCode ===
+                f.regionCode.value) {
+                <option [value]="dep.key">
+                  {{ dep.key }} - {{ dep.value.departmentName }}
                 </option>
-                }
+                } }
               </select>
             </div>
           </div>

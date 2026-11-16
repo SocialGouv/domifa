@@ -1,3 +1,4 @@
+import { KeyValuePipe } from "@angular/common";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
@@ -12,7 +13,7 @@ import {
   MON_DOMIFA_CONTACT_SUBJECTS,
   MON_DOMIFA_CONTACT_SUBJECTS_DEF,
   MonDomifaContactSubject,
-  REGIONS_DEF,
+  REGIONS_LISTE,
 } from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
 import { Subscription } from "rxjs";
@@ -43,7 +44,7 @@ const notBlankOrMin10: ValidatorFn = (control: AbstractControl) => {
 
 @Component({
   selector: "app-contact-mon-domifa",
-  imports: [ReactiveFormsModule, RouterModule],
+  imports: [KeyValuePipe, ReactiveFormsModule, RouterModule],
   templateUrl: "./contact-mon-domifa.component.html",
 })
 export class ContactMonDomifaComponent implements OnInit, OnDestroy {
@@ -52,13 +53,8 @@ export class ContactMonDomifaComponent implements OnInit, OnDestroy {
     ...MON_DOMIFA_CONTACT_SUBJECTS_DEF[value],
   }));
 
-  public readonly REGIONS = [...REGIONS_DEF]
-    .map(({ regionCode, regionName }) => ({ regionCode, regionName }))
-    .sort((a, b) => a.regionName.localeCompare(b.regionName, "fr"));
-
-  private readonly ALL_DEPARTEMENTS = Object.values(DEPARTEMENTS_MAP).sort(
-    (a, b) => a.departmentCode.localeCompare(b.departmentCode, "fr")
-  );
+  public readonly REGIONS_LISTE = REGIONS_LISTE;
+  public readonly DEPARTEMENTS_MAP = DEPARTEMENTS_MAP;
 
   public readonly contactForm = this.formBuilder.nonNullable.group({
     nom: ["", [Validators.required, notBlank, Validators.maxLength(200)]],
@@ -108,13 +104,6 @@ export class ContactMonDomifaComponent implements OnInit, OnDestroy {
 
   public get needsMessage(): boolean {
     return !!this.selectedSubject?.requiresMessage;
-  }
-
-  public get departements() {
-    const regionCode = this.f.regionCode.value;
-    return regionCode
-      ? this.ALL_DEPARTEMENTS.filter((dep) => dep.regionCode === regionCode)
-      : this.ALL_DEPARTEMENTS;
   }
 
   public ngOnInit(): void {
