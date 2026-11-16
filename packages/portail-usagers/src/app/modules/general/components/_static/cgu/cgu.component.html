@@ -1,7 +1,14 @@
 <div class="fr-container fr-py-2w">
   <div>
     <div class="fr-py-3w">
+      @if (embedded) {
+      <!-- The host page h1 already names the document: keep articles as its direct h2 children -->
+      <p class="fr-text--lead fr-text--bold">
+        Conditions générales d’utilisation de Mon DomiFa
+      </p>
+      } @else {
       <h1>Conditions générales d’utilisation de Mon DomiFa</h1>
+      }
       <p class="fr-tag">Date de publication au 29 Novembre 2023</p>
     </div>
     <p>
