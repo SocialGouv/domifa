@@ -1,3 +1,11 @@
+## [2.294.1](https://github.com/SocialGouv/domifa/compare/v2.294.0...v2.294.1) (2026-11-16)
+
+
+### Bug Fixes
+
+* **portail-usagers:** delete icon-sm class ([27a777d](https://github.com/SocialGouv/domifa/commit/27a777ddb9b32972e33dcaa8ec6cb8e1ee71dcf5))
+* **portail-usagers:** remove presentational markup for RGAA 8.9 (MON-8.9) ([e83876c](https://github.com/SocialGouv/domifa/commit/e83876c194e38bc2c7935545885c76b174713c40))
+
 # [2.294.0](https://github.com/SocialGouv/domifa/compare/v2.293.1...v2.294.0) (2026-11-13)
 
 
