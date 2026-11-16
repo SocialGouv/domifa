@@ -82,7 +82,7 @@ export class AppComponent implements OnInit {
     private readonly titleService: Title,
     private readonly router: Router,
     private readonly usagerAuthService: UsagerAuthService,
-    private readonly matomo: MatomoTracker,
+    private readonly matomo: MatomoTracker
   ) {
     this.apiVersion = null;
     this.usagerProfile = null;
@@ -130,7 +130,7 @@ export class AppComponent implements OnInit {
     if (!lastNews) {
       localStorage.setItem(
         "NEWS_MON_DOMIFA",
-        new Date(DOMIFA_NEWS[0].date).toISOString(),
+        new Date(DOMIFA_NEWS[0].date).toISOString()
       );
       this.pendingNews = false;
       return;
@@ -149,7 +149,7 @@ export class AppComponent implements OnInit {
     this.newsModal.close();
     localStorage.setItem(
       "NEWS_MON_DOMIFA",
-      new Date(DOMIFA_NEWS[0].date).toISOString(),
+      new Date(DOMIFA_NEWS[0].date).toISOString()
     );
     this.pendingNews = false;
     this.newsModalOpen = false;
@@ -158,7 +158,7 @@ export class AppComponent implements OnInit {
   public ngOnInit(): void {
     this.initMaintenanceNotice();
     this.titleService.setTitle(
-      "Mon DomiFa, l'outil qui facilite la gestion des structures domiciliatirices",
+      "Mon DomiFa, l'outil qui facilite la gestion des structures domiciliatirices"
     );
 
     this.usagerAuthService.currentUsagerSubject.subscribe(
@@ -168,7 +168,7 @@ export class AppComponent implements OnInit {
         if (usager) {
           this.checkNews();
         }
-      },
+      }
     );
 
     this.router.events
@@ -179,6 +179,8 @@ export class AppComponent implements OnInit {
         const splitUrl = event?.url.split("#");
         this.currentUrl = splitUrl[0];
         this.skipLinks = [
+          // Same order as the page: header menu, main content, footer
+          { label: "Aller au menu", link: `${this.currentUrl}#navigation` },
           { label: "Aller au contenu", link: `${this.currentUrl}#page` },
           { label: "Aller au pied de page", link: `${this.currentUrl}#footer` },
         ];
@@ -228,7 +230,7 @@ export class AppComponent implements OnInit {
     try {
       localStorage.setItem(
         MAINTENANCE_NOTICE.storageKey,
-        new Date().toDateString(),
+        new Date().toDateString()
       );
     } catch {
       // Storage unavailable: hidden until the next page load

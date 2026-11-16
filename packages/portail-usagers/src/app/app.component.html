@@ -125,6 +125,64 @@
           Fermer
         </button>
         <div class="fr-header__menu-links"></div>
+        <nav
+          class="fr-nav"
+          id="navigation"
+          role="navigation"
+          aria-label="Menu principal"
+        >
+          <ul class="fr-nav__list">
+            @if (usagerProfile) {
+            <li class="fr-nav__item">
+              <a
+                class="fr-nav__link"
+                routerLink="/account"
+                routerLinkActive
+                [routerLinkActiveOptions]="{ exact: true }"
+                ariaCurrentWhenActive="page"
+                >Mon espace</a
+              >
+            </li>
+            <li class="fr-nav__item">
+              <a
+                class="fr-nav__link"
+                routerLink="/account/historique"
+                routerLinkActive
+                ariaCurrentWhenActive="page"
+                >Historique des interactions</a
+              >
+            </li>
+            } @else {
+            <li class="fr-nav__item">
+              <a
+                class="fr-nav__link"
+                routerLink="/auth/login"
+                routerLinkActive
+                ariaCurrentWhenActive="page"
+                >Connexion</a
+              >
+            </li>
+            }
+            <li class="fr-nav__item">
+              <a
+                class="fr-nav__link"
+                routerLink="/news"
+                routerLinkActive
+                ariaCurrentWhenActive="page"
+                >Nouveautés</a
+              >
+            </li>
+            <li class="fr-nav__item">
+              <a
+                class="fr-nav__link"
+                routerLink="/faq"
+                routerLinkActive
+                ariaCurrentWhenActive="page"
+                >Questions fréquentes</a
+              >
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>
