@@ -1,17 +1,14 @@
-<div *ngIf="usager">
-  <div
-    *ngIf="
-      usager.decision.statut === 'INSTRUCTION' &&
-      usager.typeDom === 'RENOUVELLEMENT'
-    "
-    class="fr-my-1w fr-px-2w"
-  >
+@if (usager) {
+<div>
+  @if ( usager.decision.statut === 'INSTRUCTION' && usager.typeDom ===
+  'RENOUVELLEMENT' ) {
+  <div class="fr-my-1w fr-px-2w">
     <div class="fr-alert fr-alert--warning">
       <p>Demande de renouvellement actuellement en cours</p>
     </div>
   </div>
-
-  <div class="fr-my-1w" *ngIf="!usager.lastInteraction.enAttente">
+  } @if (!usager.lastInteraction.enAttente) {
+  <div class="fr-my-1w">
     <h2 class="fr-text-title--blue-france fr-mb-1w">Votre courrier</h2>
     <div class="border-top border-1 border-grey fr-pt-2w fr-mb-1w">
       <div class="fr-callout fr-callout--empty">
@@ -23,174 +20,132 @@
       </div>
     </div>
   </div>
-
-  <div
-    *ngIf="usager.lastInteraction.enAttente"
-    class="fr-text-title--blue-france fr-my-1w"
-  >
+  } @if (usager.lastInteraction.enAttente) {
+  <div class="fr-text-title--blue-france fr-my-1w">
     <h2 class="fr-text-title--blue-france fr-mb-1w">
       Vous avez du courrier à retirer !
     </h2>
-
     <div class="border-top border-1 border-grey fr-pt-2w fr-mb-1w">
-      <div class="fr-display-flex align-items-top">
-        <div class="fr-display-flex fr-flex-column fr-gap-2">
-          <ng-container *ngIf="usager.lastInteraction.courrierIn > 0">
-            <div class="fr-display-flex fr-gap-2">
+      <!-- Block layout (no row flex) so that long comments wrap
+          with the DSFR overflow-wrap instead of widening the page (RGAA 10.11) -->
+      <div class="fr-display-flex fr-flex-column fr-gap-2">
+        @if (usager.lastInteraction.courrierIn > 0) {
+        <div class="fr-display-flex fr-flex-column fr-gap-1">
+          <h3
+            class="fr-h3 fr-mb-0 fr-text-title--blue-france fr-icon-mail-open-line"
+          >
+            {{ usager.lastInteraction.courrierIn }}
+            <span class="fr-text--lead">
+              courrier{{ usager.lastInteraction.courrierIn > 1 ? "s" : "" }}
+            </span>
+          </h3>
+          @if (pendingInteractions.courrierIn) {
+          <div
+            class="fr-display-flex fr-flex-column fr-ml-1w fr-gap-1 fr-pl-2w fr-border-left-blue-france"
+          >
+            @for (interaction of groupedPendingInteractions?.courrierIn |
+            keyvalue; track interaction.key) {
+            <div class="fr-display-flex fr-gap-1 fr-flex-column">
               <span
-                class="fr-icon-mail-open-line fr-align-self-start fr-mt-1-5v"
-              ></span>
-              <div class="fr-display-flex fr-flex-column fr-gap-1">
-                <div>
-                  <h3 class="fr-h3 fr-mb-0 fr-text-title--blue-france">
-                    {{ usager.lastInteraction.courrierIn }}
-                    <span class="fr-text--lead">
-                      courrier<ng-container
-                        *ngIf="usager.lastInteraction.courrierIn > 1"
-                        >s</ng-container
-                      >
-                    </span>
-                  </h3>
-                </div>
-                <div
-                  class="fr-display-flex fr-flex-column fr-ml-1w fr-gap-1 fr-pl-2w fr-border-left-blue-france"
-                  *ngIf="pendingInteractions.courrierIn"
-                >
-                  <div
-                    class="fr-display-flex fr-gap-1 fr-flex-column"
-                    *ngFor="
-                      let interaction of groupedPendingInteractions?.courrierIn
-                        | keyvalue
-                    "
-                  >
-                    {{ interaction.key | date : "dd MMMM yyyy" }}
-                    <ng-container *ngIf="interaction.value.numberOfItems > 1">
-                      - ({{ interaction.value.numberOfItems }})</ng-container
-                    >
-                    <ng-container *ngIf="interaction.value.comments">
-                      <div
-                        *ngFor="let comment of interaction.value.comments"
-                        class="fr-display-flex fr-align-items-start fr-text--xs fr-gap-1 fr-tag fr-tag--sm"
-                      >
-                        <span
-                          aria-hidden="true"
-                          class="fr-icon-message-3-line"
-                        ></span>
-                        <span class="fr-sr-only">
-                          Commentaires sur les courriers
-                        </span>
-                        <span
-                          class="fr-text--break"
-                          [innerHTML]="comment | nl2br"
-                        ></span>
-                      </div>
-                    </ng-container>
-                  </div>
-                </div>
-              </div>
+                >{{ interaction.key | date : "dd MMMM yyyy"
+                }}{{
+                  interaction.value.numberOfItems > 1
+                    ? " - (" + interaction.value.numberOfItems + ")"
+                    : ""
+                }}</span
+              >
+              @if (interaction.value.comments) { @for (comment of
+              interaction.value.comments; track $index) {
+              <p
+                class="fr-text--xs fr-mb-0 fr-px-1w fr-py-1v fr-background-alt--grey fr-icon-message-3-line fr-icon--sm"
+              >
+                <span class="fr-sr-only">Commentaires sur les courriers</span>
+                <span [innerHTML]="comment | nl2br"></span>
+              </p>
+              } }
             </div>
-          </ng-container>
-          <ng-container *ngIf="usager.lastInteraction.colisIn > 0">
-            <div class="fr-display-flex fr-gap-2">
-              <span
-                class="fr-icon-archive-line fr-align-self-start fr-mt-1-5v"
-              ></span>
-              <div class="fr-display-flex fr-flex-column fr-gap-1">
-                <div>
-                  <h3 class="fr-mb-0 fr-text-title--blue-france">
-                    {{ usager.lastInteraction.colisIn }}
-                    <span class="fr-text--lead">colis</span>
-                  </h3>
-                </div>
-                <div
-                  class="fr-display-flex fr-flex-column fr-ml-1w fr-gap-1 fr-pl-2w fr-border-left-blue-france"
-                  *ngIf="pendingInteractions.colisIn"
-                >
-                  <div
-                    *ngFor="
-                      let interaction of groupedPendingInteractions?.colisIn
-                        | keyvalue
-                    "
-                  >
-                    {{ interaction.key | date : "dd MMMM yyyy" }}
-                    <ng-container *ngIf="interaction.value.numberOfItems > 1">
-                      - ({{ interaction.value.numberOfItems }})</ng-container
-                    >
-                    <ng-container *ngIf="interaction.value.comments">
-                      <div
-                        *ngFor="let comment of interaction.value.comments"
-                        class="fr-display-flex fr-align-items-start fr-text--xs fr-gap-1 fr-tag fr-tag--sm"
-                      >
-                        <span
-                          aria-hidden="true"
-                          class="fr-icon-message-3-line fr-icon--sm"
-                        ></span>
-                        <span class="fr-sr-only"
-                          >Commentaires sur les colis
-                        </span>
-                        <span
-                          class="fr-text--break"
-                          [innerHTML]="comment | nl2br"
-                        ></span>
-                      </div>
-                    </ng-container>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ng-container>
-
-          <ng-container *ngIf="usager.lastInteraction.recommandeIn > 0">
-            <div class="fr-display-flex fr-gap-2">
-              <span
-                class="fr-icon-mail-star-line fr-align-self-start fr-mt-1-5v"
-              ></span>
-              <div class="fr-display-flex fr-flex-column fr-gap-1">
-                <div>
-                  <h3 class="fr-mb-0 fr-text-title--blue-france">
-                    {{ usager.lastInteraction.recommandeIn }}
-                    <span class="fr-text--lead"> avis de passage</span>
-                  </h3>
-                </div>
-                <ng-container *ngIf="pendingInteractions.recommandeIn">
-                  <div
-                    class="fr-display-flex fr-flex-column fr-ml-1w fr-gap-1 fr-pl-2w fr-border-left-blue-france"
-                    *ngFor="
-                      let interaction of groupedPendingInteractions?.recommandeIn
-                        | keyvalue
-                    "
-                  >
-                    {{ interaction.key | date : "dd MMMM yyyy" }}
-                    <ng-container *ngIf="interaction.value.numberOfItems > 1">
-                      - ({{ interaction.value.numberOfItems }})</ng-container
-                    >
-                    <ng-container *ngIf="interaction.value.comments">
-                      <div
-                        *ngFor="let comment of interaction.value.comments"
-                        class="fr-display-flex fr-align-items-start fr-text--xs fr-gap-1 fr-tag fr-tag--sm"
-                      >
-                        <span
-                          aria-hidden="true"
-                          class="fr-icon-message-3-line fr-icon--sm"
-                        ></span>
-                        <span class="fr-sr-only"
-                          >Commentaires sur les avis de passage</span
-                        >
-                        <span
-                          class="fr-text--break"
-                          [innerHTML]="comment | nl2br"
-                        ></span>
-                      </div>
-                    </ng-container>
-                  </div>
-                </ng-container>
-              </div>
-            </div>
-          </ng-container>
+            }
+          </div>
+          }
         </div>
+        } @if (usager.lastInteraction.colisIn > 0) {
+        <div class="fr-display-flex fr-flex-column fr-gap-1">
+          <h3
+            class="fr-h3 fr-mb-0 fr-text-title--blue-france fr-icon-archive-line"
+          >
+            {{ usager.lastInteraction.colisIn }}
+            <span class="fr-text--lead">colis</span>
+          </h3>
+          @if (pendingInteractions.colisIn) {
+          <div
+            class="fr-display-flex fr-flex-column fr-ml-1w fr-gap-1 fr-pl-2w fr-border-left-blue-france"
+          >
+            @for (interaction of groupedPendingInteractions?.colisIn | keyvalue;
+            track interaction.key) {
+            <div class="fr-display-flex fr-gap-1 fr-flex-column">
+              <span
+                >{{ interaction.key | date : "dd MMMM yyyy"
+                }}{{
+                  interaction.value.numberOfItems > 1
+                    ? " - (" + interaction.value.numberOfItems + ")"
+                    : ""
+                }}</span
+              >
+              @if (interaction.value.comments) { @for (comment of
+              interaction.value.comments; track $index) {
+              <p
+                class="fr-text--xs fr-mb-0 fr-px-1w fr-py-1v fr-background-alt--grey fr-icon-message-3-line fr-icon--sm"
+              >
+                <span class="fr-sr-only">Commentaires sur les colis</span>
+                <span [innerHTML]="comment | nl2br"></span>
+              </p>
+              } }
+            </div>
+            }
+          </div>
+          }
+        </div>
+        } @if (usager.lastInteraction.recommandeIn > 0) {
+        <div class="fr-display-flex fr-flex-column fr-gap-1">
+          <h3
+            class="fr-h3 fr-mb-0 fr-text-title--blue-france fr-icon-mail-star-line"
+          >
+            {{ usager.lastInteraction.recommandeIn }}
+            <span class="fr-text--lead"> avis de passage</span>
+          </h3>
+          @if (pendingInteractions.recommandeIn) { @for (interaction of
+          groupedPendingInteractions?.recommandeIn | keyvalue; track
+          interaction.key) {
+          <div
+            class="fr-display-flex fr-flex-column fr-ml-1w fr-gap-1 fr-pl-2w fr-border-left-blue-france"
+          >
+            <span
+              >{{ interaction.key | date : "dd MMMM yyyy"
+              }}{{
+                interaction.value.numberOfItems > 1
+                  ? " - (" + interaction.value.numberOfItems + ")"
+                  : ""
+              }}</span
+            >
+            @if (interaction.value.comments) { @for (comment of
+            interaction.value.comments; track $index) {
+            <p
+              class="fr-text--xs fr-mb-0 fr-px-1w fr-py-1v fr-background-alt--grey fr-icon-message-3-line fr-icon--sm"
+            >
+              <span class="fr-sr-only"
+                >Commentaires sur les avis de passage</span
+              >
+              <span [innerHTML]="comment | nl2br"></span>
+            </p>
+            } }
+          </div>
+          } }
+        </div>
+        }
       </div>
     </div>
   </div>
+  }
   <div class="fr-text--center">
     <a
       routerLink="/account/historique"
@@ -202,3 +157,4 @@
     </a>
   </div>
 </div>
+}

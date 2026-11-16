@@ -35,28 +35,21 @@
     >
       @for (interaction of interactions; track interaction.uuid) {
       <li class="fr-text-title--blue-france">
-        <div class="fr-display-flex fr-gap-2">
-          <span
+        <!-- Block layout (no row flex) so that long contents wrap (RGAA 10.11) -->
+        <div class="fr-display-flex fr-flex-column fr-gap-1">
+          <p
             [ngClass]="interaction.iconClass"
-            class="fr-align-self-start fr-mt-1-5v"
-            aria-hidden="true"
-          ></span>
-          <div class="fr-display-flex fr-flex-column fr-gap-1">
-            <p
-              class="fr-text--md fr-text--regular fr-mb-0 fr-text-title--blue-france"
-            >
-              {{ interaction.dateInteraction | date : "dd MMMM yyyy à HH:mm" }}
-            </p>
-            <span>{{ interaction.label }}</span>
-            @if (interaction.content) {
-            <div class="fr-text--sm fr-mb-0 fr-text-title--grey">
-              <span
-                class="fr-text--break"
-                [innerHTML]="interaction.content | nl2br"
-              ></span>
-            </div>
-            }
-          </div>
+            class="fr-text--md fr-text--regular fr-mb-0 fr-text-title--blue-france"
+          >
+            {{ interaction.dateInteraction | date : "dd MMMM yyyy à HH:mm" }}
+          </p>
+          <span>{{ interaction.label }}</span>
+          @if (interaction.content) {
+          <div
+            class="fr-text--sm fr-mb-0 fr-text-title--grey"
+            [innerHTML]="interaction.content | nl2br"
+          ></div>
+          }
         </div>
       </li>
       }
