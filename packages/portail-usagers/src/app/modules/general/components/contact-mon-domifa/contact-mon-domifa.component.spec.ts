@@ -79,11 +79,28 @@ describe("ContactMonDomifaComponent", () => {
   it("rejects a too short optional message", () => {
     fillIdentity();
     component.contactForm.patchValue({
-      subject: "SUPPRESSION_DONNEES",
+      subject: "MODIFIER_COORDONNEES",
       content: "court",
     });
     expect(component.contactForm.valid).toBe(false);
     component.contactForm.controls.content.setValue("");
+    expect(component.contactForm.valid).toBe(true);
+  });
+
+  it("requires a message for a data deletion request", () => {
+    fillIdentity();
+    component.contactForm.controls.subject.setValue("SUPPRESSION_DONNEES");
+    fixture.detectChanges();
+
+    expect(component.needsMessage).toBe(true);
+    expect(component.contactForm.valid).toBe(false);
+    expect(
+      fixture.nativeElement.querySelector("textarea#content").required
+    ).toBe(true);
+
+    component.contactForm.controls.content.setValue(
+      "Je souhaite supprimer mon compte"
+    );
     expect(component.contactForm.valid).toBe(true);
   });
 

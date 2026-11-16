@@ -49,7 +49,7 @@ export const MON_DOMIFA_CONTACT_SUBJECTS_DEF: {
       "Je souhaite demander la suppression de mes données sur le portail Mon DomiFa",
     response:
       "Après l'envoi de votre demande, nous vous répondrons par email afin de vous confirmer la suppression de vos accès et de vos données sur Mon DomiFa.",
-    requiresMessage: false,
+    requiresMessage: true,
   },
   PROBLEME_ACCESSIBILITE: {
     label:

@@ -68,9 +68,9 @@ describe("MonDomifaContactDto", () => {
     ]);
   });
 
-  it("only requires a message for free-text subjects", async () => {
+  it("only requires a message for free-text and data deletion subjects", async () => {
     expect(
-      await errorFields(build({ subject: "SUPPRESSION_DONNEES", content: "" }))
+      await errorFields(build({ subject: "MODIFIER_COORDONNEES", content: "" }))
     ).toEqual([]);
     expect(
       await errorFields(
@@ -79,8 +79,11 @@ describe("MonDomifaContactDto", () => {
     ).toEqual([]);
     expect(
       await errorFields(
-        build({ subject: "SUPPRESSION_DONNEES", content: "court" })
+        build({ subject: "MODIFIER_COORDONNEES", content: "court" })
       )
+    ).toEqual(["content"]);
+    expect(
+      await errorFields(build({ subject: "SUPPRESSION_DONNEES", content: "" }))
     ).toEqual(["content"]);
     expect(await errorFields(build({ subject: "AUTRE", content: "" }))).toEqual(
       ["content"]
