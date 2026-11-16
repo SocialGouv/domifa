@@ -105,26 +105,33 @@
                 aria-live="polite"
                 aria-atomic="true"
               >
-                @for (rule of newPasswordRules; track rule.label; let i =
-                $index) {
+                <!-- Same order as newPasswordRuleErrors in the component -->
+                @for (status of newPasswordRuleStatus; track $index) {
                 <li
                   class="fr-message"
-                  [class.fr-message--info]="
-                    newPasswordRuleStatus[i] === 'pending'
-                  "
-                  [class.fr-message--error]="
-                    newPasswordRuleStatus[i] === 'error'
-                  "
-                  [class.fr-message--valid]="
-                    newPasswordRuleStatus[i] === 'valid'
-                  "
+                  [class.fr-message--info]="status === 'pending'"
+                  [class.fr-message--error]="status === 'error'"
+                  [class.fr-message--valid]="status === 'valid'"
                 >
-                  @if (newPasswordRuleStatus[i] === 'valid') {
+                  @if (status === 'valid') {
                   <span class="fr-sr-only">Règle validée : </span>
-                  } @else if (newPasswordRuleStatus[i] === 'error') {
+                  } @else if (status === 'error') {
                   <span class="fr-sr-only">Règle non validée : </span>
-                  }
-                  {{ rule.label }}
+                  } @switch ($index) { @case (0) {
+                  <span>Au moins 1 chiffre</span>
+                  } @case (1) {
+                  <span>Au moins une lettre en majuscule</span>
+                  } @case (2) {
+                  <span>Au moins une lettre en minuscule</span>
+                  } @case (3) {
+                  <span
+                    >Au moins un caractère spécial parmi : &#64; [ ] ^ _ !
+                    &quot; # $ % &amp; &apos; ( ) * + , - . / : ; &lbrace;
+                    &rbrace; &lt; &gt; = | ~ ?</span
+                  >
+                  } @case (4) {
+                  <span>Doit contenir entre 12 et 150 caractères</span>
+                  } }
                 </li>
                 }
               </ul>
