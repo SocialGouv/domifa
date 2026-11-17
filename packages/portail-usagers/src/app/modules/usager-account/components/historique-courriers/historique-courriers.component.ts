@@ -74,15 +74,6 @@ export class HistoriqueCourriersComponent implements OnDestroy, OnInit {
     this.loadInteractions();
   }
 
-  public getPreviousPage(): void {
-    if (this.params.page === 1) {
-      return;
-    }
-    this.params.page -= 1;
-    this.focusFirstInteraction = true;
-    this.loadInteractions();
-  }
-
   private loadInteractions(): void {
     this.loading = true;
     if (this.usagerAuthService.currentUserValue?.usager?.ref) {

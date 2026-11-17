@@ -1,5 +1,8 @@
 <h2 class="fr-text-title--blue-france fr-mb-1w">Documents disponibles</h2>
 
+<!-- announces the download state: the button keeps the focus and its accessible name -->
+<p class="fr-sr-only" aria-live="polite">{{ downloadStatus }}</p>
+
 <div
   class="border-top fr-pt-2w border-1 border-grey fr-display-flex fr-flex-column fr-gap-2"
 >
@@ -16,8 +19,7 @@
         <h3 class="fr-card__title fr-h5 fr-mb-0">
           <button
             type="button"
-            [disabled]="doc.loading"
-            [attr.aria-disabled]="doc.loading"
+            [attr.aria-disabled]="doc.loading ? 'true' : null"
             [attr.aria-busy]="doc.loading ? 'true' : 'false'"
             [attr.aria-label]="'Télécharger le document ' + doc.label"
             (click)="downloadDoc(doc)"

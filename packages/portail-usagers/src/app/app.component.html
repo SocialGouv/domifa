@@ -75,9 +75,10 @@
             <div class="fr-header__tools-links">
               <ul class="fr-btns-group">
                 <li>
+                  <!-- data-action: the DSFR JS copies this HTML into the mobile menu without the Angular listener -->
                   <button
-                    [tabIndex]="0"
                     (click)="logout()"
+                    data-action="logout"
                     type="button"
                     class="fr-icon-logout-box-r-line fr-btn"
                   >

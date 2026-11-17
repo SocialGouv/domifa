@@ -1,5 +1,5 @@
 import { UsagerAuthService } from "./modules/usager-auth/services/usager-auth.service";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, HostListener, OnInit, ViewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Title } from "@angular/platform-browser";
 import { NavigationEnd, Router, RouterModule } from "@angular/router";
@@ -117,6 +117,8 @@ export class AppComponent implements OnInit {
   public closeMatomo(): void {
     this.matomoInfo = true;
     localStorage.setItem("matomo", "done");
+    // the banner and its button are removed: keep the focus in the page
+    document.getElementById("page")?.focus();
   }
 
   public checkNews(): void {
@@ -210,6 +212,16 @@ export class AppComponent implements OnInit {
 
   public logout(): void {
     this.usagerAuthService.logoutAndRedirect();
+  }
+
+  // The DSFR JS copies .fr-header__tools-links into .fr-header__menu-links (mobile menu)
+  // as plain HTML: the copied logout button has no Angular listener, so delegate its click
+  @HostListener("document:click", ["$event"])
+  public onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement | null;
+    if (target?.closest('.fr-header__menu-links [data-action="logout"]')) {
+      this.logout();
+    }
   }
 
   private initMaintenanceNotice(): void {
