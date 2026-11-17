@@ -27,7 +27,7 @@
   },
   {
     "date": "2024-10-20",
-    "description": "📩 Votre structure vous informe",
+    "description": "Votre structure vous informe",
     "content": [
       {
         "type": "new",
@@ -41,7 +41,7 @@
   },
   {
     "date": "2024-03-13",
-    "description": "📩 Du nouveau dans vos courriers",
+    "description": "Du nouveau dans vos courriers",
     "content": [
       {
         "type": "bug",
