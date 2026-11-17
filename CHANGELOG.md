@@ -1,3 +1,10 @@
+## [2.294.4](https://github.com/SocialGouv/domifa/compare/v2.294.3...v2.294.4) (2026-11-17)
+
+
+### Bug Fixes
+
+* **portail-usagers:** keep required fields and message types without CSS for RGAA 10.2 (MON-10.2) ([26251a2](https://github.com/SocialGouv/domifa/commit/26251a2a3c60e19e8a816363078501623186a98b))
+
 ## [2.294.3](https://github.com/SocialGouv/domifa/compare/v2.294.2...v2.294.3) (2026-11-17)
 
 
