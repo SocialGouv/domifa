@@ -10,6 +10,7 @@ import {
 } from "@angular/router";
 import { AuthGuard } from "../../../../guards/auth-guard";
 import { UsagerAuthService } from "../../../usager-auth/services/usager-auth.service";
+import { PortailUsagerProfile } from "@domifa/common";
 
 describe("UsagerAcceptCguComponent", () => {
   let component: UsagerAcceptCguComponent;
@@ -46,5 +47,36 @@ describe("UsagerAcceptCguComponent", () => {
 
   it("should create", () => {
     expect(component).toBeTruthy();
+  });
+
+  it("focuses the first checkbox in error once its message is rendered", () => {
+    component.usagerProfile = {
+      acceptTerms: null,
+    } as unknown as PortailUsagerProfile;
+    fixture.detectChanges();
+    const host: HTMLElement = fixture.nativeElement;
+
+    // record what assistive technologies get at the exact moment of the focus
+    const focusCalls: { element: HTMLElement; message: string | null }[] = [];
+    jest
+      .spyOn(HTMLElement.prototype, "focus")
+      .mockImplementation(function (this: HTMLElement) {
+        const describedBy = this.getAttribute("aria-describedby");
+        focusCalls.push({
+          element: this,
+          message: describedBy
+            ? host.querySelector(`#${describedBy}`)?.textContent?.trim() ?? null
+            : null,
+        });
+      });
+
+    component.acceptTermsForm.controls.readTerms.setValue(true);
+    component.submitAcceptTerms();
+
+    expect(focusCalls).toHaveLength(1);
+    expect(focusCalls[0].element).toBe(host.querySelector("#acceptTerms"));
+    expect(focusCalls[0].message).toBe(
+      "Cochez cette case pour accepter les CGU et continuer."
+    );
   });
 });

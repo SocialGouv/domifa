@@ -61,6 +61,9 @@
 
   <div class="fr-py-4w">
     <form [formGroup]="contactForm" (ngSubmit)="sendContactMessage()">
+      <p class="fr-text--sm fr-mb-3w">
+        Les champs marqués d'un astérisque (*) sont obligatoires.
+      </p>
       <input formControlName="userId" name="userId" type="hidden" />
       <input formControlName="structureId" name="structureId" type="hidden" />
 
@@ -130,13 +133,19 @@
           [attr.aria-describedby]="
             (submitted || f.structureName.dirty) && f.structureName.errors
               ? 'invalid-structure-name'
-              : null
+              : 'structure-name-help'
           "
           aria-required="true"
           required
         />
         <div class="fr-messages-group" aria-live="polite">
-          @if ((submitted || f.structureName.dirty) && f.structureName.errors) {
+          @if (!(submitted || f.structureName.dirty) || !f.structureName.errors)
+          {
+          <p id="structure-name-help" class="fr-message fr-message--info">
+            2 caractères minimum
+          </p>
+          } @if ((submitted || f.structureName.dirty) && f.structureName.errors)
+          {
           <p id="invalid-structure-name" class="fr-message fr-message--error">
             Veuillez indiquer le nom de votre structure (2 caractères minimum)
           </p>
@@ -157,7 +166,9 @@
             <label class="fr-label" for="email">
               Adresse email de contact
             </label>
-            <p class="fr-hint-text">Format attendu : nom&#64;domaine.fr</p>
+            <p class="fr-hint-text" id="email-hint">
+              Format attendu : nom&#64;domaine.fr
+            </p>
             <input
               type="email"
               id="email"
@@ -170,8 +181,8 @@
               "
               [attr.aria-describedby]="
                 (f.email.dirty || submitted) && f.email.errors
-                  ? 'email-errors'
-                  : null
+                  ? 'email-hint email-errors'
+                  : 'email-hint'
               "
               aria-required="true"
               required

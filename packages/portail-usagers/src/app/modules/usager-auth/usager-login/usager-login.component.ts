@@ -57,6 +57,17 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   public invalidFields: Record<string, boolean> = {};
   public isNewPasswordConfirmInvalid = false;
 
+  private readonly newPasswordRuleErrors: string[][] = [
+    ["hasNumber"],
+    ["hasCapitalCase"],
+    ["hasLowerCase"],
+    ["hasSpecialCharacter"],
+    ["minlength", "maxlength"],
+  ];
+  // "pending" until the user types, so no rule is announced as failed beforehand
+  public newPasswordRuleStatus: ("pending" | "valid" | "error")[] =
+    this.newPasswordRuleErrors.map(() => "pending");
+
   public loading: boolean;
   public usagerProfile: PortailUsagerProfile | null;
   public mode: "login-only" | "login-change-password" = "login-only";
@@ -185,6 +196,8 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   }
 
   private reasetFormFocus(): void {
+    // render the error messages and their aria-describedby before moving the focus
+    this.cdr.detectChanges();
     // inputs are ordered as in the DOM, so the first visible invalid field gets the focus
     const invalidInput = this.inputs.find((input: ElementRef) => {
       const controlName = input.nativeElement.getAttribute("formcontrolname");
@@ -227,6 +240,19 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
         name,
         control.invalid && (control.dirty || control.touched),
       ])
+    );
+
+    const newPasswordControl = this.loginForm.controls.newPassword;
+    this.newPasswordRuleStatus = this.newPasswordRuleErrors.map(
+      (ruleErrors) => {
+        if (!newPasswordControl.dirty && !newPasswordControl.touched) {
+          return "pending";
+        }
+        const errors = newPasswordControl.errors ?? {};
+        return errors.required || ruleErrors.some((error) => errors[error])
+          ? "error"
+          : "valid";
+      }
     );
 
     const confirmControl = this.loginForm.controls.newPasswordConfirm;

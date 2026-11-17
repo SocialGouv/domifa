@@ -40,4 +40,30 @@ describe("UsagerLoginComponent", () => {
     component.loginForm.controls.password.setValue("123456789");
     expect(component.loginForm.valid).toBeTruthy();
   });
+
+  it("focuses the first field in error once its message is rendered", () => {
+    const host: HTMLElement = fixture.nativeElement;
+
+    // record what assistive technologies get at the exact moment of the focus
+    const focusCalls: { element: HTMLElement; messages: string[] }[] = [];
+    jest
+      .spyOn(HTMLElement.prototype, "focus")
+      .mockImplementation(function (this: HTMLElement) {
+        focusCalls.push({
+          element: this,
+          messages: (this.getAttribute("aria-describedby") ?? "")
+            .split(" ")
+            .filter(Boolean)
+            .map(
+              (id) => host.querySelector(`#${id}`)?.textContent?.trim() ?? ""
+            ),
+        });
+      });
+
+    component.doLogin();
+
+    expect(focusCalls).toHaveLength(1);
+    expect(focusCalls[0].element).toBe(host.querySelector("#login"));
+    expect(focusCalls[0].messages).toContain("Saisissez votre identifiant.");
+  });
 });
