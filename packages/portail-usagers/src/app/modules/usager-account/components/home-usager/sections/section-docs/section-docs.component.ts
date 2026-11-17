@@ -23,6 +23,7 @@ import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 export class SectionDocsComponent implements OnInit, OnDestroy {
   @Input() public usager!: PortailUsagerPublic;
   public docs: WithLoading<UsagerDoc>[] = [];
+  public downloadStatus = "";
   private subscription = new Subscription();
 
   public readonly STRUCTURE_INFORMATION_TYPES = STRUCTURE_INFORMATION_TYPES;
@@ -31,7 +32,7 @@ export class SectionDocsComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly usagerDocService: UsagerDocService,
-    private readonly toastr: CustomToastService,
+    private readonly toastr: CustomToastService
   ) {}
 
   ngOnInit(): void {
@@ -44,12 +45,17 @@ export class SectionDocsComponent implements OnInit, OnDestroy {
         next: (docs: UsagerDoc[]) => {
           this.docs = initLoadingState(docs);
         },
-      }),
+      })
     );
   }
 
   public downloadDoc(doc: WithLoading<UsagerDoc>) {
+    // the button stays focusable while loading (aria-disabled): ignore repeated clicks
+    if (doc.loading) {
+      return;
+    }
     doc.loading = true;
+    this.downloadStatus = `Téléchargement du document ${doc.label} en cours`;
     this.subscription.add(
       this.usagerDocService.downloadDocument(doc.uuid as string).subscribe({
         next: (blob: Blob) => {
@@ -60,12 +66,14 @@ export class SectionDocsComponent implements OnInit, OnDestroy {
 
           saveAs(newBlob, name);
           doc.loading = false;
+          this.downloadStatus = `Document ${doc.label} téléchargé`;
         },
         error: () => {
           this.toastr.error("Impossible de télécharger le fichier");
           doc.loading = false;
+          this.downloadStatus = "";
         },
-      }),
+      })
     );
   }
 

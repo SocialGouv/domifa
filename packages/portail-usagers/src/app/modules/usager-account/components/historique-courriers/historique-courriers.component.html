@@ -59,14 +59,15 @@
       }
     </ul>
     }
+    <!-- Full pagination on every page: the activated link is never destroyed -->
+    @if (searchResults.meta.pageCount > 1) {
     <dsfr-pagination
       class="fr-display-flex fr-justify-content-center"
       [pageCount]="searchResults.meta.pageCount"
       [currentPage]="searchResults.meta.page"
-      [previousOnly]="!searchResults.meta.hasNextPage"
       ariaLabel="Pagination historique des interactions"
       (pageSelect)="getInteractionsByPage($event)"
-      (backSelect)="getPreviousPage()"
     ></dsfr-pagination>
+    }
   </div>
 </div>

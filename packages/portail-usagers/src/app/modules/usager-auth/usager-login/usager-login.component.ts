@@ -28,7 +28,6 @@ import {
   PortailUsagerAuthApiResponse,
 } from "@domifa/common";
 import { SeoService } from "../../shared/services/seo.service";
-import { DsfrButtonModule } from "@edugouvfr/ngx-dsfr";
 import { TrimUppercaseDirective } from "../../shared/directives/trim-uppercase.directive";
 import { FaqComponent } from "../../shared/components/faq/faq.component";
 
@@ -40,7 +39,6 @@ import { FaqComponent } from "../../shared/components/faq/faq.component";
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
-    DsfrButtonModule,
     TrimUppercaseDirective,
     FaqComponent,
   ],
@@ -241,16 +239,19 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
     return this.displayLoginError && !this.blockedTemp;
   }
 
-  private focusSubmitButton(): void {
-    // waiting for the submit button to be enabled again after loading
-    setTimeout(() => {
-      this.elementRef.nativeElement
-        .querySelector<HTMLButtonElement>("#loginBtn")
-        ?.focus();
-    });
+  private focusLoginInput(): void {
+    // render the error alert and the aria-describedby of the field before moving the focus
+    this.cdr.detectChanges();
+    this.elementRef.nativeElement
+      .querySelector<HTMLInputElement>("#login")
+      ?.focus();
   }
 
   public doLogin(): void {
+    // the submit button stays focusable while loading (aria-disabled): ignore repeated submits
+    if (this.loading) {
+      return;
+    }
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       this.displayPasswordIndication = false;
@@ -308,11 +309,11 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
               "null",
               1
             );
-            this.focusSubmitButton();
+            this.focusLoginInput();
           } else {
             this.displayPasswordIndication = false;
             this.displayLoginError = true;
-            this.focusSubmitButton();
+            this.focusLoginInput();
             this.matomo.trackEvent(
               "login-portail-usagers",
               "login_error",

@@ -1,5 +1,5 @@
 import { UsagerAuthService } from "./modules/usager-auth/services/usager-auth.service";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, HostListener, OnInit, ViewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Title } from "@angular/platform-browser";
 import { NavigationEnd, Router, RouterModule } from "@angular/router";
@@ -82,7 +82,7 @@ export class AppComponent implements OnInit {
     private readonly titleService: Title,
     private readonly router: Router,
     private readonly usagerAuthService: UsagerAuthService,
-    private readonly matomo: MatomoTracker,
+    private readonly matomo: MatomoTracker
   ) {
     this.apiVersion = null;
     this.usagerProfile = null;
@@ -117,6 +117,8 @@ export class AppComponent implements OnInit {
   public closeMatomo(): void {
     this.matomoInfo = true;
     localStorage.setItem("matomo", "done");
+    // the banner and its button are removed: keep the focus in the page
+    document.getElementById("page")?.focus();
   }
 
   public checkNews(): void {
@@ -130,7 +132,7 @@ export class AppComponent implements OnInit {
     if (!lastNews) {
       localStorage.setItem(
         "NEWS_MON_DOMIFA",
-        new Date(DOMIFA_NEWS[0].date).toISOString(),
+        new Date(DOMIFA_NEWS[0].date).toISOString()
       );
       this.pendingNews = false;
       return;
@@ -149,7 +151,7 @@ export class AppComponent implements OnInit {
     this.newsModal.close();
     localStorage.setItem(
       "NEWS_MON_DOMIFA",
-      new Date(DOMIFA_NEWS[0].date).toISOString(),
+      new Date(DOMIFA_NEWS[0].date).toISOString()
     );
     this.pendingNews = false;
     this.newsModalOpen = false;
@@ -158,7 +160,7 @@ export class AppComponent implements OnInit {
   public ngOnInit(): void {
     this.initMaintenanceNotice();
     this.titleService.setTitle(
-      "Mon DomiFa, l'outil qui facilite la gestion des structures domiciliatirices",
+      "Mon DomiFa, l'outil qui facilite la gestion des structures domiciliatirices"
     );
 
     this.usagerAuthService.currentUsagerSubject.subscribe(
@@ -168,7 +170,7 @@ export class AppComponent implements OnInit {
         if (usager) {
           this.checkNews();
         }
-      },
+      }
     );
 
     this.router.events
@@ -179,6 +181,8 @@ export class AppComponent implements OnInit {
         const splitUrl = event?.url.split("#");
         this.currentUrl = splitUrl[0];
         this.skipLinks = [
+          // Same order as the page: header menu, main content, footer
+          { label: "Aller au menu", link: `${this.currentUrl}#navigation` },
           { label: "Aller au contenu", link: `${this.currentUrl}#page` },
           { label: "Aller au pied de page", link: `${this.currentUrl}#footer` },
         ];
@@ -210,6 +214,16 @@ export class AppComponent implements OnInit {
     this.usagerAuthService.logoutAndRedirect();
   }
 
+  // The DSFR JS copies .fr-header__tools-links into .fr-header__menu-links (mobile menu)
+  // as plain HTML: the copied logout button has no Angular listener, so delegate its click
+  @HostListener("document:click", ["$event"])
+  public onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement | null;
+    if (target?.closest('.fr-header__menu-links [data-action="logout"]')) {
+      this.logout();
+    }
+  }
+
   private initMaintenanceNotice(): void {
     if (new Date() >= MAINTENANCE_NOTICE.endsAt) {
       return;
@@ -228,7 +242,7 @@ export class AppComponent implements OnInit {
     try {
       localStorage.setItem(
         MAINTENANCE_NOTICE.storageKey,
-        new Date().toDateString(),
+        new Date().toDateString()
       );
     } catch {
       // Storage unavailable: hidden until the next page load
