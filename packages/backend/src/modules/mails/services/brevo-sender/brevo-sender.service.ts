@@ -54,9 +54,18 @@ import {
 // blocklists, transactional history) is shared, so every other environment
 // gets an info log and a mocked response instead. Outside prod the only
 // email that still goes out is the OTP, through Tipimail SMTP (see
-// OtpEmailService).
+// OtpEmailService). Exception: preprod may send transactional emails (password
+// links, etc.) so flows can be tested end to end; contact/list syncs stay
+// prod-only.
 function isBrevoCallSkipped(config: DomifaConfig): boolean {
   return !config.email.emailsEnabled || config.envId !== "prod";
+}
+
+function isBrevoTransactionalSendSkipped(config: DomifaConfig): boolean {
+  return (
+    !config.email.emailsEnabled ||
+    (config.envId !== "prod" && config.envId !== "preprod")
+  );
 }
 
 @Injectable()
@@ -154,7 +163,7 @@ export class BrevoSenderService {
   }) {
     const config = domifaConfig();
 
-    if (isBrevoCallSkipped(config)) {
+    if (isBrevoTransactionalSendSkipped(config)) {
       appLogger.info(
         `[EMAILS DISABLED] Email non envoyé - Template ID: ${templateId}, To: ${JSON.stringify(
           to
@@ -183,9 +192,13 @@ export class BrevoSenderService {
       }
 
       sendSmtpEmail.templateId = templateId;
-      // Only reachable in prod (isBrevoCallSkipped short-circuits everywhere
-      // else), so no recipient redirection is needed here anymore.
-      sendSmtpEmail.to = cleanRecipients;
+      // Preprod data may contain real addresses: redirect them when a
+      // redirect address is configured. Prod always sends to real recipients.
+      const redirectTo = config.email.emailAddressRedirectAllTo;
+      sendSmtpEmail.to =
+        config.envId !== "prod" && redirectTo
+          ? [{ email: redirectTo, name: redirectTo }]
+          : cleanRecipients;
 
       sendSmtpEmail.params = params;
       sendSmtpEmail.replyTo = replyTo;
