@@ -16,6 +16,7 @@
         enregistré{{ users.length > 1 ? "s" : "" }}
       </h2>
     </div>
+    @if (canRegisterUsers) {
     <div class="fr-col-auto">
       <button
         type="button"
@@ -25,6 +26,7 @@
         Ajouter un utilisateur
       </button>
     </div>
+    }
   </div>
 
   @if (loading) {

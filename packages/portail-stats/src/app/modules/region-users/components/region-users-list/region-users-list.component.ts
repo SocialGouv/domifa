@@ -60,6 +60,10 @@ export class RegionUsersListComponent implements OnInit, OnDestroy {
   public loading = true;
   public userToDelete: RegionManagedUser | null = null;
 
+  // DDETS / DREETS account creation is temporarily hidden on the pilotage
+  // portal. Flip back to true to re-enable the "Ajouter un utilisateur" button.
+  public readonly canRegisterUsers = false;
+
   public sortKey: SortKey = "nom";
   public sortAsc = true;
 
