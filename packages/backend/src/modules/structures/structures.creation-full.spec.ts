@@ -178,6 +178,7 @@ describe("Stuctures creation full", () => {
     expect(user.fonctionDetail).toEqual(userDto.fonctionDetail);
     expect(user.structureId).toEqual(structure.id);
     expect(user.email).toEqual(userDto.email);
+    expect(user.accountRulesAcknowledgedAt).toBeInstanceOf(Date);
     expect(user.status).toEqual("PENDING");
 
     localCache.structureId = structure.id;

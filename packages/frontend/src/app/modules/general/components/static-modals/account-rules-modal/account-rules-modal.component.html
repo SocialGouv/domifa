@@ -1,0 +1,50 @@
+<dsfr-modal
+  class="fr-text--left"
+  #accountRulesModal
+  [modalSize]="'LG'"
+  dialogId="accountRulesModal"
+  titleModal="Évolution des règles d'utilisation des comptes DomiFa"
+  icon="fr-icon-error-warning-fill"
+  (conceal)="closed.emit()"
+>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <p>
+      Afin de renforcer la sécurité, la confidentialité et la traçabilité des
+      actions réalisées dans DomiFa, nous recommandons fortement l'utilisation
+      d'une adresse email professionnelle nominative et individuelle pour chaque
+      compte utilisateur.
+    </p>
+    <p>
+      L’utilisation d’une adresse email nominative permet de mieux identifier
+      les personnes réalisant des actions sur la plateforme et de limiter les
+      risques d’usurpation d’identité.
+    </p>
+    <p>
+      L’utilisation d’une adresse générique ou partagée réduit la capacité à
+      déterminer précisément quelle personne a réalisé une action. Elle suppose
+      que votre structure maîtrise strictement les personnes ayant accès et
+      mette à jour ces accès en cas de départ, changement de mission ou
+      remplacement.
+    </p>
+    <p class="fr-text--sm fr-text-default--error fr-mb-2w">
+      * champs obligatoires
+    </p>
+
+    <app-generic-email-acknowledgement
+      [parentFormGroup]="form"
+      [submitted]="submitted"
+      [showWarning]="false"
+    ></app-generic-email-acknowledgement>
+  </form>
+
+  <ng-template #modalFooterTemplate>
+    <div class="fr-btns-group fr-btns-group--inline fr-btns-group--right">
+      <app-button
+        type="submit"
+        [loading]="loading"
+        label="J'ai compris"
+        (action)="submit()"
+      ></app-button>
+    </div>
+  </ng-template>
+</dsfr-modal>

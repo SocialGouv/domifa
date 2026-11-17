@@ -27,6 +27,7 @@ import {
   PasswordValidator,
 } from "../../../users/services";
 import { StructureService } from "../../services";
+import { GENERIC_EMAIL_ACKNOWLEDGEMENT_CONTROL } from "../../../shared/components/generic-email-acknowledgement/generic-email-acknowledgement.component";
 import { UserStructure, StructureCommon } from "@domifa/common";
 import { MatomoTracker } from "ngx-matomo-client";
 
@@ -103,6 +104,10 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
           this.user.prenom,
           [Validators.required, Validators.minLength(2), NoWhiteSpaceValidator],
         ],
+        [GENERIC_EMAIL_ACKNOWLEDGEMENT_CONTROL]: [
+          false,
+          Validators.requiredTrue,
+        ],
       },
       {
         validators: [PasswordValidator.passwordMatchValidator],
@@ -119,12 +124,15 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
       );
     } else {
       this.loading = true;
+      // Frontend-only acknowledgement, not part of the API payload
+      const user = { ...this.userForm.value };
+      delete user[GENERIC_EMAIL_ACKNOWLEDGEMENT_CONTROL];
 
       this.subscription.add(
         this.structureService
           .create({
             structure: this.structureRegisterInfos.structure,
-            user: this.userForm.value,
+            user,
           })
           .subscribe({
             next: () => {

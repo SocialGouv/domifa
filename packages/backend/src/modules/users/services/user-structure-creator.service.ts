@@ -30,6 +30,7 @@ async function createUserWithPassword(
   const createdUser = new UserStructureTable(userDto);
   createdUser.structureId = structureId;
   createdUser.acceptTerms = firstAccount ? new Date() : null;
+  createdUser.accountRulesAcknowledgedAt = new Date();
   createdUser.role = role;
   createdUser.status = "PENDING";
   createdUser.password = await passwordGenerator.generatePasswordHash({

@@ -6,6 +6,25 @@
   titleModal="Créer un utilisateur"
 >
   <form #form [formGroup]="userForm" (ngSubmit)="submitUser()">
+    <div role="notice" class="fr-notice fr-notice--info fr-mb-3w">
+      <div class="fr-container">
+        <div class="fr-notice__body">
+          <p class="fr-notice__desc">
+            L’utilisation d’une adresse email nominative est fortement
+            recommandée pour accéder à DomiFa. Elle permet de mieux identifier
+            les personnes réalisant des actions sur la plateforme et de limiter
+            les risques d’usurpation d’identité.
+            <br /><br />
+            L’utilisation d’une adresse générique ou partagée réduit la capacité
+            à déterminer précisément quelle personne a réalisé une action. Elle
+            suppose que votre structure maîtrise strictement les personnes ayant
+            accès et mette à jour ces accès en cas de départ, changement de
+            mission ou remplacement.
+          </p>
+        </div>
+      </div>
+    </div>
+
     <div class="fr-grid-row fr-grid-row--gutters">
       <!-- Nom -->
       <div class="fr-col-12 fr-col-md-6">
@@ -168,6 +187,13 @@
           </div>
         </div>
       </div>
+
+      <div class="fr-col-12">
+        <app-generic-email-acknowledgement
+          [parentFormGroup]="userForm"
+          [submitted]="submitted"
+        ></app-generic-email-acknowledgement>
+      </div>
     </div>
 
     <ng-template #modalFooterTemplate>
@@ -182,7 +208,7 @@
         <app-button
           type="submit"
           [loading]="loading"
-          label="Valider l'inscription"
+          label="Ajouter cet utilisateur"
           (action)="submitUser()"
           appSupportModeDisable
         ></app-button>

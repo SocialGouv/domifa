@@ -164,6 +164,44 @@ describe("Users Controller", () => {
     });
   });
 
+  describe("> Acknowledge account rules", () => {
+    afterEach(async () => {
+      await userStructureRepository.update(
+        { id: authInfo.id },
+        { accountRulesAcknowledgedAt: null }
+      );
+    });
+
+    it("should store the acknowledgement date of the current user", async () => {
+      await userStructureRepository.update(
+        { id: authInfo.id },
+        { accountRulesAcknowledgedAt: null }
+      );
+      const before = new Date();
+
+      const response = await AppTestHttpClient.post(
+        "/users/acknowledge-account-rules",
+        { context, body: {} }
+      );
+
+      expect(response.status).toBe(200);
+      const user = await userStructureRepository.findOneByOrFail({
+        id: authInfo.id,
+      });
+      expect(user.accountRulesAcknowledgedAt).not.toBeNull();
+      expect(user.accountRulesAcknowledgedAt.getTime()).toBeGreaterThanOrEqual(
+        before.getTime() - 1000
+      );
+    });
+
+    it("should leave users created by an admin to acknowledge themselves", async () => {
+      const user = await userStructureRepository.findOneByOrFail({
+        email: "test@test.com",
+      });
+      expect(user.accountRulesAcknowledgedAt).toBeNull();
+    });
+  });
+
   describe("> Edit my password", () => {
     // Dedicated fixtures, not shared with any other suite: this endpoint
     // changes the stored password hash and terminates the session, so we

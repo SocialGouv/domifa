@@ -1,0 +1,52 @@
+@if (showWarning) {
+<div role="notice" class="fr-notice fr-notice--warning fr-mb-3w">
+  <div class="fr-container">
+    <div class="fr-notice__body">
+      <p>
+        <span class="fr-notice__title">Attention</span>
+        <span class="fr-notice__desc">
+          En poursuivant avec une adresse générique, vous reconnaissez que votre
+          structure accepte ce choix et les responsabilités associées.
+        </span>
+      </p>
+    </div>
+  </div>
+</div>
+}
+
+<div [formGroup]="parentFormGroup">
+  <div class="fr-checkbox-group" [class.fr-checkbox-group--error]="hasError">
+    <input
+      type="checkbox"
+      [formControlName]="controlName"
+      [name]="controlName"
+      [id]="controlName"
+      [attr.aria-describedby]="hasError ? controlName + '-messages' : null"
+      [attr.aria-invalid]="hasError ? true : null"
+      required
+    />
+    <label class="fr-label" [for]="controlName">
+      <span>
+        Je confirme avoir pris connaissance des recommandations relatives à
+        l'utilisation des comptes DomiFa.<br />
+        Si ma structure utilise une adresse email générique ou un compte
+        partagé, elle en assume l'entière responsabilité.<span
+          class="fr-text-default--error fr-text--bold"
+          >&nbsp;*</span
+        >
+      </span>
+    </label>
+    <div
+      class="fr-messages-group"
+      [id]="controlName + '-messages'"
+      aria-live="polite"
+    >
+      @if (hasError) {
+      <p class="fr-message fr-message--error">
+        Vous devez confirmer avoir pris connaissance des recommandations afin de
+        poursuivre
+      </p>
+      }
+    </div>
+  </div>
+</div>

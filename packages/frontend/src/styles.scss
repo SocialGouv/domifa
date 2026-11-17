@@ -140,7 +140,8 @@ label:has(input[required])::after,
 // DSFR ext components handle their own required indicator,
 // disable the CSS asterisk to avoid duplication/misplacement with hints
 dsfr-ext-datepicker label.fr-label::after,
-dsfr-ext-autocomplete label.fr-label::after {
+dsfr-ext-autocomplete label.fr-label::after,
+app-generic-email-acknowledgement label.fr-label::after {
   content: none !important;
 }
 

@@ -74,6 +74,9 @@ export class UserStructureTable
   @Column({ type: "timestamptz", nullable: true })
   acceptTerms: Date;
 
+  @Column({ type: "timestamptz", nullable: true })
+  accountRulesAcknowledgedAt: Date | null;
+
   @Column({ type: "text", nullable: true })
   emailStatus: UserStructureEmailStatus | null;
 

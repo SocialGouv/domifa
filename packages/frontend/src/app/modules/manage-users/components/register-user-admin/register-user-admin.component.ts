@@ -26,6 +26,7 @@ import { AuthService, CustomToastService } from "../../../shared/services";
 import { UserStructure } from "@domifa/common";
 import { UsersService, userStructureBuilder } from "../../../users/services";
 import { DsfrModalComponent } from "@edugouvfr/ngx-dsfr";
+import { GENERIC_EMAIL_ACKNOWLEDGEMENT_CONTROL } from "../../../shared/components/generic-email-acknowledgement/generic-email-acknowledgement.component";
 
 @Component({
   animations: [fadeInOut],
@@ -102,6 +103,7 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
         ],
       ],
       structureId: [this.user.structureId, []],
+      [GENERIC_EMAIL_ACKNOWLEDGEMENT_CONTROL]: [false, Validators.requiredTrue],
     });
   }
 
@@ -122,10 +124,14 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
       );
     } else {
       this.loading = true;
+      // Frontend-only acknowledgement, not part of the API payload
+      const user = { ...this.userForm.value };
+      delete user[GENERIC_EMAIL_ACKNOWLEDGEMENT_CONTROL];
+
       this.subscription.add(
         this.usersService
           .registerUser({
-            ...this.userForm.value,
+            ...user,
             structureId: this.me.structureId,
           })
           .subscribe({
@@ -135,6 +141,10 @@ export class RegisterUserAdminComponent implements OnInit, OnDestroy {
               this.getUsers.emit();
               this.closeModals();
               this.form.nativeElement.reset();
+              // Ask again for the next user
+              this.userForm
+                .get(GENERIC_EMAIL_ACKNOWLEDGEMENT_CONTROL)
+                ?.reset(false);
               this.toastService.success(
                 "Le nouveau compte a été créé avec succès, votre collaborateur vient de recevoir un email pour ajouter son mot de passe."
               );
