@@ -196,6 +196,8 @@ export class UsagerLoginComponent implements OnInit, OnDestroy {
   }
 
   private reasetFormFocus(): void {
+    // render the error messages and their aria-describedby before moving the focus
+    this.cdr.detectChanges();
     // inputs are ordered as in the DOM, so the first visible invalid field gets the focus
     const invalidInput = this.inputs.find((input: ElementRef) => {
       const controlName = input.nativeElement.getAttribute("formcontrolname");

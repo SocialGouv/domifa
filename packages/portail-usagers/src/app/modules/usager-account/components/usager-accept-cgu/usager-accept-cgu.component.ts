@@ -1,4 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   AbstractControl,
@@ -43,6 +50,9 @@ export class UsagerAcceptCguComponent implements OnInit {
       error: "Cochez cette case pour accepter les CGU et continuer.",
     },
   ];
+  @ViewChildren("checkboxInput")
+  private readonly checkboxInputs!: QueryList<ElementRef<HTMLInputElement>>;
+
   private subscription = new Subscription();
   public usagerProfile!: PortailUsagerProfile | null;
 
@@ -51,7 +61,8 @@ export class UsagerAcceptCguComponent implements OnInit {
     private readonly toastr: CustomToastService,
     private readonly usagerAuthService: UsagerAuthService,
     private readonly router: Router,
-    private readonly seoService: SeoService
+    private readonly seoService: SeoService,
+    private readonly cdr: ChangeDetectorRef
   ) {
     this.loading = false;
     this.submitted = false;
@@ -89,13 +100,12 @@ export class UsagerAcceptCguComponent implements OnInit {
 
     if (this.acceptTermsForm.invalid) {
       this.toastr.error("Veuillez accepter les CGU pour continuer");
-      // move the focus to the first checkbox in error, which announces its message
-      const firstInvalid = this.checkboxes.find(
-        (checkbox) => this.f[checkbox.name].invalid
-      );
-      if (firstInvalid) {
-        document.getElementById(firstInvalid.name)?.focus();
-      }
+      // render the error messages and their aria-describedby before moving
+      // the focus, so the first checkbox in error announces its message
+      this.cdr.detectChanges();
+      this.checkboxInputs
+        .find((input) => this.f[input.nativeElement.name]?.invalid)
+        ?.nativeElement.focus();
       return;
     }
 

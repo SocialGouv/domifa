@@ -17,6 +17,7 @@
         [class.fr-checkbox-group--error]="submitted && f[checkbox.name].errors"
       >
         <input
+          #checkboxInput
           type="checkbox"
           [formControlName]="checkbox.name"
           [name]="checkbox.name"
