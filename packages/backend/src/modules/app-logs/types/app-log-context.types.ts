@@ -68,4 +68,8 @@ export type UserSoftDeleteLogContext = {
   userId: number;
   role: UserStructureRole | UserSupervisorRole;
   motif: UserDeleteMotif;
+  // USER_INACTIVE_AUTO_DELETE only
+  lastLogin?: Date | null;
+  referenceDate?: Date;
+  structureLeftWithoutAdmin?: boolean;
 };

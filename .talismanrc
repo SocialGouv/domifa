@@ -10,11 +10,11 @@ fileignoreconfig:
 - filename: .github/workflows/unit-tests.yml
   checksum: 41e6ed1f293553574d767fade6175f8e9f499a3f546e0cb62682243c28a4b25f
 - filename: .kontinuous/env/dev/templates/backend.sealed-secret.yaml
-  checksum: 9f30eb02d9cd7dc6cad74594ac23f040e8595531f5b9a4c9cf370231f8714df2
+  checksum: 80d5c18b5aba601fe2b2451f5f7d6cbc0e8f10fde4919bd339c7111593d48873
 - filename: .kontinuous/env/preprod/templates/backend.sealed-secret.yaml
-  checksum: ba9164f467c2fc079a71e524eecbc0f4e2bc5a9665a393c188d72768a92fd1ee
+  checksum: e61d0d0d932ef272b60f44187cce9421199eeef8692435ca708e8eee0041fbaf
 - filename: .kontinuous/env/prod/templates/backend.sealed-secret.yaml
-  checksum: cecaf8a302c8baa088c006e45e964ef6a7e4aafaeca78d3fdb66aa5ae2615c73
+  checksum: e45743b706ed4f6833a370f8ea3235aeb954522565f1ca8efde4802cf0b96f38
 - filename: \_scripts/db/dumps/domifa_test.postgres.restore-data-only.sql
   checksum: 7a73d6f2d9c5b16f26d2e40ca9e9408111391c1bb7a739ab73daad60254507e4
 - filename: \_scripts/db/dumps/domifa_test.postgres.truncate-restore-data-only.sql
