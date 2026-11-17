@@ -6,7 +6,7 @@ const VALID = {
   nom: "Dupont",
   prenom: "Jean",
   email: "Jean.Dupont@Example.org",
-  phone: "",
+  phone: null,
   regionCode: "11",
   departement: "93",
   structureName: "CCAS de Saint-Denis",
@@ -25,16 +25,31 @@ describe("MonDomifaContactDto", () => {
     const dto = build();
     expect(await errorFields(dto)).toEqual([]);
     expect(dto.email).toEqual("jean.dupont@example.org");
-    expect(dto.phone).toBeUndefined();
     expect(dto.content).toEqual(
       "Je n'arrive pas à consulter mes courriers.\n\nMerci"
     );
   });
 
   it("accepts an optional phone number", async () => {
-    expect(await errorFields(build({ phone: "+33 6 12 34 56 78" }))).toEqual(
-      []
-    );
+    expect(
+      await errorFields(
+        build({ phone: { countryCode: "fr", numero: "06 12 34 56 78" } })
+      )
+    ).toEqual([]);
+    expect(await errorFields(build({ phone: undefined }))).toEqual([]);
+  });
+
+  it("rejects an invalid phone", async () => {
+    // Shared @IsValidPhone validator: throws a BadRequestException
+    for (const phone of [
+      { countryCode: "fr", numero: "((((((" },
+      { countryCode: "fr", numero: "0612" },
+      "06 12 34 56 78",
+    ]) {
+      await expect(errorFields(build({ phone }))).rejects.toMatchObject({
+        status: 400,
+      });
+    }
   });
 
   it("requires a valid email", async () => {
@@ -44,14 +59,26 @@ describe("MonDomifaContactDto", () => {
     ]);
   });
 
-  it("rejects an invalid phone", async () => {
-    expect(await errorFields(build({ phone: "<script>" }))).toEqual(["phone"]);
+  it("rejects an email sent as an array", async () => {
+    expect(await errorFields(build({ email: ["A@B.fr"] }))).toEqual(["email"]);
   });
 
   it("requires nom, prenom and structureName", async () => {
     expect(
-      await errorFields(build({ nom: "", prenom: " ", structureName: "" }))
+      (
+        await errorFields(build({ nom: "", prenom: " ", structureName: "" }))
+      ).sort()
     ).toEqual(["nom", "prenom", "structureName"]);
+  });
+
+  it("removes invisible control characters", async () => {
+    const dto = build({
+      nom: "Du\u202Epont",
+      content: "Bonjour\u0007 le support",
+    });
+    expect(await errorFields(dto)).toEqual([]);
+    expect(dto.nom).toEqual("Dupont");
+    expect(dto.content).toEqual("Bonjour le support");
   });
 
   it("accepts every known subject", async () => {

@@ -2,4 +2,5 @@
 export * from "./create-date";
 export * from "./getEntityDecisionMotifLabel";
 export * from "./init-loading";
+export * from "./isValidEmail";
 export * from "./validateMatomoParams";

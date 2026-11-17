@@ -1,60 +1,53 @@
 import {
-  IsEmail,
   IsIn,
   IsNotEmpty,
+  IsObject,
   IsOptional,
   IsString,
-  Matches,
   MaxLength,
-  ValidateIf,
   MinLength,
+  ValidateIf,
+  ValidateNested,
 } from "class-validator";
-import { Transform, TransformFnParams } from "class-transformer";
+import { Transform, TransformFnParams, Type } from "class-transformer";
 import {
   DEPARTEMENTS_MAP,
+  MON_DOMIFA_CONTACT_RULES,
   MON_DOMIFA_CONTACT_SUBJECTS,
   MON_DOMIFA_CONTACT_SUBJECTS_DEF,
   MonDomifaContactSubject,
   REGIONS_LISTE,
+  Telephone,
 } from "@domifa/common";
 
-import {
-  LowerCaseTransform,
-  StripTagsTransform,
-} from "../../_common/decorators";
+import { IsValidPhone, StripTagsTransform } from "../../_common/decorators";
+import { TelephoneDto } from "../../_common/dto/telephone.dto";
+import { BaseContactSupportDto } from "./base-contact-support.dto";
 
 const emptyToUndefined = ({ value }: TransformFnParams) =>
   typeof value === "string" && value.trim() === "" ? undefined : value;
 
 // Contact form of the "Mon DomiFa" portal (domiciliés, not authenticated)
-export class MonDomifaContactDto {
+export class MonDomifaContactDto extends BaseContactSupportDto {
+  // StripTagsTransform turns blank strings into null, rejected by @IsNotEmpty
   @IsNotEmpty()
   @IsString()
-  @MinLength(1)
-  @MaxLength(200)
-  @StripTagsTransform()
+  @MaxLength(MON_DOMIFA_CONTACT_RULES.nameMaxLength)
+  @StripTagsTransform({ removeInvisibleChars: true })
   public nom!: string;
 
   @IsNotEmpty()
   @IsString()
-  @MinLength(1)
-  @MaxLength(200)
-  @StripTagsTransform()
+  @MaxLength(MON_DOMIFA_CONTACT_RULES.nameMaxLength)
+  @StripTagsTransform({ removeInvisibleChars: true })
   public prenom!: string;
 
-  // Required so that the support team can answer
-  @IsNotEmpty()
-  @IsString()
-  @IsEmail()
-  @MaxLength(254)
-  @LowerCaseTransform()
-  public email!: string;
-
   @IsOptional()
-  @IsString()
-  @Matches(/^\+?[0-9 .()-]{6,25}$/)
-  @Transform(emptyToUndefined)
-  public phone?: string;
+  @IsObject()
+  @ValidateNested()
+  @Type(() => TelephoneDto)
+  @IsValidPhone("phone", false, false)
+  public phone?: Telephone | null;
 
   @IsOptional()
   @IsString()
@@ -70,17 +63,10 @@ export class MonDomifaContactDto {
 
   @IsNotEmpty()
   @IsString()
-  @MinLength(2)
-  @MaxLength(300)
-  @StripTagsTransform()
-  public structureName!: string;
-
-  @IsNotEmpty()
-  @IsString()
   @IsIn(MON_DOMIFA_CONTACT_SUBJECTS)
   public subject!: MonDomifaContactSubject;
 
-  // Required for free-text subjects, optional otherwise
+  // Required for the subjects that need details, optional otherwise
   @ValidateIf(
     (dto: MonDomifaContactDto) =>
       !!MON_DOMIFA_CONTACT_SUBJECTS_DEF[dto.subject]?.requiresMessage ||
@@ -88,8 +74,8 @@ export class MonDomifaContactDto {
   )
   @IsNotEmpty()
   @IsString()
-  @MinLength(10)
-  @MaxLength(5000)
-  @StripTagsTransform({ multiline: true })
+  @MinLength(MON_DOMIFA_CONTACT_RULES.contentMinLength)
+  @MaxLength(MON_DOMIFA_CONTACT_RULES.contentMaxLength)
+  @StripTagsTransform({ multiline: true, removeInvisibleChars: true })
   public content?: string;
 }

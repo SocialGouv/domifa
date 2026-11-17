@@ -8,6 +8,10 @@ export function LowerCaseTransform(
   transformOptions?: TransformOptions
 ): (target: any, key: string) => void {
   return Transform((sourceData: TransformFnParams) => {
-    return sourceData.value ? sourceData.value.toString().toLowerCase() : null;
+    const { value } = sourceData;
+    if (typeof value !== "string") {
+      return value;
+    }
+    return value === "" ? null : value.toLowerCase();
   }, transformOptions);
 }

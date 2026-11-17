@@ -75,7 +75,7 @@
                 id="nom"
                 formControlName="nom"
                 autocomplete="family-name"
-                maxlength="200"
+                [maxlength]="RULES.nameMaxLength"
                 required
                 [attr.aria-invalid]="showError('nom')"
                 [attr.aria-describedby]="showError('nom') ? 'nom-error' : null"
@@ -101,7 +101,7 @@
                 id="prenom"
                 formControlName="prenom"
                 autocomplete="given-name"
-                maxlength="200"
+                [maxlength]="RULES.nameMaxLength"
                 required
                 [attr.aria-invalid]="showError('prenom')"
                 [attr.aria-describedby]="
@@ -156,7 +156,9 @@
             >
               <label class="fr-label" for="phone">
                 Numéro de téléphone
-                <span class="fr-hint-text">Exemple : 06 12 34 56 78</span>
+                <span class="fr-hint-text"
+                  >Numéro français, exemple : 06 12 34 56 78</span
+                >
               </label>
               <input
                 class="fr-input"
@@ -171,7 +173,8 @@
               />
               @if (showError('phone')) {
               <p id="phone-error" class="fr-error-text">
-                Veuillez vérifier le numéro de téléphone
+                Veuillez indiquer un numéro de téléphone français valide,
+                exemple : 06 12 34 56 78
               </p>
               }
             </div>
@@ -251,7 +254,9 @@
               />
               @if (showError('structureName')) {
               <p id="structure-name-error" class="fr-error-text">
-                Veuillez indiquer le nom de votre structure de domiciliation (2
+                Veuillez indiquer le nom de votre structure de domiciliation ({{
+                  RULES.structureNameMinLength
+                }}
                 caractères minimum)
               </p>
               }
@@ -323,15 +328,17 @@
           </label>
           <span class="fr-hint-text" id="content-help">{{
             needsMessage
-              ? "10 caractères minimum"
-              : "Facultatif, 10 caractères minimum si renseigné"
+              ? RULES.contentMinLength + " caractères minimum"
+              : "Facultatif, " +
+                RULES.contentMinLength +
+                " caractères minimum si renseigné"
           }}</span>
           <textarea
             class="fr-input"
             id="content"
             formControlName="content"
             rows="6"
-            maxlength="5000"
+            [maxlength]="RULES.contentMaxLength"
             [required]="needsMessage"
             [attr.aria-invalid]="showError('content')"
             [attr.aria-describedby]="
@@ -342,7 +349,8 @@
           ></textarea>
           @if (showError('content')) {
           <p id="content-error" class="fr-error-text">
-            Veuillez préciser votre demande (10 caractères minimum)
+            Veuillez préciser votre demande ({{ RULES.contentMinLength }}
+            caractères minimum)
           </p>
           }
         </div>

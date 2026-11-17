@@ -1,15 +1,10 @@
 import { KeyValuePipe } from "@angular/common";
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import {
-  AbstractControl,
-  FormBuilder,
-  ReactiveFormsModule,
-  ValidatorFn,
-  Validators,
-} from "@angular/forms";
+import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import {
   DEPARTEMENTS_MAP,
+  MON_DOMIFA_CONTACT_RULES,
   MON_DOMIFA_CONTACT_SUBJECTS,
   MON_DOMIFA_CONTACT_SUBJECTS_DEF,
   MonDomifaContactSubject,
@@ -18,29 +13,23 @@ import {
 import { MatomoTracker } from "ngx-matomo-client";
 import { Subscription } from "rxjs";
 
+import { environment } from "../../../../../environments/environment";
 import { SeoService } from "../../../shared/services/seo.service";
+import {
+  EmailValidator,
+  NotBlankValidator,
+  optionalMinLengthValidator,
+  phoneValidator,
+} from "../../../shared/validators/form.validators";
 import {
   ContactMonDomifaService,
   MonDomifaContactPayload,
 } from "../../services/contact-mon-domifa.service";
 
 const MATOMO_CATEGORY = "contact-mon-domifa";
-const PHONE_PATTERN = /^\+?[0-9 .()-]{6,25}$/;
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-const notBlank: ValidatorFn = (control: AbstractControl) =>
-  typeof control.value === "string" && control.value.trim() === ""
-    ? { required: true }
-    : null;
-
-// Optional message: empty is fine, otherwise at least 10 characters
-// (same rule as the backend)
-const notBlankOrMin10: ValidatorFn = (control: AbstractControl) => {
-  const value = typeof control.value === "string" ? control.value.trim() : "";
-  return value.length > 0 && value.length < 10
-    ? { minlength: { requiredLength: 10, actualLength: value.length } }
-    : null;
-};
+// Phone numbers are typed without a country selector: French numbers only
+const PHONE_COUNTRY_CODE = "fr";
+const RULES = MON_DOMIFA_CONTACT_RULES;
 
 @Component({
   selector: "app-contact-mon-domifa",
@@ -56,23 +45,51 @@ export class ContactMonDomifaComponent implements OnInit, OnDestroy {
   public readonly REGIONS_LISTE = REGIONS_LISTE;
   public readonly DEPARTEMENTS_MAP = DEPARTEMENTS_MAP;
 
+  public readonly RULES = RULES;
+
   public readonly contactForm = this.formBuilder.nonNullable.group({
-    nom: ["", [Validators.required, notBlank, Validators.maxLength(200)]],
-    prenom: ["", [Validators.required, notBlank, Validators.maxLength(200)]],
-    email: ["", [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
-    phone: ["", [Validators.pattern(PHONE_PATTERN)]],
+    nom: [
+      "",
+      [
+        Validators.required,
+        NotBlankValidator,
+        Validators.maxLength(RULES.nameMaxLength),
+      ],
+    ],
+    prenom: [
+      "",
+      [
+        Validators.required,
+        NotBlankValidator,
+        Validators.maxLength(RULES.nameMaxLength),
+      ],
+    ],
+    email: [
+      "",
+      [
+        Validators.required,
+        EmailValidator,
+        Validators.maxLength(RULES.emailMaxLength),
+      ],
+    ],
+    phone: ["", [phoneValidator(PHONE_COUNTRY_CODE)]],
     regionCode: [""],
     departement: [""],
     structureName: [
       "",
-      [Validators.required, notBlank, Validators.minLength(2)],
+      [
+        Validators.required,
+        NotBlankValidator,
+        Validators.minLength(RULES.structureNameMinLength),
+        Validators.maxLength(RULES.structureNameMaxLength),
+      ],
     ],
     subject: ["" as MonDomifaContactSubject | "", [Validators.required]],
-    content: ["", [Validators.maxLength(5000)]],
+    content: ["", [Validators.maxLength(RULES.contentMaxLength)]],
   });
 
-  public readonly domifaStructuresUrl =
-    "https://domifa.fabrique.social.gouv.fr/";
+  // Structures sign in on the DomiFa frontend (URL set per environment)
+  public readonly domifaStructuresUrl = environment.frontendUrl;
 
   public submitted = false;
   public loading = false;
@@ -157,7 +174,13 @@ export class ContactMonDomifaComponent implements OnInit, OnDestroy {
     }
 
     this.loading = true;
-    const payload = this.contactForm.getRawValue() as MonDomifaContactPayload;
+    const { phone, ...values } = this.contactForm.getRawValue();
+    const payload = {
+      ...values,
+      phone: phone.trim()
+        ? { numero: phone.trim(), countryCode: PHONE_COUNTRY_CODE }
+        : null,
+    } as MonDomifaContactPayload;
 
     this.subscription.add(
       this.contactService.sendContact(payload).subscribe({
@@ -193,13 +216,16 @@ export class ContactMonDomifaComponent implements OnInit, OnDestroy {
     if (this.needsMessage) {
       content.setValidators([
         Validators.required,
-        notBlank,
-        Validators.minLength(10),
-        Validators.maxLength(5000),
+        NotBlankValidator,
+        Validators.minLength(RULES.contentMinLength),
+        Validators.maxLength(RULES.contentMaxLength),
       ]);
     } else {
       // Optional message, still bounded
-      content.setValidators([notBlankOrMin10, Validators.maxLength(5000)]);
+      content.setValidators([
+        optionalMinLengthValidator(RULES.contentMinLength),
+        Validators.maxLength(RULES.contentMaxLength),
+      ]);
     }
     content.updateValueAndValidity();
   }

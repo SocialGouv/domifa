@@ -168,4 +168,51 @@ describe("ContactMonDomifaComponent", () => {
       "PROBLEME_ACCESSIBILITE"
     );
   });
+
+  it("sends a French phone number as a Telephone object", () => {
+    fillIdentity();
+    component.contactForm.patchValue({
+      phone: " 06 12 34 56 78 ",
+      subject: "AUTRE",
+      content: "Bonjour, j'ai un souci",
+    });
+    component.sendContactMessage();
+
+    const req = httpMock.expectOne("http://localhost:3000/contact/mon-domifa");
+    expect(req.request.body.phone).toEqual({
+      numero: "06 12 34 56 78",
+      countryCode: "fr",
+    });
+    req.flush({ message: "OK" });
+  });
+
+  it("sends a null phone when it is left empty", () => {
+    fillIdentity();
+    component.contactForm.patchValue({
+      subject: "AUTRE",
+      content: "Bonjour, j'ai un souci",
+    });
+    component.sendContactMessage();
+
+    const req = httpMock.expectOne("http://localhost:3000/contact/mon-domifa");
+    expect(req.request.body.phone).toBeNull();
+    req.flush({ message: "OK" });
+  });
+
+  it("rejects an invalid phone or email", () => {
+    const { phone, email } = component.contactForm.controls;
+    for (const value of ["((((((", "0612", "+1 555"]) {
+      phone.setValue(value);
+      expect(phone.hasError("invalidPhone")).toBe(true);
+    }
+    phone.setValue("01 23 45 67 89");
+    expect(phone.valid).toBe(true);
+
+    email.setValue("a@b");
+    expect(email.hasError("invalidEmail")).toBe(true);
+  });
+
+  it("links to the structures frontend from the environment", () => {
+    expect(component.domifaStructuresUrl).toEqual("http://localhost:4200/");
+  });
 });

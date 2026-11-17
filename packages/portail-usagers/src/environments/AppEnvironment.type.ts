@@ -1,5 +1,6 @@
 export type AppEnvironment = {
   apiUrl: string;
+  frontendUrl: string;
   production: boolean;
   env: string;
   sentryDsnPortail: string;

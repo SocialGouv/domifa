@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { MonDomifaContactSubject } from "@domifa/common";
+import { MonDomifaContactSubject, Telephone } from "@domifa/common";
 import { Observable } from "rxjs";
 
 import { environment } from "../../../../environments/environment";
@@ -9,7 +9,7 @@ export interface MonDomifaContactPayload {
   nom: string;
   prenom: string;
   email: string;
-  phone: string;
+  phone: Telephone | null;
   regionCode: string;
   departement: string;
   structureName: string;
