@@ -1,3 +1,10 @@
+## [2.294.6](https://github.com/SocialGouv/domifa/compare/v2.294.5...v2.294.6) (2026-11-17)
+
+
+### Bug Fixes
+
+* **backend:** send Brevo transactional emails on preprod ([0d3234a](https://github.com/SocialGouv/domifa/commit/0d3234a87868a04fc3515d9f3282c4886a9f4437))
+
 ## [2.294.5](https://github.com/SocialGouv/domifa/compare/v2.294.4...v2.294.5) (2026-11-17)
 
 
