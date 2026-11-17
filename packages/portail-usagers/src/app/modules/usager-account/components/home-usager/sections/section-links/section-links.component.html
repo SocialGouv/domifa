@@ -1,19 +1,21 @@
-<div *ngIf="usager">
+@if (usager) {
+<div>
   <h2 class="fr-mb-1v fr-text-title--blue-france">Liens utiles</h2>
   <div>
     <div class="fr-grid-row">
       <div
         class="fr-display-flex fr-flex-column fr-justify-content-between fr-col-md-4 fr-col-12 fr-py-2w"
       >
-        <div class="fr-logo-links-background">
-          <h3 class="fr-sr-only">Soliguide</h3>
-          <img
-            src="/assets/images/partenaires/soliguide.png"
-            alt=""
-            class="img-fluid fr-mx-auto d-block d-sm-inline-block"
-          />
+        <div class="fr-grid-row fr-my-1w">
+          <div class="fr-col-6 fr-logo-links-background">
+            <h3 class="fr-sr-only">Soliguide</h3>
+            <img
+              class="fr-responsive-img"
+              src="/assets/images/partenaires/soliguide.png"
+              alt=""
+            />
+          </div>
         </div>
-
         <p class="fr-py-1w">
           Soliguide vous permet de trouver les structures d'aide près de chez
           vous: accueil de jour, aide alimentaire, suivi social, douches, etc
@@ -31,12 +33,14 @@
         class="fr-display-flex fr-flex-column fr-justify-content-between fr-col-md-4 fr-col-12 fr-py-2w"
       >
         <h3 class="fr-sr-only">Mes droits sociaux</h3>
-        <div class="fr-logo-links-background">
-          <img
-            src="/assets/images/partenaires/mes-droits-sociaux.png"
-            alt=""
-            class="img-fluid fr-mx-auto d-block d-sm-inline-block"
-          />
+        <div class="fr-grid-row fr-my-1w">
+          <div class="fr-col-6 fr-logo-links-background">
+            <img
+              class="fr-responsive-img"
+              src="/assets/images/partenaires/mes-droits-sociaux.png"
+              alt=""
+            />
+          </div>
         </div>
         <p class="fr-py-1w">
           Découvrez en quelques clics les prestations sociales que vous pouvez
@@ -54,20 +58,21 @@
       <div
         class="fr-display-flex fr-flex-column fr-justify-content-between fr-col-md-4 fr-col-12 fr-py-2w"
       >
-        <div class="fr-logo-links-background">
-          <h3 class="fr-sr-only">un jeune une solution</h3>
-          <img
-            src="/assets/images/partenaires/1jeune1solution.png"
-            alt=""
-            class="img-fluid fr-mx-auto d-block d-sm-inline-block"
-          />
+        <div class="fr-grid-row fr-my-1w">
+          <div class="fr-col-10 fr-logo-links-background">
+            <h3 class="fr-sr-only">un jeune une solution</h3>
+            <img
+              class="fr-responsive-img"
+              src="/assets/images/partenaires/1jeune1solution.png"
+              alt=""
+            />
+          </div>
         </div>
         <p class="fr-py-1w">
           Découvrez les aides et prestations sociales auxquelles vous êtes
           éligibles en vous rendant sur le site AidesJeunes. Évaluez vos droits
           en moins de 5 minutes.
         </p>
-
         <a
           target="_blank"
           rel="noopener noreferrer"
@@ -80,3 +85,4 @@
     </div>
   </div>
 </div>
+}
