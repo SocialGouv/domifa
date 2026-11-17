@@ -128,13 +128,15 @@ export class RegisterRegionUserComponent implements OnDestroy {
         label: `${code} - ${DEPARTEMENTS_LISTE[code]}`,
         selfService: isDdetsSelfServiceDepartment(code),
       }));
-    this.regions = [...territories]
-      .sort((a, b) => a.localeCompare(b))
+    // Region codes mean nothing to users, unlike department numbers: list
+    // regions by name only
+    this.regions = territories
       .map((code) => ({
         code,
-        label: `${code} - ${REGIONS_LISTE[code]}`,
+        label: REGIONS_LISTE[code] ?? code,
         selfService: isDreetsSelfServiceRegion(code),
-      }));
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label));
 
     this.userForm = this.formBuilder.group(
       {

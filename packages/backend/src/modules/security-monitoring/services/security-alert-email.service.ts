@@ -88,8 +88,8 @@ export class SecurityAlertEmailService {
     }
   }
 
-  // Sent to the DomiFa team (DOMIFA_ADMIN_EMAIL) so a DREETS cannot quietly
-  // multiply regional accounts
+  // Sent to the DomiFa team (DOMIFA_ADMIN_EMAIL) so a DREETS or the DGCS cannot
+  // quietly multiply regional accounts
   public async sendRegionUserCreatedNotice(
     notice: RegionUserCreatedNotice
   ): Promise<GuardResult> {
@@ -110,7 +110,7 @@ export class SecurityAlertEmailService {
     const result = await this.getTransporter().sendMail({
       from: config.smtp.from,
       to: recipients,
-      subject: `[DomiFa - ${config.envId.toUpperCase()}] Nouveau compte DREETS cree par une DREETS`,
+      subject: `[DomiFa - ${config.envId.toUpperCase()}] Nouveau compte DREETS cree depuis le portail de pilotage`,
       html: generateRegionUserCreatedEmailHtml(notice, config.envId),
     });
     this.logger.log(

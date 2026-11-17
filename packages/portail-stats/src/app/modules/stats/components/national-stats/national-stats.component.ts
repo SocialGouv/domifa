@@ -38,7 +38,9 @@ export class NationalStatsComponent implements OnInit, OnDestroy {
   public regionTable: RegionsLabels = {};
   public departmentTable: RegionsLabels = {};
 
-  public enableRegions = true;
+  public showRegionFilter = true;
+  public canSelectAllRegions = true;
+  public canSelectAllDepartments = true;
 
   public readonly STRUCTURE_TYPE_LABELS = STRUCTURE_TYPE_LABELS;
   public readonly STRUCTURE_TYPE_MAP = STRUCTURE_TYPE_MAP;
@@ -174,6 +176,8 @@ export class NationalStatsComponent implements OnInit, OnDestroy {
           this.loading = false;
         },
         error: () => {
+          // Do not keep the structures of the previous filters
+          this.structures = [];
           this.loading = false;
           this.toastService.error("Le chargement des structures a échoué");
         },
@@ -225,75 +229,58 @@ export class NationalStatsComponent implements OnInit, OnDestroy {
   }
 
   public generateTablesByRole(): void {
-    const regionTable: RegionsLabels = {};
-    const departmentTable: RegionsLabels = {};
-    this.enableRegions = true;
+    const isNationalScope =
+      this.user?.role === "national" ||
+      this.user?.role === "super-admin-domifa";
+
+    this.showRegionFilter = this.user?.role !== "department";
+    this.canSelectAllRegions = isNationalScope;
+    this.canSelectAllDepartments = this.user?.role !== "department";
+
+    if (isNationalScope) {
+      this.regionTable = REGIONS_LISTE;
+      this.departmentTable = this.metabaseParams?.region
+        ? getRegionDepartments(this.metabaseParams.region)
+        : DEPARTEMENTS_LISTE;
+    } else {
+      if (!this.user?.territories?.[0]?.length) {
+        throw new Error("No territories");
+      }
+
+      const territory = this.user.territories[0];
+
+      if (this.user.role === "region") {
+        this.regionTable = REGIONS_LISTE[territory]
+          ? { [territory]: REGIONS_LISTE[territory] }
+          : {};
+        this.departmentTable = getRegionDepartments(territory);
+        this.metabaseParams.region = territory;
+      } else {
+        this.regionTable = {};
+        this.departmentTable = DEPARTEMENTS_LISTE[territory]
+          ? { [territory]: DEPARTEMENTS_LISTE[territory] }
+          : {};
+        this.metabaseParams.department = territory;
+      }
+    }
 
     if (
-      this.user?.role === "national" ||
-      this.user?.role === "super-admin-domifa"
+      this.metabaseParams.department &&
+      !this.departmentTable[this.metabaseParams.department]
     ) {
-      this.regionTable = REGIONS_LISTE;
-      this.departmentTable = DEPARTEMENTS_LISTE;
-
-      if (this.metabaseParams?.region) {
-        const filteredDepartments: RegionsLabels = {};
-        const selectedRegion = REGIONS_DEF.find(
-          (region) => region.regionCode === this.metabaseParams.region
-        );
-
-        if (selectedRegion) {
-          selectedRegion.departements.forEach((dept) => {
-            filteredDepartments[dept.departmentCode] = dept.departmentName;
-          });
-          this.departmentTable = filteredDepartments;
-        }
-      }
-
-      this.getStructures();
-      return;
+      delete this.metabaseParams.department;
     }
 
-    if (!this.user?.territories[0].length) {
-      throw new Error("No territories");
-    }
-
-    const territory = this.user?.territories[0];
-
-    if (this.user?.role === "region") {
-      const targetRegion = REGIONS_DEF.find(
-        (region) => region.regionCode === territory
-      );
-
-      if (targetRegion) {
-        regionTable[targetRegion.regionCode] = targetRegion.regionName;
-
-        targetRegion.departements.forEach((dept) => {
-          departmentTable[dept.departmentCode] = dept.departmentName;
-        });
-
-        this.metabaseParams.region = territory;
-      }
-    } else if (this.user?.role === "department") {
-      this.enableRegions = false;
-      this.metabaseParams.department = territory;
-      this.regionTable = {};
-      for (const region of REGIONS_DEF) {
-        const targetDept = region.departements.find(
-          (dept) => dept.departmentCode === territory
-        );
-
-        if (targetDept) {
-          departmentTable[targetDept.departmentCode] =
-            targetDept.departmentName;
-
-          break;
-        }
-      }
-    }
-
-    this.regionTable = regionTable;
-    this.departmentTable = departmentTable;
     this.getStructures();
   }
 }
+
+const getRegionDepartments = (regionCode: string): RegionsLabels => {
+  const departments: RegionsLabels = {};
+  REGIONS_DEF.find(
+    (region) => region.regionCode === regionCode
+  )?.departements.forEach((dept) => {
+    departments[dept.departmentCode] = dept.departmentName;
+  });
+  return departments;
+};

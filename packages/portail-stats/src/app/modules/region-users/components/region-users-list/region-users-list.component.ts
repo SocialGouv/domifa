@@ -177,7 +177,12 @@ export class RegionUsersListComponent implements OnInit, OnDestroy {
       ...user,
       fullName: `${user.nom} ${user.prenom}`,
       profile: user.role === "region" ? "DREETS" : "DDETS",
-      department: territory ? `${territory} - ${territoryName ?? ""}` : "",
+      // Region codes mean nothing to users, unlike department numbers
+      department: !territory
+        ? ""
+        : user.role === "region"
+        ? territoryName ?? territory
+        : `${territory} - ${territoryName ?? ""}`,
       statusLabel,
       statusSeverity,
     };

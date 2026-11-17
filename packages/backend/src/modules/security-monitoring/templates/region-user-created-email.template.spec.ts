@@ -9,6 +9,7 @@ describe("generateRegionUserCreatedEmailHtml", () => {
         prenom: "Anne",
         nom: "Martin",
         email: "anne.martin@dreets.gouv.fr",
+        role: "region",
       },
       createdUser: {
         prenom: "<script>",
@@ -29,5 +30,30 @@ describe("generateRegionUserCreatedEmailHtml", () => {
   it("escapes user-provided values", () => {
     expect(html).not.toContain("<script>");
     expect(html).toContain("&lt;script&gt;");
+  });
+
+  it("names the profile of the creator", () => {
+    expect(html).toContain("anne.martin@dreets.gouv.fr) - DREETS");
+
+    const fromDgcs = generateRegionUserCreatedEmailHtml(
+      {
+        createdAt: new Date("2026-10-27T10:00:00Z"),
+        region: "32",
+        creator: {
+          prenom: "Claire",
+          nom: "Petit",
+          email: "claire.petit@social.gouv.fr",
+          role: "national",
+        },
+        createdUser: {
+          prenom: "Paul",
+          nom: "Durand",
+          email: "paul.durand@dreets.gouv.fr",
+        },
+      },
+      "preprod"
+    );
+    expect(fromDgcs).toContain("claire.petit@social.gouv.fr) - DGCS");
+    expect(fromDgcs).not.toContain("Une DREETS");
   });
 });
