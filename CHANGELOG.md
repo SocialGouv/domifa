@@ -1,3 +1,10 @@
+## [2.294.3](https://github.com/SocialGouv/domifa/compare/v2.294.2...v2.294.3) (2026-11-17)
+
+
+### Bug Fixes
+
+* **portail-usagers:** make password toggle labels stable and distinct for RGAA 11.2 (MON-11.2) ([c3c5daa](https://github.com/SocialGouv/domifa/commit/c3c5daa2bb9679b5c2c062c9456c2a695eebb154))
+
 ## [2.294.2](https://github.com/SocialGouv/domifa/compare/v2.294.1...v2.294.2) (2026-11-17)
 
 
