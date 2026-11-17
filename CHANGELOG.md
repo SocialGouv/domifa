@@ -1,3 +1,10 @@
+## [2.294.2](https://github.com/SocialGouv/domifa/compare/v2.294.1...v2.294.2) (2026-11-17)
+
+
+### Bug Fixes
+
+* **portail-usagers:** keep focus outline visible in mobile login menu for RGAA 10.7 (MON-10.7) ([a66c531](https://github.com/SocialGouv/domifa/commit/a66c531c39a6d0e627a533cd28b662e3d6dbd5d2))
+
 ## [2.294.1](https://github.com/SocialGouv/domifa/compare/v2.294.0...v2.294.1) (2026-11-16)
 
 
