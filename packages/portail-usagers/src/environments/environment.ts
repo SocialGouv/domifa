@@ -2,6 +2,7 @@ import { AppEnvironment } from "./AppEnvironment.type";
 
 export const environment: AppEnvironment = {
   apiUrl: "http://localhost:3000/",
+  frontendUrl: "http://localhost:4200/",
   production: false,
   env: "dev", // DOMIFA_ENV_ID
   sentryDsnPortail: "",

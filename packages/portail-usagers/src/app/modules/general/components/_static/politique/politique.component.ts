@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
 import { DsfrColumn, DsfrDataTableModule } from "@edugouvfr/ngx-dsfr";
 import { MatomoTracker } from "ngx-matomo-client";
 import { SeoService } from "../../../../shared/services/seo.service";
@@ -8,7 +9,7 @@ import { SeoService } from "../../../../shared/services/seo.service";
 @Component({
   selector: "app-politique",
   templateUrl: "./politique.component.html",
-  imports: [CommonModule, FormsModule, DsfrDataTableModule],
+  imports: [CommonModule, FormsModule, DsfrDataTableModule, RouterModule],
 })
 export class PolitiqueComponent {
   optedOut$: Promise<boolean>;
@@ -52,7 +53,8 @@ export class PolitiqueComponent {
     {
       sousTraitant: "Brevo",
       paysDestinataire: "France",
-      traitementRealise: "Envoi de courriels",
+      traitementRealise:
+        "Envoi de courriels, dont la transmission des demandes du formulaire de contact au support",
       garanties:
         "https://www.brevo.com/fr/legal/termsofuse/#accord-sur-le-traitement-des-donnees-a-caractere-personnel-dpa",
     },
@@ -73,12 +75,12 @@ export class PolitiqueComponent {
   ];
   public constructor(
     private readonly seoService: SeoService,
-    private readonly tracker: MatomoTracker,
+    private readonly tracker: MatomoTracker
   ) {
     this.optedOut$ = tracker.isUserOptedOut();
     this.seoService.updateTitleAndTags(
       "Politique de confidentialité de Mon DomiFa",
-      "Protection des données personnelles, cookies, et respect de votre vie privée sur Mon DomiFa",
+      "Protection des données personnelles, cookies, et respect de votre vie privée sur Mon DomiFa"
     );
   }
 

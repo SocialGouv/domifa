@@ -1,5 +1,4 @@
 import {
-  IsEmail,
   IsEmpty,
   IsIn,
   IsInt,
@@ -22,11 +21,7 @@ import {
 } from "class-transformer";
 
 import { MessageEmailAttachment } from "../mails/types/MessageEmailAttachment.type";
-import {
-  IsValidPhone,
-  LowerCaseTransform,
-  StripTagsTransform,
-} from "../../_common/decorators";
+import { IsValidPhone, StripTagsTransform } from "../../_common/decorators";
 import {
   CONTACT_SUPPORT_SUBJECTS,
   ContactSupportSubject,
@@ -34,6 +29,7 @@ import {
 } from "@domifa/common";
 import { cleanFormDataValue } from "../../util";
 import { TelephoneDto } from "../../_common/dto/telephone.dto";
+import { BaseContactSupportDto } from "./base-contact-support.dto";
 
 // Multipart/form-data delivers the nested telephone as a JSON string.
 const parseMultipartTelephone = (value: unknown): unknown => {
@@ -50,33 +46,19 @@ const parseMultipartTelephone = (value: unknown): unknown => {
   }
 };
 
-export class ContactSupportDto {
-  @IsNotEmpty()
-  @IsString()
-  @IsEmail()
-  @MaxLength(254)
-  @LowerCaseTransform()
-  public email!: string;
-
+export class ContactSupportDto extends BaseContactSupportDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(2)
   @MaxLength(300)
-  @StripTagsTransform()
+  @StripTagsTransform({ removeInvisibleChars: true })
   public name!: string;
-
-  @IsNotEmpty()
-  @IsString()
-  @MinLength(2)
-  @MaxLength(300)
-  @StripTagsTransform()
-  public structureName!: string;
 
   @IsNotEmpty()
   @IsString()
   @MinLength(10)
   @MaxLength(10000)
-  @StripTagsTransform()
+  @StripTagsTransform({ removeInvisibleChars: true })
   public content!: string;
 
   @IsOptional()
@@ -106,7 +88,7 @@ export class ContactSupportDto {
   @IsString()
   @MinLength(2)
   @MaxLength(500)
-  @StripTagsTransform()
+  @StripTagsTransform({ removeInvisibleChars: true })
   public subjectOther?: string;
 
   @IsNotEmpty()

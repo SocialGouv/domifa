@@ -43,6 +43,10 @@ import {
 import { userSecurityResetPasswordInitiator } from "../../../users/services";
 import { isDeletedEmail } from "./deleted-email.guard";
 import {
+  sanitizeBrevoHeader,
+  sanitizeBrevoParams,
+} from "./brevo-params-sanitizer";
+import {
   BREVO_REPLY_TO,
   BREVO_SENDERS,
   BrevoSenderDomain,
@@ -153,6 +157,19 @@ export class BrevoSenderService {
     replyTo?: SendSmtpEmailReplyTo;
   }) {
     const config = domifaConfig();
+
+    // Every value coming from users is cleaned here, once for all emails.
+    // HTML escaping stays off until the Brevo templates are checked (see
+    // BrevoSanitizeOptions).
+    params = sanitizeBrevoParams(params, { escapeHtml: false });
+    subject = subject ? sanitizeBrevoHeader(subject) : subject;
+    to = to.map((recipient) => ({
+      ...recipient,
+      name: sanitizeBrevoHeader(recipient.name ?? ""),
+    }));
+    if (replyTo?.name) {
+      replyTo = { ...replyTo, name: sanitizeBrevoHeader(replyTo.name) };
+    }
 
     if (isBrevoCallSkipped(config)) {
       appLogger.info(

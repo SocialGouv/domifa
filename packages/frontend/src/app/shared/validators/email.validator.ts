@@ -1,5 +1,5 @@
 import { AbstractControl, ValidationErrors } from "@angular/forms";
-import isEmail from "validator/lib/isEmail";
+import { isValidEmail } from "@domifa/common";
 
 export const EmailValidator = (
   control: AbstractControl
@@ -7,5 +7,5 @@ export const EmailValidator = (
   if (!control?.value) {
     return null;
   }
-  return !isEmail(control?.value) ? { invalidEmail: true } : null;
+  return !isValidEmail(control?.value) ? { invalidEmail: true } : null;
 };

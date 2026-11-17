@@ -1,3 +1,4 @@
+import { provideRouter } from "@angular/router";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { FaqSecurityComponent } from "./faq-security.component";
@@ -9,6 +10,7 @@ describe("FaqSecurityComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FaqSecurityComponent],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(FaqSecurityComponent);
