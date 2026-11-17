@@ -490,15 +490,15 @@
             }
           </div>
           }
-          <dsfr-button
-            label="Se connecter"
+          <!-- aria-disabled instead of disabled: the button keeps the focus during the request -->
+          <button
             type="submit"
-            variant="primary"
-            buttonSize="MD"
-            [disabled]="loading"
-            buttonId="loginBtn"
-            customClass="fr-display-flex fr-flex-column w-100"
-          ></dsfr-button>
+            id="loginBtn"
+            class="fr-btn fr-display-flex fr-flex-column w-100"
+            [attr.aria-disabled]="loading ? 'true' : null"
+          >
+            Se connecter
+          </button>
         </form>
       </div>
     </div>
