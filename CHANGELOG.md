@@ -1,3 +1,10 @@
+# [2.295.0](https://github.com/SocialGouv/domifa/compare/v2.294.7...v2.295.0) (2026-11-17)
+
+
+### Features
+
+* **portail-stats:** hide DDETS/DREETS account creation button ([ab33899](https://github.com/SocialGouv/domifa/commit/ab338995a17ba32d1910f4137815dd0cc19c2b0c))
+
 ## [2.294.7](https://github.com/SocialGouv/domifa/compare/v2.294.6...v2.294.7) (2026-11-17)
 
 
