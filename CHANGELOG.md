@@ -1,3 +1,10 @@
+## [2.294.7](https://github.com/SocialGouv/domifa/compare/v2.294.6...v2.294.7) (2026-11-17)
+
+
+### Bug Fixes
+
+* **portail-usagers:** remove decorative emojis and hide warning emoji for RGAA 13.5 (MON-13.5) ([2244c5d](https://github.com/SocialGouv/domifa/commit/2244c5d1b325770386f44fa7dbbaecbdf6557a1b))
+
 ## [2.294.6](https://github.com/SocialGouv/domifa/compare/v2.294.5...v2.294.6) (2026-11-17)
 
 
