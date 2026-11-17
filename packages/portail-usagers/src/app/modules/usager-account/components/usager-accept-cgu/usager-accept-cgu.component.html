@@ -74,12 +74,16 @@
           class="btn btn-lg btn-primary fr-ml-1w"
           type="submit"
           (click)="submitAcceptTerms()"
-          [disabled]="loading"
-          [attr.aria-busy]="loading"
+          [attr.aria-disabled]="loading ? 'true' : null"
         >
           <span *ngIf="!loading"> Enregistrer </span>
           <span *ngIf="loading"> Enregistrement en cours...</span>
         </button>
+      </div>
+      <!-- present before being filled: announces the saving progress (RGAA 7.5);
+        a div, not a p, since it stays empty outside of the saving -->
+      <div class="fr-sr-only" role="status">
+        {{ loading ? "Enregistrement en cours" : "" }}
       </div>
     </form>
   </section>

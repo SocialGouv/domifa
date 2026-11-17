@@ -34,7 +34,7 @@ export class UsagerAcceptCguComponent implements OnInit {
     private readonly toastr: CustomToastService,
     private readonly usagerAuthService: UsagerAuthService,
     private readonly router: Router,
-    private readonly seoService: SeoService,
+    private readonly seoService: SeoService
   ) {
     this.loading = false;
     this.submitted = false;
@@ -45,7 +45,7 @@ export class UsagerAcceptCguComponent implements OnInit {
         if (apiResponse?.acceptTerms) {
           this.router.navigate(["/account"]);
         }
-      },
+      }
     );
     this.initCguForm();
   }
@@ -53,7 +53,7 @@ export class UsagerAcceptCguComponent implements OnInit {
   public ngOnInit(): void {
     this.seoService.updateTitleAndTags(
       "Acceptation des CGU - Mon DomiFa",
-      "Acceptez les conditions générales d'utilisation pour accéder à votre espace personnel",
+      "Acceptez les conditions générales d'utilisation pour accéder à votre espace personnel"
     );
   }
 
@@ -68,6 +68,9 @@ export class UsagerAcceptCguComponent implements OnInit {
     });
   }
   public submitAcceptTerms(): void {
+    if (this.loading) {
+      return;
+    }
     this.submitted = true;
 
     if (this.acceptTermsForm.invalid) {
@@ -92,7 +95,7 @@ export class UsagerAcceptCguComponent implements OnInit {
           this.loading = false;
           this.toastr.error("Veuillez cocher les 2 cases pour continuer");
         },
-      }),
+      })
     );
   }
 

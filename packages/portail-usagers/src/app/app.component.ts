@@ -25,6 +25,7 @@ import {
 import { DsfrToastComponent } from "@edugouvfr/ngx-dsfr-ext";
 import { IdleManagerComponent } from "./modules/general/components/idle-manager/idle-manager.component";
 import { NewsContentComponent } from "./modules/shared/components/news-content/news-content.component";
+import { CustomToastService } from "./modules/shared/services/custom-toast.service";
 
 @Component({
   selector: "app-root",
@@ -83,6 +84,7 @@ export class AppComponent implements OnInit {
     private readonly router: Router,
     private readonly usagerAuthService: UsagerAuthService,
     private readonly matomo: MatomoTracker,
+    public readonly toastService: CustomToastService
   ) {
     this.apiVersion = null;
     this.usagerProfile = null;
@@ -130,7 +132,7 @@ export class AppComponent implements OnInit {
     if (!lastNews) {
       localStorage.setItem(
         "NEWS_MON_DOMIFA",
-        new Date(DOMIFA_NEWS[0].date).toISOString(),
+        new Date(DOMIFA_NEWS[0].date).toISOString()
       );
       this.pendingNews = false;
       return;
@@ -149,7 +151,7 @@ export class AppComponent implements OnInit {
     this.newsModal.close();
     localStorage.setItem(
       "NEWS_MON_DOMIFA",
-      new Date(DOMIFA_NEWS[0].date).toISOString(),
+      new Date(DOMIFA_NEWS[0].date).toISOString()
     );
     this.pendingNews = false;
     this.newsModalOpen = false;
@@ -158,7 +160,7 @@ export class AppComponent implements OnInit {
   public ngOnInit(): void {
     this.initMaintenanceNotice();
     this.titleService.setTitle(
-      "Mon DomiFa, l'outil qui facilite la gestion des structures domiciliatirices",
+      "Mon DomiFa, l'outil qui facilite la gestion des structures domiciliatirices"
     );
 
     this.usagerAuthService.currentUsagerSubject.subscribe(
@@ -168,7 +170,7 @@ export class AppComponent implements OnInit {
         if (usager) {
           this.checkNews();
         }
-      },
+      }
     );
 
     this.router.events
@@ -228,7 +230,7 @@ export class AppComponent implements OnInit {
     try {
       localStorage.setItem(
         MAINTENANCE_NOTICE.storageKey,
-        new Date().toDateString(),
+        new Date().toDateString()
       );
     } catch {
       // Storage unavailable: hidden until the next page load

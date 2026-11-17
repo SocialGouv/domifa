@@ -1,5 +1,5 @@
 import { CustomToast, ToastSeverity } from "../types/CustomToast.type";
-import { Injectable } from "@angular/core";
+import { Injectable, signal, WritableSignal } from "@angular/core";
 import { DsfrToastService } from "@edugouvfr/ngx-dsfr-ext";
 
 @Injectable({
@@ -10,6 +10,12 @@ export class CustomToastService {
     content: "",
     severity: undefined,
   };
+
+  // The ngx-dsfr-ext toaster announces every toast in a single role="status"
+  // container: messages are announced through dedicated live regions instead
+  // (app.component.html), errors and warnings in a role="alert" one (RGAA 7.5)
+  public readonly statusMessage = signal("");
+  public readonly alertMessage = signal("");
 
   constructor(private toastService: DsfrToastService) {}
 
@@ -34,5 +40,17 @@ export class CustomToastService {
       content,
       severity,
     });
+    this.announce(
+      content,
+      severity === "error" || severity === "warning"
+        ? this.alertMessage
+        : this.statusMessage
+    );
+  }
+
+  private announce(message: string, region: WritableSignal<string>): void {
+    // empty the region first, so that the same message is announced again
+    region.set("");
+    setTimeout(() => region.set(message), 100);
   }
 }

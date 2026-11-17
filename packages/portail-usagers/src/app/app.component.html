@@ -238,4 +238,8 @@
     </dsfr-buttons-group>
   </ng-template>
 </dsfr-modal>
-<dsfr-ext-toaster position="top-left"></dsfr-ext-toaster>
+<!-- the toaster announces every toast as a status: hidden here, toasts are
+  announced by the live regions below with a role matching their severity (RGAA 7.5) -->
+<dsfr-ext-toaster position="top-left" aria-hidden="true"></dsfr-ext-toaster>
+<div class="fr-sr-only" role="status">{{ toastService.statusMessage() }}</div>
+<div class="fr-sr-only" role="alert">{{ toastService.alertMessage() }}</div>
