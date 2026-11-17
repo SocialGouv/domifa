@@ -2,4 +2,5 @@
 export * from "./document.service";
 export * from "./interaction.service";
 export * from "./usager-decision.service";
+export * from "./usager-lien.service";
 export * from "./usagers.service";

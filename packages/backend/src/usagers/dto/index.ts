@@ -3,6 +3,7 @@ export * from "./contact-details.dto";
 export * from "./create-note.dto";
 export * from "./decision-form";
 export * from "./entretien.dto";
+export * from "./lien";
 export * from "./pagination";
 export * from "./procuration.dto";
 export * from "./search-usager.dto";

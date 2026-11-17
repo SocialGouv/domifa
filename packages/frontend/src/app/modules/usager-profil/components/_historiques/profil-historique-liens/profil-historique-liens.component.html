@@ -1,0 +1,63 @@
+<h3 class="fr-h4">Historique du lien conjoint</h3>
+
+<div class="fr-table fr-table--no-caption" *ngIf="searchResults.data?.length">
+  <div class="fr-table__wrapper">
+    <div class="fr-table__container">
+      <div class="fr-table__content">
+        <table>
+          <caption class="fr-sr-only">
+            Historique des liaisons du dossier
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Événement</th>
+              <th scope="col">Dossier concerné</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let log of searchResults.data">
+              <td>{{ log.createdAt | date : "dd MMMM yyyy à HH:mm" }}</td>
+              <td>
+                {{ LOG_ACTION_LABELS[log.action] }}
+                <span *ngIf="log.context?.acceptedSuggestion">
+                  (suggestion acceptée)
+                </span>
+              </td>
+              <td>
+                <a
+                  *ngIf="log.context?.linkedUsagerRef"
+                  [routerLink]="[
+                    '/profil/general/' + log.context?.linkedUsagerRef
+                  ]"
+                >
+                  {{ log.context?.linkedUsagerNom }}
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="fr-justify-content-center fr-display-flex fr-p-3w d-print-none"
+  *ngIf="
+    searchResults.data.length > 0 && searchResults.meta.itemCount > params.take
+  "
+>
+  <dsfr-pagination
+    [pageCount]="totalPages"
+    [currentPage]="params.page"
+    (pageSelect)="onPageSelect($event)"
+    ariaLabel="Pagination de l'historique des liens"
+  ></dsfr-pagination>
+</div>
+
+@if (!loading && searchResults?.data?.length === 0) {
+<div class="fr-callout">
+  <p class="fr-callout__text">Aucune liaison enregistrée pour ce dossier</p>
+</div>
+}

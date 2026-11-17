@@ -28,6 +28,7 @@ import {
   LowerCaseTransform,
   IsValidPhone,
   StrictIntTransform,
+  AtMostOneConjoint,
 } from "../../../_common/decorators";
 import { UsagerAyantDroitDto } from "../UsagerAyantDroitDto";
 import { TelephoneDto } from "../../../_common/dto/telephone.dto";
@@ -117,6 +118,7 @@ export class CreateUsagerDto {
   @ArrayUnique((ayantDroit: UsagerAyantDroitDto) => ayantDroit.uuid)
   @ValidateNested({ each: true })
   @Type(() => UsagerAyantDroitDto)
+  @AtMostOneConjoint()
   public ayantsDroits!: UsagerAyantDroit[];
 
   @IsOptional()
