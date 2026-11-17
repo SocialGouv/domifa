@@ -1,3 +1,12 @@
+## [2.294.5](https://github.com/SocialGouv/domifa/compare/v2.294.4...v2.294.5) (2026-11-17)
+
+
+### Bug Fixes
+
+* **portail-usagers:** fix code review for RGAA 6.1 (MON-6.1) ([4baf3d6](https://github.com/SocialGouv/domifa/commit/4baf3d6600476a39957b223738c65eea426d498f))
+* **portail-usagers:** make links explicit for RGAA 6.1 (MON-6.1) ([f12bb00](https://github.com/SocialGouv/domifa/commit/f12bb0096d640936dcdb9d27f8df65278818c34e))
+* **portail-usagers:** restore footer logo tooltipMessage instead of unknown title binding (MON-6.1) ([5f000cc](https://github.com/SocialGouv/domifa/commit/5f000cc7471f3dac8c84c480a805f747fd6601f3))
+
 ## [2.294.4](https://github.com/SocialGouv/domifa/compare/v2.294.3...v2.294.4) (2026-11-17)
 
 
