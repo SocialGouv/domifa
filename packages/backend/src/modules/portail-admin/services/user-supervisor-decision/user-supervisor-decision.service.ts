@@ -16,6 +16,15 @@ import { UserAdminAuthenticated } from "../../../../_common/model";
 import { BrevoSenderService } from "../../../mails/services/brevo-sender/brevo-sender.service";
 import { appLogger } from "../../../../util";
 
+type SoftDeleteTarget = {
+  targetUserId: number;
+  targetUserEmail: string;
+  targetUserRole: UserSupervisorRole;
+};
+
+// Name stored in the decision when the deletion is made by the system
+export const SYSTEM_DECISION_USER_NAME = "DomiFa (suppression automatique)";
+
 @Injectable()
 export class UserSupervisorDecisionService {
   constructor(
@@ -29,10 +38,7 @@ export class UserSupervisorDecisionService {
     targetUserRole,
     motif,
     admin,
-  }: {
-    targetUserId: number;
-    targetUserEmail: string;
-    targetUserRole: UserSupervisorRole;
+  }: SoftDeleteTarget & {
     motif: UserDeleteMotif;
     admin: UserAdminAuthenticated;
   }): Promise<void> {
@@ -40,15 +46,72 @@ export class UserSupervisorDecisionService {
       throw new BadRequestException("INVALID_USER_DELETE_MOTIF");
     }
 
-    const decision: UserSupervisorDecision = {
-      uuid: uuidv4(),
-      dateDecision: new Date(),
-      statut: "DELETE",
-      motif,
-      userId: admin.id,
-      userName: `${admin.prenom} ${admin.nom}`,
-    };
+    await this.applySoftDelete(
+      { targetUserId, targetUserEmail },
+      {
+        uuid: uuidv4(),
+        dateDecision: new Date(),
+        statut: "DELETE",
+        motif,
+        userId: admin.id,
+        userName: `${admin.prenom} ${admin.nom}`,
+      }
+    );
 
+    await this.appLogsService.create<UserSoftDeleteLogContext>({
+      ...buildSupervisorActorFields(admin),
+      action: "ADMIN_SOFT_DELETE_USER_SUPERVISOR",
+      context: {
+        userId: targetUserId,
+        role: targetUserRole,
+        motif,
+      },
+    });
+  }
+
+  // Automatic deletion of a pilotage account inactive for 18 months.
+  public async softDeleteInactive({
+    targetUserId,
+    targetUserEmail,
+    targetUserRole,
+  }: SoftDeleteTarget): Promise<void> {
+    const motif: UserDeleteMotif = "INACTIF_18_MOIS";
+
+    await this.applySoftDelete(
+      { targetUserId, targetUserEmail },
+      {
+        uuid: uuidv4(),
+        dateDecision: new Date(),
+        statut: "DELETE",
+        motif,
+        userId: 0,
+        userName: SYSTEM_DECISION_USER_NAME,
+      }
+    );
+
+    // The deleted user is the subject of the log row, so it shows up in
+    // their history.
+    await this.appLogsService.create<UserSoftDeleteLogContext>({
+      userId: targetUserId,
+      userSupervisorId: targetUserId,
+      userType: "user_supervisor",
+      role: targetUserRole,
+      action: "AUTO_DELETE_INACTIVE_USER_SUPERVISOR",
+      context: {
+        userId: targetUserId,
+        role: targetUserRole,
+        motif,
+      },
+    });
+  }
+
+  private async applySoftDelete(
+    {
+      targetUserId,
+      targetUserEmail,
+    }: Pick<SoftDeleteTarget, "targetUserId" | "targetUserEmail">,
+    decision: UserSupervisorDecision
+  ): Promise<void> {
     await userSupervisorRepository.update(
       { id: targetUserId },
       {
@@ -69,15 +132,5 @@ export class UserSupervisorDecisionService {
         error
       );
     }
-
-    await this.appLogsService.create<UserSoftDeleteLogContext>({
-      ...buildSupervisorActorFields(admin),
-      action: "ADMIN_SOFT_DELETE_USER_SUPERVISOR",
-      context: {
-        userId: targetUserId,
-        role: targetUserRole,
-        motif,
-      },
-    });
   }
 }

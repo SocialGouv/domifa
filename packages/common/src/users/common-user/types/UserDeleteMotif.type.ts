@@ -4,8 +4,10 @@ export type UserDeleteMotif =
   | "INACTIF_PLUS_D_UN_AN"
   | "DEPART_STRUCTURE"
   | "EMAIL_GENERIQUE"
-  | "COMPTE_TEST";
+  | "COMPTE_TEST"
+  | "INACTIF_18_MOIS";
 
+// Motifs selectable by an admin. INACTIF_18_MOIS is reserved to the system.
 export const USER_DELETE_MOTIF_VALUES: UserDeleteMotif[] = [
   "INACTIF_PLUS_D_UN_AN",
   "DEPART_STRUCTURE",
@@ -18,4 +20,5 @@ export const USER_DELETE_MOTIF_LABELS: Record<UserDeleteMotif, string> = {
   DEPART_STRUCTURE: "Ne travaille plus dans la structure",
   EMAIL_GENERIQUE: "Email générique",
   COMPTE_TEST: "Compte de test",
+  INACTIF_18_MOIS: "Compte non utilisé depuis plus de 18 mois",
 };

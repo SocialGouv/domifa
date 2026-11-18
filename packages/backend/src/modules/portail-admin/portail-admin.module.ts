@@ -19,6 +19,7 @@ import { MailsModule } from "../mails/mails.module";
 import { StructureDecisionEmailService } from "./services/structure-decision-email/structure-decision-email.service";
 import { StructureDecisionService } from "./services/structure-decision/structure-decision.service";
 import { UserSupervisorDecisionService } from "./services/user-supervisor-decision/user-supervisor-decision.service";
+import { SupervisorInactivityCleanerService } from "./services/supervisor-inactivity/supervisor-inactivity-cleaner.service";
 import { UserStructureDecisionService } from "../users/services/user-structure-decision/user-structure-decision.service";
 import { UserStructureEmailUpdaterService } from "../users/services/userStructureEmailUpdater.service";
 import { OtpModule } from "../otp/otp.module";
@@ -55,6 +56,7 @@ import { SecurityMonitoringModule } from "../security-monitoring/security-monito
     UserStructureDecisionService,
     UserStructureEmailUpdaterService,
     UserSupervisorDecisionService,
+    SupervisorInactivityCleanerService,
   ],
 })
 export class PortailAdminModule {}
