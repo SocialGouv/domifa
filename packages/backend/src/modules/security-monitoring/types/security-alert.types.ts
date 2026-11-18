@@ -1,3 +1,4 @@
+import { UserSupervisorRole } from "@domifa/common";
 import { LogAction } from "../../app-logs/types";
 
 // Broader set surfaced in the super-admin "Suspicious activity" view.
@@ -91,10 +92,10 @@ export interface SuspiciousActivitySummary {
 
 type NoticeUser = { prenom: string; nom: string; email: string };
 
-// A DREETS invited another regional account from the pilotage portal
+// A DREETS or the DGCS invited a regional account from the pilotage portal
 export interface RegionUserCreatedNotice {
   createdAt: Date;
   region: string;
-  creator: NoticeUser;
+  creator: NoticeUser & { role: UserSupervisorRole };
   createdUser: NoticeUser;
 }

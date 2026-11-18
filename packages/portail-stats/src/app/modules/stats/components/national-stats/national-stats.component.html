@@ -26,18 +26,18 @@
         </option>
       </select>
     </div>
-    <div class="fr-select-group fr-col-12 fr-col-md-2">
+    <div *ngIf="showRegionFilter" class="fr-select-group fr-col-12 fr-col-md-2">
       <label class="fr-label" for="region"> Région </label>
       <select
         [disabled]="loading"
         [(ngModel)]="metabaseParams.region"
-        (ngModelChange)="generateTablesByRole(); getStructures()"
+        (ngModelChange)="generateTablesByRole()"
         class="fr-select"
         aria-describedby="region"
         id="region"
         name="region"
       >
-        <option [ngValue]="undefined">Tous</option>
+        <option *ngIf="canSelectAllRegions" [ngValue]="undefined">Tous</option>
         <option
           *ngFor="let region of regionTable | keyvalue"
           [value]="region.key"
@@ -47,10 +47,7 @@
       </select>
     </div>
 
-    <div
-      *ngIf="user.role !== 'department'"
-      class="fr-select-group fr-col-12 fr-col-md-2"
-    >
+    <div class="fr-select-group fr-col-12 fr-col-md-2">
       <label class="fr-label" for="departement"> Département </label>
       <select
         class="fr-select"
@@ -61,7 +58,9 @@
         name="departement"
         [disabled]="loading"
       >
-        <option [ngValue]="undefined">Tous</option>
+        <option *ngIf="canSelectAllDepartments" [ngValue]="undefined">
+          Tous
+        </option>
         <option
           *ngFor="let department of departmentTable | keyvalue"
           [value]="department.key"
@@ -103,8 +102,7 @@
       >
         <option [ngValue]="undefined">Tous</option>
         <option *ngFor="let structure of structures" [value]="structure.id">
-          {{ structure.codePostal }} - {{ structure.ville | ucFirst }} -
-          {{ structure.nom | ucFirst }}
+          {{ structure.nom | ucFirst }} ({{ structure.ville | ucFirst }})
         </option>
       </select>
     </div>

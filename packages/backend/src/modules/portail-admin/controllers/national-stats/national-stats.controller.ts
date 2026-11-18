@@ -164,9 +164,8 @@ export class NationalStatsController {
       where: params,
       select: ["id", "nom", "ville", "codePostal"],
       order: {
-        codePostal: "ASC",
-        ville: "ASC",
         nom: "ASC",
+        ville: "ASC",
       },
     });
   }
