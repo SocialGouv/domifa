@@ -274,6 +274,13 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             required: emailsEnabled,
           }
         ),
+        userAccountInactivityReminder: configParser.parseInteger(
+          x,
+          "DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_INACTIVITY_REMINDER",
+          {
+            required: false,
+          }
+        ),
         userStructureCreatedByAdmin: configParser.parseInteger(
           x,
           "DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_CREATED_BY_ADMIN",

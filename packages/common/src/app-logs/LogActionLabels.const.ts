@@ -59,6 +59,10 @@ export const LOG_ACTION_LABELS: Record<LogAction, string> = {
     "Suppression d'un utilisateur du portail de pilotage",
   ADMIN_SOFT_DELETE_USER_SUPERVISOR:
     "Suppression (archivage) d'un utilisateur du portail de pilotage",
+  AUTO_INACTIVITY_REMINDER_USER_SUPERVISOR:
+    "Rappel avant suppression d'un compte du portail de pilotage inactif depuis 17 mois",
+  AUTO_DELETE_INACTIVE_USER_SUPERVISOR:
+    "Suppression automatique d'un compte du portail de pilotage inactif depuis 18 mois",
   ADMIN_ELEVATE_ROLE_USER_SUPERVISOR: "Promotion en administrateur",
   ADMIN_USER_ROLE_CHANGE: "Changement de rôle d'un utilisateur",
   ADMIN_USER_CREATE: "Création d'un utilisateur",

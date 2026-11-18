@@ -65,6 +65,7 @@ export type BlockUserByAdminLogContext = {
 
 export type UserSoftDeleteLogContext = {
   // ADMIN_SOFT_DELETE_USER_STRUCTURE | ADMIN_SOFT_DELETE_USER_SUPERVISOR
+  // | AUTO_DELETE_INACTIVE_USER_SUPERVISOR
   userId: number;
   role: UserStructureRole | UserSupervisorRole;
   motif: UserDeleteMotif;

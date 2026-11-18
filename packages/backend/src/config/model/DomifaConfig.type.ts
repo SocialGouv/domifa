@@ -77,6 +77,9 @@ export type DomifaConfig = {
       structureDelete: number; // DOMIFA_BREVO_TEMPLATES_STRUCTURE_DELETE
       // User account deleted template
       userAccountDeleted: number; // DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_DELETED
+      // Reminder sent one month before the automatic deletion of an inactive
+      // account. Optional: when unset, no reminder (hence no deletion) is sent.
+      userAccountInactivityReminder?: number; // DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_INACTIVITY_REMINDER
       // User account created by admin template
       userStructureCreatedByAdmin: number; // DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_CREATED_BY_ADMIN
       // Structure pending activation template
