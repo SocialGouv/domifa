@@ -6,11 +6,12 @@ import { fadeInOut } from "../../../../shared";
 import { LoadingService } from "../../services/loading.service";
 import { DEFAULT_LOADING_LABEL } from "../../services/loading.constants";
 import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
+import { SpinnerAriaHiddenDirective } from "../../directives/spinner-aria-hidden.directive";
 
 @Component({
   animations: [fadeInOut],
   selector: "app-loading",
-  imports: [DsfrSpinnerComponent],
+  imports: [DsfrSpinnerComponent, SpinnerAriaHiddenDirective],
   styleUrls: ["./loading.component.css"],
   templateUrl: "./loading.component.html",
 })

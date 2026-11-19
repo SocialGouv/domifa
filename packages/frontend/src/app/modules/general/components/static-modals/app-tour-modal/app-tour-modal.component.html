@@ -16,43 +16,11 @@
     <div class="tour-content">
       <img
         src="/assets/images/modals/popup.gif"
-        alt="Interface de DomiFa"
-        aria-describedby="transcription-step-0"
+        alt=""
         class="fr-responsive-img"
       />
     </div>
-    }
-
-    <span class="fr-sr-only" aria-live="polite">
-      @if (currentStep === 0) {
-      <span id="transcription-step-0">
-        Une courte vidéo montre l'interface de DomiFa destinée aux utilisateurs
-        de structures. Dans le menu Mon compte, configurez les paramètres de
-        votre compte. Dans le bouton Domiciliés, suivez la gestion quotidienne
-        des domiciliés. Dans le bouton Créer une demande, créez un nouveau
-        dossier domicilié. Dans le menu central, suivez le statut de vos
-        domiciliés. Sur le moteur de recherche, retrouvez facilement un dossier
-        domicilié. Dans les sections interaction et courrier, ajoutez un
-        passage, appel ou courrier. Modifiez une information dans un dossier en
-        cliquant sur le nom et prénom de la personne. Pour toute question,
-        contactez l'équipe via le bouton d'accès au centre d'aide, sur le
-        symbole point d'interrogation.
-      </span>
-      } @if (currentStep === 1) {
-      <span id="transcription-step-1">
-        @if (me?.role === 'admin') { Dans la section Mon compte, configurez les
-        paramètres de votre compte. Dans le bouton Créer une demande, créez une
-        demande de domiciliation. } @if (me?.role === 'responsable' || me?.role
-        === 'simple') { Depuis le bouton Créer une demande, créez une demande de
-        domiciliation. Modifiez une information dans un dossier en cliquant sur
-        le nom et le prénom du domicilié. } @if (me?.role === 'facteur') { Dans
-        les sections Interactions et Courriers, ajoutez un passage, un appel ou
-        un courrier. }
-      </span>
-      }
-    </span>
-
-    @if (currentStep === 0) {
+    } @if (currentStep === 0) {
     <p>
       💡 Explorer l'ensemble des fonctionnalités :
       <a href="javascript:void(0)" (click)="goToFaq()">documentation en ligne</a
@@ -73,26 +41,24 @@
       }
     </ul>
     } @if (currentStep === 1) {
+    <!-- decorative screenshots: their information is written in the list above (RGAA 1.8) -->
     <div class="tour-content">
       @if (me?.role === 'admin') {
       <img
         src="/assets/images/modals/admin.jpg"
-        alt="Interface DomiFa vue administrateur"
-        aria-describedby="transcription-step-1"
+        alt=""
         class="fr-responsive-img"
       />
       } @if (me?.role === 'responsable' || me?.role === 'simple') {
       <img
         src="/assets/images/modals/instructeur.jpg"
-        alt="Interface DomiFa vue gestionnaire et instructeur"
-        aria-describedby="transcription-step-1"
+        alt=""
         class="fr-responsive-img"
       />
       } @if (me?.role === 'facteur') {
       <img
         src="/assets/images/modals/facteur.jpg"
-        alt="Interface DomiFa vue agent d'accueil et facteur"
-        aria-describedby="transcription-step-1"
+        alt=""
         class="fr-responsive-img"
       />
       }
