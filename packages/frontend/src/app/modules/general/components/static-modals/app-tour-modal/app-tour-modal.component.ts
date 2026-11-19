@@ -53,9 +53,9 @@ export class AppTourModalComponent implements OnInit, OnDestroy {
           subtitle: "Vous gérez la structure et les utilisateurs.",
           description: "Choisissez votre première action :",
           actions: [
-            "Créer les comptes utilisateurs de votre structure.",
-            "Importer vos données domiciliés.",
-            "Créer une demande de domiciliation.",
+            "Créer les comptes utilisateurs de votre structure : menu « Mon espace », puis « Gérer les utilisateurs ».",
+            "Importer vos données domiciliés : menu « Mon espace », puis « Importer des domiciliés ».",
+            "Créer une demande de domiciliation : bouton « Créer une demande ».",
           ],
         },
         responsable: {
@@ -63,8 +63,8 @@ export class AppTourModalComponent implements OnInit, OnDestroy {
             "Vous pilotez la gestion quotidienne des dossiers et des domiciliés :",
           description: "Choisissez votre première action :",
           actions: [
-            "Créer une demande de domiciliation.",
-            "Modifier les informations sur un dossier domicilié (radier, renouveler, supprimer, ajouter une interaction).",
+            "Créer une demande de domiciliation : bouton « Créer une demande ».",
+            "Modifier les informations sur un dossier domicilié (radier, renouveler, supprimer, ajouter une interaction) : cliquez sur le nom et le prénom du domicilié dans la liste.",
           ],
         },
         simple: {
@@ -72,15 +72,15 @@ export class AppTourModalComponent implements OnInit, OnDestroy {
             "Vous pilotez la gestion quotidienne des dossiers et des domiciliés :",
           description: "Choisissez votre première action :",
           actions: [
-            "Créer une demande de domiciliation.",
-            "Modifier les informations sur un dossier domicilié (radier, renouveler, supprimer, ajouter une interaction).",
+            "Créer une demande de domiciliation : bouton « Créer une demande ».",
+            "Modifier les informations sur un dossier domicilié (radier, renouveler, supprimer, ajouter une interaction) : cliquez sur le nom et le prénom du domicilié dans la liste.",
           ],
         },
         facteur: {
           subtitle: "Vous êtes le premier contact des domiciliés :",
           description: "Choisissez votre première action :",
           actions: [
-            "Ajouter une interaction sur un dossier (courrier, passages, appels).",
+            "Ajouter une interaction sur un dossier (courrier, passages, appels) : boutons de la colonne « Interaction » de la liste des domiciliés.",
           ],
         },
       },
