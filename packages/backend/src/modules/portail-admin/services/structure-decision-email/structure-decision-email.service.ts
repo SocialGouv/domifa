@@ -50,6 +50,44 @@ export class StructureDecisionEmailService {
     });
   }
 
+  async sendInactiveStructureDeletedEmail({
+    to,
+    params,
+  }: {
+    to: { email: string; name: string };
+    params: {
+      prenom: string;
+      structure_nom: string;
+      date_suppression: string;
+      date_derniere_connexion: string;
+    };
+  }): Promise<void> {
+    await this.brevoSenderService.sendEmailWithTemplate({
+      templateId: domifaConfig().brevo.templates.structureInactiveDelete,
+      to: [to],
+      params,
+    });
+  }
+
+  async sendInactiveStructureKeptEmail({
+    to,
+    params,
+  }: {
+    to: { email: string; name: string };
+    params: {
+      prenom: string;
+      structure_nom: string;
+      date_derniere_connexion: string;
+      nb_domicilies_actifs: number;
+    };
+  }): Promise<void> {
+    await this.brevoSenderService.sendEmailWithTemplate({
+      templateId: domifaConfig().brevo.templates.structureInactiveKept,
+      to: [to],
+      params,
+    });
+  }
+
   private getTemplateId(statut: StructureDecisionStatut): number {
     switch (statut) {
       case "VALIDE":
