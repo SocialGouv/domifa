@@ -383,14 +383,12 @@
       >
         Réinitialiser la recherche
       </button>
-      }
-
+      } @if (searching) {
       <dsfr-ext-spinner
-        *ngIf="searching"
+        appSpinnerAriaHidden
         typeLoader="sun"
-        Dans
       ></dsfr-ext-spinner>
-
+      }
       <div @fadeInOut>
         <app-manage-manage-usagers-table
           [selectedRefs]="selectedRefs"

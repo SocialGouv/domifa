@@ -33,6 +33,7 @@ import { WelcomeModalComponent } from "../general/components/static-modals/welco
 import { DsfrModalComponent, DsfrTooltipDirective } from "@edugouvfr/ngx-dsfr";
 import { DsfrSpinnerComponent } from "@edugouvfr/ngx-dsfr-ext";
 import { SupportModeDisableDirective } from "../shared/directives/support-mode-disable.directive";
+import { SpinnerAriaHiddenDirective } from "../shared/directives/spinner-aria-hidden.directive";
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { SupportModeDisableDirective } from "../shared/directives/support-mode-d
     WelcomeModalComponent,
     DsfrModalComponent,
     DsfrSpinnerComponent,
+    SpinnerAriaHiddenDirective,
     SupportModeDisableDirective,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],

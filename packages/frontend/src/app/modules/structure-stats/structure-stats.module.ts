@@ -20,6 +20,7 @@ import {
   DsfrDatePickerComponent,
   DsfrSpinnerComponent,
 } from "@edugouvfr/ngx-dsfr-ext";
+import { SpinnerAriaHiddenDirective } from "../shared/directives/spinner-aria-hidden.directive";
 
 @NgModule({
   declarations: [ReportingFormComponent, StuctureStatsComponent],
@@ -33,6 +34,7 @@ import {
     ReactiveFormsModule,
     DsfrModalComponent,
     DsfrSpinnerComponent,
+    SpinnerAriaHiddenDirective,
   ],
   providers: [
     StructureStatsService,
