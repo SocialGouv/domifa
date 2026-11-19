@@ -23,7 +23,7 @@
         (click)="getCerfa(usager.ref, CerfaDocType.demande); closeMenu()"
       >
         <span class="ri-file-pdf-2-line" aria-hidden="true"></span>
-        Télécharger le Cerfa d'attestation de demande (.pdf)
+        Télécharger le Cerfa d'attestation de demande (.pdf, environ 700 Ko)
       </button>
     </li>
 
@@ -37,7 +37,7 @@
         (click)="getCerfa(usager.ref, CerfaDocType.attestation); closeMenu()"
       >
         <span class="ri-file-pdf-2-line" aria-hidden="true"></span>
-        Télécharger le Cerfa d'élection de domicile (.pdf)
+        Télécharger le Cerfa d'élection de domicile (.pdf, environ 550 Ko)
       </button>
     </li>
     } @if (usager.decision.statut === 'REFUS') {
@@ -49,7 +49,7 @@
         (click)="getCerfa(usager.ref, CerfaDocType.demande); closeMenu()"
       >
         <span class="ri-file-pdf-2-line" aria-hidden="true"></span>
-        Télécharger l'attestation de refus (.pdf)
+        Télécharger l'attestation de refus (.pdf, environ 700 Ko)
       </button>
     </li>
     } @if (usager.decision.statut !== 'REFUS' && usager.decision.statut ===

@@ -17,7 +17,10 @@
         target="_blank"
         [routerLink]="'/profil/general/' + duplicate.ref"
         [title]="
-          'Voir le profil de ' + (duplicate | fullName) + ' - nouvelle fenêtre'
+          duplicate.customRef +
+          ' - ' +
+          (duplicate | fullName) +
+          ' : voir le profil - nouvelle fenêtre'
         "
       >
         <strong
