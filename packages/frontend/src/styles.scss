@@ -332,11 +332,6 @@ hr {
   margin-top: 1.5rem;
 }
 
-// Disabled buttons text: the DSFR --text-disabled-grey is 2.5:1 to 3.1:1, while
-// these buttons carry information ("Veuillez patienter", OTP resend countdown).
-// --text-mention-grey reaches 4.5:1 on every disabled button background, in light
-// and dark themes (RGAA 3.2). Every DSFR button variant also has the .fr-btn class,
-// and this rule is loaded after the DSFR one with the same specificity
 .fr-btn:disabled,
 a.fr-btn:not([href]) {
   color: var(--text-mention-grey);
