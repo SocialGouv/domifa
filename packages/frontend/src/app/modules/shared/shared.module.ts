@@ -4,7 +4,12 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 
 import { CustomToastrComponent } from "./components/custom-toastr/custom-toastr.component";
 
-import { AriaHideEmojiPipe, FullNamePipe, ReplaceLineBreaks } from "./pipes";
+import {
+  AriaHideEmojiPipe,
+  FileInfoPipe,
+  FullNamePipe,
+  ReplaceLineBreaks,
+} from "./pipes";
 import { CleanStrDirective } from "./directives";
 import { ButtonComponent } from "./components/button/button.component";
 import { InputReferrerComponent } from "./components/input-referrer/input-referrer.component";
@@ -28,6 +33,7 @@ import { SupportModeDisableDirective } from "./directives/support-mode-disable.d
     FormsModule,
     FullNamePipe,
     FonctionFormatPipe,
+    FileInfoPipe,
     DsfrFooterModule,
     HasRoleDirective,
     DsfrDropdownMenuComponent,
@@ -58,6 +64,7 @@ import { SupportModeDisableDirective } from "./directives/support-mode-disable.d
     CustomToastrComponent,
     ButtonComponent,
     FonctionFormatPipe,
+    FileInfoPipe,
     DsfrFooterModule,
     DsfrDropdownMenuComponent,
     AlerteConfidentialiteComponent,

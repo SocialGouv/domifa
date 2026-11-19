@@ -22,7 +22,7 @@
           @if (usager.decision.statut !== 'REFUS') {
           <app-button
             appSupportModeDisable
-            label="Télécharger l'attestation de demande"
+            label="Télécharger l'attestation de demande (.pdf, environ 700 Ko)"
             icon="download"
             color="secondary"
             customClass="fr-btn--sm fr-mx-1w"
@@ -33,8 +33,8 @@
             appSupportModeDisable
             [label]="
               usager.decision.statut === 'REFUS'
-                ? 'Télécharger l\'attestation de refus'
-                : 'Télécharger le Cerfa'
+                ? 'Télécharger l\'attestation de refus (.pdf, environ 700 Ko)'
+                : 'Télécharger le Cerfa (.pdf, environ 550 Ko)'
             "
             customClass="fr-btn--sm fr-mr-1w"
             icon="download"

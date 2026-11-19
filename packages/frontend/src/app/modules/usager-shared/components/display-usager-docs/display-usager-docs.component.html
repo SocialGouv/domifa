@@ -62,7 +62,12 @@
             </td>
             <td>
               {{ document.label }}
-              @if (document.shared) {
+              @if (document.filesize) {
+              <br />
+              <span class="fr-text--xs fr-text-mention--grey">
+                {{ document | fileInfo }}
+              </span>
+              } @if (document.shared) {
               <span class="fr-badge fr-badge--warning fr-badge--sm">
                 ⚠️ Document partagé sur Mon DomiFa
               </span>
@@ -79,7 +84,13 @@
               ></app-edit-usager-doc>
               <app-button
                 (action)="getDocument(document)"
-                [ariaLabel]="'Télécharger le document ' + document.label"
+                [ariaLabel]="
+                  'Télécharger le document ' +
+                  document.label +
+                  ' (' +
+                  (document | fileInfo) +
+                  ')'
+                "
                 label="Télécharger"
                 icon="download"
                 color="secondary"

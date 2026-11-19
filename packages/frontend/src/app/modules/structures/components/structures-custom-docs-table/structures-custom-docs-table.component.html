@@ -71,7 +71,13 @@
               <td class="align-middle fr-text--right">
                 <app-button
                   (action)="getStructureDoc(document)"
-                  [ariaLabel]="'Télécharger le document ' + document.label"
+                  [ariaLabel]="
+                    'Télécharger le document ' +
+                    document.label +
+                    ' (' +
+                    (document | fileInfo) +
+                    ')'
+                  "
                   label="Télécharger"
                   icon="download"
                   color="secondary"

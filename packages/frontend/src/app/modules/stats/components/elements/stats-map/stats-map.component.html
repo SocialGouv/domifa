@@ -45,7 +45,7 @@
               </p>
               <a
                 [attr.aria-label]="
-                  'Consulter les statistiques de la région ' +
+                  'Voir le détail : statistiques de la région ' +
                   REGIONS_LABELS[regionMap.key]
                 "
                 [routerLink]="[
@@ -67,7 +67,8 @@
           >
             <a
               [attr.aria-label]="
-                'Consulter les statistiques de la région ' +
+                statsRegionsValues[regionMap.key] +
+                ' structures, région ' +
                 REGIONS_LABELS[regionMap.key]
               "
               [routerLink]="['/stats/region/' + REGIONS_ID_SEO[regionMap.key]]"
@@ -121,7 +122,7 @@
               </p>
               <a
                 [attr.aria-label]="
-                  'Consulter les statistiques de la région' +
+                  'Voir le détail : statistiques de la région ' +
                   REGIONS_LABELS[regionDomTom]
                 "
                 *ngIf="statsRegionsValues[regionDomTom] !== 0"
@@ -142,7 +143,8 @@
           >
             <a
               [attr.aria-label]="
-                'Consulter les statistiques de la région' +
+                statsRegionsValues[regionDomTom] +
+                ' structures, région ' +
                 REGIONS_LABELS[regionDomTom]
               "
               [routerLink]="['/stats/region/' + REGIONS_ID_SEO[regionDomTom]]"

@@ -63,7 +63,13 @@
                 <app-button
                   (action)="getStructureCustomDoc(document)"
                   appSupportModeDisable
-                  [ariaLabel]="'Télécharger le document ' + document.label"
+                  [ariaLabel]="
+                    'Télécharger le document ' +
+                    document.label +
+                    ' (' +
+                    (document | fileInfo) +
+                    ')'
+                  "
                   label="Télécharger"
                   icon="download"
                   customClass="fr-btn--sm"
