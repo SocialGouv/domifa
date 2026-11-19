@@ -1,5 +1,6 @@
 import { In } from "typeorm";
 import { AppTestHelper } from "../../../util/test";
+import { appLogsRepository } from "../app-log/appLogsRepository.service";
 import { usagerRepository } from "../usager/usagerRepository.service";
 import { userStructureRepository } from "../user-structure/userStructureRepository.service";
 import { structureRepository } from "./structureRepository.service";
@@ -85,6 +86,41 @@ describe("StructureRepository", () => {
       try {
         expect(await findIds("2025-12-01")).not.toContain(1);
       } finally {
+        await usagerRepository.update({ uuid }, { statut: "RADIE" });
+      }
+    });
+
+    it("returns kept structures once per inactivity period", async () => {
+      const findKept = async () =>
+        structureRepository.findInactiveStructuresKept(new Date("2025-12-01"));
+
+      // Without active usagers, structure 1 is deleted, not kept
+      expect((await findKept()).map(({ id }) => id)).not.toContain(1);
+
+      const { uuid } = await usagerRepository.findOne({
+        where: { uuid: In(activeUsagerUuids), structureId: 1 },
+        select: { uuid: true },
+      });
+      await usagerRepository.update({ uuid }, { statut: "VALIDE" });
+      const log = await appLogsRepository.save(
+        appLogsRepository.create({
+          userType: "system",
+          structureId: 1,
+          action: "STRUCTURE_INACTIVE_KEPT_NOTIFIED",
+        })
+      );
+      try {
+        expect((await findKept()).map(({ id }) => id)).not.toContain(1);
+
+        // A notification older than the last activity does not count
+        await appLogsRepository.update(
+          { uuid: log.uuid },
+          { createdAt: new Date("2025-01-01") }
+        );
+        const kept = (await findKept()).find(({ id }) => id === 1);
+        expect(kept.nbUsagersActifs).toEqual(1);
+      } finally {
+        await appLogsRepository.delete({ uuid: log.uuid });
         await usagerRepository.update({ uuid }, { statut: "RADIE" });
       }
     });

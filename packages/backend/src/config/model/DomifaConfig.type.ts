@@ -79,6 +79,8 @@ export type DomifaConfig = {
       structureDelete: number; // DOMIFA_BREVO_TEMPLATES_STRUCTURE_DELETE
       // Structure automatically deleted after 13 months of inactivity
       structureInactiveDelete: number; // DOMIFA_BREVO_TEMPLATES_STRUCTURE_INACTIVE_DELETE
+      // Inactive structure kept because it still has active usagers
+      structureInactiveKept: number; // DOMIFA_BREVO_TEMPLATES_STRUCTURE_INACTIVE_KEPT
       // User account deleted template
       userAccountDeleted: number; // DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_DELETED
       // User account created by admin template

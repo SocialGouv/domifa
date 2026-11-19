@@ -35,9 +35,13 @@ describe("InactiveStructuresCleanerService", () => {
     >
   >;
   let emailService: jest.Mocked<
-    Pick<StructureDecisionEmailService, "sendInactiveStructureDeletedEmail">
+    Pick<
+      StructureDecisionEmailService,
+      "sendInactiveStructureDeletedEmail" | "sendInactiveStructureKeptEmail"
+    >
   >;
   let findInactiveSpy: jest.SpyInstance;
+  let findKeptSpy: jest.SpyInstance;
   let saveLogSpy: jest.SpyInstance;
 
   beforeEach(() => {
@@ -47,6 +51,7 @@ describe("InactiveStructuresCleanerService", () => {
     };
     emailService = {
       sendInactiveStructureDeletedEmail: jest.fn().mockResolvedValue(undefined),
+      sendInactiveStructureKeptEmail: jest.fn().mockResolvedValue(undefined),
     };
     service = new InactiveStructuresCleanerService(
       structureDecisionService as unknown as StructureDecisionService,
@@ -56,6 +61,11 @@ describe("InactiveStructuresCleanerService", () => {
     findInactiveSpy = jest
       .spyOn(structureRepository, "findInactiveStructures")
       .mockResolvedValue([buildStructure()]);
+    findKeptSpy = jest
+      .spyOn(structureRepository, "findInactiveStructuresKept")
+      .mockResolvedValue([
+        { ...buildStructure({ id: 43 }), nbUsagersActifs: 7 },
+      ]);
     jest.spyOn(userStructureRepository, "find").mockResolvedValue([
       { email: "admin@ccas-test.fr", prenom: "Camille" },
       // Same address as the structure contact: must not be emailed twice
@@ -205,5 +215,80 @@ describe("InactiveStructuresCleanerService", () => {
 
     expect(result.map(({ id }) => id)).toEqual([42]);
     expect(saveLogSpy).toHaveBeenCalled();
+  });
+
+  describe("structures kept because of active usagers", () => {
+    it("runs after the deletion in the daily cron", async () => {
+      await service.deleteInactiveStructuresCron();
+
+      expect(findInactiveSpy).toHaveBeenCalled();
+      expect(findKeptSpy).toHaveBeenCalled();
+    });
+
+    it("dry-run lists kept structures without emailing or logging", async () => {
+      const result = await service.notifyInactiveStructuresKept({
+        dryRun: true,
+      });
+
+      expect(result.map(({ id }) => id)).toEqual([43]);
+      expect(
+        emailService.sendInactiveStructureKeptEmail
+      ).not.toHaveBeenCalled();
+      expect(saveLogSpy).not.toHaveBeenCalled();
+    });
+
+    it("never deletes a kept structure", async () => {
+      await service.notifyInactiveStructuresKept({ dryRun: false });
+
+      expect(
+        structureDecisionService.updateStructureStatut
+      ).not.toHaveBeenCalled();
+      expect(
+        structureDecisionService.deleteStructureData
+      ).not.toHaveBeenCalled();
+    });
+
+    it("emails each admin and the structure address once", async () => {
+      await service.notifyInactiveStructuresKept({ dryRun: false });
+
+      const calls = emailService.sendInactiveStructureKeptEmail.mock.calls;
+      expect(calls.map(([{ to }]) => to.email)).toEqual([
+        "admin@ccas-test.fr",
+        "CONTACT@ccas-test.fr",
+      ]);
+      expect(calls[0][0].params).toEqual({
+        prenom: "Camille",
+        structure_nom: "CCAS de Test",
+        date_derniere_connexion: "15/03/2024",
+        nb_domicilies_actifs: 7,
+      });
+    });
+
+    it("logs the notification so it is sent once per inactivity period", async () => {
+      await service.notifyInactiveStructuresKept({ dryRun: false });
+
+      expect(saveLogSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          userType: "system",
+          structureId: 43,
+          action: "STRUCTURE_INACTIVE_KEPT_NOTIFIED",
+          context: expect.objectContaining({
+            referenceDate: new Date("2024-03-15"),
+            nbUsagersActifs: 7,
+            nbDestinataires: 2,
+          }),
+        })
+      );
+    });
+
+    it("does not log when every email failed, so it is retried", async () => {
+      emailService.sendInactiveStructureKeptEmail.mockRejectedValue(
+        new Error("Brevo down")
+      );
+
+      await service.notifyInactiveStructuresKept({ dryRun: false });
+
+      expect(saveLogSpy).not.toHaveBeenCalled();
+    });
   });
 });

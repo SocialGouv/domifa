@@ -281,6 +281,13 @@ export function loadConfig(x: Partial<DomifaEnv>): DomifaConfig {
             required: emailsEnabled,
           }
         ),
+        structureInactiveKept: configParser.parseInteger(
+          x,
+          "DOMIFA_BREVO_TEMPLATES_STRUCTURE_INACTIVE_KEPT",
+          {
+            required: emailsEnabled,
+          }
+        ),
         userAccountDeleted: configParser.parseInteger(
           x,
           "DOMIFA_BREVO_TEMPLATES_USER_ACCOUNT_DELETED",

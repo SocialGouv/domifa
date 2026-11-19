@@ -69,6 +69,25 @@ export class StructureDecisionEmailService {
     });
   }
 
+  async sendInactiveStructureKeptEmail({
+    to,
+    params,
+  }: {
+    to: { email: string; name: string };
+    params: {
+      prenom: string;
+      structure_nom: string;
+      date_derniere_connexion: string;
+      nb_domicilies_actifs: number;
+    };
+  }): Promise<void> {
+    await this.brevoSenderService.sendEmailWithTemplate({
+      templateId: domifaConfig().brevo.templates.structureInactiveKept,
+      to: [to],
+      params,
+    });
+  }
+
   private getTemplateId(statut: StructureDecisionStatut): number {
     switch (statut) {
       case "VALIDE":

@@ -9,6 +9,7 @@ import { domifaConfig } from "../../../../config";
 import {
   appLogsRepository,
   InactiveStructure,
+  InactiveStructureKept,
   structureRepository,
   usagerRepository,
   userStructureRepository,
@@ -43,9 +44,52 @@ export class InactiveStructuresCleanerService {
     maxRuntime: 60,
   })
   public async deleteInactiveStructuresCron(): Promise<void> {
-    await this.deleteInactiveStructures({
-      dryRun: domifaConfig().cron.inactiveStructuresDryRun,
-    });
+    const dryRun = domifaConfig().cron.inactiveStructuresDryRun;
+    await this.deleteInactiveStructures({ dryRun });
+    await this.notifyInactiveStructuresKept({ dryRun });
+  }
+
+  // Inactive structures that still have active usagers are not deleted:
+  // their admins are told once per inactivity period
+  public async notifyInactiveStructuresKept({
+    dryRun,
+  }: {
+    dryRun: boolean;
+  }): Promise<InactiveStructureKept[]> {
+    const structures = await structureRepository.findInactiveStructuresKept(
+      subMonths(new Date(), INACTIVE_STRUCTURE_MONTHS)
+    );
+
+    appLogger.info(
+      `[CRON] [inactiveStructures] ${
+        structures.length
+      } structure(s) inactive(s) conservée(s) car domiciliés actifs${
+        dryRun ? " (dry-run)" : ""
+      }`
+    );
+
+    if (dryRun) {
+      for (const structure of structures) {
+        appLogger.info(
+          `[CRON] [inactiveStructures] [dry-run] structure ${structure.id} "${structure.nom}" conservée - ${structure.nbUsagersActifs} domicilié(s) actif(s)`
+        );
+      }
+      return structures;
+    }
+
+    const notified: InactiveStructureKept[] = [];
+    for (const structure of structures) {
+      try {
+        await this.notifyInactiveStructureKept(structure);
+        notified.push(structure);
+      } catch (error) {
+        appLogger.error(
+          `[CRON] [inactiveStructures] Échec de la notification de la structure conservée ${structure.id}`,
+          { error }
+        );
+      }
+    }
+    return notified;
   }
 
   public async deleteInactiveStructures({
@@ -162,6 +206,57 @@ export class InactiveStructuresCleanerService {
         );
       }
     }
+  }
+
+  private async notifyInactiveStructureKept(
+    structure: InactiveStructureKept
+  ): Promise<void> {
+    const recipients = await this.getRecipients(structure);
+    const params = {
+      structure_nom: structure.nom,
+      date_derniere_connexion: structure.lastLogin
+        ? format(new Date(structure.lastLogin), "dd/MM/yyyy")
+        : "",
+      nb_domicilies_actifs: structure.nbUsagersActifs,
+    };
+
+    let sent = 0;
+    for (const recipient of recipients) {
+      try {
+        await this.structureDecisionEmailService.sendInactiveStructureKeptEmail(
+          {
+            to: { email: recipient.email, name: recipient.prenom },
+            params: { ...params, prenom: recipient.prenom },
+          }
+        );
+        sent++;
+      } catch (error) {
+        appLogger.error(
+          `[CRON] [inactiveStructures] Échec de l'envoi du mail de conservation pour la structure ${structure.id}`,
+          { error }
+        );
+      }
+    }
+
+    // Nothing logged when every email failed, so it is retried the next day
+    if (recipients.length && !sent) {
+      return;
+    }
+
+    await appLogsRepository.save(
+      appLogsRepository.create({
+        ...SYSTEM_ACTOR_FIELDS,
+        structureId: structure.id,
+        action: "STRUCTURE_INACTIVE_KEPT_NOTIFIED",
+        context: {
+          referenceDate: structure.referenceDate,
+          lastLogin: structure.lastLogin,
+          registrationDate: structure.registrationDate,
+          nbUsagersActifs: structure.nbUsagersActifs,
+          nbDestinataires: sent,
+        },
+      })
+    );
   }
 
   // Kept in the deletion log: usagers and users are hard-deleted afterwards

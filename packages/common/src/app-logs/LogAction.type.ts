@@ -64,6 +64,7 @@ export type LogAction =
   | "ADMIN_STRUCTURE_REFUSAL"
   | "ADMIN_STRUCTURE_CREATION"
   | "STRUCTURE_INACTIVE_AUTO_DELETE"
+  | "STRUCTURE_INACTIVE_KEPT_NOTIFIED"
   // Deprecated — still present in historical app_log rows
   | "SUPPRIMER_PIECE_JOINTE"
   | "RESET_PASSWORD_PORTAIL"
